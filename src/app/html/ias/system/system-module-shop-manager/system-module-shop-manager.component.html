@@ -1,0 +1,109 @@
+<div class="system-module-shop-manager">
+  <div class="system-module-shop-manager-head">
+    <div class="system-module-shop-manager-head-title">
+      <div>商铺</div>
+      <div class="system-module-shop-manager-head-light"></div>
+    </div>
+  </div>
+  <div class="system-module-shop-manager-body">
+    <div class="system-module-shop-manager-body-filter">
+      <div class="system-module-shop-manager-body-filter-controls">
+        <!-- <div>
+          <button class="button-filter">筛选</button>
+        </div> -->
+        <div class="forms">
+          <div class="form-item">
+            <div class="form-item-text">开始时间</div>
+            <div class="form-item-value">
+              <date-time-control
+                [(date)]="args.duration.begin"
+                [format]="Language.YearMonthDayHHmmss"
+              ></date-time-control>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text">结束时间</div>
+            <div class="form-item-value">
+              <date-time-control
+                [(date)]="args.duration.end"
+                [format]="Language.YearMonthDayHHmmss"
+              ></date-time-control>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text">时间范围</div>
+            <div class="form-item-value">
+              <select [(ngModel)]="args.duration">
+                <option
+                  *ngFor="let item of source.duration"
+                  [ngValue]="item.Value"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text">状态</div>
+            <div class="form-item-value state">
+              <common-label-select
+                [autoclose]="true"
+                [(show)]="source.state.show"
+                [autoclose]="true"
+                [selected]="source.state.selected"
+              >
+                <ias-select-shop-object-state
+                  #select
+                  [(selected)]="source.state.selected"
+                  (selectedChange)="source.state.onselected()"
+                  (loaded)="source.state.init($event)"
+                ></ias-select-shop-object-state>
+              </common-label-select>
+              <!-- <select [(ngModel)]="args.state">
+                <option [ngValue]="undefined">全部</option>
+                <option
+                  *ngFor="let item of source.state"
+                  [ngValue]="item.Value"
+                >
+                  {{ item.Name }}
+                </option>
+              </select> -->
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text">商铺名称</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="args.name" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <button class="button-filter" (click)="onsearch()">查询</button>
+        </div>
+      </div>
+      <div class="system-module-shop-manager-body-filter-operation">
+        <div class="checkbox">
+          <input
+            type="checkbox"
+            id="marking"
+            [(ngModel)]="args.marking"
+            (change)="onmarking()"
+          /><label for="marking">显示屏蔽</label>
+        </div>
+        <div>
+          <select class="mode">
+            <option [ngValue]="0">&#xf08b;&nbsp;</option>
+            <option [ngValue]="1">&#xf225;&nbsp;</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="system-module-shop-manager-body-table">
+      <ias-system-module-shop-table
+        [args]="args"
+        [load]="load"
+        (inited)="oninited()"
+      ></ias-system-module-shop-table>
+    </div>
+  </div>
+</div>

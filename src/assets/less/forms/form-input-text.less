@@ -1,0 +1,27 @@
+input[type="text"],
+input[type="password"] {
+  background-color: transparent !important;
+  border: 1px solid #2d76ce;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  min-height: 36px;
+  color: #ddf4ff;
+
+  &:-internal-autofill-previewed,
+  &:-internal-autofill-selected {
+    -webkit-text-fill-color: #FFFFFF !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+
+  &::-webkit-input-placeholder {
+    color: #ddf4ff;
+    font-size: 16px;
+  }
+
+  &.input-login {
+    border: none;
+  }
+}

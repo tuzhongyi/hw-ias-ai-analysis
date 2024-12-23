@@ -1,0 +1,12 @@
+<input
+  type="text"
+  #element
+  DateTimePicker
+  [format]="format"
+  [startView]="startView"
+  [minView]="minView"
+  [week]="week"
+  [date]="date"
+  (dateChange)="ondatechange($event)"
+  (change)="onchange($event)"
+/>

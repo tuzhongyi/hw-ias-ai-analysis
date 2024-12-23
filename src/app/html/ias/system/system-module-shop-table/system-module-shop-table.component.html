@@ -1,0 +1,80 @@
+<div class="system-module-shop-table">
+  <div class="system-module-shop-table-body table">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>照片</th>
+          <th class="center">锁定</th>
+          <th>名称</th>
+          <th>地址</th>
+          <th>联系方式</th>
+          <th>置信度</th>
+          <th>状态</th>
+          <th>发现时间</th>
+          <th>最近出现</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          [ngClass]="{ nohover: !item.hasdata, nodata: !item.hasdata }"
+        >
+          <td class="center">
+            <div>{{ item.index }}</div>
+          </td>
+
+          <td>
+            <div [ngClass]="{ noimage: !!item.Image }" *ngIf="item.Image">
+              <div
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: item.Image
+                    ? 'url(' + item.Image + ')'
+                    : 'none'
+                }"
+              ></div>
+            </div>
+          </td>
+          <td class="center lock">
+            <div *ngIf="item.Locked">
+              <i class="howell-icon-lock"></i>
+            </div>
+          </td>
+          <td [title]="item.Name">
+            <div>{{ item.Name }}</div>
+          </td>
+          <td [title]="item.Address">
+            <div>{{ item.Address }}</div>
+          </td>
+          <td [title]="item.Telphone">
+            <div>{{ item.Telphone }}</div>
+          </td>
+          <td>{{ item.ConfidenceRatio }}</td>
+          <td [ngStyle]="{ color: Color.ShopObjectState(item.ObjectState) }">
+            {{ item.State }}
+          </td>
+          <td>{{ item.BeginTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+          <td>{{ item.EndTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+          <td>
+            <div class="operation" *ngIf="item.hasdata">
+              <div class="button">
+                <i class="howell-icon-map5"></i>
+              </div>
+              <div class="button">
+                <i class="howell-icon-task_misson"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="system-module-shop-table-foot" *ngIf="page.TotalRecordCount">
+    <paginator [page]="page" (change)="onpage($event)"> </paginator>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="system-breadcrumb">
+  <div
+    class="system-breadcrumb-item"
+    *ngFor="let item of model.items; let index = index"
+  >
+    <div class="system-breadcrumb-item-separator" *ngIf="index > 0">></div>
+    <div
+      class="system-breadcrumb-item-text button"
+      [ngClass]="{
+        selected: item.selected
+      }"
+      (click)="onpath(item.path)"
+    >
+      {{ item.text }}
+    </div>
+  </div>
+</div>

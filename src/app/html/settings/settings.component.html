@@ -1,0 +1,39 @@
+<div class="settings">
+  <div class="settings-background">
+    <div class="settings-background-left"></div>
+    <div class="settings-background-content">
+      <div class="operation">
+        <div class="operation-item" title="">
+          <div class="button" (click)="onaccount($event)">
+            <i class="fa fa-user-circle-o"></i>
+          </div>
+
+          <div class="operation-menu" *ngIf="account && menu.account">
+            <div class="operation-menu-item button">
+              <div class="operation-menu-item-icon">
+                <i class="fa fa-user"></i>
+              </div>
+              {{ account.username }}
+            </div>
+            <div class="operation-menu-item button" (click)="onsignout($event)">
+              <div class="operation-menu-item-icon">
+                <i class="fa fa-sign-out"></i>
+              </div>
+              退出登录
+            </div>
+          </div>
+        </div>
+        <div class="operation-item" title="帮助">
+          <div class="button question">
+            <i class="fa fa-question-circle-o"></i>
+          </div>
+        </div>
+      </div>
+      <div class="datetime">
+        <div class="time">{{ date() | date : "HH:mm" }}</div>
+        <div class="date">{{ date() | date : "YYYY-MM-dd" }}</div>
+      </div>
+    </div>
+    <div class="settings-background-right"></div>
+  </div>
+</div>

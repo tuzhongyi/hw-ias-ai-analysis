@@ -1,0 +1,74 @@
+.login-head {
+
+
+  &-background {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    &-left {
+      flex-grow: 0;
+      background-image: url("../../../../assets/image/logo/logo-left.png");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      width: 10px;
+      height: 100%;
+    }
+
+    &-content {
+      flex-grow: 1;
+      background-image: url("../../../../assets/image/logo/logo-content.png");
+      background-repeat: repeat-x;
+      background-size: contain;
+      height: 100%;
+
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+
+    }
+
+    &-right {
+      flex-grow: 0;
+      background-image: url("../../../../assets/image/logo/logo-right.png");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      width: 629px;
+      height: 100%;
+    }
+
+    &-light {
+      width: 329px;
+      height: 74px;
+      position: absolute;
+      background-image: url("../../../../assets/image/logo/logo-light.png");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      bottom: -15%;
+      left: 15%;
+    }
+  }
+
+  &-title {
+    width: 100%;
+    font-weight: bold;
+    font-size: 40px;
+    margin-left: 100px;
+    display: flex;
+    align-items: baseline;
+    gap: 30px;
+    border-bottom: 1px solid #0f97ff;
+
+    &-sub {
+      display: flex;
+      align-items: baseline;
+      font-size: 18px;
+      font-weight: normal;
+      align-self: baseline;
+    }
+  }
+
+}

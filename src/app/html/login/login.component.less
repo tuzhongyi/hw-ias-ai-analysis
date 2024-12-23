@@ -1,0 +1,21 @@
+.login {
+  height: 100%;
+  width: 100%;
+  background-image: url("../../../assets/image/login/login-bg-1.png");
+  background-size: 60% 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @head-height: 100px;
+
+  &-head {
+    height: @head-height;
+    width: 80%;
+  }
+
+  &-body {
+    height: calc(100% - @head-height);
+    width: 100%;
+    position: relative;
+  }
+}

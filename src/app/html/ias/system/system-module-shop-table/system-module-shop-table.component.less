@@ -1,0 +1,29 @@
+.system-module-shop-table {
+  height: 100%;
+  width: 100%;
+
+  @foot-height: 60px;
+
+  &-body {
+    height: calc(100% - @foot-height);
+
+    .image {
+      height: 80%;
+    }
+
+    .noimage {
+      height: 100%;
+    }
+
+    .lock {
+      color: #576880;
+    }
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

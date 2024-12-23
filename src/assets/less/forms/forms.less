@@ -1,0 +1,32 @@
+@import "./form-input.less";
+@import "./form-button.less";
+@import "./form-select.less";
+
+
+.form {
+
+  &s {
+    display: flex;
+    gap: 10px;
+  }
+
+  &-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+
+    &-text {
+      flex-grow: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+    }
+
+    &-value {
+      flex-grow: 1;
+    }
+  }
+
+}

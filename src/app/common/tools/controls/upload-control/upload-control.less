@@ -1,0 +1,25 @@
+.upload-control {
+  border-radius: 4px;
+  display: flex;
+  border: 2px solid #cbcbcb;
+  box-sizing: border-box;
+
+  @button-width: 100px;
+
+
+  input[type="text"] {
+    border-radius: 0;
+    border: none;
+    height: 100%;
+    width: calc(100% - @button-width);
+  }
+
+  button {
+    border: none;
+    border-radius: 0;
+    white-space: nowrap;
+    width: @button-width;
+    border-left: 2px solid #cbcbcb;
+    cursor: pointer;
+  }
+}

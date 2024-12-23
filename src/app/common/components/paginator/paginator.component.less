@@ -1,0 +1,25 @@
+.paginator {
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  cursor: default;
+
+  ::ng-deep {
+
+    button {
+      cursor: pointer;
+      min-width: 25px;
+
+      &.current {
+        background-color: #4a8eff;
+        color: #FFF
+      }
+    }
+
+
+
+  }
+
+}

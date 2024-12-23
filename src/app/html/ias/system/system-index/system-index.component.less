@@ -1,0 +1,44 @@
+.system-index {
+  width: 100%;
+  height: 100%;
+  background-image: url(../../../../../assets/image/main/main-bg.png);
+  background-position: center;
+  background-position-y: -54px;
+  background-repeat: no-repeat;
+  background-size: 70% 100%;
+  position: relative;
+
+  &-button {
+    position: absolute;
+    background-image: url(../../../../../assets/image/main/main-button.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 400px;
+    height: 195px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    cursor: pointer;
+
+    &.task {
+      left: 50%;
+      top: 50%;
+      transform: translate(-150%, -150%);
+    }
+
+    &.module {
+      left: 50%;
+      top: 50%;
+      transform: translate(50%, -50%);
+    }
+
+    &.map {
+      left: 50%;
+      top: 50%;
+      transform: translate(-150%, 50%);
+    }
+  }
+
+}
