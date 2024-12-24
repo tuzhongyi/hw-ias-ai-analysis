@@ -1,0 +1,116 @@
+<div class="system-module-shop-details-info" *ngIf="data">
+  <div class="system-module-shop-details-info-head">
+    <div #image class="image">
+      <canvas #canvas></canvas>
+    </div>
+  </div>
+  <div class="system-module-shop-details-info-body forms">
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>商</div>
+        <div>铺</div>
+        <div>名</div>
+        <div>称</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Name" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>分</div>
+        <div>店</div>
+        <div>名</div>
+        <div>称</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.BranchName" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>商</div>
+        <div>铺</div>
+        <div>地</div>
+        <div>址</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Address" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>联</div>
+        <div>系</div>
+        <div>方</div>
+        <div>式</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Telphone" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>置</div>
+        <div>信</div>
+        <div>度</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" readonly [value]="data.ConfidenceRatio" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>发</div>
+        <div>现</div>
+        <div>时</div>
+        <div>间</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="text"
+          readonly
+          [value]="data.BeginTime | date : Language.YearMonthDayHHmmss"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>最</div>
+        <div>近</div>
+        <div>出</div>
+        <div>现</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="text"
+          readonly
+          [value]="data.EndTime | date : Language.YearMonthDayHHmmss"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text"></div>
+      <div class="form-item-value">
+        <div class="checkbox">
+          <input
+            type="checkbox"
+            [id]="data.Id + 'locked'"
+            [(ngModel)]="data.Locked"
+          />
+          <label [for]="data.Id + 'locked'" [(ngModel)]="data.Marking"
+            >锁定商铺</label
+          >
+        </div>
+        <div class="checkbox">
+          <input
+            type="checkbox"
+            [id]="data.Id + 'marking'"
+            [(ngModel)]="data.Marking"
+          />
+          <label [for]="data.Id + 'marking'">屏蔽商铺</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

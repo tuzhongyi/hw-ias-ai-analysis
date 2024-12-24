@@ -83,3 +83,62 @@ button {
   }
 
 }
+
+.button-clip-gradient {
+  height: 36px;
+  width: 100px;
+  position: relative;
+  background: linear-gradient(to bottom, rgba(42, 194, 225, 1), rgba(45, 118, 206, 1));
+  /* 进行裁剪 */
+  clip-path: @button-filter-path;
+  cursor: pointer;
+  transition: all 0.5s;
+
+  &::after {
+    content: "";
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    position: absolute;
+    /* 水平垂直居中 */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* 置于底层 */
+    z-index: -1;
+    /* 设置背景色 */
+    background: #050d14;
+    border-radius: 4px;
+    /* 设置裁剪 */
+    clip-path: @button-filter-path;
+  }
+}
+
+.button-clip-blue {
+  height: 36px;
+  width: 100px;
+  position: relative;
+  background: #2d76ce;
+  color: #2d76ce;
+  /* 进行裁剪 */
+  clip-path: @button-filter-path;
+  cursor: pointer;
+  transition: all 0.5s;
+
+  &::after {
+    content: "";
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    position: absolute;
+    /* 水平垂直居中 */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* 置于底层 */
+    z-index: -1;
+    /* 设置背景色 */
+    background: #050d14;
+    border-radius: 4px;
+    /* 设置裁剪 */
+    clip-path: @button-filter-path;
+  }
+}

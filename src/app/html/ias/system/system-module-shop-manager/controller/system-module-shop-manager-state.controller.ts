@@ -20,11 +20,12 @@ export class SystemModuleShopManagerStateController {
       (x) => x.Value === ShopObjectState.Disappeared
     ) as EnumNameValue<ShopObjectState>;
     this.selected = [created, disappeared];
-    this.onselected();
+    this.select.emit(this.selected.map((x) => x.Value));
     this.inited.emit();
   }
 
-  onselected() {
+  onselected(selected: EnumNameValue<ShopObjectState>[]) {
+    this.selected = selected;
     this.select.emit(this.selected.map((x) => x.Value));
   }
 }

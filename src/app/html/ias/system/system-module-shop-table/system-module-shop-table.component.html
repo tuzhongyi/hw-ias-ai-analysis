@@ -1,5 +1,5 @@
 <div class="system-module-shop-table">
-  <div class="system-module-shop-table-body table">
+  <div class="system-module-shop-table-body table-page">
     <table border="0" cellpadding="0" cellspacing="0">
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
@@ -16,13 +16,18 @@
           <th>状态</th>
           <th>发现时间</th>
           <th>最近出现</th>
-          <th>操作</th>
+          <th class="center">操作</th>
         </tr>
       </thead>
       <tbody>
         <tr
           *ngFor="let item of datas; let index = index"
-          [ngClass]="{ nohover: !item.hasdata, nodata: !item.hasdata }"
+          (click)="onselect(item)"
+          [ngClass]="{
+            nohover: !item.hasdata,
+            nodata: !item.hasdata,
+            selected: item === selected
+          }"
         >
           <td class="center">
             <div>{{ item.index }}</div>
@@ -60,12 +65,9 @@
           </td>
           <td>{{ item.BeginTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
           <td>{{ item.EndTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
-          <td>
+          <td class="center">
             <div class="operation" *ngIf="item.hasdata">
-              <div class="button">
-                <i class="howell-icon-map5"></i>
-              </div>
-              <div class="button">
+              <div class="button" (click)="ondetails(item, $event)">
                 <i class="howell-icon-task_misson"></i>
               </div>
             </div>

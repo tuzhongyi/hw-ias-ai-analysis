@@ -7,7 +7,7 @@ input[type="password"] {
   font-size: 16px;
   padding: 0 10px;
   box-sizing: border-box;
-  min-height: 36px;
+  height: 36px;
   color: #ddf4ff;
 
   &:-internal-autofill-previewed,
@@ -21,7 +21,13 @@ input[type="password"] {
     font-size: 16px;
   }
 
+  &:read-only {
+    color: #71acff;
+    cursor: default;
+  }
+
   &.input-login {
     border: none;
+    height: 50px;
   }
 }

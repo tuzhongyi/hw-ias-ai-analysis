@@ -16,7 +16,10 @@ import { LoginBusiness } from './login.business';
   providers: [LoginBusiness],
 })
 export class LoginComponent implements OnInit {
-  constructor(private business: LoginBusiness) {}
+  constructor(private business: LoginBusiness) {
+    this.model.username = 'test01';
+    this.model.password = 'howell_1409';
+  }
 
   model = new LoginModel();
 

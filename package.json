@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@angular/animations": "^19.0.0",
     "@angular/cdk": "^19.0.4",
     "@angular/common": "^19.0.0",
@@ -21,6 +22,7 @@
     "@angular/router": "^19.0.0",
     "@types/sm-crypto": "^0.3.4",
     "class-transformer": "^0.5.1",
+    "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "sm-crypto": "^0.3.13",
     "tslib": "^2.3.0",

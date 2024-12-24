@@ -1,0 +1,50 @@
+.custom-form-wrap {}
+
+
+.window-mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 9000;
+
+  &.none {
+    background-color: transparent;
+    pointer-events: none;
+  }
+}
+
+.window-content {
+  padding: 20px 20px 20px 20px;
+  border: 2px #2d76ce solid;
+  box-shadow: 0 0 10px 0 rgb(105 173 255);
+  background: #050d14;
+  height: 100%;
+  pointer-events: all;
+  z-index: 9001;
+
+  &>.close-winow {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
+    z-index: 9;
+    height: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  &>.window-title {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    z-index: 9;
+    height: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+
+}

@@ -1,9 +1,9 @@
 <div class="system-module-shop-manager">
   <div class="system-module-shop-manager-head">
-    <div class="system-module-shop-manager-head-title">
-      <div>商铺</div>
-      <div class="system-module-shop-manager-head-light"></div>
-    </div>
+    <ias-content-header
+      [title]="'商铺'"
+      [padding]="'0 50px'"
+    ></ias-content-header>
   </div>
   <div class="system-module-shop-manager-body">
     <div class="system-module-shop-manager-body-filter">
@@ -54,8 +54,8 @@
               >
                 <ias-select-shop-object-state
                   #select
-                  [(selected)]="source.state.selected"
-                  (selectedChange)="source.state.onselected()"
+                  [selected]="source.state.selected"
+                  (selectedChange)="source.state.onselected($event)"
                   (loaded)="source.state.init($event)"
                 ></ias-select-shop-object-state>
               </common-label-select>
@@ -78,7 +78,9 @@
           </div>
         </div>
         <div>
-          <button class="button-filter" (click)="onsearch()">查询</button>
+          <button class="button-clip-gradient" (click)="onsearch()">
+            查询
+          </button>
         </div>
       </div>
       <div class="system-module-shop-manager-body-filter-operation">
@@ -103,7 +105,19 @@
         [args]="args"
         [load]="load"
         (inited)="oninited()"
+        (details)="ondetails($event)"
       ></ias-system-module-shop-table>
     </div>
   </div>
+
+  <app-window
+    [Model]="window.details"
+    *ngIf="window.details.show"
+    [style]="window.details.style"
+  >
+    <ias-system-module-shop-details
+      [data]="window.details.data"
+      (cancel)="window.details.show = false"
+    ></ias-system-module-shop-details>
+  </app-window>
 </div>

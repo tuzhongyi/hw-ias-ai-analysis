@@ -1,1 +1,27 @@
-<p>system-module-shop-details works!</p>
+<div class="system-module-shop-details">
+  <div class="system-module-shop-details-head">
+    <ias-content-header [title]="'商铺信息'"></ias-content-header>
+  </div>
+  <div class="system-module-shop-details-body">
+    <div class="panel sign-table">
+      <ias-system-module-shop-sign-table [data]="shop" [(selected)]="sign">
+      </ias-system-module-shop-sign-table>
+    </div>
+    <div class="panel">
+      <ias-system-module-shop-details-info
+        [data]="shop"
+        [sign]="sign"
+      ></ias-system-module-shop-details-info>
+    </div>
+    <div class="panel">
+      <ias-system-module-shop-details-map
+        [data]="shop?.Location"
+        (dataChange)="onposition($event)"
+      ></ias-system-module-shop-details-map>
+    </div>
+  </div>
+  <div class="system-module-shop-details-foot">
+    <button class="button-clip-gradient" (click)="onok()">确定</button>
+    <button class="button-clip-blue" (click)="oncancel()">取消</button>
+  </div>
+</div>

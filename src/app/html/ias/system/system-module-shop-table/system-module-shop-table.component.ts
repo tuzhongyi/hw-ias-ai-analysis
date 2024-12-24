@@ -22,12 +22,14 @@ export class SystemModuleShopTableComponent implements OnInit {
   @Input() args = new SystemModuleShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleShopTableArgs>;
   @Output() inited = new EventEmitter<void>();
+  @Output() details = new EventEmitter<ShopModel>();
 
   constructor(private business: SystemModuleShopTableBusiness) {}
 
   filter?: SystemModuleShopTableFilter;
   page = Page.create(1, 10);
   datas: ShopModel[] = [];
+  selected?: ShopModel;
   widths = [
     '5%',
     '5%',
@@ -74,6 +76,20 @@ export class SystemModuleShopTableComponent implements OnInit {
   onpage(num: number) {
     if (this.filter) {
       this.load(num, this.page.PageSize, this.filter);
+    }
+  }
+  onselect(item: ShopModel) {
+    if (this.selected === item) {
+      this.selected = undefined;
+    } else {
+      this.selected = item;
+    }
+  }
+
+  ondetails(item: ShopModel, e: Event) {
+    this.details.emit(item);
+    if (this.selected === item) {
+      e.stopPropagation();
     }
   }
 }

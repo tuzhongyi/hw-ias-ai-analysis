@@ -1,57 +1,56 @@
-import { Transform, Type } from 'class-transformer'
-import 'reflect-metadata'
-import { IIdNameModel } from '../../model.interface'
-import { transformDateTime, transformRound } from '../../transformer'
-import { GisPoint } from '../gis-point.model'
+import { Transform, Type } from 'class-transformer';
+import 'reflect-metadata';
+import { IIdNameModel } from '../../model.interface';
+import { transformDateTime } from '../../transformer';
+import { GisPoint } from '../gis-point.model';
 
 /**	Shop (商铺信息)	*/
 export class Shop implements IIdNameModel {
   /**	String	商铺ID	M	*/
-  Id!: string
+  Id!: string;
   /**	Int64	整数ID	M	*/
-  IntId!: number
+  IntId!: number;
   /**	String	商铺名称	M	*/
-  Name!: string
+  Name!: string;
   /**	String[]	候选名称	O	*/
-  Texts?: string[]
+  Texts?: string[];
   /**	String	分店名称	O	*/
-  BranchName?: string
+  BranchName?: string;
   /**	String	地址	O	*/
-  Address?: string
+  Address?: string;
   /**	Int32	商铺对象状态	M	*/
-  ObjectState!: number
+  ObjectState!: number;
   /**	String	联系方式	O	*/
-  Telphone?: string
+  Telphone?: string;
   /**	Double	置信度，0-1	O	*/
-  @Transform((value) => transformRound(value, 4))
-  Confidence?: number
+  Confidence?: number;
   /**	GisPoint	商铺Gis坐标	O	*/
   @Type(() => GisPoint)
-  Location?: GisPoint
+  Location?: GisPoint;
   /**	String	商铺照片	O	*/
-  ImageUrl?: string
+  ImageUrl?: string;
   /**	DateTime	第一次出现的时间	M	*/
   @Transform(transformDateTime)
-  BeginTime!: Date
+  BeginTime!: Date;
   /**	DateTime	最后一次出现的时间	M	*/
   @Transform(transformDateTime)
-  EndTime!: Date
+  EndTime!: Date;
   /**	DateTime	创建时间	M	*/
   @Transform(transformDateTime)
-  CreationTime!: Date
+  CreationTime!: Date;
   /**	DateTime	更新时间	M	*/
   @Transform(transformDateTime)
-  UpdateTime!: Date
+  UpdateTime!: Date;
   /**	Boolean	是否手动标注的，锁定内容	O	*/
-  Locked?: boolean
+  Locked?: boolean;
   /**	Boolean	屏蔽数据，true：屏蔽	O	*/
-  Marking?: boolean
+  Marking?: boolean;
   /**	Double	加权值	O	*/
-  WeightedValue?: number
+  WeightedValue?: number;
   /**	Int32	性质，保留	O	*/
-  Nature?: number
+  Nature?: number;
   /**	Int32	分类，保留	O	*/
-  Classification?: number
+  Classification?: number;
   /**	Int32	用户分组ID	O	*/
-  GroupId?: number
+  GroupId?: number;
 }
