@@ -19,7 +19,7 @@ export class SystemSecurityUserRequestService {
     let url = ArmSystemUrl.security.user.basic();
     let plain = instanceToPlain(user);
     return this.http
-      .post<any, HowellResponse<User>>(url, plain)
+      .post<HowellResponse<User>, any>(url, plain)
       .then((response) => {
         return HowellResponseProcess.item(response, User);
       })

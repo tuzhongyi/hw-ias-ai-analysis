@@ -18,13 +18,20 @@ table {
     td {
       &.center {
         text-align: center !important;
+
+        &>div {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+        }
       }
     }
   }
 
   tbody {
     tr {
-      cursor: pointer;
 
       &:nth-child(odd) {
         background-color: rgba(19, 34, 77, 0.5);
@@ -83,9 +90,7 @@ table {
         &.center {
           text-align: center;
 
-          &>div {
-            justify-content: center;
-          }
+
         }
 
         .operation {

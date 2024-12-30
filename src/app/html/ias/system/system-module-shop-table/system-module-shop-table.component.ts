@@ -26,7 +26,7 @@ export class SystemModuleShopTableComponent implements OnInit {
 
   constructor(private business: SystemModuleShopTableBusiness) {}
 
-  filter?: SystemModuleShopTableFilter;
+  filter = new SystemModuleShopTableFilter();
   page = Page.create(1, 10);
   datas: ShopModel[] = [];
   selected?: ShopModel;
@@ -49,16 +49,11 @@ export class SystemModuleShopTableComponent implements OnInit {
   ngOnInit(): void {
     if (this._load) {
       this._load.subscribe((x) => {
-        this.filter = {
-          ...this.filter,
-          ...x,
-        };
+        this.filter.load(x);
         this.load(this.page.PageIndex, this.page.PageSize, this.filter);
       });
     }
-    this.filter = {
-      ...this.args,
-    };
+    this.filter.load(this.args);
     this.inited.emit();
   }
 

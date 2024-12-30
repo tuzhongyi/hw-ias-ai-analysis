@@ -1,0 +1,44 @@
+<div class="system-task-result-table">
+  <div class="system-task-result-table-body table-split">
+    <div class="table-split-head">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="center">序号</th>
+            <th>招牌名称</th>
+            <th class="center">置信度</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body" #body>
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            (click)="onselect(item, index)"
+            [ngClass]="{
+              selected: item === selected
+            }"
+          >
+            <td class="center">
+              <div>{{ index + 1 }}</div>
+            </td>
+            <td [title]="item.Text">
+              <div>{{ item.Text }}</div>
+            </td>
+            <td class="center">
+              {{ ((item.Confidence ?? 0) * 100).toFixed(2) }}%
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

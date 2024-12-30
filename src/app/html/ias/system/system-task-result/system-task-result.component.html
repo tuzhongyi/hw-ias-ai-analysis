@@ -1,0 +1,29 @@
+<div class="system-task-result">
+  <div class="system-task-result-head">
+    <ias-content-header [title]="'商铺信息'"></ias-content-header>
+  </div>
+  <div class="system-task-result-body">
+    <div class="">
+      <ias-system-task-result-table
+        [data]="data"
+        [(selected)]="sign"
+        [load]="indexchange"
+        (page)="onpage($event)"
+      ></ias-system-task-result-table>
+    </div>
+    <div class="panel">
+      <ias-system-task-result-info
+        [data]="data"
+        [sign]="sign"
+        [page]="page"
+        (get)="onget($event)"
+      ></ias-system-task-result-info>
+    </div>
+    <div class="panel">
+      <ias-system-task-result-map
+        [data]="data"
+        [sign]="sign"
+      ></ias-system-task-result-map>
+    </div>
+  </div>
+</div>

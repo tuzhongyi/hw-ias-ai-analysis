@@ -53,7 +53,7 @@ export class LanguageTool {
         .then((capability) => {
           if (capability.TaskTypes) {
             let _enum = capability.TaskTypes.find(
-              (x) => x.Value == value?.toString()
+              (x) => x.Value.toString() == value?.toString()
             );
             if (_enum) {
               resolve(_enum.Name);

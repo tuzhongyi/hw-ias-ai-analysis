@@ -1,0 +1,20 @@
+<div class="system-task-details" ng-cloak>
+  <div class="system-task-details-head">
+    <ias-content-header [title]="'AI分析任务详情'"></ias-content-header>
+  </div>
+  <div class="system-task-details-body">
+    <div class="system-task-details-body-info panel">
+      <ias-system-task-details-info
+        [data]="data"
+        [filecount]="data?.Files?.length || files.length"
+        [progress]="taskprogress"
+      ></ias-system-task-details-info>
+    </div>
+    <div class="system-task-details-body-file">
+      <ias-system-task-details-file-table
+        [data]="files"
+        [progress]="fileprogress"
+      ></ias-system-task-details-file-table>
+    </div>
+  </div>
+</div>

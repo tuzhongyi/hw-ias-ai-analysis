@@ -1,4 +1,93 @@
 <div class="system-task-manager">
-  <div class="system-task-manager-head"></div>
-  <div class="system-task-manager-body"></div>
+  <div class="system-task-manager-head">
+    <ias-content-header [title]="'AI分析任务'"></ias-content-header>
+  </div>
+  <div class="system-task-manager-body">
+    <div class="system-task-manager-body-controls">
+      <div class="system-task-manager-body-controls-tabs tab-group">
+        <div
+          class="tab-item"
+          [ngClass]="{
+            selected: !table.args.finished
+          }"
+          (click)="onstate(false)"
+        >
+          <div class="tab-item-inner">进行中</div>
+        </div>
+        <div
+          class="tab-item"
+          [ngClass]="{
+            selected: table.args.finished
+          }"
+          (click)="onstate(true)"
+        >
+          <div class="tab-item-inner">已完成</div>
+        </div>
+      </div>
+      <div></div>
+      <div class="system-task-manager-body-controls-buttons">
+        <div>
+          <button class="button-clip-gradient" (click)="create.open()">
+            新建
+          </button>
+        </div>
+        <!-- <div>
+          <button class="button-clip-gradient" (click)="delete.confirm()">
+            删除
+          </button>
+        </div> -->
+      </div>
+    </div>
+    <div class="system-task-manager-body-table">
+      <ias-system-task-table
+        [args]="table.args"
+        [load]="table.load"
+        [progress]="controller.file.progress.task"
+        (delete)="delete.confirm($event)"
+        (result)="onresult($event)"
+        (details)="ondetails($event)"
+      ></ias-system-task-table>
+    </div>
+  </div>
+
+  <app-window
+    *ngIf="window.creation.show"
+    [Model]="window.creation"
+    [style]="window.creation.style"
+  >
+    <ias-system-task-creation
+      (close)="window.creation.show = false"
+      (ok)="create.ok($event)"
+    ></ias-system-task-creation>
+  </app-window>
+  <app-window
+    *ngIf="window.result.show"
+    [Model]="window.result"
+    [style]="window.result.style"
+  >
+    <ias-system-task-result
+      [data]="window.result.data"
+      (close)="window.result.show = false"
+    ></ias-system-task-result>
+  </app-window>
+  <app-window
+    *ngIf="window.details.show"
+    [Model]="window.details"
+    [style]="window.details.style"
+  >
+    <ias-system-task-details
+      [data]="window.details.data"
+      [files]="window.details.files"
+      [fileprogress]="controller.file.progress.file"
+      [taskprogress]="controller.file.progress.task"
+    ></ias-system-task-details>
+  </app-window>
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="delete.ok()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
 </div>

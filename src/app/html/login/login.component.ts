@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginModel } from '../../common/storage/authorization/authorization.model';
-import { LogoComponent } from '../logo/logo.component';
+import { LogoComponent } from '../ias/share/logo/logo.component';
 import { LoginBusiness } from './login.business';
 
 @Component({

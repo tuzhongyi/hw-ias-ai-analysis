@@ -45,7 +45,7 @@ class SystemInputProxyChannelRequestService {
   async create(data: InputProxyChannel) {
     let plain = instanceToPlain(data);
     let url = ArmSystemUrl.input.proxy.channel.basic();
-    let response = await this.http.post<any, HowellResponse<InputProxyChannel>>(
+    let response = await this.http.post<HowellResponse<InputProxyChannel>, any>(
       url,
       plain
     );

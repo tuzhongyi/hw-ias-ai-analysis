@@ -20,7 +20,7 @@ export class SystemFileRequestService {
   async upload(data: FormData, progress: (x: number) => void) {
     let url = ArmSystemUrl.file.basic();
     return this.http
-      .post<HowellResponse<FileInfo>, any>(url, data, undefined, progress)
+      .upload<HowellResponse<FileInfo>>(url, data, progress)
       .then((x) => {
         return HowellResponseProcess.item(x, FileInfo);
       });
@@ -46,7 +46,7 @@ export class SystemFileRequestService {
     let url = ArmSystemUrl.file.gps();
     let plain = instanceToPlain(params);
     return this.http
-      .post<any, HowellResponse<FileGpsItem[]>>(url, plain)
+      .post<HowellResponse<FileGpsItem[]>, any>(url, plain)
       .then((response) => {
         return HowellResponseProcess.array(response, FileGpsItem);
       });

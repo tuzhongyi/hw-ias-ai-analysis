@@ -1,0 +1,43 @@
+<div class="system-task-details-info" *ngIf="model">
+  <div class="forms">
+    <div class="form-item">
+      <div class="form-item-text">任务名称：</div>
+      <div class="form-item-value">{{ model.Name }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">任务类型：</div>
+      <div class="form-item-value">{{ model.TaskTypeName | async }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">任务状态：</div>
+      <div
+        class="form-item-value"
+        [ngStyle]="{
+          color: Color.TaskState(model.State)
+        }"
+      >
+        {{ model.StateName | async }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">数据来源：</div>
+      <div class="form-item-value">
+        {{ Language.SourceType(model.SourceType) }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">上传文件：</div>
+      <div class="form-item-value">{{ filecompleted }}/{{ filecount }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">上传进度：</div>
+      <div class="form-item-value">{{ progress.toFixed(2) }}%</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">创建时间：</div>
+      <div class="form-item-value">
+        {{ model.CreationTime | date : "yyyy-MM-dd HH:mm:ss" }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+.confirm {
+  height: 100%;
+  width: 100%;
+
+  &-head {
+    height: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+
+    .mdi-alert {
+      color: rgb(255, 186, 0);
+    }
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - 90px);
+    text-indent: 30px;
+    min-height: 60px;
+
+    .hw-simple-title {
+      color: #cfd7ff;
+
+      span {
+        color: white;
+      }
+    }
+  }
+
+  &-foot {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+}

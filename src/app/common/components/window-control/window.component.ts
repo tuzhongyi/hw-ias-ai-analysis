@@ -33,7 +33,7 @@ export class WindowComponent implements OnInit {
     this._style = Object.assign(this._style, v);
   }
 
-  @Output() OnClosing: EventEmitter<boolean> = new EventEmitter();
+  @Output() close: EventEmitter<boolean> = new EventEmitter();
 
   @Input() manualClose = false;
 
@@ -45,6 +45,6 @@ export class WindowComponent implements OnInit {
     if (this.manualClose === false) {
       this.Model.show = false;
     }
-    this.OnClosing.emit(true);
+    this.close.emit(true);
   }
 }

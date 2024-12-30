@@ -1,0 +1,61 @@
+<div class="system-task-creation">
+  <div class="system-task-creation-head">
+    <ias-content-header [title]="'添加分析任务'"></ias-content-header>
+  </div>
+  <div class="system-task-creation-body">
+    <div class="system-task-creation-body-info">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">任务名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="task.Name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">任务类型</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="task.TaskType">
+              <option
+                *ngFor="let item of controller.source.types | async"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">分析内容</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="task.SourceType">
+              <option [ngValue]="0">视频文件</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="system-task-creation-body-buttons">
+      <upload-control
+        [accept]="controller.file.accept"
+        [multiple]="true"
+        (loadstart)="controller.file.onstart($event)"
+        (upload)="controller.file.onfile($event)"
+      >
+        <button class="button-clip-gradient">添加</button>
+      </upload-control>
+      <button class="button-clip-gradient" (click)="controller.file.onremove()">
+        删除
+      </button>
+    </div>
+    <div class="system-task-creation-body-table">
+      <ias-system-task-creation-file-table
+        [load]="controller.file.load"
+        [(selecteds)]="controller.file.selecteds"
+      ></ias-system-task-creation-file-table>
+    </div>
+  </div>
+  <div class="system-task-creation-foot">
+    <button class="button-clip-gradient" (click)="onok()">确定</button>
+    <button class="button-clip-blue" (click)="oncancel()">取消</button>
+  </div>
+</div>

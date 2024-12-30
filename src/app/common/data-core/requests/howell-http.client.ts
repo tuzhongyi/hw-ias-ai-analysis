@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { LocalStorage } from '../../storage/local.storage';
@@ -36,14 +36,9 @@ export class HowellHttpClient {
   }
 
   post<R>(path: string): Promise<R>;
-  post<T>(path: string, data?: T): Promise<T>;
-  post<T, R>(path: string, data?: T): Promise<R>;
-  post<R, T>(
-    path: string,
-    data?: T,
-    config?: HttpClientParams,
-    progress?: (value: number) => void
-  ): Promise<R>;
+  post<T>(path: string, data?: T, config?: HttpClientParams): Promise<T>;
+  post<R, T>(path: string, data?: T, config?: HttpClientParams): Promise<R>;
+
   post<R, T = any>(path: string, data?: T, config?: HttpClientParams) {
     let options = this.getAuth(config);
     return firstValueFrom(this.http.post<R>(path, data, options));
@@ -86,5 +81,29 @@ export class HowellHttpClient {
         ...this.authorization,
       },
     };
+  }
+
+  upload<R>(path: string, data: FormData, process: (x: number) => void) {
+    let options = this.getAuth();
+    return new Promise<R>((resolve) => {
+      this.http
+        .post(path, data, {
+          ...options,
+          reportProgress: true,
+          observe: 'events',
+        })
+        .subscribe((event) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            let percent = (event.loaded / (event.total ?? event.loaded)) * 100;
+            process(percent);
+          }
+          if (event.type === HttpEventType.Response) {
+            process(1);
+            if (event.body) {
+              resolve(event.body as R);
+            }
+          }
+        });
+    });
   }
 }

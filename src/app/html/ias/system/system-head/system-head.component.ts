@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LogoComponent } from '../../../logo/logo.component';
-import { SettingsComponent } from '../../../settings/settings.component';
+import { LogoComponent } from '../../share/logo/logo.component';
+import { SettingsComponent } from '../../share/settings/settings.component';
 
 import { SystemBreadcrumbComponent } from '../system-breadcrumb/system-breadcrumb.component';
 

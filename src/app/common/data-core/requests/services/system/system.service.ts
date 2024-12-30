@@ -48,7 +48,7 @@ export class ArmSystemRequestService {
   firmware = {
     update: async (data: BinaryData) => {
       let url = ArmSystemUrl.updateFirmware();
-      let response = await this.http.post<BinaryData, HowellResponse>(
+      let response = await this.http.post<HowellResponse, BinaryData>(
         url,
         data
       );

@@ -1,0 +1,58 @@
+<div class="system-task-creation-file-table">
+  <div class="system-task-creation-file-table-body table-split">
+    <div class="table-split-head">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="center">
+              <div>
+                <input type="checkbox" (change)="onall($event)" />
+              </div>
+            </th>
+            <th class="center">序号</th>
+            <th>文件名称</th>
+            <th>文件大小</th>
+            <th>状态</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            (click)="onselect(item)"
+            [ngClass]="{
+              selected: selecteds.includes(item)
+            }"
+          >
+            <td class="center">
+              <div>
+                <input type="checkbox" [checked]="selecteds.includes(item)" />
+              </div>
+            </td>
+            <td class="center">
+              <div>{{ index + 1 }}</div>
+            </td>
+            <td [title]="item.filename">
+              <div>{{ item.filename }}</div>
+            </td>
+            <td>
+              {{ Language.Size(item.size) }}
+            </td>
+            <td>
+              {{ item.loaded ? "已加载" : "加载中" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

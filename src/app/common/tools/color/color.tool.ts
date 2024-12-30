@@ -40,4 +40,20 @@ export class ColorTool {
         return '';
     }
   }
+  static TaskState(value?: number) {
+    switch (value) {
+      case -1:
+        return '#69adff';
+      case 0:
+        return '#ca98f7';
+      case 1:
+        return '#01edf5';
+      case 2:
+        return '#23e353';
+      case 3:
+        return '#ff5151';
+      default:
+        return '';
+    }
+  }
 }

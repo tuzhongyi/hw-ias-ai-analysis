@@ -29,7 +29,7 @@ export class ArmAnalysisShopRequestService {
     let url = ArmAnalysisUrl.shop.list();
     let plain = instanceToPlain(params);
     return this.http
-      .post<any, HowellResponse<PagedList<Shop>>>(url, plain)
+      .post<HowellResponse<PagedList<Shop>>, any>(url, plain)
       .then((x) => {
         return HowellResponseProcess.paged(x, Shop);
       });
@@ -80,7 +80,7 @@ class ArmAnalysisShopSignRequestService {
     let url = ArmAnalysisUrl.shop.sign().list();
     let plain = instanceToPlain(params);
     return this.http
-      .post<any, HowellResponse<PagedList<ShopSign>>>(url, plain)
+      .post<HowellResponse<PagedList<ShopSign>>, any>(url, plain)
       .then((x) => {
         return HowellResponseProcess.paged(x, ShopSign);
       });

@@ -1,9 +1,5 @@
-import { Injectable } from '@angular/core';
 import { AuthModel } from './authorization.model';
 
-@Injectable({
-  providedIn: 'root',
-})
 export class AuthorizationStore {
   constructor() {}
 

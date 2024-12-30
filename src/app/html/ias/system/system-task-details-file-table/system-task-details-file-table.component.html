@@ -1,0 +1,46 @@
+<div class="system-task-details-file-table">
+  <div class="system-task-details-file-table-body table-split">
+    <div class="table-split-head">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="center">序号</th>
+            <th>文件名称</th>
+            <th>文件大小</th>
+            <th>进度</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            (click)="onselect(item)"
+            [ngClass]="{
+              selected: selected === item
+            }"
+          >
+            <td class="center">
+              <div>{{ index + 1 }}</div>
+            </td>
+            <td [title]="item.filename">
+              <div>{{ item.filename }}</div>
+            </td>
+            <td>
+              {{ Language.Size(item.size) }}
+            </td>
+            <td>{{ item.progress.toFixed(2) }}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

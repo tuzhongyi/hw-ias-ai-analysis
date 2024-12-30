@@ -1,0 +1,113 @@
+<div class="system-task-result-info">
+  <div class="system-task-result-info-head">
+    <div #image class="image">
+      <canvas #canvas></canvas>
+    </div>
+  </div>
+  <div class="system-task-result-info-body forms">
+    @if(model){
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>招</div>
+        <div>牌</div>
+        <div>名</div>
+        <div>称</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" readonly [value]="model.Text" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>置</div>
+        <div>信</div>
+        <div>度</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="text"
+          readonly
+          [value]="((model.Confidence ?? 0) * 100).toFixed(2) + '%'"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>发</div>
+        <div>现</div>
+        <div>时</div>
+        <div>间</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="text"
+          readonly
+          [value]="model.Time | date : Language.YearMonthDayHHmmss"
+        />
+      </div>
+    </div>
+    } @if(shop){
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>商</div>
+        <div>铺</div>
+        <div>编</div>
+        <div>号</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" readonly [value]="shop.Id" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>商</div>
+        <div>铺</div>
+        <div>名</div>
+        <div>称</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" readonly [value]="shop.Name" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>联</div>
+        <div>系</div>
+        <div>方</div>
+        <div>式</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" readonly [value]="shop.Telphone ?? ''" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>商</div>
+        <div>铺</div>
+        <div>地</div>
+        <div>址</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" readonly [value]="shop.Address ?? ''" />
+      </div>
+    </div>
+    }
+  </div>
+  <div class="system-task-result-info-foot">
+    <div>
+      <div class="button" (click)="onprev()">
+        <i class="howell-icon-arrow2left"></i>
+      </div>
+    </div>
+    <div class="page" *ngIf="page">
+      <div>{{ page.PageIndex }}</div>
+      <div>/</div>
+      <div>{{ page.PageCount }}</div>
+    </div>
+    <div>
+      <div class="button" (click)="onnext()">
+        <i class="howell-icon-arrow2right"></i>
+      </div>
+    </div>
+  </div>
+</div>

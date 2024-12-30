@@ -18,6 +18,15 @@ export class SystemModuleShopTableArgs {
 export class SystemModuleShopTableFilter extends SystemModuleShopTableArgs {
   asc?: string;
   desc?: string;
+
+  load(args: SystemModuleShopTableArgs) {
+    this.marking = args.marking;
+    this.telphone = args.telphone;
+    this.name = args.name;
+    this.confidence = args.confidence;
+    this.duration = args.duration;
+    this.states = args.states;
+  }
 }
 
 export class ShopModel extends Shop {

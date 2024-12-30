@@ -27,7 +27,7 @@ export class ArmAnalysisServerRequestService {
     let url = ArmAnalysisUrl.server.basic();
     let plain = instanceToPlain(data);
     return this.http
-      .post<any, HowellResponse<AnalysisServer>>(url, plain)
+      .post<HowellResponse<AnalysisServer>, any>(url, plain)
       .then((x) => {
         return HowellResponseProcess.item(x, AnalysisServer);
       });
@@ -79,7 +79,7 @@ class ArmAnalysisServerTaskRequestService {
     let url = ArmAnalysisUrl.server.task.basic();
     let plain = instanceToPlain(data);
     return this.http
-      .post<any, HowellResponse<AnalysisTask>>(url, plain)
+      .post<HowellResponse<AnalysisTask>, any>(url, plain)
       .then((x) => {
         return HowellResponseProcess.item(x, AnalysisTask);
       });
@@ -101,7 +101,7 @@ class ArmAnalysisServerTaskRequestService {
     let url = ArmAnalysisUrl.server.task.list();
     let plain = instanceToPlain(params);
     return this.http
-      .post<any, HowellResponse<PagedList<AnalysisTask>>>(url, plain)
+      .post<HowellResponse<PagedList<AnalysisTask>>, any>(url, plain)
       .then((x) => {
         return HowellResponseProcess.paged(x, AnalysisTask);
       });
@@ -111,7 +111,7 @@ class ArmAnalysisServerTaskRequestService {
     let url = ArmAnalysisUrl.server.task.source(id);
     let plain = instanceToPlain(params);
     return this.http
-      .post<any, HowellResponse<AnalysisTask>>(url, plain)
+      .post<HowellResponse<AnalysisTask>, any>(url, plain)
       .then((x) => {
         return HowellResponseProcess.item(x, AnalysisTask);
       });
@@ -135,7 +135,7 @@ class ArmAnalysisServerTaskResultRequestService {
     let url = ArmAnalysisUrl.server.task.result.list();
     let plain = instanceToPlain(params);
     return this.http
-      .post<any, HowellResponse<PagedList<AnalysisTaskResult>>>(url, plain)
+      .post<HowellResponse<PagedList<AnalysisTaskResult>>, any>(url, plain)
       .then((x) => {
         return HowellResponseProcess.paged(x, AnalysisTaskResult);
       });

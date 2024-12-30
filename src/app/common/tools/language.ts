@@ -425,6 +425,38 @@ export class Language {
         return def;
     }
   }
+  static Size(value?: number) {
+    if (value === undefined) return '未知';
+    let _value = value / 1024;
+    if (_value < 1) {
+      return `${value}byte`;
+    }
+    _value = _value / 1024;
+    if (_value < 1) {
+      return `${Math.round((value / 1024) * 100) / 100}KB`;
+    }
+    _value = _value / 1024;
+    if (_value < 1) {
+      return `${Math.round((value / 1024 / 1024) * 100) / 100}MB`;
+    }
+    _value = _value / 1024;
+    if (_value < 1) {
+      return `${Math.round((value / 1024 / 1024 / 1024) * 100) / 100}GB`;
+    }
+    _value = _value / 1024;
+    if (_value < 1) {
+      return `${Math.round((value / 1024 / 1024 / 1024 / 1024) * 100) / 100}TB`;
+    }
+    return `${value}byte`;
+  }
+  static SourceType(value?: number, def = '未知') {
+    switch (value) {
+      case 0:
+        return '视频文件';
+      default:
+        return def;
+    }
+  }
 }
 
 export class Icon {

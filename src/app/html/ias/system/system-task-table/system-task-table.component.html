@@ -1,0 +1,16 @@
+@if(args.finished){
+<ias-system-task-table-finished
+  [filter]="filter"
+  [load]="load"
+  (result)="onresult($event)"
+  (details)="ondetails($event)"
+></ias-system-task-table-finished>
+} @else{
+<ias-system-task-table-runing
+  [filter]="filter"
+  [load]="load"
+  [progress]="progress"
+  (delete)="ondelete($event)"
+  (details)="ondetails($event)"
+></ias-system-task-table-runing>
+}
