@@ -7,17 +7,26 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HowellSelectComponent } from '../../../../common/components/hw-select/select-control.component';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
+import { LocaleCompare } from '../../../../common/tools/compare-tool/compare.tool';
+import { Language } from '../../../../common/tools/language';
+import { SystemTaskResultTableSourceController } from './system-task-result-table-source.controller';
 import { SystemTaskResultTableBusiness } from './system-task-result-table.business';
+import { SystemTaskResultTableFilter } from './system-task-result-table.model';
 
 @Component({
   selector: 'ias-system-task-result-table',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, HowellSelectComponent],
   templateUrl: './system-task-result-table.component.html',
   styleUrl: './system-task-result-table.component.less',
-  providers: [SystemTaskResultTableBusiness],
+  providers: [
+    SystemTaskResultTableSourceController,
+    SystemTaskResultTableBusiness,
+  ],
 })
 export class SystemTaskResultTableComponent {
   @Input('data') task?: AnalysisTask;
@@ -26,12 +35,18 @@ export class SystemTaskResultTableComponent {
 
   @Input('load') _load?: EventEmitter<number>;
   @Output() page = new EventEmitter<Page>();
+  @Output() loaded = new EventEmitter<ShopSign[]>();
 
-  constructor(private business: SystemTaskResultTableBusiness) {}
+  constructor(
+    private business: SystemTaskResultTableBusiness,
+    public source: SystemTaskResultTableSourceController
+  ) {}
 
   @ViewChild('body') body?: ElementRef<HTMLDivElement>;
   datas: ShopSign[] = [];
-  widths: string[] = ['15%', 'auto', '20%'];
+  widths: string[] = ['60px', 'auto', '85px', '60px', '80px', '120px'];
+  filter = new SystemTaskResultTableFilter();
+  Language = Language;
 
   ngOnInit(): void {
     if (this._load) {
@@ -43,7 +58,8 @@ export class SystemTaskResultTableComponent {
       });
     }
     if (this.task) {
-      this.load(this.task.Id);
+      this.filter.taskId = this.task.Id;
+      this.load(this.filter);
     }
   }
 
@@ -54,9 +70,11 @@ export class SystemTaskResultTableComponent {
     }
   }
 
-  private load(id: string) {
-    this.business.load(id).then((x) => {
+  private load(filter: SystemTaskResultTableFilter) {
+    this.business.load(filter).then((x) => {
       this.datas = x;
+      this.datas.sort((a, b) => LocaleCompare.compare(a.Time, b.Time));
+      this.loaded.emit(this.datas);
       if (this.datas.length > 0) {
         this.onselect(this.datas[0], 0);
       }
@@ -70,5 +88,9 @@ export class SystemTaskResultTableComponent {
     this.selected = item;
     this.selectedChange.emit(item);
     this.page.emit(Page.create(index + 1, 1, this.datas.length));
+  }
+
+  onfilter() {
+    this.load(this.filter);
   }
 }

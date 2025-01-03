@@ -33,6 +33,12 @@ export class ShopSign implements IIdModel {
   GroupId?: number;
   /**	Int32	状态，保留	O	*/
   ObjectState?: number;
-
+  /**	String	商铺ID	O */
   ShopId?: string;
+  /**	Int32	结果标注类型	O */
+  ResultLabelType?: number;
+  /**	String	机位编号	O */
+  CameraNo?: string;
+  /**	Int32	招牌类型，1：商铺招牌，	O */
+  SignType?: number;
 }

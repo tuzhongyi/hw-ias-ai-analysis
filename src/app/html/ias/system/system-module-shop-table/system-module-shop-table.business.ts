@@ -31,6 +31,7 @@ export class SystemModuleShopTableBusiness {
         paged.Data.push(ShopModel.create());
       }
     }
+    paged.Data[5].Marking = true;
     return paged;
   }
 
@@ -51,6 +52,9 @@ export class SystemModuleShopTableBusiness {
         : undefined;
     params.Asc = args.asc;
     params.Desc = args.desc;
+    if (args.type) {
+      params.ShopTypes = [args.type];
+    }
     return this.service.shop.list(params);
   }
 }

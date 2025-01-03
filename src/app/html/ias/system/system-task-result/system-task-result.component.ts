@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input } from '@angular/core';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
@@ -10,6 +11,7 @@ import { SystemTaskResultTableComponent } from '../system-task-result-table/syst
 @Component({
   selector: 'ias-system-task-result',
   imports: [
+    CommonModule,
     ContentHeaderComponent,
     SystemTaskResultTableComponent,
     SystemTaskResultInfoComponent,
@@ -22,13 +24,17 @@ export class SystemTaskResultComponent {
   @Input() data?: AnalysisTask;
 
   indexchange = new EventEmitter<number>();
-  sign?: ShopSign;
+  selected?: ShopSign;
   page?: Page;
+  signs: ShopSign[] = [];
 
   onget(index: number) {
     this.indexchange.emit(index);
   }
   onpage(page: Page) {
     this.page = page;
+  }
+  onloaded(signs: ShopSign[]) {
+    this.signs = signs;
   }
 }

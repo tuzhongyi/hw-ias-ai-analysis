@@ -1,4 +1,5 @@
 import { ShopObjectState } from '../data-core/enums/analysis/shop-object-state.enum';
+import { SignType } from '../data-core/enums/analysis/sign-type.enum';
 import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.enum';
 import { DeviceProtocolType } from '../data-core/enums/device-protocol-type.enum';
 import { EventType } from '../data-core/enums/event-type.enum';
@@ -429,30 +430,52 @@ export class Language {
     if (value === undefined) return '未知';
     let _value = value / 1024;
     if (_value < 1) {
-      return `${value}byte`;
+      return `${value.toFixed(2)}byte`;
     }
     _value = _value / 1024;
     if (_value < 1) {
-      return `${Math.round((value / 1024) * 100) / 100}KB`;
+      return `${(Math.round((value / 1024) * 100) / 100).toFixed(2)}KB`;
     }
     _value = _value / 1024;
     if (_value < 1) {
-      return `${Math.round((value / 1024 / 1024) * 100) / 100}MB`;
+      return `${(Math.round((value / 1024 / 1024) * 100) / 100).toFixed(2)}MB`;
     }
     _value = _value / 1024;
     if (_value < 1) {
-      return `${Math.round((value / 1024 / 1024 / 1024) * 100) / 100}GB`;
+      return `${(Math.round((value / 1024 / 1024 / 1024) * 100) / 100).toFixed(
+        2
+      )}GB`;
     }
     _value = _value / 1024;
     if (_value < 1) {
-      return `${Math.round((value / 1024 / 1024 / 1024 / 1024) * 100) / 100}TB`;
+      return `${(
+        Math.round((value / 1024 / 1024 / 1024 / 1024) * 100) / 100
+      ).toFixed(2)}TB`;
     }
-    return `${value}byte`;
+    return `${value.toFixed(2)}byte`;
   }
   static SourceType(value?: number, def = '未知') {
     switch (value) {
       case 0:
         return '视频文件';
+      default:
+        return def;
+    }
+  }
+  static SignType(value?: SignType, def = '未知') {
+    switch (value) {
+      case SignType.ShopSign:
+        return '店铺招牌';
+      case SignType.Sign:
+        return '指示牌';
+      case SignType.StreetSign:
+        return '路牌';
+      case SignType.Billboard:
+        return '广告牌';
+      case SignType.Promotional:
+        return '宣传标语';
+      case SignType.Other:
+        return '其他';
       default:
         return def;
     }

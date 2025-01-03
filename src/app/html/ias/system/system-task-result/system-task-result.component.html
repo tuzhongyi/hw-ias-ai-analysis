@@ -3,27 +3,47 @@
     <ias-content-header [title]="'商铺信息'"></ias-content-header>
   </div>
   <div class="system-task-result-body">
-    <div class="">
-      <ias-system-task-result-table
-        [data]="data"
-        [(selected)]="sign"
-        [load]="indexchange"
-        (page)="onpage($event)"
-      ></ias-system-task-result-table>
+    <div class="system-task-result-body-info">
+      <div class="forms" *ngIf="data">
+        <div class="form-item">
+          <div class="form-item-text">任务名称</div>
+          <div class="form-item-value">
+            <input type="text" readonly [value]="data.Name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">任务类型</div>
+          <div class="form-item-value">
+            <input type="text" readonly [value]="data.TaskType" />
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="panel">
-      <ias-system-task-result-info
-        [data]="data"
-        [sign]="sign"
-        [page]="page"
-        (get)="onget($event)"
-      ></ias-system-task-result-info>
-    </div>
-    <div class="panel">
-      <ias-system-task-result-map
-        [data]="data"
-        [sign]="sign"
-      ></ias-system-task-result-map>
+    <div class="system-task-result-body-content">
+      <div class="system-task-result-body-content-table">
+        <ias-system-task-result-table
+          [data]="data"
+          [(selected)]="selected"
+          [load]="indexchange"
+          (page)="onpage($event)"
+          (loaded)="onloaded($event)"
+        ></ias-system-task-result-table>
+      </div>
+      <div class="system-task-result-body-content-info panel">
+        <ias-system-task-result-info
+          [data]="data"
+          [sign]="selected"
+          [page]="page"
+          (get)="onget($event)"
+        ></ias-system-task-result-info>
+      </div>
+      <div class="system-task-result-body-content-map panel">
+        <ias-system-task-result-map
+          [data]="data"
+          [selected]="selected"
+          [signs]="signs"
+        ></ias-system-task-result-map>
+      </div>
     </div>
   </div>
 </div>

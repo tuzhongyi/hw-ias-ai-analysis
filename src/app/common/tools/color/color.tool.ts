@@ -31,9 +31,9 @@ export class ColorTool {
   static ShopObjectState(value: ShopObjectState) {
     switch (value) {
       case ShopObjectState.Disappeared:
-        return '#23e353';
-      case ShopObjectState.Created:
         return '#ff762c';
+      case ShopObjectState.Created:
+        return '#23e353';
       case ShopObjectState.Existed:
         return '#1e90ff';
       default:

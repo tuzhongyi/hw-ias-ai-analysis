@@ -1,6 +1,12 @@
 <div class="system-module-shop-table">
   <div class="system-module-shop-table-body table-page">
-    <table border="0" cellpadding="0" cellspacing="0">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="onsort($event)"
+    >
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
       </colgroup>
@@ -8,14 +14,14 @@
         <tr>
           <th class="center">序号</th>
           <th>照片</th>
-          <th class="center">锁定</th>
-          <th>名称</th>
-          <th>地址</th>
-          <th>联系方式</th>
-          <th>置信度</th>
-          <th>状态</th>
-          <th>发现时间</th>
-          <th>最近出现</th>
+          <th sort="Locked" class="center">锁定</th>
+          <th sort="Name">名称</th>
+          <th sort="Address">地址</th>
+          <th sort="Telphone">联系方式</th>
+          <th sort="Confidence">置信度</th>
+          <th sort="ObjectState">状态</th>
+          <th sort="BeginTime">发现时间</th>
+          <th sort="EndTime">最近出现</th>
           <th class="center">操作</th>
         </tr>
       </thead>
@@ -26,7 +32,8 @@
           [ngClass]="{
             nohover: !item.hasdata,
             nodata: !item.hasdata,
-            selected: item === selected
+            selected: item === selected,
+            marking: item.Marking
           }"
         >
           <td class="center">

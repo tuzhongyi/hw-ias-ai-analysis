@@ -30,7 +30,7 @@ export class SettingsComponent implements OnInit {
     });
     setInterval(() => {
       this.date.update((value) => Date.now());
-    }, 1000 * 60);
+    }, 1000);
   }
 
   onaccount(e: Event) {

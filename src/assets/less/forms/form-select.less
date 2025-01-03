@@ -10,10 +10,28 @@ select {
   background-color: #050d14;
   color: #ddf4ff;
   position: relative;
-  min-height: 36px;
+  height: 36px;
   min-width: 50px;
 
   background-image: url(../../image/select-arrow.png);
   background-repeat: no-repeat;
   background-position: right 10px center;
+
+  option {
+    background-color: #050d14;
+  }
+
+  &.select-white {
+    color: white;
+    background-image: url(../../image/select-arrow-white.png);
+  }
+
+  &.noborder {
+    border: none;
+    background-color: transparent;
+    padding: 2px 10px;
+    padding-right: calc(10px + 16px + 10px);
+    height: 36px;
+    line-height: 36px;
+  }
 }

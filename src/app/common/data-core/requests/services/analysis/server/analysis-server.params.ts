@@ -14,6 +14,11 @@ export class GetAnalysisTaskListParams extends PagedDurationParams {
   TaskStates?: number[];
   /**	Int32	分组ID	O	*/
   GroupId?: number;
+
+  /**	String	升序属性，不区分大小写	O */
+  Asc?: string;
+  /**	String	降序属性，不区分大小写	O */
+  Desc?: string;
 }
 
 export class GetAnalysisTaskResultListParams extends PagedDurationParams {

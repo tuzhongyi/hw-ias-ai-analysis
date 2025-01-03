@@ -6,7 +6,7 @@ import { wait } from '../../../../../common/tools/wait';
 import { SystemTaskResultAMapLayerController } from './system-task-result-amap-layer.controller';
 
 @Injectable()
-export class SystemTaskResultAmapController {
+export class SystemTaskResultAMapController {
   constructor() {
     this.init().then((AMap) => {
       this.map = new AMap.Map('map-container', {
@@ -21,10 +21,25 @@ export class SystemTaskResultAmapController {
   }
 
   private map: any;
-
-  private inited = false;
-  private loaded = false;
-  private layer: any;
+  private _layer?: SystemTaskResultAMapLayerController;
+  private get layer(): Promise<SystemTaskResultAMapLayerController> {
+    return new Promise((resolve) => {
+      if (this._layer) {
+        resolve(this._layer);
+        return;
+      }
+      wait(
+        () => {
+          return !!this._layer;
+        },
+        () => {
+          if (this._layer) {
+            resolve(this._layer);
+          }
+        }
+      );
+    });
+  }
 
   private init() {
     (window as any)._AMapSecurityConfig = {
@@ -38,44 +53,24 @@ export class SystemTaskResultAmapController {
   }
   private regist(map: any) {
     map.on('complete', () => {
-      this.layer = new SystemTaskResultAMapLayerController(this.map);
-      this.inited = true;
+      this._layer = new SystemTaskResultAMapLayerController(this.map);
     });
   }
 
-  private _load(datas: ShopSign[]) {
-    return new Promise<void>((resolve) => {
-      this.layer.load(datas).then(() => {
+  async load(datas: ShopSign[]) {
+    return this.layer.then((x) => {
+      x.clear();
+      x.load(datas).then(() => {
         this.map.setFitView(null, true);
-        this.loaded = true;
-        resolve();
       });
     });
   }
 
-  select(id: string) {
-    wait(
-      () => {
-        return this.inited && this.loaded;
-      },
-      () => {
-        this.layer.select(id);
-      }
-    );
-  }
-
-  async load(data: ShopSign[]) {
-    return new Promise<void>((resolve) => {
-      wait(
-        () => {
-          return this.inited;
-        },
-        () => {
-          this._load(data).then(() => {
-            resolve();
-          });
-        }
-      );
+  async select(id: string) {
+    this.layer.then((x) => {
+      x.loading().then(() => {
+        x.select(id);
+      });
     });
   }
 }

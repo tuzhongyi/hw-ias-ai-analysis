@@ -3,17 +3,17 @@
     <ias-content-header [title]="'商铺信息'"></ias-content-header>
   </div>
   <div class="system-module-shop-details-body">
-    <div class="">
+    <div class="system-module-shop-details-body-table">
       <ias-system-module-shop-sign-table [data]="shop" [(selected)]="sign">
       </ias-system-module-shop-sign-table>
     </div>
-    <div class="panel">
+    <div class="system-module-shop-details-body-info panel">
       <ias-system-module-shop-details-info
         [data]="shop"
         [sign]="sign"
       ></ias-system-module-shop-details-info>
     </div>
-    <div class="panel">
+    <div class="system-module-shop-details-body-map panel">
       <ias-system-module-shop-details-map
         [data]="shop?.Location"
         (dataChange)="onposition($event)"

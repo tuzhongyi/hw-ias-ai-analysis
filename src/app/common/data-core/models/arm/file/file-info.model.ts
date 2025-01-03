@@ -1,20 +1,19 @@
-import { Transform } from 'class-transformer'
-import { IModel } from '../../model.interface'
-import { transformDateTime, transformSize } from '../../transformer'
+import { Transform } from 'class-transformer';
+import { IModel } from '../../model.interface';
+import { transformDateTime } from '../../transformer';
 
 /**	FileInfo (文件信息)	*/
 export class FileInfo implements IModel {
   /**	String	文件名称和路径	M	*/
-  FileName!: string
+  FileName!: string;
   /**	Int64	文件大小，单位：字节	M	*/
-  @Transform(transformSize)
-  FileSize!: number
+  FileSize!: number;
   /**	DateTime	创建时间	M	*/
   @Transform(transformDateTime)
-  CreationTime!: Date
+  CreationTime!: Date;
   /**	DateTime	最后修改时间	M	*/
   @Transform(transformDateTime)
-  ModifiedTime!: Date
+  ModifiedTime!: Date;
   /**	Boolean	是否为目录	M	*/
-  IsDirectory!: boolean
+  IsDirectory!: boolean;
 }

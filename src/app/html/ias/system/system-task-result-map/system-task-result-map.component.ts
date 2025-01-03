@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
-import { SystemTaskResultAmapController } from './controller/system-task-result-amap.controller';
+import { SystemTaskResultAMapController } from './controller/system-task-result-amap.controller';
 import { SystemTaskResultMapBusiness } from './system-task-result-map.business';
 
 @Component({
@@ -16,33 +16,37 @@ import { SystemTaskResultMapBusiness } from './system-task-result-map.business';
   imports: [CommonModule],
   templateUrl: './system-task-result-map.component.html',
   styleUrl: './system-task-result-map.component.less',
-  providers: [SystemTaskResultAmapController, SystemTaskResultMapBusiness],
+  providers: [SystemTaskResultAMapController, SystemTaskResultMapBusiness],
 })
 export class SystemTaskResultMapComponent implements OnInit, OnChanges {
   @Input() data?: AnalysisTask;
-  @Input() sign?: ShopSign;
+  @Input() selected?: ShopSign;
+  @Input() signs: ShopSign[] = [];
 
   constructor(
     private business: SystemTaskResultMapBusiness,
-    private controller: SystemTaskResultAmapController
+    private controller: SystemTaskResultAMapController
   ) {}
 
   loading = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['sign'] && this.sign) {
-      this.controller.select(this.sign.Id);
+    if (changes['selected'] && this.selected) {
+      this.controller.select(this.selected.Id);
+    }
+    if (changes['signs'] && this.signs) {
+      this.controller.load(this.signs);
     }
   }
 
   ngOnInit(): void {
-    if (this.data) {
-      this.loading = true;
-      this.business.load(this.data.Id).then((x) => {
-        this.controller.load(x).then((x) => {
-          this.loading = false;
-        });
-      });
-    }
+    // if (this.data) {
+    //   this.loading = true;
+    //   this.business.load(this.data.Id).then((x) => {
+    //     this.controller.load(x).then((x) => {
+    //       this.loading = false;
+    //     });
+    //   });
+    // }
   }
 }

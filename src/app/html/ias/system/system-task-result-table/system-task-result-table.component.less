@@ -4,7 +4,38 @@
   animation: 0.75s;
 
   &-body {
-    height: 100%;
+    height: calc(100% - 45px);
     width: 100%;
+  }
+
+  &-foot {
+    height: 45px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #2d76ce;
+    border-top: none;
+    background: linear-gradient(to top, rgba(30, 144, 255, 0.2) 0%, rgba(30, 144, 255, 0) 100%);
+    box-sizing: border-box;
+    padding: 0 10px;
+
+
+    &-count {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-filter {
+      width: 300px;
+
+      .form-item {
+        &-value {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+      }
+    }
   }
 }

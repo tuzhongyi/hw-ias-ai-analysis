@@ -5,6 +5,7 @@ import { ContentHeaderComponent } from '../../share/header/content-header/conten
 import { SystemTaskCreationComponent } from '../system-task-creation/system-task-creation.component';
 
 import { SystemTaskDetailsComponent } from '../system-task-details/system-task-details.component';
+import { SystemTaskFileManagerComponent } from '../system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskResultComponent } from '../system-task-result/system-task-result.component';
 import { SystemTaskTableComponent } from '../system-task-table/system-task-table.component';
 import { SystemTaskManagerFileBusiness } from './business/system-task-manager-file.business';
@@ -22,6 +23,7 @@ export const SystemTaskManagerImports = [
   WindowConfirmComponent,
   SystemTaskResultComponent,
   SystemTaskDetailsComponent,
+  SystemTaskFileManagerComponent,
 ];
 
 export const SystemTaskManagerProviders = [

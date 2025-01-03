@@ -4,6 +4,7 @@ import { SystemComponent } from './component/system.component';
 import { SystemIndexComponent } from './system-index/system-index.component';
 import { SystemModuleShopManagerComponent } from './system-module-shop-manager/system-module-shop-manager.component';
 import { SystemModuleComponent } from './system-module/system-module.component';
+import { SystemTaskFileManagerComponent } from './system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskManagerComponent } from './system-task-manager/system-task-manager.component';
 
 const routes: Routes = [
@@ -31,6 +32,10 @@ const routes: Routes = [
           {
             path: 'index',
             component: SystemTaskManagerComponent,
+          },
+          {
+            path: 'file',
+            component: SystemTaskFileManagerComponent,
           },
         ],
       },

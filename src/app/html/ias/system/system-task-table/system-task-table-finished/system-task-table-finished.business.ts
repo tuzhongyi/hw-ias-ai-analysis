@@ -7,9 +7,10 @@ import {
   SystemTaskTableFilter,
 } from '../system-task-table.model';
 import { SystemTaskTableFinishedConverter } from './system-task-table-finished.converter';
+import { AnalysisTaskFinishModel } from './system-task-table-finished.model';
 
 @Injectable()
-export class SystemTaskTableFinishedBusiness extends SystemTaskTableBusiness {
+export class SystemTaskTableFinishedBusiness extends SystemTaskTableBusiness<AnalysisTaskFinishModel> {
   constructor(
     service: ArmAnalysisRequestService,
     converter: SystemTaskTableFinishedConverter

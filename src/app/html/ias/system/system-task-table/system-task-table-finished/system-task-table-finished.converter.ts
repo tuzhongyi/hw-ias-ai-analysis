@@ -20,10 +20,8 @@ export class SystemTaskTableFinishedConverter
 
     if (source.StartTime) {
       if (source.StopTime) {
-        model.DurationTime =
+        model.Duration =
           (source.StopTime.getTime() - source.StartTime.getTime()) / 1000;
-      } else {
-        model.RunTime = (Date.now() - source.StartTime.getTime()) / 1000;
       }
     }
 

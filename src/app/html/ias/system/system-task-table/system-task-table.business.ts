@@ -8,15 +8,15 @@ import {
   SystemTaskTableFilter,
 } from './system-task-table.model';
 
-export class SystemTaskTableBusiness {
+export class SystemTaskTableBusiness<T extends AnalysisTaskModel> {
   constructor(
     private service: ArmAnalysisRequestService,
-    private converter: IConverter<AnalysisTask, AnalysisTaskModel>
+    private converter: IConverter<AnalysisTask, T>
   ) {}
 
   async load(index: number, size: number, args: SystemTaskTableFilter) {
     let data = await this.data(index, size, args);
-    let paged = new PagedList<AnalysisTaskModel>();
+    let paged = new PagedList<T>();
     paged.Page = data.Page;
     paged.Data = data.Data.map((x, i) => {
       let model = this.converter.convert(x);
@@ -26,7 +26,7 @@ export class SystemTaskTableBusiness {
     let count = paged.Page.PageSize - paged.Page.RecordCount;
     if (count > 0) {
       for (let i = 0; i < count; i++) {
-        paged.Data.push(AnalysisTaskModel.create());
+        paged.Data.push(AnalysisTaskModel.create() as T);
       }
     }
     return paged;
@@ -41,6 +41,9 @@ export class SystemTaskTableBusiness {
     } else {
       params.TaskStates = [-1, 0, 1, 3];
     }
+
+    params.Asc = args.asc;
+    params.Desc = args.desc;
 
     return this.service.server.task.list(params);
   }

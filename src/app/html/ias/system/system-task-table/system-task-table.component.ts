@@ -27,6 +27,7 @@ export class SystemTaskTableComponent implements OnInit {
   @Output() delete = new EventEmitter<AnalysisTaskModel>();
   @Output() result = new EventEmitter<AnalysisTaskModel>();
   @Output() details = new EventEmitter<AnalysisTaskModel>();
+  @Output() files = new EventEmitter<AnalysisTaskModel>();
 
   filter = new SystemTaskTableFilter();
   load = new EventEmitter<SystemTaskTableFilter>();
@@ -48,5 +49,8 @@ export class SystemTaskTableComponent implements OnInit {
   }
   ondetails(data: AnalysisTaskModel) {
     this.details.emit(data);
+  }
+  onfiles(data: AnalysisTaskModel) {
+    this.files.emit(data);
   }
 }

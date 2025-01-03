@@ -2,6 +2,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PaginatorComponent } from '../../../../common/components/paginator/paginator.component';
 import { Page } from '../../../../common/data-core/models/page-list.model';
+import { TableSorterDirective } from '../../../../common/directives/table-sorter/table-soater.directive';
+import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
 import { SystemModuleShopTableBusiness } from './system-module-shop-table.business';
 import { SystemModuleShopTableConverter } from './system-module-shop-table.converter';
@@ -13,7 +15,7 @@ import {
 
 @Component({
   selector: 'ias-system-module-shop-table',
-  imports: [DatePipe, CommonModule, PaginatorComponent],
+  imports: [DatePipe, CommonModule, PaginatorComponent, TableSorterDirective],
   templateUrl: './system-module-shop-table.component.html',
   styleUrl: './system-module-shop-table.component.less',
   providers: [SystemModuleShopTableBusiness, SystemModuleShopTableConverter],
@@ -86,5 +88,20 @@ export class SystemModuleShopTableComponent implements OnInit {
     if (this.selected === item) {
       e.stopPropagation();
     }
+  }
+  onsort(sort: Sort) {
+    this.filter.asc = undefined;
+    this.filter.desc = undefined;
+    switch (sort.direction) {
+      case 'asc':
+        this.filter.asc = sort.active;
+        break;
+      case 'desc':
+        this.filter.desc = sort.active;
+        break;
+      default:
+        break;
+    }
+    this.load(this.page.PageIndex, this.page.PageSize, this.filter);
   }
 }

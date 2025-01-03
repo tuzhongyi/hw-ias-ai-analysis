@@ -14,6 +14,7 @@ export class SystemModuleShopTableArgs {
   confidence?: number;
   duration: Duration;
   states: ShopObjectState[] = [];
+  type?: number;
 }
 export class SystemModuleShopTableFilter extends SystemModuleShopTableArgs {
   asc?: string;

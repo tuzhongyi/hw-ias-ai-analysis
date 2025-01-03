@@ -12,14 +12,6 @@ export class SystemTaskTableRuningConverter
   constructor(private tool: LanguageTool) {}
 
   convert(source: AnalysisTask) {
-    if (source.StartTime) {
-      return this.analysis(source);
-    } else {
-      return this.upload(source);
-    }
-  }
-
-  private upload(source: AnalysisTask) {
     let plain = instanceToPlain(source);
     let model = plainToInstance(AnalysisTaskRuningModel, plain);
     model.hasdata = true;
@@ -27,39 +19,35 @@ export class SystemTaskTableRuningConverter
     model.TaskTypeName = this.tool.TaskType(model.TaskType, '-');
 
     if (source.CreationTime) {
-      model.Duration = (Date.now() - source.CreationTime.getTime()) / 1000;
+      if (source.StartTime) {
+        model.EstimatedTime = this.estimated.analysis(
+          model,
+          source.CreationTime,
+          source.StartTime
+        );
+      } else {
+        model.EstimatedTime = this.estimated.upload(model, source.CreationTime);
+      }
+    }
+    return model;
+  }
 
-      let duration = (model.Duration ?? 0) * 1000;
+  private estimated = {
+    upload: (model: AnalysisTaskRuningModel, creation: Date) => {
+      let duration = model.UploadDuration() * 1000;
+      let progress = (model.Progress ?? 0) / 100;
+      let estimated = duration / progress;
+      return new Date(creation.getTime() + estimated);
+    },
+
+    analysis: (model: AnalysisTaskRuningModel, creation: Date, start: Date) => {
+      let duration = model.AnalysisDuration() * 1000;
       let progress = (model.Progress ?? 0) / 100;
       let estimated = duration / progress;
 
-      model.EstimatedTime = new Date(source.CreationTime.getTime() + estimated);
-    }
+      let uploadtime = start.getTime() - creation.getTime();
 
-    return model;
-  }
-  private analysis(source: AnalysisTask) {
-    let plain = instanceToPlain(source);
-    let model = plainToInstance(AnalysisTaskRuningModel, plain);
-    model.hasdata = true;
-    model.StateName = this.tool.TaskState(model.State, '-');
-    model.TaskTypeName = this.tool.TaskType(model.TaskType, '-');
-
-    if (source.StartTime) {
-      model.Duration = (Date.now() - source.StartTime.getTime()) / 1000;
-
-      let duration = (model.Duration ?? 0) * 1000;
-      let progress = (model.Progress ?? 0) / 100;
-      let estimated = duration / progress;
-
-      let uploadtime =
-        source.StartTime.getTime() - source.CreationTime!.getTime();
-
-      model.EstimatedTime = new Date(
-        source.StartTime.getTime() + estimated + uploadtime
-      );
-    }
-
-    return model;
-  }
+      return new Date(start.getTime() + estimated + uploadtime);
+    },
+  };
 }

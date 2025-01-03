@@ -9,7 +9,10 @@
           <tr>
             <th class="center">序号</th>
             <th>招牌名称</th>
+            <th>类型</th>
+            <th>机位</th>
             <th class="center">置信度</th>
+            <th>时间</th>
           </tr>
         </thead>
       </table>
@@ -31,10 +34,17 @@
               <div>{{ index + 1 }}</div>
             </td>
             <td [title]="item.Text">
-              <div>{{ item.Text }}</div>
+              {{ item.Text }}
+            </td>
+            <td>{{ Language.SignType(item.SignType, "-") }}</td>
+            <td>
+              {{ item.CameraNo ?? "-" }}
             </td>
             <td class="center">
               {{ ((item.Confidence ?? 0) * 100).toFixed(2) }}%
+            </td>
+            <td>
+              {{ item.Time | date : "yyyy-MM-dd HH:mm:ss" }}
             </td>
           </tr>
         </tbody>

@@ -12,7 +12,7 @@
           <button class="button-filter">筛选</button>
         </div> -->
         <div class="forms">
-          <div class="form-item">
+          <!-- <div class="form-item">
             <div class="form-item-text">开始时间</div>
             <div class="form-item-value">
               <date-time-control
@@ -29,7 +29,7 @@
                 [format]="Language.YearMonthDayHHmmss"
               ></date-time-control>
             </div>
-          </div>
+          </div> -->
           <div class="form-item">
             <div class="form-item-text">时间范围</div>
             <div class="form-item-value">
@@ -68,6 +68,17 @@
                   {{ item.Name }}
                 </option>
               </select> -->
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text">商铺类型</div>
+            <div class="form-item-value">
+              <select [(ngModel)]="args.type">
+                <option [ngValue]="undefined">全部</option>
+                <option *ngFor="let item of source.types" [ngValue]="item">
+                  {{ Language.SignType(item) }}
+                </option>
+              </select>
             </div>
           </div>
           <div class="form-item">

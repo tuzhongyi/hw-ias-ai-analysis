@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input } from '@angular/core';
 import { UploadControlFileInfo } from '../../../../common/components/upload-control/upload-control.model';
+import { TableSorterDirective } from '../../../../common/directives/table-sorter/table-soater.directive';
+import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
+import { LocaleCompare } from '../../../../common/tools/compare-tool/compare.tool';
 import { Language } from '../../../../common/tools/language';
 import { FileProgress } from '../system-task-manager/system-task-manager.model';
 import { SystemTaskDetailsFileBusiness } from './system-task-details-file-table.business';
@@ -9,7 +12,7 @@ import { SystemTaskDetailsFileModel } from './system-task-details-file-table.mod
 
 @Component({
   selector: 'ias-system-task-details-file-table',
-  imports: [CommonModule],
+  imports: [CommonModule, TableSorterDirective],
   templateUrl: './system-task-details-file-table.component.html',
   styleUrl: './system-task-details-file-table.component.less',
   providers: [SystemTaskDetailsFileConverter, SystemTaskDetailsFileBusiness],
@@ -26,7 +29,6 @@ export class SystemTaskDetailsFileTableComponent {
   selected?: SystemTaskDetailsFileModel;
 
   ngOnInit(): void {
-    this.datas = this.business.load(this.data);
     if (this.progress) {
       this.progress.subscribe((progress) => {
         let index = this.datas.findIndex(
@@ -36,9 +38,25 @@ export class SystemTaskDetailsFileTableComponent {
         this.datas[index].progress = progress.progress;
       });
     }
+    this.load(this.data);
+  }
+
+  load(datas: UploadControlFileInfo[]) {
+    this.business.load(datas).then((x) => {
+      this.datas = x;
+    });
   }
 
   onselect(item: SystemTaskDetailsFileModel) {
     this.selected = item;
+  }
+  onsort(sort: Sort) {
+    this.datas = this.datas.sort((a: any, b: any) => {
+      return LocaleCompare.compare(
+        a[sort.active],
+        b[sort.active],
+        sort.direction === 'asc'
+      );
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { Language } from '../../../../common/tools/language';
 import { ShopModel } from '../system-module-shop-table/system-module-shop-table.model';
 import { SystemModuleShopSignTableBusiness } from './system-module-shop-sign-table.business';
 
@@ -19,7 +20,8 @@ export class SystemModuleShopSignTableComponent implements OnInit {
   constructor(private business: SystemModuleShopSignTableBusiness) {}
 
   datas: ShopSign[] = [];
-  widths: string[] = ['15%', 'auto', '20%'];
+  widths: string[] = ['60px', 'auto', '85px', '60px', '80px', '180px'];
+  Language = Language;
 
   ngOnInit(): void {
     if (this.shop) {

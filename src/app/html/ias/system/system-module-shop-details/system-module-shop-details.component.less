@@ -21,8 +21,18 @@
     justify-content: space-between;
     gap: 10px;
 
-    &>* {
-      width: calc((100% - 10px * 2) / 3);
+    @body-width: calc(100% - 10px * 2);
+
+    &-info {
+      width: calc(@body-width * 0.35);
+    }
+
+    &-table {
+      width: calc(@body-width * 0.4);
+    }
+
+    &-map {
+      width: calc(@body-width * 0.25);
     }
 
 

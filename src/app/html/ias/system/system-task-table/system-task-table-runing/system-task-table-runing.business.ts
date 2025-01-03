@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { PagedList } from '../../../../../common/data-core/models/page-list.model';
 import { ArmAnalysisRequestService } from '../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { SystemTaskTableBusiness } from '../system-task-table.business';
-import {
-  AnalysisTaskModel,
-  SystemTaskTableFilter,
-} from '../system-task-table.model';
+import { SystemTaskTableFilter } from '../system-task-table.model';
 import { SystemTaskTableRuningConverter } from './system-task-table-runing.converter';
+import { AnalysisTaskRuningModel } from './system-task-table-runing.model';
 
 @Injectable()
-export class SystemTaskTableRuningBusiness extends SystemTaskTableBusiness {
+export class SystemTaskTableRuningBusiness extends SystemTaskTableBusiness<AnalysisTaskRuningModel> {
   constructor(
     service: ArmAnalysisRequestService,
     converter: SystemTaskTableRuningConverter
@@ -21,7 +19,7 @@ export class SystemTaskTableRuningBusiness extends SystemTaskTableBusiness {
     index: number,
     size: number,
     filter: SystemTaskTableFilter
-  ): Promise<PagedList<AnalysisTaskModel>> {
+  ): Promise<PagedList<AnalysisTaskRuningModel>> {
     filter.finished = false;
     return super.load(index, size, filter);
   }

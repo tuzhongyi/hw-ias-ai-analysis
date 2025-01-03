@@ -1,0 +1,24 @@
+<div class="system-task-file-details">
+  <div class="system-task-file-details-head">
+    <ias-content-header [title]="data?.FileName ?? ''"></ias-content-header>
+  </div>
+  <div class="system-task-file-details-body">
+    <div class="panel video">
+      <video
+        autoplay="autoplay"
+        controls
+        [src]="src"
+        [currentTime]="video.time"
+        (timeupdate)="ontimeupdate($event)"
+        (error)="onerror($event)"
+      ></video>
+    </div>
+    <div class="panel map">
+      <ias-system-task-file-details-map
+        [data]="data"
+        [to]="video.event.time"
+        (trigger)="onseek($event)"
+      ></ias-system-task-file-details-map>
+    </div>
+  </div>
+</div>

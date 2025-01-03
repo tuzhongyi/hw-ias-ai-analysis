@@ -1,7 +1,17 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { PaginatorComponent } from '../../../../../common/components/paginator/paginator.component';
 import { Page } from '../../../../../common/data-core/models/page-list.model';
+import { TableSorterDirective } from '../../../../../common/directives/table-sorter/table-soater.directive';
+import { Sort } from '../../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../common/tools/language';
 import {
@@ -15,19 +25,22 @@ import { AnalysisTaskRuningModel } from './system-task-table-runing.model';
 
 @Component({
   selector: 'ias-system-task-table-runing',
-  imports: [DatePipe, CommonModule, PaginatorComponent],
+  imports: [DatePipe, CommonModule, PaginatorComponent, TableSorterDirective],
   templateUrl: './system-task-table-runing.component.html',
   styleUrl: './system-task-table-runing.component.less',
   providers: [SystemTaskTableRuningConverter, SystemTaskTableRuningBusiness],
 })
-export class SystemTaskTableRuningComponent {
+export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
   @Input() filter = new SystemTaskTableFilter();
   @Input('load') _load?: EventEmitter<SystemTaskTableFilter>;
   @Input() progress?: EventEmitter<TaskProgress>;
   @Output() delete = new EventEmitter<AnalysisTaskModel>();
   @Output() details = new EventEmitter<AnalysisTaskModel>();
 
-  constructor(private business: SystemTaskTableRuningBusiness) {}
+  constructor(
+    private business: SystemTaskTableRuningBusiness,
+    private ref: ChangeDetectorRef
+  ) {}
 
   widths = [
     '100px',
@@ -43,10 +56,12 @@ export class SystemTaskTableRuningComponent {
   ];
   page = Page.create(1, 10);
   datas: AnalysisTaskRuningModel[] = [];
-  selected?: AnalysisTaskRuningModel;
+  selected?: AnalysisTaskModel;
 
   Language = Language;
   Color = ColorTool;
+
+  refhandle: any;
 
   ngOnInit(): void {
     if (this._load) {
@@ -63,6 +78,16 @@ export class SystemTaskTableRuningComponent {
       });
     }
     this.load(1, this.page.PageSize, this.filter);
+
+    this.refhandle = setInterval(() => {
+      this.ref.detectChanges();
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.refhandle) {
+      clearInterval(this.refhandle);
+    }
   }
 
   private load(index: number, size: number, filter: SystemTaskTableFilter) {
@@ -89,5 +114,20 @@ export class SystemTaskTableRuningComponent {
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }
+  }
+  onsort(sort: Sort) {
+    this.filter.asc = undefined;
+    this.filter.desc = undefined;
+    switch (sort.direction) {
+      case 'asc':
+        this.filter.asc = sort.active;
+        break;
+      case 'desc':
+        this.filter.desc = sort.active;
+        break;
+      default:
+        break;
+    }
+    this.load(this.page.PageIndex, this.page.PageSize, this.filter);
   }
 }

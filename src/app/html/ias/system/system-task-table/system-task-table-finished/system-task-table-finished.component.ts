@@ -5,6 +5,8 @@ import { Page } from '../../../../../common/data-core/models/page-list.model';
 import { ColorTool } from '../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../common/tools/language';
 
+import { TableSorterDirective } from '../../../../../common/directives/table-sorter/table-soater.directive';
+import { Sort } from '../../../../../common/directives/table-sorter/table-sorter.model';
 import {
   AnalysisTaskModel,
   SystemTaskTableFilter,
@@ -15,7 +17,7 @@ import { AnalysisTaskFinishModel } from './system-task-table-finished.model';
 
 @Component({
   selector: 'ias-system-task-table-finished',
-  imports: [DatePipe, CommonModule, PaginatorComponent],
+  imports: [TableSorterDirective, DatePipe, CommonModule, PaginatorComponent],
   templateUrl: './system-task-table-finished.component.html',
   styleUrl: './system-task-table-finished.component.less',
   providers: [
@@ -28,7 +30,7 @@ export class SystemTaskTableFinishedComponent implements OnInit {
   @Input('load') _load?: EventEmitter<SystemTaskTableFilter>;
 
   @Output() result = new EventEmitter<AnalysisTaskModel>();
-  @Output() details = new EventEmitter<AnalysisTaskModel>();
+  @Output() files = new EventEmitter<AnalysisTaskModel>();
 
   constructor(private business: SystemTaskTableFinishedBusiness) {}
 
@@ -80,10 +82,26 @@ export class SystemTaskTableFinishedComponent implements OnInit {
       e.stopImmediatePropagation();
     }
   }
-  ondetails(item: AnalysisTaskModel, e: Event) {
-    this.details.emit(item);
+  onfiles(item: AnalysisTaskModel, e: Event) {
+    this.files.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }
+  }
+
+  onsort(sort: Sort) {
+    this.filter.asc = undefined;
+    this.filter.desc = undefined;
+    switch (sort.direction) {
+      case 'asc':
+        this.filter.asc = sort.active;
+        break;
+      case 'desc':
+        this.filter.desc = sort.active;
+        break;
+      default:
+        break;
+    }
+    this.load(this.page.PageIndex, this.page.PageSize, this.filter);
   }
 }

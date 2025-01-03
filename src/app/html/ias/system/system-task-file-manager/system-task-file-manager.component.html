@@ -1,0 +1,21 @@
+<div class="system-task-file-manager" *ngIf="task">
+  <div class="system-task-file-manager-head">
+    <ias-content-header [title]="task.Name ?? ''"></ias-content-header>
+  </div>
+  <div class="system-task-file-manager-body">
+    <ias-system-task-file-table
+      [data]="task"
+      (video)="onvideo($event)"
+    ></ias-system-task-file-table>
+  </div>
+
+  <app-window
+    *ngIf="window.details.show"
+    [Model]="window.details"
+    [style]="window.details.style"
+  >
+    <ias-system-task-file-details
+      [data]="window.details.data"
+    ></ias-system-task-file-details>
+  </app-window>
+</div>

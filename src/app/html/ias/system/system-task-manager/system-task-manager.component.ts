@@ -1,12 +1,14 @@
-import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SystemTaskModel } from '../system-task-creation/system-task-creation.model';
 
+import { Router } from '@angular/router';
 import { LocalStorage } from '../../../../common/storage/local.storage';
 import {
   AnalysisTaskModel,
   SystemTaskTableArgs,
 } from '../system-task-table/system-task-table.model';
+import { SystemPath } from '../system.model';
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
 import { SystemTaskManagerController } from './controller/system-task-manager.controller';
 import {
@@ -22,12 +24,13 @@ import { SystemTaskManagerWindow } from './system-task-manager.window';
   imports: [...SystemTaskManagerImports],
   providers: [...SystemTaskManagerProviders],
 })
-export class SystemTaskManagerComponent implements OnInit, OnDestroy {
+export class SystemTaskManagerComponent implements OnInit {
   constructor(
     private business: SystemTaskManagerBusiness,
     public controller: SystemTaskManagerController,
     private toastr: ToastrService,
-    private local: LocalStorage
+    private local: LocalStorage,
+    private router: Router
   ) {}
 
   window = new SystemTaskManagerWindow();
@@ -45,10 +48,6 @@ export class SystemTaskManagerComponent implements OnInit, OnDestroy {
       });
     });
     this.table.args.finished = !!this.local.system.task.index.get();
-  }
-
-  ngOnDestroy(): void {
-    this.local.system.task.index.clear();
   }
 
   onstate(finished: boolean) {
@@ -73,6 +72,10 @@ export class SystemTaskManagerComponent implements OnInit, OnDestroy {
     }
 
     this.window.details.show = true;
+  }
+  onfiles(data: AnalysisTaskModel) {
+    this.local.system.task.id.set(data.Id);
+    this.router.navigateByUrl(`${SystemPath.task_file}`);
   }
 
   create = {

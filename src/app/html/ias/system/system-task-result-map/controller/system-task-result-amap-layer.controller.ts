@@ -1,9 +1,25 @@
 import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { wait } from '../../../../../common/tools/wait';
 import { SystemTaskResultAMapPointController as Point } from './system-task-result-amap-point.controller';
 declare var AMap: any;
 export class SystemTaskResultAMapLayerController {
   constructor(private map: any) {
     this.layer = this.init(map);
+  }
+
+  loaded = false;
+
+  loading() {
+    return new Promise<void>((resolve) => {
+      wait(
+        () => {
+          return this.loaded;
+        },
+        () => {
+          resolve();
+        }
+      );
+    });
   }
 
   layer: any;
@@ -36,6 +52,13 @@ export class SystemTaskResultAMapLayerController {
       }
     }
     this.layer.add(markers);
+    this.loaded = true;
+  }
+
+  clear() {
+    this.layer.clear();
+    this.points = [];
+    this.loaded = false;
   }
 
   select(id: string) {

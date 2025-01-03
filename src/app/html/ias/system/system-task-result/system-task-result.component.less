@@ -17,13 +17,34 @@
     width: 100%;
     height: calc(100% - @head-height - 15px * 1);
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    gap: 15px;
 
-    &>* {
-      width: calc((100% - 10px * 2) / 3);
+    &-info {
+      height: 36px;
     }
 
+
+    &-content {
+      height: calc(100% - 36px - 15px);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      @content-width: calc(100% - 10px * 2);
+
+      &-table {
+        width: calc(@content-width * 0.4);
+      }
+
+      &-info {
+        width: calc(@content-width * 0.35);
+      }
+
+      &-map {
+        width: calc(@content-width * 0.25);
+      }
+    }
 
 
 

@@ -11,6 +11,8 @@ export class SystemBreadcrumbBusiness {
       models = [this.home(), this.module(), this.module_shop()];
     } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
       models = [this.home(), this.module()];
+    } else if (location.pathname.indexOf(SystemPath.task_file) >= 0) {
+      models = [this.home(), this.task(), this.file()];
     } else if (location.pathname.indexOf(SystemPath.task) >= 0) {
       models = [this.home(), this.task()];
     }
@@ -44,6 +46,13 @@ export class SystemBreadcrumbBusiness {
     let item = new SystemBreadcrumbItem();
     item.text = 'AI分析任务';
     item.path = SystemPath.task;
+    return item;
+  }
+
+  private file() {
+    let item = new SystemBreadcrumbItem();
+    item.text = '录像文件';
+    item.path = SystemPath.task_file;
     return item;
   }
 }
