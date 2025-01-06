@@ -50,8 +50,8 @@ export class SystemTaskManagerFileProgressController {
       });
       this.events.push(event);
 
-      // this.business.file.upload(_data, event);
-      this.test.upload(_data, event);
+      this.business.file.upload(_data, event);
+      // this.test.upload(_data, event);
     }
   }
 

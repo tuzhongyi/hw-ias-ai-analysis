@@ -76,7 +76,8 @@ import "./jquery.page.css";
           }
         }
       }
-      content.push("<button type='button' id='lastPage'>尾页</button><button type='button' id='nextPage'>下一页</button>");
+      content.push("<button type='button' id='nextPage'>下一页</button><button type='button' id='lastPage'>尾页</button>");
+      content.push("<span name='jump'>跳至</span><input  name='jump' type='text' id='jumpText' class='jumpText'><span  name='jump'>页</span><button  name='jump' type='button' id='jumpButton'>确定</button>");
 
       content.unshift("<span class='totalList'> 共 " + totalList + " 条记录 </span>");
       content.unshift("<span class='totalNum'> 共 " + totalNum + " 页 </span>");
@@ -112,6 +113,8 @@ import "./jquery.page.css";
           if (pageNum !== me.options.totalNum) {
             me.options.pageNum = me.options.totalNum;
           }
+        } else if (id === "jumpButton") {
+          me.options.pageNum = parseInt($("#jumpText").val());
         } else {
           me.options.pageNum = num;
         }
@@ -130,6 +133,8 @@ import "./jquery.page.css";
       }
       if (pageNum === totalNum) {
         me.element.children('#lastPage, #nextPage').prop('disabled', true);
+
+        me.element.children("[name='jump']").css('display', "none");
       }
     }
   };

@@ -18,6 +18,7 @@ export class SystemModuleShopTableBusiness {
 
   async load(index: number, size: number, args: SystemModuleShopTableFilter) {
     let datas = await this.data(index, size, args);
+
     let paged = new PagedList<ShopModel>();
     paged.Page = datas.Page;
     paged.Data = datas.Data.map((x, i) => {
@@ -31,7 +32,7 @@ export class SystemModuleShopTableBusiness {
         paged.Data.push(ShopModel.create());
       }
     }
-    paged.Data[5].Marking = true;
+
     return paged;
   }
 
@@ -43,7 +44,7 @@ export class SystemModuleShopTableBusiness {
     params.EndTime = args.duration.end;
     params.Name = args.name;
     params.Telphone = args.telphone;
-    params.Marking = args.marking;
+    params.Marking = args.marking ? undefined : false;
     params.Confidence = args.confidence;
 
     params.ObjectStates =

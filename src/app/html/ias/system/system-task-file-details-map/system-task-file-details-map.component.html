@@ -1,4 +1,9 @@
 <div class="system-task-file-details-map">
-  <div class="system-task-file-details-map-container" id="map-container"></div>
+  <div
+    class="system-task-file-details-map-container"
+    *ngIf="hasdata"
+    id="map-container"
+  ></div>
   <div class="loading" *ngIf="loading"></div>
+  <div class="nodata" *ngIf="!loading && !hasdata">无数据</div>
 </div>

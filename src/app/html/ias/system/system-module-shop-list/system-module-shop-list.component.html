@@ -1,1 +1,16 @@
-<p>system-module-shop-list works!</p>
+<div class="system-module-shop-list">
+  <div class="system-module-shop-list-body">
+    <div
+      class="system-module-shop-list-item"
+      *ngFor="let item of datas"
+      (click)="ondetails(item, $event)"
+    >
+      <ias-system-module-shop-list-item
+        [data]="item"
+      ></ias-system-module-shop-list-item>
+    </div>
+  </div>
+  <div class="system-module-shop-list-foot" *ngIf="page.TotalRecordCount">
+    <paginator [page]="page" (change)="onpage($event)"> </paginator>
+  </div>
+</div>

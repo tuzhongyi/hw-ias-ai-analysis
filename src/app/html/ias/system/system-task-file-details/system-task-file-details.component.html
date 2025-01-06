@@ -18,6 +18,7 @@
         [data]="data"
         [to]="video.event.time"
         (trigger)="onseek($event)"
+        (loaded)="onmaploaded()"
       ></ias-system-task-file-details-map>
     </div>
   </div>

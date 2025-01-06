@@ -40,7 +40,7 @@ export class CommonLabelSelecComponent
   @Input() height = 'auto';
 
   @Output() toggleDropDown = new EventEmitter<boolean>();
-  @Output() removeDropItem = new EventEmitter();
+  @Output() remove = new EventEmitter<EnumNameValue<any>[]>();
 
   constructor(@Inject(DOCUMENT) private document: Document) {}
 
@@ -73,7 +73,7 @@ export class CommonLabelSelecComponent
     e.stopPropagation();
 
     this.selection?.toggleNodes(item);
-    this.removeDropItem.emit(item);
+    this.remove.emit([item]);
   }
   closeDropDown() {
     this.show = false;

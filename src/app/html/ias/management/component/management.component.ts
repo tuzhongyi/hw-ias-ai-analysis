@@ -14,7 +14,12 @@ export class ManagementComponent implements OnInit {
   src?: SafeResourceUrl;
 
   ngOnInit(): void {
-    let url = 'http://192.168.18.147/main/main.html';
+    let _ = '';
+    let port = location.port;
+    if (port) {
+      _ = ':';
+    }
+    let url = `http://${location.hostname}${_}${port}/main/main.html`;
     let auth = this.local.auth.get();
     let src = `${url}?username=${auth.username}&token=${auth.token}`;
     this.src = this.sanitizer.bypassSecurityTrustResourceUrl(src);

@@ -1,0 +1,33 @@
+.system-module-shop-list {
+  height: 100%;
+  width: 100%;
+  animation: 0.75s;
+
+  @foot-height: 60px;
+
+  &-body {
+    height: calc(100% - @foot-height);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @column-count: 4;
+  @row-count: 2;
+  @body-width: calc(100% - 10px * (@column-count - 1));
+
+  &-item {
+    width: calc(@body-width / @column-count);
+    height: calc((100% - 10px * (@row-count - 1)) / @row-count);
+    cursor: pointer;
+
+
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

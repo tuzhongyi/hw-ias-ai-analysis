@@ -1,7 +1,11 @@
 <div class="system-module-shop-details-info" *ngIf="data">
   <div class="system-module-shop-details-info-head">
-    <div #image class="image">
-      <canvas #canvas></canvas>
+    <div class="system-module-shop-details-info-head-image">
+      <ias-picture
+        [id]="sign?.ImageUrl"
+        [polygon]="sign?.Polygon ?? []"
+        [zoom]="true"
+      ></ias-picture>
     </div>
   </div>
   <div class="system-module-shop-details-info-body forms">
@@ -97,10 +101,9 @@
             type="checkbox"
             [id]="data.Id + 'locked'"
             [(ngModel)]="data.Locked"
+            (change)="onchange()"
           />
-          <label [for]="data.Id + 'locked'" [(ngModel)]="data.Marking"
-            >锁定商铺</label
-          >
+          <label [for]="data.Id + 'locked'">锁定商铺</label>
         </div>
         <div class="checkbox">
           <input

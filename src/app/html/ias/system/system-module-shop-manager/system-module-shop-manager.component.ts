@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { LocalStorage } from '../../../../common/storage/local.storage';
 import { Language } from '../../../../common/tools/language';
-import { wait } from '../../../../common/tools/wait';
 import {
   ShopModel,
   SystemModuleShopTableArgs,
@@ -20,7 +20,10 @@ import { SystemModuleShopManagerWindow } from './system-module-shop-manager.wind
   providers: [...SystemModuleShopManagerProviders],
 })
 export class SystemModuleShopManagerComponent implements OnInit {
-  constructor(public source: SystemModuleShopManagerSourceController) {
+  constructor(
+    public source: SystemModuleShopManagerSourceController,
+    private local: LocalStorage
+  ) {
     this.args = new SystemModuleShopTableArgs(
       source.duration[source.duration.length - 1].Value
     );
@@ -30,30 +33,25 @@ export class SystemModuleShopManagerComponent implements OnInit {
   load = new EventEmitter<SystemModuleShopTableArgs>();
   Language = Language;
   window = new SystemModuleShopManagerWindow();
+  mode = 0;
 
-  inited = {
-    table: false,
-    state: false,
-  };
+  inited = false;
 
   ngOnInit(): void {
     this.source.state.select.subscribe((x) => {
       this.args.states = x;
     });
     this.source.state.inited.subscribe((x) => {
-      this.inited.state = true;
+      this.inited = true;
     });
-    this.init();
+    let storage = this.local.system.module.shop.get();
+    if (storage && storage.mode) {
+      this.mode = storage.mode;
+    }
   }
-  init() {
-    wait(
-      () => {
-        return this.inited.table && this.inited.state;
-      },
-      () => {
-        this.load.emit(this.args);
-      }
-    );
+
+  onmode() {
+    this.local.system.module.shop.set({ mode: this.mode });
   }
 
   onmarking() {
@@ -64,9 +62,6 @@ export class SystemModuleShopManagerComponent implements OnInit {
     this.load.emit(this.args);
   }
 
-  oninited() {
-    this.inited.table = true;
-  }
   ondetails(data: ShopModel) {
     this.window.details.data = data;
     this.window.details.show = true;
@@ -74,5 +69,10 @@ export class SystemModuleShopManagerComponent implements OnInit {
 
   ondetailsclose() {
     this.window.details.show = false;
+  }
+  ondetailsok() {
+    this.window.details.clear();
+    this.window.details.show = false;
+    this.load.emit(this.args);
   }
 }

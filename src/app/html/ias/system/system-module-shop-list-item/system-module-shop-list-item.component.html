@@ -1,1 +1,45 @@
-<p>system-module-shop-list-item works!</p>
+<div
+  class="system-module-shop-list-item"
+  *ngIf="data"
+  [ngClass]="
+  {
+    orange: data.ObjectState === 0 && !data.Marking,
+    green: data.ObjectState === 1 && !data.Marking,  
+    gray: data.Marking,  
+  }
+"
+>
+  <div class="system-module-shop-list-item-head">
+    <div class="system-module-shop-list-item-head-title">{{ data.Name }}</div>
+    <div class="state">
+      <div class="state-gray" *ngIf="data.Marking">屏蔽</div>
+      <div
+        [ngClass]="{
+          'state-blue': data.ObjectState == 2,
+        'state-green': data.ObjectState == 1,
+        'state-orange': data.ObjectState == 0,        
+      }"
+      >
+        {{ data.State }}
+      </div>
+    </div>
+  </div>
+  <div class="system-module-shop-list-item-body">
+    <ias-picture [src]="data.Image"></ias-picture>
+  </div>
+  <div class="system-module-shop-list-item-foot">
+    <div class="system-module-shop-list-item-foot-info">
+      @if(data.Address || data.Telphone){
+      <div>{{ data.Address ? data.Address : "-" }}</div>
+      <div class="_">/</div>
+      <div>{{ data.Telphone ? data.Telphone : "-" }}</div>
+      } @else {
+      <div>地址/电话：无</div>
+      }
+    </div>
+
+    <div>{{ data.ConfidenceRatio }}</div>
+  </div>
+
+  <div class="mask"></div>
+</div>

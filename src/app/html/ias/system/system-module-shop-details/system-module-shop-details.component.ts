@@ -43,15 +43,15 @@ export class SystemModuleShopDetailsComponent implements OnInit {
   }
 
   onposition(data: GisPoint) {
-    if (this.data) {
-      this.data.Location = data;
+    if (this.shop) {
+      this.shop.Location = data;
     }
   }
 
   onok() {
-    if (this.data) {
+    if (this.shop) {
       this.business
-        .update(this.data)
+        .update(this.shop)
         .then((x) => {
           this.toastr.success('操作成功');
           this.ok.emit(this.data);

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthorizationStore } from './authorization/authorization.store';
 import { LoginInfoStore } from './login-info-storage/login-info.store';
-import { SystemTaskIdStorage } from './system-task.storage.ts/system-task-id.storage';
-import { SystemTaskIndexStorage } from './system-task.storage.ts/system-task-index.storage';
+import { SystemModuleShopStorage } from './system-module-storage/system-module-shop.storage';
+import { SystemTaskIdStorage } from './system-task-storage/system-task-id.storage';
+import { SystemTaskIndexStorage } from './system-task-storage/system-task-index.storage';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,9 @@ export class LocalStorage {
       index: new SystemTaskIndexStorage(),
       id: new SystemTaskIdStorage(),
     },
+    module: {
+      shop: new SystemModuleShopStorage(),
+    },
   };
 
   clear() {
@@ -23,5 +27,6 @@ export class LocalStorage {
     this.login.clear();
     this.system.task.index.clear();
     this.system.task.id.clear();
+    this.system.module.shop.clear();
   }
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { FileGpsItem } from '../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../common/data-core/models/arm/file/file-info.model';
@@ -18,10 +19,11 @@ export class SystemTaskFileDetailsComponent implements OnInit {
 
   constructor(
     private business: SystemTaskFileDetailsBusiness,
+    private sanitizer: DomSanitizer,
     private toastr: ToastrService
   ) {}
 
-  src?: string;
+  src?: SafeResourceUrl;
 
   video = {
     time: 0,
@@ -30,16 +32,17 @@ export class SystemTaskFileDetailsComponent implements OnInit {
     },
   };
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  private load(data: FileInfo) {
+    this.business.path(data.FileName).then((url) => {
+      this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    });
+  }
+  onmaploaded() {
     if (this.data) {
       this.load(this.data);
     }
-  }
-
-  private load(data: FileInfo) {
-    this.business.path(data.FileName).then((x) => {
-      this.src = x;
-    });
   }
 
   ontimeupdate(e: Event) {
@@ -51,6 +54,7 @@ export class SystemTaskFileDetailsComponent implements OnInit {
     this.video.time = time;
   }
   onerror(e: Event) {
+    if (!this.src) return;
     let target = e.currentTarget as HTMLVideoElement;
     let error = target.error;
 

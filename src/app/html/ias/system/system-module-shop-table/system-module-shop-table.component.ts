@@ -23,7 +23,6 @@ import {
 export class SystemModuleShopTableComponent implements OnInit {
   @Input() args = new SystemModuleShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleShopTableArgs>;
-  @Output() inited = new EventEmitter<void>();
   @Output() details = new EventEmitter<ShopModel>();
 
   constructor(private business: SystemModuleShopTableBusiness) {}
@@ -56,7 +55,7 @@ export class SystemModuleShopTableComponent implements OnInit {
       });
     }
     this.filter.load(this.args);
-    this.inited.emit();
+    this.load(this.page.PageIndex, this.page.PageSize, this.filter);
   }
 
   private load(

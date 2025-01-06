@@ -38,6 +38,7 @@ export class SystemTaskFileDetailsAMapPathController {
   }
 
   load(positions: number[][]) {
+    if (positions.length === 0) return;
     this.points = positions;
     if (positions.length > 0) {
       this.map.setCenter(positions[0]);

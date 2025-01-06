@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
 import { LoginModel } from '../../common/storage/login-info-storage/login-info.model';
 import { LogoComponent } from '../ias/share/logo/logo.component';
 import { LoginBusiness } from './login.business';
@@ -17,7 +18,7 @@ import { LoginBusiness } from './login.business';
   providers: [LoginBusiness],
 })
 export class LoginComponent implements OnInit {
-  constructor(private business: LoginBusiness) {}
+  constructor(private business: LoginBusiness, private toastr: ToastrService) {}
 
   model = new LoginModel();
   remember = false;
@@ -53,10 +54,13 @@ export class LoginComponent implements OnInit {
     if (this.check) {
       this.business
         .login(this.model.username, this.model.password)
-        .catch(() => {
+        .then(() => {
           if (this.remember) {
             this.business.remember(this.model.username, this.model.password);
           }
+        })
+        .catch((x) => {
+          this.toastr.error('用户名或密码错误');
         });
     }
   }

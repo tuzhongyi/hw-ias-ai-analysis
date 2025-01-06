@@ -51,6 +51,7 @@
                 [(show)]="source.state.show"
                 [autoclose]="true"
                 [selected]="source.state.selected"
+                (remove)="source.state.onselected($event)"
               >
                 <ias-select-shop-object-state
                   #select
@@ -104,20 +105,28 @@
           /><label for="marking">显示屏蔽</label>
         </div>
         <div>
-          <select class="mode">
+          <select class="mode" [(ngModel)]="mode" (change)="onmode()">
             <option [ngValue]="0">&#xf08b;&nbsp;</option>
             <option [ngValue]="1">&#xf225;&nbsp;</option>
           </select>
         </div>
       </div>
     </div>
-    <div class="system-module-shop-manager-body-table">
-      <ias-system-module-shop-table
-        [args]="args"
-        [load]="load"
-        (inited)="oninited()"
-        (details)="ondetails($event)"
-      ></ias-system-module-shop-table>
+    <div class="system-module-shop-manager-body-table" *ngIf="inited">
+      <ng-container *ngIf="mode === 0">
+        <ias-system-module-shop-table
+          [args]="args"
+          [load]="load"
+          (details)="ondetails($event)"
+        ></ias-system-module-shop-table>
+      </ng-container>
+      <ng-container *ngIf="mode === 1">
+        <ias-system-module-shop-list
+          [args]="args"
+          [load]="load"
+          (details)="ondetails($event)"
+        ></ias-system-module-shop-list>
+      </ng-container>
     </div>
   </div>
 
@@ -129,6 +138,7 @@
     <ias-system-module-shop-details
       [data]="window.details.data"
       (cancel)="window.details.show = false"
+      (ok)="ondetailsok()"
     ></ias-system-module-shop-details>
   </app-window>
 </div>
