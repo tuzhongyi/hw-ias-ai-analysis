@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorage } from '../../../../common/storage/local.storage';
+import { ISystemModuleShopStorage } from '../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { Language } from '../../../../common/tools/language';
 import {
   ShopModel,
@@ -29,13 +30,14 @@ export class SystemModuleShopManagerComponent implements OnInit {
     this.args = new SystemModuleShopTableArgs(
       source.duration[source.duration.length - 1].Value
     );
+    this.storage = this.local.system.module.shop.get();
   }
 
   args: SystemModuleShopTableArgs;
   load = new EventEmitter<SystemModuleShopTableArgs>();
   Language = Language;
   window = new SystemModuleShopManagerWindow();
-  mode = 0;
+  storage: ISystemModuleShopStorage;
 
   inited = false;
 
@@ -46,14 +48,10 @@ export class SystemModuleShopManagerComponent implements OnInit {
     this.source.state.inited.subscribe((x) => {
       this.inited = true;
     });
-    let storage = this.local.system.module.shop.get();
-    if (storage && storage.mode) {
-      this.mode = storage.mode;
-    }
   }
 
   onmode() {
-    this.local.system.module.shop.set({ mode: this.mode });
+    this.local.system.module.shop.set(this.storage);
   }
 
   onmarking() {

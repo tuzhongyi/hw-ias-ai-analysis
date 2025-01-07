@@ -4,6 +4,8 @@ import { PaginatorComponent } from '../../../../common/components/paginator/pagi
 import { Page } from '../../../../common/data-core/models/page-list.model';
 import { TableSorterDirective } from '../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
+import { LocalStorage } from '../../../../common/storage/local.storage';
+import { ISystemModuleShopStorage } from '../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
 import { SystemModuleShopTableBusiness } from './system-module-shop-table.business';
 import { SystemModuleShopTableConverter } from './system-module-shop-table.converter';
@@ -26,8 +28,15 @@ export class SystemModuleShopTableComponent implements OnInit {
   @Output() details = new EventEmitter<ShopModel>();
   @Output() error = new EventEmitter<Error>();
 
-  constructor(private business: SystemModuleShopTableBusiness) {}
+  constructor(
+    private business: SystemModuleShopTableBusiness,
+    private local: LocalStorage
+  ) {
+    this.storage = this.local.system.module.shop.get();
+    this.page.PageIndex = this.storage.page?.list ?? 1;
+  }
 
+  storage: ISystemModuleShopStorage;
   filter = new SystemModuleShopTableFilter();
   page = Page.create(1, 10);
   datas: ShopModel[] = [];
@@ -69,6 +78,8 @@ export class SystemModuleShopTableComponent implements OnInit {
       .then((x) => {
         this.datas = x.Data;
         this.page = x.Page;
+        this.storage.page.list = this.page.PageIndex;
+        this.local.system.module.shop.set(this.storage);
       })
       .catch((e) => {
         this.error.emit(e);

@@ -105,7 +105,7 @@
           /><label for="marking">显示屏蔽</label>
         </div>
         <div>
-          <select class="mode" [(ngModel)]="mode" (change)="onmode()">
+          <select class="mode" [(ngModel)]="storage.mode" (change)="onmode()">
             <option [ngValue]="0">&#xf08b;&nbsp;</option>
             <option [ngValue]="1">&#xf225;&nbsp;</option>
           </select>
@@ -113,7 +113,7 @@
       </div>
     </div>
     <div class="system-module-shop-manager-body-table" *ngIf="inited">
-      <ng-container *ngIf="mode === 0">
+      <ng-container *ngIf="storage.mode === 0">
         <ias-system-module-shop-table
           [args]="args"
           [load]="load"
@@ -121,7 +121,7 @@
           (error)="onerror($event)"
         ></ias-system-module-shop-table>
       </ng-container>
-      <ng-container *ngIf="mode === 1">
+      <ng-container *ngIf="storage.mode === 1">
         <ias-system-module-shop-list
           [args]="args"
           [load]="load"

@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaginatorComponent } from '../../../../common/components/paginator/paginator.component';
 import { Page } from '../../../../common/data-core/models/page-list.model';
+import { LocalStorage } from '../../../../common/storage/local.storage';
+import { ISystemModuleShopStorage } from '../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { SystemModuleShopListItemComponent } from '../system-module-shop-list-item/system-module-shop-list-item.component';
 import { SystemModuleShopTableBusiness } from '../system-module-shop-table/system-module-shop-table.business';
 import { SystemModuleShopTableConverter } from '../system-module-shop-table/system-module-shop-table.converter';
@@ -27,7 +29,16 @@ export class SystemModuleShopListComponent {
   @Input('load') _load?: EventEmitter<SystemModuleShopTableArgs>;
   @Output() details = new EventEmitter<ShopModel>();
   @Output() error = new EventEmitter<Error>();
-  constructor(private business: SystemModuleShopTableBusiness) {}
+
+  constructor(
+    private business: SystemModuleShopTableBusiness,
+    private local: LocalStorage
+  ) {
+    this.storage = this.local.system.module.shop.get();
+    this.page.PageIndex = this.storage.page?.list ?? 1;
+  }
+
+  storage: ISystemModuleShopStorage;
   filter = new SystemModuleShopTableFilter();
   page = Page.create(1, 8);
   datas: ShopModel[] = [];
@@ -54,6 +65,8 @@ export class SystemModuleShopListComponent {
       .then((x) => {
         this.datas = x.Data;
         this.page = x.Page;
+        this.storage.page.list = this.page.PageIndex;
+        this.local.system.module.shop.set(this.storage);
       })
       .catch((e) => {
         this.error.emit(e);

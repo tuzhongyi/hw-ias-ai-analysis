@@ -13,15 +13,17 @@ export class SystemModuleShopManagerStateController {
   selected: EnumNameValue<ShopObjectState>[] = [];
 
   async init(datas: EnumNameValue<ShopObjectState>[]) {
-    let created = datas.find(
-      (x) => x.Value === ShopObjectState.Created
-    ) as EnumNameValue<ShopObjectState>;
-    let disappeared = datas.find(
-      (x) => x.Value === ShopObjectState.Disappeared
-    ) as EnumNameValue<ShopObjectState>;
-    this.selected = [created, disappeared];
-    this.select.emit(this.selected.map((x) => x.Value));
-    this.inited.emit();
+    Promise.resolve().then((x) => {
+      let created = datas.find(
+        (x) => x.Value === ShopObjectState.Created
+      ) as EnumNameValue<ShopObjectState>;
+      let disappeared = datas.find(
+        (x) => x.Value === ShopObjectState.Disappeared
+      ) as EnumNameValue<ShopObjectState>;
+      this.selected = [created, disappeared];
+      this.select.emit(this.selected.map((x) => x.Value));
+      this.inited.emit();
+    });
   }
 
   onselected(selected: EnumNameValue<ShopObjectState>[]) {
