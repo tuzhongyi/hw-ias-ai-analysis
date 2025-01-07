@@ -1,4 +1,14 @@
-@if(args.finished){
+@if(args.finished === undefined){
+<ias-system-task-table-all
+  [filter]="filter"
+  [load]="load"
+  [progress]="progress"
+  (delete)="ondelete($event)"
+  (details)="ondetails($event)"
+  (result)="onresult($event)"
+  (files)="onfiles($event)"
+></ias-system-task-table-all>
+} @else if(args.finished){
 <ias-system-task-table-finished
   [filter]="filter"
   [load]="load"

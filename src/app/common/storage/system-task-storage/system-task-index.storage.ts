@@ -3,10 +3,17 @@ export class SystemTaskIndexStorage {
 
   get() {
     let str = localStorage.getItem(this.key);
-    return parseInt(str || '0');
+    if (str) {
+      return JSON.parse(str) as boolean;
+    }
+    return undefined;
   }
-  set(value: number) {
-    localStorage.setItem(this.key, value.toString());
+  set(value?: boolean) {
+    if (value === undefined) {
+      localStorage.setItem(this.key, '');
+    } else {
+      localStorage.setItem(this.key, JSON.stringify(value));
+    }
   }
   clear() {
     localStorage.removeItem(this.key);

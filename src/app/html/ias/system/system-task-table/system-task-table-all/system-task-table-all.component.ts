@@ -19,26 +19,28 @@ import {
   SystemTaskTableFilter,
   TaskProgress,
 } from '../system-task-table.model';
-import { SystemTaskTableRuningBusiness } from './system-task-table-runing.business';
-import { SystemTaskTableRuningConverter } from './system-task-table-runing.converter';
-import { AnalysisTaskRuningModel } from './system-task-table-runing.model';
+import { SystemTaskTableAllBusiness } from './system-task-table-all.business';
+import { SystemTaskTableAllConverter } from './system-task-table-all.converter';
+import { AnalysisTaskAllModel } from './system-task-table-all.model';
 
 @Component({
-  selector: 'ias-system-task-table-runing',
+  selector: 'ias-system-task-table-all',
   imports: [DatePipe, CommonModule, PaginatorComponent, TableSorterDirective],
-  templateUrl: './system-task-table-runing.component.html',
-  styleUrl: './system-task-table-runing.component.less',
-  providers: [SystemTaskTableRuningConverter, SystemTaskTableRuningBusiness],
+  templateUrl: './system-task-table-all.component.html',
+  styleUrl: './system-task-table-all.component.less',
+  providers: [SystemTaskTableAllConverter, SystemTaskTableAllBusiness],
 })
-export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
+export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   @Input() filter = new SystemTaskTableFilter();
   @Input('load') _load?: EventEmitter<SystemTaskTableFilter>;
   @Input() progress?: EventEmitter<TaskProgress>;
+  @Output() result = new EventEmitter<AnalysisTaskModel>();
+  @Output() files = new EventEmitter<AnalysisTaskModel>();
   @Output() delete = new EventEmitter<AnalysisTaskModel>();
   @Output() details = new EventEmitter<AnalysisTaskModel>();
 
   constructor(
-    private business: SystemTaskTableRuningBusiness,
+    private business: SystemTaskTableAllBusiness,
     private ref: ChangeDetectorRef
   ) {}
 
@@ -55,7 +57,7 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
     '100px',
   ];
   page = Page.create(1, 10);
-  datas: AnalysisTaskRuningModel[] = [];
+  datas: AnalysisTaskAllModel[] = [];
   selected?: AnalysisTaskModel;
 
   Language = Language;
@@ -77,6 +79,7 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
         this.datas[index].Progress = progress.progress;
       });
     }
+    this.filter.asc = 'State';
     this.load(1, this.page.PageSize, this.filter);
 
     this.refhandle = setInterval(() => {
@@ -111,6 +114,18 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
   }
   ondetails(item: AnalysisTaskModel, e: Event) {
     this.details.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
+  onresult(item: AnalysisTaskModel, e: Event) {
+    this.result.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
+  onfiles(item: AnalysisTaskModel, e: Event) {
+    this.files.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }

@@ -1,7 +1,10 @@
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { DateTimeTool } from '../../../../common/tools/date-time-tool/datetime.tool';
 
 export class SystemTaskTableArgs {
-  finished = false;
+  finished?: boolean;
+  name?: string;
+  duration = DateTimeTool.last.year(new Date());
 }
 
 export class SystemTaskTableFilter extends SystemTaskTableArgs {
@@ -10,6 +13,8 @@ export class SystemTaskTableFilter extends SystemTaskTableArgs {
 
   load(args: SystemTaskTableArgs) {
     this.finished = args.finished;
+    this.name = args.name;
+    this.duration = args.duration;
   }
 }
 

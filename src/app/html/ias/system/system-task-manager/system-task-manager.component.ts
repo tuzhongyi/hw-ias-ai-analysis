@@ -4,6 +4,7 @@ import { SystemTaskModel } from '../system-task-creation/system-task-creation.mo
 
 import { Router } from '@angular/router';
 import { LocalStorage } from '../../../../common/storage/local.storage';
+import { Language } from '../../../../common/tools/language';
 import {
   AnalysisTaskModel,
   SystemTaskTableArgs,
@@ -39,6 +40,7 @@ export class SystemTaskManagerComponent implements OnInit {
     args: new SystemTaskTableArgs(),
     load: new EventEmitter<SystemTaskTableArgs>(),
   };
+  Language = Language;
 
   ngOnInit(): void {
     this.controller.file.complete.subscribe((data) => {
@@ -47,12 +49,16 @@ export class SystemTaskManagerComponent implements OnInit {
         this.table.load.emit(this.table.args);
       });
     });
-    this.table.args.finished = !!this.local.system.task.index.get();
+    this.table.args.finished = this.local.system.task.index.get();
   }
 
-  onstate(finished: boolean) {
+  onsearch() {
+    this.table.load.emit(this.table.args);
+  }
+
+  onstate(finished?: boolean) {
     this.table.args.finished = finished;
-    this.local.system.task.index.set(finished ? 1 : 0);
+    this.local.system.task.index.set(finished);
     this.table.load.emit(this.table.args);
   }
 

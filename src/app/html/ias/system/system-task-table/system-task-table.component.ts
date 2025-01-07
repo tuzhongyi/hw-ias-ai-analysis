@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SystemTaskTableAllComponent } from './system-task-table-all/system-task-table-all.component';
 import { SystemTaskTableFinishedComponent } from './system-task-table-finished/system-task-table-finished.component';
 import { SystemTaskTableRuningComponent } from './system-task-table-runing/system-task-table-runing.component';
 import {
@@ -15,6 +16,7 @@ import {
     CommonModule,
     SystemTaskTableFinishedComponent,
     SystemTaskTableRuningComponent,
+    SystemTaskTableAllComponent,
   ],
   templateUrl: './system-task-table.component.html',
   styleUrl: './system-task-table.component.less',

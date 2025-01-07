@@ -4,6 +4,8 @@ import { WindowComponent } from '../../../../common/components/window-control/wi
 import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
 import { SystemTaskCreationComponent } from '../system-task-creation/system-task-creation.component';
 
+import { FormsModule } from '@angular/forms';
+import { DateTimeControlComponent } from '../../../../common/components/date-time-control/date-time-control.component';
 import { SystemTaskDetailsComponent } from '../system-task-details/system-task-details.component';
 import { SystemTaskFileManagerComponent } from '../system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskResultComponent } from '../system-task-result/system-task-result.component';
@@ -16,11 +18,13 @@ import { SystemTaskManagerController } from './controller/system-task-manager.co
 
 export const SystemTaskManagerImports = [
   CommonModule,
+  FormsModule,
   ContentHeaderComponent,
   SystemTaskTableComponent,
   SystemTaskCreationComponent,
   WindowComponent,
   WindowConfirmComponent,
+  DateTimeControlComponent,
   SystemTaskResultComponent,
   SystemTaskDetailsComponent,
   SystemTaskFileManagerComponent,

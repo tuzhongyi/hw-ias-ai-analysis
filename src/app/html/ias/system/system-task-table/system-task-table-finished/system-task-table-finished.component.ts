@@ -37,12 +37,12 @@ export class SystemTaskTableFinishedComponent implements OnInit {
   widths = [
     '100px',
     'auto',
-    'auto',
-    'auto',
-    'auto',
-    'auto',
-    'auto',
-    'auto',
+    '8%',
+    '8%',
+    '200px',
+    '200px',
+    '200px',
+    '200px',
     '100px',
   ];
   page = Page.create(1, 10);

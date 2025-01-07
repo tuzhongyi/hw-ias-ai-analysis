@@ -36,12 +36,19 @@ export class SystemTaskTableBusiness<T extends AnalysisTaskModel> {
     let params = new GetAnalysisTaskListParams();
     params.PageIndex = index;
     params.PageSize = size;
-    if (args.finished) {
+    if (args.finished === undefined) {
+      params.TaskStates = [-1, 0, 1, 2, 3];
+    } else if (args.finished) {
       params.TaskStates = [2];
     } else {
       params.TaskStates = [-1, 0, 1, 3];
     }
+    if (args.name) {
+      params.Name = args.name;
+    }
 
+    params.BeginTime = args.duration.begin;
+    params.EndTime = args.duration.end;
     params.Asc = args.asc;
     params.Desc = args.desc;
 

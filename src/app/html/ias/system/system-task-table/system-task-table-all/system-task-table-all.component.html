@@ -1,5 +1,5 @@
-<div class="system-task-table-finished">
-  <div class="system-task-table-finished-body table-page">
+<div class="system-task-table-all">
+  <div class="system-task-table-all-body table-page">
     <table
       border="0"
       cellpadding="0"
@@ -14,11 +14,12 @@
         <tr>
           <th class="center">序号</th>
           <th sort="Name">任务名称</th>
-          <th sort="TaskTypeName">任务类型</th>
+          <th sort="TaskType">任务类型</th>
           <th sort="State">任务状态</th>
+          <th>进度</th>
           <th sort="CreationTime">建立时间</th>
           <th sort="StartTime">开始分析时间</th>
-          <th sort="StopTime">完成时间</th>
+          <th>完成时间</th>
           <th>用时</th>
           <th class="center">操作</th>
         </tr>
@@ -50,36 +51,63 @@
           >
             {{ item.StateName | async }}
           </td>
-          <td>
-            {{ item.CreationTime | date : "yyyy-MM-dd HH:mm:ss" }}
-          </td>
-          <td>
-            {{ item.StartTime | date : "yyyy-MM-dd HH:mm:ss" }}
-          </td>
-          <td>{{ item.StopTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+          <td>@if(item.hasdata){ {{ (item.Progress ?? 0).toFixed(2) }}%}</td>
           <td>
             @if(item.hasdata){
-            <div>
-              @if(item.Duration){
-              <span>
-                {{ Language.Time(item.Duration) }}
-              </span>
-              } @else{
-              <span>-</span>
-              }
-            </div>
+            {{ item.CreationTime | date : "yyyy-MM-dd HH:mm:ss" }}
             }
+          </td>
+          <td>
+            @if(item.hasdata){
+            {{ item.StartTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            }
+          </td>
+          <td>
+            {{ item.StopTime | date : "yyyy-MM-dd HH:mm:ss" }}
+          </td>
+          <td>
+            @if(item.hasdata){ @if(item.StartTime){
+            {{ Language.Time(item.AnalysisDuration()) }}
+            } @else{
+            {{ Language.Time(item.UploadDuration()) }}
+            } }
           </td>
 
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              <div class="button" (click)="onresult(item, $event)">
+              @if(item.State === -1 || item.State === 0 || item.State === 1 ||
+              item.State === 3){
+              <div
+                class="button"
+                title="任务详情"
+                (click)="ondetails(item, $event)"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+              <div
+                class="button"
+                title="删除任务"
+                (click)="ondelete(item, $event)"
+              >
+                <i class="howell-icon-delete2"></i>
+              </div>
+              } @if(item.State === 2){
+              <div
+                class="button"
+                title="任务结果"
+                (click)="onresult(item, $event)"
+              >
                 <i class="howell-icon-task_misson"></i>
               </div>
-              <div class="button" (click)="onfiles(item, $event)">
+              <div
+                class="button"
+                title="任务视频文件"
+                (click)="onfiles(item, $event)"
+              >
                 <i class="mdi mdi-file-video"></i>
               </div>
+              }
             </div>
             }
           </td>
@@ -88,7 +116,7 @@
     </table>
   </div>
   @if(page.TotalRecordCount){
-  <div class="system-task-table-finished-foot">
+  <div class="system-task-table-all-foot">
     <paginator [page]="page" (change)="onpage($event)"> </paginator>
   </div>
   }
