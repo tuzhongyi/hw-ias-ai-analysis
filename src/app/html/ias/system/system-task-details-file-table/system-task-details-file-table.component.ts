@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UploadControlFileInfo } from '../../../../common/components/upload-control/upload-control.model';
 import { TableSorterDirective } from '../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
@@ -20,7 +20,7 @@ import { SystemTaskDetailsFileModel } from './system-task-details-file-table.mod
 export class SystemTaskDetailsFileTableComponent {
   @Input() data: UploadControlFileInfo[] = [];
   @Input() progress?: EventEmitter<FileProgress>;
-
+  @Output() error = new EventEmitter<Error>();
   constructor(private business: SystemTaskDetailsFileBusiness) {}
 
   widths = ['60px', 'auto', '150px', '100px'];
@@ -42,9 +42,14 @@ export class SystemTaskDetailsFileTableComponent {
   }
 
   load(datas: UploadControlFileInfo[]) {
-    this.business.load(datas).then((x) => {
-      this.datas = x;
-    });
+    this.business
+      .load(datas)
+      .then((x) => {
+        this.datas = x;
+      })
+      .catch((e) => {
+        this.error.emit(e);
+      });
   }
 
   onselect(item: SystemTaskDetailsFileModel) {

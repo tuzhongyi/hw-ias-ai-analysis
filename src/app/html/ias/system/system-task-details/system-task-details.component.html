@@ -8,6 +8,7 @@
         [data]="data"
         [filecount]="data?.Files?.length || files.length"
         [progress]="taskprogress"
+        (error)="onerror($event)"
       ></ias-system-task-details-info>
     </div>
     <div class="system-task-details-body-file">

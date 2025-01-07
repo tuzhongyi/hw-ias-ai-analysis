@@ -16,7 +16,12 @@ export class SystemModuleShopTableBusiness {
     private converter: SystemModuleShopTableConverter
   ) {}
 
-  async load(index: number, size: number, args: SystemModuleShopTableFilter) {
+  async load(
+    index: number,
+    size: number,
+    args: SystemModuleShopTableFilter,
+    full = false
+  ) {
     let datas = await this.data(index, size, args);
 
     let paged = new PagedList<ShopModel>();
@@ -26,10 +31,12 @@ export class SystemModuleShopTableBusiness {
       model.index = paged.Page.PageSize * (paged.Page.PageIndex - 1) + i + 1;
       return model;
     });
-    let count = paged.Page.PageSize - paged.Page.RecordCount;
-    if (count > 0) {
-      for (let i = 0; i < count; i++) {
-        paged.Data.push(ShopModel.create());
+    if (full) {
+      let count = paged.Page.PageSize - paged.Page.RecordCount;
+      if (count > 0) {
+        for (let i = 0; i < count; i++) {
+          paged.Data.push(ShopModel.create());
+        }
       }
     }
 

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { LocalStorage } from '../../../../common/storage/local.storage';
 import { Language } from '../../../../common/tools/language';
 import {
@@ -22,7 +23,8 @@ import { SystemModuleShopManagerWindow } from './system-module-shop-manager.wind
 export class SystemModuleShopManagerComponent implements OnInit {
   constructor(
     public source: SystemModuleShopManagerSourceController,
-    private local: LocalStorage
+    private local: LocalStorage,
+    private toastr: ToastrService
   ) {
     this.args = new SystemModuleShopTableArgs(
       source.duration[source.duration.length - 1].Value
@@ -74,5 +76,8 @@ export class SystemModuleShopManagerComponent implements OnInit {
     this.window.details.clear();
     this.window.details.show = false;
     this.load.emit(this.args);
+  }
+  onerror(e: Error) {
+    this.toastr.error(e.message);
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
 import { Language } from '../../../../common/tools/language';
@@ -19,7 +19,7 @@ export class SystemTaskDetailsInfoComponent implements OnInit {
   @Input() data?: AnalysisTask;
   @Input() filecount = 0;
   @Input('progress') _progress?: EventEmitter<TaskProgress>;
-
+  @Output() error = new EventEmitter<Error>();
   constructor(private business: SystemTaskDetailsInfoBusiness) {}
 
   Language = Language;
@@ -31,9 +31,14 @@ export class SystemTaskDetailsInfoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      this.business.load(this.data).then((x) => {
-        this.model = x;
-      });
+      this.business
+        .load(this.data)
+        .then((x) => {
+          this.model = x;
+        })
+        .catch((e) => {
+          this.error.emit(e);
+        });
     }
     if (this._progress) {
       this._progress.subscribe((progress) => {

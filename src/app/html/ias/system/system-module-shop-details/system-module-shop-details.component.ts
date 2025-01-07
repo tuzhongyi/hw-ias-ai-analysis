@@ -64,4 +64,8 @@ export class SystemModuleShopDetailsComponent implements OnInit {
   oncancel() {
     this.cancel.emit();
   }
+
+  onerror(e: Error) {
+    this.toastr.error(e.message);
+  }
 }

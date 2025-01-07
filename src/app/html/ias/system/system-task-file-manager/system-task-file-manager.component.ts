@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { WindowComponent } from '../../../../common/components/window-control/window.component';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { FileInfo } from '../../../../common/data-core/models/arm/file/file-info.model';
@@ -23,7 +24,10 @@ import { SystemTaskFileManagerWindow } from './system-task-file-manager.window';
   providers: [SystemTaskFileManagerBusiness],
 })
 export class SystemTaskFileManagerComponent implements OnInit {
-  constructor(private business: SystemTaskFileManagerBusiness) {}
+  constructor(
+    private business: SystemTaskFileManagerBusiness,
+    private toastr: ToastrService
+  ) {}
 
   task?: AnalysisTask;
   window = new SystemTaskFileManagerWindow();
@@ -33,13 +37,21 @@ export class SystemTaskFileManagerComponent implements OnInit {
   }
 
   load() {
-    this.business.get().then((x) => {
-      this.task = x;
-    });
+    this.business
+      .get()
+      .then((x) => {
+        this.task = x;
+      })
+      .catch((e) => {
+        this.toastr.error('加载失败');
+      });
   }
 
   onvideo(data: FileInfo) {
     this.window.details.data = data;
     this.window.details.show = true;
+  }
+  onerror(e: Error) {
+    this.toastr.error(e.message);
   }
 }

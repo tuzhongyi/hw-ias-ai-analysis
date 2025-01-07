@@ -1,4 +1,3 @@
-import AMapLoader from '@amap/amap-jsapi-loader';
 import { Injectable } from '@angular/core';
 import { MapHelper } from '../../../../../common/helper/map/map.helper';
 import { wait } from '../../../../../common/tools/wait';
@@ -15,7 +14,7 @@ export class SystemTaskFileDetailsAMapController {
   label: Promise<SystemTaskFileDetailsAMapLabelController>;
 
   constructor() {
-    this.init.map().then((AMap) => {
+    MapHelper.amap.init().then((AMap) => {
       this.map = new AMap.Map('map-container', {
         mapStyle: MapHelper.amap.style,
         resizeEnable: true,
@@ -38,16 +37,6 @@ export class SystemTaskFileDetailsAMapController {
   private _label?: SystemTaskFileDetailsAMapLabelController;
 
   private init = {
-    map: () => {
-      (window as any)._AMapSecurityConfig = {
-        securityJsCode: MapHelper.amap.code,
-      };
-      return AMapLoader.load({
-        key: MapHelper.amap.key, //申请好的 Web 端开发者 Key，首次调用 load 时必填
-        version: '2.0', //指定要加载的 JS API 的版本，缺省时默认为 1.4.15
-        plugins: ['AMap.GeoLocation', 'GeometryUtil'], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['AMap.Scale','...','...']
-      });
-    },
     arrow: () => {
       return new Promise<SystemTaskFileDetailsAMapArrowController>(
         (resolve) => {

@@ -38,6 +38,7 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   @Output() files = new EventEmitter<AnalysisTaskModel>();
   @Output() delete = new EventEmitter<AnalysisTaskModel>();
   @Output() details = new EventEmitter<AnalysisTaskModel>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(
     private business: SystemTaskTableAllBusiness,
@@ -94,10 +95,13 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   }
 
   private load(index: number, size: number, filter: SystemTaskTableFilter) {
-    this.business.load(index, size, filter).then((x) => {
-      this.datas = x.Data;
-      this.page = x.Page;
-    });
+    this.business
+      .load(index, size, filter)
+      .then((x) => {
+        this.datas = x.Data;
+        this.page = x.Page;
+      })
+      .catch((e) => this.error.emit(e));
   }
 
   onpage(num: number) {

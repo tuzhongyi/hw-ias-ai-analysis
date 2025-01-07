@@ -10,7 +10,7 @@
         [src]="src"
         [currentTime]="video.time"
         (timeupdate)="ontimeupdate($event)"
-        (error)="onerror($event)"
+        (error)="onvideoerror($event)"
       ></video>
     </div>
     <div class="panel map">
@@ -19,6 +19,7 @@
         [to]="video.event.time"
         (trigger)="onseek($event)"
         (loaded)="onmaploaded()"
+        (error)="onerror($event)"
       ></ias-system-task-file-details-map>
     </div>
   </div>

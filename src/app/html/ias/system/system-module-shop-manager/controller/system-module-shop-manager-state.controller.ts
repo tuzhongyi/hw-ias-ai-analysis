@@ -28,4 +28,8 @@ export class SystemModuleShopManagerStateController {
     this.selected = selected;
     this.select.emit(this.selected.map((x) => x.Value));
   }
+  onremove(items: EnumNameValue<ShopObjectState>[]) {
+    this.selected = this.selected.filter((x) => !items.includes(x));
+    this.select.emit(this.selected.map((x) => x.Value));
+  }
 }

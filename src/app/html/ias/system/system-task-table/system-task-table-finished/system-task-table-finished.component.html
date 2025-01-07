@@ -74,10 +74,18 @@
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              <div class="button" (click)="onresult(item, $event)">
+              <div
+                class="button"
+                title="分析结果"
+                (click)="onresult(item, $event)"
+              >
                 <i class="howell-icon-task_misson"></i>
               </div>
-              <div class="button" (click)="onfiles(item, $event)">
+              <div
+                class="button"
+                title="视频文件"
+                (click)="onfiles(item, $event)"
+              >
                 <i class="mdi mdi-file-video"></i>
               </div>
             </div>

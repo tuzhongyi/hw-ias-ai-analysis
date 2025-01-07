@@ -31,6 +31,7 @@ export class SystemTaskTableFinishedComponent implements OnInit {
 
   @Output() result = new EventEmitter<AnalysisTaskModel>();
   @Output() files = new EventEmitter<AnalysisTaskModel>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(private business: SystemTaskTableFinishedBusiness) {}
 
@@ -63,10 +64,13 @@ export class SystemTaskTableFinishedComponent implements OnInit {
   }
 
   private load(index: number, size: number, filter: SystemTaskTableFilter) {
-    this.business.load(index, size, filter).then((x) => {
-      this.datas = x.Data;
-      this.page = x.Page;
-    });
+    this.business
+      .load(index, size, filter)
+      .then((x) => {
+        this.datas = x.Data;
+        this.page = x.Page;
+      })
+      .catch((e) => this.error.emit(e));
   }
 
   onpage(num: number) {

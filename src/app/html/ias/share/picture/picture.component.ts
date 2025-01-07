@@ -3,8 +3,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChange,
   SimpleChanges,
   ViewChild,
@@ -27,6 +29,7 @@ export class PictureComponent implements OnChanges, AfterViewInit {
   @Input() id?: string;
   @Input() polygon: Point[] = [];
   @Input('zoom') zoom = false;
+  @Output() error = new EventEmitter<Error>();
 
   constructor(
     private controller: PictureController,

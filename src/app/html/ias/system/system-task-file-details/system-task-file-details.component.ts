@@ -16,7 +16,6 @@ import { SystemTaskFileDetailsBusiness } from './system-task-file-details.busine
 })
 export class SystemTaskFileDetailsComponent implements OnInit {
   @Input() data?: FileInfo;
-
   constructor(
     private business: SystemTaskFileDetailsBusiness,
     private sanitizer: DomSanitizer,
@@ -35,9 +34,14 @@ export class SystemTaskFileDetailsComponent implements OnInit {
   ngOnInit(): void {}
 
   private load(data: FileInfo) {
-    this.business.path(data.FileName).then((url) => {
-      this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    });
+    this.business
+      .path(data.FileName)
+      .then((url) => {
+        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      })
+      .catch((e) => {
+        this.toastr.error('加载失败');
+      });
   }
   onmaploaded() {
     if (this.data) {
@@ -53,7 +57,7 @@ export class SystemTaskFileDetailsComponent implements OnInit {
     let time = item.OffsetTime.toSeconds();
     this.video.time = time;
   }
-  onerror(e: Event) {
+  onvideoerror(e: Event) {
     if (!this.src) return;
     let target = e.currentTarget as HTMLVideoElement;
     let error = target.error;
@@ -78,5 +82,8 @@ export class SystemTaskFileDetailsComponent implements OnInit {
       // }
       this.toastr.error(message);
     }
+  }
+  onerror(e: Error) {
+    this.toastr.error(e.message);
   }
 }

@@ -29,6 +29,7 @@ export class SystemTaskResultInfoComponent {
   @Input() sign?: ShopSign;
   @Input() page?: Page;
   @Output() get = new EventEmitter<number>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(private business: SystemTaskResultInfoBusiness) {}
 
@@ -40,9 +41,12 @@ export class SystemTaskResultInfoComponent {
     if (changes['sign'] && this.sign) {
       this.model = this.business.load(this.sign);
       if (this.sign.ShopId) {
-        this.business.shop(this.sign.ShopId).then((x) => {
-          this.shop = x;
-        });
+        this.business
+          .shop(this.sign.ShopId)
+          .then((x) => {
+            this.shop = x;
+          })
+          .catch((e) => this.error.emit(e));
       }
     }
   }

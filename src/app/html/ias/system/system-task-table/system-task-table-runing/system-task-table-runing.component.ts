@@ -36,6 +36,7 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
   @Input() progress?: EventEmitter<TaskProgress>;
   @Output() delete = new EventEmitter<AnalysisTaskModel>();
   @Output() details = new EventEmitter<AnalysisTaskModel>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(
     private business: SystemTaskTableRuningBusiness,
@@ -91,10 +92,13 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
   }
 
   private load(index: number, size: number, filter: SystemTaskTableFilter) {
-    this.business.load(index, size, filter).then((x) => {
-      this.datas = x.Data;
-      this.page = x.Page;
-    });
+    this.business
+      .load(index, size, filter)
+      .then((x) => {
+        this.datas = x.Data;
+        this.page = x.Page;
+      })
+      .catch((e) => this.error.emit(e));
   }
 
   onpage(num: number) {

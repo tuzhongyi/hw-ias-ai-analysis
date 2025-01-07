@@ -51,7 +51,7 @@
                 [(show)]="source.state.show"
                 [autoclose]="true"
                 [selected]="source.state.selected"
-                (remove)="source.state.onselected($event)"
+                (remove)="source.state.onremove($event)"
               >
                 <ias-select-shop-object-state
                   #select
@@ -118,6 +118,7 @@
           [args]="args"
           [load]="load"
           (details)="ondetails($event)"
+          (error)="onerror($event)"
         ></ias-system-module-shop-table>
       </ng-container>
       <ng-container *ngIf="mode === 1">
@@ -125,6 +126,7 @@
           [args]="args"
           [load]="load"
           (details)="ondetails($event)"
+          (error)="onerror($event)"
         ></ias-system-module-shop-list>
       </ng-container>
     </div>

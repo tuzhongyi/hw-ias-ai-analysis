@@ -77,10 +77,18 @@
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              <div class="button" (click)="ondetails(item, $event)">
+              <div
+                class="button"
+                title="任务信息"
+                (click)="ondetails(item, $event)"
+              >
                 <i class="howell-icon-details"></i>
               </div>
-              <div class="button" (click)="ondelete(item, $event)">
+              <div
+                class="button"
+                title="删除任务"
+                (click)="ondelete(item, $event)"
+              >
                 <i class="howell-icon-delete2"></i>
               </div>
             </div>

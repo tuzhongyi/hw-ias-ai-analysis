@@ -1,4 +1,3 @@
-import AMapLoader from '@amap/amap-jsapi-loader';
 import { EventEmitter, Injectable } from '@angular/core';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { wait } from '../../../../../common/tools/wait';
@@ -14,7 +13,7 @@ export class SystemModuleShopDetailsAMapController {
   dragend = new EventEmitter<number[]>();
 
   constructor() {
-    this.init().then((AMap) => {
+    MapHelper.amap.init().then((AMap) => {
       this.map = new AMap.Map('map-container', {
         mapStyle: MapHelper.amap.style,
         resizeEnable: true,
@@ -26,17 +25,6 @@ export class SystemModuleShopDetailsAMapController {
 
   private map: any;
   private inited = false;
-
-  private init() {
-    (window as any)._AMapSecurityConfig = {
-      securityJsCode: MapHelper.amap.code,
-    };
-    return AMapLoader.load({
-      key: MapHelper.amap.key, //申请好的 Web 端开发者 Key，首次调用 load 时必填
-      version: '2.0', //指定要加载的 JS API 的版本，缺省时默认为 1.4.15
-      plugins: ['AMap.GeoLocation', 'GeometryUtil'], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['AMap.Scale','...','...']
-    });
-  }
 
   private regist(map: any) {
     map.on('complete', () => {

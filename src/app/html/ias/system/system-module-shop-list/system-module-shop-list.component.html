@@ -10,7 +10,9 @@
       ></ias-system-module-shop-list-item>
     </div>
   </div>
+
   <div class="system-module-shop-list-foot" *ngIf="page.TotalRecordCount">
     <paginator [page]="page" (change)="onpage($event)"> </paginator>
   </div>
+  <div class="nodata panel" *ngIf="datas.length === 0">无数据</div>
 </div>

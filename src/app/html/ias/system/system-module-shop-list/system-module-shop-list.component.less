@@ -4,6 +4,7 @@
   animation: 0.75s;
 
   @foot-height: 60px;
+  position: relative;
 
   &-body {
     height: calc(100% - @foot-height);
@@ -29,5 +30,17 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+
+  .nodata {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 30px;
   }
 }

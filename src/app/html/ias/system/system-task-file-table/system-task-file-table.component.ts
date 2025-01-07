@@ -18,7 +18,7 @@ import { SystemTaskFileTableBusiness } from './system-task-file-table.business';
 export class SystemTaskFileTableComponent implements OnInit {
   @Input() data?: AnalysisTask;
   @Output() video = new EventEmitter<FileInfo>();
-
+  @Output() error = new EventEmitter<Error>();
   constructor(private business: SystemTaskFileTableBusiness) {}
 
   selected?: FileInfo;
@@ -35,9 +35,14 @@ export class SystemTaskFileTableComponent implements OnInit {
 
   load(data: AnalysisTask) {
     if (data.Files) {
-      this.business.load(data.Files).then((x) => {
-        this.datas = x;
-      });
+      this.business
+        .load(data.Files)
+        .then((x) => {
+          this.datas = x;
+        })
+        .catch((e) => {
+          this.error.emit(e);
+        });
     }
   }
 

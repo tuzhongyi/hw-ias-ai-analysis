@@ -24,6 +24,7 @@ export class SystemModuleShopTableComponent implements OnInit {
   @Input() args = new SystemModuleShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleShopTableArgs>;
   @Output() details = new EventEmitter<ShopModel>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(private business: SystemModuleShopTableBusiness) {}
 
@@ -63,10 +64,15 @@ export class SystemModuleShopTableComponent implements OnInit {
     size: number,
     filter: SystemModuleShopTableFilter
   ) {
-    this.business.load(index, size, filter).then((x) => {
-      this.datas = x.Data;
-      this.page = x.Page;
-    });
+    this.business
+      .load(index, size, filter, true)
+      .then((x) => {
+        this.datas = x.Data;
+        this.page = x.Page;
+      })
+      .catch((e) => {
+        this.error.emit(e);
+      });
   }
 
   onpage(num: number) {

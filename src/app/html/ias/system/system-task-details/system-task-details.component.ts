@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { UploadControlFileInfo } from '../../../../common/components/upload-control/upload-control.model';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
@@ -22,4 +23,10 @@ export class SystemTaskDetailsComponent {
   @Input() files: UploadControlFileInfo[] = [];
   @Input() fileprogress?: EventEmitter<FileProgress>;
   @Input() taskprogress?: EventEmitter<TaskProgress>;
+
+  constructor(private toastr: ToastrService) {}
+
+  onerror(e: Error) {
+    this.toastr.error(e.message);
+  }
 }

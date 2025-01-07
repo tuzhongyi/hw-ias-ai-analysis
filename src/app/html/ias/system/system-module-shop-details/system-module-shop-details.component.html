@@ -4,7 +4,11 @@
   </div>
   <div class="system-module-shop-details-body">
     <div class="system-module-shop-details-body-table">
-      <ias-system-module-shop-sign-table [data]="shop" [(selected)]="sign">
+      <ias-system-module-shop-sign-table
+        [data]="shop"
+        [(selected)]="sign"
+        (error)="onerror($event)"
+      >
       </ias-system-module-shop-sign-table>
     </div>
     <div class="system-module-shop-details-body-info panel">

@@ -45,9 +45,14 @@ export class SystemTaskManagerComponent implements OnInit {
   ngOnInit(): void {
     this.controller.file.complete.subscribe((data) => {
       let names = data.files.map((x) => x.filename);
-      this.business.task.source(data.task, names).then((x) => {
-        this.table.load.emit(this.table.args);
-      });
+      this.business.task
+        .source(data.task, names)
+        .then((x) => {
+          this.table.load.emit(this.table.args);
+        })
+        .catch((e) => {
+          this.toastr.error('上传文件后，写入文件名失败');
+        });
     });
     this.table.args.finished = this.local.system.task.index.get();
   }
@@ -82,6 +87,9 @@ export class SystemTaskManagerComponent implements OnInit {
   onfiles(data: AnalysisTaskModel) {
     this.local.system.task.id.set(data.Id);
     this.router.navigateByUrl(`${SystemPath.task_file}`);
+  }
+  onerror(e: Error) {
+    this.toastr.error(e.message);
   }
 
   create = {

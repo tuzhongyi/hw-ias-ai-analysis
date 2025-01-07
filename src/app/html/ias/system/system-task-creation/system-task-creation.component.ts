@@ -71,12 +71,17 @@ export class SystemTaskCreationComponent implements OnInit {
 
   onok() {
     if (this.check) {
-      this.business.create(this.task).then((x) => {
-        this.ok.emit({
-          task: x,
-          files: this.controller.file.files,
+      this.business
+        .create(this.task)
+        .then((x) => {
+          this.ok.emit({
+            task: x,
+            files: this.controller.file.files,
+          });
+        })
+        .catch((e) => {
+          this.toastr.error('操作失败');
         });
-      });
     }
   }
 

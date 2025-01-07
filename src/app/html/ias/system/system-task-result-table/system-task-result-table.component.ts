@@ -8,7 +8,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HowellSelectComponent } from '../../../../common/components/hw-select/select-control.component';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
@@ -20,7 +19,7 @@ import { SystemTaskResultTableFilter } from './system-task-result-table.model';
 
 @Component({
   selector: 'ias-system-task-result-table',
-  imports: [CommonModule, FormsModule, HowellSelectComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './system-task-result-table.component.html',
   styleUrl: './system-task-result-table.component.less',
   providers: [
@@ -36,6 +35,7 @@ export class SystemTaskResultTableComponent {
   @Input('load') _load?: EventEmitter<number>;
   @Output() page = new EventEmitter<Page>();
   @Output() loaded = new EventEmitter<ShopSign[]>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(
     private business: SystemTaskResultTableBusiness,
@@ -71,14 +71,17 @@ export class SystemTaskResultTableComponent {
   }
 
   private load(filter: SystemTaskResultTableFilter) {
-    this.business.load(filter).then((x) => {
-      this.datas = x;
-      this.datas.sort((a, b) => LocaleCompare.compare(a.Time, b.Time));
-      this.loaded.emit(this.datas);
-      if (this.datas.length > 0) {
-        this.onselect(this.datas[0], 0);
-      }
-    });
+    this.business
+      .load(filter)
+      .then((x) => {
+        this.datas = x;
+        this.datas.sort((a, b) => LocaleCompare.compare(a.Time, b.Time));
+        this.loaded.emit(this.datas);
+        if (this.datas.length > 0) {
+          this.onselect(this.datas[0], 0);
+        }
+      })
+      .catch((e) => this.error.emit(e));
   }
 
   onselect(item: ShopSign, index: number) {

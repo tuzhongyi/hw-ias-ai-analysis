@@ -6,7 +6,7 @@ import { FileInfo } from '../../../../common/data-core/models/arm/file/file-info
 import { SystemTaskFileDetailsAMapController } from './controller/system-task-file-details-amap.controller';
 import { SystemTaskFileDetailsMapController } from './controller/system-task-file-details-map.controller';
 import { SystemTaskFileDetailsMapBusiness } from './system-task-file-details-map.business.js';
-declare var wgs84togcj02: any;
+
 @Component({
   selector: 'ias-system-task-file-details-map',
   imports: [CommonModule],
@@ -23,6 +23,7 @@ export class SystemTaskFileDetailsMapComponent implements OnInit {
   @Input('to') _to?: EventEmitter<number>;
   @Output() trigger = new EventEmitter<FileGpsItem>();
   @Output() loaded = new EventEmitter<void>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(
     private business: SystemTaskFileDetailsMapBusiness,
@@ -56,6 +57,8 @@ export class SystemTaskFileDetailsMapComponent implements OnInit {
       if (this.hasdata) {
         await this.controller.load(datas);
       }
+    } catch (e: any) {
+      this.error.emit(e);
     } finally {
       this.loading = false;
     }

@@ -16,6 +16,7 @@ export class SystemModuleShopSignTableComponent implements OnInit {
   @Input('data') shop?: ShopModel;
   @Input() selected?: ShopSign;
   @Output() selectedChange = new EventEmitter<ShopSign>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(private business: SystemModuleShopSignTableBusiness) {}
 
@@ -30,12 +31,17 @@ export class SystemModuleShopSignTableComponent implements OnInit {
   }
 
   private load(id: string) {
-    this.business.load(id).then((x) => {
-      this.datas = x;
-      if (this.datas.length > 0) {
-        this.onselect(this.datas[0]);
-      }
-    });
+    this.business
+      .load(id)
+      .then((x) => {
+        this.datas = x;
+        if (this.datas.length > 0) {
+          this.onselect(this.datas[0]);
+        }
+      })
+      .catch((e) => {
+        this.error.emit(e);
+      });
   }
 
   onselect(item: ShopSign) {

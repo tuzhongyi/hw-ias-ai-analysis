@@ -26,6 +26,7 @@ export class SystemModuleShopListComponent {
   @Input() args = new SystemModuleShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleShopTableArgs>;
   @Output() details = new EventEmitter<ShopModel>();
+  @Output() error = new EventEmitter<Error>();
   constructor(private business: SystemModuleShopTableBusiness) {}
   filter = new SystemModuleShopTableFilter();
   page = Page.create(1, 8);
@@ -48,10 +49,15 @@ export class SystemModuleShopListComponent {
     size: number,
     filter: SystemModuleShopTableFilter
   ) {
-    this.business.load(index, size, filter).then((x) => {
-      this.datas = x.Data;
-      this.page = x.Page;
-    });
+    this.business
+      .load(index, size, filter, false)
+      .then((x) => {
+        this.datas = x.Data;
+        this.page = x.Page;
+      })
+      .catch((e) => {
+        this.error.emit(e);
+      });
   }
 
   onpage(num: number) {
