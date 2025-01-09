@@ -40,7 +40,6 @@ export class DateTimePickerDirective
   @Input('date')
   public set date(v: Date) {
     this._date = v;
-    this.dateChange.emit(v);
   }
 
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
@@ -68,7 +67,19 @@ export class DateTimePickerDirective
     $(this.ele).datetimepicker('remove');
   }
 
-  ngAfterContentInit() {}
+  ngAfterContentInit() {
+    this.ele.addEventListener('click', () => {
+      $(this.ele).datetimepicker('show');
+    });
+    this.ele.addEventListener('change', (e) => {
+      let target = e.currentTarget as HTMLInputElement;
+      let date = new Date(target.value);
+      if (date instanceof Date && !isNaN(date.getTime())) {
+        this.date = date;
+        this.dateChange.emit(date);
+      }
+    });
+  }
 
   private reInit(
     startView: number,
@@ -125,6 +136,7 @@ export class DateTimePickerDirective
       })
       .on('changeDate', (ev: { date: Date }) => {
         this.date = ev.date;
+        this.dateChange.emit(ev.date);
         this.changing = true;
         this.setweek(ev.date);
       })
@@ -173,6 +185,7 @@ export class DateTimePickerDirective
         this.changing = true;
         if (ev.date) {
           this.date = ev.date;
+          this.dateChange.emit(ev.date);
           this.setdate(ev.date);
         }
       })

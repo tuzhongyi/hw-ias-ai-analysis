@@ -80,7 +80,7 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
         this.datas[index].Progress = progress.progress;
       });
     }
-    this.filter.asc = 'State';
+    this.filter.desc = 'CreationTime';
     this.load(1, this.page.PageSize, this.filter);
 
     this.refhandle = setInterval(() => {

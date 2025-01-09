@@ -36,22 +36,40 @@
       <div></div>
       <div class="system-task-manager-body-controls-operation">
         <div class="system-task-manager-body-controls-operation-filter forms">
-          <div class="form-item">
+          <div class="form-item date">
             <div class="form-item-text">开始时间</div>
             <div class="form-item-value">
               <date-time-control
                 [(date)]="table.args.duration.begin"
-                [format]="Language.YearMonthDay"
+                [format]="Language.yyyyMMdd"
+                (dateChange)="filter.duration.onbegin($event)"
               ></date-time-control>
             </div>
           </div>
-          <div class="form-item">
+          <div class="form-item date">
             <div class="form-item-text">结束时间</div>
             <div class="form-item-value">
               <date-time-control
                 [(date)]="table.args.duration.end"
-                [format]="Language.YearMonthDay"
+                [format]="Language.yyyyMMdd"
+                (dateChange)="filter.duration.onend($event)"
               ></date-time-control>
+            </div>
+          </div>
+          <div class="form-item duration">
+            <div class="form-item-text">时间范围</div>
+            <div class="form-item-value">
+              <select
+                [(ngModel)]="filter.duration.value"
+                (change)="filter.duration.onchange()"
+              >
+                <option
+                  *ngFor="let item of controller.duration.source"
+                  [ngValue]="item.Value"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
             </div>
           </div>
           <div class="form-item">
@@ -60,8 +78,8 @@
               <input type="text" [(ngModel)]="table.args.name" />
             </div>
           </div>
-          <div class="form-item">
-            <button class="button-clip-gradient" (click)="onsearch()">
+          <div class="form-item submit">
+            <button class="button-clip-gradient" (click)="filter.onsearch()">
               筛选
             </button>
           </div>

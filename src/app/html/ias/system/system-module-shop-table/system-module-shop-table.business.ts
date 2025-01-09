@@ -23,6 +23,13 @@ export class SystemModuleShopTableBusiness {
     full = false
   ) {
     let datas = await this.data(index, size, args);
+    if (
+      datas.Page.RecordCount == 0 &&
+      datas.Page.TotalRecordCount > 0 &&
+      datas.Page.PageIndex > 1
+    ) {
+      datas = await this.data(datas.Page.RecordCount, size, args);
+    }
 
     let paged = new PagedList<ShopModel>();
     paged.Page = datas.Page;

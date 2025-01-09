@@ -4,6 +4,15 @@ import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.mode
 import { DateTimeTool } from '../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../common/tools/date-time-tool/duration.model';
 
+export class SystemModuleShopTableLoadArgs {
+  constructor(args: SystemModuleShopTableArgs, reset = false) {
+    this.args = args;
+    this.reset = reset;
+  }
+  reset: boolean;
+  args: SystemModuleShopTableArgs;
+}
+
 export class SystemModuleShopTableArgs {
   constructor(duration = DateTimeTool.all.year(new Date())) {
     this.duration = duration;

@@ -2,9 +2,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import '../../../../../../assets/js/map/CoordinateTransform.js';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { ArrayTool } from '../../../../../common/tools/array-tool/array.tool';
+import { ClassTool } from '../../../../../common/tools/class-tool/class.tool.js';
 import { SystemTaskFileDetailsAMapController } from './system-task-file-details-amap.controller';
-
-declare var wgs84togcj02: any;
 
 @Injectable()
 export class SystemTaskFileDetailsMapController {
@@ -18,7 +17,7 @@ export class SystemTaskFileDetailsMapController {
   async load(datas: FileGpsItem[]) {
     this.datas = datas;
     let ll = this.datas.map((x) => {
-      return wgs84togcj02(x.Longitude, x.Latitude);
+      return [x.Longitude, x.Latitude];
     });
     let path = await this.map.path;
     path.load(ll);
@@ -62,13 +61,11 @@ export class SystemTaskFileDetailsMapController {
 
   private async onmouseover(point: number[]) {
     let item = this.datas.find((x) => {
-      let gcj02 = wgs84togcj02(x.Longitude, x.Latitude);
-
-      return gcj02[0] === point[0] && gcj02[1] === point[1];
+      return ClassTool.equals.array([x.Longitude, x.Latitude], point);
     });
     if (item) {
       console.log('item', item);
-      let point = wgs84togcj02(item.Longitude, item.Latitude);
+      let point = [item.Longitude, item.Latitude];
       let label = await this.map.label;
       label.show(point, item.OffsetTime.toString());
     }
@@ -76,9 +73,7 @@ export class SystemTaskFileDetailsMapController {
 
   private onclick(point: number[]) {
     let item = this.datas.find((x) => {
-      let gcj02 = wgs84togcj02(x.Longitude, x.Latitude);
-
-      return gcj02[0] === point[0] && gcj02[1] === point[1];
+      return ClassTool.equals.array([x.Longitude, x.Latitude], point);
     });
     if (item) {
       this.trigger.emit(item);
@@ -96,16 +91,16 @@ export class SystemTaskFileDetailsMapController {
       let item = this.datas[finded.index];
 
       let way = this.datas.slice(0, finded.index).map((x) => {
-        return wgs84togcj02(x.Longitude, x.Latitude);
+        return [x.Longitude, x.Latitude];
       });
       (await this.map.way).load(way);
 
-      let position = wgs84togcj02(item.Longitude, item.Latitude);
+      let position = [item.Longitude, item.Latitude];
       (await this.map.arrow).set(position);
       if (finded.index > 0) {
         let last = this.datas[finded.index - 1];
         (await this.map.arrow).direction([
-          wgs84togcj02(last.Longitude, last.Latitude),
+          [last.Longitude, last.Latitude],
           position,
         ]);
       }

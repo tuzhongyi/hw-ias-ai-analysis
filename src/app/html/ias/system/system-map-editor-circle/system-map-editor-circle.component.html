@@ -1,0 +1,39 @@
+<div class="panel-map system-map-editor-circle">
+  <div class="forms system-map-editor-circle-body">
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>中</div>
+        <div>心</div>
+        <div>经</div>
+        <div>度</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="args.center.X" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>中</div>
+        <div>心</div>
+        <div>纬</div>
+        <div>度</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="args.center.Y" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div>半</div>
+        <div>径</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="args.distance" />
+      </div>
+    </div>
+  </div>
+  <div class="system-map-editor-circle-foot button-group center">
+    <button class="button-clip-gradient" (click)="onok()">搜索</button>
+    <button class="button-clip-blue" (click)="onclose()">取消</button>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+.system-map-editor-circle {
+
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &-body {
+    height: calc(100% - 36px - 15px);
+    flex-direction: column;
+
+
+    .form {
+      &-item {
+        width: 250px;
+
+        &-text {
+          width: 108px;
+        }
+
+        &-value {
+          display: flex;
+          gap: 5px;
+        }
+      }
+    }
+  }
+
+  &-foot {
+    height: 36px;
+  }
+}

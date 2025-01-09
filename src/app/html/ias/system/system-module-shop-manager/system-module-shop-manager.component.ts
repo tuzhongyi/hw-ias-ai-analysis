@@ -6,6 +6,7 @@ import { Language } from '../../../../common/tools/language';
 import {
   ShopModel,
   SystemModuleShopTableArgs,
+  SystemModuleShopTableLoadArgs,
 } from '../system-module-shop-table/system-module-shop-table.model';
 import { SystemModuleShopManagerSourceController } from './controller/system-module-shop-manager-source.controller';
 import {
@@ -34,7 +35,7 @@ export class SystemModuleShopManagerComponent implements OnInit {
   }
 
   args: SystemModuleShopTableArgs;
-  load = new EventEmitter<SystemModuleShopTableArgs>();
+  load = new EventEmitter<SystemModuleShopTableLoadArgs>();
   Language = Language;
   window = new SystemModuleShopManagerWindow();
   storage: ISystemModuleShopStorage;
@@ -55,11 +56,13 @@ export class SystemModuleShopManagerComponent implements OnInit {
   }
 
   onmarking() {
-    this.load.emit(this.args);
+    let args = new SystemModuleShopTableLoadArgs(this.args);
+    this.load.emit(args);
   }
 
   onsearch() {
-    this.load.emit(this.args);
+    let args = new SystemModuleShopTableLoadArgs(this.args, true);
+    this.load.emit(args);
   }
 
   ondetails(data: ShopModel) {
@@ -73,7 +76,8 @@ export class SystemModuleShopManagerComponent implements OnInit {
   ondetailsok() {
     this.window.details.clear();
     this.window.details.show = false;
-    this.load.emit(this.args);
+    let args = new SystemModuleShopTableLoadArgs(this.args);
+    this.load.emit(args);
   }
   onerror(e: Error) {
     this.toastr.error(e.message);

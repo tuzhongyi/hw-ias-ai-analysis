@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SystemComponent } from './component/system.component';
 import { SystemIndexComponent } from './system-index/system-index.component';
+import { SystemMapComponent } from './system-map/system-map.component';
 import { SystemModuleShopManagerComponent } from './system-module-shop-manager/system-module-shop-manager.component';
 import { SystemModuleComponent } from './system-module/system-module.component';
 import { SystemTaskFileManagerComponent } from './system-task-file-manager/system-task-file-manager.component';
@@ -54,6 +55,20 @@ const routes: Routes = [
           {
             path: 'shop',
             component: SystemModuleShopManagerComponent,
+          },
+        ],
+      },
+      {
+        path: 'map',
+        children: [
+          {
+            path: '',
+            redirectTo: 'index',
+            pathMatch: 'full',
+          },
+          {
+            path: 'index',
+            component: SystemMapComponent,
           },
         ],
       },

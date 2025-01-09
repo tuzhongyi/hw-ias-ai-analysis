@@ -1,0 +1,49 @@
+.system-map-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+
+
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &-icon {
+      height: 20px;
+      width: 20px;
+
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+
+      &.blue {
+        background-image: url('../../../../../assets/image/map/states/state-blue.png');
+      }
+
+      &.green {
+        background-image: url('../../../../../assets/image/map/states/state-green.png');
+      }
+
+      &.red {
+        background-image: url('../../../../../assets/image/map/states/state-red.png');
+      }
+
+      &.yellow {
+        background-image: url('../../../../../assets/image/map/states/state-yellow.png');
+      }
+
+      &.gray {
+        background-image: url('../../../../../assets/image/map/states/state-gray.png');
+      }
+    }
+
+    &-name {
+      width: 50px;
+    }
+  }
+}

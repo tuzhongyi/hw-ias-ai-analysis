@@ -11,6 +11,7 @@ import {
   ShopModel,
   SystemModuleShopTableArgs,
   SystemModuleShopTableFilter,
+  SystemModuleShopTableLoadArgs,
 } from '../system-module-shop-table/system-module-shop-table.model';
 
 @Component({
@@ -26,7 +27,7 @@ import {
 })
 export class SystemModuleShopListComponent {
   @Input() args = new SystemModuleShopTableArgs();
-  @Input('load') _load?: EventEmitter<SystemModuleShopTableArgs>;
+  @Input('load') _load?: EventEmitter<SystemModuleShopTableLoadArgs>;
   @Output() details = new EventEmitter<ShopModel>();
   @Output() error = new EventEmitter<Error>();
 
@@ -47,7 +48,10 @@ export class SystemModuleShopListComponent {
   ngOnInit(): void {
     if (this._load) {
       this._load.subscribe((x) => {
-        this.filter.load(x);
+        this.filter.load(x.args);
+        if (x.reset) {
+          this.page.PageIndex = 1;
+        }
         this.load(this.page.PageIndex, this.page.PageSize, this.filter);
       });
     }

@@ -131,7 +131,7 @@ import "./jquery.page.css";
       if (pageNum === 1) {
         me.element.children('#firstPage, #prePage').prop('disabled', true);
       }
-      if (pageNum === totalNum) {
+      if (totalNum <= 1) {
         me.element.children('#lastPage, #nextPage').prop('disabled', true);
 
         me.element.children("[name='jump']").css('display', "none");

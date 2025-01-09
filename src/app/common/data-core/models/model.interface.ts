@@ -1,9 +1,13 @@
-import 'reflect-metadata'
+import 'reflect-metadata';
 export interface IModel {}
 export interface IIdModel<T = string> extends IModel {
-  Id: T
+  Id: T;
 }
 export interface INameModel extends IModel {
-  Name: string
+  Name: string;
 }
 export interface IIdNameModel<T = string> extends IIdModel<T>, INameModel {}
+export interface IGisModel extends IModel {
+  Longitude: number;
+  Latitude: number;
+}

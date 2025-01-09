@@ -1,10 +1,14 @@
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { DateTimeTool } from '../../../../common/tools/date-time-tool/datetime.tool';
+import { Duration } from '../../../../common/tools/date-time-tool/duration.model';
 
 export class SystemTaskTableArgs {
+  constructor(duration = DateTimeTool.last.year(new Date())) {
+    this.duration = duration;
+  }
   finished?: boolean;
   name?: string;
-  duration = DateTimeTool.last.year(new Date());
+  duration: Duration;
 }
 
 export class SystemTaskTableFilter extends SystemTaskTableArgs {

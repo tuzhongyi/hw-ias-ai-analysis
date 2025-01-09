@@ -9,3 +9,35 @@
 .amap-indoormap-floorbar-control {
   display: none !important;
 }
+
+.amap-info-window {
+  color: black;
+  width: auto;
+  background: #fff;
+  border-radius: 3px;
+  padding: 3px 7px;
+  box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-content {
+    white-space: nowrap;
+  }
+}
+
+.amap-info-sharp {
+  position: absolute;
+  top: 28px;
+  bottom: 0;
+  left: 50%;
+  margin-left: -8px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #fff;
+}
+
+.amap-marker-label {
+  color: black;
+}

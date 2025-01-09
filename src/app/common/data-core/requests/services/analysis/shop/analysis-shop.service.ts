@@ -34,6 +34,18 @@ export class ArmAnalysisShopRequestService {
         return HowellResponseProcess.paged(x, Shop);
       });
   }
+  async all(params: GetShopsParams = new GetShopsParams()) {
+    let data: Shop[] = [];
+    let index = 1;
+    let paged: PagedList<Shop>;
+    do {
+      params.PageIndex = index;
+      paged = await this.list(params);
+      data = data.concat(paged.Data);
+      index++;
+    } while (index <= paged.Page.PageCount);
+    return data;
+  }
 
   private _sign?: ArmAnalysisShopSignRequestService;
   public get sign(): ArmAnalysisShopSignRequestService {

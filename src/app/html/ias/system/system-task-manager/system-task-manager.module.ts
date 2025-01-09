@@ -13,6 +13,7 @@ import { SystemTaskTableComponent } from '../system-task-table/system-task-table
 import { SystemTaskManagerFileBusiness } from './business/system-task-manager-file.business';
 import { SystemTaskManagerTaskBusiness } from './business/system-task-manager-task.business';
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
+import { SystemTaskManagerDurationController } from './controller/system-task-manager-duration.controller';
 import { SystemTaskManagerFileController } from './controller/system-task-manager-file.controller';
 import { SystemTaskManagerController } from './controller/system-task-manager.controller';
 
@@ -35,5 +36,6 @@ export const SystemTaskManagerProviders = [
   SystemTaskManagerFileBusiness,
   SystemTaskManagerBusiness,
   SystemTaskManagerFileController,
+  SystemTaskManagerDurationController,
   SystemTaskManagerController,
 ];

@@ -1,0 +1,24 @@
+<div class="system-map">
+  <div class="system-map-container" id="map-container"></div>
+
+  <div class="system-map-controls">
+    <ias-system-map-controls
+      (radius)="control.onradius()"
+    ></ias-system-map-controls>
+  </div>
+  <div class="system-map-state" *ngIf="panel.state.show">
+    <ias-system-map-state></ias-system-map-state>
+  </div>
+  <div class="system-map-editor-circle" *ngIf="panel.editor.circle.show">
+    <ias-system-map-editor-circle
+      [args]="panel.editor.circle.args"
+      (ok)="trigger.editor.circle.onok($event)"
+      (close)="trigger.editor.circle.oncancel()"
+    ></ias-system-map-editor-circle>
+  </div>
+  <div class="system-map-position" *ngIf="panel.position.show">
+    <div>{{ panel.position.point.X }}</div>
+    <div class="_">,</div>
+    <div>{{ panel.position.point.Y }}</div>
+  </div>
+</div>

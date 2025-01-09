@@ -1,5 +1,36 @@
 import { TransformationType, TransformFnParams } from 'class-transformer';
+import '../../../../assets/js/map/CoordinateTransform.js';
 import { Time } from './common/time.model';
+declare var gcj02towgs84: any;
+declare var wgs84togcj02: any;
+export function transformLatitude(params: TransformFnParams) {
+  if (!params.value) return params.value;
+  if (!params.obj) return params.value;
+  if (!params.obj.Longitude) return params.value;
+  if (params.type === TransformationType.PLAIN_TO_CLASS) {
+    let position = wgs84togcj02(params.obj.Longitude, params.value);
+    return position[1];
+  } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
+    let position = gcj02towgs84(params.obj.Longitude, params.value);
+    return position[1];
+  } else {
+    return params.value;
+  }
+}
+export function transformLongitude(params: TransformFnParams) {
+  if (!params.value) return params.value;
+  if (!params.obj) return params.value;
+  if (!params.obj.Latitude) return params.value;
+  if (params.type === TransformationType.PLAIN_TO_CLASS) {
+    let position = wgs84togcj02(params.value, params.obj.Latitude);
+    return position[0];
+  } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
+    let position = gcj02towgs84(params.value, params.obj.Latitude);
+    return position[0];
+  } else {
+    return params.value;
+  }
+}
 
 export function transformSize(params: TransformFnParams) {
   if (!params.value) return params.value;

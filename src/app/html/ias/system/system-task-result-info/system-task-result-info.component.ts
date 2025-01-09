@@ -30,12 +30,13 @@ export class SystemTaskResultInfoComponent {
   @Input() page?: Page;
   @Output() get = new EventEmitter<number>();
   @Output() error = new EventEmitter<Error>();
+  @Output() picture = new EventEmitter<ShopSign>();
 
   constructor(private business: SystemTaskResultInfoBusiness) {}
 
   model?: TaskResultItemModel;
-
   shop?: Shop;
+  Language = Language;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['sign'] && this.sign) {
@@ -62,5 +63,9 @@ export class SystemTaskResultInfoComponent {
     }
   }
 
-  Language = Language;
+  onpicture() {
+    if (this.sign) {
+      this.picture.emit(this.sign);
+    }
+  }
 }

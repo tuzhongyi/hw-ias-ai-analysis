@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Language } from '../../../../common/tools/language';
@@ -16,10 +16,16 @@ import { ShopModel } from '../system-module-shop-table/system-module-shop-table.
 export class SystemModuleShopDetailsInfoComponent {
   @Input() data?: ShopModel;
   @Input() sign?: ShopSign;
+  @Output() picture = new EventEmitter<ShopSign>();
 
   Language = Language;
 
   onchange() {
     console.log(this.data);
+  }
+  onpicture() {
+    if (this.sign) {
+      this.picture.emit(this.sign);
+    }
   }
 }

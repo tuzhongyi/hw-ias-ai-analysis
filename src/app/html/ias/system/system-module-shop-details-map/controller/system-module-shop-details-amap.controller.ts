@@ -2,9 +2,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { wait } from '../../../../../common/tools/wait';
 
-import '../../../../../../assets/js/map/CoordinateTransform.js';
 import { MapHelper } from '../../../../../common/helper/map/map.helper';
-declare var wgs84togcj02: any;
+
 declare var AMap: any;
 
 @Injectable()
@@ -32,7 +31,7 @@ export class SystemModuleShopDetailsAMapController {
     });
   }
   private _load(data: GisPoint) {
-    let position = wgs84togcj02(data.Longitude, data.Latitude);
+    let position = [data.Longitude, data.Latitude];
     let marker = new AMap.Marker({
       position: position,
       map: this.map,

@@ -9,24 +9,20 @@ import {
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { SystemTaskResultAMapController } from './controller/system-task-result-amap.controller';
-import { SystemTaskResultMapBusiness } from './system-task-result-map.business';
 
 @Component({
   selector: 'ias-system-task-result-map',
   imports: [CommonModule],
   templateUrl: './system-task-result-map.component.html',
   styleUrl: './system-task-result-map.component.less',
-  providers: [SystemTaskResultAMapController, SystemTaskResultMapBusiness],
+  providers: [SystemTaskResultAMapController],
 })
 export class SystemTaskResultMapComponent implements OnInit, OnChanges {
   @Input() data?: AnalysisTask;
   @Input() selected?: ShopSign;
   @Input() signs: ShopSign[] = [];
 
-  constructor(
-    private business: SystemTaskResultMapBusiness,
-    private controller: SystemTaskResultAMapController
-  ) {}
+  constructor(private controller: SystemTaskResultAMapController) {}
 
   loading = false;
 

@@ -1,10 +1,12 @@
 <div class="system-module-shop-details-info" *ngIf="data">
   <div class="system-module-shop-details-info-head">
-    <div class="system-module-shop-details-info-head-image">
+    <div
+      class="system-module-shop-details-info-head-image"
+      (click)="onpicture()"
+    >
       <ias-picture
         [id]="sign?.ImageUrl"
         [polygon]="sign?.Polygon ?? []"
-        [zoom]="true"
       ></ias-picture>
     </div>
   </div>

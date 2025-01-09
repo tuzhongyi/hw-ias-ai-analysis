@@ -12,6 +12,7 @@ import {
 import { SystemPath } from '../system.model';
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
 import { SystemTaskManagerController } from './controller/system-task-manager.controller';
+import { TaskDurationValue } from './system-task-manager.model';
 import {
   SystemTaskManagerImports,
   SystemTaskManagerProviders,
@@ -32,7 +33,9 @@ export class SystemTaskManagerComponent implements OnInit {
     private toastr: ToastrService,
     private local: LocalStorage,
     private router: Router
-  ) {}
+  ) {
+    this.filter.duration.onchange();
+  }
 
   window = new SystemTaskManagerWindow();
 
@@ -57,9 +60,34 @@ export class SystemTaskManagerComponent implements OnInit {
     this.table.args.finished = this.local.system.task.index.get();
   }
 
-  onsearch() {
-    this.table.load.emit(this.table.args);
-  }
+  filter = {
+    duration: {
+      value: TaskDurationValue.year,
+
+      onchange: () => {
+        let today = new Date();
+        let duration = this.local.system.task.duration.get();
+        if (duration) {
+          today = duration.end;
+        }
+        this.table.args.duration = this.controller.duration.get(
+          this.filter.duration.value,
+          today
+        );
+        this.local.system.task.duration.set(this.table.args.duration);
+      },
+      onbegin: (date: Date) => {
+        this.local.system.task.duration.set(this.table.args.duration);
+      },
+      onend: (date: Date) => {
+        this.local.system.task.duration.set(this.table.args.duration);
+      },
+    },
+
+    onsearch: () => {
+      this.table.load.emit(this.table.args);
+    },
+  };
 
   onstate(finished?: boolean) {
     this.table.args.finished = finished;

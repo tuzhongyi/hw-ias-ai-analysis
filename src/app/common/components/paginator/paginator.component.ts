@@ -4,7 +4,9 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import '../../../../assets/js/jquery/jquery-page/jquery.page.js';
@@ -18,9 +20,24 @@ declare var $: any;
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.less',
 })
-export class PaginatorComponent implements AfterViewInit {
+export class PaginatorComponent implements AfterViewInit, OnChanges {
   @Input() page = Page.create(1, 50, 50);
   @Output() change = new EventEmitter<number>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['page'] && !changes['page'].firstChange) {
+      if (this.element) {
+        $(this.element.nativeElement).paging({
+          pageNum: this.page.PageIndex, // 当前页面
+          totalNum: this.page.PageCount, // 总页码
+          totalList: this.page.TotalRecordCount, // 记录总数量
+          callback: (num: number) => {
+            this.change.emit(num);
+          },
+        });
+      }
+    }
+  }
 
   ngAfterViewInit(): void {
     if (this.element) {

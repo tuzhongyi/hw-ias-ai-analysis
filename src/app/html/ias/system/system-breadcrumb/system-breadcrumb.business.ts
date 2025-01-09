@@ -6,15 +6,16 @@ import { SystemBreadcrumbItem } from './system-breadcrumb.model';
 export class SystemBreadcrumbBusiness {
   load(): SystemBreadcrumbItem[] {
     let models: SystemBreadcrumbItem[] = [];
-
     if (location.pathname.indexOf(SystemPath.module_shop) >= 0) {
       models = [this.home(), this.module(), this.module_shop()];
     } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
       models = [this.home(), this.module()];
     } else if (location.pathname.indexOf(SystemPath.task_file) >= 0) {
-      models = [this.home(), this.task(), this.file()];
+      models = [this.home(), this.task(), this.task_file()];
     } else if (location.pathname.indexOf(SystemPath.task) >= 0) {
       models = [this.home(), this.task()];
+    } else if (location.pathname.indexOf(SystemPath.map) >= 0) {
+      models = [this.home(), this.map()];
     }
     if (models.length > 0) {
       models[models.length - 1].selected = true;
@@ -49,10 +50,16 @@ export class SystemBreadcrumbBusiness {
     return item;
   }
 
-  private file() {
+  private task_file() {
     let item = new SystemBreadcrumbItem();
     item.text = '录像文件';
     item.path = SystemPath.task_file;
+    return item;
+  }
+  private map() {
+    let item = new SystemBreadcrumbItem();
+    item.text = '地图';
+    item.path = SystemPath.map;
     return item;
   }
 }

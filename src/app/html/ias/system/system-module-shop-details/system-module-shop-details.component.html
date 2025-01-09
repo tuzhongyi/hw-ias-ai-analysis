@@ -15,6 +15,7 @@
       <ias-system-module-shop-details-info
         [data]="shop"
         [sign]="sign"
+        (picture)="onpicture($event)"
       ></ias-system-module-shop-details-info>
     </div>
     <div class="system-module-shop-details-body-map panel">
@@ -28,4 +29,16 @@
     <button class="button-clip-gradient" (click)="onok()">确定</button>
     <button class="button-clip-blue" (click)="oncancel()">取消</button>
   </div>
+
+  <app-window
+    *ngIf="window.picture.show"
+    [Model]="window.picture"
+    [style]="window.picture.style"
+  >
+    <ias-picture-window-content
+      [url]="window.picture.id"
+      [title]="window.picture.title"
+      [polygon]="window.picture.polygon"
+    ></ias-picture-window-content>
+  </app-window>
 </div>

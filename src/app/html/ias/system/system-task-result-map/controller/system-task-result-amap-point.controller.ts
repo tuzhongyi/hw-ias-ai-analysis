@@ -1,7 +1,6 @@
-import '../../../../../../assets/js/map/CoordinateTransform.js';
 import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { SystemTaskResultAMapIconController } from './system-task-result-amap-icon.controller';
-declare var wgs84togcj02: any;
+
 declare var AMap: any;
 export class SystemTaskResultAMapPointController {
   selected = false;
@@ -14,10 +13,7 @@ export class SystemTaskResultAMapPointController {
 
   create(data: ShopSign) {
     if (data.Location) {
-      let position = wgs84togcj02(
-        data.Location.Longitude,
-        data.Location.Latitude
-      );
+      let position = [data.Location.Longitude, data.Location.Latitude];
       let icon = this.icon.create();
       const marker = new AMap.LabelMarker({
         icon: icon,

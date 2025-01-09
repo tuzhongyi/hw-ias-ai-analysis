@@ -1,10 +1,9 @@
 <div class="system-task-result-info">
   <div class="system-task-result-info-head">
-    <div class="system-task-result-info-head-image">
+    <div class="system-task-result-info-head-image" (click)="onpicture()">
       <ias-picture
         [id]="sign?.ImageUrl"
         [polygon]="sign?.Polygon ?? []"
-        [zoom]="true"
       ></ias-picture>
     </div>
   </div>

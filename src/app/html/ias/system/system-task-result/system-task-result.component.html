@@ -14,7 +14,7 @@
         <div class="form-item">
           <div class="form-item-text">任务类型</div>
           <div class="form-item-value">
-            <input type="text" readonly [value]="data.TaskType" />
+            <input type="text" readonly [value]="type" />
           </div>
         </div>
       </div>
@@ -27,18 +27,24 @@
           [load]="indexchange"
           (page)="onpage($event)"
           (loaded)="onloaded($event)"
+          (error)="onerror($event)"
         ></ias-system-task-result-table>
       </div>
       <div class="system-task-result-body-content-info panel">
         <ias-system-task-result-info
+          *ngIf="selected"
           [data]="data"
           [sign]="selected"
           [page]="page"
           (get)="onget($event)"
+          (error)="onerror($event)"
+          (picture)="onpicture($event)"
         ></ias-system-task-result-info>
+        <div class="loading" *ngIf="loading"></div>
       </div>
       <div class="system-task-result-body-content-map panel">
         <ias-system-task-result-map
+          *ngIf="selected"
           [data]="data"
           [selected]="selected"
           [signs]="signs"
@@ -46,4 +52,16 @@
       </div>
     </div>
   </div>
+
+  <app-window
+    *ngIf="window.picture.show"
+    [Model]="window.picture"
+    [style]="window.picture.style"
+  >
+    <ias-picture-window-content
+      [url]="window.picture.id"
+      [title]="window.picture.title"
+      [polygon]="window.picture.polygon"
+    ></ias-picture-window-content>
+  </app-window>
 </div>

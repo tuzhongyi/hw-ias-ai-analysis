@@ -1,0 +1,55 @@
+.system-map {
+  width: 100%;
+  height: 100%;
+  animation: 0.75s;
+  position: relative;
+  padding: 20px;
+  box-sizing: border-box;
+  cursor: default;
+
+  @padding-width: 20px;
+  @padding-height: 20px;
+
+  &-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  &-state {
+    position: absolute;
+    right: calc(30px + @padding-width);
+    bottom: calc(30px + @padding-height);
+  }
+
+  &-controls {
+    position: absolute;
+    left: calc(30px + @padding-width);
+    bottom: calc(30px + @padding-height);
+  }
+
+  &-editor {
+    &-circle {
+      position: absolute;
+      right: calc(30px + @padding-width);
+      bottom: calc(30px + @padding-height);
+    }
+  }
+
+  &-position {
+    position: absolute;
+    bottom: calc(30px + @padding-height);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    display: flex;
+    justify-content: center;
+
+    &>._ {
+      width: 15px;
+    }
+
+    &>* {
+      width: calc((100% - 15px) / 2);
+    }
+  }
+}

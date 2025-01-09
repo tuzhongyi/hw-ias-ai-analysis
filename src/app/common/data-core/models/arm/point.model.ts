@@ -1,13 +1,19 @@
-import { IModel } from '../model.interface'
+import { IModel } from '../model.interface';
 
 /**	Point (点)	*/
 export class Point implements IModel {
   /**	Double	X轴坐标，归一化数值	M	*/
-  X!: number
+  X!: number;
   /**	Double	Y轴坐标，归一化数值	M	*/
-  Y!: number
+  Y!: number;
 
   static equals(a: Point, b: Point) {
-    return a.X === b.X && a.Y === b.Y
+    return a.X === b.X && a.Y === b.Y;
+  }
+  static create() {
+    let point = new Point();
+    point.X = 0;
+    point.Y = 0;
+    return point;
   }
 }
