@@ -12,6 +12,7 @@
   <div class="system-map-editor-circle" *ngIf="panel.editor.circle.show">
     <ias-system-map-editor-circle
       [args]="panel.editor.circle.args"
+      (duration)="trigger.editor.circle.onduration($event)"
       (ok)="trigger.editor.circle.onok($event)"
       (close)="trigger.editor.circle.oncancel()"
     ></ias-system-map-editor-circle>

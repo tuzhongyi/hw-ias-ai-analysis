@@ -12,6 +12,11 @@ export class SystemMapEditorCircleComponent {
   @Input() args = new SystemMapShopRadiusArgs();
   @Output() ok = new EventEmitter<SystemMapShopRadiusArgs>();
   @Output() close = new EventEmitter<void>();
+  @Output() duration = new EventEmitter<number>();
+
+  ondistance() {
+    this.duration.emit(this.args.distance);
+  }
 
   onok() {
     this.ok.emit(this.args);

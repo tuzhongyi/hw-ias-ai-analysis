@@ -33,6 +33,14 @@ export class SystemAMapCircleController {
     this.event.change.emit(100);
   }
 
+  set(radius: number) {
+    if (this.circle) {
+      this.circle.setRadius(radius);
+      this.close();
+      this.open();
+    }
+  }
+
   open() {
     this.editor = new AMap.CircleEditor(this.map, this.circle);
     this.regist(this.editor);

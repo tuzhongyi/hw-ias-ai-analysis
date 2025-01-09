@@ -8,7 +8,7 @@
         <div>度</div>
       </div>
       <div class="form-item-value">
-        <input type="text" [(ngModel)]="args.center.X" />
+        <input type="text" readonly [(ngModel)]="args.center.X" />
       </div>
     </div>
     <div class="form-item">
@@ -19,7 +19,7 @@
         <div>度</div>
       </div>
       <div class="form-item-value">
-        <input type="text" [(ngModel)]="args.center.Y" />
+        <input type="text" readonly [(ngModel)]="args.center.Y" />
       </div>
     </div>
     <div class="form-item">
@@ -28,7 +28,7 @@
         <div>径</div>
       </div>
       <div class="form-item-value">
-        <input type="text" [(ngModel)]="args.distance" />
+        <input type="text" [(ngModel)]="args.distance" (input)="ondistance()" />
       </div>
     </div>
   </div>

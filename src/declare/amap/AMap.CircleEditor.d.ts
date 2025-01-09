@@ -4,5 +4,6 @@ declare namespace AMap {
     open(): void;
     close(): void;
     on(event: string, cb: Function): void;
+    setTarget(circle: Circle): void;
   }
 }

@@ -85,5 +85,10 @@ export class SystemAMapController {
         x.close();
       });
     },
+    set: (value: number) => {
+      this.circle.get().then((x) => {
+        x.set(value);
+      });
+    },
   };
 }

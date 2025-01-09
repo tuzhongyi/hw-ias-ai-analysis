@@ -88,6 +88,9 @@ export class SystemMapComponent implements OnInit {
           this.panel.editor.circle.show = false;
           this.panel.state.show = true;
         },
+        onduration: (value: number) => {
+          this.controller.amap.radius.set(value);
+        },
       },
     },
   };
