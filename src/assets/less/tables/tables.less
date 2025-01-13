@@ -1,6 +1,7 @@
 @import "./table-page/table.less";
 @import "./table-sticky/table.less";
 @import "./table-split/table.less";
+@import "./table-sticky-list/table.less";
 
 table {
   border: none;
@@ -12,101 +13,5 @@ table {
   height: 100%;
   table-layout: fixed;
 
-  tr {
 
-    th,
-    td {
-      &.sort {
-        cursor: pointer;
-        user-select: none;
-      }
-
-      &.center {
-        text-align: center !important;
-
-        &>div {
-          display: flex;
-          align-items: center;
-          width: 100%;
-          height: 100%;
-          justify-content: center;
-        }
-      }
-    }
-  }
-
-  tbody {
-    tr {
-
-      &:nth-child(odd) {
-        background-color: rgba(19, 34, 77, 0.5);
-      }
-
-      &:nth-child(even) {
-        background-color: rgba(19, 34, 77, 0.6);
-      }
-
-      &:hover {
-        background-color: rgba(30, 144, 255, 0.3);
-      }
-
-      &.selected {
-        background-color: rgba(30, 144, 255, 0.4);
-
-        &:hover {
-          color: white;
-        }
-      }
-
-      &.nohover {
-        background-color: initial;
-        cursor: default;
-      }
-
-      &.nodata {
-        display: inline-block;
-      }
-
-
-
-      td {
-        padding: 0 10px;
-        white-space: nowrap;
-        /* 文本不换行 */
-        overflow: hidden;
-        /* 隐藏溢出的内容 */
-        text-overflow: ellipsis;
-        /* 使用省略号表示溢出的文本 */
-
-        &>div {
-          width: 100%;
-          height: 100%;
-
-          white-space: nowrap;
-          /* 文本不换行 */
-          overflow: hidden;
-          /* 隐藏溢出的内容 */
-          text-overflow: ellipsis;
-          /* 使用省略号表示溢出的文本 */
-          display: flex;
-          align-items: center;
-        }
-
-        &.center {
-          text-align: center;
-
-
-        }
-
-        .operation {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-
-
-      }
-    }
-  }
 }

@@ -7,7 +7,7 @@ import { FileProgress } from '../system-task-manager.model';
 export class SystemTaskManagerFileBusiness {
   constructor(private service: ArmSystemRequestService) {}
 
-  upload(file: UploadControlFile, progress: EventEmitter<FileProgress>) {
+  async upload(file: UploadControlFile, progress: EventEmitter<FileProgress>) {
     let data = this.convert(file);
     return this.service.file.upload(data, (value: number) => {
       let args = { filename: file.filename, progress: value };

@@ -1,6 +1,6 @@
 const PROXY_CONFIG = [
   {
-    context: ['/api/ver10/', '/main/'],
+    context: ['/api/ver10/'],
     target: 'http://192.168.18.147:9000',
     changeOrigin: true,
 

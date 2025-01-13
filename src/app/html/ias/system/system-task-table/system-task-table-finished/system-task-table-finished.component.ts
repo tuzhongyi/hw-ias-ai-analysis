@@ -60,6 +60,7 @@ export class SystemTaskTableFinishedComponent implements OnInit {
         this.load(this.page.PageIndex, this.page.PageSize, this.filter);
       });
     }
+    this.filter.desc = 'StartTime';
     this.load(1, this.page.PageSize, this.filter);
   }
 

@@ -1,5 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { SystemTaskModel } from '../../system-task-creation/system-task-creation.model';
+import {
+  SystemTaskModel,
+  TaskCompletedArgs,
+} from '../../system-task-creation/system-task-creation.model';
 import { TaskProgress } from '../../system-task-table/system-task-table.model';
 import { SystemTaskManagerBusiness } from '../business/system-task-manager.business';
 import { FileProgress } from '../system-task-manager.model';
@@ -13,7 +16,7 @@ export class SystemTaskManagerFileController {
     task: new EventEmitter<TaskProgress>(),
     file: new EventEmitter<FileProgress>(),
   };
-  complete = new EventEmitter<SystemTaskModel>();
+  complete = new EventEmitter<TaskCompletedArgs>();
 
   private files: SystemTaskManagerFileProgressController[] = [];
   private datas: SystemTaskModel[] = [];
@@ -35,17 +38,22 @@ export class SystemTaskManagerFileController {
     controller.taskprogress.subscribe((value) => {
       this.progress.task.emit(value);
       if (value.progress >= 100) {
-        this.oncomplete(value.taskid);
+        this.oncomplete(value.taskid, value.files);
       }
     });
     controller.load(data);
     this.files.push(controller);
   }
 
-  oncomplete(id: string) {
+  oncomplete(id: string, files: string[] = []) {
     let data = this.datas.find((x) => x.task.Id === id);
+
     if (data) {
-      this.complete.emit(data);
+      let args: TaskCompletedArgs = {
+        task: data.task,
+        files: files,
+      };
+      this.complete.emit(args);
     }
   }
 }

@@ -1,12 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemMapControlsComponent } from '../system-map-controls/system-map-controls.component';
 import { SystemMapEditorCircleComponent } from '../system-map-editor-circle/system-map-editor-circle.component';
+import { SystemMapSourceManagerComponent } from '../system-map-source-manager/system-map-source-manager.component';
 import { SystemMapStateComponent } from '../system-map-state/system-map-state.component';
-import { SystemAMapController } from './controller/system-map-amap.controller';
+import { SystemAMapController } from './controller/amap/system-map-amap.controller';
+import { SystemMapPanelController } from './controller/panel/system-map-panel.controller';
 import { SystemMapController } from './controller/system-map.controller';
 import { SystemMapBusiness } from './system-map.business';
-import { SystemMapShopArgs, SystemMapShopRadiusArgs } from './system-map.model';
+import {
+  SystemMapShopArgs,
+  SystemMapShopFilterArgs,
+  SystemMapShopRadiusArgs,
+} from './system-map.model';
 import { SystemMapPanel } from './system-map.panel';
 
 @Component({
@@ -16,10 +23,16 @@ import { SystemMapPanel } from './system-map.panel';
     SystemMapStateComponent,
     SystemMapControlsComponent,
     SystemMapEditorCircleComponent,
+    SystemMapSourceManagerComponent,
   ],
   templateUrl: './system-map.component.html',
   styleUrl: './system-map.component.less',
-  providers: [SystemAMapController, SystemMapController, SystemMapBusiness],
+  providers: [
+    SystemAMapController,
+    SystemMapPanelController,
+    SystemMapController,
+    SystemMapBusiness,
+  ],
 })
 export class SystemMapComponent implements OnInit {
   constructor(
@@ -29,10 +42,12 @@ export class SystemMapComponent implements OnInit {
 
   panel = new SystemMapPanel();
   args = new SystemMapShopArgs();
+  datas: Shop[] = [];
 
   ngOnInit(): void {
+    this.controller.panel.init(this.panel);
     this.init();
-    this.load();
+    // this.load();
     this.regist();
   }
 
@@ -61,36 +76,43 @@ export class SystemMapComponent implements OnInit {
     });
   }
 
-  load() {
-    this.business.load(this.args).then((x) => {
+  load(args: SystemMapShopArgs) {
+    this.business.load(args).then((x) => {
+      this.datas = x;
       this.controller.amap.load(x);
     });
   }
 
   control = {
     onradius: () => {
-      this.panel.state.show = false;
-      this.panel.editor.circle.show = true;
-      this.controller.amap.radius.open();
+      this.panel.editor.circle.show = !this.panel.editor.circle.show;
+    },
+    onsource: () => {
+      this.panel.source.show = !this.panel.source.show;
     },
   };
   trigger = {
     editor: {
       circle: {
         onok: (data: SystemMapShopRadiusArgs) => {
+          this.args.clear();
           this.args.radius = data;
-          this.load();
-          this.controller.amap.radius.close();
+          this.load(this.args);
           this.panel.editor.circle.show = false;
-          this.panel.state.show = true;
         },
         oncancel: () => {
           this.panel.editor.circle.show = false;
-          this.panel.state.show = true;
         },
-        onduration: (value: number) => {
+        ondistance: (value: number) => {
           this.controller.amap.radius.set(value);
         },
+      },
+    },
+    source: {
+      onfilter: (data: SystemMapShopFilterArgs) => {
+        this.args.clear();
+        this.args.filter = data;
+        this.load(this.args);
       },
     },
   };

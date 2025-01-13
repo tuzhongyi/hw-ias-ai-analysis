@@ -12,6 +12,23 @@
           text-align: left;
           font-weight: normal;
           padding: 0 10px;
+
+          &.sort {
+            cursor: pointer;
+            user-select: none;
+          }
+
+          &.center {
+            text-align: center !important;
+
+            &>div {
+              display: flex;
+              align-items: center;
+              width: 100%;
+              height: 100%;
+              justify-content: center;
+            }
+          }
         }
       }
     }

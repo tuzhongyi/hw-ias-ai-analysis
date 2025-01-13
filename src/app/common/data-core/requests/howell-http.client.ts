@@ -75,7 +75,11 @@ export class HowellHttpClient {
     this.local.auth.clear();
   }
 
-  upload<R>(path: string, data: FormData, process: (x: number) => void) {
+  upload<R>(
+    path: string,
+    data: FormData,
+    event?: { process?: (x: number) => void; completed?: () => void }
+  ) {
     let options = this.getAuth();
     return new Promise<R>((resolve) => {
       this.http
@@ -84,15 +88,29 @@ export class HowellHttpClient {
           reportProgress: true,
           observe: 'events',
         })
-        .subscribe((event) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            let percent = (event.loaded / (event.total ?? event.loaded)) * 100;
-            process(percent);
+        .subscribe((e) => {
+          if (event && event.process) {
+            if (e.type === HttpEventType.UploadProgress) {
+              let percent = (e.loaded / (e.total ?? e.loaded)) * 100;
+
+              event.process(percent);
+              {
+              }
+            }
           }
-          if (event.type === HttpEventType.Response) {
-            process(1);
-            if (event.body) {
-              resolve(event.body as R);
+
+          if (e.type === HttpEventType.Response) {
+            if (event) {
+              if (event.process) {
+                event.process(100);
+              }
+              if (event.completed) {
+                event.completed();
+              }
+            }
+
+            if (e.body) {
+              resolve(e.body as R);
             }
           }
         });

@@ -42,7 +42,6 @@
               <date-time-control
                 [(date)]="table.args.duration.begin"
                 [format]="Language.yyyyMMdd"
-                (dateChange)="filter.duration.onbegin($event)"
               ></date-time-control>
             </div>
           </div>
@@ -52,7 +51,6 @@
               <date-time-control
                 [(date)]="table.args.duration.end"
                 [format]="Language.yyyyMMdd"
-                (dateChange)="filter.duration.onend($event)"
               ></date-time-control>
             </div>
           </div>

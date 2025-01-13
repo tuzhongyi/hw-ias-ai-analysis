@@ -5,3 +5,7 @@ export interface SystemTaskModel {
   task: AnalysisTask;
   files: UploadControlFile[];
 }
+export interface TaskCompletedArgs {
+  task: AnalysisTask;
+  files: string[];
+}

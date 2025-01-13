@@ -38,6 +38,7 @@
       <upload-control
         [accept]="controller.file.accept"
         [multiple]="true"
+        [type]="controller.file.type"
         (loadstart)="controller.file.onstart($event)"
         (upload)="controller.file.onfile($event)"
       >
@@ -55,7 +56,14 @@
     </div>
   </div>
   <div class="system-task-creation-foot">
-    <button class="button-clip-gradient" (click)="onok()">确定</button>
-    <button class="button-clip-blue" (click)="oncancel()">取消</button>
+    <div>
+      {{ this.controller.file.files.length }}/{{
+        this.controller.file.datas.length
+      }}
+    </div>
+    <div class="system-task-creation-foot-buttons button-group">
+      <button class="button-clip-gradient" (click)="onok()">确定</button>
+      <button class="button-clip-blue" (click)="oncancel()">取消</button>
+    </div>
   </div>
 </div>

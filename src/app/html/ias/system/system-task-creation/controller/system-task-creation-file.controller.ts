@@ -1,5 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import {
+  FileReadType,
   UploadControlFile,
   UploadControlFileInfo,
 } from '../../../../../common/components/upload-control/upload-control.model';
@@ -8,6 +9,7 @@ import { SystemTaskCreationFileModel } from '../../system-task-creation-file-tab
 @Injectable()
 export class SystemTaskCreationFileController {
   accept = 'video/*,.mkv';
+  type = FileReadType.ArrayBuffer;
 
   load = new EventEmitter<SystemTaskCreationFileModel[]>();
 

@@ -34,6 +34,9 @@ export class SystemTaskManagerComponent implements OnInit {
     private local: LocalStorage,
     private router: Router
   ) {
+    this.filter.duration.value =
+      this.local.system.task.duration.get() ?? TaskDurationValue.year;
+
     this.filter.duration.onchange();
   }
 
@@ -47,9 +50,8 @@ export class SystemTaskManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.controller.file.complete.subscribe((data) => {
-      let names = data.files.map((x) => x.filename);
       this.business.task
-        .source(data.task, names)
+        .source(data.task, data.files)
         .then((x) => {
           this.table.load.emit(this.table.args);
         })
@@ -65,22 +67,12 @@ export class SystemTaskManagerComponent implements OnInit {
       value: TaskDurationValue.year,
 
       onchange: () => {
-        let today = new Date();
-        let duration = this.local.system.task.duration.get();
-        if (duration) {
-          today = duration.end;
-        }
+        let today = this.table.args.duration.end;
         this.table.args.duration = this.controller.duration.get(
           this.filter.duration.value,
           today
         );
-        this.local.system.task.duration.set(this.table.args.duration);
-      },
-      onbegin: (date: Date) => {
-        this.local.system.task.duration.set(this.table.args.duration);
-      },
-      onend: (date: Date) => {
-        this.local.system.task.duration.set(this.table.args.duration);
+        this.local.system.task.duration.set(this.filter.duration.value);
       },
     },
 

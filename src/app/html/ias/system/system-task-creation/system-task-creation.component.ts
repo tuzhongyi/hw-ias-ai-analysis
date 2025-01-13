@@ -56,21 +56,22 @@ export class SystemTaskCreationComponent implements OnInit {
       this.toastr.warning('任务名称不能为空');
       return false;
     }
-    // if (this.controller.file.files.length === 0) {
-    //   this.toastr.warning('请上传文件');
-    //   return false;
-    // }
-    // if (
-    //   this.controller.file.files.length !== this.controller.file.datas.length
-    // ) {
-    //   this.toastr.warning('请等待文件加载');
-    //   return false;
-    // }
+    if (this.controller.file.files.length === 0) {
+      this.toastr.warning('请上传文件');
+      return false;
+    }
+    if (
+      this.controller.file.files.length !== this.controller.file.datas.length
+    ) {
+      this.toastr.warning('请等待文件加载');
+      return false;
+    }
     return true;
   }
 
   onok() {
     if (this.check) {
+      this.task.Files = this.controller.file.datas.map((x) => x.filename);
       this.business
         .create(this.task)
         .then((x) => {

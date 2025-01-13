@@ -1,0 +1,6 @@
+<div class="input-icon">
+  <input type="text" [value]="value ?? ''" (input)="oninput($event)" />
+  <div class="input-icon-btn">
+    <ng-content></ng-content>
+  </div>
+</div>

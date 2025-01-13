@@ -12,7 +12,6 @@ export class SystemTaskManagerDurationController {
   source: EnumNameValue<TaskDurationValue>[];
 
   private init() {
-    let today = new EnumNameValue(TaskDurationValue.today, '今日');
     let day = new EnumNameValue(TaskDurationValue.day, '当日');
     let week = new EnumNameValue(TaskDurationValue.week, '一周');
     let month = new EnumNameValue(TaskDurationValue.month, '一个月');
@@ -20,13 +19,11 @@ export class SystemTaskManagerDurationController {
     let halfyear = new EnumNameValue(TaskDurationValue.halfyear, '半年');
     let year = new EnumNameValue(TaskDurationValue.year, '一年');
 
-    return [today, day, week, month, threemonth, halfyear, year];
+    return [day, week, month, threemonth, halfyear, year];
   }
 
   get(value: TaskDurationValue, today: Date) {
     switch (value) {
-      case TaskDurationValue.today:
-        return DateTimeTool.all.day(new Date());
       case TaskDurationValue.day:
         return DateTimeTool.all.day(today);
       case TaskDurationValue.week:

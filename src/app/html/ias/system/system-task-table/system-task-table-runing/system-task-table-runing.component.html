@@ -53,7 +53,7 @@
           </td>
           <td>@if(item.hasdata){ {{ (item.Progress ?? 0).toFixed(2) }}%}</td>
           <td>
-            @if(item.hasdata){
+            @if(item.hasdata && item.CreationTime){
             {{ item.CreationTime | date : "yyyy-MM-dd HH:mm:ss" }}
 
             }
@@ -71,12 +71,15 @@
             } }
           </td>
           <td>
+            @if(item.EstimatedTime){
             {{ item.EstimatedTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            }
           </td>
 
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
+              @if(item.State != undefined ){ @if(item.State < 0){
               <div
                 class="button"
                 title="任务信息"
@@ -84,6 +87,15 @@
               >
                 <i class="howell-icon-details"></i>
               </div>
+              } @else{
+              <div
+                class="button"
+                title="视频文件"
+                (click)="onfiles(item, $event)"
+              >
+                <i class="mdi mdi-file-video"></i>
+              </div>
+              } }
               <div
                 class="button"
                 title="删除任务"

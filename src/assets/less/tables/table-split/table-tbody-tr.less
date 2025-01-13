@@ -1,0 +1,43 @@
+@import "./table-tbody-tr-td.less";
+
+.table-split {
+  &-body {
+    table {
+      tbody {
+        tr {
+          height: 60px;
+          cursor: pointer;
+
+          &:nth-child(odd) {
+            background-color: rgba(19, 34, 77, 0.5);
+          }
+
+          &:nth-child(even) {
+            background-color: rgba(19, 34, 77, 0.6);
+          }
+
+          &:hover {
+            background-color: rgba(30, 144, 255, 0.3);
+          }
+
+          &.selected {
+            background-color: rgba(30, 144, 255, 0.4);
+
+            &:hover {
+              color: white;
+            }
+          }
+
+          &.nohover {
+            background-color: initial;
+            cursor: default;
+          }
+
+          &.nodata {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}

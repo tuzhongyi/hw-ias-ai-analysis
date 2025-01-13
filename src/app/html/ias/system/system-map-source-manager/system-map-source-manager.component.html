@@ -1,1 +1,37 @@
-<p>system-map-source-manager works!</p>
+<div class="system-map-source-manager">
+  <div class="system-map-source-manager-head">
+    <ias-system-map-panel-head></ias-system-map-panel-head>
+  </div>
+  <div class="panel-map system-map-source-manager-body">
+    <div class="system-map-source-manager-body-buttons">
+      <button class="button-clip-gradient-2">商铺</button>
+    </div>
+    <div class="system-map-source-manager-body-search">
+      <input-icon [(value)]="filter.name">
+        <div (click)="onsearch()">
+          <i class="howell-icon-search"></i>
+        </div>
+      </input-icon>
+    </div>
+    <div class="system-map-source-manager-body-list">
+      <ias-system-map-source-table
+        [datas]="shops"
+      ></ias-system-map-source-table>
+    </div>
+    <div class="system-map-source-manager-body-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">状态</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="filter.state" (change)="onsearch()">
+              <option [ngValue]="undefined">全部</option>
+              <option [ngValue]="item" *ngFor="let item of states">
+                {{ Language.ShopObjectState(item) }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

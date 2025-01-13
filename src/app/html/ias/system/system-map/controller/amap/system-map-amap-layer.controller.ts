@@ -1,4 +1,4 @@
-import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
+import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemAMapPointInfoController } from './system-map-amap-point-info.controller';
 import { SystemAMapPointController } from './system-map-amap-point.controller';
 

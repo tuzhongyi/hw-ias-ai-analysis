@@ -1,8 +1,7 @@
-import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
+import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemAMapPointIconController } from './system-map-amap-point-icon.controller';
 
 import { EventEmitter } from '@angular/core';
-
 
 export class SystemAMapPointController {
   mouseover = new EventEmitter<Shop>();

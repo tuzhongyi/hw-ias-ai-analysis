@@ -16,6 +16,7 @@ export class SystemTaskDetailsFileConverter {
     let model = new SystemTaskDetailsFileModel();
     model.filename = source.filename;
     model.size = source.size;
+    model.progress = source.completed ? 100 : 0;
     return model;
   }
 

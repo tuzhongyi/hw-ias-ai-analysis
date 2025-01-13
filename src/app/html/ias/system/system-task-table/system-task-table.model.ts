@@ -38,5 +38,6 @@ export class AnalysisTaskModel extends AnalysisTask {
 export interface TaskProgress {
   taskid: string;
   progress: number;
+  files: string[];
   completed: number;
 }

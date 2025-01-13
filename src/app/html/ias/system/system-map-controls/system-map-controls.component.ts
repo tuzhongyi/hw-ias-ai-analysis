@@ -8,7 +8,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SystemMapControlsComponent {
   @Output() radius = new EventEmitter<void>();
+  @Output() source = new EventEmitter<void>();
   onradius() {
     this.radius.emit();
+  }
+  onsource() {
+    this.source.emit();
   }
 }

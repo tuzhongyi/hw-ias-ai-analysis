@@ -3,8 +3,7 @@ export interface FileProgress {
   progress: number;
 }
 export enum TaskDurationValue {
-  today,
-  day,
+  day = 1,
   week,
   month,
   threemonth,

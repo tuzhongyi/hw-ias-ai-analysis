@@ -3,6 +3,7 @@
 
   <div class="system-map-controls">
     <ias-system-map-controls
+      (source)="control.onsource()"
       (radius)="control.onradius()"
     ></ias-system-map-controls>
   </div>
@@ -12,7 +13,7 @@
   <div class="system-map-editor-circle" *ngIf="panel.editor.circle.show">
     <ias-system-map-editor-circle
       [args]="panel.editor.circle.args"
-      (duration)="trigger.editor.circle.onduration($event)"
+      (distance)="trigger.editor.circle.ondistance($event)"
       (ok)="trigger.editor.circle.onok($event)"
       (close)="trigger.editor.circle.oncancel()"
     ></ias-system-map-editor-circle>
@@ -21,5 +22,12 @@
     <div>{{ panel.position.point.X }}</div>
     <div class="_">,</div>
     <div>{{ panel.position.point.Y }}</div>
+  </div>
+  <div class="system-map-source" *ngIf="panel.source.show">
+    <ias-system-map-source-manager
+      [datas]="datas"
+      [args]="args.filter"
+      (argsChange)="trigger.source.onfilter($event)"
+    ></ias-system-map-source-manager>
   </div>
 </div>

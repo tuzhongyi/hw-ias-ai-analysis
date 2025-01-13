@@ -20,7 +20,7 @@ export class SystemFileRequestService {
   async upload(data: FormData, progress: (x: number) => void) {
     let url = ArmSystemUrl.file.basic();
     return this.http
-      .upload<HowellResponse<FileInfo>>(url, data, progress)
+      .upload<HowellResponse<FileInfo>>(url, data, { process: progress })
       .then((x) => {
         return HowellResponseProcess.item(x, FileInfo);
       });
