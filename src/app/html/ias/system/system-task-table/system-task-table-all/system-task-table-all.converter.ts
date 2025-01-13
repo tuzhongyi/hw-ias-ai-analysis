@@ -17,26 +17,29 @@ export class SystemTaskTableAllConverter
     model.hasdata = true;
     model.StateName = this.tool.TaskState(model.State, '-');
     model.TaskTypeName = this.tool.TaskType(model.TaskType, '-');
-
+    model.UploadDuration.set(this.duration.upload(model));
+    model.AnalysisDuration.set(this.duration.analysis(model));
     return model;
   }
 
-  private estimated = {
-    upload: (model: AnalysisTaskAllModel, creation: Date) => {
-      let duration = model.UploadDuration() * 1000;
-      let progress = (model.Progress ?? 0) / 100;
-      let estimated = duration / progress;
-      return new Date(creation.getTime() + estimated);
+  duration = {
+    upload: (data: AnalysisTaskAllModel) => {
+      let value = 0;
+      if (data.CreationTime) {
+        value = (Date.now() - data.CreationTime.getTime()) / 1000;
+      }
+      return value;
     },
-
-    analysis: (model: AnalysisTaskAllModel, creation: Date, start: Date) => {
-      let duration = model.AnalysisDuration() * 1000;
-      let progress = (model.Progress ?? 0) / 100;
-      let estimated = duration / progress;
-
-      let uploadtime = start.getTime() - creation.getTime();
-
-      return new Date(start.getTime() + estimated + uploadtime);
+    analysis: (data: AnalysisTaskAllModel) => {
+      let value = 0;
+      if (data.StartTime) {
+        if (data.StopTime) {
+          value = (data.StopTime.getTime() - data.StartTime.getTime()) / 1000;
+        } else {
+          value = (Date.now() - data.StartTime.getTime()) / 1000;
+        }
+      }
+      return value;
     },
   };
 }

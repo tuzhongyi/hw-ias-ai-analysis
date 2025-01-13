@@ -79,7 +79,7 @@
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              @if(item.State != undefined ){ @if(item.State < 0){
+              @if(item.State === -1){
               <div
                 class="button"
                 title="任务信息"
@@ -95,7 +95,7 @@
               >
                 <i class="mdi mdi-file-video"></i>
               </div>
-              } }
+              }
               <div
                 class="button"
                 title="删除任务"

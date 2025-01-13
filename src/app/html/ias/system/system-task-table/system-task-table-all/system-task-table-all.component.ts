@@ -1,6 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -42,7 +41,7 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
 
   constructor(
     private business: SystemTaskTableAllBusiness,
-    private ref: ChangeDetectorRef
+    private converter: SystemTaskTableAllConverter
   ) {}
 
   widths = [
@@ -84,15 +83,34 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
     this.load(1, this.page.PageSize, this.filter);
 
     this.refhandle = setInterval(() => {
-      this.ref.detectChanges();
+      this.datas.forEach((x) => {
+        this.refresh.upload(x);
+        this.refresh.analysis(x);
+      });
     }, 1000);
   }
 
   ngOnDestroy(): void {
     if (this.refhandle) {
       clearInterval(this.refhandle);
+      this.refhandle = undefined;
     }
   }
+
+  refresh = {
+    upload: (data: AnalysisTaskAllModel) => {
+      if (data.UploadDuration) {
+        let value = this.converter.duration.upload(data);
+        data.UploadDuration.set(value);
+      }
+    },
+    analysis: (data: AnalysisTaskAllModel) => {
+      if (data.AnalysisDuration) {
+        let value = this.converter.duration.analysis(data);
+        data.AnalysisDuration.set(value);
+      }
+    },
+  };
 
   private load(index: number, size: number, filter: SystemTaskTableFilter) {
     this.business

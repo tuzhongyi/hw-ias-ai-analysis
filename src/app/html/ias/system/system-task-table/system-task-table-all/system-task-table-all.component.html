@@ -76,21 +76,13 @@
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              @if(item.State === -1 || item.State === 0 || item.State === 1 ||
-              item.State === 3){
+              @if(item.State === -1){
               <div
                 class="button"
                 title="任务信息"
                 (click)="ondetails(item, $event)"
               >
                 <i class="howell-icon-details"></i>
-              </div>
-              <div
-                class="button"
-                title="删除任务"
-                (click)="ondelete(item, $event)"
-              >
-                <i class="howell-icon-delete2"></i>
               </div>
               } @if(item.State === 2){
               <div
@@ -100,12 +92,24 @@
               >
                 <i class="howell-icon-task_misson"></i>
               </div>
+              } @if(item.State === 0 || item.State === 1 ||item.State === 2 ||
+              item.State === 3){
               <div
                 class="button"
                 title="视频文件"
                 (click)="onfiles(item, $event)"
               >
                 <i class="mdi mdi-file-video"></i>
+              </div>
+              } @if(item.State === -1 || item.State === 0 || item.State === 1 ||
+              item.State === 3){
+
+              <div
+                class="button"
+                title="删除任务"
+                (click)="ondelete(item, $event)"
+              >
+                <i class="howell-icon-delete2"></i>
               </div>
               }
             </div>

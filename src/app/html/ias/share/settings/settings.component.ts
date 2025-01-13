@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthModel } from '../../../../common/storage/authorization/authorization.model';
 import { LocalStorage } from '../../../../common/storage/local.storage';
@@ -11,7 +11,7 @@ import { RoutePath } from '../../../app.route.path';
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.less',
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
   constructor(private local: LocalStorage, private router: Router) {
     this.account = local.auth.get();
   }
@@ -22,15 +22,22 @@ export class SettingsComponent implements OnInit {
     account: false,
     question: false,
   };
+  handle: any;
 
   ngOnInit(): void {
     window.addEventListener('click', (e) => {
       e.stopImmediatePropagation();
       this.menu.account = false;
     });
-    setInterval(() => {
-      this.date.update((value) => Date.now());
+    this.handle = setInterval(() => {
+      this.date.set(Date.now());
     }, 1000);
+  }
+  ngOnDestroy(): void {
+    if (this.handle) {
+      clearInterval(this.handle);
+      this.handle = undefined;
+    }
   }
 
   onaccount(e: Event) {
