@@ -1,5 +1,9 @@
+import { ResultLabelType } from '../../../../enums/analysis/result-label-type.enum';
 import { GisPoint } from '../../../../models/arm/gis-point.model';
-import { PagedDurationParams } from '../../../../models/params.interface';
+import {
+  IParams,
+  PagedDurationParams,
+} from '../../../../models/params.interface';
 
 export class GetShopsParams extends PagedDurationParams {
   /**	String[]	商铺ID列表	O	*/
@@ -28,6 +32,12 @@ export class GetShopsParams extends PagedDurationParams {
   Classifications?: number[];
   /**	Int32[]	商铺类型，1-店铺招牌，2-指示牌，3-路牌，4-广告牌，5-宣传标语，10-其他 */
   ShopTypes?: number[];
+  /**	String[]	任务ID过滤	O */
+  TaskIds?: string[];
+  /**	String[]	机位编号	O */
+  CameraNos?: string[];
+  /**	Int32[]	标注结果	O */
+  ResultLabelTypes?: number[];
   /**	String	升序属性，不区分大小写	O	*/
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/
@@ -56,4 +66,8 @@ export class GetShopSignsParams extends PagedDurationParams {
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/
   Desc?: string;
+}
+export class ResultLabelingParams implements IParams {
+  /**	Int32	结果标注类型	M */
+  ResultLabelType!: ResultLabelType;
 }

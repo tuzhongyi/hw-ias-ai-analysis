@@ -16,7 +16,6 @@ import { SystemMapSourceTableConverter } from './system-map-source-table.convert
 export class SystemMapSourceTableComponent {
   @Input('datas') datas: Shop[] = [];
   @Output() details = new EventEmitter<Shop>();
-  @Output() position = new EventEmitter<Shop>();
   @Input() selected?: Shop;
   @Output() selectedChange = new EventEmitter<Shop>();
 
@@ -34,12 +33,6 @@ export class SystemMapSourceTableComponent {
 
   ondetails(data: Shop, e: Event) {
     this.details.emit(data);
-    if (this.selected === data) {
-      e.stopImmediatePropagation();
-    }
-  }
-  onposition(data: Shop, e: Event) {
-    this.position.emit(data);
     if (this.selected === data) {
       e.stopImmediatePropagation();
     }

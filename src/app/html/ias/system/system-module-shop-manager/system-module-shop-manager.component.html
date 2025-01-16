@@ -60,15 +60,6 @@
                   (loaded)="source.state.init($event)"
                 ></ias-select-shop-object-state>
               </common-label-select>
-              <!-- <select [(ngModel)]="args.state">
-                <option [ngValue]="undefined">全部</option>
-                <option
-                  *ngFor="let item of source.state"
-                  [ngValue]="item.Value"
-                >
-                  {{ item.Name }}
-                </option>
-              </select> -->
             </div>
           </div>
           <div class="form-item">
@@ -110,6 +101,11 @@
             <option [ngValue]="1">&#xf225;&nbsp;</option>
           </select>
         </div>
+        <!-- <div>
+          <button class="button-clip-gradient" (click)="create.open()">
+            添加
+          </button>
+        </div> -->
       </div>
     </div>
     <div class="system-module-shop-manager-body-table" *ngIf="inited">
@@ -117,7 +113,7 @@
         <ias-system-module-shop-table
           [args]="args"
           [load]="load"
-          (details)="ondetails($event)"
+          (details)="details.open($event)"
           (error)="onerror($event)"
         ></ias-system-module-shop-table>
       </ng-container>
@@ -125,7 +121,7 @@
         <ias-system-module-shop-list
           [args]="args"
           [load]="load"
-          (details)="ondetails($event)"
+          (details)="details.open($event)"
           (error)="onerror($event)"
         ></ias-system-module-shop-list>
       </ng-container>
@@ -140,7 +136,17 @@
     <ias-system-module-shop-details
       [data]="window.details.data"
       (cancel)="window.details.show = false"
-      (ok)="ondetailsok()"
+      (ok)="details.ok()"
     ></ias-system-module-shop-details>
+  </app-window>
+  <app-window
+    [Model]="window.create"
+    *ngIf="window.create.show"
+    [style]="window.create.style"
+  >
+    <ias-system-module-shop-creation
+      (cancel)="window.create.show = false"
+      (ok)="create.ok($event)"
+    ></ias-system-module-shop-creation>
   </app-window>
 </div>

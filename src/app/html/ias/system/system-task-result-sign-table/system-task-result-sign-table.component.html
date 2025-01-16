@@ -1,0 +1,56 @@
+<div class="system-task-result-sign-table table-split">
+  <div class="table-split-head">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>招牌名称</th>
+          <th>类型</th>
+          <th>机位</th>
+          <th>时间</th>
+          <th>准确性</th>
+          <th class="center">置信度</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="table-split-body" #body>
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="onselect(item, index)"
+          [ngClass]="{
+            selected: item === selected
+          }"
+        >
+          <td class="center">
+            <div>{{ index + 1 }}</div>
+          </td>
+          <td [title]="item.Text">
+            {{ item.Text }}
+          </td>
+          <td>{{ Language.SignType(item.SignType, "-") }}</td>
+          <td>
+            {{ item.CameraNo ?? "-" }}
+          </td>
+          <td>
+            {{ item.Time | date : "HH:mm:ss.SSS" }}
+          </td>
+          <td>
+            {{ Language.ResultLabelType(item.ResultLabelType) }}
+          </td>
+          <td class="center">
+            {{ ((item.Confidence ?? 0) * 100).toFixed(2) }}%
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

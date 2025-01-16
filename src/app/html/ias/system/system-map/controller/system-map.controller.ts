@@ -7,5 +7,25 @@ export class SystemMapController {
   constructor(
     public amap: SystemAMapController,
     public panel: SystemMapPanelController
-  ) {}
+  ) {
+    this.regist();
+  }
+
+  private regist() {
+    this.register.amap.map();
+  }
+
+  register = {
+    amap: {
+      map: () => {
+        this.amap.event.map.mousemmove.subscribe((x) => {
+          if (!this.panel.position.show) {
+            this.panel.position.show = true;
+          }
+          this.panel.position.point.X = x[0];
+          this.panel.position.point.Y = x[1];
+        });
+      },
+    },
+  };
 }

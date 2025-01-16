@@ -1,69 +1,18 @@
+@import "./less/system-map-panel.less";
+
 .system-map {
   width: 100%;
   height: 100%;
-  animation: 0.75s;
+  transition: all 0.5s;
   position: relative;
   padding: 20px;
   box-sizing: border-box;
   cursor: default;
 
-  @padding-x: 20px;
-  @padding-y: 20px;
-  @map-bottom: 30px;
-  @map-left: 30px;
-  @map-right: 30px;
-  @map-top: 20px;
-  @control-height: 35px;
+
 
   &-container {
     width: 100%;
     height: 100%;
-  }
-
-  &-state {
-    position: absolute;
-    right: calc(@map-right + @padding-x);
-    bottom: calc(@map-bottom + @padding-y);
-  }
-
-  &-controls {
-    position: absolute;
-    left: calc(@map-left + @padding-x);
-    bottom: calc(@map-bottom + @padding-y);
-    height: @control-height;
-  }
-
-  &-source {
-    position: absolute;
-    left: calc(@map-left + @padding-x);
-    bottom: calc(@map-bottom + @control-height + @padding-y + 10px);
-    height: calc(100% - @map-bottom - @control-height - @padding-y * 2 - @map-top - 10px);
-    width: 500px;
-  }
-
-  &-editor {
-    &-circle {
-      position: absolute;
-      right: calc(30px + @padding-x);
-      bottom: calc(30px + @padding-y);
-    }
-  }
-
-  &-position {
-    position: absolute;
-    bottom: calc(30px + @padding-y);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    display: flex;
-    justify-content: center;
-
-    &>._ {
-      width: 15px;
-    }
-
-    &>* {
-      width: calc((100% - 15px) / 2);
-    }
   }
 }

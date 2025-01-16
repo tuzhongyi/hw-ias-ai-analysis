@@ -1,0 +1,13 @@
+@import "./system-map-@.less";
+
+.system-map {
+  &-details {
+    &-shop {
+      position: absolute;
+      left: calc(@map-left + @padding-x + @map-source-width + @padding-x);
+      bottom: calc(@map-bottom + @control-height + @padding-y + 10px);
+      height: calc(100% - @map-bottom - @control-height - @padding-y * 2 - @map-top - 10px);
+      width: 400px;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+@import "./less/system-task-result-table-manager-foot.less";
+
+.system-task-result-table-manager {
+  height: 100%;
+  width: 100%;
+
+  &-body {
+    height: calc(100% - 45px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &-shop {
+      height: calc((100% - 10px) * 0.6);
+      flex-grow: 0;
+    }
+
+    &-sign {
+      flex-grow: 1;
+      height: calc((100% - 10px) * 0.4);
+
+      &.full {
+        height: 100%;
+      }
+    }
+
+    ::ng-deep {
+      .table-split {
+        &-head {
+          height: 50px;
+        }
+
+        &-body {
+          height: calc(100% - 50px);
+
+          table {
+            tbody {
+              tr {
+                height: 40px;
+              }
+            }
+
+          }
+        }
+      }
+    }
+  }
+
+
+}

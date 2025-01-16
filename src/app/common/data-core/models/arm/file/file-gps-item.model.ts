@@ -26,6 +26,11 @@ export class FileGpsItem implements IModel {
   @Transform(transformTime)
   OffsetTime!: Time;
 
+  /**	Double	速度，KM/h	O	R */
+  Speed?: number;
+  /**	Double	偏北角，顺时针0-360度	O	R */
+  Course?: number;
+
   static position(a: FileGpsItem): number[] {
     return [a.Longitude, a.Latitude];
   }

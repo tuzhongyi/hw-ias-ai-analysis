@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GisPoint } from '../../../../common/data-core/models/arm/gis-point.model';
 import { SystemModuleShopDetailsAMapController } from './controller/system-module-shop-details-amap.controller';
@@ -11,16 +19,19 @@ import { SystemModuleShopDetailsAMapController } from './controller/system-modul
   styleUrl: './system-module-shop-details-map.component.less',
   providers: [SystemModuleShopDetailsAMapController],
 })
-export class SystemModuleShopDetailsMapComponent implements OnInit {
+export class SystemModuleShopDetailsMapComponent implements OnInit, OnChanges {
   @Input() data?: GisPoint;
   @Output() dataChange = new EventEmitter<GisPoint>();
   constructor(private controller: SystemModuleShopDetailsAMapController) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']) {
+      if (this.data) {
+        this.controller.load(this.data);
+      }
+    }
+  }
 
   ngOnInit(): void {
-    if (this.data) {
-      this.controller.load(this.data);
-    }
-
     this.controller.dragging.subscribe((x) => {
       if (this.data) {
         this.data.Longitude = x[0];

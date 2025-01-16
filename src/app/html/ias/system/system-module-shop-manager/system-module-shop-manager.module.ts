@@ -5,6 +5,7 @@ import { DateTimeControlComponent } from '../../../../common/components/date-tim
 import { WindowComponent } from '../../../../common/components/window-control/window.component';
 import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
 import { SelectShopObjectStateComponent } from '../../share/select/select-shop-object-state/select-shop-object-state.component';
+import { SystemModuleShopCreationComponent } from '../system-module-shop-creation/system-module-shop-creation.component';
 import { SystemModuleShopDetailsComponent } from '../system-module-shop-details/system-module-shop-details.component';
 import { SystemModuleShopListComponent } from '../system-module-shop-list/system-module-shop-list.component';
 import { SystemModuleShopTableComponent } from '../system-module-shop-table/system-module-shop-table.component';
@@ -21,6 +22,7 @@ export const SystemModuleShopManagerImports = [
   CommonLabelSelecComponent,
   SelectShopObjectStateComponent,
   SystemModuleShopDetailsComponent,
+  SystemModuleShopCreationComponent,
   WindowComponent,
   ContentHeaderComponent,
 ];

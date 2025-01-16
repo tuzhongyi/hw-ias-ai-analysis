@@ -40,6 +40,9 @@ export class SystemTaskFileDetailsAMapPathWayController {
     if (this.positions) {
       this.map.remove(this.positions);
     }
+    if (positions.length < 2) {
+      return;
+    }
     this.points = positions;
     this.positions = new AMap.Polyline({
       path: [...positions],

@@ -1,13 +1,4 @@
-.system-task-result-table {
-  height: 100%;
-  width: 100%;
-  animation: 0.75s;
-
-  &-body {
-    height: calc(100% - 45px);
-    width: 100%;
-  }
-
+.system-task-result-table-manager {
   &-foot {
     height: 45px;
     width: 100%;
@@ -19,21 +10,42 @@
     box-sizing: border-box;
     padding: 0 10px;
 
-
-    &-count {
+    &-switch {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+
+
     }
 
     &-filter {
       width: 300px;
+      gap: 5px;
 
       .form-item {
+        gap: 5px;
+
         &-value {
           display: flex;
           align-items: center;
           gap: 5px;
+
+          select {
+            padding-left: 5px;
+            padding-right: 20px;
+            background-position: right 5px center;
+          }
+
+          input[type="range"] {
+            width: 75px;
+          }
+
+          input[type="text"] {
+            padding: 0;
+            width: 36px;
+            height: 25px;
+            text-align: center;
+
+          }
         }
       }
     }

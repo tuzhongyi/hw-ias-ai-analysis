@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { LabelResultStatistic } from '../../../../models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../models/arm/analysis/shop.model';
 import { PagedList } from '../../../../models/page-list.model';
@@ -6,7 +7,11 @@ import { HowellResponse } from '../../../../models/response';
 import { ArmAnalysisUrl } from '../../../../urls/arm/analysis/analysis.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
-import { GetShopSignsParams, GetShopsParams } from './analysis-shop.params';
+import {
+  GetShopSignsParams,
+  GetShopsParams,
+  ResultLabelingParams,
+} from './analysis-shop.params';
 
 export class ArmAnalysisShopRequestService {
   constructor(private http: HowellHttpClient) {}
@@ -97,4 +102,25 @@ class ArmAnalysisShopSignRequestService {
         return HowellResponseProcess.paged(x, ShopSign);
       });
   }
+
+  result = {
+    labeling: async (id: string, params: ResultLabelingParams) => {
+      let url = ArmAnalysisUrl.shop.sign().result.labeling(id);
+      let plain = instanceToPlain(params);
+      return this.http
+        .post<HowellResponse<ShopSign>, any>(url, plain)
+        .then((x) => {
+          return HowellResponseProcess.item(x, ShopSign);
+        });
+    },
+    labels: (params: GetShopSignsParams) => {
+      let url = ArmAnalysisUrl.shop.sign().result.labels();
+      let plain = instanceToPlain(params);
+      return this.http
+        .post<HowellResponse<LabelResultStatistic>, any>(url, plain)
+        .then((x) => {
+          return HowellResponseProcess.item(x, LabelResultStatistic);
+        });
+    },
+  };
 }

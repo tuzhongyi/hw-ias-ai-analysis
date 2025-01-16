@@ -12,10 +12,10 @@
   </div>
   <div class="system-map-editor-circle" *ngIf="panel.editor.circle.show">
     <ias-system-map-editor-circle
-      [args]="panel.editor.circle.args"
-      (distance)="trigger.editor.circle.ondistance($event)"
-      (ok)="trigger.editor.circle.onok($event)"
-      (close)="trigger.editor.circle.oncancel()"
+      [args]="args.radius"
+      (distance)="panel.editor.circle.ondistance($event)"
+      (ok)="panel.editor.circle.onok($event)"
+      (close)="panel.editor.circle.oncancel()"
     ></ias-system-map-editor-circle>
   </div>
   <div class="system-map-position" *ngIf="panel.position.show">
@@ -27,7 +27,15 @@
     <ias-system-map-source-manager
       [datas]="datas"
       [args]="args.filter"
-      (argsChange)="trigger.source.onfilter($event)"
+      (argsChange)="panel.source.onfilter($event)"
+      (details)="panel.source.ondetails($event)"
+      [selected]=""
     ></ias-system-map-source-manager>
+  </div>
+
+  <div class="system-map-details-shop" *ngIf="panel.details.shop.show">
+    <ias-system-map-panel-details-shop
+      [data]="panel.details.shop.data"
+    ></ias-system-map-panel-details-shop>
   </div>
 </div>

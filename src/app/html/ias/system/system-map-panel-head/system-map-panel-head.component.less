@@ -31,35 +31,39 @@
     }
 
     &-right {
-      position: absolute;
 
-      height: 50%;
-      top: 50%;
-      right: 20px;
-      transform: translateY(-50%);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
 
-      &>* {
-        width: 6px;
-        height: 100%;
-      }
+      .neon {
+        position: absolute;
 
-      & ._ {
-        &1 {
-          background-color: #2d76ce;
-          opacity: 0.2;
+        height: 50%;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+
+        &>* {
+          width: 6px;
+          height: 100%;
         }
 
-        &2 {
-          background-color: #2d76ce;
-          opacity: 0.5;
-        }
+        & ._ {
+          &1 {
+            background-color: #2d76ce;
+            opacity: 0.2;
+          }
 
-        &3 {
-          background-color: #2d76ce;
+          &2 {
+            background-color: #2d76ce;
+            opacity: 0.5;
+          }
+
+          &3 {
+            background-color: #2d76ce;
+          }
         }
       }
     }

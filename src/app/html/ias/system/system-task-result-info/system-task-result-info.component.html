@@ -10,102 +10,104 @@
   <div class="system-task-result-info-body forms">
     @if(model){
     <div class="form-item">
-      <div class="form-item-text">
-        <div>招</div>
-        <div>牌</div>
-        <div>名</div>
-        <div>称</div>
+      <div class="form-item-text full" text-space-between [suffix]="':'">
+        招牌名称
       </div>
       <div class="form-item-value">
-        <input type="text" readonly [value]="model.Text" />
+        {{ model.Text }}
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text">
-        <div>置</div>
-        <div>信</div>
-        <div>度</div>
-      </div>
+      <div class="form-item-text" text-space-between [suffix]="':'">置信度</div>
       <div class="form-item-value">
-        <input
-          type="text"
-          readonly
-          [value]="((model.Confidence ?? 0) * 100).toFixed(2) + '%'"
-        />
+        {{ ((model.Confidence ?? 0) * 100).toFixed(2) + "%" }}
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text">
-        <div>发</div>
-        <div>现</div>
-        <div>时</div>
-        <div>间</div>
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        发现时间
       </div>
       <div class="form-item-value">
-        <input
-          type="text"
-          readonly
-          [value]="model.Time | date : Language.YearMonthDayHHmmss"
-        />
+        {{ model.Time | date : Language.YearMonthDayHHmmss }}
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text">
-        <div>店</div>
-        <div>招</div>
-        <div>类</div>
-        <div>型</div>
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        店招类型
       </div>
       <div class="form-item-value">
-        <input type="text" readonly [value]="model.SignType ?? ''" />
+        {{ Language.SignType(model.SignType, "") }}
       </div>
     </div>
     } @if(shop){
     <div class="form-item">
-      <div class="form-item-text">
-        <div>商</div>
-        <div>铺</div>
-        <div>编</div>
-        <div>号</div>
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        商铺编号
       </div>
       <div class="form-item-value">
-        <input type="text" readonly [value]="shop.Id" />
+        {{ shop.Id }}
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text">
-        <div>商</div>
-        <div>铺</div>
-        <div>名</div>
-        <div>称</div>
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        商铺名称
       </div>
       <div class="form-item-value">
-        <input type="text" readonly [value]="shop.Name" />
+        {{ shop.Name }}
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text">
-        <div>联</div>
-        <div>系</div>
-        <div>方</div>
-        <div>式</div>
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        联系方式
       </div>
       <div class="form-item-value">
-        <input type="text" readonly [value]="shop.Telphone ?? ''" />
+        {{ shop.Telphone ?? "" }}
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text">
-        <div>商</div>
-        <div>铺</div>
-        <div>地</div>
-        <div>址</div>
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        商铺地址
       </div>
       <div class="form-item-value">
-        <input type="text" readonly [value]="shop.Address ?? ''" />
+        {{ shop.Address ?? "" }}
       </div>
     </div>
     }
+    <div class="form-item">
+      <div class="form-item-text" text-space-between [suffix]="':'">准确性</div>
+      <div class="form-item-value label">
+        <div class="label-group">
+          <!-- <div
+            [ngClass]="{
+              'label-item-1': item.Value === 1,
+              'label-item-2': item.Value === 2,
+              'label-item-3': item.Value === 3,
+              'label-item-4': item.Value === 4,
+              selected: sign && item.Value === sign.ResultLabelType
+            }"
+            class="label-item"
+            *ngFor="let item of source.labels"
+            (click)="onlabeling(item.Value)"
+          >
+            {{ item.Name }}
+          </div> -->
+          <div
+            [ngClass]="{
+              green: item.Value === 1,
+              red: item.Value === 2,
+              orange: item.Value === 3,
+              yellow: item.Value === 4,
+              selected: sign && item.Value === sign.ResultLabelType
+            }"
+            class="button-selection"
+            *ngFor="let item of source.labels"
+            (click)="onlabeling(item.Value)"
+          >
+            {{ item.Name }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="system-task-result-info-foot">
     <div>

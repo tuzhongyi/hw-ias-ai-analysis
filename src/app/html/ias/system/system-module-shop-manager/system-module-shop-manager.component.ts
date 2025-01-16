@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { LocalStorage } from '../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { Language } from '../../../../common/tools/language';
@@ -32,6 +33,7 @@ export class SystemModuleShopManagerComponent implements OnInit {
       source.duration[source.duration.length - 1].Value
     );
     this.storage = this.local.system.module.shop.get();
+    // this.window.create.show = true;
   }
 
   args: SystemModuleShopTableArgs;
@@ -64,22 +66,27 @@ export class SystemModuleShopManagerComponent implements OnInit {
     let args = new SystemModuleShopTableLoadArgs(this.args, true);
     this.load.emit(args);
   }
-
-  ondetails(data: ShopModel) {
-    this.window.details.data = data;
-    this.window.details.show = true;
-  }
-
-  ondetailsclose() {
-    this.window.details.show = false;
-  }
-  ondetailsok() {
-    this.window.details.clear();
-    this.window.details.show = false;
-    let args = new SystemModuleShopTableLoadArgs(this.args);
-    this.load.emit(args);
-  }
   onerror(e: Error) {
     this.toastr.error(e.message);
   }
+
+  create = {
+    open: () => {
+      this.window.create.show = true;
+    },
+    ok: (data: Shop) => {},
+  };
+
+  details = {
+    open: (data: ShopModel) => {
+      this.window.details.data = data;
+      this.window.details.show = true;
+    },
+    ok: () => {
+      this.window.details.clear();
+      this.window.details.show = false;
+      let args = new SystemModuleShopTableLoadArgs(this.args);
+      this.load.emit(args);
+    },
+  };
 }

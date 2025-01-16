@@ -1,38 +1,43 @@
 import { Injectable } from '@angular/core';
-import { PromiseValue } from '../../../../../../common/models/value.promise';
-import { SystemMapPanel } from '../../system-map.panel';
 import { SystemAMapController } from '../amap/system-map-amap.controller';
+import { SystemMapPanelDetailsController } from './system-map-panel-details.controller';
+import { SystemMapPanelEditorController } from './system-map-panel-editor.controller';
+import { SystemMapPanelPositionController } from './system-map-panel-position.controller';
+import { SystemMapPanelSourceController } from './system-map-panel-source.controller';
+import { SystemMapPanelStateController } from './system-map-panel-state.controller';
 
 @Injectable()
 export class SystemMapPanelController {
-  constructor(private amap: SystemAMapController) {}
-
-  private panel = new PromiseValue<SystemMapPanel>();
-
-  init(panel: SystemMapPanel) {
-    this.panel.set(panel);
-    panel.state.show = true;
-    this.regist(panel);
+  constructor(
+    private amap: SystemAMapController,
+    public state: SystemMapPanelStateController,
+    public position: SystemMapPanelPositionController,
+    public source: SystemMapPanelSourceController,
+    public details: SystemMapPanelDetailsController,
+    public editor: SystemMapPanelEditorController
+  ) {
+    this.init();
   }
 
-  private regist(panel: SystemMapPanel) {
-    panel.editor.circle.change.subscribe((show) => {
-      this.panel.get().then((panel) => {
-        panel.state.show = !show;
-        panel.source.show = false;
+  init() {
+    this.state.show = true;
+    this.regist();
+  }
 
-        if (show) {
-          this.amap.radius.open();
-        } else {
-          this.amap.radius.close();
-        }
-      });
+  private regist() {
+    this.editor.circle.change.subscribe((show) => {
+      this.state.show = !show;
+      this.source.show = false;
+
+      if (show) {
+        this.amap.radius.open();
+      } else {
+        this.amap.radius.close();
+      }
     });
-    panel.source.change.subscribe((show) => {
-      this.panel.get().then((panel) => {
-        panel.state.show = true;
-        panel.editor.circle.show = false;
-      });
+    this.source.change.subscribe((show) => {
+      this.state.show = true;
+      this.editor.circle.show = false;
     });
   }
 }

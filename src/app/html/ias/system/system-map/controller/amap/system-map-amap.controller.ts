@@ -71,7 +71,6 @@ export class SystemAMapController {
       x.setZoom(17);
     });
   }
-
   radius = {
     open: () => {
       this.circle.get().then((x) => {
@@ -91,4 +90,6 @@ export class SystemAMapController {
       });
     },
   };
+
+  onselected(data: Shop) {}
 }

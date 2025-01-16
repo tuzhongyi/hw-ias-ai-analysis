@@ -3,6 +3,7 @@ import { ShopModel } from '../system-module-shop-table/system-module-shop-table.
 
 export class SystemModuleShopManagerWindow {
   details = new DetailsWindow();
+  create = new CreateWindow();
 }
 
 class DetailsWindow extends WindowViewModel {
@@ -15,4 +16,12 @@ class DetailsWindow extends WindowViewModel {
     paddingTop: '10px',
   };
   data?: ShopModel;
+}
+class CreateWindow extends WindowViewModel {
+  clear() {}
+  style = {
+    width: '50%',
+    height: '85%',
+    paddingTop: '10px',
+  };
 }

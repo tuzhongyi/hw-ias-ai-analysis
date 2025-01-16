@@ -1,0 +1,114 @@
+<div class="system-task-result-table-manager">
+  <div class="system-task-result-table-manager-body">
+    <div class="system-task-result-table-manager-body-shop" *ngIf="type === 0">
+      <ias-system-task-result-shop-table
+        [args]="shop.args"
+        [load]="shop.toload"
+        [selected]="shop.selected"
+        (selectedChange)="shop.onselect($event)"
+        [index]="index"
+        (page)="onpage($event)"
+        (error)="onerror($event)"
+      ></ias-system-task-result-shop-table>
+    </div>
+
+    <div class="system-task-result-table-manager-body-sign" *ngIf="type === 0">
+      <ias-system-task-result-sign-table
+        [load]="sign.toload"
+        [selected]="sign.selected"
+        (selectedChange)="sign.onselect($event)"
+        (loaded)="onloaded($event)"
+        (error)="onerror($event)"
+      ></ias-system-task-result-sign-table>
+    </div>
+    <div
+      class="system-task-result-table-manager-body-sign full"
+      *ngIf="type === 1"
+    >
+      <ias-system-task-result-sign-table
+        [args]="sign.args"
+        [load]="sign.toload"
+        [selected]="sign.selected"
+        (selectedChange)="sign.onselect($event)"
+        [index]="index"
+        (page)="onpage($event)"
+        (loaded)="onloaded($event)"
+        (error)="onerror($event)"
+      ></ias-system-task-result-sign-table>
+    </div>
+  </div>
+  <div class="system-task-result-table-manager-foot">
+    <div class="system-task-result-table-manager-foot-filter forms">
+      <div class="form-item">
+        <div class="form-item-text">机位:</div>
+        <div class="form-item-value">
+          <select
+            class="select-white noborder"
+            [(ngModel)]="filter.channel"
+            (change)="trigger.channel()"
+          >
+            <option [ngValue]="undefined">全部</option>
+            <option *ngFor="let item of source.channels" [ngValue]="item">
+              {{ item }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">类型:</div>
+        <div class="form-item-value">
+          <select
+            class="select-white noborder"
+            [(ngModel)]="filter.type"
+            (change)="trigger.type()"
+          >
+            <option [ngValue]="undefined">全部</option>
+            <option *ngFor="let item of source.types" [ngValue]="item">
+              {{ Language.SignType(item) }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">准确性:</div>
+        <div class="form-item-value">
+          <select
+            class="select-white noborder"
+            [(ngModel)]="filter.label"
+            (change)="trigger.label()"
+          >
+            <option [ngValue]="undefined">全部</option>
+            <option *ngFor="let item of source.labels" [ngValue]="item">
+              {{ Language.ResultLabelType(item) }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">置信度:</div>
+        <div class="form-item-value">
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            [title]="filter.confidence"
+            [(ngModel)]="filter.confidence"
+            (change)="trigger.confidence()"
+          />
+          <input
+            type="text"
+            [(ngModel)]="filter.confidence"
+            (change)="trigger.confidence()"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="system-task-result-table-manager-foot-switch">
+      <div class="switch" (click)="onswitch()">
+        <div class="switch-item left" [class.selected]="type === 0">商铺</div>
+        <div class="switch-item right" [class.selected]="type === 1">招牌</div>
+      </div>
+    </div>
+  </div>
+</div>

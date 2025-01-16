@@ -8,6 +8,7 @@ import { SystemTaskFileDetailsAMapController } from './system-task-file-details-
 @Injectable()
 export class SystemTaskFileDetailsMapController {
   trigger = new EventEmitter<FileGpsItem>();
+  speed = new EventEmitter<number>();
   constructor(private map: SystemTaskFileDetailsAMapController) {
     this.regist();
   }
@@ -89,6 +90,7 @@ export class SystemTaskFileDetailsMapController {
     let finded = ArrayTool.closest(times, stamp);
     if (finded) {
       let item = this.datas[finded.index];
+      this.speed.emit(item.Speed);
 
       let way = this.datas.slice(0, finded.index).map((x) => {
         return [x.Longitude, x.Latitude];
@@ -98,11 +100,13 @@ export class SystemTaskFileDetailsMapController {
       let position = [item.Longitude, item.Latitude];
       (await this.map.arrow).set(position);
       if (finded.index > 0) {
-        let last = this.datas[finded.index - 1];
-        (await this.map.arrow).direction([
-          [last.Longitude, last.Latitude],
-          position,
-        ]);
+        let arrow = await this.map.arrow;
+        if (Number.isFinite(item.Course)) {
+          arrow.direction(item.Course!);
+        } else {
+          let last = this.datas[finded.index - 1];
+          arrow.direction1([[last.Longitude, last.Latitude], position]);
+        }
       }
     }
   }

@@ -1,3 +1,4 @@
+import { ResultLabelType } from '../data-core/enums/analysis/result-label-type.enum';
 import { ShopObjectState } from '../data-core/enums/analysis/shop-object-state.enum';
 import { SignType } from '../data-core/enums/analysis/sign-type.enum';
 import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.enum';
@@ -476,6 +477,22 @@ export class Language {
         return '宣传标语';
       case SignType.Other:
         return '其他';
+      default:
+        return def;
+    }
+  }
+  static ResultLabelType(value?: ResultLabelType, def = '未知') {
+    switch (value) {
+      case ResultLabelType.Unlabeled:
+        return '未标注';
+      case ResultLabelType.Correct:
+        return '正确';
+      case ResultLabelType.Incorrect:
+        return '错误';
+      case ResultLabelType.Illegible:
+        return '难以辨认';
+      case ResultLabelType.Incomplete:
+        return '不完整';
       default:
         return def;
     }

@@ -32,6 +32,7 @@ export class SystemTaskFileDetailsMapComponent implements OnInit {
 
   loading = false;
   hasdata = false;
+  speed = 0;
 
   ngOnInit(): void {
     if (this._to) {
@@ -41,6 +42,9 @@ export class SystemTaskFileDetailsMapComponent implements OnInit {
     }
     this.controller.trigger.subscribe((x) => {
       this.trigger.emit(x);
+    });
+    this.controller.speed.subscribe((x) => {
+      this.speed = x ?? 0;
     });
 
     if (this.data) {

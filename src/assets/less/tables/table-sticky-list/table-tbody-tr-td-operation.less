@@ -1,3 +1,5 @@
+@import "../../colors/color-table.less";
+
 .table-sticky-list {
   table {
     tbody {
@@ -7,12 +9,12 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #cfd7ff;
+            color: @list-operation-text;
             cursor: pointer;
 
             &>* {
               &:hover {
-                color: #fff;
+                color: @list-operation-text-hover;
               }
             }
           }

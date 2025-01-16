@@ -3,7 +3,7 @@
     <ias-content-header [title]="'商铺信息'"></ias-content-header>
   </div>
   <div class="system-module-shop-details-body">
-    <div class="system-module-shop-details-body-table">
+    <div class="system-module-shop-details-body-table" *ngIf="data">
       <ias-system-module-shop-sign-table
         [data]="shop"
         [(selected)]="sign"
@@ -11,16 +11,26 @@
       >
       </ias-system-module-shop-sign-table>
     </div>
-    <div class="system-module-shop-details-body-info panel">
+    <div
+      class="system-module-shop-details-body-info panel"
+      [ngClass]="{
+        create: !data
+      }"
+    >
       <ias-system-module-shop-details-info
         [data]="shop"
         [sign]="sign"
         (picture)="onpicture($event)"
       ></ias-system-module-shop-details-info>
     </div>
-    <div class="system-module-shop-details-body-map panel">
+    <div
+      class="system-module-shop-details-body-map panel"
+      [ngClass]="{
+        create: !data
+      }"
+    >
       <ias-system-module-shop-details-map
-        [data]="shop?.Location"
+        [data]="shop.Location"
         (dataChange)="onposition($event)"
       ></ias-system-module-shop-details-map>
     </div>

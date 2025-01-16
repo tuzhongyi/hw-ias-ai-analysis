@@ -1,6 +1,6 @@
 <div class="system-map-source-manager">
   <div class="system-map-source-manager-head">
-    <ias-system-map-panel-head></ias-system-map-panel-head>
+    <ias-system-map-panel-head [title]="'列表'"></ias-system-map-panel-head>
   </div>
   <div class="panel-map system-map-source-manager-body">
     <div class="system-map-source-manager-body-buttons">
@@ -16,6 +16,9 @@
     <div class="system-map-source-manager-body-list">
       <ias-system-map-source-table
         [datas]="shops"
+        (details)="ondetails($event)"
+        [selected]="selected"
+        (selectedChange)="onposition($event)"
       ></ias-system-map-source-table>
     </div>
     <div class="system-map-source-manager-body-filter">

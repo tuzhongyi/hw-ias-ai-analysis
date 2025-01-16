@@ -39,13 +39,12 @@ export class SystemModuleShopDetailsComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  shop?: ShopModel;
+  shop = new ShopModel();
   sign?: ShopSign;
   window = new SystemModuleShopDetailsWindow();
 
   ngOnInit(): void {
     if (this.data) {
-      this.shop = new ShopModel();
       this.shop = Object.assign(this.shop, this.data);
     }
   }

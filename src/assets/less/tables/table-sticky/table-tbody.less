@@ -1,3 +1,5 @@
+@import "../../colors/color-table.less";
+
 .table-sticky {
   table {
     tbody {
@@ -5,22 +7,22 @@
         height: 60px;
 
         &:nth-child(odd) {
-          background-color: rgba(19, 34, 77, 0.5);
+          background-color: @tr-odd;
         }
 
         &:nth-child(even) {
-          background-color: rgba(19, 34, 77, 0.6);
+          background-color: @tr-even;
         }
 
         &:hover {
-          background-color: rgba(30, 144, 255, 0.3);
+          background-color: @tr-hover;
         }
 
         &.selected {
-          background-color: rgba(30, 144, 255, 0.4);
+          background-color: @tr-selected;
 
           &:hover {
-            color: white;
+            color: @tr-selected-text;
           }
         }
 

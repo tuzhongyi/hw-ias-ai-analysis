@@ -1,3 +1,5 @@
+@import "../../colors/color-table.less";
+
 .table-sticky-list {
   overflow-y: auto;
 
@@ -5,7 +7,7 @@
     thead {
       tr {
         th {
-          background-color: #132240;
+          background-color: @list-tr;
           position: sticky;
           top: 0;
           height: 40px;
@@ -13,7 +15,7 @@
           font-weight: normal;
           padding: 0 10px;
           z-index: 1;
-          color: #69adff;
+          color: @list-thead-text;
           font-size: 20px;
 
           &.sort {

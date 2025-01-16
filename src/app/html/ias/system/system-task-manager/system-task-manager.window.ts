@@ -36,8 +36,8 @@ class ResultWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '80%',
-    height: '85%',
+    width: '85%',
+    height: '90%',
     paddingTop: '10px',
   };
   data?: AnalysisTask;

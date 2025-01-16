@@ -28,7 +28,8 @@ export class SystemMapSourceManagerComponent implements OnInit {
   @Output() argsChange = new EventEmitter<SystemMapShopFilterArgs>();
 
   @Output() details = new EventEmitter<Shop>();
-  @Output() position = new EventEmitter<Shop>();
+  @Input() selected?: Shop;
+  @Output() selectedChange = new EventEmitter<Shop>();
 
   constructor() {}
 
@@ -47,6 +48,7 @@ export class SystemMapSourceManagerComponent implements OnInit {
     this.details.emit(data);
   }
   onposition(data: Shop) {
-    this.position.emit(data);
+    this.selected = data;
+    this.selectedChange.emit(data);
   }
 }

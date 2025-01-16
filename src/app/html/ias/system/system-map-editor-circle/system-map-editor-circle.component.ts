@@ -1,21 +1,30 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SystemMapShopRadiusArgs } from '../system-map/system-map.model';
 
 @Component({
   selector: 'ias-system-map-editor-circle',
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './system-map-editor-circle.component.html',
   styleUrl: './system-map-editor-circle.component.less',
 })
-export class SystemMapEditorCircleComponent {
-  @Input() args = new SystemMapShopRadiusArgs();
+export class SystemMapEditorCircleComponent implements OnInit {
+  @Input() args?: SystemMapShopRadiusArgs;
   @Output() ok = new EventEmitter<SystemMapShopRadiusArgs>();
   @Output() close = new EventEmitter<void>();
   @Output() distance = new EventEmitter<number>();
 
+  ngOnInit(): void {
+    if (!this.args) {
+      this.args = new SystemMapShopRadiusArgs();
+    }
+  }
+
   ondistance() {
-    this.distance.emit(this.args.distance);
+    if (this.args) {
+      this.distance.emit(this.args.distance);
+    }
   }
 
   onok() {

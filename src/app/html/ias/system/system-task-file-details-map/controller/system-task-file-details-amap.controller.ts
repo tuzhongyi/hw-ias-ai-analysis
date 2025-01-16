@@ -21,6 +21,9 @@ export class SystemTaskFileDetailsAMapController {
         showIndoorMap: false,
         zoom: 17,
       });
+      this.map.on('complete', () => {
+        this.completed = true;
+      });
     });
 
     this.arrow = this.init.arrow();
@@ -30,6 +33,7 @@ export class SystemTaskFileDetailsAMapController {
   }
 
   private map: any;
+  private completed = false;
 
   private _arrow?: SystemTaskFileDetailsAMapArrowController;
   private _path?: SystemTaskFileDetailsAMapPathController;
@@ -45,7 +49,7 @@ export class SystemTaskFileDetailsAMapController {
           } else {
             wait(
               () => {
-                return !!this.map;
+                return !!this.map && this.completed;
               },
               () => {
                 this._arrow = new SystemTaskFileDetailsAMapArrowController(
@@ -65,7 +69,7 @@ export class SystemTaskFileDetailsAMapController {
         } else {
           wait(
             () => {
-              return !!this.map;
+              return !!this.map && this.completed;
             },
             () => {
               this._path = new SystemTaskFileDetailsAMapPathController(
@@ -85,7 +89,7 @@ export class SystemTaskFileDetailsAMapController {
           } else {
             wait(
               () => {
-                return !!this.map;
+                return !!this.map && this.completed;
               },
               () => {
                 this._way = new SystemTaskFileDetailsAMapPathWayController(
@@ -106,7 +110,7 @@ export class SystemTaskFileDetailsAMapController {
           } else {
             wait(
               () => {
-                return !!this.map;
+                return !!this.map && this.completed;
               },
               () => {
                 this._label = new SystemTaskFileDetailsAMapLabelController(

@@ -1,0 +1,57 @@
+<div class="system-map-panel-details-shop" *ngIf="data">
+  <div class="system-map-panel-details-shop-head">
+    <ias-system-map-panel-head [title]="data.Name"></ias-system-map-panel-head>
+  </div>
+  <div class="panel-map system-map-panel-details-shop-body">
+    <div class="system-map-panel-details-shop-body-image">
+      <ias-picture [id]="data.ImageUrl"></ias-picture>
+    </div>
+    <div class="system-map-panel-details-shop-body-info forms">
+      <div class="form-item">
+        <div class="form-item-text">商铺名称</div>
+        <div class="form-item-value">
+          {{ data.Name }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">商铺地址</div>
+        <div class="form-item-value">
+          {{ data.Address ?? "-" }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">联系方式</div>
+        <div class="form-item-value">
+          {{ data.Telphone ?? "-" }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">发现时间</div>
+        <div class="form-item-value">
+          {{ data.BeginTime | date : "yyyy-MM-dd HH:mm:ss" }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">最近出现</div>
+        <div class="form-item-value">
+          {{ data.EndTime | date : "yyyy-MM-dd HH:mm:ss" }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">状态</div>
+        <div class="form-item-value states">
+          <div
+            [ngClass]="{
+            'state-blue': data.ObjectState == 2,
+          'state-green': data.ObjectState == 1,
+          'state-orange': data.ObjectState == 0,        
+        }"
+          >
+            {{ Language.ShopObjectState(data.ObjectState) }}
+          </div>
+          <div class="state-locked" *ngIf="data.Locked">已锁定</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

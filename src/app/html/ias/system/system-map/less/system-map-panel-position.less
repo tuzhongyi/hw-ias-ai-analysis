@@ -1,0 +1,21 @@
+@import "./system-map-@.less";
+
+.system-map {
+  &-position {
+    position: absolute;
+    bottom: calc(30px + @padding-y);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    display: flex;
+    justify-content: center;
+
+    &>._ {
+      width: 15px;
+    }
+
+    &>* {
+      width: calc((100% - 15px) / 2);
+    }
+  }
+}

@@ -22,6 +22,8 @@ export class Shop implements IIdNameModel {
   ObjectState!: number;
   /**	String	联系方式	O	*/
   Telphone?: string;
+  /**	Int32	商铺类型，1-店铺招牌，2-指示牌，3-路牌，4-广告牌，5-宣传标语，10-其他	O */
+  ShopType?: number;
   /**	Double	置信度，0-1	O	*/
   Confidence?: number;
   /**	GisPoint	商铺Gis坐标	O	*/
@@ -53,4 +55,28 @@ export class Shop implements IIdNameModel {
   Classification?: number;
   /**	Int32	用户分组ID	O	*/
   GroupId?: number;
+  /**	String	描述信息	O	*/
+  Description?: string;
+  /**	String	所属街道	O	*/
+  StreetId?: string;
+  /**	String	街道名称	O	*/
+  StreetName?: string;
+  /**	String	所属片区	O	*/
+  GridCellId?: string;
+  /**	String	所属片区名称	O	*/
+  GridCellName?: string;
+  /**	String	统一社会信用代码	O	*/
+  UscId?: string;
+  /**	String	单位名称	O	*/
+  UnitName?: string;
+  /**	String	载体类型	O	*/
+  CarrierType?: string;
+  /**	String	入驻载体名称	O	*/
+  CarrierName?: string;
+  /**	String	单位类型：	O	*/
+  UnitType?: string;
+  /**	String	经营地址	O	*/
+  BusinessAddress?: string;
+  /**	String	注册地址	O	*/
+  RegisteredAddress?: string;
 }

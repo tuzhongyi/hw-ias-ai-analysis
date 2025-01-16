@@ -7,22 +7,35 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { ResultLabelType } from '../../../../common/data-core/enums/analysis/result-label-type.enum';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
+import { TextSpaceBetweenDirective } from '../../../../common/directives/text-space-between/text-space-between.directive';
 import { Language } from '../../../../common/tools/language';
 import { PictureComponent } from '../../share/picture/picture.component';
+import { SystemTaskResultInfoSourceController } from './controller/system-task-result-info-source.controller';
 import { SystemTaskResultInfoBusiness } from './system-task-result-info.business';
 import { SystemTaskResultInfoConverter } from './system-task-result-info.converter';
 import { TaskResultItemModel } from './system-task-result-info.model';
 
 @Component({
   selector: 'ias-system-task-result-info',
-  imports: [CommonModule, FormsModule, PictureComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    PictureComponent,
+    TextSpaceBetweenDirective,
+  ],
   templateUrl: './system-task-result-info.component.html',
   styleUrl: './system-task-result-info.component.less',
-  providers: [SystemTaskResultInfoConverter, SystemTaskResultInfoBusiness],
+  providers: [
+    SystemTaskResultInfoSourceController,
+    SystemTaskResultInfoConverter,
+    SystemTaskResultInfoBusiness,
+  ],
 })
 export class SystemTaskResultInfoComponent {
   @Input() data?: AnalysisTask;
@@ -31,8 +44,13 @@ export class SystemTaskResultInfoComponent {
   @Output() get = new EventEmitter<number>();
   @Output() error = new EventEmitter<Error>();
   @Output() picture = new EventEmitter<ShopSign>();
+  @Output() labeling = new EventEmitter<void>();
 
-  constructor(private business: SystemTaskResultInfoBusiness) {}
+  constructor(
+    private business: SystemTaskResultInfoBusiness,
+    private toastr: ToastrService,
+    public source: SystemTaskResultInfoSourceController
+  ) {}
 
   model?: TaskResultItemModel;
   shop?: Shop;
@@ -66,6 +84,23 @@ export class SystemTaskResultInfoComponent {
   onpicture() {
     if (this.sign) {
       this.picture.emit(this.sign);
+    }
+  }
+
+  onlabeling(type: ResultLabelType) {
+    if (this.sign) {
+      this.business
+        .labeling(this.sign.Id, type)
+        .then((x) => {
+          this.toastr.success('标注成功');
+          if (this.sign) {
+            this.sign.ResultLabelType = x.ResultLabelType;
+          }
+          this.labeling.emit();
+        })
+        .catch((x) => {
+          this.toastr.error('标注失败');
+        });
     }
   }
 }

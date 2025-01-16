@@ -63,6 +63,9 @@ export class SystemTaskFileDetailsAMapPathController {
     });
 
     this.map.add(this.positions);
-    this.map.setFitView(null, true);
+    this.map.setFitView(this.positions, true);
+    setTimeout(() => {
+      this.map.setFitView(this.positions, true);
+    }, 2 * 1000);
   }
 }

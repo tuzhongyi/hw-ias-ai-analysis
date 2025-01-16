@@ -1,13 +1,15 @@
+@import "../../colors/color-table.less";
+
 .table-page {
   table {
     thead {
 
-      background: linear-gradient(to bottom, rgba(30, 144, 255, 0.2) 0%, rgba(30, 144, 255, 0) 100%);
-      color: #73d4ff;
+      background: @thead-background;
+      color: @thead-text;
 
       tr {
         th {
-          border-bottom: 1px solid #2d76ce;
+          border-bottom: 1px solid @border;
           height: 75px;
           text-align: left;
           font-weight: normal;

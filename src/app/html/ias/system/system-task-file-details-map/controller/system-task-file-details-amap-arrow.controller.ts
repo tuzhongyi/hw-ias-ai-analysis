@@ -37,7 +37,7 @@ export class SystemTaskFileDetailsAMapArrowController {
     this.map.setCenter(position);
   }
 
-  direction(position: number[][]) {
+  direction1(position: number[][]) {
     let angle = MapTool.direction(
       position[0][1],
       position[0][0],
@@ -45,6 +45,10 @@ export class SystemTaskFileDetailsAMapArrowController {
       position[1][0]
     );
 
+    this.arrow.setAngle(angle);
+  }
+
+  direction(angle: number) {
     this.arrow.setAngle(angle);
   }
 }

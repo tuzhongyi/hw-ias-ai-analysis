@@ -1,8 +1,10 @@
+@import "../../colors/color-table.less";
+
 .table-split {
   &-head {
-    border-bottom: 1px solid #2d76ce;
-    background: linear-gradient(to bottom, rgba(30, 144, 255, 0.2) 0%, rgba(30, 144, 255, 0) 100%);
-    color: #73d4ff;
+    border-bottom: 1px solid @border;
+    background: @thead-background;
+    color: @thead-text;
     height: 75px;
     box-sizing: border-box;
     overflow-y: scroll;

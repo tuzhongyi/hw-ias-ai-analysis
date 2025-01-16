@@ -21,7 +21,7 @@ export class SystemModuleShopSignTableComponent implements OnInit {
   constructor(private business: SystemModuleShopSignTableBusiness) {}
 
   datas: ShopSign[] = [];
-  widths: string[] = ['60px', 'auto', '85px', '60px', '80px', '180px'];
+  widths: string[] = ['60px', 'auto', '85px', '60px', '82px', '180px'];
   Language = Language;
 
   ngOnInit(): void {
