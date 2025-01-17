@@ -74,7 +74,18 @@
           <td>{{ item.EndTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
           <td class="center">
             <div class="operation" *ngIf="item.hasdata">
-              <div class="button" (click)="ondetails(item, $event)">
+              <div
+                class="button"
+                title="商铺详细信息"
+                (click)="oninfo(item, $event)"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+              <div
+                class="button"
+                title="商铺分析详情"
+                (click)="ondetails(item, $event)"
+              >
                 <i class="howell-icon-task_misson"></i>
               </div>
             </div>

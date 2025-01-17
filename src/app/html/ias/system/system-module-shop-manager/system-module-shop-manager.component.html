@@ -88,12 +88,14 @@
       </div>
       <div class="system-module-shop-manager-body-controls-operation">
         <div class="checkbox">
-          <input
-            type="checkbox"
-            id="marking"
-            [(ngModel)]="args.marking"
-            (change)="onmarking()"
-          /><label for="marking">显示屏蔽</label>
+          <label for="marking">
+            <input
+              type="checkbox"
+              id="marking"
+              [(ngModel)]="args.marking"
+              (change)="onmarking()"
+            />显示屏蔽</label
+          >
         </div>
         <div>
           <select class="mode" [(ngModel)]="storage.mode" (change)="onmode()">
@@ -101,11 +103,11 @@
             <option [ngValue]="1">&#xf225;&nbsp;</option>
           </select>
         </div>
-        <!-- <div>
+        <div>
           <button class="button-clip-gradient" (click)="create.open()">
             添加
           </button>
-        </div> -->
+        </div>
       </div>
     </div>
     <div class="system-module-shop-manager-body-table" *ngIf="inited">
@@ -114,6 +116,7 @@
           [args]="args"
           [load]="load"
           (details)="details.open($event)"
+          (info)="info.open($event)"
           (error)="onerror($event)"
         ></ias-system-module-shop-table>
       </ng-container>
@@ -145,7 +148,8 @@
     [style]="window.create.style"
   >
     <ias-system-module-shop-creation
-      (cancel)="window.create.show = false"
+      [data]="window.create.data"
+      (close)="window.create.show = false"
       (ok)="create.ok($event)"
     ></ias-system-module-shop-creation>
   </app-window>

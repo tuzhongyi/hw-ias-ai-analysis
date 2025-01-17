@@ -110,4 +110,8 @@ export class SystemTaskFileDetailsMapController {
       }
     }
   }
+
+  destroy() {
+    this.map.destroy();
+  }
 }

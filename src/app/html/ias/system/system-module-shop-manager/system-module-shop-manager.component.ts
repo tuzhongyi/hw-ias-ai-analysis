@@ -33,7 +33,6 @@ export class SystemModuleShopManagerComponent implements OnInit {
       source.duration[source.duration.length - 1].Value
     );
     this.storage = this.local.system.module.shop.get();
-    // this.window.create.show = true;
   }
 
   args: SystemModuleShopTableArgs;
@@ -72,9 +71,15 @@ export class SystemModuleShopManagerComponent implements OnInit {
 
   create = {
     open: () => {
+      this.window.create.clear();
       this.window.create.show = true;
     },
-    ok: (data: Shop) => {},
+    ok: (data: Shop) => {
+      this.window.create.clear();
+      this.window.create.show = false;
+      let args = new SystemModuleShopTableLoadArgs(this.args, true);
+      this.load.emit(args);
+    },
   };
 
   details = {
@@ -87,6 +92,16 @@ export class SystemModuleShopManagerComponent implements OnInit {
       this.window.details.show = false;
       let args = new SystemModuleShopTableLoadArgs(this.args);
       this.load.emit(args);
+    },
+  };
+  info = {
+    open: (data: ShopModel) => {
+      this.window.create.data = data;
+      this.window.create.show = true;
+    },
+    ok: () => {
+      this.window.create.clear();
+      this.window.create.show = false;
     },
   };
 }

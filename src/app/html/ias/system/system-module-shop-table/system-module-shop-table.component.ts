@@ -27,6 +27,7 @@ export class SystemModuleShopTableComponent implements OnInit {
   @Input() args = new SystemModuleShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleShopTableLoadArgs>;
   @Output() details = new EventEmitter<ShopModel>();
+  @Output() info = new EventEmitter<ShopModel>();
   @Output() error = new EventEmitter<Error>();
 
   constructor(
@@ -68,7 +69,9 @@ export class SystemModuleShopTableComponent implements OnInit {
         this.load(this.page.PageIndex, this.page.PageSize, this.filter);
       });
     }
+
     this.filter.load(this.args);
+    this.filter.desc = 'EndTime';
     this.load(this.page.PageIndex, this.page.PageSize, this.filter);
   }
 
@@ -103,12 +106,6 @@ export class SystemModuleShopTableComponent implements OnInit {
     }
   }
 
-  ondetails(item: ShopModel, e: Event) {
-    this.details.emit(item);
-    if (this.selected === item) {
-      e.stopPropagation();
-    }
-  }
   onsort(sort: Sort) {
     this.filter.asc = undefined;
     this.filter.desc = undefined;
@@ -123,5 +120,19 @@ export class SystemModuleShopTableComponent implements OnInit {
         break;
     }
     this.load(this.page.PageIndex, this.page.PageSize, this.filter);
+  }
+
+  ondetails(item: ShopModel, e: Event) {
+    this.details.emit(item);
+    if (this.selected === item) {
+      e.stopPropagation();
+    }
+  }
+
+  oninfo(item: ShopModel, e: Event) {
+    this.info.emit(item);
+    if (this.selected === item) {
+      e.stopPropagation();
+    }
   }
 }

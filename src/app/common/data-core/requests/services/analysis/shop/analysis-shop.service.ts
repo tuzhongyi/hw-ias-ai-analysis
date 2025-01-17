@@ -22,6 +22,15 @@ export class ArmAnalysisShopRequestService {
       return HowellResponseProcess.item(x, Shop);
     });
   }
+
+  async create(data: Shop, createToServer?: boolean) {
+    let url = ArmAnalysisUrl.shop.create(createToServer);
+    let plain = instanceToPlain(data);
+    return this.http.post<HowellResponse<Shop>, any>(url, plain).then((x) => {
+      return HowellResponseProcess.item(x, Shop);
+    });
+  }
+
   async update(data: Shop) {
     let url = ArmAnalysisUrl.shop.item(data.Id);
     let plain = instanceToPlain(data);

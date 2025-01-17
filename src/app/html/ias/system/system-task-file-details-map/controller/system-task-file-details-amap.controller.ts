@@ -124,4 +124,10 @@ export class SystemTaskFileDetailsAMapController {
       );
     },
   };
+
+  destroy() {
+    if (this.map) {
+      this.map.destroy();
+    }
+  }
 }

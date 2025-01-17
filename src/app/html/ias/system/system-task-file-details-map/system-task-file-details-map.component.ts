@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 import { FileGpsItem } from '../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../common/data-core/models/arm/file/file-info.model.js';
@@ -18,7 +25,7 @@ import { SystemTaskFileDetailsMapBusiness } from './system-task-file-details-map
     SystemTaskFileDetailsMapBusiness,
   ],
 })
-export class SystemTaskFileDetailsMapComponent implements OnInit {
+export class SystemTaskFileDetailsMapComponent implements OnInit, OnDestroy {
   @Input() data?: FileInfo;
   @Input('to') _to?: EventEmitter<number>;
   @Output() trigger = new EventEmitter<FileGpsItem>();
@@ -66,5 +73,9 @@ export class SystemTaskFileDetailsMapComponent implements OnInit {
     } finally {
       this.loading = false;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.controller.destroy();
   }
 }

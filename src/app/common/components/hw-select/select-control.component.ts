@@ -9,6 +9,7 @@ import {
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { SelectDirective } from './select.directive';
 
@@ -62,12 +63,16 @@ export class HowellSelectComponent implements OnInit, AfterViewChecked {
   element_directive?: SelectDirective;
   @ContentChild('select')
   element_select?: ElementRef<HTMLSelectElement>;
+  @ViewChild('current')
+  current?: ElementRef<HTMLDivElement>;
 
   get element() {
     if (this.element_directive) {
       return this.element_directive.nativeElement;
     } else if (this.element_select) {
       return this.element_select.nativeElement;
+    } else if (this.current) {
+      return this.current.nativeElement.querySelector('select');
     } else {
       return undefined;
     }

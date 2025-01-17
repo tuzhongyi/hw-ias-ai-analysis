@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { LabelResultStatistic } from '../../../../common/data-core/models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
@@ -13,7 +19,7 @@ import { SystemTaskResultAMapController } from './controller/system-task-result-
   styleUrl: './system-task-result-map.component.less',
   providers: [SystemTaskResultAMapController],
 })
-export class SystemTaskResultMapComponent implements OnChanges {
+export class SystemTaskResultMapComponent implements OnChanges, OnDestroy {
   @Input() data?: AnalysisTask;
   @Input() selected?: ShopSign;
   @Input() signs: ShopSign[] = [];
@@ -31,5 +37,8 @@ export class SystemTaskResultMapComponent implements OnChanges {
     if (changes['signs'] && this.signs) {
       this.controller.load(this.signs);
     }
+  }
+  ngOnDestroy(): void {
+    this.controller.destroy();
   }
 }

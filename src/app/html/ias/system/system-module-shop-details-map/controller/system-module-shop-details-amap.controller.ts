@@ -58,4 +58,10 @@ export class SystemModuleShopDetailsAMapController {
       }
     );
   }
+
+  destroy() {
+    if (this.map) {
+      this.map.destroy();
+    }
+  }
 }

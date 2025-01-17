@@ -79,4 +79,16 @@ export class Shop implements IIdNameModel {
   BusinessAddress?: string;
   /**	String	注册地址	O	*/
   RegisteredAddress?: string;
+  /**	String	所属行业：	O	*/
+  Industry?: string;
+  /**	String	企业负责人	O	*/
+  PersonInCharge?: string;
+  /**	String	联系人	O	*/
+  Contract?: string;
+  /**	String	联系方式，一般是电话号码	O	*/
+  ContractDetails?: string;
+  /**	Int32	从业人数	O	*/
+  EmployeeNumber?: number;
+  /**	String	经营范围：	O	*/
+  BusinessScope?: string;
 }

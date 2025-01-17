@@ -65,21 +65,25 @@
       <div class="form-item-text"></div>
       <div class="form-item-value">
         <div class="checkbox">
-          <input
-            type="checkbox"
-            [id]="data.Id + 'locked'"
-            [(ngModel)]="data.Locked"
-            (change)="onchange()"
-          />
-          <label [for]="data.Id + 'locked'">锁定商铺</label>
+          <label [for]="data.Id + 'locked'">
+            <input
+              type="checkbox"
+              [id]="data.Id + 'locked'"
+              [(ngModel)]="data.Locked"
+              (change)="onchange()"
+            />
+            锁定商铺</label
+          >
         </div>
         <div class="checkbox">
-          <input
-            type="checkbox"
-            [id]="data.Id + 'marking'"
-            [(ngModel)]="data.Marking"
-          />
-          <label [for]="data.Id + 'marking'">屏蔽商铺</label>
+          <label [for]="data.Id + 'marking'">
+            <input
+              type="checkbox"
+              [id]="data.Id + 'marking'"
+              [(ngModel)]="data.Marking"
+            />
+            屏蔽商铺</label
+          >
         </div>
       </div>
     </div>

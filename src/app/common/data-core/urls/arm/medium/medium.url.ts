@@ -1,11 +1,14 @@
-import { BaseUrl } from '../../base.url'
+import { BaseUrl } from '../../base.url';
 
 export class ArmMediumUrl {
   private static get basic() {
-    return `${BaseUrl.arm}/Medium`
+    return `${BaseUrl.arm}/Medium`;
   }
 
-  static picture(id: string) {
-    return `${this.basic}/Pictures/${id}`
-  }
+  static picture = {
+    get: (id: string) => {
+      return `${this.basic}/Pictures/${id}`;
+    },
+    upload: () => `${this.basic}/Pictures`,
+  };
 }

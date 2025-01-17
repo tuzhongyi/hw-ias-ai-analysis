@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -19,10 +20,13 @@ import { SystemModuleShopDetailsAMapController } from './controller/system-modul
   styleUrl: './system-module-shop-details-map.component.less',
   providers: [SystemModuleShopDetailsAMapController],
 })
-export class SystemModuleShopDetailsMapComponent implements OnInit, OnChanges {
+export class SystemModuleShopDetailsMapComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @Input() data?: GisPoint;
   @Output() dataChange = new EventEmitter<GisPoint>();
   constructor(private controller: SystemModuleShopDetailsAMapController) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       if (this.data) {
@@ -46,5 +50,9 @@ export class SystemModuleShopDetailsMapComponent implements OnInit, OnChanges {
         this.dataChange.emit(this.data);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.controller.destroy();
   }
 }

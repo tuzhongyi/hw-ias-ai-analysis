@@ -8,12 +8,16 @@
   border-image-slice: 1;
   box-sizing: border-box;
   transition: all 0.5s;
+  pointer-events: none;
+  user-select: none;
 
 
   &-title {
     margin-left: 50px;
     height: 100%;
     width: max-content;
+    max-width: 90%;
+    white-space: nowrap;
 
     position: relative;
     background: linear-gradient(to bottom, #fff 40%, #ffba00 70%);
@@ -24,6 +28,10 @@
     align-items: center;
     font-size: 20px;
 
+
+    &-str {
+      width: 100%;
+    }
 
   }
 

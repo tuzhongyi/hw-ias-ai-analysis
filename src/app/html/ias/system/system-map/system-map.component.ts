@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemMapControlsComponent } from '../system-map-controls/system-map-controls.component';
 import { SystemMapEditorCircleComponent } from '../system-map-editor-circle/system-map-editor-circle.component';
@@ -25,7 +25,7 @@ import { SystemMapProviders } from './system-map.provider';
   styleUrls: ['./system-map.component.less', './less/system-map-panel.less'],
   providers: [...SystemMapProviders],
 })
-export class SystemMapComponent implements OnInit {
+export class SystemMapComponent implements OnInit, OnDestroy {
   constructor(
     private business: SystemMapBusiness,
     private controller: SystemMapController
@@ -88,4 +88,8 @@ export class SystemMapComponent implements OnInit {
       this.panel.source.show = !this.panel.source.show;
     },
   };
+
+  ngOnDestroy(): void {
+    this.controller.amap.destroy();
+  }
 }

@@ -92,4 +92,10 @@ export class SystemAMapController {
   };
 
   onselected(data: Shop) {}
+
+  destroy() {
+    this.map.get().then((x) => {
+      x.destroy();
+    });
+  }
 }

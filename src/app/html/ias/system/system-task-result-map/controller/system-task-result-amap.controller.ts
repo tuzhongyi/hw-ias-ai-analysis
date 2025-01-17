@@ -61,4 +61,10 @@ export class SystemTaskResultAMapController {
       });
     });
   }
+
+  destroy() {
+    if (this.map) {
+      this.map.destroy();
+    }
+  }
 }
