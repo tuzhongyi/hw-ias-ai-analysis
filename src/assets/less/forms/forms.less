@@ -25,6 +25,17 @@
       align-items: center;
       justify-content: space-between;
       white-space: nowrap;
+      position: relative;
+
+      .must {
+        color: red;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right: -8px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
 
       &.baseline {
         height: 100%;

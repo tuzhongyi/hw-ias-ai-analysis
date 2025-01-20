@@ -1,36 +1,51 @@
 import { Injectable } from '@angular/core';
 import { ResultLabelType } from '../../../../../common/data-core/enums/analysis/result-label-type.enum';
 import { SignType } from '../../../../../common/data-core/enums/analysis/sign-type.enum';
-import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
-import { EnumTool } from '../../../../../common/tools/enum-tool/enum.tool';
+import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import { Manager } from '../../../../../common/data-core/requests/managers/manager';
 
 @Injectable()
 export class SystemTaskResultTableManagerSourceController {
-  constructor() {
-    this.types = EnumTool.values(SignType);
-    this.labels = EnumTool.values(ResultLabelType);
+  constructor(private manager: Manager) {
+    this.channels = this.init.channels();
+    this.labels = this.init.labels();
+    this.types = this.init.types();
   }
 
-  channels = [1, 2, 3, 4];
-  types: number[];
-  labels: number[];
-  datas: ShopSign[] = [];
+  channels: Promise<EnumNameValue[]>;
+  types: Promise<EnumNameValue<SignType>[]>;
+  labels: Promise<EnumNameValue<ResultLabelType>[]>;
 
-  filter(channel?: string, type?: number, label?: number, shopId?: string) {
-    return this.datas.filter((x) => {
-      if (channel != undefined && x.CameraNo != channel) {
-        return false;
-      }
-      if (type != undefined && x.SignType != type) {
-        return false;
-      }
-      if (label != undefined && x.ResultLabelType != label) {
-        return false;
-      }
-      if (shopId != undefined && x.ShopId != shopId) {
-        return false;
-      }
-      return true;
-    });
-  }
+  private init = {
+    types: () => {
+      return new Promise<EnumNameValue<SignType>[]>((resolve) => {
+        this.manager.capability.analysis.shop.then((x) => {
+          if (x.SignTypes) {
+            resolve(x.SignTypes);
+          }
+        });
+      });
+    },
+    labels: () => {
+      return new Promise<EnumNameValue<ResultLabelType>[]>((resolve) => {
+        this.manager.capability.analysis.shop.then((x) => {
+          if (x.ResultLabelTypes) {
+            let labels = x.ResultLabelTypes.filter(
+              (x) => x.Value != ResultLabelType.Unlabeled
+            );
+            resolve(labels);
+          }
+        });
+      });
+    },
+    channels: () => {
+      return new Promise<EnumNameValue[]>((resolve) => {
+        this.manager.capability.analysis.shop.then((x) => {
+          if (x.CameraNos) {
+            resolve(x.CameraNos);
+          }
+        });
+      });
+    },
+  };
 }

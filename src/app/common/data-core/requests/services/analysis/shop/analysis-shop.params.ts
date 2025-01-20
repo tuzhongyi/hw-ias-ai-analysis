@@ -1,4 +1,5 @@
 import { ResultLabelType } from '../../../../enums/analysis/result-label-type.enum';
+import { ShopObjectState } from '../../../../enums/analysis/shop-object-state.enum';
 import { GisPoint } from '../../../../models/arm/gis-point.model';
 import {
   IParams,
@@ -15,7 +16,7 @@ export class GetShopsParams extends PagedDurationParams {
   /**	String	联系方式	O	*/
   Telphone?: string;
   /**	Int32[]	商铺对象状态	O	*/
-  ObjectStates?: number[];
+  ObjectStates?: ShopObjectState[];
   /**	Double	置信度，0-1	O	*/
   Confidence?: number;
   /**	GisPoint	照片Gis坐标	D	*/

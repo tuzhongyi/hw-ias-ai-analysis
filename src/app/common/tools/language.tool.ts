@@ -49,7 +49,7 @@ export class LanguageTool {
 
   async TaskType(value?: number, def: string = ''): Promise<string> {
     return new Promise<string>((resolve) => {
-      this.manager.capability.analysis
+      this.manager.capability.analysis.server
         .then((capability) => {
           if (capability.TaskTypes) {
             let _enum = capability.TaskTypes.find(
@@ -69,7 +69,7 @@ export class LanguageTool {
   }
   async TaskState(value?: number, def: string = ''): Promise<string> {
     return new Promise<string>((resolve) => {
-      this.manager.capability.analysis
+      this.manager.capability.analysis.server
         .then((capability) => {
           if (capability.TaskStates) {
             let _enum = capability.TaskStates.find(

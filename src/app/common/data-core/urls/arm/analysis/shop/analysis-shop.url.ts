@@ -1,15 +1,19 @@
-import { AbstractUrl } from '../../../abstract.url'
-import { AnalysisShopSignUrl } from './analysis-shop-sign.url'
+import { AbstractUrl } from '../../../abstract.url';
+import { AnalysisShopSignUrl } from './analysis-shop-sign.url';
 
 export class AnalysisShopUrl extends AbstractUrl {
   constructor(base: string) {
-    super(`${base}/Shops`)
+    super(`${base}/Shops`);
+  }
+
+  capability() {
+    return `${this.basic()}/Capability`;
   }
 
   sign(id?: string) {
     if (id) {
-      return new AnalysisShopSignUrl(`${this.item(id)}`)
+      return new AnalysisShopSignUrl(`${this.item(id)}`);
     }
-    return new AnalysisShopSignUrl(this.basic())
+    return new AnalysisShopSignUrl(this.basic());
   }
 }

@@ -6,9 +6,9 @@ import { PromiseValue } from '../../../../../../common/models/value.promise';
 import { SystemAMapLayerController } from './system-map-amap-layer.controller';
 
 import {
-  SystemAMapCircleController,
-  SystemAMapCircleEvent,
-} from './system-map-amap-circle.controller';
+  SystemAMapCircleEditorController,
+  SystemAMapCircleEditorEvent,
+} from './system-map-amap-circle-editor.controller';
 
 @Injectable()
 export class SystemAMapController {
@@ -16,9 +16,7 @@ export class SystemAMapController {
     map: {
       mousemmove: new EventEmitter<number[]>(),
     },
-    editor: {
-      circle: new SystemAMapCircleEvent(),
-    },
+    circle: new SystemAMapCircleEditorEvent(),
   };
 
   constructor() {
@@ -32,18 +30,18 @@ export class SystemAMapController {
 
   private map = new PromiseValue<any>();
   private layer = new PromiseValue<SystemAMapLayerController>();
-  private circle = new PromiseValue<SystemAMapCircleController>();
+  private circle = new PromiseValue<SystemAMapCircleEditorController>();
 
   private regist() {
     this.map.get().then((x) => {
       x.on('complete', () => {
         this.layer.set(new SystemAMapLayerController(x));
-        let circel = new SystemAMapCircleController(x);
+        let circel = new SystemAMapCircleEditorController(x);
         circel.event.change.subscribe((x) => {
-          this.event.editor.circle.change.emit(x);
+          this.event.circle.change.emit(x);
         });
         circel.event.move.subscribe((x) => {
-          this.event.editor.circle.move.emit(x);
+          this.event.circle.move.emit(x);
         });
         this.circle.set(circel);
       });
@@ -71,16 +69,28 @@ export class SystemAMapController {
       x.setZoom(17);
     });
   }
+  info = {
+    open: (shop: Shop) => {
+      this.layer.get().then((x) => {
+        x.mouseover(shop);
+      });
+    },
+    close: () => {
+      this.layer.get().then((x) => {
+        x.mouseout();
+      });
+    },
+  };
   radius = {
     open: () => {
       this.circle.get().then((x) => {
-        x.create();
+        x.circle.create();
         x.open();
       });
     },
     close: () => {
       this.circle.get().then((x) => {
-        x.remove();
+        x.circle.remove();
         x.close();
       });
     },

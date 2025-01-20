@@ -100,7 +100,7 @@
               selected: sign && item.Value === sign.ResultLabelType
             }"
             class="button-selection"
-            *ngFor="let item of source.labels"
+            *ngFor="let item of source.labels | async"
             (click)="onlabeling(item.Value)"
           >
             {{ item.Name }}

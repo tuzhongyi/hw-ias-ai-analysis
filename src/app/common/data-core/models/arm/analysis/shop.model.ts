@@ -1,5 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
+import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
 import { IIdNameModel } from '../../model.interface';
 import { transformDateTime } from '../../transformer';
 import { GisPoint } from '../gis-point.model';
@@ -19,7 +20,7 @@ export class Shop implements IIdNameModel {
   /**	String	地址	O	*/
   Address?: string;
   /**	Int32	商铺对象状态	M	*/
-  ObjectState!: number;
+  ObjectState!: ShopObjectState;
   /**	String	联系方式	O	*/
   Telphone?: string;
   /**	Int32	商铺类型，1-店铺招牌，2-指示牌，3-路牌，4-广告牌，5-宣传标语，10-其他	O */

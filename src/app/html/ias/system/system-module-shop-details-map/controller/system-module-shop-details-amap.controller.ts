@@ -24,6 +24,7 @@ export class SystemModuleShopDetailsAMapController {
 
   private map: any;
   private inited = false;
+  private marker: any;
 
   private regist(map: any) {
     map.on('complete', () => {
@@ -32,16 +33,16 @@ export class SystemModuleShopDetailsAMapController {
   }
   private _load(data: GisPoint) {
     let position = [data.Longitude, data.Latitude];
-    let marker = new AMap.Marker({
+    this.marker = new AMap.Marker({
       position: position,
       map: this.map,
       draggable: true,
     });
-    marker.on('dragging', (e: any) => {
+    this.marker.on('dragging', (e: any) => {
       let position = [e.lnglat.lng, e.lnglat.lat];
       this.dragging.emit(position);
     });
-    marker.on('dragend', (e: any) => {
+    this.marker.on('dragend', (e: any) => {
       let position = [e.lnglat.lng, e.lnglat.lat];
       this.dragend.emit(position);
     });
@@ -54,6 +55,9 @@ export class SystemModuleShopDetailsAMapController {
         return this.inited;
       },
       () => {
+        if (this.marker) {
+          this.map.remove(this.marker);
+        }
         this._load(data);
       }
     );

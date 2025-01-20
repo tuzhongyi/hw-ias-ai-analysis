@@ -6,6 +6,7 @@ import { NetworkCapability } from '../../models/capabilities/arm/network-capabil
 import { SecurityCapability } from '../../models/capabilities/arm/security-capability.model';
 
 import { wait } from '../../../tools/wait';
+import { AnalysisShopCapability } from '../../models/arm/analysis/analysis-shop-capability.model';
 import { ArmAnalysisRequestService } from '../services/analysis/analysis.service';
 import { ArmSystemRequestService } from '../services/system/system.service';
 
@@ -19,13 +20,12 @@ export class CapabilityManager {
   ) {
     this.service = {
       system,
-      analysis,
     };
+    this.analysis = new AnalysisCapabilityManager(analysis);
   }
 
   private service: {
     system: ArmSystemRequestService;
-    analysis: ArmAnalysisRequestService;
   };
 
   private loading = {
@@ -34,8 +34,13 @@ export class CapabilityManager {
     network: false,
     inputproxy: false,
     gps: false,
-    analysis: false,
+    analysis: {
+      server: false,
+      shop: false,
+    },
   };
+
+  analysis: AnalysisCapabilityManager;
 
   private _device?: DeviceCapability;
   public get device(): Promise<DeviceCapability> {
@@ -152,32 +157,70 @@ export class CapabilityManager {
       });
     });
   }
+}
 
-  private _analysis?: AnalysisServerCapability;
-  public get analysis(): Promise<AnalysisServerCapability> {
-    if (this.loading.analysis) {
+class AnalysisCapabilityManager {
+  constructor(private service: ArmAnalysisRequestService) {}
+
+  private loading = {
+    server: false,
+    shop: false,
+  };
+
+  private _server?: AnalysisServerCapability;
+  public get server(): Promise<AnalysisServerCapability> {
+    if (this.loading.server) {
       return new Promise<AnalysisServerCapability>((resolve) => {
         wait(
           () => {
-            return this.loading.analysis === false && !!this._analysis;
+            return this.loading.server === false && !!this._server;
           },
           () => {
-            if (this._analysis) {
-              resolve(this._analysis);
+            if (this._server) {
+              resolve(this._server);
             }
           }
         );
       });
     }
-    if (this._analysis) {
-      return Promise.resolve(this._analysis);
+    if (this._server) {
+      return Promise.resolve(this._server);
     }
-    this.loading.analysis = true;
+    this.loading.server = true;
     return new Promise<AnalysisServerCapability>((resolve) => {
-      this.service.analysis.server.capability().then((x) => {
-        this._analysis = x;
-        this.loading.analysis = false;
-        resolve(this._analysis);
+      this.service.server.capability().then((x) => {
+        this._server = x;
+        this.loading.server = false;
+        resolve(this._server);
+      });
+    });
+  }
+
+  private _shop?: AnalysisShopCapability;
+  public get shop(): Promise<AnalysisShopCapability> {
+    if (this.loading.shop) {
+      return new Promise<AnalysisShopCapability>((resolve) => {
+        wait(
+          () => {
+            return this.loading.shop === false && !!this._shop;
+          },
+          () => {
+            if (this._shop) {
+              resolve(this._shop);
+            }
+          }
+        );
+      });
+    }
+    if (this._shop) {
+      return Promise.resolve(this._shop);
+    }
+    this.loading.shop = true;
+    return new Promise<AnalysisShopCapability>((resolve) => {
+      this.service.shop.capability().then((x) => {
+        this._shop = x;
+        this.loading.shop = false;
+        resolve(this._shop);
       });
     });
   }

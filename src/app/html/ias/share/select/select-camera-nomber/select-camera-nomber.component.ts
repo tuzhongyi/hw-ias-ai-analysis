@@ -10,6 +10,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ISelection } from '../../../../../common/components/common-label-select/common-label-select.model';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import { ClassTool } from '../../../../../common/tools/class-tool/class.tool';
 
 @Component({
   selector: 'ias-select-camera-nomber',
@@ -35,7 +36,9 @@ export class SelectCameraNumberComponent
     this.loaded.emit(this.datas);
   }
   toggleNodes(item: EnumNameValue<string>, clear?: boolean | undefined): void {
-    let index = this.selected.findIndex((x) => x.equals(item));
+    let index = this.selected.findIndex((x) =>
+      ClassTool.equals.EnumNameValue(x, item)
+    );
 
     if (index < 0) {
       this.selected.push(item);
@@ -47,7 +50,9 @@ export class SelectCameraNumberComponent
   datas: EnumNameValue<string>[] = [];
 
   onchange(item: EnumNameValue<string>) {
-    let index = this.selected.findIndex((x) => x.equals(item));
+    let index = this.selected.findIndex((x) =>
+      ClassTool.equals.EnumNameValue(x, item)
+    );
 
     if (index < 0) {
       this.selected.push(item);

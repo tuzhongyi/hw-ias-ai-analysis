@@ -1,6 +1,10 @@
 <div class="system-map-panel-details-shop" *ngIf="data">
   <div class="system-map-panel-details-shop-head">
-    <ias-system-map-panel-head [title]="data.Name"></ias-system-map-panel-head>
+    <ias-system-map-panel-head [title]="data.Name" [operation]="true">
+      <div class="button" (click)="onclose()">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </ias-system-map-panel-head>
   </div>
   <div class="panel-map system-map-panel-details-shop-body">
     <div class="system-map-panel-details-shop-body-image">

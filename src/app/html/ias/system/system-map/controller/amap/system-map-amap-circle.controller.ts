@@ -9,7 +9,6 @@ export class SystemAMapCircleController {
   event = new SystemAMapCircleEvent();
   constructor(private map: any) {}
   private circle?: AMap.Circle;
-  private editor?: AMap.CircleEditor;
 
   create() {
     let center = this.map.getCenter();
@@ -31,39 +30,21 @@ export class SystemAMapCircleController {
     this.map.setFitView([this.circle]);
     this.event.move.emit([center.lng, center.lat]);
     this.event.change.emit(100);
+    return this.circle;
   }
 
   set(radius: number) {
     if (this.circle) {
       this.circle.setRadius(radius);
-      this.close();
-      this.open();
     }
   }
-
-  open() {
-    this.editor = new AMap.CircleEditor(this.map, this.circle);
-    this.regist(this.editor);
-    this.editor.open();
+  get() {
+    return this.circle;
   }
+
   remove() {
     if (this.circle) {
       this.map.remove(this.circle);
     }
-  }
-  close() {
-    if (this.editor) {
-      this.editor.close();
-    }
-  }
-
-  private regist(editor: AMap.CircleEditor) {
-    editor.on('adjust', (e: any) => {
-      this.event.change.emit(e.target.getRadius());
-    });
-    editor.on('move', (e: any) => {
-      let center = e.target.getCenter();
-      this.event.move.emit([center.lng, center.lat]);
-    });
   }
 }

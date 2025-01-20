@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { AnalysisShopCapability } from '../../../../models/arm/analysis/analysis-shop-capability.model';
 import { LabelResultStatistic } from '../../../../models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../models/arm/analysis/shop.model';
@@ -59,6 +60,15 @@ export class ArmAnalysisShopRequestService {
       index++;
     } while (index <= paged.Page.PageCount);
     return data;
+  }
+
+  async capability() {
+    let url = ArmAnalysisUrl.shop.capability();
+    return this.http
+      .get<HowellResponse<AnalysisShopCapability>>(url)
+      .then((x) => {
+        return HowellResponseProcess.item(x, AnalysisShopCapability);
+      });
   }
 
   private _sign?: ArmAnalysisShopSignRequestService;

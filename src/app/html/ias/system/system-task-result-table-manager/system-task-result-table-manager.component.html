@@ -48,8 +48,11 @@
             (change)="trigger.channel()"
           >
             <option [ngValue]="undefined">全部</option>
-            <option *ngFor="let item of source.channels" [ngValue]="item">
-              {{ item }}
+            <option
+              *ngFor="let item of source.channels | async"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
             </option>
           </select>
         </div>
@@ -63,8 +66,11 @@
             (change)="trigger.type()"
           >
             <option [ngValue]="undefined">全部</option>
-            <option *ngFor="let item of source.types" [ngValue]="item">
-              {{ Language.SignType(item) }}
+            <option
+              *ngFor="let item of source.types | async"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
             </option>
           </select>
         </div>
@@ -78,8 +84,11 @@
             (change)="trigger.label()"
           >
             <option [ngValue]="undefined">全部</option>
-            <option *ngFor="let item of source.labels" [ngValue]="item">
-              {{ Language.ResultLabelType(item) }}
+            <option
+              *ngFor="let item of source.labels | async"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
             </option>
           </select>
         </div>

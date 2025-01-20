@@ -1,4 +1,5 @@
 import { EventEmitter } from '@angular/core';
+import { ShopObjectState } from '../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { Point } from '../../../../common/data-core/models/arm/point.model';
 
 export class SystemMapShopArgs {
@@ -13,7 +14,7 @@ export class SystemMapShopArgs {
 
 export class SystemMapShopFilterArgs {
   name?: string;
-  state?: number;
+  state?: ShopObjectState;
 
   clear() {
     this.name = undefined;

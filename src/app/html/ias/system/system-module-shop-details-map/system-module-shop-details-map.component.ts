@@ -25,6 +25,9 @@ export class SystemModuleShopDetailsMapComponent
 {
   @Input() data?: GisPoint;
   @Output() dataChange = new EventEmitter<GisPoint>();
+
+  @Input() load?: EventEmitter<GisPoint>;
+
   constructor(private controller: SystemModuleShopDetailsAMapController) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -36,6 +39,11 @@ export class SystemModuleShopDetailsMapComponent
   }
 
   ngOnInit(): void {
+    if (this.load) {
+      this.load.subscribe((x) => {
+        this.controller.load(x);
+      });
+    }
     this.controller.dragging.subscribe((x) => {
       if (this.data) {
         this.data.Longitude = x[0];

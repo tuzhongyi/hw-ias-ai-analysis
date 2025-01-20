@@ -29,13 +29,15 @@
       [args]="args.filter"
       (argsChange)="panel.source.onfilter($event)"
       (details)="panel.source.ondetails($event)"
-      [selected]=""
+      (itemhover)="panel.source.onmouseover($event)"
+      (itemblur)="panel.source.onmouseout($event)"
     ></ias-system-map-source-manager>
   </div>
 
   <div class="system-map-details-shop" *ngIf="panel.details.shop.show">
     <ias-system-map-panel-details-shop
       [data]="panel.details.shop.data"
+      (close)="panel.details.shop.show = false"
     ></ias-system-map-panel-details-shop>
   </div>
 </div>

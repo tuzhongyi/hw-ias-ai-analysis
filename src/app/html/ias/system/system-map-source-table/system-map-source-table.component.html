@@ -17,6 +17,8 @@
           *ngFor="let item of datas; let index = index"
           [ngClass]="{ selected: item === selected }"
           (click)="onselect(item)"
+          (mouseover)="onmouseover(item)"
+          (mouseout)="onmouseout(item)"
         >
           <td class="center">
             {{ index + 1 }}

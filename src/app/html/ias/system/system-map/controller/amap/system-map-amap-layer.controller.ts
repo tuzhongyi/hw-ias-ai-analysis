@@ -49,4 +49,11 @@ export class SystemAMapLayerController {
     this.layer.clear();
     this.points = [];
   }
+
+  mouseover(shop: Shop) {
+    this.info.add(shop);
+  }
+  mouseout() {
+    this.info.remove();
+  }
 }

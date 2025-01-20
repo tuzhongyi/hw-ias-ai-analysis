@@ -51,7 +51,8 @@ export class SystemModuleShopCreationComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      this.shop = Object.assign(this.shop, this.data);
+      let str = JSON.stringify(this.data);
+      this.shop = Object.assign(this.shop, JSON.parse(str));
       console.log(this.shop);
     } else {
       this.business
@@ -96,6 +97,13 @@ export class SystemModuleShopCreationComponent implements OnInit {
 
     return true;
   }
+
+  location = {
+    change: new EventEmitter<GisPoint>(),
+    on: () => {
+      this.location.change.emit(this.shop.Location);
+    },
+  };
 
   onposition(data: GisPoint) {
     this.shop.Location = data;

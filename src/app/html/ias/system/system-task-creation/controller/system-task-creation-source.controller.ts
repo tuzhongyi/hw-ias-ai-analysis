@@ -11,6 +11,6 @@ export class SystemTaskCreationSourceController {
   types: Promise<EnumNameValue<number>[]>;
 
   private async inittypes() {
-    return (await this.manager.capability.analysis).TaskTypes ?? [];
+    return (await this.manager.capability.analysis.server).TaskTypes ?? [];
   }
 }

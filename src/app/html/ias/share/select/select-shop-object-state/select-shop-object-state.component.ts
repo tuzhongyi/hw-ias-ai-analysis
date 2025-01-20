@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { ISelection } from '../../../../../common/components/common-label-select/common-label-select.model';
 import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { EnumTool } from '../../../../../common/tools/enum-tool/enum.tool';
-import { Language } from '../../../../../common/tools/language';
+import { Manager } from '../../../../../common/data-core/requests/managers/manager';
+import { ClassTool } from '../../../../../common/tools/class-tool/class.tool';
 
 @Component({
   selector: 'ias-select-shop-object-state',
@@ -27,22 +27,34 @@ export class SelectShopObjectStateComponent
   @Output() selectedChange = new EventEmitter<
     EnumNameValue<ShopObjectState>[]
   >();
-
   @Output() loaded = new EventEmitter<EnumNameValue<ShopObjectState>[]>();
-  constructor() {
-    this.datas = EnumTool.values(ShopObjectState).map((x) => {
-      return new EnumNameValue<ShopObjectState>(x, Language.ShopObjectState(x));
+
+  constructor(private manager: Manager) {
+    this.datas = new Promise<EnumNameValue<ShopObjectState>[]>((resolve) => {
+      this.manager.capability.analysis.shop.then((x) => {
+        if (x.ShopObjectStates) {
+          resolve(x.ShopObjectStates);
+        }
+      });
     });
   }
+
+  datas: Promise<EnumNameValue<ShopObjectState>[]>;
+
   ngAfterContentInit(): void {}
   ngOnInit(): void {
-    this.loaded.emit(this.datas);
+    this.datas.then((x) => {
+      this.loaded.emit(x);
+    });
   }
+
   toggleNodes(
     item: EnumNameValue<ShopObjectState>,
     clear?: boolean | undefined
   ): void {
-    let index = this.selected.findIndex((x) => x.equals(item));
+    let index = this.selected.findIndex((x) =>
+      ClassTool.equals.EnumNameValue(x, item)
+    );
 
     if (index < 0) {
       this.selected.push(item);
@@ -51,10 +63,10 @@ export class SelectShopObjectStateComponent
     }
   }
 
-  datas: EnumNameValue<ShopObjectState>[];
-
   onchange(item: EnumNameValue<ShopObjectState>) {
-    let index = this.selected.findIndex((x) => x.equals(item));
+    let index = this.selected.findIndex((x) =>
+      ClassTool.equals.EnumNameValue(x, item)
+    );
 
     if (index < 0) {
       this.selected.push(item);

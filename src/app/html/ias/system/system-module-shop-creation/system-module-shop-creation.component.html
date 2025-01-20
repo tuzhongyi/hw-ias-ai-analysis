@@ -20,6 +20,7 @@
         <ias-system-module-shop-details-map
           *ngIf="shop.Location"
           [data]="shop.Location"
+          [load]="location.change"
           (dataChange)="onposition($event)"
         ></ias-system-module-shop-details-map>
       </div>
@@ -29,7 +30,10 @@
         <div class="panel-head">基本信息</div>
         <div class="forms">
           <div class="form-item">
-            <div class="form-item-text" text-space-between>商铺名称</div>
+            <div class="form-item-text">
+              <div class="name" text-space-between>商铺名称</div>
+              <div class="must">*</div>
+            </div>
             <div class="form-item-value">
               <input type="text" [(ngModel)]="shop.Name" />
             </div>
@@ -47,7 +51,7 @@
               <select [(ngModel)]="shop.ShopType">
                 <option
                   [ngValue]="item.Value"
-                  *ngFor="let item of source.types"
+                  *ngFor="let item of source.types | async"
                 >
                   {{ item.Name }}
                 </option>
@@ -60,7 +64,7 @@
               <select [(ngModel)]="shop.ObjectState">
                 <option
                   [ngValue]="item.Value"
-                  *ngFor="let item of source.states"
+                  *ngFor="let item of source.states | async"
                 >
                   {{ item.Name }}
                 </option>
@@ -81,15 +85,29 @@
           </div>
 
           <div class="form-item" *ngIf="shop.Location">
-            <div class="form-item-text" text-space-between>坐标经度</div>
+            <div class="form-item-text">
+              <div class="name" text-space-between>坐标经度</div>
+              <div class="must">*</div>
+            </div>
             <div class="form-item-value">
-              <input type="text" [(ngModel)]="shop.Location.Longitude" />
+              <input
+                type="text"
+                [(ngModel)]="shop.Location.Longitude"
+                (input)="location.on()"
+              />
             </div>
           </div>
           <div class="form-item" *ngIf="shop.Location">
-            <div class="form-item-text" text-space-between>坐标维度</div>
+            <div class="form-item-text">
+              <div class="name" text-space-between>坐标纬度</div>
+              <div class="must">*</div>
+            </div>
             <div class="form-item-value">
-              <input type="text" [(ngModel)]="shop.Location.Latitude" />
+              <input
+                type="text"
+                [(ngModel)]="shop.Location.Latitude"
+                (input)="location.on()"
+              />
             </div>
           </div>
           <div class="form-item">
@@ -229,7 +247,12 @@
             <div class="form-item-value">
               <hw-select [cannull]="true" [selected]="shop.UnitType">
                 <select [(ngModel)]="shop.UnitType">
-                  <option value="个体工商户">个体工商户</option>
+                  <option
+                    [ngValue]="item.Value"
+                    *ngFor="let item of source.units | async"
+                  >
+                    {{ item.Name }}
+                  </option>
                 </select>
               </hw-select>
             </div>
@@ -251,12 +274,12 @@
             <div class="form-item-value">
               <hw-select [cannull]="true" [selected]="shop.Industry">
                 <select [(ngModel)]="shop.Industry">
-                  <option value="其他">其他</option>
-                  <option value="房地产业">房地产业</option>
-                  <option value="批发和零售业">批发和零售业</option>
-                  <option value="超市（便利店）">超市（便利店）</option>
-                  <option value="饭店">饭店</option>
-                  <option value="广告文印文具">广告文印文具</option>
+                  <option
+                    [ngValue]="item.Value"
+                    *ngFor="let item of source.industries | async"
+                  >
+                    {{ item.Name }}
+                  </option>
                 </select>
               </hw-select>
             </div>
@@ -284,23 +307,12 @@
             <div class="form-item-value">
               <hw-select [cannull]="true" [selected]="shop.BusinessScope">
                 <select [(ngModel)]="shop.BusinessScope">
-                  <option value="中式快餐">中式快餐</option>
-                  <option value="快餐服务">快餐服务</option>
-                  <option value="房地产经纪">房地产经纪</option>
-                  <option value="烟草零售">烟草零售</option>
-                  <option value="棋牌服务">棋牌服务</option>
-                  <option value="医疗用品及器材批发">医疗用品及器材批发</option>
-                  <option value="面包零售">面包零售</option>
-                  <option value="正餐服务">正餐服务</option>
-                  <option value="美容美发服务">美容美发服务</option>
-                  <option value="百货零售">百货零售</option>
-                  <option value="饮料零售">饮料零售</option>
-                  <option value="西药零售">西药零售</option>
-                  <option value="正餐服务">正餐服务</option>
-                  <option value="小吃服务">小吃服务</option>
-                  <option value="机动车维修">机动车维修</option>
-                  <option value="动物诊疗">动物诊疗</option>
-                  <option value="食品零售">食品零售</option>
+                  <option
+                    [ngValue]="item.Value"
+                    *ngFor="let item of source.scopes | async"
+                  >
+                    {{ item.Name }}
+                  </option>
                 </select>
               </hw-select>
             </div>

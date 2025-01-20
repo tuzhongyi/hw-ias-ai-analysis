@@ -19,6 +19,8 @@ export class SystemMapPanelController {
     this.init();
   }
 
+  private doing = false;
+
   init() {
     this.state.show = true;
     this.regist();
@@ -26,18 +28,24 @@ export class SystemMapPanelController {
 
   private regist() {
     this.editor.circle.change.subscribe((show) => {
-      this.state.show = !show;
-      this.source.show = false;
-
       if (show) {
         this.amap.radius.open();
       } else {
         this.amap.radius.close();
       }
+      if (this.doing) return;
+      this.doing = true;
+      this.state.show = !show;
+      this.source.show = false;
+
+      this.doing = false;
     });
     this.source.change.subscribe((show) => {
+      if (this.doing) return;
+      this.doing = true;
       this.state.show = true;
       this.editor.circle.show = false;
+      this.doing = false;
     });
   }
 }

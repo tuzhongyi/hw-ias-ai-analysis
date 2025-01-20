@@ -4,13 +4,17 @@ import {
   SystemMapPanel,
   SystemMapShopFilterArgs,
 } from '../../system-map.model';
+import { SystemAMapController } from '../amap/system-map-amap.controller';
 import { SystemMapPanelDetailsController } from './system-map-panel-details.controller';
 
 @Injectable()
 export class SystemMapPanelSourceController extends SystemMapPanel {
   load = new EventEmitter<SystemMapShopFilterArgs>();
 
-  constructor(private details: SystemMapPanelDetailsController) {
+  constructor(
+    private details: SystemMapPanelDetailsController,
+    private amap: SystemAMapController
+  ) {
     super();
     this.show = true;
   }
@@ -22,5 +26,11 @@ export class SystemMapPanelSourceController extends SystemMapPanel {
   onfilter(data: SystemMapShopFilterArgs) {
     this.details.shop.data = undefined;
     this.load.emit(data);
+  }
+  onmouseover(data: Shop) {
+    this.amap.info.open(data);
+  }
+  onmouseout(data: Shop) {
+    this.amap.info.close();
   }
 }

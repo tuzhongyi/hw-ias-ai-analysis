@@ -1,5 +1,5 @@
 <div class="select-shop-object-state">
-  <div *ngFor="let item of datas" class="checkbox">
+  <div *ngFor="let item of datas | async" class="checkbox">
     <label [for]="item.Value">
       <input
         type="checkbox"

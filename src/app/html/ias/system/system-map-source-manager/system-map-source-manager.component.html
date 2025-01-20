@@ -19,6 +19,8 @@
         (details)="ondetails($event)"
         [selected]="selected"
         (selectedChange)="onposition($event)"
+        (itemhover)="onmouseover($event)"
+        (itemblur)="onmouseout($event)"
       ></ias-system-map-source-table>
     </div>
     <div class="system-map-source-manager-body-filter">
@@ -28,8 +30,11 @@
           <div class="form-item-value">
             <select [(ngModel)]="filter.state" (change)="onsearch()">
               <option [ngValue]="undefined">全部</option>
-              <option [ngValue]="item" *ngFor="let item of states">
-                {{ Language.ShopObjectState(item) }}
+              <option
+                [ngValue]="item.Value"
+                *ngFor="let item of states | async"
+              >
+                {{ item.Name }}
               </option>
             </select>
           </div>

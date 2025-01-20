@@ -14,10 +14,12 @@ import { SystemMapSourceTableConverter } from './system-map-source-table.convert
   providers: [SystemMapSourceTableBusiness, SystemMapSourceTableConverter],
 })
 export class SystemMapSourceTableComponent {
-  @Input('datas') datas: Shop[] = [];
+  @Input() datas: Shop[] = [];
   @Output() details = new EventEmitter<Shop>();
   @Input() selected?: Shop;
   @Output() selectedChange = new EventEmitter<Shop>();
+  @Output() itemhover = new EventEmitter<Shop>();
+  @Output() itemblur = new EventEmitter<Shop>();
 
   constructor(private business: SystemMapSourceTableBusiness) {}
 
@@ -36,5 +38,11 @@ export class SystemMapSourceTableComponent {
     if (this.selected === data) {
       e.stopImmediatePropagation();
     }
+  }
+  onmouseover(data: Shop) {
+    this.itemhover.emit(data);
+  }
+  onmouseout(data: Shop) {
+    this.itemblur.emit(data);
   }
 }

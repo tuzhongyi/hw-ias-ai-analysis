@@ -46,17 +46,16 @@ export class SystemMapComponent implements OnInit, OnDestroy {
       this.load(this.args);
     });
     this.panel.source.load.subscribe((x) => {
-      this.args.clear();
       this.args.filter = x;
       this.load(this.args);
     });
-    this.controller.amap.event.editor.circle.change.subscribe((x) => {
+    this.controller.amap.event.circle.change.subscribe((x) => {
       if (!this.args.radius) {
         this.args.radius = new SystemMapShopRadiusArgs();
       }
       this.args.radius.distance = x;
     });
-    this.controller.amap.event.editor.circle.move.subscribe((center) => {
+    this.controller.amap.event.circle.move.subscribe((center) => {
       if (!this.args.radius) {
         this.args.radius = new SystemMapShopRadiusArgs();
       }
