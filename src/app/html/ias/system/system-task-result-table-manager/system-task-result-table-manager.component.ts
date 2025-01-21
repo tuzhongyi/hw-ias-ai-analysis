@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
@@ -30,15 +39,21 @@ import { SystemTaskResultTableType } from './system-task-result-table-manager.mo
     SystemTaskResultShopTableBusiness,
   ],
 })
-export class SystemTaskResultTableManagerComponent implements OnInit {
+export class SystemTaskResultTableManagerComponent
+  implements OnInit, OnChanges
+{
   @Input() data?: AnalysisTask;
   @Input() selected?: ShopSign;
   @Output() selectedChange = new EventEmitter<ShopSign>();
 
-  @Input('load') index?: EventEmitter<number>;
+  @Input() index?: EventEmitter<number>;
   @Output() page = new EventEmitter<Page>();
   @Output() loaded = new EventEmitter<ShopSign[]>();
   @Output() error = new EventEmitter<Error>();
+
+  @Input() type = SystemTaskResultTableType.shop;
+  @Output() typeChange = new EventEmitter<SystemTaskResultTableType>();
+  @Input('load') _load?: EventEmitter<string>;
 
   constructor(
     public source: SystemTaskResultTableManagerSourceController,
@@ -47,8 +62,6 @@ export class SystemTaskResultTableManagerComponent implements OnInit {
   ) {}
 
   Language = Language;
-
-  type = SystemTaskResultTableType.shop;
 
   filter = {
     channel: undefined,
@@ -80,7 +93,23 @@ export class SystemTaskResultTableManagerComponent implements OnInit {
     },
   };
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.changetype(changes['type']);
+  }
+  changetype(change: SimpleChange) {
+    if (change && !change.firstChange) {
+      this.load();
+    }
+  }
+
   ngOnInit(): void {
+    if (this._load) {
+      this._load.subscribe((x) => {
+        this.shop.args.name = x;
+        this.load();
+      });
+    }
+
     this.shop.select.subscribe((x) => {
       this.sign.args.shopId = x.Id;
       this.sign.load();
@@ -119,6 +148,7 @@ export class SystemTaskResultTableManagerComponent implements OnInit {
       this.type == SystemTaskResultTableType.shop
         ? SystemTaskResultTableType.sign
         : SystemTaskResultTableType.shop;
+    this.typeChange.emit(this.type);
     this.load();
   }
 }

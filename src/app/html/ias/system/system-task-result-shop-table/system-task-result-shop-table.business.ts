@@ -24,6 +24,9 @@ export class SystemTaskResultShopTableBusiness {
     if (filter.confidence) {
       params.Confidence = filter.confidence;
     }
+    if (filter.name) {
+      params.Name = filter.name;
+    }
     return this.service.shop.all(params);
   }
 }

@@ -1,5 +1,6 @@
 export class SystemTaskResultShopTableArgs {
   taskId?: string;
+  name?: string;
   channel?: string;
   type?: number;
   label?: number;
