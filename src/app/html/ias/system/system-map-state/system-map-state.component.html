@@ -1,18 +1,14 @@
 <div class="panel-map-corner system-map-state">
-  <div class="system-map-state-item">
-    <div class="system-map-state-item-icon blue"></div>
-    <div class="system-map-state-item-name">正常</div>
-  </div>
-  <div class="system-map-state-item">
-    <div class="system-map-state-item-icon green"></div>
-    <div class="system-map-state-item-name">新出现</div>
-  </div>
-  <div class="system-map-state-item">
-    <div class="system-map-state-item-icon red"></div>
-    <div class="system-map-state-item-name">报警</div>
-  </div>
-  <div class="system-map-state-item">
-    <div class="system-map-state-item-icon gray"></div>
-    <div class="system-map-state-item-name">离线</div>
+  <div class="system-map-state-item" *ngFor="let item of source.states | async">
+    <div
+      class="system-map-state-item-icon"
+      [ngClass]="{
+      blue: item.Value === 2,
+      green: item.Value === 1,
+      red: item.Value === 0,
+    }"
+    ></div>
+    <div class="system-map-state-item-name">{{ item.Name }}</div>
+    <div class="system-map-state-item-value">{{ count[item.Value] }}</div>
   </div>
 </div>

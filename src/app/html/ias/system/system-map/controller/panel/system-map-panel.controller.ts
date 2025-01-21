@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SystemAMapController } from '../amap/system-map-amap.controller';
+import { SystemMapAMapController } from '../amap/system-map-amap.controller';
 import { SystemMapPanelDetailsController } from './system-map-panel-details.controller';
 import { SystemMapPanelEditorController } from './system-map-panel-editor.controller';
 import { SystemMapPanelPositionController } from './system-map-panel-position.controller';
@@ -9,7 +9,7 @@ import { SystemMapPanelStateController } from './system-map-panel-state.controll
 @Injectable()
 export class SystemMapPanelController {
   constructor(
-    private amap: SystemAMapController,
+    private amap: SystemMapAMapController,
     public state: SystemMapPanelStateController,
     public position: SystemMapPanelPositionController,
     public source: SystemMapPanelSourceController,
@@ -28,23 +28,16 @@ export class SystemMapPanelController {
 
   private regist() {
     this.editor.circle.change.subscribe((show) => {
-      if (show) {
-        this.amap.radius.open();
-      } else {
-        this.amap.radius.close();
-      }
       if (this.doing) return;
       this.doing = true;
       this.state.show = !show;
-      this.source.show = false;
-
       this.doing = false;
     });
     this.source.change.subscribe((show) => {
       if (this.doing) return;
+
       this.doing = true;
-      this.state.show = true;
-      this.editor.circle.show = false;
+
       this.doing = false;
     });
   }

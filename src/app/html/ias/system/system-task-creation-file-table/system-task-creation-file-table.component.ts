@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Language } from '../../../../common/tools/language';
 import { SystemTaskCreationFileModel } from './system-task-creation-file-table.model';
 
@@ -9,7 +17,7 @@ import { SystemTaskCreationFileModel } from './system-task-creation-file-table.m
   templateUrl: './system-task-creation-file-table.component.html',
   styleUrl: './system-task-creation-file-table.component.less',
 })
-export class SystemTaskCreationFileTableComponent implements OnInit {
+export class SystemTaskCreationFileTableComponent implements OnInit, OnDestroy {
   @Input() selecteds: SystemTaskCreationFileModel[] = [];
   @Output() selectedsChange = new EventEmitter<SystemTaskCreationFileModel[]>();
 
@@ -19,14 +27,21 @@ export class SystemTaskCreationFileTableComponent implements OnInit {
 
   widths = ['60px', '60px', 'auto', '200px', '100px'];
   datas: SystemTaskCreationFileModel[] = [];
+
   Language = Language;
+
+  private subscription = new Subscription();
 
   ngOnInit(): void {
     if (this.load) {
-      this.load.subscribe((x) => {
+      let sub = this.load.subscribe((x) => {
         this.datas = x;
       });
+      this.subscription.add(sub);
     }
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onselect(item: SystemTaskCreationFileModel) {

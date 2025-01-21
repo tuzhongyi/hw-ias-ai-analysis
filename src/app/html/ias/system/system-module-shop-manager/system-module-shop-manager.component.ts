@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { LocalStorage } from '../../../../common/storage/local.storage';
@@ -23,7 +23,7 @@ import { SystemModuleShopManagerWindow } from './system-module-shop-manager.wind
   imports: [...SystemModuleShopManagerImports],
   providers: [...SystemModuleShopManagerProviders],
 })
-export class SystemModuleShopManagerComponent implements OnInit {
+export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
   constructor(
     public source: SystemModuleShopManagerSourceController,
     private local: LocalStorage,
@@ -40,7 +40,7 @@ export class SystemModuleShopManagerComponent implements OnInit {
   Language = Language;
   window = new SystemModuleShopManagerWindow();
   storage: ISystemModuleShopStorage;
-
+  handle: any;
   inited = false;
 
   ngOnInit(): void {
@@ -50,6 +50,18 @@ export class SystemModuleShopManagerComponent implements OnInit {
     this.source.state.inited.subscribe((x) => {
       this.inited = true;
     });
+    this.handle = this.onenter.bind(this);
+    window.addEventListener('keypress', this.handle);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('keypress', this.handle);
+  }
+
+  onenter(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.onsearch();
+    }
   }
 
   onmode() {

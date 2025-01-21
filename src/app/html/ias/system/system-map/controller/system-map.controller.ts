@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { SystemAMapController } from './amap/system-map-amap.controller';
+import { SystemMapAMapController } from './amap/system-map-amap.controller';
 import { SystemMapPanelController } from './panel/system-map-panel.controller';
 
 @Injectable()
 export class SystemMapController {
   constructor(
-    public amap: SystemAMapController,
+    public amap: SystemMapAMapController,
     public panel: SystemMapPanelController
   ) {
     this.regist();

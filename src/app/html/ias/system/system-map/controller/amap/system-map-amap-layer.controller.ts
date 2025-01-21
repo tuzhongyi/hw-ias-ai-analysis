@@ -1,9 +1,14 @@
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemAMapPointInfoController } from './system-map-amap-point-info.controller';
-import { SystemAMapPointController } from './system-map-amap-point.controller';
+import {
+  SystemAMapPointController,
+  SystemAMapPointEvent,
+} from './system-map-amap-point.controller';
 
 export class SystemAMapLayerController {
-  constructor(private map: any) {
+  event = new SystemAMapPointEvent();
+
+  constructor(map: any) {
     this.layer = this.init(map);
     this.info = new SystemAMapPointInfoController(map);
   }
@@ -22,11 +27,17 @@ export class SystemAMapLayerController {
   }
 
   private regist(point: SystemAMapPointController) {
-    point.mouseover.subscribe((data) => {
+    point.event.mouseover.subscribe((data) => {
       this.info.add(data);
+      this.event.mouseover.emit(data);
     });
-    point.mouseout.subscribe((data) => {
+    point.event.mouseout.subscribe((data) => {
       this.info.remove();
+      this.event.mouseout.emit(data);
+    });
+    point.event.click.subscribe((data) => {
+      this.select(data);
+      this.event.click.emit(data);
     });
   }
 
@@ -35,10 +46,9 @@ export class SystemAMapLayerController {
     for (let i = 0; i < datas.length; i++) {
       const data = datas[i];
       if (data.Location) {
-        let point = new SystemAMapPointController();
+        let point = new SystemAMapPointController(data);
         this.regist(point);
-        let marker = point.create(data)!;
-        markers.push(marker);
+        markers.push(point.marker);
         this.points.push(point);
       }
     }
@@ -50,10 +60,34 @@ export class SystemAMapLayerController {
     this.points = [];
   }
 
-  mouseover(shop: Shop) {
-    this.info.add(shop);
+  mouseover(data: Shop) {
+    this.info.add(data);
+    let point = this.points.find((x) => x.data.Id === data.Id);
+    if (point) {
+      point.hover();
+    }
   }
-  mouseout() {
+  mouseout(data: Shop) {
     this.info.remove();
+    let point = this.points.find((x) => x.data.Id === data.Id);
+    if (point) {
+      point.out();
+    }
+  }
+
+  select(data: Shop) {
+    this.blur();
+    let point = this.points.find((x) => x.data.Id === data.Id);
+    if (point) {
+      point.select();
+    }
+  }
+
+  blur() {
+    this.points.forEach((x) => {
+      if (x.selected) {
+        x.blur();
+      }
+    });
   }
 }

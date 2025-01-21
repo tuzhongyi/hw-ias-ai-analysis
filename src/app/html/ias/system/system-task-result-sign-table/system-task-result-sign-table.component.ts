@@ -4,10 +4,13 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../common/tools/language';
@@ -24,7 +27,7 @@ import {
   styleUrl: './system-task-result-sign-table.component.less',
   providers: [SystemTaskResultSignTableBusiness],
 })
-export class SystemTaskResultSignTableComponent {
+export class SystemTaskResultSignTableComponent implements OnInit, OnDestroy {
   @Input() args?: SystemTaskResultSignTableArgs;
   @Input('load') _load?: EventEmitter<SystemTaskResultSignTableArgs>;
   @Input() selected?: ShopSign;
@@ -39,29 +42,43 @@ export class SystemTaskResultSignTableComponent {
   @ViewChild('body') body?: ElementRef<HTMLDivElement>;
 
   datas: ShopSign[] = [];
-  filter = new SystemTaskResultSignTableFilter();
+
   widths: string[] = ['60px', 'auto', '85px', '60px', '120px', '85px', '80px'];
   Language = Language;
+  loading = false;
+
+  private filter = new SystemTaskResultSignTableFilter();
+  private subscription = new Subscription();
 
   ngOnInit(): void {
     if (this.index) {
-      this.index.subscribe((index) => {
+      let sub = this.index.subscribe((index) => {
         this.selected = this.datas[index - 1];
         this.selectedChange.emit(this.selected);
         this.page.emit(Page.create(index, 1, this.datas.length));
         this.scroll(index - 1, this.datas.length);
       });
+      this.subscription.add(sub);
     }
     if (this._load) {
-      this._load.subscribe((x) => {
+      let sub = this._load.subscribe((x) => {
         this.load(x);
       });
+      this.subscription.add(sub);
     }
     if (this.args) {
       this.load(this.args);
     }
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   private load(args: SystemTaskResultSignTableArgs) {
+    if (this.loading) return;
+    console.log('toload');
+    this.loading = true;
     this.filter.load(args);
     this.business
       .load(this.filter)
@@ -72,7 +89,10 @@ export class SystemTaskResultSignTableComponent {
           this.onselect(this.datas[0], 0);
         }
       })
-      .catch((e) => this.error.emit(e));
+      .catch((e) => this.error.emit(e))
+      .finally(() => {
+        this.loading = false;
+      });
   }
   private scroll(index: number, size: number) {
     if (this.body) {

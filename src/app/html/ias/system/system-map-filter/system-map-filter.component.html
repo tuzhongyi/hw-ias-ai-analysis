@@ -1,0 +1,39 @@
+<div class="system-map-filter">
+  <div class="forms">
+    <div class="panel-map form-item">
+      <div class="form-item-value">
+        <select>
+          <option value="">商铺</option>
+        </select>
+      </div>
+    </div>
+    <div class="panel-map form-item">
+      <div class="form-item-value state">
+        <common-label-select
+          [autoclose]="true"
+          [(show)]="source.state.show"
+          [autoclose]="true"
+          [selected]="source.state.selected"
+          (remove)="source.state.onremove($event)"
+        >
+          <ias-select-shop-object-state
+            #select
+            [selected]="source.state.selected"
+            (selectedChange)="source.state.onselected($event)"
+            (loaded)="source.state.init($event)"
+          ></ias-select-shop-object-state>
+        </common-label-select>
+      </div>
+    </div>
+
+    <div class="panel-map form-item">
+      <div><input type="text" [(ngModel)]="args.name" /></div>
+      <div>
+        <button class="button-clip-gradient" (click)="onsearch()">
+          <i class="howell-icon-search2"></i>
+          搜索
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

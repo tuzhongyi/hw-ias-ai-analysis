@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { SystemTaskTableAllComponent } from './system-task-table-all/system-task-table-all.component';
 import { SystemTaskTableFinishedComponent } from './system-task-table-finished/system-task-table-finished.component';
 import { SystemTaskTableRuningComponent } from './system-task-table-runing/system-task-table-runing.component';
@@ -21,7 +29,7 @@ import {
   templateUrl: './system-task-table.component.html',
   styleUrl: './system-task-table.component.less',
 })
-export class SystemTaskTableComponent implements OnInit {
+export class SystemTaskTableComponent implements OnInit, OnDestroy {
   @Input() args = new SystemTaskTableArgs();
   @Input('load') _load?: EventEmitter<SystemTaskTableArgs>;
   @Input() progress = new EventEmitter<TaskProgress>();
@@ -32,16 +40,26 @@ export class SystemTaskTableComponent implements OnInit {
   @Output() files = new EventEmitter<AnalysisTaskModel>();
   @Output() error = new EventEmitter<Error>();
 
-  filter = new SystemTaskTableFilter();
+  constructor() {}
+
   load = new EventEmitter<SystemTaskTableFilter>();
+  filter = new SystemTaskTableFilter();
+
+  private subscription = new Subscription();
+
   ngOnInit(): void {
     this.filter.load(this.args);
     if (this._load) {
-      this._load.subscribe((x) => {
+      let sub = this._load.subscribe((x) => {
         this.filter.load(x);
         this.load.emit(this.filter);
       });
+      this.subscription.add(sub);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ondelete(data: AnalysisTaskModel) {

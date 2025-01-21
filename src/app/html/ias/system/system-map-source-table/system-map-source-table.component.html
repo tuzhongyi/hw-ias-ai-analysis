@@ -1,14 +1,20 @@
 <div class="system-map-source-table">
   <div class="table-sticky-list">
-    <table border="0" cellpadding="0" cellspacing="0">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="onsort($event)"
+    >
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
       </colgroup>
       <thead>
         <tr>
           <th class="center">#</th>
-          <th>名称</th>
-          <th>状态</th>
+          <th sort="Name">名称</th>
+          <th sort="ObjectState">状态</th>
           <th class="center">操作</th>
         </tr>
       </thead>
@@ -17,6 +23,7 @@
           *ngFor="let item of datas; let index = index"
           [ngClass]="{ selected: item === selected }"
           (click)="onselect(item)"
+          (dblclick)="onposition(item, $event)"
           (mouseover)="onmouseover(item)"
           (mouseout)="onmouseout(item)"
         >

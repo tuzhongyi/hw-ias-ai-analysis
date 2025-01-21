@@ -36,6 +36,7 @@ export class SystemModuleShopTableFilter extends SystemModuleShopTableArgs {
     this.confidence = args.confidence;
     this.duration = args.duration;
     this.states = args.states;
+    this.type = args.type;
   }
 }
 

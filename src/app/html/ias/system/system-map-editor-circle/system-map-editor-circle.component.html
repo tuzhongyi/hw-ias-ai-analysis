@@ -1,4 +1,12 @@
 <div class="panel-map-corner system-map-editor-circle" *ngIf="args">
+  <div class="forms system-map-editor-circle-head">
+    <div class="forms system-map-editor-circle-head-title">搜索范围</div>
+    <div class="operation">
+      <div class="button" (click)="onclose()">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+  </div>
   <div class="forms system-map-editor-circle-body">
     <div class="form-item">
       <div class="form-item-text">
@@ -31,9 +39,5 @@
         <input type="text" [(ngModel)]="args.distance" (input)="ondistance()" />
       </div>
     </div>
-  </div>
-  <div class="system-map-editor-circle-foot button-group center">
-    <button class="button-clip-gradient" (click)="onok()">搜索</button>
-    <button class="button-clip-blue" (click)="onclose()">取消</button>
   </div>
 </div>

@@ -14,9 +14,9 @@
 
     <div class="system-task-result-table-manager-body-sign" *ngIf="type === 0">
       <ias-system-task-result-sign-table
-        [load]="sign.toload"
-        [selected]="sign.selected"
-        (selectedChange)="sign.onselect($event)"
+        [load]="shop.sign.toload"
+        [selected]="shop.sign.selected"
+        (selectedChange)="shop.sign.onselect($event)"
         (loaded)="onloaded($event)"
         (error)="onerror($event)"
       ></ias-system-task-result-sign-table>

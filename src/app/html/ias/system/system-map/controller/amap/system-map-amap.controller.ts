@@ -9,14 +9,17 @@ import {
   SystemAMapCircleEditorController,
   SystemAMapCircleEditorEvent,
 } from './system-map-amap-circle-editor.controller';
+import { SystemAMapPointEvent } from './system-map-amap-point.controller';
 
 @Injectable()
-export class SystemAMapController {
+export class SystemMapAMapController {
   event = {
     map: {
       mousemmove: new EventEmitter<number[]>(),
+      completed: new EventEmitter<void>(),
     },
     circle: new SystemAMapCircleEditorEvent(),
+    point: new SystemAMapPointEvent(),
   };
 
   constructor() {
@@ -35,15 +38,38 @@ export class SystemAMapController {
   private regist() {
     this.map.get().then((x) => {
       x.on('complete', () => {
-        this.layer.set(new SystemAMapLayerController(x));
-        let circel = new SystemAMapCircleEditorController(x);
-        circel.event.change.subscribe((x) => {
-          this.event.circle.change.emit(x);
-        });
-        circel.event.move.subscribe((x) => {
-          this.event.circle.move.emit(x);
-        });
-        this.circle.set(circel);
+        try {
+          let layer = new SystemAMapLayerController(x);
+          layer.event.mouseover.subscribe((x) => {
+            this.event.point.mouseover.emit(x);
+          });
+          layer.event.mouseout.subscribe((x) => {
+            this.event.point.mouseout.emit(x);
+          });
+          layer.event.click.subscribe((x) => {
+            this.event.point.click.emit(x);
+          });
+          this.layer.set(layer);
+        } catch (error) {
+          console.error(error);
+        }
+        try {
+          let circel = new SystemAMapCircleEditorController(x);
+          circel.event.opened.subscribe((x) => {
+            this.event.circle.opened.emit(x);
+          });
+          circel.event.change.subscribe((x) => {
+            this.event.circle.change.emit(x);
+          });
+          circel.event.move.subscribe((x) => {
+            this.event.circle.move.emit(x);
+          });
+          this.circle.set(circel);
+        } catch (error) {
+          console.error(error);
+        }
+
+        this.event.map.completed.emit();
       });
       x.on('mousemove', (e: any) => {
         this.event.map.mousemmove.emit([e.lnglat.lng, e.lnglat.lat]);
@@ -69,18 +95,38 @@ export class SystemAMapController {
       x.setZoom(17);
     });
   }
-  info = {
-    open: (shop: Shop) => {
+
+  center(position: GisPoint) {
+    this.map.get().then((x) => {
+      let center = [position.Longitude, position.Latitude];
+      x.setCenter(center);
+      x.setZoom(18);
+    });
+  }
+
+  point = {
+    hover: (shop: Shop) => {
       this.layer.get().then((x) => {
         x.mouseover(shop);
       });
     },
-    close: () => {
+    out: (shop: Shop) => {
       this.layer.get().then((x) => {
-        x.mouseout();
+        x.mouseout(shop);
+      });
+    },
+    select: (shop: Shop) => {
+      this.layer.get().then((x) => {
+        x.select(shop);
+      });
+    },
+    blur: () => {
+      this.layer.get().then((x) => {
+        x.blur();
       });
     },
   };
+
   radius = {
     open: () => {
       this.circle.get().then((x) => {

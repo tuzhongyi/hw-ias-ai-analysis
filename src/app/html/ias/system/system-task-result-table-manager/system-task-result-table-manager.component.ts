@@ -4,12 +4,14 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
@@ -40,7 +42,7 @@ import { SystemTaskResultTableType } from './system-task-result-table-manager.mo
   ],
 })
 export class SystemTaskResultTableManagerComponent
-  implements OnInit, OnChanges
+  implements OnInit, OnChanges, OnDestroy
 {
   @Input() data?: AnalysisTask;
   @Input() selected?: ShopSign;
@@ -61,8 +63,6 @@ export class SystemTaskResultTableManagerComponent
     public sign: SystemTaskResultTableManagerSignController
   ) {}
 
-  Language = Language;
-
   filter = {
     channel: undefined,
     type: undefined,
@@ -73,25 +73,33 @@ export class SystemTaskResultTableManagerComponent
   trigger = {
     channel: () => {
       this.shop.args.channel = this.filter.channel;
+      this.shop.sign.args.channel = this.filter.channel;
       this.sign.args.channel = this.filter.channel;
       this.load();
     },
     type: () => {
       this.shop.args.type = this.filter.type;
+      this.shop.sign.args.type = this.filter.type;
       this.sign.args.type = this.filter.type;
       this.load();
     },
     label: () => {
       this.shop.args.label = this.filter.label;
+      this.shop.sign.args.label = this.filter.label;
       this.sign.args.label = this.filter.label;
       this.load();
     },
     confidence: () => {
       this.shop.args.confidence = this.filter.confidence / 100;
+      this.shop.sign.args.confidence = this.filter.confidence / 100;
       this.sign.args.confidence = this.filter.confidence / 100;
       this.load();
     },
   };
+
+  Language = Language;
+
+  private subscription = new Subscription();
 
   ngOnChanges(changes: SimpleChanges): void {
     this.changetype(changes['type']);
@@ -104,15 +112,20 @@ export class SystemTaskResultTableManagerComponent
 
   ngOnInit(): void {
     if (this._load) {
-      this._load.subscribe((x) => {
+      let sub = this._load.subscribe((x) => {
         this.shop.args.name = x;
         this.load();
       });
+      this.subscription.add(sub);
     }
 
     this.shop.select.subscribe((x) => {
-      this.sign.args.shopId = x.Id;
-      this.sign.load();
+      this.shop.sign.args.shopId = x.Id;
+      this.shop.sign.load();
+    });
+    this.shop.sign.select.subscribe((x) => {
+      this.selected = x;
+      this.selectedChange.emit(x);
     });
     this.sign.select.subscribe((x) => {
       this.selected = x;
@@ -121,11 +134,15 @@ export class SystemTaskResultTableManagerComponent
 
     if (this.data) {
       this.shop.args.taskId = this.data.Id;
+      this.shop.sign.args.taskId = this.data.Id;
       this.sign.args.taskId = this.data.Id;
     }
   }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
-  load() {
+  async load() {
     if (this.type === SystemTaskResultTableType.shop) {
       this.shop.load();
     } else {
@@ -149,6 +166,5 @@ export class SystemTaskResultTableManagerComponent
         ? SystemTaskResultTableType.sign
         : SystemTaskResultTableType.shop;
     this.typeChange.emit(this.type);
-    this.load();
   }
 }

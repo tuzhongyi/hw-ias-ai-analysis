@@ -1,5 +1,13 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
 import { Language } from '../../../../common/tools/language';
@@ -15,19 +23,21 @@ import { SystemTaskDetailsInfo } from './system-task-details-info.model';
   styleUrl: './system-task-details-info.component.less',
   providers: [SystemTaskDetailsInfoConverter, SystemTaskDetailsInfoBusiness],
 })
-export class SystemTaskDetailsInfoComponent implements OnInit {
+export class SystemTaskDetailsInfoComponent implements OnInit, OnDestroy {
   @Input() data?: AnalysisTask;
   @Input() filecount = 0;
   @Input('progress') _progress?: EventEmitter<TaskProgress>;
   @Output() error = new EventEmitter<Error>();
   constructor(private business: SystemTaskDetailsInfoBusiness) {}
 
-  Language = Language;
-  Color = ColorTool;
-
   model?: SystemTaskDetailsInfo;
   filecompleted = 0;
   progress = 0;
+
+  Language = Language;
+  Color = ColorTool;
+
+  private subscription = new Subscription();
 
   ngOnInit(): void {
     if (this.data) {
@@ -41,10 +51,14 @@ export class SystemTaskDetailsInfoComponent implements OnInit {
         });
     }
     if (this._progress) {
-      this._progress.subscribe((progress) => {
+      let sub = this._progress.subscribe((progress) => {
         this.filecompleted = progress.completed;
         this.progress = progress.progress;
       });
+      this.subscription.add(sub);
     }
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

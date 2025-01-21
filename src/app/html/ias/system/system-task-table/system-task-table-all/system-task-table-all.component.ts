@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../common/components/paginator/paginator.component';
 import { Page } from '../../../../../common/data-core/models/page-list.model';
 import { TableSorterDirective } from '../../../../../common/directives/table-sorter/table-soater.directive';
@@ -63,26 +64,28 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   Language = Language;
   Color = ColorTool;
 
-  refhandle: any;
+  private subscription = new Subscription();
 
   ngOnInit(): void {
     if (this._load) {
-      this._load.subscribe((args) => {
+      let sub = this._load.subscribe((args) => {
         this.filter.load(args);
         this.load(this.page.PageIndex, this.page.PageSize, this.filter);
       });
+      this.subscription.add(sub);
     }
     if (this.progress) {
-      this.progress.subscribe((progress) => {
+      let sub = this.progress.subscribe((progress) => {
         let index = this.datas.findIndex((x) => x.Id === progress.taskid);
         if (index < 0) return;
         this.datas[index].Progress = progress.progress;
       });
+      this.subscription.add(sub);
     }
     this.filter.desc = 'CreationTime';
     this.load(1, this.page.PageSize, this.filter);
 
-    this.refhandle = setInterval(() => {
+    this.refresh.handle = setInterval(() => {
       this.datas.forEach((x) => {
         this.refresh.upload(x);
         this.refresh.analysis(x);
@@ -91,13 +94,15 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.refhandle) {
-      clearInterval(this.refhandle);
-      this.refhandle = undefined;
+    if (this.refresh.handle) {
+      clearInterval(this.refresh.handle);
+      this.refresh.handle = undefined;
     }
+    this.subscription.unsubscribe();
   }
 
   refresh = {
+    handle: undefined as any,
     upload: (data: AnalysisTaskAllModel) => {
       if (data.UploadDuration) {
         let value = this.converter.duration.upload(data);

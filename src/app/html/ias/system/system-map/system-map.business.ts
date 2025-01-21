@@ -21,9 +21,11 @@ export class SystemMapBusiness {
       );
       params.LocationDistance = args.radius.distance;
     }
-    params.Name = args.filter.name;
-    if (args.filter.state != undefined) {
-      params.ObjectStates = [args.filter.state];
+    if (args.filter) {
+      params.Name = args.filter.name;
+      if (args.filter.states.length > 0) {
+        params.ObjectStates = args.filter.states;
+      }
     }
     return this.service.shop.all(params);
   }

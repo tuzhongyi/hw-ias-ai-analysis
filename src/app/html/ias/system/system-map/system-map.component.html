@@ -1,16 +1,24 @@
 <div class="system-map">
   <div class="system-map-container" id="map-container"></div>
-
+  <div class="system-map-filter">
+    <ias-system-map-filter
+      [(args)]="args.filter"
+      (search)="onsearch()"
+    ></ias-system-map-filter>
+  </div>
   <div class="system-map-controls">
     <ias-system-map-controls
-      (source)="control.onsource()"
-      (radius)="control.onradius()"
+      (source)="this.panel.source.show = !this.panel.source.show"
+      (radius)="this.panel.editor.circle.show = !this.panel.editor.circle.show"
     ></ias-system-map-controls>
   </div>
-  <div class="system-map-state" *ngIf="panel.state.show">
-    <ias-system-map-state></ias-system-map-state>
+  <div class="system-map-state" *ngIf="panel.state.show && datas.length > 0">
+    <ias-system-map-state [datas]="datas"></ias-system-map-state>
   </div>
-  <div class="system-map-editor-circle" *ngIf="panel.editor.circle.show">
+  <div
+    class="system-map-editor-circle"
+    *ngIf="panel.editor.circle.show && args.radius"
+  >
     <ias-system-map-editor-circle
       [args]="args.radius"
       (distance)="panel.editor.circle.ondistance($event)"
@@ -23,21 +31,29 @@
     <div class="_">,</div>
     <div>{{ panel.position.point.Y }}</div>
   </div>
-  <div class="system-map-source" *ngIf="panel.source.show">
-    <ias-system-map-source-manager
+  <div class="panel-map system-map-source" *ngIf="panel.source.show">
+    <ias-system-map-source-table
       [datas]="datas"
-      [args]="args.filter"
-      (argsChange)="panel.source.onfilter($event)"
       (details)="panel.source.ondetails($event)"
       (itemhover)="panel.source.onmouseover($event)"
       (itemblur)="panel.source.onmouseout($event)"
-    ></ias-system-map-source-manager>
+      (selectedChange)="panel.source.onselect($event)"
+      (position)="panel.source.onposition($event)"
+    ></ias-system-map-source-table>
   </div>
 
-  <div class="system-map-details-shop" *ngIf="panel.details.shop.show">
+  <div
+    class="system-map-details-shop"
+    [ngClass]="{
+    source: panel.source.show,
+  }"
+    *ngIf="panel.details.shop.show"
+  >
     <ias-system-map-panel-details-shop
       [data]="panel.details.shop.data"
       (close)="panel.details.shop.show = false"
     ></ias-system-map-panel-details-shop>
   </div>
+
+  <div class="loading" *ngIf="!inited"></div>
 </div>

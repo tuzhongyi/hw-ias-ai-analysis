@@ -10,6 +10,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { GisPoint } from '../../../../common/data-core/models/arm/gis-point.model';
 import { SystemModuleShopDetailsAMapController } from './controller/system-module-shop-details-amap.controller';
 
@@ -30,6 +31,8 @@ export class SystemModuleShopDetailsMapComponent
 
   constructor(private controller: SystemModuleShopDetailsAMapController) {}
 
+  private subscription = new Subscription();
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       if (this.data) {
@@ -40,9 +43,10 @@ export class SystemModuleShopDetailsMapComponent
 
   ngOnInit(): void {
     if (this.load) {
-      this.load.subscribe((x) => {
+      let sub = this.load.subscribe((x) => {
         this.controller.load(x);
       });
+      this.subscription.add(sub);
     }
     this.controller.dragging.subscribe((x) => {
       if (this.data) {
@@ -62,5 +66,6 @@ export class SystemModuleShopDetailsMapComponent
 
   ngOnDestroy(): void {
     this.controller.destroy();
+    this.subscription.unsubscribe();
   }
 }

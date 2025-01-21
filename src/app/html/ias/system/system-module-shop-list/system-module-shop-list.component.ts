@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../common/components/paginator/paginator.component';
 import { Page } from '../../../../common/data-core/models/page-list.model';
 import { LocalStorage } from '../../../../common/storage/local.storage';
@@ -25,7 +33,7 @@ import {
   styleUrl: './system-module-shop-list.component.less',
   providers: [SystemModuleShopTableBusiness, SystemModuleShopTableConverter],
 })
-export class SystemModuleShopListComponent {
+export class SystemModuleShopListComponent implements OnInit, OnDestroy {
   @Input() args = new SystemModuleShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleShopTableLoadArgs>;
   @Output() details = new EventEmitter<ShopModel>();
@@ -39,24 +47,31 @@ export class SystemModuleShopListComponent {
     this.page.PageIndex = this.storage.page?.list ?? 1;
   }
 
-  storage: ISystemModuleShopStorage;
-  filter = new SystemModuleShopTableFilter();
   page = Page.create(1, 8);
   datas: ShopModel[] = [];
   selected?: ShopModel;
 
+  private storage: ISystemModuleShopStorage;
+  private filter = new SystemModuleShopTableFilter();
+  private subscription = new Subscription();
+
   ngOnInit(): void {
     if (this._load) {
-      this._load.subscribe((x) => {
+      let sub = this._load.subscribe((x) => {
         this.filter.load(x.args);
         if (x.reset) {
           this.page.PageIndex = 1;
         }
         this.load(this.page.PageIndex, this.page.PageSize, this.filter);
       });
+      this.subscription.add(sub);
     }
     this.filter.load(this.args);
     this.load(this.page.PageIndex, this.page.PageSize, this.filter);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private load(

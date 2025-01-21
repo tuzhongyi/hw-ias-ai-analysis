@@ -7,18 +7,18 @@ export class SystemMapShopArgs {
   filter = new SystemMapShopFilterArgs();
 
   clear() {
-    this.filter.clear();
     this.radius = undefined;
+    this.filter.clear();
   }
 }
 
 export class SystemMapShopFilterArgs {
   name?: string;
-  state?: ShopObjectState;
+  states: ShopObjectState[] = [];
 
   clear() {
     this.name = undefined;
-    this.state = undefined;
+    this.states = [];
   }
 }
 

@@ -60,6 +60,9 @@ export class SystemModuleShopTableBusiness {
     params.Telphone = args.telphone;
     params.Marking = args.marking ? undefined : false;
     params.Confidence = args.confidence;
+    if (args.type) {
+      params.ShopTypes = [args.type];
+    }
 
     params.ObjectStates =
       0 < args.states.length && args.states.length < 3

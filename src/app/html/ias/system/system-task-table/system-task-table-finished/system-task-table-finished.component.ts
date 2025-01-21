@@ -1,10 +1,18 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { PaginatorComponent } from '../../../../../common/components/paginator/paginator.component';
 import { Page } from '../../../../../common/data-core/models/page-list.model';
 import { ColorTool } from '../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../common/tools/language';
 
+import { Subscription } from 'rxjs';
 import { TableSorterDirective } from '../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../common/directives/table-sorter/table-sorter.model';
 import {
@@ -25,7 +33,7 @@ import { AnalysisTaskFinishModel } from './system-task-table-finished.model';
     SystemTaskTableFinishedConverter,
   ],
 })
-export class SystemTaskTableFinishedComponent implements OnInit {
+export class SystemTaskTableFinishedComponent implements OnInit, OnDestroy {
   @Input() filter = new SystemTaskTableFilter();
   @Input('load') _load?: EventEmitter<SystemTaskTableFilter>;
 
@@ -53,15 +61,21 @@ export class SystemTaskTableFinishedComponent implements OnInit {
   Language = Language;
   Color = ColorTool;
 
+  private subscription = new Subscription();
+
   ngOnInit(): void {
     if (this._load) {
-      this._load.subscribe((args) => {
+      let sub = this._load.subscribe((args) => {
         this.filter.load(args);
         this.load(this.page.PageIndex, this.page.PageSize, this.filter);
       });
+      this.subscription.add(sub);
     }
     this.filter.desc = 'StartTime';
     this.load(1, this.page.PageSize, this.filter);
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private load(index: number, size: number, filter: SystemTaskTableFilter) {

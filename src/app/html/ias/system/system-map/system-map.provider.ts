@@ -1,4 +1,4 @@
-import { SystemAMapController } from './controller/amap/system-map-amap.controller';
+import { SystemMapAMapController } from './controller/amap/system-map-amap.controller';
 import { SystemMapPanelDetailsShopController } from './controller/panel/system-map-panel-details-shop.controller';
 import { SystemMapPanelDetailsController } from './controller/panel/system-map-panel-details.controller';
 import { SystemMapPanelEditorCircleController } from './controller/panel/system-map-panel-editor-circle.controller';
@@ -9,9 +9,12 @@ import { SystemMapPanelStateController } from './controller/panel/system-map-pan
 import { SystemMapPanelController } from './controller/panel/system-map-panel.controller';
 import { SystemMapController } from './controller/system-map.controller';
 import { SystemMapBusiness } from './system-map.business';
+import { SystemMapAMapTrigger } from './trigger/system-map-amap.trigger';
+import { SystemMapPanelTrigger } from './trigger/system-map-panel.trigger';
+import { SystemMapTrigger } from './trigger/system-map.trigger';
 
 export const SystemMapProviders = [
-  SystemAMapController,
+  SystemMapAMapController,
 
   SystemMapPanelSourceController,
   SystemMapPanelStateController,
@@ -24,4 +27,8 @@ export const SystemMapProviders = [
   SystemMapPanelController,
   SystemMapController,
   SystemMapBusiness,
+
+  SystemMapAMapTrigger,
+  SystemMapPanelTrigger,
+  SystemMapTrigger,
 ];

@@ -10,16 +10,12 @@ import { SystemMapShopRadiusArgs } from '../system-map/system-map.model';
   styleUrl: './system-map-editor-circle.component.less',
 })
 export class SystemMapEditorCircleComponent implements OnInit {
-  @Input() args?: SystemMapShopRadiusArgs;
+  @Input() args = new SystemMapShopRadiusArgs();
   @Output() ok = new EventEmitter<SystemMapShopRadiusArgs>();
   @Output() close = new EventEmitter<void>();
   @Output() distance = new EventEmitter<number>();
 
-  ngOnInit(): void {
-    if (!this.args) {
-      this.args = new SystemMapShopRadiusArgs();
-    }
-  }
+  ngOnInit(): void {}
 
   ondistance() {
     if (this.args) {

@@ -3,13 +3,14 @@ import {
   SystemMapPanel,
   SystemMapShopRadiusArgs,
 } from '../../system-map.model';
-import { SystemAMapController } from '../amap/system-map-amap.controller';
+import { SystemMapAMapController } from '../amap/system-map-amap.controller';
 
 @Injectable()
 export class SystemMapPanelEditorCircleController extends SystemMapPanel {
   load = new EventEmitter<SystemMapShopRadiusArgs>();
+  clear = new EventEmitter<void>();
 
-  constructor(private amap: SystemAMapController) {
+  constructor(private amap: SystemMapAMapController) {
     super();
   }
 
@@ -19,9 +20,9 @@ export class SystemMapPanelEditorCircleController extends SystemMapPanel {
 
   onok(data: SystemMapShopRadiusArgs) {
     this.load.emit(data);
-    this.show = false;
   }
   oncancel() {
     this.show = false;
+    this.clear.emit();
   }
 }
