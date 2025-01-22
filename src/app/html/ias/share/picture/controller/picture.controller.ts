@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PromiseValue } from '../../../../../common/models/value.promise';
+import { PromiseValue } from '../../../../../common/view-models/value.promise';
 import { PictureCanvasController } from './picture-canvas.controller';
 import { PictureImageController } from './picture-image.controller';
 

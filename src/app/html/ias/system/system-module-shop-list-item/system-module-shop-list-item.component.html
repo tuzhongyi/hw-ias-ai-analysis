@@ -20,12 +20,12 @@
         'state-orange': data.ObjectState == 0,        
       }"
       >
-        {{ data.State }}
+        {{ data.ObjectStateName | async }}
       </div>
     </div>
   </div>
   <div class="system-module-shop-list-item-body">
-    <ias-picture [src]="data.Image"></ias-picture>
+    <ias-picture [id]="data.ImageUrl"></ias-picture>
   </div>
   <div class="system-module-shop-list-item-foot">
     <div class="system-module-shop-list-item-foot-info">

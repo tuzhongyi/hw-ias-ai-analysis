@@ -5,19 +5,18 @@ import { TableSorterDirective } from '../../../../common/directives/table-sorter
 import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
 import { LocaleCompare } from '../../../../common/tools/compare-tool/compare.tool';
-import { Language } from '../../../../common/tools/language';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { SystemMapSourceTableBusiness } from './system-map-source-table.business';
-import { SystemMapSourceTableConverter } from './system-map-source-table.converter';
 
 @Component({
   selector: 'ias-system-map-source-table',
   imports: [CommonModule, TableSorterDirective],
   templateUrl: './system-map-source-table.component.html',
   styleUrl: './system-map-source-table.component.less',
-  providers: [SystemMapSourceTableBusiness, SystemMapSourceTableConverter],
+  providers: [SystemMapSourceTableBusiness],
 })
 export class SystemMapSourceTableComponent implements OnInit {
-  @Input() datas: Shop[] = [];
+  @Input('datas') shops: Shop[] = [];
   @Output() details = new EventEmitter<Shop>();
   @Input() selected?: Shop;
   @Output() selectedChange = new EventEmitter<Shop>();
@@ -28,11 +27,19 @@ export class SystemMapSourceTableComponent implements OnInit {
   constructor(private business: SystemMapSourceTableBusiness) {}
 
   widths = ['70px', 'auto', '100px', '70px'];
+  datas: ShopViewModel[] = [];
 
   Color = ColorTool;
-  Language = Language;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.load();
+  }
+
+  private load() {
+    this.business.load(this.shops).then((x) => {
+      this.datas = x;
+    });
+  }
 
   onselect(item: Shop) {
     this.selected = item;

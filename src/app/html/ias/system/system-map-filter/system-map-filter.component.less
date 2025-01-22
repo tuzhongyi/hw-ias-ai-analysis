@@ -1,18 +1,29 @@
 .system-map-filter {
+  padding: 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+
+  &-head {
+    display: flex;
+    justify-content: space-between;
+  }
+
+
   .forms {
-    gap: 5px;
+    flex-wrap: wrap;
 
     .form-item {
-      padding: 15px;
 
-      &-value {
-        &.state {
-          width: 335px;
-        }
-
-      }
+      &-value {}
     }
   }
 
+  &-foot {
+    display: flex;
+    justify-content: center;
+  }
 
 }

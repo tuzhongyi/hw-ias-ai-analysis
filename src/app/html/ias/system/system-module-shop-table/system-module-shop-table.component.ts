@@ -15,12 +15,14 @@ import { Sort } from '../../../../common/directives/table-sorter/table-sorter.mo
 import { LocalStorage } from '../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
+import { Language } from '../../../../common/tools/language';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { SystemModuleShopTableBusiness } from './system-module-shop-table.business';
 import { SystemModuleShopTableConverter } from './system-module-shop-table.converter';
 import {
-  ShopModel,
   SystemModuleShopTableArgs,
   SystemModuleShopTableFilter,
+  SystemModuleShopTableItem,
   SystemModuleShopTableLoadArgs,
 } from './system-module-shop-table.model';
 
@@ -34,8 +36,8 @@ import {
 export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
   @Input() args = new SystemModuleShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleShopTableLoadArgs>;
-  @Output() details = new EventEmitter<ShopModel>();
-  @Output() info = new EventEmitter<ShopModel>();
+  @Output() details = new EventEmitter<ShopViewModel>();
+  @Output() info = new EventEmitter<ShopViewModel>();
   @Output() error = new EventEmitter<Error>();
 
   constructor(
@@ -47,8 +49,8 @@ export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
   }
 
   page = Page.create(1, 10);
-  datas: ShopModel[] = [];
-  selected?: ShopModel;
+  datas: SystemModuleShopTableItem[] = [];
+  selected?: SystemModuleShopTableItem;
   widths = [
     '5%',
     '5%',
@@ -64,6 +66,7 @@ export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
   ];
 
   Color = ColorTool;
+  Language = Language;
 
   private storage: ISystemModuleShopStorage;
   private filter = new SystemModuleShopTableFilter();
@@ -112,7 +115,7 @@ export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
       this.load(num, this.page.PageSize, this.filter);
     }
   }
-  onselect(item: ShopModel) {
+  onselect(item: SystemModuleShopTableItem) {
     if (this.selected === item) {
       this.selected = undefined;
     } else {
@@ -136,14 +139,14 @@ export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
     this.load(this.page.PageIndex, this.page.PageSize, this.filter);
   }
 
-  ondetails(item: ShopModel, e: Event) {
+  ondetails(item: SystemModuleShopTableItem, e: Event) {
     this.details.emit(item);
     if (this.selected === item) {
       e.stopPropagation();
     }
   }
 
-  oninfo(item: ShopModel, e: Event) {
+  oninfo(item: SystemModuleShopTableItem, e: Event) {
     this.info.emit(item);
     if (this.selected === item) {
       e.stopPropagation();

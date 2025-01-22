@@ -51,12 +51,12 @@
             {{ item.StateName | async }}
           </td>
           <td>
-            {{ item.CreationTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item.CreationTime | date : Language.yyyyMMddHHmmss }}
           </td>
           <td>
-            {{ item.StartTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item.StartTime | date : Language.yyyyMMddHHmmss }}
           </td>
-          <td>{{ item.StopTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+          <td>{{ item.StopTime | date : Language.yyyyMMddHHmmss }}</td>
           <td>
             @if(item.hasdata){
             <div>

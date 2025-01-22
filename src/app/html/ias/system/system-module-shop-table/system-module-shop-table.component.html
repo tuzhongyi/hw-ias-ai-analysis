@@ -68,10 +68,10 @@
           </td>
           <td>{{ item.ConfidenceRatio }}</td>
           <td [ngStyle]="{ color: Color.ShopObjectState(item.ObjectState) }">
-            {{ item.State }}
+            {{ item.ObjectStateName | async }}
           </td>
-          <td>{{ item.BeginTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
-          <td>{{ item.EndTime | date : "yyyy-MM-dd HH:mm:ss" }}</td>
+          <td>{{ item.BeginTime | date : Language.yyyyMMddHHmmss }}</td>
+          <td>{{ item.EndTime | date : Language.yyyyMMddHHmmss }}</td>
           <td class="center">
             <div class="operation" *ngIf="item.hasdata">
               <div

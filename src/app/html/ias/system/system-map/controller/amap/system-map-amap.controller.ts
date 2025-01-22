@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { MapHelper } from '../../../../../../common/helper/map/map.helper';
-import { PromiseValue } from '../../../../../../common/models/value.promise';
+import { PromiseValue } from '../../../../../../common/view-models/value.promise';
 import { SystemAMapLayerController } from './system-map-amap-layer.controller';
 
 import {
@@ -37,40 +37,37 @@ export class SystemMapAMapController {
 
   private regist() {
     this.map.get().then((x) => {
-      x.on('complete', () => {
-        try {
-          let layer = new SystemAMapLayerController(x);
-          layer.event.mouseover.subscribe((x) => {
-            this.event.point.mouseover.emit(x);
-          });
-          layer.event.mouseout.subscribe((x) => {
-            this.event.point.mouseout.emit(x);
-          });
-          layer.event.click.subscribe((x) => {
-            this.event.point.click.emit(x);
-          });
-          this.layer.set(layer);
-        } catch (error) {
-          console.error(error);
-        }
-        try {
-          let circel = new SystemAMapCircleEditorController(x);
-          circel.event.opened.subscribe((x) => {
-            this.event.circle.opened.emit(x);
-          });
-          circel.event.change.subscribe((x) => {
-            this.event.circle.change.emit(x);
-          });
-          circel.event.move.subscribe((x) => {
-            this.event.circle.move.emit(x);
-          });
-          this.circle.set(circel);
-        } catch (error) {
-          console.error(error);
-        }
-
-        this.event.map.completed.emit();
-      });
+      this.event.map.completed.emit();
+      try {
+        let layer = new SystemAMapLayerController(x);
+        layer.event.mouseover.subscribe((x) => {
+          this.event.point.mouseover.emit(x);
+        });
+        layer.event.mouseout.subscribe((x) => {
+          this.event.point.mouseout.emit(x);
+        });
+        layer.event.click.subscribe((x) => {
+          this.event.point.click.emit(x);
+        });
+        this.layer.set(layer);
+      } catch (error) {
+        console.error(error);
+      }
+      try {
+        let circel = new SystemAMapCircleEditorController(x);
+        circel.event.opened.subscribe((x) => {
+          this.event.circle.opened.emit(x);
+        });
+        circel.event.change.subscribe((x) => {
+          this.event.circle.change.emit(x);
+        });
+        circel.event.move.subscribe((x) => {
+          this.event.circle.move.emit(x);
+        });
+        this.circle.set(circel);
+      } catch (error) {
+        console.error(error);
+      }
       x.on('mousemove', (e: any) => {
         this.event.map.mousemmove.emit([e.lnglat.lng, e.lnglat.lat]);
       });

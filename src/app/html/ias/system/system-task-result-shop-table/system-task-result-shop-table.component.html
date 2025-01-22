@@ -34,7 +34,7 @@
             {{ item.Name }}
           </td>
           <td [title]="item.Description ?? ''">{{ item.Description }}</td>
-          <td>{{ Language.SignType(item.ShopType) }}</td>
+          <td>{{ item.ShopTypeName | async }}</td>
         </tr>
       </tbody>
     </table>

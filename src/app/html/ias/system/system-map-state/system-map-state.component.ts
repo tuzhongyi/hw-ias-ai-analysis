@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
+import { TextSpaceBetweenDirective } from '../../../../common/directives/text-space-between/text-space-between.directive';
 import { SystemMapStateSourceController } from './controller/system-map-state-source.controller';
 import { SystemMapStateModel } from './system-map-state.model';
 
 @Component({
   selector: 'ias-system-map-state',
-  imports: [CommonModule],
+  imports: [CommonModule, TextSpaceBetweenDirective],
   templateUrl: './system-map-state.component.html',
   styleUrl: './system-map-state.component.less',
   providers: [SystemMapStateSourceController],

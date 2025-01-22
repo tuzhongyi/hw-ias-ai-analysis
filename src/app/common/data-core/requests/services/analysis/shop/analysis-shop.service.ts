@@ -35,6 +35,7 @@ export class ArmAnalysisShopRequestService {
   async update(data: Shop) {
     let url = ArmAnalysisUrl.shop.item(data.Id);
     let plain = instanceToPlain(data);
+    console.log('update:', plain);
     return this.http.put<any, HowellResponse<Shop>>(url, plain).then((x) => {
       return HowellResponseProcess.item(x, Shop);
     });

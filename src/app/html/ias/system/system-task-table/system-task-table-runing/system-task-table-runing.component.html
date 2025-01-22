@@ -54,13 +54,13 @@
           <td>@if(item.hasdata){ {{ (item.Progress ?? 0).toFixed(2) }}%}</td>
           <td>
             @if(item.hasdata && item.CreationTime){
-            {{ item.CreationTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item.CreationTime | date : Language.yyyyMMddHHmmss }}
 
             }
           </td>
           <td>
             @if(item.hasdata){
-            {{ item.StartTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item.StartTime | date : Language.yyyyMMddHHmmss }}
             }
           </td>
           <td>
@@ -72,7 +72,7 @@
           </td>
           <td>
             @if(item.EstimatedTime){
-            {{ item.EstimatedTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item.EstimatedTime | date : Language.yyyyMMddHHmmss }}
             }
           </td>
 

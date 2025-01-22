@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
-import { Language } from '../../../../common/tools/language';
+import { ShopSignViewModel } from '../../../../common/view-models/shop-sign/shop-sign.view-model';
 import { SystemTaskResultSignTableBusiness } from './system-task-result-sign-table.business';
 import {
   SystemTaskResultSignTableArgs,
@@ -41,10 +41,8 @@ export class SystemTaskResultSignTableComponent implements OnInit, OnDestroy {
 
   @ViewChild('body') body?: ElementRef<HTMLDivElement>;
 
-  datas: ShopSign[] = [];
-
+  datas: ShopSignViewModel[] = [];
   widths: string[] = ['60px', 'auto', '85px', '60px', '120px', '85px', '80px'];
-  Language = Language;
   loading = false;
 
   private filter = new SystemTaskResultSignTableFilter();

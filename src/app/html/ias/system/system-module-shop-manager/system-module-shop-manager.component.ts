@@ -3,9 +3,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { LocalStorage } from '../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../common/storage/system-module-storage/system-module-shop.storage';
-import { Language } from '../../../../common/tools/language';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import {
-  ShopModel,
   SystemModuleShopTableArgs,
   SystemModuleShopTableLoadArgs,
 } from '../system-module-shop-table/system-module-shop-table.model';
@@ -37,7 +36,7 @@ export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
 
   args: SystemModuleShopTableArgs;
   load = new EventEmitter<SystemModuleShopTableLoadArgs>();
-  Language = Language;
+
   window = new SystemModuleShopManagerWindow();
   storage: ISystemModuleShopStorage;
   handle: any;
@@ -95,7 +94,7 @@ export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
   };
 
   details = {
-    open: (data: ShopModel) => {
+    open: (data: ShopViewModel) => {
       this.window.details.data = data;
       this.window.details.show = true;
     },
@@ -107,7 +106,7 @@ export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
     },
   };
   info = {
-    open: (data: ShopModel) => {
+    open: (data: ShopViewModel) => {
       this.window.create.data = data;
       this.window.create.show = true;
     },

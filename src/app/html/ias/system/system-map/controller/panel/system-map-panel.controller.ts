@@ -33,12 +33,5 @@ export class SystemMapPanelController {
       this.state.show = !show;
       this.doing = false;
     });
-    this.source.change.subscribe((show) => {
-      if (this.doing) return;
-
-      this.doing = true;
-
-      this.doing = false;
-    });
   }
 }

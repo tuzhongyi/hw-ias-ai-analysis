@@ -4,8 +4,8 @@ import { ArmAnalysisRequestService } from '../../../../common/data-core/requests
 import { GetShopsParams } from '../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
 import { SystemModuleShopTableConverter } from './system-module-shop-table.converter';
 import {
-  ShopModel,
   SystemModuleShopTableFilter,
+  SystemModuleShopTableItem,
 } from './system-module-shop-table.model';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class SystemModuleShopTableBusiness {
       datas = await this.data(datas.Page.RecordCount, size, args);
     }
 
-    let paged = new PagedList<ShopModel>();
+    let paged = new PagedList<SystemModuleShopTableItem>();
     paged.Page = datas.Page;
     paged.Data = datas.Data.map((x, i) => {
       let model = this.converter.convert(x);
@@ -42,7 +42,7 @@ export class SystemModuleShopTableBusiness {
       let count = paged.Page.PageSize - paged.Page.RecordCount;
       if (count > 0) {
         for (let i = 0; i < count; i++) {
-          paged.Data.push(ShopModel.create());
+          paged.Data.push(SystemModuleShopTableItem.create());
         }
       }
     }

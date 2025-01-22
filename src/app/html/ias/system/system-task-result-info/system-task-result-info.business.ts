@@ -3,13 +3,13 @@ import { ResultLabelType } from '../../../../common/data-core/enums/analysis/res
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { ArmAnalysisRequestService } from '../../../../common/data-core/requests/services/analysis/analysis.service';
 import { ResultLabelingParams } from '../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
-import { SystemTaskResultInfoConverter } from './system-task-result-info.converter';
+import { ShopSignConverter } from '../../../../common/view-models/shop-sign/shop-sign.converter';
 
 @Injectable()
 export class SystemTaskResultInfoBusiness {
   constructor(
     private service: ArmAnalysisRequestService,
-    private converter: SystemTaskResultInfoConverter
+    private converter: ShopSignConverter
   ) {}
 
   load(data: ShopSign) {

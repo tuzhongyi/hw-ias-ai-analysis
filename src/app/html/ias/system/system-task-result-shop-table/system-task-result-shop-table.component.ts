@@ -12,7 +12,7 @@ import {
 import { Subscription } from 'rxjs';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
-import { Language } from '../../../../common/tools/language';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { SystemTaskResultShopTableBusiness } from './system-task-result-shop-table.business';
 import {
   SystemTaskResultShopTableArgs,
@@ -38,9 +38,8 @@ export class SystemTaskResultShopTableComponent implements OnInit, OnDestroy {
   constructor(private business: SystemTaskResultShopTableBusiness) {}
 
   @ViewChild('body') body?: ElementRef<HTMLDivElement>;
-  datas: Shop[] = [];
+  datas: ShopViewModel[] = [];
   widths: string[] = ['60px', 'auto', 'auto', '86px'];
-  Language = Language;
 
   private filter = new SystemTaskResultShopTableFilter();
   private subscription = new Subscription();
@@ -89,7 +88,7 @@ export class SystemTaskResultShopTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  onselect(item: Shop, index: number) {
+  onselect(item: ShopViewModel, index: number) {
     if (this.selected === item) {
       return;
     }

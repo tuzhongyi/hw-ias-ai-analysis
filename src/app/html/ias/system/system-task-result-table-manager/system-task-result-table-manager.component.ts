@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
-import { Language } from '../../../../common/tools/language';
 import { SystemTaskResultShopTableBusiness } from '../system-task-result-shop-table/system-task-result-shop-table.business';
 import { SystemTaskResultShopTableComponent } from '../system-task-result-shop-table/system-task-result-shop-table.component';
 import { SystemTaskResultSignTableComponent } from '../system-task-result-sign-table/system-task-result-sign-table.component';
@@ -96,8 +95,6 @@ export class SystemTaskResultTableManagerComponent
       this.load();
     },
   };
-
-  Language = Language;
 
   private subscription = new Subscription();
 

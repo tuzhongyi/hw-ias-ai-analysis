@@ -45,7 +45,6 @@ export class SystemMapComponent implements OnInit, OnDestroy {
   get amap() {
     return this.controller.amap;
   }
-  inited = false;
   args = new SystemMapShopArgs();
   datas: Shop[] = [];
 
@@ -71,9 +70,6 @@ export class SystemMapComponent implements OnInit, OnDestroy {
   }
   regist = {
     amap: () => {
-      this.amap.event.map.completed.subscribe(() => {
-        this.inited = true;
-      });
       this.amap.event.circle.opened.subscribe((x) => {
         this.args.radius = new SystemMapShopRadiusArgs();
         this.args.radius.center.X = x[0];

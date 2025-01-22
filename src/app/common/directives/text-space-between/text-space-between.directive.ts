@@ -13,6 +13,8 @@ export class TextSpaceBetweenDirective implements AfterContentInit {
 
   ngAfterContentInit(): void {
     if (this.ele) {
+      this.ele.style.display = 'flex';
+      this.ele.style.justifyContent = 'space-between';
       let value = '';
       if (this.value) {
         value = this.value;

@@ -36,7 +36,7 @@
           <td [title]="item.Text">
             {{ item.Text }}
           </td>
-          <td>{{ Language.SignType(item.SignType, "-") }}</td>
+          <td>{{ item.SignTypeName | async }}</td>
           <td>
             {{ item.CameraNo ?? "-" }}
           </td>
@@ -44,10 +44,10 @@
             {{ item.Time | date : "HH:mm:ss.SSS" }}
           </td>
           <td>
-            {{ Language.ResultLabelType(item.ResultLabelType) }}
+            {{ item.ResultLabelTypeName | async }}
           </td>
           <td class="center">
-            {{ ((item.Confidence ?? 0) * 100).toFixed(2) }}%
+            {{ item.ConfidenceRatio }}
           </td>
         </tr>
       </tbody>

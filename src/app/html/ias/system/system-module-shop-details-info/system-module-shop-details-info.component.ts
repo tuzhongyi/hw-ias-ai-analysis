@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { TextSpaceBetweenDirective } from '../../../../common/directives/text-space-between/text-space-between.directive';
 import { Language } from '../../../../common/tools/language';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { PictureComponent } from '../../share/picture/picture.component';
-import { ShopModel } from '../system-module-shop-table/system-module-shop-table.model';
 
 @Component({
   selector: 'ias-system-module-shop-details-info',
@@ -20,7 +20,7 @@ import { ShopModel } from '../system-module-shop-table/system-module-shop-table.
   providers: [],
 })
 export class SystemModuleShopDetailsInfoComponent {
-  @Input() data?: ShopModel;
+  @Input() data?: ShopViewModel;
   @Input() sign?: ShopSign;
   @Output() picture = new EventEmitter<ShopSign>();
 

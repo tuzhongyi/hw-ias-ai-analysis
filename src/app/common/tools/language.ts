@@ -1,6 +1,4 @@
 import { ResultLabelType } from '../data-core/enums/analysis/result-label-type.enum';
-import { ShopObjectState } from '../data-core/enums/analysis/shop-object-state.enum';
-import { SignType } from '../data-core/enums/analysis/sign-type.enum';
 import { CalibrationAreaType } from '../data-core/enums/calibration_area_type.enum';
 import { DeviceProtocolType } from '../data-core/enums/device-protocol-type.enum';
 import { EventType } from '../data-core/enums/event-type.enum';
@@ -415,18 +413,7 @@ export class Language {
         return def;
     }
   }
-  static ShopObjectState(value?: ShopObjectState, def = '未知') {
-    switch (value) {
-      case ShopObjectState.Disappeared:
-        return '消失的';
-      case ShopObjectState.Created:
-        return '新出现的';
-      case ShopObjectState.Existed:
-        return '长期存在的';
-      default:
-        return def;
-    }
-  }
+
   static Size(value?: number) {
     if (value === undefined) return '未知';
     let _value = value / 1024;
@@ -463,24 +450,7 @@ export class Language {
         return def;
     }
   }
-  static SignType(value?: SignType, def = '未知') {
-    switch (value) {
-      case SignType.ShopSign:
-        return '店铺招牌';
-      case SignType.Sign:
-        return '指示牌';
-      case SignType.StreetSign:
-        return '路牌';
-      case SignType.Billboard:
-        return '广告牌';
-      case SignType.Promotional:
-        return '宣传标语';
-      case SignType.Other:
-        return '其他';
-      default:
-        return def;
-    }
-  }
+
   static ResultLabelType(value?: ResultLabelType, def = '未知') {
     switch (value) {
       case ResultLabelType.Unlabeled:
@@ -495,24 +465,6 @@ export class Language {
         return '不完整';
       default:
         return def;
-    }
-  }
-}
-
-export class Icon {
-  static CanType(type?: CanType, def = '未知') {
-    switch (type) {
-      case CanType.Dry:
-        return '&#xf08b;';
-      case CanType.Wet:
-        return '&#xf08b;';
-      case CanType.Recycle:
-        return '&#xf08b;';
-      case CanType.Hazard:
-        return '&#xf08b;';
-
-      default:
-        return '';
     }
   }
 }

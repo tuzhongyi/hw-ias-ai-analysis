@@ -1,6 +1,6 @@
 import { WindowViewModel } from '../../../../common/components/window-control/window.model';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
-import { ShopModel } from '../system-module-shop-table/system-module-shop-table.model';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 
 export class SystemModuleShopManagerWindow {
   details = new DetailsWindow();
@@ -16,7 +16,7 @@ class DetailsWindow extends WindowViewModel {
     height: '85%',
     paddingTop: '10px',
   };
-  data?: ShopModel;
+  data?: ShopViewModel;
 }
 class CreateWindow extends WindowViewModel {
   clear() {

@@ -87,4 +87,66 @@ export class LanguageTool {
         });
     });
   }
+
+  async ShopObjectState(value?: number, def: string = ''): Promise<string> {
+    return new Promise<string>((resolve) => {
+      this.manager.capability.analysis.shop
+        .then((capability) => {
+          if (capability.ShopObjectStates) {
+            let _enum = capability.ShopObjectStates.find(
+              (x) => x.Value == value
+            );
+            if (_enum) {
+              resolve(_enum.Name);
+              return;
+            }
+          }
+          resolve(def);
+        })
+        .catch((x) => {
+          resolve(def);
+        });
+    });
+  }
+
+  async ShopType(value?: number, def: string = ''): Promise<string> {
+    return new Promise<string>((resolve) => {
+      this.manager.capability.analysis.shop
+        .then((capability) => {
+          if (capability.ShopTypes) {
+            capability.ShopTypes;
+            let _enum = capability.ShopTypes.find((x) => x.Value == value);
+            if (_enum) {
+              resolve(_enum.Name);
+              return;
+            }
+          }
+          resolve(def);
+        })
+        .catch((x) => {
+          resolve(def);
+        });
+    });
+  }
+
+  async ResultLabelType(value?: number, def: string = ''): Promise<string> {
+    return new Promise<string>((resolve) => {
+      this.manager.capability.analysis.shop
+        .then((capability) => {
+          if (capability.ResultLabelTypes) {
+            let _enum = capability.ResultLabelTypes.find(
+              (x) => x.Value == value
+            );
+            if (_enum) {
+              resolve(_enum.Name);
+              return;
+            }
+          }
+          resolve(def);
+        })
+        .catch((x) => {
+          resolve(def);
+        });
+    });
+  }
 }

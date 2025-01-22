@@ -5,12 +5,12 @@ import { WindowComponent } from '../../../../common/components/window-control/wi
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { GisPoint } from '../../../../common/data-core/models/arm/gis-point.model';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
 import { PictureWindowContentComponent } from '../../share/picture-window-content/picture-window-content.component';
 import { SystemModuleShopDetailsInfoComponent } from '../system-module-shop-details-info/system-module-shop-details-info.component';
 import { SystemModuleShopDetailsMapComponent } from '../system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopSignTableComponent } from '../system-module-shop-sign-table/system-module-shop-sign-table.component';
-import { ShopModel } from '../system-module-shop-table/system-module-shop-table.model';
 import { SystemModuleShopDetailsBusiness } from './system-module-shop-details.business';
 import { SystemModuleShopDetailsWindow } from './system-module-shop-details.window';
 
@@ -30,7 +30,7 @@ import { SystemModuleShopDetailsWindow } from './system-module-shop-details.wind
   providers: [SystemModuleShopDetailsBusiness],
 })
 export class SystemModuleShopDetailsComponent implements OnInit {
-  @Input() data?: ShopModel;
+  @Input() data?: ShopViewModel;
   @Output() ok = new EventEmitter<Shop>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -39,7 +39,7 @@ export class SystemModuleShopDetailsComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  shop = new ShopModel();
+  shop = new Shop();
   sign?: ShopSign;
   window = new SystemModuleShopDetailsWindow();
 

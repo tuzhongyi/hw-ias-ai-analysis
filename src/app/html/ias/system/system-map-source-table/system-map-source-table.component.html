@@ -38,7 +38,7 @@
             color: Color.ShopObjectState(item.ObjectState),
           }"
           >
-            {{ Language.ShopObjectState(item.ObjectState) }}
+            {{ item.ObjectStateName | async }}
           </td>
           <td class="center">
             <div class="operation">

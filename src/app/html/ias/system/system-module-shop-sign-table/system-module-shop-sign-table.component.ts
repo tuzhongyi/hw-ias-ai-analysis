@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { Language } from '../../../../common/tools/language';
-import { ShopModel } from '../system-module-shop-table/system-module-shop-table.model';
+import { ShopSignViewModel } from '../../../../common/view-models/shop-sign/shop-sign.view-model';
 import { SystemModuleShopSignTableBusiness } from './system-module-shop-sign-table.business';
 
 @Component({
@@ -13,15 +14,16 @@ import { SystemModuleShopSignTableBusiness } from './system-module-shop-sign-tab
   providers: [SystemModuleShopSignTableBusiness],
 })
 export class SystemModuleShopSignTableComponent implements OnInit {
-  @Input('data') shop?: ShopModel;
+  @Input('data') shop?: Shop;
   @Input() selected?: ShopSign;
   @Output() selectedChange = new EventEmitter<ShopSign>();
   @Output() error = new EventEmitter<Error>();
 
   constructor(private business: SystemModuleShopSignTableBusiness) {}
 
-  datas: ShopSign[] = [];
+  datas: ShopSignViewModel[] = [];
   widths: string[] = ['60px', 'auto', '85px', '60px', '82px', '180px'];
+
   Language = Language;
 
   ngOnInit(): void {

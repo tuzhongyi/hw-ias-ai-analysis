@@ -54,16 +54,16 @@
           <td>@if(item.hasdata){ {{ (item.Progress ?? 0).toFixed(2) }}%}</td>
           <td>
             @if(item.hasdata){
-            {{ item.CreationTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item.CreationTime | date : Language.yyyyMMddHHmmss }}
             }
           </td>
           <td>
             @if(item.hasdata){
-            {{ item.StartTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item.StartTime | date : Language.yyyyMMddHHmmss }}
             }
           </td>
           <td>
-            {{ item.StopTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item.StopTime | date : Language.yyyyMMddHHmmss }}
           </td>
           <td>
             @if(item.hasdata){ @if(item.StartTime){

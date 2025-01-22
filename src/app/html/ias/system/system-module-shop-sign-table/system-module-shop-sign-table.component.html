@@ -36,15 +36,15 @@
             <td [title]="item.Text">
               {{ item.Text }}
             </td>
-            <td>{{ Language.SignType(item.SignType, "-") }}</td>
+            <td>{{ item.SignTypeName | async }}</td>
             <td>
               {{ item.CameraNo ?? "-" }}
             </td>
             <td class="center">
-              {{ ((item.Confidence ?? 0) * 100).toFixed(2) }}%
+              {{ item.ConfidenceRatio }}
             </td>
             <td>
-              {{ item.Time | date : "yyyy-MM-dd HH:mm:ss" }}
+              {{ item.Time | date : Language.yyyyMMddHHmmss }}
             </td>
           </tr>
         </tbody>

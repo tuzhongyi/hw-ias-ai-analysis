@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
 import { ArmAnalysisRequestService } from '../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetShopsParams } from '../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
+import { ShopConverter } from '../../../../common/view-models/shop/shop.converter';
 import { SystemTaskResultShopTableFilter } from './system-task-result-shop-table.model';
 
 @Injectable()
 export class SystemTaskResultShopTableBusiness {
-  constructor(private service: ArmAnalysisRequestService) {}
+  constructor(
+    private service: ArmAnalysisRequestService,
+    private converter: ShopConverter
+  ) {}
 
-  load(filter: SystemTaskResultShopTableFilter) {
+  async load(filter: SystemTaskResultShopTableFilter) {
+    let datas = await this.data(filter);
+    return datas.map((data) => this.converter.convert(data));
+  }
+
+  data(filter: SystemTaskResultShopTableFilter) {
     let params = new GetShopsParams();
     if (filter.taskId) {
       params.TaskIds = [filter.taskId];

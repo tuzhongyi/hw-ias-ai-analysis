@@ -1,8 +1,8 @@
 import { Exclude } from 'class-transformer';
 import { ShopObjectState } from '../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { DateTimeTool } from '../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../common/tools/date-time-tool/duration.model';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 
 export class SystemModuleShopTableLoadArgs {
   constructor(args: SystemModuleShopTableArgs, reset = false) {
@@ -40,20 +40,16 @@ export class SystemModuleShopTableFilter extends SystemModuleShopTableArgs {
   }
 }
 
-export class ShopModel extends Shop {
+export class SystemModuleShopTableItem extends ShopViewModel {
   @Exclude()
   Image?: string;
-  @Exclude()
-  ConfidenceRatio?: string;
-  @Exclude()
-  State!: string;
   @Exclude()
   index?: number;
   @Exclude()
   hasdata = false;
 
   static create() {
-    let model = new ShopModel();
+    let model = new SystemModuleShopTableItem();
     model.Name = '';
     model.Telphone = '';
     model.Address = '';

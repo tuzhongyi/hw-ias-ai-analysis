@@ -36,7 +36,7 @@
         店招类型
       </div>
       <div class="form-item-value">
-        {{ Language.SignType(model.SignType, "") }}
+        {{ model.SignTypeName | async }}
       </div>
     </div>
     } @if(shop){

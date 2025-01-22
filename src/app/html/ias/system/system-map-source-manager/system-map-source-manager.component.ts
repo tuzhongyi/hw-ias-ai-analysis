@@ -13,7 +13,6 @@ import { ShopObjectState } from '../../../../common/data-core/enums/analysis/sho
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { EnumNameValue } from '../../../../common/data-core/models/capabilities/enum-name-value.model';
 import { Manager } from '../../../../common/data-core/requests/managers/manager';
-import { Language } from '../../../../common/tools/language';
 import { SystemMapPanelHeadComponent } from '../system-map-panel-head/system-map-panel-head.component';
 import { SystemMapSourceTableComponent } from '../system-map-source-table/system-map-source-table.component';
 import { SystemMapShopFilterArgs } from '../system-map/system-map.model';
@@ -55,7 +54,6 @@ export class SystemMapSourceManagerComponent implements OnInit, OnDestroy {
   filter = new SystemMapShopFilterArgs();
   states: Promise<EnumNameValue<ShopObjectState>[]>;
   handle: any;
-  Language = Language;
 
   ngOnInit(): void {
     this.filter = Object.assign(this.filter, this.args);

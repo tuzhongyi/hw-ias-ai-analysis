@@ -5,7 +5,7 @@ export class AMapHelper {
   key = '12be1c6c0ea1645659e2b7dcb2e263c5';
   plugins = ['AMap.GeoLocation', 'AMap.GeometryUtil'];
 
-  load(plugins = this.plugins) {
+  async load(plugins = this.plugins) {
     return AMapLoader.load({
       key: this.key, //申请好的 Web 端开发者 Key，首次调用 load 时必填
       version: '2.0', //指定要加载的 JS API 的版本，缺省时默认为 1.4.15

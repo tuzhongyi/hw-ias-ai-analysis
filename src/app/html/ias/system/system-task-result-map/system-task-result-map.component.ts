@@ -7,9 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
-import { LabelResultStatistic } from '../../../../common/data-core/models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
-import { Language } from '../../../../common/tools/language';
 import { SystemTaskResultAMapController } from './controller/system-task-result-amap.controller';
 
 @Component({
@@ -27,8 +25,6 @@ export class SystemTaskResultMapComponent implements OnChanges, OnDestroy {
   constructor(private controller: SystemTaskResultAMapController) {}
 
   loading = false;
-  statistic?: LabelResultStatistic;
-  Language = Language;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selected'] && this.selected) {

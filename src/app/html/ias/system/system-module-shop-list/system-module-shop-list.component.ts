@@ -12,13 +12,14 @@ import { PaginatorComponent } from '../../../../common/components/paginator/pagi
 import { Page } from '../../../../common/data-core/models/page-list.model';
 import { LocalStorage } from '../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../common/storage/system-module-storage/system-module-shop.storage';
+import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { SystemModuleShopListItemComponent } from '../system-module-shop-list-item/system-module-shop-list-item.component';
 import { SystemModuleShopTableBusiness } from '../system-module-shop-table/system-module-shop-table.business';
 import { SystemModuleShopTableConverter } from '../system-module-shop-table/system-module-shop-table.converter';
 import {
-  ShopModel,
   SystemModuleShopTableArgs,
   SystemModuleShopTableFilter,
+  SystemModuleShopTableItem,
   SystemModuleShopTableLoadArgs,
 } from '../system-module-shop-table/system-module-shop-table.model';
 
@@ -36,7 +37,7 @@ import {
 export class SystemModuleShopListComponent implements OnInit, OnDestroy {
   @Input() args = new SystemModuleShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleShopTableLoadArgs>;
-  @Output() details = new EventEmitter<ShopModel>();
+  @Output() details = new EventEmitter<ShopViewModel>();
   @Output() error = new EventEmitter<Error>();
 
   constructor(
@@ -48,8 +49,8 @@ export class SystemModuleShopListComponent implements OnInit, OnDestroy {
   }
 
   page = Page.create(1, 8);
-  datas: ShopModel[] = [];
-  selected?: ShopModel;
+  datas: SystemModuleShopTableItem[] = [];
+  selected?: SystemModuleShopTableItem;
 
   private storage: ISystemModuleShopStorage;
   private filter = new SystemModuleShopTableFilter();
@@ -97,7 +98,7 @@ export class SystemModuleShopListComponent implements OnInit, OnDestroy {
       this.load(num, this.page.PageSize, this.filter);
     }
   }
-  onselect(item: ShopModel) {
+  onselect(item: SystemModuleShopTableItem) {
     if (this.selected === item) {
       this.selected = undefined;
     } else {
@@ -105,7 +106,7 @@ export class SystemModuleShopListComponent implements OnInit, OnDestroy {
     }
   }
 
-  ondetails(item: ShopModel, e: Event) {
+  ondetails(item: SystemModuleShopTableItem, e: Event) {
     this.details.emit(item);
     if (this.selected === item) {
       e.stopPropagation();

@@ -15,11 +15,11 @@ import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.mode
 import { Page } from '../../../../common/data-core/models/page-list.model';
 import { TextSpaceBetweenDirective } from '../../../../common/directives/text-space-between/text-space-between.directive';
 import { Language } from '../../../../common/tools/language';
+import { ShopSignViewModel } from '../../../../common/view-models/shop-sign/shop-sign.view-model';
 import { PictureComponent } from '../../share/picture/picture.component';
 import { SystemTaskResultInfoSourceController } from './controller/system-task-result-info-source.controller';
 import { SystemTaskResultInfoBusiness } from './system-task-result-info.business';
 import { SystemTaskResultInfoConverter } from './system-task-result-info.converter';
-import { TaskResultItemModel } from './system-task-result-info.model';
 
 @Component({
   selector: 'ias-system-task-result-info',
@@ -52,7 +52,7 @@ export class SystemTaskResultInfoComponent {
     public source: SystemTaskResultInfoSourceController
   ) {}
 
-  model?: TaskResultItemModel;
+  model?: ShopSignViewModel;
   shop?: Shop;
   Language = Language;
 
