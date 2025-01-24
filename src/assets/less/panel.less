@@ -2,19 +2,27 @@
   border: 1px solid #2d76ce;
   box-sizing: border-box;
   padding: 15px;
+  user-select: none;
 
   &-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  &-title {
     font-size: 20px;
     color: white;
-    margin-bottom: 15px;
   }
 
   &-map {
     background: linear-gradient(rgba(2, 6, 17, 0.6), rgba(4, 11, 31, 0.8));
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    user-select: none;
 
-    &-head {
+    &-title {
       font-size: 20px;
       color: white;
       overflow: hidden;
@@ -24,6 +32,7 @@
     }
 
     &-corner {
+      user-select: none;
       background:
         linear-gradient(#2d76ce, #2d76ce) right bottom,
         linear-gradient(#2d76ce, #2d76ce) right bottom,
@@ -32,6 +41,26 @@
         linear-gradient(rgba(2, 6, 17, 0.6), rgba(4, 11, 31, 0.8));
       background-repeat: no-repeat;
       background-size: 2px 20px, 20px 2px, 2px 20px, 20px 2px, 100% 100%;
+
+      &.selected {
+        background:
+          linear-gradient(#2d76ce, #2d76ce) right bottom,
+          linear-gradient(#2d76ce, #2d76ce) right bottom,
+          linear-gradient(#2d76ce, #2d76ce) left top,
+          linear-gradient(#2d76ce, #2d76ce) left top,
+          linear-gradient(rgba(2, 6, 17, 0.6), rgba(4, 11, 31, 1));
+        background-repeat: no-repeat;
+        background-size: 2px 20px, 20px 2px, 2px 20px, 20px 2px, 100% 100%;
+      }
+    }
+
+    &-border {
+      background: linear-gradient(rgba(2, 6, 17, 0.6), rgba(4, 11, 31, 0.8));
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      user-select: none;
+      border: 1px solid;
+      border-image: linear-gradient(to top, #1b4982, transparent) 1;
     }
   }
 }

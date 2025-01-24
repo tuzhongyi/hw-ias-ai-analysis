@@ -10,8 +10,25 @@ import "./jquery.page.css";
       pageNum: options.pageNum || 1, // 当前页码
       totalNum: options.totalNum, // 总页码
       totalList: options.totalList, // 数据总记录
-      callback: options.callback // 回调函数
+      callback: options.callback, // 回调函数
+      display: {
+        pageCount: 6,
+        totalNum: true,
+        totalList: true,
+        jump: true,
+      }
     };
+    if (options.display) {
+      if (options.display.totalNum === false) {
+        this.options.display = options.display.totalNum;
+      }
+      if (options.display.totalList === false) {
+        this.options.display = options.display.totalNum;
+      }
+      if (options.display.jump === false) {
+        this.options.display = options.display.totalNum;
+      }
+    }
     this.init();
   }
   Paging.prototype = {
@@ -77,10 +94,15 @@ import "./jquery.page.css";
         }
       }
       content.push("<button type='button' id='nextPage'>下一页</button><button type='button' id='lastPage'>尾页</button>");
-      content.push("<span name='jump'>跳至</span><input  name='jump' type='text' id='jumpText' class='jumpText'><span  name='jump'>页</span><button  name='jump' type='button' id='jumpButton'>确定</button>");
-
-      content.unshift("<span class='totalList'> 共 " + totalList + " 条记录 </span>");
-      content.unshift("<span class='totalNum'> 共 " + totalNum + " 页 </span>");
+      if (me.options.display.jump) {
+        content.push("<span name='jump'>跳至</span><input  name='jump' type='text' id='jumpText' class='jumpText'><span  name='jump'>页</span><button  name='jump' type='button' id='jumpButton'>确定</button>");
+      }
+      if (me.options.display.totalNum) {
+        content.unshift("<span class='totalList'> 共 " + totalList + " 条记录 </span>");
+      }
+      if (me.options.display.totalList) {
+        content.unshift("<span class='totalNum'> 共 " + totalNum + " 页 </span>");
+      }
 
       me.element.html(content.join(''));
 

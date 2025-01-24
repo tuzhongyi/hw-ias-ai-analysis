@@ -1,0 +1,20 @@
+<div class="panel-map system-map-search">
+  <div>
+    <select>
+      <option value="">商铺</option>
+    </select>
+  </div>
+  <div class="name">
+    <!-- <input type="text" placeholder="请输入..." [(ngModel)]="args.name" /> -->
+    <input-icon [(value)]="args.name">
+      <div (click)="onsearch()">
+        <i class="howell-icon-search"></i>
+      </div>
+    </input-icon>
+  </div>
+  <!-- <div>
+    <button class="button-clip-blue-3" (click)="onsearch()">
+      <i class="howell-icon-search"></i> 查询
+    </button>
+  </div> -->
+</div>

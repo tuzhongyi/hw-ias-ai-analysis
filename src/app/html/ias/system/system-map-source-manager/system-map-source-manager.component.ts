@@ -12,7 +12,7 @@ import { InputIconComponent } from '../../../../common/components/input-icon/inp
 import { ShopObjectState } from '../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { EnumNameValue } from '../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { Manager } from '../../../../common/data-core/requests/managers/manager';
+import { SourceManager } from '../../../../common/data-core/requests/managers/source.manager';
 import { SystemMapPanelHeadComponent } from '../system-map-panel-head/system-map-panel-head.component';
 import { SystemMapSourceTableComponent } from '../system-map-source-table/system-map-source-table.component';
 import { SystemMapShopFilterArgs } from '../system-map/system-map.model';
@@ -41,14 +41,8 @@ export class SystemMapSourceManagerComponent implements OnInit, OnDestroy {
   @Output() itemhover = new EventEmitter<Shop>();
   @Output() itemblur = new EventEmitter<Shop>();
 
-  constructor(private manager: Manager) {
-    this.states = new Promise<EnumNameValue<ShopObjectState>[]>((resolve) => {
-      this.manager.capability.analysis.shop.then((x) => {
-        if (x.ShopObjectStates) {
-          resolve(x.ShopObjectStates);
-        }
-      });
-    });
+  constructor(source: SourceManager) {
+    this.states = source.shop.ShopObjectStates;
   }
 
   filter = new SystemMapShopFilterArgs();

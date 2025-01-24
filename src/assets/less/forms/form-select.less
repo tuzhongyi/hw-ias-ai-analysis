@@ -2,16 +2,16 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  padding: 0 10px;
-  padding-top: 1px;
-  padding-right: calc(10px + 16px + 10px);
+  padding: 1px calc(10px + 16px + 10px) 0px 10px;
+  box-sizing: border-box;
   margin: 0;
   outline: none;
   border: 1px solid #2d76ce;
-  background-color: #050d14;
+  background-color: #060f2b;
   color: #ddf4ff;
   position: relative;
   height: 36px;
+  width: 100%;
   min-width: 50px;
 
   background-image: url(../../image/select-arrow.png);
@@ -19,7 +19,7 @@ select {
   background-position: right 10px center;
 
   option {
-    background-color: #050d14;
+    background-color: #060f2b;
   }
 
   &.select-white {

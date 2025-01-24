@@ -5,15 +5,13 @@ import { SystemMapControlsComponent } from '../system-map-controls/system-map-co
 import { SystemMapEditorCircleComponent } from '../system-map-editor-circle/system-map-editor-circle.component';
 import { SystemMapFilterComponent } from '../system-map-filter/system-map-filter.component';
 import { SystemMapPanelDetailsShopComponent } from '../system-map-panel-details-shop/system-map-panel-details-shop.component';
+import { SystemMapSearchComponent } from '../system-map-search/system-map-search.component';
 import { SystemMapSourceTableComponent } from '../system-map-source-table/system-map-source-table.component';
 import { SystemMapStateComponent } from '../system-map-state/system-map-state.component';
+import { SystemMapStatisticComponent } from '../system-map-statistic/system-map-statistic.component';
 import { SystemMapController } from './controller/system-map.controller';
 import { SystemMapBusiness } from './system-map.business';
-import {
-  SystemMapShopArgs,
-  SystemMapShopFilterArgs,
-  SystemMapShopRadiusArgs,
-} from './system-map.model';
+import { SystemMapShopArgs } from './system-map.model';
 import { SystemMapProviders } from './system-map.provider';
 import { SystemMapTrigger } from './trigger/system-map.trigger';
 
@@ -22,10 +20,12 @@ import { SystemMapTrigger } from './trigger/system-map.trigger';
   imports: [
     CommonModule,
     SystemMapStateComponent,
+    SystemMapSearchComponent,
     SystemMapFilterComponent,
     SystemMapControlsComponent,
     SystemMapEditorCircleComponent,
     SystemMapSourceTableComponent,
+    SystemMapStatisticComponent,
     SystemMapPanelDetailsShopComponent,
   ],
   templateUrl: './system-map.component.html',
@@ -56,6 +56,10 @@ export class SystemMapComponent implements OnInit, OnDestroy {
     // 注册事件
     this.regist.amap();
     this.regist.panel();
+
+    this.load(this.args).then((x) => {
+      this.panel.statistic.count.shop = x.length;
+    });
   }
   ngOnDestroy(): void {
     this.controller.amap.destroy();
@@ -65,53 +69,58 @@ export class SystemMapComponent implements OnInit, OnDestroy {
     this.business.one().then((x) => {
       if (x && x.Location) {
         this.amap.init(x.Location);
+        this.args.dsitance.center.X = x.Location.Longitude;
+        this.args.dsitance.center.Y = x.Location.Latitude;
+        this.args.dsitance.distance = 100;
       }
     });
   }
   regist = {
     amap: () => {
       this.amap.event.circle.opened.subscribe((x) => {
-        this.args.radius = new SystemMapShopRadiusArgs();
-        this.args.radius.center.X = x[0];
-        this.args.radius.center.Y = x[1];
-        this.args.radius.distance = x[2];
+        this.args.dsitance.enabled = true;
       });
       this.amap.event.circle.change.subscribe((x) => {
-        if (this.args.radius) {
-          this.args.radius.distance = x;
-        }
+        this.args.dsitance.distance = x;
       });
       this.amap.event.circle.move.subscribe((center) => {
-        if (this.args.radius) {
-          this.args.radius.center.X = center[0];
-          this.args.radius.center.Y = center[1];
-        }
+        this.args.dsitance.center.X = center[0];
+        this.args.dsitance.center.Y = center[1];
       });
     },
     panel: () => {
-      this.panel.source.change.subscribe((x) => {
-        if (x) {
-          this.args.filter = new SystemMapShopFilterArgs();
-        }
-      });
       this.panel.source.load.subscribe((x) => {
         this.args.filter = x;
         this.load(this.args);
       });
+      this.panel.source.select.subscribe((x) => {
+        if (x.Location) {
+          this.args.dsitance.center.X = x.Location.Longitude;
+          this.args.dsitance.center.Y = x.Location.Latitude;
+        }
+      });
       this.panel.editor.circle.load.subscribe((x) => {
-        this.args.radius = x;
+        this.args.dsitance = x;
         this.load(this.args);
       });
       this.panel.editor.circle.clear.subscribe(() => {
-        this.args.radius = undefined;
+        this.args.dsitance.enabled = false;
+        this.load(this.args);
+      });
+      this.panel.filter.load.subscribe(() => {
+        this.load(this.args);
       });
     },
   };
 
   load(args: SystemMapShopArgs) {
-    this.business.load(args).then((x) => {
-      this.datas = x;
-      this.amap.load(x);
+    return new Promise<Shop[]>((resolve) => {
+      this.business.load(args).then((x) => {
+        resolve(x);
+        this.datas = x;
+
+        this.amap.load(x);
+      });
     });
   }
 

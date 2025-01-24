@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ISelection } from '../../../../../common/components/common-label-select/common-label-select.model';
 import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { Manager } from '../../../../../common/data-core/requests/managers/manager';
+import { SourceManager } from '../../../../../common/data-core/requests/managers/source.manager';
 import { ClassTool } from '../../../../../common/tools/class-tool/class.tool';
 
 @Component({
@@ -29,14 +29,8 @@ export class SelectShopObjectStateComponent
   >();
   @Output() loaded = new EventEmitter<EnumNameValue<ShopObjectState>[]>();
 
-  constructor(private manager: Manager) {
-    this.datas = new Promise<EnumNameValue<ShopObjectState>[]>((resolve) => {
-      this.manager.capability.analysis.shop.then((x) => {
-        if (x.ShopObjectStates) {
-          resolve(x.ShopObjectStates);
-        }
-      });
-    });
+  constructor(source: SourceManager) {
+    this.datas = source.shop.ShopObjectStates;
   }
 
   datas: Promise<EnumNameValue<ShopObjectState>[]>;

@@ -1,43 +1,34 @@
-<div class="panel-map-corner system-map-editor-circle" *ngIf="args">
-  <div class="forms system-map-editor-circle-head">
+<div class="panel-map-border system-map-editor-circle" *ngIf="args">
+  <!-- <div class="forms system-map-editor-circle-head">
     <div class="forms system-map-editor-circle-head-title">搜索范围</div>
     <div class="operation">
       <div class="button" (click)="onclose()">
         <i class="howell-icon-Close"></i>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="forms system-map-editor-circle-body">
     <div class="form-item">
-      <div class="form-item-text">
-        <div>中</div>
-        <div>心</div>
-        <div>经</div>
-        <div>度</div>
-      </div>
+      <div class="form-item-text" text-space-between>中心点经度</div>
       <div class="form-item-value">
         <input type="text" readonly [(ngModel)]="args.center.X" />
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text">
-        <div>中</div>
-        <div>心</div>
-        <div>纬</div>
-        <div>度</div>
-      </div>
+      <div class="form-item-text" text-space-between>中心点纬度</div>
       <div class="form-item-value">
         <input type="text" readonly [(ngModel)]="args.center.Y" />
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text">
-        <div>半</div>
-        <div>径</div>
-      </div>
+      <div class="form-item-text" text-space-between>查找半径</div>
       <div class="form-item-value">
         <input type="text" [(ngModel)]="args.distance" (input)="ondistance()" />
       </div>
     </div>
+  </div>
+  <div class="system-map-editor-circle-foot">
+    <button class="button-clip-gradient" (click)="onok()">确定</button>
+    <button class="button-clip-blue" (click)="onclose()">取消</button>
   </div>
 </div>

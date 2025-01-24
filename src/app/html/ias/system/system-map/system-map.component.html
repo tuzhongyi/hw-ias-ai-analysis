@@ -1,15 +1,22 @@
 <div class="system-map">
   <div class="system-map-container" id="map-container"></div>
-  <div class="system-map-filter">
-    <ias-system-map-filter
+  <div class="system-map-search" *ngIf="panel.search.show">
+    <ias-system-map-search
       [(args)]="args.filter"
       (search)="onsearch()"
-    ></ias-system-map-filter>
+    ></ias-system-map-search>
   </div>
-  <div class="system-map-controls">
+  <div class="system-map-statistic" *ngIf="panel.statistic.show">
+    <ias-system-map-statistic
+      [shop]="panel.statistic.count.shop"
+    ></ias-system-map-statistic>
+  </div>
+
+  <div class="system-map-controls" *ngIf="panel.controls.show">
     <ias-system-map-controls
-      (source)="this.panel.source.show = !this.panel.source.show"
-      (radius)="this.panel.editor.circle.show = !this.panel.editor.circle.show"
+      [(source)]="this.panel.source.show"
+      [(distance)]="this.panel.editor.circle.show"
+      [(filter)]="this.panel.filter.show"
     ></ias-system-map-controls>
   </div>
   <div class="system-map-state" *ngIf="panel.state.show">
@@ -17,13 +24,24 @@
   </div>
   <div
     class="system-map-editor-circle"
-    *ngIf="panel.editor.circle.show && args.radius"
+    *ngIf="panel.editor.circle.show && args.dsitance.enabled"
   >
     <ias-system-map-editor-circle
-      [args]="args.radius"
+      [args]="args.dsitance"
       (distance)="panel.editor.circle.ondistance($event)"
       (ok)="panel.editor.circle.onok($event)"
       (close)="panel.editor.circle.oncancel()"
+    ></ias-system-map-editor-circle>
+  </div>
+  <div
+    class="system-map-filter-getting"
+    *ngIf="panel.filter.getting.show && args.dsitance.enabled"
+  >
+    <ias-system-map-editor-circle
+      [args]="args.dsitance"
+      (distance)="panel.filter.getting.ondistance($event)"
+      (ok)="panel.filter.getting.onok($event)"
+      (close)="panel.filter.getting.oncancel()"
     ></ias-system-map-editor-circle>
   </div>
   <div class="system-map-position" *ngIf="panel.position.show">
@@ -31,7 +49,7 @@
     <div class="_">,</div>
     <div>{{ panel.position.point.Y }}</div>
   </div>
-  <div class="panel-map system-map-source" *ngIf="panel.source.show">
+  <div class="panel-map-border system-map-source" *ngIf="panel.source.show">
     <ias-system-map-source-table
       [datas]="datas"
       (details)="panel.source.ondetails($event)"
@@ -53,5 +71,14 @@
       [data]="panel.details.shop.data"
       (close)="panel.details.shop.show = false"
     ></ias-system-map-panel-details-shop>
+  </div>
+  <div class="system-map-filter" *ngIf="panel.filter.show">
+    <ias-system-map-filter
+      [(filter)]="args.filter"
+      [(distance)]="args.dsitance"
+      (search)="panel.filter.onsearch()"
+      (close)="panel.filter.show = false"
+      (mapdistance)="panel.filter.ondistance()"
+    ></ias-system-map-filter>
   </div>
 </div>

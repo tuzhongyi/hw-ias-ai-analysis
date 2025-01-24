@@ -28,7 +28,12 @@
           <div class="form-item-text">分析内容</div>
           <div class="form-item-value">
             <select [(ngModel)]="task.SourceType">
-              <option [ngValue]="0">视频文件</option>
+              <option
+                *ngFor="let item of controller.source.sources | async"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
             </select>
           </div>
         </div>

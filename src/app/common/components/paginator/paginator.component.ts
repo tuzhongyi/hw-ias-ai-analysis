@@ -22,6 +22,8 @@ declare var $: any;
 })
 export class PaginatorComponent implements AfterViewInit, OnChanges {
   @Input() page = Page.create(1, 50, 50);
+  @Input() jump = true;
+  @Input() total = true;
   @Output() change = new EventEmitter<number>();
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -33,6 +35,11 @@ export class PaginatorComponent implements AfterViewInit, OnChanges {
           totalList: this.page.TotalRecordCount, // 记录总数量
           callback: (num: number) => {
             this.change.emit(num);
+          },
+          display: {
+            totalNum: this.total,
+            totalList: this.total,
+            jump: this.jump,
           },
         });
       }
@@ -47,6 +54,11 @@ export class PaginatorComponent implements AfterViewInit, OnChanges {
         totalList: this.page.TotalRecordCount, // 记录总数量
         callback: (num: number) => {
           this.change.emit(num);
+        },
+        display: {
+          totalNum: this.total,
+          totalList: this.total,
+          jump: this.jump,
         },
       });
     }

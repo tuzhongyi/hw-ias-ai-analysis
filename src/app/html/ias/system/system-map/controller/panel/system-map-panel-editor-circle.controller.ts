@@ -1,24 +1,24 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import {
   SystemMapPanel,
-  SystemMapShopRadiusArgs,
+  SystemMapShopDistanceArgs,
 } from '../../system-map.model';
-import { SystemMapAMapController } from '../amap/system-map-amap.controller';
 
 @Injectable()
 export class SystemMapPanelEditorCircleController extends SystemMapPanel {
-  load = new EventEmitter<SystemMapShopRadiusArgs>();
+  load = new EventEmitter<SystemMapShopDistanceArgs>();
   clear = new EventEmitter<void>();
+  distance = new EventEmitter<number>();
 
-  constructor(private amap: SystemMapAMapController) {
+  constructor() {
     super();
   }
 
   ondistance(value: number) {
-    this.amap.radius.set(value);
+    this.distance.emit(value);
   }
 
-  onok(data: SystemMapShopRadiusArgs) {
+  onok(data: SystemMapShopDistanceArgs) {
     this.load.emit(data);
   }
   oncancel() {

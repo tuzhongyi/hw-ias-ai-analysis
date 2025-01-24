@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'ias-system-map-controls',
@@ -7,16 +7,25 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './system-map-controls.component.less',
 })
 export class SystemMapControlsComponent {
-  @Output() radius = new EventEmitter<void>();
-  @Output() source = new EventEmitter<void>();
-  @Output() filter = new EventEmitter<void>();
-  onradius() {
-    this.radius.emit();
+  @Input() distance = false;
+  @Output() distanceChange = new EventEmitter<boolean>();
+
+  @Input() source = false;
+  @Output() sourceChange = new EventEmitter<boolean>();
+
+  @Input() filter = false;
+  @Output() filterChange = new EventEmitter<boolean>();
+
+  ondsitance() {
+    this.distance = !this.distance;
+    this.distanceChange.emit(this.distance);
   }
   onsource() {
-    this.source.emit();
+    this.source = !this.source;
+    this.sourceChange.emit(this.source);
   }
   onfilter() {
-    this.filter.emit();
+    this.filter = !this.filter;
+    this.filterChange.emit(this.filter);
   }
 }

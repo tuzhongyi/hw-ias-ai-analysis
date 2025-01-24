@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { Manager } from '../../../../../common/data-core/requests/managers/manager';
+import { SourceManager } from '../../../../../common/data-core/requests/managers/source.manager';
 
 @Injectable()
 export class SystemTaskCreationSourceController {
-  constructor(private manager: Manager) {
-    this.types = this.inittypes();
-  }
-
   types: Promise<EnumNameValue<number>[]>;
-
-  private async inittypes() {
-    return (await this.manager.capability.analysis.server).TaskTypes ?? [];
+  sources: Promise<EnumNameValue<number>[]>;
+  constructor(source: SourceManager) {
+    this.types = source.server.TaskTypes;
+    this.sources = source.server.SourceTypes;
   }
 }

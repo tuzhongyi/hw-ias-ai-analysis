@@ -33,9 +33,14 @@ export class SystemAMapCircleController {
     return this.circle;
   }
 
-  set(radius: number) {
+  set(args: { radius?: number; center?: [number, number] }) {
     if (this.circle) {
-      this.circle.setRadius(radius);
+      if (args.radius) {
+        this.circle.setRadius(args.radius);
+      }
+      if (args.center) {
+        this.circle.setCenter(args.center);
+      }
     }
   }
   get() {

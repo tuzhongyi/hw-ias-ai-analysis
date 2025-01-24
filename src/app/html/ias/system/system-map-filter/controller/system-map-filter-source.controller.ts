@@ -1,23 +1,19 @@
 import { Injectable } from '@angular/core';
-import { SignType } from '../../../../../common/data-core/enums/analysis/sign-type.enum.js';
+import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum.js';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model.js';
-import { Manager } from '../../../../../common/data-core/requests/managers/manager.js';
-import { SystemMapFilterSourceStateController } from './system-map-filter-source-state.controller.ts';
+import { SourceManager } from '../../../../../common/data-core/requests/managers/source.manager.js';
 
 @Injectable()
 export class SystemMapFilterSourceController {
-  constructor(
-    public state: SystemMapFilterSourceStateController,
-    private manager: Manager
-  ) {
-    this.types = new Promise<EnumNameValue<SignType>[]>((resolve) => {
-      this.manager.capability.analysis.shop.then((x) => {
-        if (x.SignTypes) {
-          resolve(x.SignTypes);
-        }
-      });
-    });
+  constructor(source: SourceManager) {
+    this.types = source.shop.ShopTypes;
+    this.states = source.shop.ShopObjectStates;
+    this.cameras = source.shop.CameraNos;
+    this.labels = source.shop.ResultLabelTypes;
   }
 
-  types: Promise<EnumNameValue<SignType>[]>;
+  types: Promise<EnumNameValue<number>[]>;
+  states: Promise<EnumNameValue<ShopObjectState>[]>;
+  cameras: Promise<EnumNameValue[]>;
+  labels: Promise<EnumNameValue<number>[]>;
 }

@@ -1,21 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
+import { PaginatorComponent } from '../../../../common/components/paginator/paginator.component';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
+import { Page } from '../../../../common/data-core/models/page-list.model';
 import { TableSorterDirective } from '../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
 import { LocaleCompare } from '../../../../common/tools/compare-tool/compare.tool';
-import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { SystemMapSourceTableBusiness } from './system-map-source-table.business';
+import {
+  SystemMapSourceTableFilter,
+  SystemMapSourceTableItem,
+} from './system-map-source-table.model';
 
 @Component({
   selector: 'ias-system-map-source-table',
-  imports: [CommonModule, TableSorterDirective],
+  imports: [CommonModule, TableSorterDirective, PaginatorComponent],
   templateUrl: './system-map-source-table.component.html',
   styleUrl: './system-map-source-table.component.less',
   providers: [SystemMapSourceTableBusiness],
 })
-export class SystemMapSourceTableComponent implements OnInit {
+export class SystemMapSourceTableComponent implements OnChanges {
   @Input('datas') shops: Shop[] = [];
   @Output() details = new EventEmitter<Shop>();
   @Input() selected?: Shop;
@@ -27,17 +40,31 @@ export class SystemMapSourceTableComponent implements OnInit {
   constructor(private business: SystemMapSourceTableBusiness) {}
 
   widths = ['70px', 'auto', '100px', '70px'];
-  datas: ShopViewModel[] = [];
+  filter = new SystemMapSourceTableFilter();
+  datas: SystemMapSourceTableItem[] = [];
+  page = Page.create(1, 12);
 
   Color = ColorTool;
 
-  ngOnInit(): void {
-    this.load();
+  ngOnChanges(changes: SimpleChanges): void {
+    this.changeshops(changes['shops']);
   }
 
-  private load() {
-    this.business.load(this.shops).then((x) => {
-      this.datas = x;
+  changeshops(change: SimpleChange) {
+    if (change) {
+      this.filter.ids = this.shops.map((x) => x.Id);
+      this.load(1, this.page.PageSize, this.filter);
+    }
+  }
+
+  private load(
+    index: number,
+    size: number,
+    filter: SystemMapSourceTableFilter
+  ) {
+    this.business.load(index, size, filter).then((x) => {
+      this.datas = x.Data;
+      this.page = x.Page;
     });
   }
 
@@ -73,5 +100,10 @@ export class SystemMapSourceTableComponent implements OnInit {
         sort.direction === 'asc'
       );
     });
+  }
+  onpage(num: number) {
+    if (this.filter) {
+      this.load(num, this.page.PageSize, this.filter);
+    }
   }
 }

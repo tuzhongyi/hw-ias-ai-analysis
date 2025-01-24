@@ -32,8 +32,8 @@ export class SystemAMapCircleEditorController {
     }
   }
 
-  set(radius: number) {
-    this.circle.set(radius);
+  set(args: { radius?: number; center?: [number, number] }) {
+    this.circle.set(args);
     this.close();
     this.open();
   }

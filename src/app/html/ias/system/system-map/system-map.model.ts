@@ -1,30 +1,34 @@
 import { EventEmitter } from '@angular/core';
-import { ShopObjectState } from '../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { Point } from '../../../../common/data-core/models/arm/point.model';
 
 export class SystemMapShopArgs {
-  radius?: SystemMapShopRadiusArgs;
+  dsitance = new SystemMapShopDistanceArgs();
   filter = new SystemMapShopFilterArgs();
 
   clear() {
-    this.radius = undefined;
+    this.dsitance.enabled = false;
     this.filter.clear();
   }
 }
 
 export class SystemMapShopFilterArgs {
   name?: string;
-  states: ShopObjectState[] = [];
+  telphone?: string;
+  type?: number;
+  camera?: string;
+  label?: number;
+  state?: number;
 
   clear() {
     this.name = undefined;
-    this.states = [];
+    this.state = undefined;
   }
 }
 
-export class SystemMapShopRadiusArgs {
+export class SystemMapShopDistanceArgs {
   center = Point.create();
   distance = 0;
+  enabled = false;
 }
 
 export class SystemMapPanel {

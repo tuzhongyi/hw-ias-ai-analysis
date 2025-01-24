@@ -41,6 +41,22 @@ button {
     color: white;
     text-shadow: #fff 0px 0 10px;
   }
+
+  &.disabled {
+    color: #999;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  &.selected {
+    color: #69adff;
+    text-shadow: #69adff 0px 0 10px;
+
+    &:hover {
+      color: #87bdff;
+      text-shadow: #87bdff 0px 0 10px;
+    }
+  }
 }
 
 .button-normal {

@@ -16,7 +16,7 @@ export class SystemTaskResultShopTableBusiness {
     return datas.map((data) => this.converter.convert(data));
   }
 
-  data(filter: SystemTaskResultShopTableFilter) {
+  private data(filter: SystemTaskResultShopTableFilter) {
     let params = new GetShopsParams();
     if (filter.taskId) {
       params.TaskIds = [filter.taskId];

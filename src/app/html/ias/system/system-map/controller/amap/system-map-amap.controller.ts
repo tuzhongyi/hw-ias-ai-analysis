@@ -24,7 +24,11 @@ export class SystemMapAMapController {
 
   constructor() {
     MapHelper.amap
-      .get('map-container', [...MapHelper.amap.plugins, 'AMap.CircleEditor'])
+      .get('map-container', [
+        ...MapHelper.amap.plugins,
+        'AMap.CircleEditor',
+        'AMap.RoadInfoSearch',
+      ])
       .then((x) => {
         this.map.set(x);
       });
@@ -124,22 +128,32 @@ export class SystemMapAMapController {
     },
   };
 
-  radius = {
+  distance = {
+    opened: false,
     open: () => {
+      if (this.distance.opened) return;
       this.circle.get().then((x) => {
         x.circle.create();
         x.open();
+        this.distance.opened = true;
       });
     },
     close: () => {
+      if (!this.distance.opened) return;
       this.circle.get().then((x) => {
         x.circle.remove();
         x.close();
+        this.distance.opened = false;
       });
     },
-    set: (value: number) => {
+    radius: (value: number) => {
       this.circle.get().then((x) => {
-        x.set(value);
+        x.set({ radius: value });
+      });
+    },
+    center: (value: [number, number]) => {
+      this.circle.get().then((x) => {
+        x.set({ center: value });
       });
     },
   };

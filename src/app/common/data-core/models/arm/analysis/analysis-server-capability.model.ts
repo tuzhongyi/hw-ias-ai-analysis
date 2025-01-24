@@ -16,4 +16,7 @@ export class AnalysisServerCapability implements IModel {
   /**	EnumNameValue[]	来源模型	O	*/
   @Type(() => EnumNameValue)
   VideoSourceModes?: EnumNameValue[];
+  /**	EnumNameValue[]	数据来源类型	O	R */
+  @Type(() => EnumNameValue)
+  SourceTypes?: EnumNameValue<number>[];
 }

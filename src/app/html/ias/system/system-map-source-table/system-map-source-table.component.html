@@ -1,5 +1,5 @@
 <div class="system-map-source-table">
-  <div class="table-sticky-list">
+  <div class="system-map-source-table-body table-page-list">
     <table
       border="0"
       cellpadding="0"
@@ -26,9 +26,12 @@
           (dblclick)="onposition(item, $event)"
           (mouseover)="onmouseover(item)"
           (mouseout)="onmouseout(item)"
+          [ngClass]="{
+            nodata: item.index == 0
+          }"
         >
           <td class="center">
-            {{ index + 1 }}
+            {{ item.index > 0 ? item.index : "" }}
           </td>
           <td [title]="item.Name">
             {{ item.Name }}
@@ -41,8 +44,12 @@
             {{ item.ObjectStateName | async }}
           </td>
           <td class="center">
-            <div class="operation">
-              <div title="商铺详情" (click)="ondetails(item, $event)">
+            <div class="operation" *ngIf="item.index > 0">
+              <div
+                class="button"
+                title="商铺详情"
+                (click)="ondetails(item, $event)"
+              >
                 <i class="howell-icon-details"></i>
               </div>
             </div>
@@ -50,5 +57,14 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="system-map-source-table-foot" *ngIf="page.TotalRecordCount">
+    <paginator
+      [page]="page"
+      [jump]="false"
+      [total]="false"
+      (change)="onpage($event)"
+    >
+    </paginator>
   </div>
 </div>

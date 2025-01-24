@@ -1,7 +1,7 @@
 textarea,
 input[type="text"],
 input[type="password"] {
-  background-color: transparent !important;
+  background-color: #060f2b;
   border: 1px solid #2d76ce;
   outline: none;
   width: 100%;
@@ -20,6 +20,10 @@ input[type="password"] {
   &::-webkit-input-placeholder {
     color: #ddf4ff;
     font-size: 16px;
+  }
+
+  &::placeholder {
+    color: #999;
   }
 
   &:read-only {

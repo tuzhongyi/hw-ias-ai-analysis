@@ -1079,6 +1079,7 @@ declare namespace AMap {
     hide(): void;
     show(): void;
     setRadius(radius: number): void;
+    setCenter(value: LngLatNum): void;
     getRadius(): number;
     getCenter(): LngLatNum;
     contains(point: any): boolean;
