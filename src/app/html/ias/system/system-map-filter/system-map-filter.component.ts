@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TextSpaceBetweenDirective } from '../../../../common/directives/text-space-between/text-space-between.directive';
 import {
@@ -22,7 +15,7 @@ import { SystemMapFilterSourceController } from './controller/system-map-filter-
   styleUrl: './system-map-filter.component.less',
   providers: [SystemMapFilterSourceController],
 })
-export class SystemMapFilterComponent implements OnInit, OnDestroy {
+export class SystemMapFilterComponent {
   @Input() filter = new SystemMapShopFilterArgs();
   @Output() filterChange = new EventEmitter<SystemMapShopFilterArgs>();
 
@@ -36,25 +29,6 @@ export class SystemMapFilterComponent implements OnInit, OnDestroy {
   @Output() mapdistance = new EventEmitter<void>();
 
   constructor(public source: SystemMapFilterSourceController) {}
-
-  handle: any;
-
-  ngOnInit(): void {
-    this.handle = this.onenter.bind(this);
-    window.addEventListener('keypress', this.handle);
-  }
-  ngOnDestroy(): void {
-    if (this.handle) {
-      window.removeEventListener('keypress', this.handle);
-      this.handle = undefined;
-    }
-  }
-
-  onenter(e: KeyboardEvent) {
-    if (e.key === 'Enter') {
-      this.onsearch();
-    }
-  }
 
   onsearch() {
     this.search.emit(this.filter);
