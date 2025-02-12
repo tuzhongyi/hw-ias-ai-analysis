@@ -1,9 +1,9 @@
 import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { wait } from '../../../../../common/tools/wait';
 import { SystemTaskResultAMapPointController as Point } from './system-task-result-amap-point.controller';
-declare var AMap: any;
+
 export class SystemTaskResultAMapLayerController {
-  constructor(private map: any) {
+  constructor(private map: AMap.Map) {
     this.layer = this.init(map);
   }
 
@@ -22,10 +22,10 @@ export class SystemTaskResultAMapLayerController {
     });
   }
 
-  layer: any;
+  layer: AMap.LabelsLayer;
   private points: Point[] = [];
 
-  private init(map: any) {
+  private init(map: AMap.Map) {
     let layer = new AMap.LabelsLayer({
       collision: false,
       allowCollision: false,
@@ -36,10 +36,11 @@ export class SystemTaskResultAMapLayerController {
 
   private create(data: ShopSign) {
     if (data.Location) {
-      let point = new Point(data);
+      let point = new Point(data, data.Location);
       this.points.push(point);
       return point.marker;
     }
+    return undefined;
   }
 
   async load(datas: ShopSign[]) {
@@ -48,7 +49,9 @@ export class SystemTaskResultAMapLayerController {
       const data = datas[i];
       if (data.Location) {
         let marker = this.create(data);
-        markers.push(marker);
+        if (marker) {
+          markers.push(marker);
+        }
       }
     }
     this.layer.add(markers);
@@ -70,7 +73,9 @@ export class SystemTaskResultAMapLayerController {
     });
     if (selected) {
       let position = selected.select();
-      this.map.setCenter(position);
+      if (position) {
+        this.map.setCenter(position);
+      }
     }
   }
 }

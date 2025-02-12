@@ -3,10 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { SystemComponent } from './component/system.component';
 import { SystemIndexComponent } from './system-index/system-index.component';
 import { SystemMapComponent } from './system-map/system-map.component';
+import { SystemModuleIndexComponent } from './system-module-index/system-module-index.component';
+import { SystemModuleRoadManagerComponent } from './system-module-road-manager/system-module-road-manager.component';
 import { SystemModuleShopManagerComponent } from './system-module-shop-manager/system-module-shop-manager.component';
 import { SystemModuleComponent } from './system-module/system-module.component';
 import { SystemTaskFileManagerComponent } from './system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskManagerComponent } from './system-task-manager/system-task-manager.component';
+import { SystemTaskComponent } from './system-task/system-task.component';
 
 const routes: Routes = [
   {
@@ -24,6 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'task',
+        component: SystemTaskComponent,
         children: [
           {
             path: '',
@@ -37,11 +41,13 @@ const routes: Routes = [
           {
             path: 'file',
             component: SystemTaskFileManagerComponent,
+            pathMatch: 'prefix',
           },
         ],
       },
       {
         path: 'module',
+        component: SystemModuleComponent,
         children: [
           {
             path: '',
@@ -50,11 +56,15 @@ const routes: Routes = [
           },
           {
             path: 'index',
-            component: SystemModuleComponent,
+            component: SystemModuleIndexComponent,
           },
           {
             path: 'shop',
             component: SystemModuleShopManagerComponent,
+          },
+          {
+            path: 'road',
+            component: SystemModuleRoadManagerComponent,
           },
         ],
       },

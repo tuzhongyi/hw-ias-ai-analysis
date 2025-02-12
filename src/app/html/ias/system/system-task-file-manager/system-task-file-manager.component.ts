@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { WindowComponent } from '../../../../common/components/window-control/window.component';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { FileInfo } from '../../../../common/data-core/models/arm/file/file-info.model';
-import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
 import { SystemTaskFileDetailsComponent } from '../system-task-file-details/system-task-file-details.component';
 import { SystemTaskFileTableComponent } from '../system-task-file-table/system-task-file-table.component';
 import { SystemTaskFileManagerBusiness } from './system-task-file-manager.business';
@@ -14,7 +13,6 @@ import { SystemTaskFileManagerWindow } from './system-task-file-manager.window';
   selector: 'ias-system-task-file-manager',
   imports: [
     CommonModule,
-    ContentHeaderComponent,
     SystemTaskFileTableComponent,
     SystemTaskFileDetailsComponent,
     WindowComponent,

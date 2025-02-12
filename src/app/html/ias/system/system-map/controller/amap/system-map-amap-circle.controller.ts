@@ -7,7 +7,7 @@ export class SystemAMapCircleEvent {
 
 export class SystemAMapCircleController {
   event = new SystemAMapCircleEvent();
-  constructor(private map: any) {}
+  constructor(private map: AMap.Map) {}
   private circle?: AMap.Circle;
 
   create() {

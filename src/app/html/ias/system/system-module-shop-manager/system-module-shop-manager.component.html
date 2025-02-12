@@ -1,18 +1,11 @@
 <div class="system-module-shop-manager">
   <div class="system-module-shop-manager-head">
-    <ias-content-header
-      [title]="'商铺'"
-      [padding]="'0 50px'"
-    ></ias-content-header>
-  </div>
-  <div class="system-module-shop-manager-body">
-    <div class="system-module-shop-manager-body-controls">
-      <div class="system-module-shop-manager-body-controls-filter">
-        <!-- <div>
+    <div class="system-module-shop-manager-head-filter">
+      <!-- <div>
           <button class="button-filter">筛选</button>
         </div> -->
-        <div class="forms">
-          <!-- <div class="form-item date">
+      <div class="forms">
+        <!-- <div class="form-item date">
             <div class="form-item-text">开始时间</div>
             <div class="form-item-value">
               <date-time-control
@@ -30,108 +23,105 @@
               ></date-time-control>
             </div>
           </div> -->
-          <div class="form-item">
-            <div class="form-item-text">时间范围</div>
-            <div class="form-item-value">
-              <select [(ngModel)]="args.duration">
-                <option
-                  *ngFor="let item of source.duration"
-                  [ngValue]="item.Value"
-                >
-                  {{ item.Name }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="form-item-text">状态</div>
-            <div class="form-item-value state">
-              <common-label-select
-                [autoclose]="true"
-                [(show)]="source.state.show"
-                [autoclose]="true"
-                [selected]="source.state.selected"
-                (remove)="source.state.onremove($event)"
+        <div class="form-item">
+          <div class="form-item-text">时间范围</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="args.duration">
+              <option
+                *ngFor="let item of source.duration"
+                [ngValue]="item.Value"
               >
-                <ias-select-shop-object-state
-                  #select
-                  [selected]="source.state.selected"
-                  (selectedChange)="source.state.onselected($event)"
-                  (loaded)="source.state.init($event)"
-                ></ias-select-shop-object-state>
-              </common-label-select>
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="form-item-text">商铺类型</div>
-            <div class="form-item-value">
-              <select [(ngModel)]="args.type">
-                <option [ngValue]="undefined">全部</option>
-                <option
-                  *ngFor="let item of source.types | async"
-                  [ngValue]="item.Value"
-                >
-                  {{ item.Name }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="form-item-text">商铺名称</div>
-            <div class="form-item-value">
-              <input type="text" [(ngModel)]="args.name" />
-            </div>
+                {{ item.Name }}
+              </option>
+            </select>
           </div>
         </div>
-        <div>
-          <button class="button-clip-gradient" (click)="onsearch()">
-            查询
-          </button>
+        <div class="form-item">
+          <div class="form-item-text">状态</div>
+          <div class="form-item-value state">
+            <common-label-select
+              [autoclose]="true"
+              [(show)]="source.state.show"
+              [autoclose]="true"
+              [selected]="source.state.selected"
+              (remove)="source.state.onremove($event)"
+            >
+              <ias-select-shop-object-state
+                #select
+                [selected]="source.state.selected"
+                (selectedChange)="source.state.onselected($event)"
+                (loaded)="source.state.init($event)"
+              ></ias-select-shop-object-state>
+            </common-label-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">商铺类型</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="args.type">
+              <option [ngValue]="undefined">全部</option>
+              <option
+                *ngFor="let item of source.types | async"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">商铺名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="args.name" />
+          </div>
         </div>
       </div>
-      <div class="system-module-shop-manager-body-controls-operation">
-        <div class="checkbox">
-          <label for="marking">
-            <input
-              type="checkbox"
-              id="marking"
-              [(ngModel)]="args.marking"
-              (change)="onmarking()"
-            />显示屏蔽</label
-          >
-        </div>
-        <div>
-          <select class="mode" [(ngModel)]="storage.mode" (change)="onmode()">
-            <option [ngValue]="0">&#xf08b;&nbsp;</option>
-            <option [ngValue]="1">&#xf225;&nbsp;</option>
-          </select>
-        </div>
-        <div>
-          <button class="button-clip-gradient" (click)="create.open()">
-            添加
-          </button>
-        </div>
+      <div>
+        <button class="button-clip-gradient" (click)="onsearch()">搜索</button>
       </div>
     </div>
-    <div class="system-module-shop-manager-body-table" *ngIf="inited">
-      <ng-container *ngIf="storage.mode === 0">
-        <ias-system-module-shop-table
-          [args]="args"
-          [load]="load"
-          (details)="details.open($event)"
-          (info)="info.open($event)"
-          (error)="onerror($event)"
-        ></ias-system-module-shop-table>
-      </ng-container>
-      <ng-container *ngIf="storage.mode === 1">
-        <ias-system-module-shop-list
-          [args]="args"
-          [load]="load"
-          (details)="details.open($event)"
-          (error)="onerror($event)"
-        ></ias-system-module-shop-list>
-      </ng-container>
+    <div class="system-module-shop-manager-head-operation">
+      <div class="checkbox">
+        <label for="marking">
+          <input
+            type="checkbox"
+            id="marking"
+            [(ngModel)]="args.marking"
+            (change)="onmarking()"
+          />显示屏蔽</label
+        >
+      </div>
+      <div>
+        <select class="mode" [(ngModel)]="storage.mode" (change)="onmode()">
+          <option [ngValue]="0">&#xf08b;&nbsp;</option>
+          <option [ngValue]="1">&#xf225;&nbsp;</option>
+        </select>
+      </div>
+      <div>
+        <button class="button-clip-gradient" (click)="create.open()">
+          添加
+        </button>
+      </div>
     </div>
+  </div>
+  <div class="system-module-shop-manager-body" *ngIf="inited">
+    <ng-container *ngIf="storage.mode === 0">
+      <ias-system-module-shop-table
+        [args]="args"
+        [load]="load"
+        (details)="details.open($event)"
+        (info)="info.open($event)"
+        (error)="onerror($event)"
+      ></ias-system-module-shop-table>
+    </ng-container>
+    <ng-container *ngIf="storage.mode === 1">
+      <ias-system-module-shop-list
+        [args]="args"
+        [load]="load"
+        (details)="details.open($event)"
+        (error)="onerror($event)"
+      ></ias-system-module-shop-list>
+    </ng-container>
   </div>
 
   <app-window

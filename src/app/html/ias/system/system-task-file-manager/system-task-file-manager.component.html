@@ -1,14 +1,9 @@
 <div class="system-task-file-manager" *ngIf="task">
-  <div class="system-task-file-manager-head">
-    <ias-content-header [title]="task.Name ?? ''"></ias-content-header>
-  </div>
-  <div class="system-task-file-manager-body">
-    <ias-system-task-file-table
-      [data]="task"
-      (video)="onvideo($event)"
-      (error)="onerror($event)"
-    ></ias-system-task-file-table>
-  </div>
+  <ias-system-task-file-table
+    [data]="task"
+    (video)="onvideo($event)"
+    (error)="onerror($event)"
+  ></ias-system-task-file-table>
 
   <app-window
     *ngIf="window.details.show"

@@ -1,29 +1,26 @@
 import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { SystemTaskResultAMapIconController } from './system-task-result-amap-icon.controller';
 
-declare var AMap: any;
 export class SystemTaskResultAMapPointController {
   selected = false;
-  constructor(public data: ShopSign) {
-    this.marker = this.create(data);
+  constructor(public data: ShopSign, point: GisPoint) {
+    this.marker = this.create(data, point);
   }
 
   private icon = new SystemTaskResultAMapIconController();
-  marker: any;
+  marker: AMap.LabelMarker;
 
-  create(data: ShopSign) {
-    if (data.Location) {
-      let position = [data.Location.Longitude, data.Location.Latitude];
-      let icon = this.icon.create();
-      const marker = new AMap.LabelMarker({
-        icon: icon,
-        position: [...position],
-        title: data.Text,
-        name: data.Id,
-        extData: data,
-      });
-      return marker;
-    }
+  create(data: ShopSign, point: GisPoint) {
+    let icon = this.icon.create();
+    const marker = new AMap.LabelMarker({
+      icon: icon,
+      position: [point.Longitude, point.Latitude],
+      title: data.Text,
+      name: data.Id,
+      extData: data,
+    });
+    return marker;
   }
 
   select() {

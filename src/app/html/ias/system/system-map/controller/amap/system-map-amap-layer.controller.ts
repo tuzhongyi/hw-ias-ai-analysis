@@ -8,7 +8,7 @@ import {
 export class SystemAMapLayerController {
   event = new SystemAMapPointEvent();
 
-  constructor(map: any) {
+  constructor(map: AMap.Map) {
     this.layer = this.init(map);
     this.info = new SystemAMapPointInfoController(map);
   }
@@ -17,7 +17,7 @@ export class SystemAMapLayerController {
   private info: SystemAMapPointInfoController;
   private points: SystemAMapPointController[] = [];
 
-  private init(map: any) {
+  private init(map: AMap.Map) {
     let layer = new AMap.LabelsLayer({
       collision: false,
       allowCollision: false,

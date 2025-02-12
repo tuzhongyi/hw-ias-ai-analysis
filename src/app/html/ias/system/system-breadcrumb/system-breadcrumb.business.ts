@@ -8,6 +8,8 @@ export class SystemBreadcrumbBusiness {
     let models: SystemBreadcrumbItem[] = [];
     if (location.pathname.indexOf(SystemPath.module_shop) >= 0) {
       models = [this.home(), this.module(), this.module_shop()];
+    } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
+      models = [this.home(), this.module(), this.module_road()];
     } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
       models = [this.home(), this.module()];
     } else if (location.pathname.indexOf(SystemPath.task_file) >= 0) {
@@ -40,6 +42,12 @@ export class SystemBreadcrumbBusiness {
     let item = new SystemBreadcrumbItem();
     item.path = SystemPath.module_shop;
     item.text = '商铺';
+    return item;
+  }
+  private module_road() {
+    let item = new SystemBreadcrumbItem();
+    item.path = SystemPath.module_road;
+    item.text = '道路';
     return item;
   }
 

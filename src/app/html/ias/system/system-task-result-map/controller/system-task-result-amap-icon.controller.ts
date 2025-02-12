@@ -1,4 +1,3 @@
-declare var AMap: any;
 export class SystemTaskResultAMapIconController {
   constructor() {}
 
@@ -6,12 +5,12 @@ export class SystemTaskResultAMapIconController {
     let src = this.icon(selected);
     let width = 53;
     let height = 68;
-    let icon: any;
+    let icon: AMap.Icon;
     let ratio = 2;
     if (!selected) {
       ratio = 6;
     }
-    let opts = {
+    let opts: AMap.IconOpts = {
       size: [width / ratio, height / ratio],
       image: src,
       imageSize: [width / ratio, height / ratio],
@@ -28,7 +27,7 @@ export class SystemTaskResultAMapIconController {
     }
     return '/assets/image/map/marker-blue.png';
   }
-  private size(selected = false) {
+  private size(selected = false): [number, number] {
     let width = 53;
     let height = 68;
     let ratio = 6;
@@ -37,7 +36,7 @@ export class SystemTaskResultAMapIconController {
     }
     return [width / ratio, height / ratio];
   }
-  create() {
+  create(): AMap.LabelMarkerIconOptions {
     let icon = {
       type: 'image',
       image: this.icon(false),

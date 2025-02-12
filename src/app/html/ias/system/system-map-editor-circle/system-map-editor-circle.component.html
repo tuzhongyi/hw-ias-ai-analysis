@@ -1,4 +1,7 @@
-<div class="panel-map-border system-map-editor-circle" *ngIf="args">
+<div
+  class="panel-map-border system-map-editor-circle root-loading"
+  *ngIf="args"
+>
   <!-- <div class="forms system-map-editor-circle-head">
     <div class="forms system-map-editor-circle-head-title">搜索范围</div>
     <div class="operation">
@@ -21,7 +24,7 @@
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text" text-space-between>查找半径</div>
+      <div class="form-item-text" text-space-between>搜索半径</div>
       <div class="form-item-value">
         <input type="text" [(ngModel)]="args.distance" (input)="ondistance()" />
       </div>

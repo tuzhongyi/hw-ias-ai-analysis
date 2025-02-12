@@ -17,42 +17,42 @@ export class SystemTaskFileDetailsMapController {
 
   async load(datas: FileGpsItem[]) {
     this.datas = datas;
-    let ll = this.datas.map((x) => {
+    let ll = this.datas.map<[number, number]>((x) => {
       return [x.Longitude, x.Latitude];
     });
-    let path = await this.map.path;
+    let path = await this.map.path.get();
     path.load(ll);
   }
 
   private regist() {
-    this.map.path.then((path) => {
+    this.map.path.get().then((path) => {
       path.mouseover.subscribe((point) => {
         this.onmouseover(point);
       });
       path.mouseout.subscribe(() => {
-        this.map.label.then((label) => {
+        this.map.label.get().then((label) => {
           label.hide();
         });
       });
       path.click.subscribe((point) => {
-        this.map.label.then((label) => {
+        this.map.label.get().then((label) => {
           label.hide();
           this.onclick(point);
         });
       });
     });
 
-    this.map.way.then((way) => {
+    this.map.way.get().then((way) => {
       way.mouseover.subscribe((point) => {
         this.onmouseover(point);
       });
       way.mouseout.subscribe(() => {
-        this.map.label.then((label) => {
+        this.map.label.get().then((label) => {
           label.hide();
         });
       });
       way.click.subscribe((point) => {
-        this.map.label.then((label) => {
+        this.map.label.get().then((label) => {
           label.hide();
           this.onclick(point);
         });
@@ -60,19 +60,19 @@ export class SystemTaskFileDetailsMapController {
     });
   }
 
-  private async onmouseover(point: number[]) {
+  private async onmouseover(point: [number, number]) {
     let item = this.datas.find((x) => {
       return ClassTool.equals.array([x.Longitude, x.Latitude], point);
     });
     if (item) {
       console.log('item', item);
-      let point = [item.Longitude, item.Latitude];
-      let label = await this.map.label;
-      label.show(point, item.OffsetTime.toString());
+      let _point: [number, number] = [item.Longitude, item.Latitude];
+      let label = await this.map.label.get();
+      label.show(_point, item.OffsetTime.toString());
     }
   }
 
-  private onclick(point: number[]) {
+  private onclick(point: [number, number]) {
     let item = this.datas.find((x) => {
       return ClassTool.equals.array([x.Longitude, x.Latitude], point);
     });
@@ -92,15 +92,15 @@ export class SystemTaskFileDetailsMapController {
       let item = this.datas[finded.index];
       this.speed.emit(item.Speed);
 
-      let way = this.datas.slice(0, finded.index).map((x) => {
+      let way = this.datas.slice(0, finded.index).map<[number, number]>((x) => {
         return [x.Longitude, x.Latitude];
       });
-      (await this.map.way).load(way);
+      (await this.map.way.get()).load(way);
 
-      let position = [item.Longitude, item.Latitude];
-      (await this.map.arrow).set(position);
+      let position: [number, number] = [item.Longitude, item.Latitude];
+      (await this.map.arrow.get()).set(position);
       if (finded.index > 0) {
-        let arrow = await this.map.arrow;
+        let arrow = await this.map.arrow.get();
         if (Number.isFinite(item.Course)) {
           arrow.direction(item.Course!);
         } else {

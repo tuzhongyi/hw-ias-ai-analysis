@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { WindowConfirmComponent } from '../../../../common/components/window-confirm/window-confirm.component';
 import { WindowComponent } from '../../../../common/components/window-control/window.component';
-import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
 import { SystemTaskCreationComponent } from '../system-task-creation/system-task-creation.component';
 
 import { FormsModule } from '@angular/forms';
@@ -20,7 +19,6 @@ import { SystemTaskManagerController } from './controller/system-task-manager.co
 export const SystemTaskManagerImports = [
   CommonModule,
   FormsModule,
-  ContentHeaderComponent,
   SystemTaskTableComponent,
   SystemTaskCreationComponent,
   WindowComponent,

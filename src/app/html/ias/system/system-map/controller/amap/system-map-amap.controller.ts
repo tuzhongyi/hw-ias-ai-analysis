@@ -35,7 +35,7 @@ export class SystemMapAMapController {
     this.regist();
   }
 
-  private map = new PromiseValue<any>();
+  private map = new PromiseValue<AMap.Map>();
   private layer = new PromiseValue<SystemAMapLayerController>();
   private circle = new PromiseValue<SystemAMapCircleEditorController>();
 
@@ -83,7 +83,7 @@ export class SystemMapAMapController {
       x.clear();
       x.load(datas).then(() => {
         this.map.get().then((y) => {
-          y.setFitView(null, true);
+          y.setFitView(undefined, true);
         });
       });
     });
@@ -91,7 +91,7 @@ export class SystemMapAMapController {
 
   init(position: GisPoint) {
     this.map.get().then((x) => {
-      let center = [position.Longitude, position.Latitude];
+      let center: [number, number] = [position.Longitude, position.Latitude];
       x.setCenter(center);
       x.setZoom(17);
     });
@@ -99,7 +99,7 @@ export class SystemMapAMapController {
 
   center(position: GisPoint) {
     this.map.get().then((x) => {
-      let center = [position.Longitude, position.Latitude];
+      let center: [number, number] = [position.Longitude, position.Latitude];
       x.setCenter(center);
       x.setZoom(18);
     });

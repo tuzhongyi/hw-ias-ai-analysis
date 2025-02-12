@@ -9,16 +9,4 @@ export abstract class AbstractUrl {
   list() {
     return `${this.basic()}/List`;
   }
-
-  create(createToServer?: boolean) {
-    if (createToServer) {
-      return `${this.basic()}?CreateToServer=${createToServer}`;
-    } else {
-      return `${this.basic()}`;
-    }
-  }
-
-  source(id: string) {
-    return `${this.item(id)}/Sources`;
-  }
 }

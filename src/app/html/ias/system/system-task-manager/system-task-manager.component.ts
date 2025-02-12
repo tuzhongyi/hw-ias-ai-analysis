@@ -105,7 +105,7 @@ export class SystemTaskManagerComponent implements OnInit {
     this.window.details.show = true;
   }
   onfiles(data: AnalysisTaskModel) {
-    this.local.system.task.id.set(data.Id);
+    this.local.system.task.info.set({ Id: data.Id, Name: data.Name ?? '' });
     this.router.navigateByUrl(`${SystemPath.task_file}`);
   }
   onerror(e: Error) {

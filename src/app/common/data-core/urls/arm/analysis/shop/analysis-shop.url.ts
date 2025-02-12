@@ -10,6 +10,13 @@ export class AnalysisShopUrl extends AbstractUrl {
     return `${this.basic()}/Capability`;
   }
 
+  create(createToServer?: boolean): string {
+    if (createToServer) {
+      return `${this.basic()}?CreateToServer=${createToServer}`;
+    } else {
+      return `${this.basic()}`;
+    }
+  }
   sign(id?: string) {
     if (id) {
       return new AnalysisShopSignUrl(`${this.item(id)}`);

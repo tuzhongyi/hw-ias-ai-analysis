@@ -1,14 +1,13 @@
 import { MapTool } from '../../../../../common/tools/map-tool/map.tool';
 
-declare var AMap: any;
 export class SystemTaskFileDetailsAMapArrowController {
-  constructor(private map: any) {
+  constructor(private map: AMap.Map) {
     this.init();
     this.regist();
   }
 
-  private _arrow?: any;
-  private get arrow() {
+  private _arrow?: AMap.Marker;
+  private get arrow(): AMap.Marker {
     if (!this._arrow) {
       this._arrow = new AMap.Marker({
         map: this.map,
@@ -29,15 +28,15 @@ export class SystemTaskFileDetailsAMapArrowController {
     // });
   }
 
-  set(position: number[]) {
+  set(position: [number, number]) {
     this.arrow.setPosition(position);
   }
 
-  center(position: number[]) {
+  center(position: [number, number]) {
     this.map.setCenter(position);
   }
 
-  direction1(position: number[][]) {
+  direction1(position: [number, number][]) {
     let angle = MapTool.direction(
       position[0][1],
       position[0][0],

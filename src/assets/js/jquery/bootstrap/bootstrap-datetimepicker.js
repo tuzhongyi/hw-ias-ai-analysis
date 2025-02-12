@@ -1567,9 +1567,6 @@ import jQuery from '../jquery.min.js';
           mm: function (d, v) {
             return d.setUTCMinutes(v);
           },
-          m: function (d, v) {
-            return d.setUTCMinutes(v);
-          },
           ss: function (d, v) {
             return d.setUTCSeconds(v);
           },

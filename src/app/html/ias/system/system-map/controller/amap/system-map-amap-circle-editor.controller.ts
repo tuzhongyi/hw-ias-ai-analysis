@@ -8,7 +8,7 @@ export class SystemAMapCircleEditorEvent {
 }
 export class SystemAMapCircleEditorController {
   event = new SystemAMapCircleEditorEvent();
-  constructor(private map: any) {
+  constructor(private map: AMap.Map) {
     this.circle = new SystemAMapCircleController(map);
   }
   private editor?: AMap.CircleEditor;
@@ -20,7 +20,7 @@ export class SystemAMapCircleEditorController {
       this.editor = new AMap.CircleEditor(this.map, circle);
       this.regist(this.editor);
       this.editor.open();
-      let center = circle.getCenter() as any;
+      let center = circle.getCenter();
       let radius = circle.getRadius();
       this.event.opened.emit([center.lng, center.lat, radius]);
     }

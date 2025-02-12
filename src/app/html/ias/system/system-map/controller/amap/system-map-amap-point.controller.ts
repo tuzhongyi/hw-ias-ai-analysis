@@ -26,7 +26,10 @@ export class SystemAMapPointController {
 
   private create(data: Shop) {
     if (data.Location) {
-      let position = [data.Location.Longitude, data.Location.Latitude];
+      let position: [number, number] = [
+        data.Location.Longitude,
+        data.Location.Latitude,
+      ];
       let marker = new AMap.LabelMarker({
         icon: this.icon.normal,
         position: [...position],

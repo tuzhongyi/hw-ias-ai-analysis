@@ -12,11 +12,12 @@ export class SystemTaskFileManagerBusiness {
     private router: Router
   ) {}
 
-  get() {
-    let id = this.local.system.task.id.get();
-    if (!id) {
+  async get() {
+    let task = this.local.system.task.info.get();
+    if (!task) {
       this.router.navigateByUrl(SystemPath.task);
+      return;
     }
-    return this.service.server.task.get(id);
+    return this.service.server.task.get(task.Id);
   }
 }

@@ -1,11 +1,10 @@
-declare var AMap: any;
 export class SystemTaskFileDetailsAMapLabelController {
-  constructor(private map: any) {}
+  constructor(private map: AMap.Map) {}
   private marker = new AMap.Marker({
     anchor: 'bottom-center',
     offset: new AMap.Pixel(0, -15),
   });
-  show(position: number[], text: string) {
+  show(position: [number, number], text: string) {
     this.marker.setContent(
       '<div class="amap-info-window">' +
         text +

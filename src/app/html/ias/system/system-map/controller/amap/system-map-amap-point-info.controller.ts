@@ -1,7 +1,7 @@
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 
 export class SystemAMapPointInfoController {
-  constructor(private map: any) {
+  constructor(private map: AMap.Map) {
     this.marker = this.init();
   }
 
@@ -22,7 +22,10 @@ export class SystemAMapPointInfoController {
                     </div>`;
       this.marker.setContent(content);
 
-      let position = [data.Location.Longitude, data.Location.Latitude];
+      let position: [number, number] = [
+        data.Location.Longitude,
+        data.Location.Latitude,
+      ];
       this.marker.setPosition(position);
       this.map.add(this.marker);
     }

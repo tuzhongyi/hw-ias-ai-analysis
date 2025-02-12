@@ -3,14 +3,14 @@ export class SystemAMapPointIconController {
     return '/assets/image/map/marker-blue.png';
   }
 
-  private size() {
+  private size(): [number, number] {
     let width = 53;
     let height = 68;
     let ratio = 2;
     return [width / ratio, height / ratio];
   }
 
-  private get opts() {
+  private get opts(): AMap.LabelMarkerIconOptions {
     let icon = {
       type: 'image',
       image: this.icon(),

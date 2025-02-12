@@ -41,7 +41,7 @@ export class SystemTaskManagerFileProgressController {
     progress: new Array<FileProgress>(),
   };
 
-  handle: any;
+  handle?: NodeJS.Timeout;
   try() {
     this.handle = setInterval(() => {
       if (this.file.waiting.length === 0) {

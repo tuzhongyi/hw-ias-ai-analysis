@@ -1,0 +1,28 @@
+<div class="system-module-road-manager">
+  <div class="system-module-road-manager-head">
+    <div class="system-module-road-manager-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">道路名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient">搜索</button>
+        </div>
+      </div>
+    </div>
+    <div class="system-module-road-manager-head-operation">
+      <button class="button-clip-gradient" (click)="create.open()">添加</button>
+    </div>
+  </div>
+  <div class="system-module-road-manager-body">
+    <div class="system-module-road-manager-body-table">
+      <ias-system-module-road-table></ias-system-module-road-table>
+    </div>
+    <div class="system-module-road-manager-body-map">
+      <ias-system-module-road-map></ias-system-module-road-map>
+    </div>
+  </div>
+</div>

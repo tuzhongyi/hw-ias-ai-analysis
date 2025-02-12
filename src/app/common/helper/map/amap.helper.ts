@@ -20,7 +20,7 @@ export class AMapHelper {
     return this.load(plugins);
   }
 
-  async get(id: string, plugins = this.plugins) {
+  async get(id: string, plugins = this.plugins): Promise<AMap.Map> {
     return this.init(plugins).then((AMap) => {
       return new AMap.Map(id, {
         mapStyle: this.style,

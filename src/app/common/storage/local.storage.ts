@@ -3,7 +3,7 @@ import { AuthorizationStore } from './authorization/authorization.store';
 import { LoginInfoStore } from './login-info-storage/login-info.store';
 import { SystemModuleShopStorage } from './system-module-storage/system-module-shop.storage';
 import { SystemTaskDurationTypeStorage } from './system-task-storage/system-task-duration.storage';
-import { SystemTaskIdStorage } from './system-task-storage/system-task-id.storage';
+import { SystemTaskInfoStorage } from './system-task-storage/system-task-id.storage';
 import { SystemTaskIndexStorage } from './system-task-storage/system-task-index.storage';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class LocalStorage {
   system = {
     task: {
       index: new SystemTaskIndexStorage(),
-      id: new SystemTaskIdStorage(),
+      info: new SystemTaskInfoStorage(),
       duration: new SystemTaskDurationTypeStorage(),
     },
     module: {
@@ -28,7 +28,7 @@ export class LocalStorage {
     this.auth.clear();
     this.login.clear();
     this.system.task.index.clear();
-    this.system.task.id.clear();
+    this.system.task.info.clear();
     this.system.task.duration.clear();
     this.system.module.shop.clear();
   }
