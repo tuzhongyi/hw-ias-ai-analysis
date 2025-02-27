@@ -17,7 +17,7 @@ class CreationWindow extends WindowViewModel {
   style = {
     width: '40%',
     height: '70%',
-    paddingTop: '10px',
+    paddingTop: 0,
   };
   data?: AnalysisTask;
 }
@@ -38,7 +38,7 @@ class ResultWindow extends WindowViewModel {
   style = {
     width: '85%',
     height: '90%',
-    paddingTop: '10px',
+    paddingTop: 0,
   };
   data?: AnalysisTask;
 }
@@ -49,7 +49,7 @@ class DetailsWindow extends WindowViewModel {
   style = {
     width: '55%',
     height: '50%',
-    paddingTop: '10px',
+    paddingTop: 0,
   };
   data?: AnalysisTask;
   files: UploadControlFileInfo[] = [];

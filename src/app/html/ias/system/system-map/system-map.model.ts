@@ -1,31 +1,28 @@
 import { EventEmitter } from '@angular/core';
 import { Point } from '../../../../common/data-core/models/arm/point.model';
+import { SystemMapRoadArgs } from './business/system-map-road.model';
+import { SystemMapShopArgs } from './business/system-map-shop.model';
 
-export class SystemMapShopArgs {
-  dsitance = new SystemMapShopDistanceArgs();
-  filter = new SystemMapShopFilterArgs();
+export enum SystemMapFilterType {
+  shop,
+  road,
+}
 
-  clear() {
-    this.dsitance.enabled = false;
-    this.filter.clear();
+export class SystemMapArgs {
+  shop = new SystemMapShopArgs();
+  road = new SystemMapRoadArgs();
+  distance = new SystemMapDistanceArgs();
+
+  public get name(): string | undefined {
+    return this.shop.name;
+  }
+  public set name(v: string | undefined) {
+    this.shop.name = v;
+    this.road.name = v;
   }
 }
 
-export class SystemMapShopFilterArgs {
-  name?: string;
-  telphone?: string;
-  type?: number;
-  camera?: string;
-  label?: number;
-  state?: number;
-
-  clear() {
-    this.name = undefined;
-    this.state = undefined;
-  }
-}
-
-export class SystemMapShopDistanceArgs {
+export class SystemMapDistanceArgs {
   center = Point.create();
   distance = 0;
   enabled = false;

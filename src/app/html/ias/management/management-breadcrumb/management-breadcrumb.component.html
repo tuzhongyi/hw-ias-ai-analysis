@@ -1,0 +1,17 @@
+<div class="management-breadcrumb">
+  <div
+    class="management-breadcrumb-item"
+    *ngFor="let item of items; let index = index"
+  >
+    <div class="management-breadcrumb-item-separator" *ngIf="index > 0">></div>
+    <div
+      class="management-breadcrumb-item-text button"
+      [ngClass]="{
+        selected: item.selected
+      }"
+      (click)="onpath(item.path)"
+    >
+      {{ item.name }}
+    </div>
+  </div>
+</div>

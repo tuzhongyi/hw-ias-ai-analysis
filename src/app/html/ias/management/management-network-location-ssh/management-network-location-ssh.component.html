@@ -1,0 +1,33 @@
+<div class="management-network-location-ssh">
+  <div class="management-network-location-ssh-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">SSH配置</div>
+        <div class="form-item-value">
+          <div class="switch" (click)="data.Enabled = !data.Enabled">
+            <div class="switch-item left" [class.selected]="data.Enabled">
+              打开
+            </div>
+            <div class="switch-item right" [class.selected]="!data.Enabled">
+              关闭
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="management-network-location-ssh-foot">
+    <button class="button-clip-gradient" (click)="window.confirm.show = true">
+      保存
+    </button>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="save()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
+</div>

@@ -1,0 +1,56 @@
+<div class="management-system-status-running root-router">
+  <div class="forms" *ngIf="data">
+    <div class="form-item">
+      <div class="form-item-text">内存占用</div>
+      <div class="form-item-value unit">
+        <input type="text" readonly [value]="data.MemoryUsage" />
+        <i>MB</i>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">总内存大小</div>
+      <div class="form-item-value unit">
+        <input type="text" readonly [value]="data.TotalMemory" />
+        <i>MB</i>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">CPU占用百分比</div>
+      <div class="form-item-value unit">
+        <input type="text" readonly [value]="data.CPUUsage.toFixed(1)" />
+        <i>%</i>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">系统运行时长</div>
+      <div class="form-item-value">
+        <input
+          type="text"
+          readonly
+          [value]="Language.Time(data.SystemUpTime)"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">芯片类型</div>
+      <div class="form-item-value">
+        <input type="text" readonly [value]="data.ChipType ?? ''" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">芯片温度</div>
+      <div class="form-item-value unit">
+        <input type="text" readonly [value]="data.ChipTemperature ?? ''" />
+        <i>℃</i>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">网络速率</div>
+      <div class="form-item-value unit">
+        <input type="text" readonly [value]="data.NetworkSpeed ?? ''" />
+        <i>Mbps</i>
+      </div>
+    </div>
+  </div>
+  <div class="loading" *ngIf="!data"></div>
+</div>

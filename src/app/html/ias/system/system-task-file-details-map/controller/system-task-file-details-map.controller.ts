@@ -65,7 +65,6 @@ export class SystemTaskFileDetailsMapController {
       return ClassTool.equals.array([x.Longitude, x.Latitude], point);
     });
     if (item) {
-      console.log('item', item);
       let _point: [number, number] = [item.Longitude, item.Latitude];
       let label = await this.map.label.get();
       label.show(_point, item.OffsetTime.toString());

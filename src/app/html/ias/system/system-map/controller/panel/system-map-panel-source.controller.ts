@@ -1,41 +1,39 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
-import {
-  SystemMapPanel,
-  SystemMapShopFilterArgs,
-} from '../../system-map.model';
-import { SystemMapPanelDetailsController } from './system-map-panel-details.controller';
+import { SystemMapPanel } from '../../system-map.model';
+import { SystemMapPanelSourceRoadController } from './system-map-panel-source-road.controller';
+import { SystemMapPanelSourceShopController } from './system-map-panel-source-shop.controller';
 
 @Injectable()
 export class SystemMapPanelSourceController extends SystemMapPanel {
-  load = new EventEmitter<SystemMapShopFilterArgs>();
-  select = new EventEmitter<Shop>();
-  hover = new EventEmitter<Shop>();
-  out = new EventEmitter<Shop>();
-  position = new EventEmitter<Shop>();
+  // load = new EventEmitter<SystemMapShopFilterArgs>();
+  // select = new EventEmitter<Shop | Road>();
+  // hover = new EventEmitter<Shop>();
+  // out = new EventEmitter<Shop>();
+  // position = new EventEmitter<Shop | Road>();
 
-  constructor(private details: SystemMapPanelDetailsController) {
+  constructor(
+    public shop: SystemMapPanelSourceShopController,
+    public road: SystemMapPanelSourceRoadController
+  ) {
     super();
   }
 
-  ondetails(data: Shop) {
-    this.details.shop.data = data;
-    this.details.shop.show = true;
-    this.select.emit(data);
-  }
-  onmouseover(data: Shop) {
-    this.hover.emit(data);
-  }
-  onmouseout(data: Shop) {
-    this.out.emit(data);
-  }
-  onselect(data: Shop) {
-    if (this.details.shop.show) {
-      this.details.shop.data = data;
+  onselect(data: Shop | Road) {
+    if (!data) {
+      this.road.onselect();
+    } else if (data instanceof Shop) {
+      this.shop.onselect(data);
+    } else if (data instanceof Road) {
+      this.road.onselect(data);
     }
-    this.select.emit(data);
   }
-  onposition(data: Shop) {
-    this.position.emit(data);
+  onposition(data: Shop | Road) {
+    if (data instanceof Shop) {
+      this.shop.onposition(data);
+    } else if (data instanceof Road) {
+      this.road.onposition(data);
+    }
   }
 }

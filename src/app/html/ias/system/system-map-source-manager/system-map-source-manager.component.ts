@@ -1,55 +1,58 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InputIconComponent } from '../../../../common/components/input-icon/input-icon.component';
-import { ShopObjectState } from '../../../../common/data-core/enums/analysis/shop-object-state.enum';
+import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
-import { EnumNameValue } from '../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { SourceManager } from '../../../../common/data-core/requests/managers/source.manager';
-import { SystemMapPanelHeadComponent } from '../system-map-panel-head/system-map-panel-head.component';
-import { SystemMapSourceTableComponent } from '../system-map-source-table/system-map-source-table.component';
-import { SystemMapShopFilterArgs } from '../system-map/system-map.model';
+
+import { SystemMapSourceTableRoadComponent } from '../system-map-source-table-road/system-map-source-table-road.component';
+import { SystemMapSourceTableShopComponent } from '../system-map-source-table-shop/system-map-source-table-shop.component';
+import { SystemMapFilterType } from '../system-map/system-map.model';
 
 @Component({
   selector: 'ias-system-map-source-manager',
   imports: [
     CommonModule,
     FormsModule,
-    SystemMapPanelHeadComponent,
-    InputIconComponent,
-    SystemMapSourceTableComponent,
+    SystemMapSourceTableShopComponent,
+    SystemMapSourceTableRoadComponent,
   ],
   templateUrl: './system-map-source-manager.component.html',
   styleUrl: './system-map-source-manager.component.less',
 })
 export class SystemMapSourceManagerComponent implements OnInit {
-  @Input('datas') shops: Shop[] = [];
-  @Input() args = new SystemMapShopFilterArgs();
-  @Output() argsChange = new EventEmitter<SystemMapShopFilterArgs>();
+  @Input() shops: Shop[] = [];
+  @Input() roads: Road[] = [];
+
+  @Input() type = SystemMapFilterType.shop;
+  @Output() typeChange = new EventEmitter<SystemMapFilterType>();
 
   @Output() details = new EventEmitter<Shop>();
   @Input() selected?: Shop;
-  @Output() selectedChange = new EventEmitter<Shop>();
+  @Output() selectedChange = new EventEmitter<Shop | Road>();
 
   @Output() itemhover = new EventEmitter<Shop>();
   @Output() itemblur = new EventEmitter<Shop>();
+  @Output() position = new EventEmitter<Shop | Road>();
 
-  constructor(source: SourceManager) {
-    this.states = source.shop.ShopObjectStates;
+  constructor() {}
+
+  Type = SystemMapFilterType;
+
+  ngOnInit(): void {}
+
+  ontype(type: SystemMapFilterType) {
+    this.type = type;
+    this.typeChange.emit(type);
   }
 
-  filter = new SystemMapShopFilterArgs();
-  states: Promise<EnumNameValue<ShopObjectState>[]>;
-
-  ngOnInit(): void {
-    this.filter = Object.assign(this.filter, this.args);
+  onselected(data?: Shop | Road) {
+    this.selectedChange.emit(data);
   }
   ondetails(data: Shop) {
     this.details.emit(data);
   }
-  onposition(data: Shop) {
-    this.selected = data;
-    this.selectedChange.emit(data);
+  onposition(data: Shop | Road) {
+    this.position.emit(data);
   }
   onmouseover(data: Shop) {
     this.itemhover.emit(data);

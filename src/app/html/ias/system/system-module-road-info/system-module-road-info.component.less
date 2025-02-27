@@ -1,0 +1,30 @@
+.system-module-road-info {
+  padding: 20px;
+  box-sizing: border-box;
+
+  @foot-height: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+
+  &-body {
+    height: calc(100% - @foot-height);
+
+    .forms {
+      flex-direction: column;
+
+      .form-item-text {
+        width: 64px;
+      }
+    }
+  }
+
+  &-foot {
+    width: 100%;
+    height: @foot-height;
+    justify-content: center;
+  }
+
+
+}

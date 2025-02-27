@@ -1,0 +1,22 @@
+<div
+  class="content-header-tab"
+  [ngStyle]="{
+    padding: padding
+  }"
+>
+  <div class="content-header-tab-title">
+    <div
+      class="content-header-tab-title-content"
+      *ngFor="let item of titles; let index = index"
+    >
+      <div
+        class="content-header-tab-title-content-text"
+        (click)="onselect(index)"
+        [class.selected]="index === selected"
+      >
+        {{ item }}
+      </div>
+      <div class="content-header-tab-light" *ngIf="index === selected"></div>
+    </div>
+  </div>
+</div>

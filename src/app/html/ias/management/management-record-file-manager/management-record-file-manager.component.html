@@ -1,0 +1,51 @@
+<div class="management-record-file-manager panel">
+  <div class="management-record-file-manager-head">
+    <div class="operation">
+      <div
+        class="operation-button button"
+        (click)="onback()"
+        [class.disabled]="history.length === 0"
+      >
+        <i class="mdi mdi-arrow-left"></i>
+      </div>
+      <div
+        class="operation-button button"
+        [class.disabled]="!folder"
+        (click)="onup()"
+      >
+        <i class="mdi mdi-arrow-up"></i>
+      </div>
+      <div class="operation-path">
+        <div class="button" (click)="path.root()">根目录</div>
+        <ng-container *ngFor="let node of nodes">
+          /
+          <div class="button" (click)="path.folder(node)">
+            {{ node }}
+          </div>
+        </ng-container>
+      </div>
+      <div class="operation-button button refresh" (click)="onrefresh()">
+        <i class="mdi mdi-refresh"></i>
+      </div>
+    </div>
+  </div>
+  <div class="management-record-file-manager-body">
+    <ias-management-record-file-table
+      (open)="table.onopen($event)"
+      (video)="table.onvideo($event)"
+      [root]="table.root"
+      [folder]="table.folder"
+      [refresh]="table.refresh"
+    ></ias-management-record-file-table>
+  </div>
+
+  <app-window
+    *ngIf="window.details.show"
+    [Model]="window.details"
+    [style]="window.details.style"
+  >
+    <ias-system-task-file-details
+      [data]="window.details.data"
+    ></ias-system-task-file-details>
+  </app-window>
+</div>

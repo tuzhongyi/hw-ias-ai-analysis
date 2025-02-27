@@ -1,5 +1,5 @@
 import { Point } from '../../../../../common/data-core/models/arm/point.model';
-import { PointTool } from '../../../../../common/tools/map-tool/point.tool';
+import { EqualsTool } from '../../../../../common/tools/equals-tool/equals.tool';
 
 export class PictureCanvasController {
   set show(value: boolean) {
@@ -39,7 +39,7 @@ export class PictureCanvasController {
     if (points.length > 1) {
       let first = polygon[0];
       let last = polygon[polygon.length - 1];
-      if (!PointTool.equals(first, last)) {
+      if (!EqualsTool.Point(first, last)) {
         points.push(first);
       }
     }

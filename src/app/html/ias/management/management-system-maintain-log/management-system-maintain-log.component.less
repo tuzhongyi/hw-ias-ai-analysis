@@ -1,0 +1,35 @@
+.management-system-maintain-log {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &-head {
+    height: 36px;
+  }
+
+  &-body {
+    height: calc(100% - 36px - 20px);
+    overflow: auto;
+    overflow-wrap: anywhere;
+
+    ::ng-deep {
+      .time {
+        font-weight: bold;
+
+        &.Information {
+          color: #2d76ce
+        }
+
+        &.Warning {
+          color: #fe810b
+        }
+
+        &.Error {
+          color: #ec2b2b
+        }
+      }
+    }
+  }
+}

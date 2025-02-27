@@ -1,0 +1,69 @@
+<div class="management-system-status-process-table">
+  <div class="management-system-status-process-table-body table-split">
+    <div class="table-split-head">
+      <table
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        TableSorter
+        (sort)="onsort($event)"
+      >
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th sort="Id">PID</th>
+            <th sort="CPUUsage">
+              CPU
+              <ng-container *ngIf="status"
+                >({{ status.CPUUsage.toFixed(1) }}%)</ng-container
+              >
+            </th>
+            <th sort="MemoryUsage">
+              内存<ng-container *ngIf="status"
+                >({{
+                  (status.MemoryUsage / (status.TotalMemory || 1)).toFixed(1)
+                }}%)</ng-container
+              >
+            </th>
+            <th sort="Name">进程名称</th>
+            <th sort="NetworkSpeed">
+              网络速率<ng-container *ngIf="status"
+                >({{ status.NetworkSpeed }}Mbps)</ng-container
+              >
+            </th>
+            <th sort="State">进程状态</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr *ngFor="let item of datas">
+            <td>
+              <div>{{ item.Id }}</div>
+            </td>
+            <td>
+              {{ item.CPUUsage }}
+            </td>
+            <td>{{ item.MemoryUsage }}</td>
+            <td [title]="item.Name">
+              {{ item.Name }}
+            </td>
+            <td>
+              {{ item.NetworkSpeed }}
+            </td>
+            <td>
+              {{ Language.ProcessState(item.State) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

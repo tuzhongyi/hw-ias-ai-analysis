@@ -33,6 +33,12 @@ export class ArmGeographicRoadRequestService {
       return HowellResponseProcess.item(x, Road);
     });
   }
+  async delete(id: string) {
+    let url = ArmGeographicUrl.road.item(id);
+    return this.http.delete<HowellResponse<Road>>(url).then((x) => {
+      return HowellResponseProcess.item(x, Road);
+    });
+  }
 
   async list(params: GetRoadsParams) {
     let url = ArmGeographicUrl.road.list();

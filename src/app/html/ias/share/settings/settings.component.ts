@@ -50,4 +50,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     e.stopImmediatePropagation();
     this.router.navigateByUrl(`${RoutePath.login}`);
   }
+  onhelp() {
+    window.open('/help/help.html');
+  }
 }

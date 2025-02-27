@@ -11,7 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { ISelection } from '../../../../../common/components/common-label-select/common-label-select.model';
 import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { SourceManager } from '../../../../../common/data-core/requests/managers/source.manager';
+
+import { SourceManager } from '../../../../../common/data-core/requests/managers/source/source.manager';
 import { ClassTool } from '../../../../../common/tools/class-tool/class.tool';
 
 @Component({

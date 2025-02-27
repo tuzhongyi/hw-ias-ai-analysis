@@ -23,6 +23,7 @@ import { PictureComponent } from '../../share/picture/picture.component';
 export class SystemMapPanelDetailsShopComponent implements OnChanges {
   @Input('data') shop?: Shop;
   @Output() close = new EventEmitter<void>();
+  @Output() picture = new EventEmitter<Shop>();
 
   constructor(private converter: ShopConverter) {}
 
@@ -40,5 +41,8 @@ export class SystemMapPanelDetailsShopComponent implements OnChanges {
 
   onclose() {
     this.close.emit();
+  }
+  onpicture() {
+    this.picture.emit(this.data);
   }
 }

@@ -1,0 +1,40 @@
+<div class="management-system-maintain-config-upgrade panel">
+  <div class="management-system-maintain-config-upgrade-head panel-title">
+    升级
+  </div>
+  <div class="management-system-maintain-config-upgrade-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">系统升级</div>
+        <div class="form-item-value">
+          <upload-control
+            [type]="type"
+            (loadstart)="onstart($event)"
+            (upload)="onfile($event)"
+          >
+            <div class="input-button">
+              <input type="text" readonly [value]="filename" />
+              <button>浏览</button>
+            </div>
+          </upload-control>
+          <button class="button-clip-gradient" (click)="onupgrade()">
+            升级
+          </button>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">升级状态</div>
+        <div class="form-item-value">
+          <div class="progress" *ngIf="status">
+            <div
+              class="progress-inner"
+              [ngStyle]="{
+                width: status.Progress + '%'
+              }"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

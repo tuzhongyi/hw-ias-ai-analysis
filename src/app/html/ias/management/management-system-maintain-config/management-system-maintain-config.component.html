@@ -1,0 +1,25 @@
+<div class="management-system-maintain-config root-router">
+  <ias-management-system-maintain-config-power
+    (reboot)="power.reboot.confirm()"
+    (shutdown)="power.shutdown.confirm()"
+  ></ias-management-system-maintain-config-power>
+  <ias-management-system-maintain-config-factory
+    (reset)="factory.confirm($event)"
+  ></ias-management-system-maintain-config-factory>
+  <ias-management-system-maintain-config-data
+    (upload)="config.confirm($event)"
+  ></ias-management-system-maintain-config-data>
+  <ias-management-system-maintain-config-upgrade
+    (upgrade)="upgrade.confirm($event)"
+    [doing]="upgrade.doing"
+  ></ias-management-system-maintain-config-upgrade>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="window.confirm.do()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
+</div>

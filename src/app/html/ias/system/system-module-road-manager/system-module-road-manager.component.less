@@ -25,6 +25,7 @@
     display: flex;
     justify-content: space-between;
     gap: 10px;
+    position: relative;
 
     &-table {
       width: calc((100% - 10px) * 0.3);
@@ -34,6 +35,12 @@
       width: calc((100% - 10px) * 0.7);
       border: 1px solid #2d76ce;
       box-sizing: border-box;
+    }
+
+    &-info {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
     }
   }
 }

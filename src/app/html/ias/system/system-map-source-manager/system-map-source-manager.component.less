@@ -6,46 +6,16 @@
   gap: 10px;
 
   &-head {
-    height: 56px;
+    height: 36px;
     width: 100%;
-
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   &-body {
     width: 100%;
-    height: calc(100% - 56px - 10px);
-    padding: 20px;
-    padding-right: 12px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    height: calc(100% - 36px - 10px);
 
-    @button-height: 40px;
-    @search-height: 36px;
-    @filter-height: 36px;
-
-    &-buttons {
-      height: @button-height;
-      margin-right: 8px;
-
-      &>button {
-        height: 100%;
-      }
-    }
-
-    &-search {
-      height: @search-height;
-      margin-right: 8px;
-    }
-
-    &-filter {
-      height: @filter-height;
-      margin-right: 8px;
-    }
-
-    &-list {
-      height: calc(100% - @button-height - @search-height - @filter-height - 10px * 3);
-    }
   }
 }

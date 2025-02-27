@@ -1,0 +1,25 @@
+<div class="management-system-maintain-config-factory panel">
+  <div class="management-system-maintain-config-factory-head panel-title">
+    恢复
+  </div>
+  <div class="management-system-maintain-config-factory-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">简单恢复设备参数</div>
+        <div class="form-item-value">
+          <button class="button-clip-gradient" (click)="onreset(Mode.Basic)">
+            简单恢复
+          </button>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">完全恢复设备参数</div>
+        <div class="form-item-value">
+          <button class="button-clip-gradient" (click)="onreset(Mode.Full)">
+            完全恢复
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

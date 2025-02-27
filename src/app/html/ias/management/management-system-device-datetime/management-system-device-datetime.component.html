@@ -1,0 +1,102 @@
+<div class="management-system-device-datetime root-router">
+  <div class="management-system-device-datetime-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">系统时间</div>
+        <div class="form-item-value unit">
+          <input
+            type="text"
+            readonly
+            [value]="time() | date : Language.YearMonthDayHHmmss"
+          />
+          <i class="howell-icon-calendar"></i>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">校时方式</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="data.TimeMode">
+            <option
+              *ngFor="let item of source.ntp.modes | async"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <ng-container *ngIf="data.TimeMode === 'NTP'">
+        <div class="form-item">
+          <div class="form-item-text">NTP服务器地址</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="controller.ntp.data.HostAddress" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">服务器端口号</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="controller.ntp.data.PortNo" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">校时时间间隔</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [(ngModel)]="controller.ntp.data.SynchronizeInterval"
+            />
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="data.TimeMode === 'Manual'">
+        <div class="form-item">
+          <div class="form-item-text"></div>
+          <div class="form-item-value">
+            <label for="sync">
+              <input
+                id="sync"
+                type="checkbox"
+                [(ngModel)]="controller.local.sync"
+              />
+              与计算机时间同步
+            </label>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">日期</div>
+          <div class="form-item-value unit">
+            <date-time-control
+              [(date)]="controller.local.date"
+              [disabled]="controller.local.sync"
+            ></date-time-control>
+            <i class="howell-icon-calendar"></i>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">时间</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [(ngModel)]="controller.local.time"
+              [disabled]="controller.local.sync"
+            />
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="management-system-device-datetime-foot">
+    <button class="button-clip-gradient" (click)="window.confirm.show = true">
+      保存
+    </button>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="save()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
+</div>

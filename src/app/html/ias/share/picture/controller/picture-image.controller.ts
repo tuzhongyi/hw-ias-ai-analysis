@@ -1,8 +1,6 @@
 import { Point } from '../../../../../common/data-core/models/arm/point.model';
 
 export class PictureImageController {
-  src?: Promise<string>;
-
   constructor(private image: HTMLImageElement, zoom: boolean = false) {
     this.init(zoom);
   }
@@ -17,9 +15,26 @@ export class PictureImageController {
     }
   }
 
+  _load(url: string) {
+    return new Promise<string>((resolve) => {
+      let img = new Image();
+
+      img.onload = () => {
+        resolve(url);
+      };
+      img.onerror = (error) => {
+        resolve(
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAANSURBVBhXY2BgYPgPAAEEAQBwIGULAAAAAElFTkSuQmCC'
+        );
+      };
+      img.src = url;
+    });
+  }
+
   load(url: string, polygon: Point[]) {
-    this.src = Promise.resolve(url);
-    this.image.src = url;
+    this._load(url).then((x) => {
+      this.image.src = x;
+    });
     this.polygon = polygon;
   }
 
@@ -58,5 +73,10 @@ export class PictureImageController {
       this.zoomout();
     }
     return this._zoom;
+  }
+
+  onerror() {
+    this.image.src =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAANSURBVBhXY2BgYPgPAAEEAQBwIGULAAAAAElFTkSuQmCC';
   }
 }

@@ -1,0 +1,30 @@
+.management-breadcrumb {
+  display: flex;
+  justify-content: flex-start;
+  height: 100%;
+  transition: all 0.5s;
+
+
+  &-item {
+    height: 100%;
+    display: flex;
+
+    &-separator {
+      margin: 0 10px;
+    }
+
+    &-text {
+      font-size: 18px;
+      color: #2d73d4;
+
+      &:hover {
+        color: white;
+      }
+
+      &.selected {
+        color: #aaa;
+        cursor: default;
+      }
+    }
+  }
+}

@@ -13,4 +13,5 @@ export class PictureWindowContentComponent {
   @Input() url?: string;
   @Input() title: string = '';
   @Input() polygon: Point[] = [];
+  @Input() zoom = true;
 }

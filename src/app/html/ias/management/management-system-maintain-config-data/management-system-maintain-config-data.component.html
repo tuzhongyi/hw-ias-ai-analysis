@@ -1,0 +1,35 @@
+<div class="management-system-maintain-config-data panel">
+  <div class="management-system-maintain-config-data-head panel-title">
+    备份和还原备份
+  </div>
+  <div class="management-system-maintain-config-data-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">配置导出</div>
+        <div class="form-item-value">
+          <button class="button-clip-gradient" (click)="ondownload()">
+            导出
+          </button>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">配置导入</div>
+        <div class="form-item-value">
+          <upload-control
+            [type]="type"
+            (loadstart)="onstart($event)"
+            (upload)="onfile($event)"
+          >
+            <div class="input-button">
+              <input type="text" readonly [value]="filename" />
+              <button>浏览</button>
+            </div>
+          </upload-control>
+          <button class="button-clip-gradient" (click)="onupload()">
+            导入
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

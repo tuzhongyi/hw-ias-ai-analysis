@@ -1,0 +1,22 @@
+<div class="system-module-road-info panel-map-border">
+  <div class="system-module-road-info-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>道路名称</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.Name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text baseline" text-space-between>描述</div>
+        <div class="form-item-value">
+          <textarea [(ngModel)]="data.Description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-road-info-foot button-group">
+    <button class="button-clip-gradient" (click)="onok()">确定</button>
+    <button class="button-clip-blue" (click)="oncancel()">取消</button>
+  </div>
+</div>

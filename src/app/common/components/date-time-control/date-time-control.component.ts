@@ -27,6 +27,7 @@ export class DateTimeControlComponent {
   @Input('startView') startView: DateTimePickerView = DateTimePickerView.month;
   @Input('minView') minView: DateTimePickerView = DateTimePickerView.month;
   @Input('week') week: boolean = false;
+  @Input() disabled: boolean = false;
 
   private _date: Date = new Date();
   public get date(): Date {
@@ -35,6 +36,14 @@ export class DateTimeControlComponent {
   @Input('date')
   public set date(v: Date) {
     this._date = v;
+  }
+
+  @Input()
+  public set value(v: number) {
+    this._date = new Date();
+  }
+  public get value() {
+    return this._date.getTime();
   }
 
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();

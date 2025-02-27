@@ -8,15 +8,13 @@ import {
   Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PaginatorComponent } from '../../../../common/components/paginator/paginator.component';
 import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
-import { Page } from '../../../../common/data-core/models/page-list.model';
 import { SystemModuleRoadTableBusiness } from './system-module-road-table.business';
 import { SystemModuleRoadTableArgs } from './system-module-road-table.model';
 
 @Component({
   selector: 'ias-system-module-road-table',
-  imports: [CommonModule, PaginatorComponent],
+  imports: [CommonModule],
   templateUrl: './system-module-road-table.component.html',
   styleUrl: './system-module-road-table.component.less',
   providers: [SystemModuleRoadTableBusiness],
@@ -27,51 +25,49 @@ export class SystemModuleRoadTableComponent implements OnInit, OnDestroy {
   @Output() modify = new EventEmitter<Road>();
   @Output() delete = new EventEmitter<Road>();
   @Output() error = new EventEmitter<Error>();
+  @Output() loaded = new EventEmitter<Road[]>();
+  @Input() selected?: Road;
+  @Output() selectedChange = new EventEmitter<Road>();
 
   constructor(private business: SystemModuleRoadTableBusiness) {}
 
-  page = Page.create(1, 10);
   datas: Road[] = [];
-  selected?: Road;
-  widths = [];
+
+  widths = ['60px', 'auto', 'auto', '100px'];
   private subscription = new Subscription();
 
   ngOnInit(): void {
     if (this._load) {
       let sub = this._load.subscribe((x) => {
-        this.load(this.page.PageIndex, this.page.PageSize, this.args);
+        this.load(this.args);
       });
       this.subscription.add(sub);
     }
-    this.load(this.page.PageIndex, this.page.PageSize, this.args);
+    this.load(this.args);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  private load(index: number, size: number, args: SystemModuleRoadTableArgs) {
+  private load(args: SystemModuleRoadTableArgs) {
     this.business
-      .load(index, size, args)
+      .load(args)
       .then((x) => {
-        this.datas = x.Data;
-        this.page = x.Page;
+        this.datas = x;
+        this.loaded.emit(x);
       })
       .catch((e) => {
         this.error.emit(e);
       });
   }
 
-  onpage(num: number) {
-    if (this.args) {
-      this.load(num, this.page.PageSize, this.args);
-    }
-  }
   onselect(item: Road) {
     if (this.selected === item) {
       this.selected = undefined;
     } else {
       this.selected = item;
     }
+    this.selectedChange.emit(this.selected);
   }
 
   onmodify(item: Road, e: Event) {

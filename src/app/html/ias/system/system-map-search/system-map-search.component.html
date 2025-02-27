@@ -1,12 +1,13 @@
 <div class="panel-map system-map-search">
-  <div>
-    <select>
-      <option value="">商铺</option>
+  <!-- <div>
+    <select [(ngModel)]="type" (change)="ontype()">
+      <option [ngValue]="Type.shop">商铺</option>
+      <option [ngValue]="Type.road">道路</option>
     </select>
-  </div>
+  </div> -->
   <div class="name">
     <!-- <input type="text" placeholder="请输入..." [(ngModel)]="args.name" /> -->
-    <input-icon [(value)]="args.name">
+    <input-icon [(value)]="args.name" (clear)="onsearch()">
       <div (click)="onsearch()">
         <i class="howell-icon-search"></i>
       </div>

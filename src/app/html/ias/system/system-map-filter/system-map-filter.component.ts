@@ -2,10 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TextSpaceBetweenDirective } from '../../../../common/directives/text-space-between/text-space-between.directive';
-import {
-  SystemMapShopDistanceArgs,
-  SystemMapShopFilterArgs,
-} from '../system-map/system-map.model';
+import { SystemMapShopArgs } from '../system-map/business/system-map-shop.model';
+import { SystemMapDistanceArgs } from '../system-map/system-map.model';
 import { SystemMapFilterSourceController } from './controller/system-map-filter-source.controller';
 
 @Component({
@@ -16,15 +14,15 @@ import { SystemMapFilterSourceController } from './controller/system-map-filter-
   providers: [SystemMapFilterSourceController],
 })
 export class SystemMapFilterComponent {
-  @Input() filter = new SystemMapShopFilterArgs();
-  @Output() filterChange = new EventEmitter<SystemMapShopFilterArgs>();
+  @Input() filter = new SystemMapShopArgs();
+  @Output() filterChange = new EventEmitter<SystemMapShopArgs>();
 
-  @Input() distance = new SystemMapShopDistanceArgs();
-  @Output() distanceChange = new EventEmitter<SystemMapShopDistanceArgs>();
+  @Input() distance = new SystemMapDistanceArgs();
+  @Output() distanceChange = new EventEmitter<SystemMapDistanceArgs>();
 
   @Output() close = new EventEmitter<void>();
 
-  @Output() search = new EventEmitter<SystemMapShopFilterArgs>();
+  @Output() search = new EventEmitter<SystemMapShopArgs>();
 
   @Output() mapdistance = new EventEmitter<void>();
 

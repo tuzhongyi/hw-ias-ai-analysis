@@ -117,4 +117,9 @@ export class PictureComponent implements OnChanges, AfterViewInit {
       });
     });
   }
+  onerror() {
+    this.controller.image.get().then((x) => {
+      x.onerror();
+    });
+  }
 }

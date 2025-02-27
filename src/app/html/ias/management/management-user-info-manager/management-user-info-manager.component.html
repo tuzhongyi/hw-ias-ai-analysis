@@ -1,0 +1,42 @@
+<div class="management-user-info-manager root-router">
+  <div class="management-user-info-manager-head">
+    <div class="management-user-info-manager-head-filter"></div>
+    <div class="management-user-info-manager-head-operation">
+      <div class="button-group">
+        <button class="button-clip-gradient" (click)="details.open()">
+          添加
+        </button>
+        <button class="button-clip-gradient" (click)="delete.confirm()">
+          删除
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="management-user-info-manager-body">
+    <ias-management-user-info-table
+      [load]="table.load"
+      [(selecteds)]="table.selecteds"
+      (modify)="table.modify($event)"
+    ></ias-management-user-info-table>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="delete.do()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
+  <app-window
+    *ngIf="window.details.show"
+    [Model]="window.details"
+    [style]="window.details.style"
+  >
+    <ias-management-user-info-details
+      [data]="window.details.data"
+      (cancel)="window.details.show = false"
+      (ok)="details.ok()"
+    ></ias-management-user-info-details>
+  </app-window>
+</div>

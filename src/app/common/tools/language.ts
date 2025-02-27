@@ -15,13 +15,31 @@ import { CanType } from '../data-core/enums/robot/robot-can-type.model';
 import { RobotState } from '../data-core/enums/robot/robot-state.enum';
 
 export class Language {
-  static yyyyMMdd = 'yyyy-MM-dd';
-  static yyyyMMddHHmmss = 'yyyy-MM-dd HH:mm:ss';
-  static yyyyMMddHHmm = 'yyyy-MM-dd HH:mm';
-  static YearMonthDay = 'yyyy年MM月dd日';
-  static YearMonthDayHHmmss = 'yyyy年MM月dd日 HH:mm:ss';
-  static MonthDayHHmmss = 'MM月dd日 HH:mm:ss';
-  static HH_mm = "HH:mm'";
+  static Year = 'yyyy年';
+  static Month = 'MM月';
+  static Day = 'dd日';
+
+  static yyyy = 'yyyy';
+  static MM = 'MM';
+  static dd = 'dd';
+
+  static HH = "HH'";
+  static mm = 'mm';
+  static ss = 'ss';
+
+  static HHmmss = `${this.HH}:${this.mm}:${this.ss}`;
+  static HHmm = `${this.HH}:${this.mm}`;
+  static HHmm_ = `${this.HHmm}'`;
+
+  static yyyyMMdd = `${this.yyyy}-${this.MM}-${this.dd}`;
+  static yyyyMMddHHmmss = `${this.yyyyMMdd} ${this.HHmmss}`;
+  static yyyyMMddHHmm = `${this.yyyyMMdd} ${this.HHmm_}`;
+
+  static YearMonthDay = `${this.Year}${this.Month}${this.Day}`;
+  static MonthDay = `${this.Month}${this.Day}`;
+
+  static YearMonthDayHHmmss = `${this.YearMonthDay} ${this.HHmmss}`;
+  static MonthDayHHmmss = `${this.MonthDay} ${this.HHmmss}`;
 
   static ChannelPositionNo(value?: number, def = '未知') {
     if (value === undefined) return def;
@@ -262,6 +280,7 @@ export class Language {
   }
 
   static Time(time: number = 0, unit: 'second' | 'minute' = 'second') {
+    if (time === 0) return '';
     if (unit === 'second') {
       return this.TimeFromSecond(time);
     } else {

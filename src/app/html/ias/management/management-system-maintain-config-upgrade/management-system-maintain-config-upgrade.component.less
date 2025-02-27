@@ -1,0 +1,43 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .forms {
+    flex-direction: column;
+    width: 550px;
+
+    .form-item {
+      &-text {
+        width: 150px;
+      }
+
+      &-value {
+        display: flex;
+        gap: 10px;
+
+        upload-control {
+          flex-grow: 1;
+        }
+
+        .progress {
+          border: 1px solid #2d76ce;
+          height: 36px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          box-sizing: border-box;
+
+
+
+          &-inner {
+            height: 100%;
+            background-color: #2d76ce;
+          }
+        }
+      }
+    }
+  }
+
+}

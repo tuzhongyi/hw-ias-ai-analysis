@@ -1,0 +1,80 @@
+<div class="management-user-info-table">
+  <div class="management-user-info-table-body table-split">
+    <div class="table-split-head">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="center">
+              <input
+                type="checkbox"
+                [checked]="
+                  selecteds.length > 0 && selecteds.length === datas.length
+                "
+                (change)="select.all()"
+              />
+            </th>
+            <th class="center">序号</th>
+            <th>用户名</th>
+            <th>分组</th>
+            <th>权限</th>
+            <th>Root权限</th>
+            <th>更新时间</th>
+            <th>描述</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            (click)="select.item(item)"
+            [ngClass]="{
+              selected: selecteds.includes(item)
+            }"
+          >
+            <td class="center">
+              <input type="checkbox" [checked]="selecteds.includes(item)" />
+            </td>
+            <td class="center">
+              <div>{{ index + 1 }}</div>
+            </td>
+            <td [title]="item.Username">
+              {{ item.Username }}
+            </td>
+            <td>{{ item.GroupName }}</td>
+            <td>
+              {{ item.PriorityNames ?? [] }}
+            </td>
+            <td>
+              {{ Language.YesOrNo(item.IsRoot) }}
+            </td>
+            <td>
+              {{ item.UpdateTime | date : Language.yyyyMMddHHmmss }}
+            </td>
+            <td [title]="item.Description">{{ item.Description }}</td>
+            <td>
+              <div class="operation">
+                <div
+                  class="button"
+                  title="编辑"
+                  (click)="onmodify(item, $event)"
+                >
+                  <i class="howell-icon-modification"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

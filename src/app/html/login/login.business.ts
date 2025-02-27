@@ -13,6 +13,10 @@ export class LoginBusiness {
     private local: LocalStorage
   ) {}
 
+  init() {
+    this.local.clear();
+  }
+
   login(username: string, password: string) {
     let code = HowellSM4.encrypt(password);
     return this.service.login(username, code).then((x) => {

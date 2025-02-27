@@ -1,1 +1,21 @@
-<iframe [src]="src"></iframe>
+<div class="management">
+  <div class="management-head">
+    <div class="management-head-logo">
+      <ias-logo></ias-logo>
+    </div>
+    <div class="management-head-operation">
+      <div class="management-head-operation-settings">
+        <ias-settings></ias-settings>
+      </div>
+      <div class="management-head-operation-breadcrumb"></div>
+    </div>
+  </div>
+  <div class="management-body">
+    <div class="management-body-navigation">
+      <ias-management-navigation></ias-management-navigation>
+    </div>
+    <div class="management-body-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

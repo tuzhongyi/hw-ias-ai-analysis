@@ -1,0 +1,75 @@
+<div class="management-user-info-details">
+  <div class="management-user-info-details-head">
+    <ias-content-header [title]="title"></ias-content-header>
+  </div>
+  <div class="management-user-info-details-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">用户名</div>
+        <div class="form-item-value">
+          <input
+            type="text"
+            [(ngModel)]="data.Username"
+            autocomplete="new-password"
+          />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">密码</div>
+        <div class="form-item-value">
+          <input
+            type="password"
+            [(ngModel)]="data.Password"
+            autocomplete="new-password"
+          />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">权限</div>
+        <div class="form-item-value">
+          <common-label-select
+            [autoclose]="true"
+            [(show)]="controller.priority.show"
+            [autoclose]="true"
+            [selected]="controller.priority.selected"
+            (remove)="controller.priority.onremove($event)"
+          >
+            <ias-select-security-priority-type
+              #select
+              [selected]="controller.priority.selected"
+              (selectedChange)="controller.priority.onselected($event)"
+            ></ias-select-security-priority-type>
+          </common-label-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">分组</div>
+        <div class="form-item-value">
+          <hw-select [selected]="data.GroupId">
+            <select [(ngModel)]="data.GroupId">
+              <option *ngFor="let item of groups" [ngValue]="item.GroupId">
+                {{ item.GroupName }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">Root权限</div>
+        <div class="form-item-value">
+          <input type="checkbox" [(ngModel)]="data.IsRoot" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text baseline">描述</div>
+        <div class="form-item-value">
+          <textarea [(ngModel)]="data.Description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="management-user-info-details-foot">
+    <button class="button-clip-gradient" (click)="onok()">确定</button>
+    <button class="button-clip-blue" (click)="oncancel()">取消</button>
+  </div>
+</div>

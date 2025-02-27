@@ -15,11 +15,14 @@
           <th class="center">序号</th>
           <th>照片</th>
           <th sort="Locked" class="center">锁定</th>
+
           <th sort="Name">名称</th>
           <th sort="Address">地址</th>
           <th sort="Telphone">联系方式</th>
           <th sort="Confidence">置信度</th>
           <th sort="ObjectState">状态</th>
+
+          <th sort="ShopType">类型</th>
           <th sort="BeginTime">发现时间</th>
           <th sort="EndTime">最近出现</th>
           <th class="center">操作</th>
@@ -57,6 +60,7 @@
               <i class="howell-icon-lock"></i>
             </div>
           </td>
+
           <td [title]="item.Name">
             <div>{{ item.Name }}</div>
           </td>
@@ -69,6 +73,10 @@
           <td>{{ item.ConfidenceRatio }}</td>
           <td [ngStyle]="{ color: Color.ShopObjectState(item.ObjectState) }">
             {{ item.ObjectStateName | async }}
+          </td>
+
+          <td [title]="item.ShopTypeName | async">
+            <div>{{ item.ShopTypeName | async }}</div>
           </td>
           <td>{{ item.BeginTime | date : Language.yyyyMMddHHmmss }}</td>
           <td>{{ item.EndTime | date : Language.yyyyMMddHHmmss }}</td>

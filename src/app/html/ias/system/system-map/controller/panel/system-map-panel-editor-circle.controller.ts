@@ -1,12 +1,9 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import {
-  SystemMapPanel,
-  SystemMapShopDistanceArgs,
-} from '../../system-map.model';
+import { SystemMapDistanceArgs, SystemMapPanel } from '../../system-map.model';
 
 @Injectable()
 export class SystemMapPanelEditorCircleController extends SystemMapPanel {
-  load = new EventEmitter<SystemMapShopDistanceArgs>();
+  load = new EventEmitter<SystemMapDistanceArgs>();
   clear = new EventEmitter<void>();
   distance = new EventEmitter<number>();
 
@@ -18,7 +15,7 @@ export class SystemMapPanelEditorCircleController extends SystemMapPanel {
     this.distance.emit(value);
   }
 
-  onok(data: SystemMapShopDistanceArgs) {
+  onok(data: SystemMapDistanceArgs) {
     this.load.emit(data);
   }
   oncancel() {

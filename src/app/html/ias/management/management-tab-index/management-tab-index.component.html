@@ -1,0 +1,12 @@
+<div class="management-tab-index">
+  <div class="management-tab-index-head">
+    <ias-content-header-tab
+      [titles]="names"
+      (selectedChange)="onselect($event)"
+      [selected]="index"
+    ></ias-content-header-tab>
+  </div>
+  <div class="management-tab-index-body">
+    <router-outlet></router-outlet>
+  </div>
+</div>

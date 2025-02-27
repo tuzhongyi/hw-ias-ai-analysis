@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { MapTool } from '../../../../../common/tools/map-tool/map.tool';
+import { GeoTool } from '../../../../../common/tools/geo-tool/geo.tool';
 
 export class SystemTaskFileDetailsAMapPathController {
   mouseover = new EventEmitter<[number, number]>();
@@ -18,7 +18,7 @@ export class SystemTaskFileDetailsAMapPathController {
     ) as [number, number];
     console.log(point);
     if (point) {
-      let closest = MapTool.closest(this.points, point);
+      let closest = GeoTool.point.closest(this.points, point);
       if (closest) {
         this.mouseover.emit(closest);
       }
@@ -32,7 +32,7 @@ export class SystemTaskFileDetailsAMapPathController {
       [e.lnglat.lng, e.lnglat.lat],
       [...this.points]
     ) as [number, number];
-    let closest = MapTool.closest(this.points, point);
+    let closest = GeoTool.point.closest(this.points, point);
     if (closest) {
       this.click.emit(closest);
     }

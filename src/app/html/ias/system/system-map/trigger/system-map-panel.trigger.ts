@@ -15,41 +15,59 @@ export class SystemMapPanelTrigger {
   }
 
   private regist() {
-    this.register.source();
+    this.register.source.shop();
+    this.register.source.road();
     this.register.details();
     this.register.editor.circle();
     this.register.filter();
   }
 
   private register = {
-    source: () => {
-      this.panel.source.select.subscribe((shop) => {
-        if (this.panel.editor.circle.show) {
-          if (shop.Location) {
-            this.amap.distance.center([
-              shop.Location.Longitude,
-              shop.Location.Latitude,
-            ]);
+    source: {
+      shop: () => {
+        this.panel.source.shop.select.subscribe((shop) => {
+          this.amap.shop.blur();
+          this.amap.road.blur();
+
+          if (this.panel.editor.circle.show) {
+            if (shop.Location) {
+              this.amap.distance.center([
+                shop.Location.Longitude,
+                shop.Location.Latitude,
+              ]);
+            }
           }
-        }
-        this.amap.point.select(shop);
-      });
-      this.panel.source.hover.subscribe((shop) => {
-        this.amap.point.hover(shop);
-      });
-      this.panel.source.out.subscribe((shop) => {
-        this.amap.point.out(shop);
-      });
-      this.panel.source.position.subscribe((shop) => {
-        if (shop.Location) {
-          this.amap.center(shop.Location);
-        }
-      });
+          this.amap.shop.select(shop);
+        });
+        this.panel.source.shop.hover.subscribe((shop) => {
+          this.amap.shop.hover(shop);
+        });
+        this.panel.source.shop.out.subscribe((shop) => {
+          this.amap.shop.out(shop);
+        });
+        this.panel.source.shop.position.subscribe((shop) => {
+          if (shop.Location) {
+            this.amap.center(shop.Location);
+          }
+        });
+      },
+      road: () => {
+        this.panel.source.road.select.subscribe((road) => {
+          this.amap.shop.blur();
+          this.amap.road.blur();
+          if (road) {
+            this.amap.road.select(road);
+          }
+        });
+        this.panel.source.road.position.subscribe((road) => {
+          this.amap.road.focus(road);
+        });
+      },
     },
     details: () => {
       this.panel.details.shop.change.subscribe((show) => {
         if (!show) {
-          this.amap.point.blur();
+          this.amap.shop.blur();
         }
       });
     },

@@ -1,0 +1,56 @@
+<div class="management-record-file-table">
+  <div class="management-record-file-table-body table-split">
+    <div class="table-split-head">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>名称</th>
+            <th>修改日期</th>
+            <th>类型</th>
+            <th>大小</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            (dblclick)="onfolder(item)"
+          >
+            <td [title]="item.FileName">
+              {{ item.FileName }}
+            </td>
+            <td>
+              {{ item.ModifiedTime | date : Language.YearMonthDayHHmmss }}
+            </td>
+            <td>
+              {{ item.IsDirectory ? "文件夹" : "文件" }}
+            </td>
+            <td>
+              {{ item.FileSize ? Language.Size(item.FileSize) : "" }}
+            </td>
+            <td>
+              <div class="operation" *ngIf="!item.IsDirectory">
+                <div class="button" title="播放">
+                  <i class="mdi mdi-video"></i>
+                </div>
+                <div class="button" title="下载" (click)="ondownload(item)">
+                  <i class="mdi mdi-download"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

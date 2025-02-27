@@ -10,6 +10,8 @@ export class GetRoadsParams extends PagedParams {
   GroupId?: number;
   /**	Int32	道路分类	O	*/
   Classification?: number;
-  /**	GisPont	查找离GPS坐标最近的道路	O	*/
+  /**	GisPont	查找离GPS坐标最近的道路	O */
   GeoPoint?: GisPoint;
+  /**	Double	最大距离，单位：米，与GeoPoint配合使用	O */
+  MaxDistance?: number;
 }

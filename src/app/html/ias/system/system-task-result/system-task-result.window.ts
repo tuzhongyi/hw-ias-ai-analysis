@@ -13,7 +13,7 @@ class PictureWindow extends WindowViewModel {
   style = {
     width: '100%',
     height: '100%',
-    paddingTop: '10px',
+    paddingTop: 0,
   };
   title = '';
   id?: string;

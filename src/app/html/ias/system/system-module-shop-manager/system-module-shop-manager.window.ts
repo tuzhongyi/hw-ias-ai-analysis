@@ -14,7 +14,7 @@ class DetailsWindow extends WindowViewModel {
   style = {
     width: '80%',
     height: '85%',
-    paddingTop: '10px',
+    paddingTop: 0,
   };
   data?: ShopViewModel;
 }
@@ -25,7 +25,7 @@ class CreateWindow extends WindowViewModel {
   style = {
     width: '70%',
     height: '80%',
-    paddingTop: '10px',
+    paddingTop: 0,
   };
   data?: Shop;
 }

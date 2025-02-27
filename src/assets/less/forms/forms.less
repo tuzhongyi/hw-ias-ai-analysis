@@ -42,14 +42,49 @@
       }
 
       &.baseline {
-        height: 100%;
-        align-items: baseline;
+        align-self: baseline;
+
+        &+.form-item-value {
+          align-self: start;
+        }
       }
     }
 
     &-value {
       flex-grow: 1;
       color: white;
+      display: flex;
+      align-items: center;
+
+      &.icon {
+        display: flex;
+        position: relative;
+      }
+
+      &.unit {
+        display: flex;
+        position: relative;
+
+        &>* {
+          &:first-child {
+            width: 100%;
+          }
+
+          &+i {
+            position: absolute;
+            height: 36px;
+            line-height: 36px;
+            font-size: 20px;
+            color: #2d76ce;
+            right: 10px;
+            text-align: center;
+            pointer-events: none;
+            white-space: nowrap;
+            font-style: normal;
+          }
+        }
+
+      }
     }
   }
 

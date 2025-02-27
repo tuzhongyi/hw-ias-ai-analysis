@@ -12,7 +12,7 @@ class DetailsWindow extends WindowViewModel {
   style = {
     width: '80%',
     height: '70%',
-    paddingTop: '10px',
+    paddingTop: 0,
   };
   data?: FileInfo;
 }

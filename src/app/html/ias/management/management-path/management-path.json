@@ -1,0 +1,102 @@
+{
+  "system": {
+    "path": "management/system",
+    "name": "系统",
+    "children": [
+      {
+        "path": "management/system/device",
+        "name": "设备信息",
+        "children": [
+          {
+            "path": "management/system/device/info",
+            "name": "设备信息"
+          },
+          {
+            "path": "management/system/device/datetime",
+            "name": "时间配置"
+          }
+        ]
+      },
+      {
+        "path": "management/system/status",
+        "name": "系统状态",
+        "children": [
+          {
+            "path": "management/system/status/running",
+            "name": "系统运行状态"
+          },
+          {
+            "path": "management/system/status/process",
+            "name": "进程信息"
+          }
+        ]
+      },
+      {
+        "path": "management/system/maintain",
+        "name": "系统维护",
+        "children": [
+          {
+            "path": "management/system/maintain/config",
+            "name": "系统维护"
+          },
+          {
+            "path": "management/system/maintain/log",
+            "name": "日志"
+          }
+        ]
+      }
+    ]
+  },
+  "network": {
+    "path": "management/network",
+    "name": "网络",
+    "children": [
+      {
+        "path": "management/network/location",
+        "name": "基本配置",
+        "children": [
+          {
+            "path": "management/network/location/tcpip",
+            "name": "TCP/IP"
+          },
+          {
+            "path": "management/network/location/ssh",
+            "name": "SSH"
+          }
+        ]
+      }
+    ]
+  },
+  "record": {
+    "path": "management/record",
+    "name": "录像",
+    "children": [
+      {
+        "path": "management/record/file",
+        "name": "录像文件",
+        "children": [
+          {
+            "path": "management/record/file/manager",
+            "name": "录像文件"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "path": "management/user",
+    "name": "用户",
+    "children": [
+      {
+        "path": "management/user/info",
+        "name": "用户管理",
+        "children": [
+          {
+            "path": "management/user/info/manager",
+            "name": "用户列表"
+          }
+        ]
+      }
+    ]
+  }
+}

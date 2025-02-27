@@ -1,0 +1,22 @@
+<div class="management-navigation">
+  <ng-container *ngFor="let main of nodes">
+    <div
+      class="management-navigation-item main"
+      [class.selected]="main.selected"
+      (click)="onpath(main.path)"
+    >
+      {{ main.name }}
+    </div>
+    <ng-container *ngIf="main.selected">
+      <ng-container *ngFor="let child of main.children">
+        <div
+          class="management-navigation-item sub"
+          [class.selected]="child.selected"
+          (click)="onpath(child.path)"
+        >
+          {{ child.name }}
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</div>

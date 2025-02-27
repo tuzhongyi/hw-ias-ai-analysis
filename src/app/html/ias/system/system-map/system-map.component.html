@@ -1,8 +1,9 @@
-<div class="system-map root-loading">
+<div class="system-map root-router">
   <div class="system-map-container" id="map-container"></div>
   <div class="system-map-search" *ngIf="panel.search.show">
     <ias-system-map-search
-      [(args)]="args.filter"
+      [(args)]="args"
+      [(type)]="type"
       (search)="onsearch()"
     ></ias-system-map-search>
   </div>
@@ -20,14 +21,14 @@
     ></ias-system-map-controls>
   </div>
   <div class="system-map-state" *ngIf="panel.state.show">
-    <ias-system-map-state [datas]="datas"></ias-system-map-state>
+    <ias-system-map-state [datas]="shops"></ias-system-map-state>
   </div>
   <div
     class="system-map-editor-circle"
-    *ngIf="panel.editor.circle.show && args.dsitance.enabled"
+    *ngIf="panel.editor.circle.show && args.distance.enabled"
   >
     <ias-system-map-editor-circle
-      [args]="args.dsitance"
+      [args]="args.distance"
       (distance)="panel.editor.circle.ondistance($event)"
       (ok)="panel.editor.circle.onok($event)"
       (close)="panel.editor.circle.oncancel()"
@@ -35,10 +36,10 @@
   </div>
   <div
     class="system-map-filter-getting"
-    *ngIf="panel.filter.getting.show && args.dsitance.enabled"
+    *ngIf="panel.filter.getting.show && args.distance.enabled"
   >
     <ias-system-map-editor-circle
-      [args]="args.dsitance"
+      [args]="args.distance"
       (distance)="panel.filter.getting.ondistance($event)"
       (ok)="panel.filter.getting.onok($event)"
       (close)="panel.filter.getting.oncancel()"
@@ -50,14 +51,25 @@
     <div>{{ panel.position.point.Y }}</div>
   </div>
   <div class="panel-map-border system-map-source" *ngIf="panel.source.show">
-    <ias-system-map-source-table
+    <!-- <ias-system-map-source-table
       [datas]="datas"
       (details)="panel.source.ondetails($event)"
       (itemhover)="panel.source.onmouseover($event)"
       (itemblur)="panel.source.onmouseout($event)"
       (selectedChange)="panel.source.onselect($event)"
       (position)="panel.source.onposition($event)"
-    ></ias-system-map-source-table>
+    ></ias-system-map-source-table> -->
+
+    <ias-system-map-source-manager
+      [shops]="shops"
+      [roads]="roads"
+      [(type)]="type"
+      (details)="panel.source.shop.ondetails($event)"
+      (itemhover)="panel.source.shop.onmouseover($event)"
+      (itemblur)="panel.source.shop.onmouseout($event)"
+      (selectedChange)="panel.source.onselect($event)"
+      (position)="panel.source.onposition($event)"
+    ></ias-system-map-source-manager>
   </div>
 
   <div
@@ -70,15 +82,29 @@
     <ias-system-map-panel-details-shop
       [data]="panel.details.shop.data"
       (close)="panel.details.shop.show = false"
+      (picture)="onpicture($event)"
     ></ias-system-map-panel-details-shop>
   </div>
   <div class="system-map-filter" *ngIf="panel.filter.show">
     <ias-system-map-filter
-      [(filter)]="args.filter"
-      [(distance)]="args.dsitance"
+      [(filter)]="args.shop"
+      [(distance)]="args.distance"
       (search)="panel.filter.onsearch()"
       (close)="panel.filter.show = false"
       (mapdistance)="panel.filter.ondistance()"
     ></ias-system-map-filter>
   </div>
+
+  <app-window
+    *ngIf="window.picture.show"
+    [Model]="window.picture"
+    [style]="window.picture.style"
+  >
+    <ias-picture-window-content
+      [url]="window.picture.id"
+      [title]="window.picture.title"
+      [polygon]="window.picture.polygon"
+      [zoom]="false"
+    ></ias-picture-window-content>
+  </app-window>
 </div>

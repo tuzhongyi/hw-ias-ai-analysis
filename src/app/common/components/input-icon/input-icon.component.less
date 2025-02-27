@@ -14,12 +14,26 @@
     right: 10px;
     color: #2d76ce;
     font-size: 20px;
-    cursor: pointer;
+
     width: 22px;
     text-align: center;
 
-    &:hover {
-      color: white;
+    &.hover {
+      cursor: pointer;
+
+      &:hover {
+        color: white;
+
+      }
     }
+
+
+  }
+
+  &-clear {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 38px;
   }
 }

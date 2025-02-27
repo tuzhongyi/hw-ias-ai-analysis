@@ -1,0 +1,24 @@
+.system-module-road-map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.system-module-road-map .system-map-container {
+  width: 100%;
+  height: 100%;
+}
+.system-module-road-map-position {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  display: flex;
+  justify-content: center;
+}
+.system-module-road-map-position > ._ {
+  width: 15px;
+}
+.system-module-road-map-position > * {
+  width: calc((100% - 15px) / 2);
+}

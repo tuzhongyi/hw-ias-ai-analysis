@@ -1,0 +1,25 @@
+<div class="management-system-maintain-log">
+  <div class="management-system-maintain-log-head">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">选择日期</div>
+        <div class="form-item-value unit">
+          <date-time-control [(date)]="date"></date-time-control>
+          <i class="howell-icon-calendar"></i>
+        </div>
+      </div>
+      <div class="form-item">
+        <button class="button-clip-gradient" (click)="onsearch()">查找</button>
+      </div>
+      <div class="form-item">
+        <button class="button-clip-gradient" (click)="ondownload()">
+          导出
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="management-system-maintain-log-body panel"
+    [innerHTML]="data"
+  ></div>
+</div>

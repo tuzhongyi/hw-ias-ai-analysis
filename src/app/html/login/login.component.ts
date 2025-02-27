@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
       }
     });
     this.load();
+    this.business.init();
   }
 
   load() {

@@ -1,0 +1,131 @@
+<div class="management-system-device-info root-router">
+  <div class="management-system-device-info-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">设备名称</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.Name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">型号</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.Model || ''" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">序列号</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.SerialNumber || ''" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">设备类型</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.DeviceType || ''" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">软件版本号</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.FirmwareVersion || ''" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">编译时间</div>
+        <div class="form-item-value">
+          <input
+            type="text"
+            readonly
+            [value]="data.FirmwareBuildDate | date : Language.YearMonthDay"
+          />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">公司名</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.Company || ''" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">操作系统</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.OS || ''" />
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-text">自定义信息</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.CustomizedInfo" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">硬件类型、芯片型号</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.Hardware || ''" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">硬件版本号</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.HardwareVersion || ''" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">供应商信息</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.Vendor || ''" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">无线网络</div>
+        <div class="form-item-value">
+          <input
+            type="text"
+            readonly
+            [value]="data.Wireless ? '支持' : '不支持'"
+          />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">硬盘个数</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.HddNumber" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">报警输入个数</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.IOInNumber" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">报警输出个数</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.IOOutNumber" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">最大IPC接入通道数量</div>
+        <div class="form-item-value">
+          <input type="text" readonly [value]="data.MaxIPCNumber" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="management-system-device-info-foot">
+    <button class="button-clip-gradient" (click)="window.confirm.show = true">
+      保存
+    </button>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="save()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
+</div>

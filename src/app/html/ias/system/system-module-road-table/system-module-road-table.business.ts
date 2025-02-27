@@ -7,24 +7,16 @@ import { SystemModuleRoadTableArgs } from './system-module-road-table.model';
 export class SystemModuleRoadTableBusiness {
   constructor(private service: ArmGeographicRequestService) {}
 
-  async load(index: number, size: number, args: SystemModuleRoadTableArgs) {
-    let datas = await this.data(index, size, args);
-    if (
-      datas.Page.RecordCount == 0 &&
-      datas.Page.TotalRecordCount > 0 &&
-      datas.Page.PageIndex > 1
-    ) {
-      datas = await this.data(datas.Page.RecordCount, size, args);
-    }
+  async load(args: SystemModuleRoadTableArgs) {
+    let datas = await this.data(args);
 
     return datas;
   }
 
-  data(index: number, size: number, args: SystemModuleRoadTableArgs) {
+  private data(args: SystemModuleRoadTableArgs) {
     let params = new GetRoadsParams();
-    params.PageIndex = index;
-    params.PageSize = size;
+
     params.Name = args.name;
-    return this.service.road.list(params);
+    return this.service.road.all(params);
   }
 }

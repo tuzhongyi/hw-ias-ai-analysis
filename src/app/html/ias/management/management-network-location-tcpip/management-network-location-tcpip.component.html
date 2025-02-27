@@ -1,0 +1,149 @@
+<div class="management-network-location-tcpip root-router">
+  <div class="management-network-location-tcpip-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">选择网口</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="selected">
+            <option
+              [ngValue]="item"
+              *ngFor="let item of datas; let index = index"
+            >
+              网口 {{ index + 1 }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <ng-container *ngIf="selected">
+        <div class="form-item">
+          <div class="form-item-text"></div>
+          <div class="form-item-value">
+            <label for="AutoNegotiation">
+              <input
+                id="AutoNegotiation"
+                type="checkbox"
+                [(ngModel)]="selected.AutoNegotiation"
+              />
+              网卡自适应
+            </label>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">网卡速率</div>
+          <div class="form-item-value">
+            <select
+              [(ngModel)]="selected.Speed"
+              [disabled]="selected.AutoNegotiation"
+            >
+              <option
+                *ngFor="let item of source.speeds | async"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">网卡类型</div>
+          <div class="form-item-value">
+            <select
+              [(ngModel)]="selected.Duplex"
+              [disabled]="selected.AutoNegotiation"
+            >
+              <option
+                *ngFor="let item of source.duplexs | async"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">物理地址</div>
+          <div class="form-item-value">
+            <input disabled type="text" [(ngModel)]="selected.MACAddress" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">MTU</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="selected.MTU" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">地址类型</div>
+          <div class="form-item-value">
+            <label for="AddressingType">
+              <input id="AddressingType" type="checkbox" [(ngModel)]="type" />
+              自动获取IP地址
+            </label>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">设备IPv4地址</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [disabled]="type"
+              [(ngModel)]="selected.IPAddress.IPv4Address.Address"
+            />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">IPv4子网掩码</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [disabled]="type"
+              [(ngModel)]="selected.IPAddress.IPv4Address.SubnetMask"
+            />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">IPv4默认网关</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [disabled]="type"
+              [(ngModel)]="selected.IPAddress.IPv4Address.DefaultGateway"
+            />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">首选DNS服务器</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [(ngModel)]="selected.IPAddress.IPv4Address.PrimaryDNS"
+            />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">备用DNS服务器</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [(ngModel)]="selected.IPAddress.IPv4Address.SecondaryDNS"
+            />
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="management-network-location-tcpip-foot">
+    <button class="button-clip-gradient" (click)="window.confirm.show = true">
+      保存
+    </button>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="save()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
+</div>

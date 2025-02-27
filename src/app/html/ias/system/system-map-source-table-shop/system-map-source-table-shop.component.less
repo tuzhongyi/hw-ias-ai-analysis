@@ -1,0 +1,48 @@
+.system-map-source-table-shop {
+  height: 100%;
+  width: 100%;
+
+  transition: all 0.5s;
+
+  @foot-height: 40px;
+
+  &-body {
+    height: calc(100% - @foot-height);
+
+    table {
+      border: none;
+
+      thead {
+        tr {
+          th {
+            height: 40px;
+          }
+        }
+      }
+
+      tbody {
+        border: none;
+      }
+    }
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    width: 100%;
+
+    &>* {
+      width: 100%;
+    }
+
+    ::ng-deep {
+      .paginator {
+        width: 100%;
+        gap: unset;
+        justify-content: space-between;
+      }
+    }
+  }
+}

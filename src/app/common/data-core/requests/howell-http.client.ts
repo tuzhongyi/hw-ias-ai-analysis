@@ -141,6 +141,11 @@ export class HowellHttpClient {
         if (e.status == 401) {
           this.router.navigateByUrl(RoutePath.login);
         }
+        if (e.status == 200) {
+          if (e.error && e.error.text) {
+            return e.error.text as R;
+          }
+        }
         throw e;
       });
   }

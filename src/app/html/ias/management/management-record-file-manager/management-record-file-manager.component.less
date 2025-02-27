@@ -1,0 +1,58 @@
+.management-record-file-manager {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+
+  @gap: 10px;
+  @head-height: 36px;
+
+  gap: @gap;
+
+  &-head {
+    height: @head-height;
+
+    .operation {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      &-button {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid transparent;
+        cursor: pointer;
+
+        &:hover {
+          border-color: #2d76ce;
+        }
+
+        &.refresh {
+          border-color: #2d76ce;
+        }
+      }
+
+
+      &-path {
+        height: 100%;
+        border: 1px solid #2d76ce;
+        flex-grow: 1;
+        padding: 0 10px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @head-height - @gap);
+  }
+}

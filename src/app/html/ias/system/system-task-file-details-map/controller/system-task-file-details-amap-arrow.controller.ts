@@ -1,4 +1,4 @@
-import { MapTool } from '../../../../../common/tools/map-tool/map.tool';
+import { GeoTool } from '../../../../../common/tools/geo-tool/geo.tool';
 
 export class SystemTaskFileDetailsAMapArrowController {
   constructor(private map: AMap.Map) {
@@ -37,13 +37,7 @@ export class SystemTaskFileDetailsAMapArrowController {
   }
 
   direction1(position: [number, number][]) {
-    let angle = MapTool.direction(
-      position[0][1],
-      position[0][0],
-      position[1][1],
-      position[1][0]
-    );
-
+    let angle = GeoTool.point.direction(position[0], position[1]);
     this.arrow.setAngle(angle);
   }
 
