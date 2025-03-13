@@ -39,7 +39,7 @@ export class SystemTaskResultShopTableComponent implements OnInit, OnDestroy {
 
   @ViewChild('body') body?: ElementRef<HTMLDivElement>;
   datas: ShopViewModel[] = [];
-  widths: string[] = ['60px', 'auto', 'auto', '86px'];
+  widths: string[] = ['65px', 'auto', 'auto', '86px'];
 
   private filter = new SystemTaskResultShopTableFilter();
   private subscription = new Subscription();
@@ -77,6 +77,9 @@ export class SystemTaskResultShopTableComponent implements OnInit, OnDestroy {
         this.datas = x;
         if (this.datas.length > 0) {
           this.onselect(this.datas[0], 0);
+        } else {
+          this.selected = undefined;
+          this.selectedChange.emit(undefined);
         }
       })
       .catch((e) => this.error.emit(e));

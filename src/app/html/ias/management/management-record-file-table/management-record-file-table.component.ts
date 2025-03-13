@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FileInfo } from '../../../../common/data-core/models/arm/file/file-info.model';
+import { TableSorterDirective } from '../../../../common/directives/table-sorter/table-soater.directive';
+import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
+import { LocaleCompare } from '../../../../common/tools/compare-tool/compare.tool';
 import { Language } from '../../../../common/tools/language';
 import { ManagementRecordFileTableBusiness } from './management-record-file-table.business';
 
 @Component({
   selector: 'ias-management-record-file-table',
-  imports: [CommonModule],
+  imports: [CommonModule, TableSorterDirective],
   templateUrl: './management-record-file-table.component.html',
   styleUrl: './management-record-file-table.component.less',
   providers: [ManagementRecordFileTableBusiness],
@@ -81,5 +84,17 @@ export class ManagementRecordFileTableComponent implements OnInit {
   ondownload(data: FileInfo) {
     let url = this.business.file(data);
     window.open(url);
+  }
+
+  onsort(sort: Sort) {
+    this.datas = this.datas.sort((a, b) => {
+      let _a: any = a;
+      let _b: any = b;
+      return LocaleCompare.compare(
+        _a[sort.active],
+        _b[sort.active],
+        sort.direction === 'asc'
+      );
+    });
   }
 }

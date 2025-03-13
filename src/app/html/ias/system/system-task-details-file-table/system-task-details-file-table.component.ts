@@ -31,7 +31,7 @@ export class SystemTaskDetailsFileTableComponent implements OnInit, OnDestroy {
   @Output() error = new EventEmitter<Error>();
   constructor(private business: SystemTaskDetailsFileBusiness) {}
 
-  widths = ['60px', 'auto', '150px', '100px'];
+  widths = ['65px', 'auto', '150px', '100px'];
   datas: SystemTaskDetailsFileModel[] = [];
   selected?: SystemTaskDetailsFileModel;
 

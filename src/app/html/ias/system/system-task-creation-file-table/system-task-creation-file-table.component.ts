@@ -25,7 +25,7 @@ export class SystemTaskCreationFileTableComponent implements OnInit, OnDestroy {
 
   constructor() {}
 
-  widths = ['60px', '60px', 'auto', '200px', '100px'];
+  widths = ['65px', '60px', 'auto', '200px', '100px'];
   datas: SystemTaskCreationFileModel[] = [];
 
   Language = Language;

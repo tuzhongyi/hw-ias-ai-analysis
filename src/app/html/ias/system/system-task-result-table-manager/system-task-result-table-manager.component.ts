@@ -117,8 +117,12 @@ export class SystemTaskResultTableManagerComponent
     }
 
     this.shop.select.subscribe((x) => {
-      this.shop.sign.args.shopId = x.Id;
-      this.shop.sign.load();
+      if (x) {
+        this.shop.sign.args.shopId = x.Id;
+        this.shop.sign.load();
+      } else {
+        this.loaded.emit([]);
+      }
     });
     this.shop.sign.select.subscribe((x) => {
       this.selected = x;

@@ -20,7 +20,7 @@ export class ManagementUserInfoTableComponent implements OnInit {
   constructor(private business: ManagementUserInfoTableBusiness) {}
 
   widths = [
-    '60px',
+    '65px',
     '60px',
     'auto',
     'auto',

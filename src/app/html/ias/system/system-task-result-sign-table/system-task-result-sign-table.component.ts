@@ -42,7 +42,7 @@ export class SystemTaskResultSignTableComponent implements OnInit, OnDestroy {
   @ViewChild('body') body?: ElementRef<HTMLDivElement>;
 
   datas: ShopSignViewModel[] = [];
-  widths: string[] = ['60px', 'auto', '85px', '60px', '120px', '85px', '80px'];
+  widths: string[] = ['65px', 'auto', '85px', '60px', '120px', '85px', '80px'];
   loading = false;
 
   private filter = new SystemTaskResultSignTableFilter();

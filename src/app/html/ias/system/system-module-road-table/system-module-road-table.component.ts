@@ -33,7 +33,7 @@ export class SystemModuleRoadTableComponent implements OnInit, OnDestroy {
 
   datas: Road[] = [];
 
-  widths = ['60px', 'auto', 'auto', '100px'];
+  widths = ['65px', 'auto', 'auto', '100px'];
   private subscription = new Subscription();
 
   ngOnInit(): void {
