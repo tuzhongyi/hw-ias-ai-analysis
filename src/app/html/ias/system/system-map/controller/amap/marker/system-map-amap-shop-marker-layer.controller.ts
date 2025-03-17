@@ -1,4 +1,5 @@
-import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { SystemMapAMapConfig } from '../system-map-amap.config';
 import { SystemAMapShopInfoController } from './system-map-amap-shop-info.controller';
 import {
   SystemAMapShopLabelMarkerController,
@@ -21,6 +22,7 @@ export class SystemAMapShopMarkerLayerController {
     let layer = new AMap.LabelsLayer({
       collision: false,
       allowCollision: false,
+      zooms: SystemMapAMapConfig.icon.zooms,
     });
     map.add(layer);
     return layer;

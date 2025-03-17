@@ -43,15 +43,17 @@ export class SystemMapSourceTableRoadComponent implements AfterViewChecked {
 
   onselect(item: Road) {
     if (this.selected === item) {
-      if (this.clicked) return;
-      this.clicked = setTimeout(() => {
-        this.clicked = undefined;
-      }, 0.5 * 1000);
+      if (this.clicked) {
+        return;
+      }
 
       this.selected = undefined;
     } else {
       this.selected = item;
     }
+    this.clicked = setTimeout(() => {
+      this.clicked = undefined;
+    }, 0.5 * 1000);
     this.selectedChange.emit(this.selected);
   }
   onposition(item: Road, e: MouseEvent) {

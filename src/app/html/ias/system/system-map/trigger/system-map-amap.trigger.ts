@@ -21,5 +21,12 @@ export class SystemMapAMapTrigger {
       this.panel.details.shop.data = x;
       this.panel.details.shop.show = true;
     });
+    this.amap.event.map.mousemmove.subscribe((x) => {
+      if (!this.panel.position.show) {
+        this.panel.position.show = true;
+      }
+      this.panel.position.point.X = x[0];
+      this.panel.position.point.Y = x[1];
+    });
   }
 }

@@ -1,0 +1,62 @@
+<div class="system-map-task-manager">
+  <ng-container *ngIf="!compared">
+    <div class="system-map-task-manager-body">
+      <ias-system-map-task-table
+        [selecteds]="selecteds"
+        (selectedsChange)="onselect($event)"
+        [load]="task.load"
+      ></ias-system-map-task-table>
+    </div>
+    <div class="system-map-task-manager-foot button-group">
+      <button
+        class="button-clip-gradient"
+        [disabled]="selecteds.length < 2"
+        (click)="oncompare()"
+      >
+        比较
+      </button>
+      <button class="button-clip-blue" (click)="onclose()">关闭</button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="compared">
+    <div class="system-map-task-manager-head">
+      <div class="button-group">
+        <div class="button" (click)="compared = false">
+          <i class="mdi mdi-arrow-left-bold"></i>
+        </div>
+        <button
+          [ngClass]="{
+            'button-clip-gradient-2': state === State.Disappeared,
+            'button-clip-blue-2': state != State.Disappeared
+          }"
+          (click)="onstate(State.Disappeared)"
+        >
+          消失的
+        </button>
+        <button
+          [ngClass]="{
+            'button-clip-gradient-2': state === State.Created,
+            'button-clip-blue-2': state != State.Created
+          }"
+          (click)="onstate(State.Created)"
+        >
+          新出现得
+        </button>
+        <button
+          [ngClass]="{
+            'button-clip-gradient-2': state === State.Existed,
+            'button-clip-blue-2': state != State.Existed
+          }"
+          (click)="onstate(State.Existed)"
+        >
+          长期存在的
+        </button>
+      </div>
+    </div>
+    <div class="system-map-task-manager-body">
+      <ias-system-map-source-table-shop
+        [datas]="datas"
+      ></ias-system-map-source-table-shop>
+    </div>
+  </ng-container>
+</div>

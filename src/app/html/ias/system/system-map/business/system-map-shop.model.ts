@@ -5,6 +5,7 @@ export class SystemMapShopArgs {
   camera?: string;
   label?: number;
   state?: number;
+  task?: string[];
 
   clear() {
     this.name = undefined;

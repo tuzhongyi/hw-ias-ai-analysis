@@ -1,9 +1,11 @@
 <div class="system-map-controls">
   <div
     class="panel-map system-map-control-item button"
+    title="列表"
     [class.selected]="source"
+    (click)="onsource()"
   >
-    <div class="" title="列表" (click)="onsource()">
+    <div class="">
       <i class="mdi mdi-format-list-bulleted-type"></i>
     </div>
   </div>
@@ -25,6 +27,17 @@
   >
     <div class="">
       <i class="mdi mdi-filter-outline"></i>
+    </div>
+  </div>
+
+  <div
+    class="panel-map system-map-control-item button"
+    title="任务信息"
+    [class.selected]="task"
+    (click)="ontask()"
+  >
+    <div class="">
+      <i class="howell-icon-task_misson"></i>
     </div>
   </div>
 </div>

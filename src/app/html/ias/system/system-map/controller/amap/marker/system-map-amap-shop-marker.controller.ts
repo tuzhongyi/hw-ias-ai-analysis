@@ -1,4 +1,4 @@
-import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemAMapShopIconController } from './system-map-amap-shop-icon.controller';
 
 import { EventEmitter } from '@angular/core';

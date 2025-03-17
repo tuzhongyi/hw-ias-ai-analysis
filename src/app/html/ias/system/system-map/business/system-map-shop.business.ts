@@ -39,7 +39,9 @@ export class SystemMapShopBusiness {
       params.ObjectStates = [args.state];
     }
 
-    params.ObjectStates;
+    if (args.task) {
+      params.TaskIds = args.task;
+    }
 
     return this.service.shop.all(params);
   }

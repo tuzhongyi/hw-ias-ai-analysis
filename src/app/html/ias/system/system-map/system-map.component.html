@@ -2,9 +2,8 @@
   <div class="system-map-container" id="map-container"></div>
   <div class="system-map-search" *ngIf="panel.search.show">
     <ias-system-map-search
-      [(args)]="args"
-      [(type)]="type"
-      (search)="onsearch()"
+      [(name)]="args.name"
+      (search)="onsearch($event)"
     ></ias-system-map-search>
   </div>
   <div class="system-map-statistic" *ngIf="panel.statistic.show">
@@ -18,6 +17,7 @@
       [(source)]="this.panel.source.show"
       [(distance)]="this.panel.editor.circle.show"
       [(filter)]="this.panel.filter.show"
+      [(task)]="this.panel.task.show"
     ></ias-system-map-controls>
   </div>
   <div class="system-map-state" *ngIf="panel.state.show">
@@ -71,12 +71,20 @@
       (position)="panel.source.onposition($event)"
     ></ias-system-map-source-manager>
   </div>
+  <div class="panel-map-border system-map-task" *ngIf="panel.task.show">
+    <ias-system-map-task-manager
+      [(selecteds)]="panel.task.selecteds"
+      [shops]="shops"
+      (compare)="panel.task.oncompare()"
+      (close)="panel.task.onclose()"
+    ></ias-system-map-task-manager>
+  </div>
 
   <div
     class="system-map-details-shop"
     [ngClass]="{
-    source: panel.source.show,
-  }"
+      source: panel.source.show || panel.task.show
+    }"
     *ngIf="panel.details.shop.show"
   >
     <ias-system-map-panel-details-shop

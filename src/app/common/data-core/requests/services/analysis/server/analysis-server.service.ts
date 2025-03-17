@@ -75,6 +75,21 @@ export class ArmAnalysisServerRequestService {
 class ArmAnalysisServerTaskRequestService {
   constructor(private http: HowellHttpClient) {}
 
+  async all(
+    params: GetAnalysisTaskListParams = new GetAnalysisTaskListParams()
+  ) {
+    let data: AnalysisTask[] = [];
+    let index = 1;
+    let paged: PagedList<AnalysisTask>;
+    do {
+      params.PageIndex = index;
+      paged = await this.list(params);
+      data = data.concat(paged.Data);
+      index++;
+    } while (index <= paged.Page.PageCount);
+    return data;
+  }
+
   async create(data: AnalysisTask) {
     let url = ArmAnalysisUrl.server.task.basic();
     let plain = instanceToPlain(data);

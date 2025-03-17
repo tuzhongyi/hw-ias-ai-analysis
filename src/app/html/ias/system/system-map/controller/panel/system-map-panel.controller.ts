@@ -8,6 +8,7 @@ import { SystemMapPanelSearchController } from './system-map-panel-search.contro
 import { SystemMapPanelSourceController } from './system-map-panel-source.controller';
 import { SystemMapPanelStateController } from './system-map-panel-state.controller';
 import { SystemMapPanelStatisticController } from './system-map-panel-statistic.controller';
+import { SystemMapPanelTaskController } from './system-map-panel-task.controller';
 
 @Injectable()
 export class SystemMapPanelController {
@@ -20,6 +21,7 @@ export class SystemMapPanelController {
     public filter: SystemMapPanelFilterController,
     public statistic: SystemMapPanelStatisticController,
     public search: SystemMapPanelSearchController,
-    public controls: SystemMapPanelControlsController
+    public controls: SystemMapPanelControlsController,
+    public task: SystemMapPanelTaskController
   ) {}
 }

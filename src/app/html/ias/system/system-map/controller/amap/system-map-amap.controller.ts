@@ -3,16 +3,18 @@ import { Shop } from '../../../../../../common/data-core/models/arm/analysis/sho
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { MapHelper } from '../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../common/view-models/value.promise';
-import { SystemAMapShopMarkerLayerController } from './system-map-amap-shop-marker-layer.controller';
 
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
 import {
   SystemAMapCircleEditorController,
   SystemAMapCircleEditorEvent,
-} from './system-map-amap-circle-editor.controller';
-import { SystemMapAMapRoadLabelController } from './system-map-amap-road-label.controller';
-import { SystemMapAMapRoadPolylineController } from './system-map-amap-road-polyline.controller';
-import { SystemAMapShopMarkerEvent } from './system-map-amap-shop-marker.controller';
+} from './circle/system-map-amap-circle-editor.controller';
+import { SystemAMapShopMarkerLayerController } from './marker/system-map-amap-shop-marker-layer.controller';
+import { SystemAMapShopMarkerEvent } from './marker/system-map-amap-shop-marker.controller';
+import { SystemAMapShopPointLayerController } from './point/system-map-amap-shop-point-layer.controller';
+import { SystemMapAMapRoadLabelController } from './road/system-map-amap-road-label.controller';
+import { SystemMapAMapRoadPolylineController } from './road/system-map-amap-road-polyline.controller';
+import { SystemMapAMapConfig } from './system-map-amap.config';
 
 @Injectable()
 export class SystemMapAMapController {
@@ -27,31 +29,38 @@ export class SystemMapAMapController {
 
   constructor() {
     MapHelper.amap
-      .get('map-container', [
-        ...MapHelper.amap.plugins,
-        'AMap.CircleEditor',
-        'AMap.Adaptor',
-      ])
+      .get(
+        'map-container',
+        [...MapHelper.amap.plugins, 'AMap.CircleEditor', 'AMap.Adaptor'],
+        true
+      )
       .then((x) => {
         x.setFeatures(['bg', 'road', 'building']);
-        this.map.set(x);
-        this.init(x);
+        this.amap.set(x);
+        let container = new Loca.Container({ map: x });
+        this.loca.set(container);
+        this.init(x, container);
       });
   }
 
-  private map = new PromiseValue<AMap.Map>();
-  private layer = new PromiseValue<SystemAMapShopMarkerLayerController>();
+  private amap = new PromiseValue<AMap.Map>();
+  private loca = new PromiseValue<Loca.Container>();
+  private layer = {
+    marker: new PromiseValue<SystemAMapShopMarkerLayerController>(),
+    point: new PromiseValue<SystemAMapShopPointLayerController>(),
+  };
   private circle = new PromiseValue<SystemAMapCircleEditorController>();
   private _road = {
     polyline: new PromiseValue<SystemMapAMapRoadPolylineController>(),
     label: new PromiseValue<SystemMapAMapRoadLabelController>(),
   };
 
-  private init(map: AMap.Map) {
+  private init(map: AMap.Map, container: Loca.Container) {
     let center = map.getCenter();
     this.event.map.completed.emit([center.lng, center.lat]);
     this.regist.map(map);
-    this.regist.layer(map);
+    this.regist.layer.marker(map);
+    this.regist.layer.point(container);
     this.regist.circle(map);
     this.regist.polyline(map);
     this.regist.label(map);
@@ -60,25 +69,35 @@ export class SystemMapAMapController {
   private regist = {
     map: (map: AMap.Map) => {
       map.on('mousemove', (e: any) => {
-        this.event.map.mousemmove.emit([e.lnglat.lng, e.lnglat.lat]);
+        let position: [number, number] = [e.lnglat.lng, e.lnglat.lat];
+        this.event.map.mousemmove.emit(position);
+        this.layer.point.get().then((x) => {
+          x.moving(position);
+        });
       });
     },
-    layer: (map: AMap.Map) => {
-      try {
-        let layer = new SystemAMapShopMarkerLayerController(map);
-        layer.event.mouseover.subscribe((x) => {
-          this.event.point.mouseover.emit(x);
-        });
-        layer.event.mouseout.subscribe((x) => {
-          this.event.point.mouseout.emit(x);
-        });
-        layer.event.click.subscribe((x) => {
-          this.event.point.click.emit(x);
-        });
-        this.layer.set(layer);
-      } catch (error) {
-        console.error(error);
-      }
+    layer: {
+      marker: (map: AMap.Map) => {
+        try {
+          let marker = new SystemAMapShopMarkerLayerController(map);
+          marker.event.mouseover.subscribe((x) => {
+            this.event.point.mouseover.emit(x);
+          });
+          marker.event.mouseout.subscribe((x) => {
+            this.event.point.mouseout.emit(x);
+          });
+          marker.event.click.subscribe((x) => {
+            this.event.point.click.emit(x);
+          });
+          this.layer.marker.set(marker);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      point: (container: Loca.Container) => {
+        let point = new SystemAMapShopPointLayerController(container);
+        this.layer.point.set(point);
+      },
     },
     circle: (map: AMap.Map) => {
       try {
@@ -115,38 +134,34 @@ export class SystemMapAMapController {
     },
   };
 
-  center(position: GisPoint) {
-    this.map.get().then((x) => {
-      let center: [number, number] = [position.Longitude, position.Latitude];
-      x.setCenter(center);
-      x.setZoom(18);
-    });
-  }
-
   shop = {
     load: (datas: Shop[]) => {
-      this.layer.get().then((x) => {
+      this.layer.marker.get().then((x) => {
+        x.clear();
+        x.load(datas);
+      });
+      this.layer.point.get().then((x) => {
         x.clear();
         x.load(datas);
       });
     },
     hover: (shop: Shop) => {
-      this.layer.get().then((x) => {
+      this.layer.marker.get().then((x) => {
         x.mouseover(shop);
       });
     },
     out: (shop: Shop) => {
-      this.layer.get().then((x) => {
+      this.layer.marker.get().then((x) => {
         x.mouseout(shop);
       });
     },
     select: (shop: Shop) => {
-      this.layer.get().then((x) => {
+      this.layer.marker.get().then((x) => {
         x.select(shop);
       });
     },
     blur: () => {
-      this.layer.get().then((x) => {
+      this.layer.marker.get().then((x) => {
         x.blur();
       });
     },
@@ -161,7 +176,7 @@ export class SystemMapAMapController {
       }
       let polyline = await this._road.polyline.get();
       let label = await this._road.label.get();
-      let map = await this.map.get();
+      let map = await this.amap.get();
 
       datas.forEach((data) => {
         if (data.GeoLine) {
@@ -231,10 +246,25 @@ export class SystemMapAMapController {
     },
   };
 
+  map = {
+    center: (position: GisPoint) => {
+      this.amap.get().then((x) => {
+        let center: [number, number] = [position.Longitude, position.Latitude];
+        x.setCenter(center);
+        x.setZoom(SystemMapAMapConfig.icon.zooms[0] + 1);
+      });
+    },
+    focus: () => {
+      this.amap.get().then((x) => {
+        x.setFitView();
+      });
+    },
+  };
+
   onselected(data: Shop) {}
 
   destroy() {
-    this.map.get().then((x) => {
+    this.amap.get().then((x) => {
       x.destroy();
     });
   }

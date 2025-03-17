@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SystemMapAMapConfig } from '../system-map-amap.config';
 
 @Injectable()
 export class SystemMapAMapRoadPolylineController {
@@ -9,7 +10,7 @@ export class SystemMapAMapRoadPolylineController {
   private create(datas: [number, number][]): AMap.Polyline {
     const polyline = new AMap.Polyline({
       path: datas,
-      strokeColor: '#00ee33',
+      strokeColor: SystemMapAMapConfig.road.color.normal,
       strokeWeight: 5,
       strokeOpacity: 0.5,
       // 折线样式还可以为'dashed'
@@ -41,7 +42,7 @@ export class SystemMapAMapRoadPolylineController {
     if (line) {
       this.selected = id;
       line.setOptions({
-        strokeColor: '#ff6600',
+        strokeColor: SystemMapAMapConfig.road.color.selected,
         strokeOpacity: 0.8,
       });
     }
@@ -52,7 +53,7 @@ export class SystemMapAMapRoadPolylineController {
       let line = this.polylines.get(this.selected);
       if (line) {
         line.setOptions({
-          strokeColor: '#00ee33',
+          strokeColor: SystemMapAMapConfig.road.color.normal,
           strokeOpacity: 0.5,
         });
       }

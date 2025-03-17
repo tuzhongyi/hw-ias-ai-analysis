@@ -16,6 +16,7 @@ import { SystemMapPanelSourceShopController } from './controller/panel/system-ma
 import { SystemMapPanelSourceController } from './controller/panel/system-map-panel-source.controller';
 import { SystemMapPanelStateController } from './controller/panel/system-map-panel-state.controller';
 import { SystemMapPanelStatisticController } from './controller/panel/system-map-panel-statistic.controller';
+import { SystemMapPanelTaskController } from './controller/panel/system-map-panel-task.controller';
 import { SystemMapPanelController } from './controller/panel/system-map-panel.controller';
 import { SystemMapController } from './controller/system-map.controller';
 import { SystemMapWindowController } from './controller/window/system-map-window.controller';
@@ -48,6 +49,7 @@ const SystemMapPanelProviders = [
   SystemMapPanelEditorController,
   SystemMapPanelFilterController,
   SystemMapPanelStatisticController,
+  SystemMapPanelTaskController,
   SystemMapPanelController,
 ];
 

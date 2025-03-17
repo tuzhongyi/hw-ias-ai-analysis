@@ -16,6 +16,9 @@ export class SystemMapControlsComponent {
   @Input() filter = false;
   @Output() filterChange = new EventEmitter<boolean>();
 
+  @Input() task = false;
+  @Output() taskChange = new EventEmitter<boolean>();
+
   ondsitance() {
     this.distance = !this.distance;
     this.distanceChange.emit(this.distance);
@@ -27,5 +30,9 @@ export class SystemMapControlsComponent {
   onfilter() {
     this.filter = !this.filter;
     this.filterChange.emit(this.filter);
+  }
+  ontask() {
+    this.task = !this.task;
+    this.taskChange.emit(this.task);
   }
 }

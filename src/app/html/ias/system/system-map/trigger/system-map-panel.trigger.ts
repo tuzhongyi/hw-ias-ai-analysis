@@ -15,15 +15,24 @@ export class SystemMapPanelTrigger {
   }
 
   private regist() {
+    this.register.source.change();
     this.register.source.shop();
     this.register.source.road();
     this.register.details();
     this.register.editor.circle();
     this.register.filter();
+    this.register.task();
   }
 
   private register = {
     source: {
+      change: () => {
+        this.panel.source.change.subscribe((show) => {
+          if (show) {
+            this.panel.task.show = false;
+          }
+        });
+      },
       shop: () => {
         this.panel.source.shop.select.subscribe((shop) => {
           this.amap.shop.blur();
@@ -47,7 +56,7 @@ export class SystemMapPanelTrigger {
         });
         this.panel.source.shop.position.subscribe((shop) => {
           if (shop.Location) {
-            this.amap.center(shop.Location);
+            this.amap.map.center(shop.Location);
           }
         });
       },
@@ -82,6 +91,7 @@ export class SystemMapPanelTrigger {
           if (show) {
             this.panel.source.show = false;
             this.panel.details.shop.show = false;
+            this.panel.task.show = false;
           }
         });
         this.panel.editor.circle.distance.subscribe((value) => {
@@ -95,6 +105,7 @@ export class SystemMapPanelTrigger {
           this.panel.source.show = false;
           this.panel.details.shop.show = false;
           this.panel.editor.circle.show = false;
+          this.panel.task.show = false;
         } else {
           if (this.amap.distance.opened) {
             this.panel.editor.circle.show = true;
@@ -123,6 +134,17 @@ export class SystemMapPanelTrigger {
       });
       this.panel.filter.getting.distance.subscribe((value) => {
         this.amap.distance.radius(value);
+      });
+    },
+    task: () => {
+      this.panel.task.change.subscribe((show) => {
+        if (show) {
+          this.panel.source.show = false;
+          this.panel.details.shop.show = false;
+          this.panel.editor.circle.show = false;
+          this.amap.shop.load([]);
+          this.amap.map.focus();
+        }
       });
     },
   };

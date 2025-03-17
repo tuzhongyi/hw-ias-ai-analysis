@@ -5,25 +5,28 @@
     0 100%,
     0 10px);
 
-@button-path-2: polygon(10px 0,
+@button-path-2: polygon(5px 0,
 
-    calc(100% - 10px) 0,
-    100% 10px,
-    100% calc(100% - 10px),
-    calc(100% - 10px) 100%,
-    10px 100%,
-    0 calc(100% - 10px),
-    0 10px);
+    calc(100% - 5px) 0,
+    100% 5px,
+    100% calc(100% - 5px),
+    calc(100% - 5px) 100%,
+    5px 100%,
+    0 calc(100% - 5px),
+    0 5px);
 
 .button-filter {
   height: 36px;
-  width: 100px;
+  min-width: 100px;
+  width: max-content;
+  padding: 0 15px;
   position: relative;
   background: linear-gradient(to bottom, rgba(42, 194, 225, 1), rgba(45, 118, 206, 1));
   /* 进行裁剪 */
   clip-path: @button-path-1;
   cursor: pointer;
   transition: all 0.75s;
+  white-space: nowrap;
 
   &::after {
     content: "";
@@ -49,7 +52,9 @@
 .button-clip-gradient-1,
 .button-clip-gradient-2 {
   height: 36px;
-  width: 100px;
+  min-width: 100px;
+  width: max-content;
+  padding: 0 15px;
   position: relative;
   background: linear-gradient(to bottom, rgba(42, 194, 225, 1), rgba(45, 118, 206, 1));
   /* 进行裁剪 */
@@ -81,12 +86,14 @@
 }
 
 .button-clip-gradient-2 {
+  height: 30px;
+  min-width: 80px;
   clip-path: @button-path-2;
-  font-size: 20px;
+  font-size: 16px;
 
   &::after {
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
     clip-path: @button-path-2;
     background: linear-gradient(to bottom, #1d5274, #172548);
   }
@@ -97,10 +104,12 @@
 .button-clip-blue-2,
 .button-clip-blue-3 {
   height: 36px;
-  width: 100px;
+  min-width: 100px;
+  width: max-content;
+  padding: 0 15px;
   position: relative;
   background: #2d76ce;
-  color: #2d76ce;
+  color: #4a8eff;
   /* 进行裁剪 */
   clip-path: @button-path-1;
   cursor: pointer;
@@ -127,12 +136,14 @@
 
 
 .button-clip-blue-2 {
+  height: 30px;
+  min-width: 80px;
   clip-path: @button-path-2;
-  font-size: 20px;
+  font-size: 16px;
 
   &::after {
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
     clip-path: @button-path-2;
   }
 }

@@ -1,4 +1,4 @@
-import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
 
 export class SystemAMapShopInfoController {
   constructor(private map: AMap.Map) {

@@ -1,0 +1,16 @@
+export class SystemMapAMapConfig {
+  static icon = {
+    zooms: [19, 23] as [number, number],
+  };
+
+  static point = {
+    zooms: [0, 19] as [number, number],
+  };
+
+  static road = {
+    color: {
+      normal: '#aaaaaa',
+      selected: '#ff6600',
+    },
+  };
+}

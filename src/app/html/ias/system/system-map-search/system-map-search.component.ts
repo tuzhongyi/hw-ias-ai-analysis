@@ -9,10 +9,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputIconComponent } from '../../../../common/components/input-icon/input-icon.component';
-import {
-  SystemMapArgs,
-  SystemMapFilterType,
-} from '../system-map/system-map.model';
+import { SystemMapFilterType } from '../system-map/system-map.model';
 
 @Component({
   selector: 'ias-system-map-search',
@@ -21,11 +18,9 @@ import {
   styleUrl: './system-map-search.component.less',
 })
 export class SystemMapSearchComponent implements OnInit, OnDestroy {
-  @Input() args = new SystemMapArgs();
-  @Output() argsChange = new EventEmitter<SystemMapArgs>();
-  @Output() search = new EventEmitter<SystemMapArgs>();
-  @Input() type = SystemMapFilterType.shop;
-  @Output() typeChange = new EventEmitter<SystemMapFilterType>();
+  @Input() name?: string;
+  @Output() nameChange = new EventEmitter<string>();
+  @Output() search = new EventEmitter<string>();
 
   constructor() {}
 
@@ -49,9 +44,6 @@ export class SystemMapSearchComponent implements OnInit, OnDestroy {
     }
   }
   onsearch() {
-    this.search.emit(this.args);
-  }
-  ontype() {
-    this.typeChange.emit(this.type);
+    this.search.emit(this.name);
   }
 }

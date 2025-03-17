@@ -1,5 +1,5 @@
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
-import { GeoTool } from '../../../../../../common/tools/geo-tool/geo.tool';
+import { Road } from '../../../../../../../common/data-core/models/arm/analysis/road.model';
+import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 
 export class SystemMapAMapRoadLabelController {
   constructor(private map: AMap.Map) {}

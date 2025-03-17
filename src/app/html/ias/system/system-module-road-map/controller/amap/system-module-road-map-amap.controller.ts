@@ -1,4 +1,3 @@
-import '@amap/amap-jsapi-types';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
 import { MapHelper } from '../../../../../../common/helper/map/map.helper';

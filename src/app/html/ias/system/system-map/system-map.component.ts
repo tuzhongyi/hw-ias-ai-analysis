@@ -1,21 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WindowComponent } from '../../../../common/components/window-control/window.component';
 import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
-import { PictureWindowContentComponent } from '../../share/picture-window-content/picture-window-content.component';
-import { SystemMapControlsComponent } from '../system-map-controls/system-map-controls.component';
-import { SystemMapEditorCircleComponent } from '../system-map-editor-circle/system-map-editor-circle.component';
-import { SystemMapFilterComponent } from '../system-map-filter/system-map-filter.component';
-import { SystemMapPanelDetailsShopComponent } from '../system-map-panel-details-shop/system-map-panel-details-shop.component';
-import { SystemMapSearchComponent } from '../system-map-search/system-map-search.component';
-import { SystemMapSourceManagerComponent } from '../system-map-source-manager/system-map-source-manager.component';
-import { SystemMapStateComponent } from '../system-map-state/system-map-state.component';
-import { SystemMapStatisticComponent } from '../system-map-statistic/system-map-statistic.component';
 import { SystemMapRoadArgs } from './business/system-map-road.model';
 import { SystemMapShopArgs } from './business/system-map-shop.model';
 import { SystemMapBusiness } from './business/system-map.business';
 import { SystemMapController } from './controller/system-map.controller';
+import { SystemMapImports } from './system-map.import';
 import {
   SystemMapArgs,
   SystemMapDistanceArgs,
@@ -26,19 +16,7 @@ import { SystemMapTrigger } from './trigger/system-map.trigger';
 
 @Component({
   selector: 'ias-system-map',
-  imports: [
-    CommonModule,
-    SystemMapStateComponent,
-    SystemMapSearchComponent,
-    SystemMapFilterComponent,
-    SystemMapControlsComponent,
-    SystemMapEditorCircleComponent,
-    SystemMapStatisticComponent,
-    SystemMapPanelDetailsShopComponent,
-    WindowComponent,
-    PictureWindowContentComponent,
-    SystemMapSourceManagerComponent,
-  ],
+  imports: [...SystemMapImports],
   templateUrl: './system-map.component.html',
   styleUrls: ['./system-map.component.less', './less/system-map-panel.less'],
   providers: [...SystemMapProviders],
@@ -119,6 +97,17 @@ export class SystemMapComponent implements OnInit, OnDestroy {
         this.load.shop(this.args.shop, this.args.distance);
         this.load.road(this.args.road, this.args.distance);
       });
+      this.panel.task.compare.subscribe((datas) => {
+        this.args.shop.task = datas;
+        this.load.shop(this.args.shop, this.args.distance);
+      });
+      this.panel.task.change.subscribe((show) => {
+        if (!show) {
+          this.args.shop.task = undefined;
+          this.load.shop(this.args.shop, this.args.distance);
+        } else {
+        }
+      });
     },
   };
 
@@ -144,10 +133,14 @@ export class SystemMapComponent implements OnInit, OnDestroy {
     },
   };
 
-  onsearch() {
+  onsearch(name: string) {
     this.load.shop(this.args.shop, this.args.distance);
-    this.load.road(this.args.road, this.args.distance);
-    this.panel.source.show = true;
+    if (this.panel.task.show) {
+      this.panel.task.name = name;
+    } else {
+      this.load.road(this.args.road, this.args.distance);
+      this.panel.source.show = true;
+    }
   }
 
   onpicture(shop: Shop) {
