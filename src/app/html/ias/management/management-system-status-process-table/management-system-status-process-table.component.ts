@@ -25,6 +25,7 @@ export class ManagementSystemStatusProcessTableComponent
   widths: string[] = ['10%', '15%', '15%', '30%', '15%', '15%'];
   private handle?: NodeJS.Timeout;
   Language = Language;
+  sort?: Sort;
 
   ngOnInit(): void {
     this.load();
@@ -46,11 +47,17 @@ export class ManagementSystemStatusProcessTableComponent
       this.status = x;
       if (x.Processes) {
         this.datas = x.Processes;
+        if (this.sort) {
+          this.onsort(this.sort);
+        }
       }
     });
   }
 
   onsort(sort: Sort) {
+    if (this.sort !== sort) {
+      this.sort = sort;
+    }
     this.datas = this.datas.sort((a, b) => {
       let _a: any = a;
       let _b: any = b;
