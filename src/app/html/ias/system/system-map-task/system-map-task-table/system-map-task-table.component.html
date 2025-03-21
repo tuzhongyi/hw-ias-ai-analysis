@@ -24,7 +24,7 @@
           <tr
             *ngFor="let item of datas; let index = index"
             [ngClass]="{
-              selected: selecteds.includes(item.Id)
+              selected: selecteds.includes(item)
             }"
             [ngStyle]="{
               height: itemheight + 'px',
@@ -34,10 +34,7 @@
           >
             <td class="center">
               <div class="operation">
-                <input
-                  type="checkbox"
-                  [checked]="selecteds.includes(item.Id)"
-                />
+                <input type="checkbox" [checked]="selecteds.includes(item)" />
               </div>
             </td>
             <td class="center">

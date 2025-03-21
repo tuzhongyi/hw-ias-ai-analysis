@@ -6,6 +6,7 @@ export class SystemMapPanelTaskController extends SystemMapPanel {
   compare = new EventEmitter<string[]>();
   selecteds: string[] = [];
   name?: string;
+  load = new EventEmitter<string>();
 
   constructor() {
     super();

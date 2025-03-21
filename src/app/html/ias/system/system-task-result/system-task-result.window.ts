@@ -1,5 +1,5 @@
 import { WindowViewModel } from '../../../../common/components/window-control/window.model';
-import { Point } from '../../../../common/data-core/models/arm/point.model';
+import { HowellPoint } from '../../../../common/data-core/models/arm/point.model';
 
 export class SystemTaskResultWindow {
   picture = new PictureWindow();
@@ -17,5 +17,5 @@ class PictureWindow extends WindowViewModel {
   };
   title = '';
   id?: string;
-  polygon: Point[] = [];
+  polygon: HowellPoint[] = [];
 }

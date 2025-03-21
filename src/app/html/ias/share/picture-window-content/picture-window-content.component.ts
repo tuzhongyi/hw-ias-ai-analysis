@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Point } from '../../../../common/data-core/models/arm/point.model';
+import { HowellPoint } from '../../../../common/data-core/models/arm/point.model';
 import { ContentHeaderComponent } from '../header/content-header/content-header.component';
 import { PictureComponent } from '../picture/picture.component';
 
@@ -10,8 +10,9 @@ import { PictureComponent } from '../picture/picture.component';
   styleUrl: './picture-window-content.component.less',
 })
 export class PictureWindowContentComponent {
-  @Input() url?: string;
+  @Input() src?: string;
+  @Input() id?: string;
   @Input() title: string = '';
-  @Input() polygon: Point[] = [];
+  @Input() polygon: HowellPoint[] = [];
   @Input() zoom = true;
 }

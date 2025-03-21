@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { Point } from '../../../../common/data-core/models/arm/point.model';
+import { HowellPoint } from '../../../../common/data-core/models/arm/point.model';
 import { SystemMapRoadArgs } from './business/system-map-road.model';
 import { SystemMapShopArgs } from './business/system-map-shop.model';
 
@@ -23,7 +23,7 @@ export class SystemMapArgs {
 }
 
 export class SystemMapDistanceArgs {
-  center = Point.create();
+  center = HowellPoint.create();
   distance = 0;
   enabled = false;
 }

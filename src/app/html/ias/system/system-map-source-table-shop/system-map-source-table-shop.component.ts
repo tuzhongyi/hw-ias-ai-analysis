@@ -15,6 +15,7 @@ import { TableSorterDirective } from '../../../../common/directives/table-sorter
 import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
 import { LocaleCompare } from '../../../../common/tools/compare-tool/compare.tool';
+import { LanguageTool } from '../../../../common/tools/language.tool';
 import { SystemMapSourceTableShopBusiness } from './system-map-source-table-shop.business';
 import {
   SystemMapSourceTableShopFilter,
@@ -37,7 +38,10 @@ export class SystemMapSourceTableShopComponent implements OnChanges {
   @Output() itemblur = new EventEmitter<Shop>();
   @Output() position = new EventEmitter<Shop>();
 
-  constructor(private business: SystemMapSourceTableShopBusiness) {}
+  constructor(
+    private business: SystemMapSourceTableShopBusiness,
+    private language: LanguageTool
+  ) {}
 
   widths = ['70px', 'auto', '100px', '70px', '8px'];
   filter = new SystemMapSourceTableShopFilter();
@@ -63,7 +67,17 @@ export class SystemMapSourceTableShopComponent implements OnChanges {
     filter: SystemMapSourceTableShopFilter
   ) {
     this.business.load(index, size, filter).then((x) => {
-      this.datas = x.Data;
+      let datas = x.Data.map((data) => {
+        let shop = this.shops.find((x) => data.Id === x.Id);
+        if (shop) {
+          data.ObjectState = shop.ObjectState;
+          data.ObjectStateName = this.language.ShopObjectState(
+            data.ObjectState
+          );
+        }
+        return data;
+      });
+      this.datas = datas;
       this.page = x.Page;
     });
   }

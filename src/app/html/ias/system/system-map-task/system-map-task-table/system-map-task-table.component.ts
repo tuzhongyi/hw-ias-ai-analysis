@@ -6,8 +6,11 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChange,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/analysis-task.model';
@@ -23,12 +26,15 @@ import { SystemMapTaskTableArgs } from './system-map-task-table.model';
   styleUrl: './system-map-task-table.component.less',
   providers: [SystemMapTaskTableBusiness],
 })
-export class SystemMapTaskTableComponent implements OnInit, AfterViewChecked {
+export class SystemMapTaskTableComponent
+  implements OnInit, OnChanges, AfterViewChecked
+{
   @Input() args = new SystemMapTaskTableArgs();
   @Input('load') _load?: EventEmitter<SystemMapTaskTableArgs>;
-  @Input() selecteds: string[] = [];
+  @Input('selecteds') selectedIds: string[] = [];
   @Output() selectedsChange = new EventEmitter<string[]>();
   @Output() position = new EventEmitter<AnalysisTask>();
+
   constructor(
     private business: SystemMapTaskTableBusiness,
     private detector: ChangeDetectorRef,
@@ -43,6 +49,11 @@ export class SystemMapTaskTableComponent implements OnInit, AfterViewChecked {
     types: new Map<number, string>(),
   };
   inited = new PromiseValue<boolean>();
+  selecteds: AnalysisTask[] = [];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.selecteds(changes['selectedIds']);
+  }
 
   ngOnInit(): void {
     this.init();
@@ -50,6 +61,7 @@ export class SystemMapTaskTableComponent implements OnInit, AfterViewChecked {
 
     if (this._load) {
       this._load.subscribe((x) => {
+        this.args = x;
         this.load(this.args);
       });
     }
@@ -65,6 +77,16 @@ export class SystemMapTaskTableComponent implements OnInit, AfterViewChecked {
       }
     }
   }
+
+  change = {
+    selecteds: (data: SimpleChange) => {
+      if (data) {
+        this.selecteds = this.selectedIds.map((x) => {
+          return this.datas.find((y) => y.Id === x)!;
+        });
+      }
+    },
+  };
 
   private async init() {
     let types = await this.manager.source.server.TaskTypes;
@@ -85,14 +107,15 @@ export class SystemMapTaskTableComponent implements OnInit, AfterViewChecked {
   }
 
   onselect(item: AnalysisTask) {
-    if (this.selecteds.includes(item.Id)) {
-      this.selecteds = this.selecteds.filter((x) => x !== item.Id);
+    if (this.selecteds.includes(item)) {
+      this.selecteds = this.selecteds.filter((x) => x.Id !== item.Id);
     } else if (this.selecteds.length < 2) {
-      this.selecteds.push(item.Id);
+      this.selecteds.push(item);
     } else {
       this.selecteds.shift();
-      this.selecteds.push(item.Id);
+      this.selecteds.push(item);
     }
-    this.selectedsChange.emit(this.selecteds);
+    this.selectedIds = this.selecteds.map((x) => x.Id);
+    this.selectedsChange.emit(this.selectedIds);
   }
 }

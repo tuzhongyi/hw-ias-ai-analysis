@@ -2,7 +2,7 @@
   <ng-container *ngIf="!compared">
     <div class="system-map-task-manager-body">
       <ias-system-map-task-table
-        [selecteds]="selecteds"
+        [selecteds]="taskselecteds"
         (selectedsChange)="onselect($event)"
         [load]="task.load"
       ></ias-system-map-task-table>
@@ -10,7 +10,7 @@
     <div class="system-map-task-manager-foot button-group">
       <button
         class="button-clip-gradient"
-        [disabled]="selecteds.length < 2"
+        [disabled]="taskselecteds.length < 2"
         (click)="oncompare()"
       >
         比较
@@ -56,6 +56,11 @@
     <div class="system-map-task-manager-body">
       <ias-system-map-source-table-shop
         [datas]="datas"
+        (details)="shop.ondetails($event)"
+        (selectedChange)="shop.onselected($event)"
+        (itemhover)="shop.onmouseover($event)"
+        (itemblur)="shop.onmouseout($event)"
+        (position)="shop.onposition($event)"
       ></ias-system-map-source-table-shop>
     </div>
   </ng-container>

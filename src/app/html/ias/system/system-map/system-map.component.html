@@ -73,10 +73,16 @@
   </div>
   <div class="panel-map-border system-map-task" *ngIf="panel.task.show">
     <ias-system-map-task-manager
-      [(selecteds)]="panel.task.selecteds"
+      [(taskselecteds)]="panel.task.selecteds"
       [shops]="shops"
+      [load]="panel.task.load"
       (compare)="panel.task.oncompare()"
       (close)="panel.task.onclose()"
+      (details)="panel.source.shop.ondetails($event)"
+      (itemhover)="panel.source.shop.onmouseover($event)"
+      (itemblur)="panel.source.shop.onmouseout($event)"
+      (shopselectedChange)="panel.source.onselect($event)"
+      (position)="panel.source.onposition($event)"
     ></ias-system-map-task-manager>
   </div>
 
@@ -109,7 +115,7 @@
     [style]="window.picture.style"
   >
     <ias-picture-window-content
-      [url]="window.picture.id"
+      [id]="window.picture.id"
       [title]="window.picture.title"
       [polygon]="window.picture.polygon"
       [zoom]="false"

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
-import { Point } from '../../../../../../common/data-core/models/arm/point.model';
+import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
 
 @Injectable()
 export class SystemMapWindowController {
@@ -21,5 +21,5 @@ class PictureWindow extends WindowViewModel {
   };
   title = '';
   id?: string;
-  polygon: Point[] = [];
+  polygon: HowellPoint[] = [];
 }

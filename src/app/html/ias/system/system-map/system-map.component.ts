@@ -134,9 +134,11 @@ export class SystemMapComponent implements OnInit, OnDestroy {
   };
 
   onsearch(name: string) {
+    this.args.name = name;
     this.load.shop(this.args.shop, this.args.distance);
     if (this.panel.task.show) {
       this.panel.task.name = name;
+      this.panel.task.load.emit(this.panel.task.name);
     } else {
       this.load.road(this.args.road, this.args.distance);
       this.panel.source.show = true;

@@ -1,0 +1,26 @@
+<div class="picture-window-content-page">
+  <div
+    class="picture-window-content-page-control left"
+    *ngIf="page && this.page.PageCount > 0 && this.page.PageIndex > 1"
+    (click)="onprov()"
+  >
+    <i class="howell-icon-arrowleftbold"></i>
+  </div>
+
+  <div class="picture-window-content-page-container">
+    <ias-picture-window-content
+      [id]="id"
+      [src]="src"
+      [title]="title"
+      [polygon]="polygon"
+      [zoom]="zoom"
+    ></ias-picture-window-content>
+  </div>
+  <div
+    class="picture-window-content-page-control right"
+    *ngIf="page && this.page.PageIndex < this.page.PageCount"
+    (click)="onnext()"
+  >
+    <i class="howell-icon-arrowrightbold"></i>
+  </div>
+</div>

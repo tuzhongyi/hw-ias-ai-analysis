@@ -75,7 +75,6 @@ export class SystemTaskResultSignTableComponent implements OnInit, OnDestroy {
 
   private load(args: SystemTaskResultSignTableArgs) {
     if (this.loading) return;
-    console.log('toload');
     this.loading = true;
     this.filter.load(args);
     this.business

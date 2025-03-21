@@ -40,4 +40,28 @@ export class ArrayTool {
 
     return Array.from(new Set<T>(items));
   }
+
+  static compare<T>(a: T[], b: T[], comparator: (a: T, b: T) => boolean) {
+    const duplicates: T[] = [];
+    const uniqueInA: T[] = [];
+    const uniqueInB: T[] = [];
+
+    a.forEach((itemA) => {
+      const foundInB = b.some((itemB) => comparator(itemA, itemB));
+      if (foundInB) {
+        duplicates.push(itemA);
+      } else {
+        uniqueInA.push(itemA);
+      }
+    });
+
+    b.forEach((itemB) => {
+      const foundInA = a.some((itemA) => comparator(itemA, itemB));
+      if (!foundInA) {
+        uniqueInB.push(itemB);
+      }
+    });
+
+    return { duplicates, uniqueInA, uniqueInB };
+  }
 }

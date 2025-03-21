@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  SimpleChange,
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -57,18 +58,39 @@ export class SystemTaskResultInfoComponent {
   Language = Language;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['sign'] && this.sign) {
-      this.model = this.business.load(this.sign);
-      if (this.sign.ShopId) {
-        this.business
-          .shop(this.sign.ShopId)
-          .then((x) => {
-            this.shop = x;
-          })
-          .catch((e) => this.error.emit(e));
-      }
-    }
+    this.change.sign(changes['sign']);
+    this.change.page(changes['page']);
   }
+
+  change = {
+    sign: (data: SimpleChange) => {
+      if (data && this.sign) {
+        this.model = this.business.load(this.sign);
+        if (this.sign.ShopId) {
+          this.business
+            .shop(this.sign.ShopId)
+            .then((x) => {
+              this.shop = x;
+            })
+            .catch((e) => this.error.emit(e));
+        }
+      }
+    },
+    page: (data: SimpleChange) => {
+      if (
+        data &&
+        !this.change.equals.page(data.previousValue, data.currentValue) &&
+        this.page
+      ) {
+        this.get.emit(this.page.PageIndex);
+      }
+    },
+    equals: {
+      page: (a?: Page, b?: Page) => {
+        return a && b && a.PageIndex == b.PageIndex;
+      },
+    },
+  };
 
   onnext() {
     if (this.page && this.page.PageIndex < this.page.PageCount) {

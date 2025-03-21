@@ -70,6 +70,7 @@
         <ias-system-task-result-table-manager
           [data]="data"
           [(selected)]="selected"
+          (selectedChange)="onselect($event)"
           [index]="indexchange"
           [(type)]="table.args.mode"
           (page)="onpage($event)"
@@ -107,10 +108,12 @@
     [Model]="window.picture"
     [style]="window.picture.style"
   >
-    <ias-picture-window-content
-      [url]="window.picture.id"
+    <ias-picture-window-content-page
+      [id]="window.picture.id"
       [title]="window.picture.title"
       [polygon]="window.picture.polygon"
-    ></ias-picture-window-content>
+      [zoom]="true"
+      [(page)]="page"
+    ></ias-picture-window-content-page>
   </app-window>
 </div>

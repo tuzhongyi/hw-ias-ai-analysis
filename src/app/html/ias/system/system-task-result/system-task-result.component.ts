@@ -10,7 +10,7 @@ import { Page } from '../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../common/tools/language';
 import { LanguageTool } from '../../../../common/tools/language.tool';
 import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
-import { PictureWindowContentComponent } from '../../share/picture-window-content/picture-window-content.component';
+import { PictureWindowContentPageComponent } from '../../share/picture-window-content-page/picture-window-content-page.component';
 import { SystemTaskResultInfoComponent } from '../system-task-result-info/system-task-result-info.component';
 import { SystemTaskResultMapComponent } from '../system-task-result-map/system-task-result-map.component';
 import { SystemTaskResultTableManagerComponent } from '../system-task-result-table-manager/system-task-result-table-manager.component';
@@ -25,7 +25,7 @@ import { SystemTaskResultWindow } from './system-task-result.window';
     FormsModule,
     ContentHeaderComponent,
     WindowComponent,
-    PictureWindowContentComponent,
+    PictureWindowContentPageComponent,
     SystemTaskResultTableManagerComponent,
     SystemTaskResultInfoComponent,
     SystemTaskResultMapComponent,
@@ -80,11 +80,27 @@ export class SystemTaskResultComponent implements OnInit {
     this.onlabeling();
   }
 
+  onselect(data: ShopSign) {
+    if (this.window.picture.show) {
+      this.window.picture.id = data.ImageUrl;
+      this.window.picture.polygon = data.Polygon ?? [];
+    }
+  }
   onget(index: number) {
     this.indexchange.emit(index);
   }
   onpage(page: Page) {
     this.page = page;
+  }
+  onpageprov() {
+    if (this.page) {
+      this.page.PageIndex--;
+    }
+  }
+  onpagenext() {
+    if (this.page) {
+      this.page.PageIndex++;
+    }
   }
   onloaded(signs: ShopSign[]) {
     this.signs = signs;

@@ -1,13 +1,13 @@
-import { Point } from '../../../../../common/data-core/models/arm/point.model';
+import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
 
 export class PictureImageController {
-  constructor(private image: HTMLImageElement, zoom: boolean = false) {
+  constructor(public image: HTMLImageElement, zoom: boolean = false) {
     this.init(zoom);
   }
 
   _zoom = false;
 
-  private polygon: Point[] = [];
+  private polygon: HowellPoint[] = [];
 
   private init(zoom: boolean) {
     if (zoom) {
@@ -19,8 +19,9 @@ export class PictureImageController {
     return new Promise<string>((resolve) => {
       let img = new Image();
 
-      img.onload = () => {
-        resolve(url);
+      img.onload = (x) => {
+        let target = x.target as HTMLImageElement;
+        resolve(target.src);
       };
       img.onerror = (error) => {
         resolve(
@@ -31,10 +32,8 @@ export class PictureImageController {
     });
   }
 
-  load(url: string, polygon: Point[]) {
-    this._load(url).then((x) => {
-      this.image.src = x;
-    });
+  async load(url: string, polygon: HowellPoint[]) {
+    this.image.src = await this._load(url);
     this.polygon = polygon;
   }
 

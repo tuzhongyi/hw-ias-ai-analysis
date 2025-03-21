@@ -1,4 +1,4 @@
-import { Point } from '../../../../../common/data-core/models/arm/point.model';
+import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
 import { EqualsTool } from '../../../../../common/tools/equals-tool/equals.tool';
 
 export class PictureCanvasController {
@@ -7,11 +7,11 @@ export class PictureCanvasController {
   }
   constructor(private canvas: HTMLCanvasElement) {}
 
-  load(polygon: Point[] = []) {
+  load(polygon: HowellPoint[] = []) {
     this.loadPolygon(polygon);
   }
 
-  private draw(points: Point[]) {
+  private draw(points: HowellPoint[]) {
     if (points.length > 0) {
       let width = this.canvas.width;
       let height = this.canvas.height;
@@ -34,7 +34,7 @@ export class PictureCanvasController {
   private clear(ctx: CanvasRenderingContext2D) {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
-  private loadPolygon(polygon: Point[]) {
+  private loadPolygon(polygon: HowellPoint[]) {
     let points = [...polygon];
     if (points.length > 1) {
       let first = polygon[0];

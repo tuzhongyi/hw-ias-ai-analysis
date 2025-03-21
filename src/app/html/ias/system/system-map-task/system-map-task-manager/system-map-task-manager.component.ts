@@ -4,10 +4,12 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemMapSourceTableShopComponent } from '../../system-map-source-table-shop/system-map-source-table-shop.component';
@@ -24,9 +26,10 @@ import { SystemMapTaskTableArgs } from '../system-map-task-table/system-map-task
   templateUrl: './system-map-task-manager.component.html',
   styleUrl: './system-map-task-manager.component.less',
 })
-export class SystemMapTaskManagerComponent implements OnChanges {
-  @Input() selecteds: string[] = [];
-  @Output() selectedsChange = new EventEmitter<string[]>();
+export class SystemMapTaskManagerComponent implements OnChanges, OnInit {
+  @Input('load') _load?: EventEmitter<string>;
+  @Input() taskselecteds: string[] = [];
+  @Output() taskselectedsChange = new EventEmitter<string[]>();
 
   @Input() name?: string;
   @Input() shops: Shop[] = [];
@@ -34,8 +37,15 @@ export class SystemMapTaskManagerComponent implements OnChanges {
   @Output() close = new EventEmitter();
   @Output() compare = new EventEmitter();
 
+  @Output() shopselectedChange = new EventEmitter<Shop>();
+  @Output() details = new EventEmitter<Shop>();
+  @Output() itemhover = new EventEmitter<Shop>();
+  @Output() itemblur = new EventEmitter<Shop>();
+  @Output() position = new EventEmitter<Shop>();
+
   constructor() {}
 
+  private subscription = new Subscription();
   compared = false;
   datas: Shop[] = [];
   state = ShopObjectState.Created;
@@ -48,6 +58,15 @@ export class SystemMapTaskManagerComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.shops(changes['shops']);
+  }
+  ngOnInit(): void {
+    if (this._load) {
+      let sub = this._load.subscribe((x) => {
+        this.task.args.name = x;
+        this.task.load.emit(this.task.args);
+      });
+      this.subscription.add(sub);
+    }
   }
 
   private change = {
@@ -71,8 +90,8 @@ export class SystemMapTaskManagerComponent implements OnChanges {
   };
 
   onselect(datas: string[]) {
-    this.selecteds = datas;
-    this.selectedsChange.emit(this.selecteds);
+    this.taskselecteds = datas;
+    this.taskselectedsChange.emit(this.taskselecteds);
   }
   onclose() {
     this.close.emit();
@@ -85,4 +104,22 @@ export class SystemMapTaskManagerComponent implements OnChanges {
     this.state = state;
     this.load.shop(this.shops, state);
   }
+
+  shop = {
+    onselected: (data?: Shop) => {
+      this.shopselectedChange.emit(data);
+    },
+    ondetails: (data: Shop) => {
+      this.details.emit(data);
+    },
+    onposition: (data: Shop) => {
+      this.position.emit(data);
+    },
+    onmouseover: (data: Shop) => {
+      this.itemhover.emit(data);
+    },
+    onmouseout: (data: Shop) => {
+      this.itemblur.emit(data);
+    },
+  };
 }

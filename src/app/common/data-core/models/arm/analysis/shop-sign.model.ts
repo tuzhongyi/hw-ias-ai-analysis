@@ -5,7 +5,7 @@ import 'reflect-metadata';
 import { IIdModel } from '../../model.interface';
 import { transformDateTime } from '../../transformer';
 import { GisPoint } from '../gis-point.model';
-import { Point } from '../point.model';
+import { HowellPoint } from '../point.model';
 
 export class ShopSign implements IIdModel {
   /**	String	商铺招牌ID	M	*/
@@ -25,7 +25,7 @@ export class ShopSign implements IIdModel {
   /**	String	图片地址	O	*/
   ImageUrl?: string;
   /**	Point[]	招牌多边形在图片上的归一化坐标	O	*/
-  Polygon?: Point[];
+  Polygon?: HowellPoint[];
   /**	GisPoint	照片Gis坐标	O	*/
   @Type(() => GisPoint)
   Location?: GisPoint;
