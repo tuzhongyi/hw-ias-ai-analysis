@@ -1,0 +1,56 @@
+<div class="direction-sort-control">
+  <div class="button direction-sort-control-button" (click)="onopen($event)">
+    <i class="mdi mdi-sort"></i>
+  </div>
+  <div
+    class="direction-sort-control-content"
+    *ngIf="opened"
+    [ngClass]="{
+      top: direction === 'top',
+      down: direction === 'down',
+    }"
+    (click)="oncontentclick($event)"
+  >
+    <!-- <div class="button-clip-gradient-2">由北至南</div>
+    <div class="button-clip-blue-2">由南至北</div>
+    <div class="button-clip-gradient-2">由东至西</div>
+    <div class="button-clip-blue-2">由西至东</div> -->
+
+    <div class="direction-sort-control-content-switch">
+      <div class="switch">
+        <div
+          class="switch-item left"
+          [class.selected]="sort.lat === Latitude.north2south"
+          (click)="onlat($event)"
+        >
+          北→南
+        </div>
+        <div
+          class="switch-item right"
+          [class.selected]="sort.lat === Latitude.south2north"
+          (click)="onlat($event)"
+        >
+          北←南
+        </div>
+      </div>
+    </div>
+    <div class="direction-sort-control-content-switch">
+      <div class="switch">
+        <div
+          class="switch-item left"
+          [class.selected]="sort.lon === Longitude.west2east"
+          (click)="onlon($event)"
+        >
+          西→东
+        </div>
+        <div
+          class="switch-item right"
+          [class.selected]="sort.lon === Longitude.east2west"
+          (click)="onlon($event)"
+        >
+          西←东
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

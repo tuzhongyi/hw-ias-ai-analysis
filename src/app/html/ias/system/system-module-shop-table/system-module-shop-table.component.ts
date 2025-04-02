@@ -17,8 +17,8 @@ import { ISystemModuleShopStorage } from '../../../../common/storage/system-modu
 import { ColorTool } from '../../../../common/tools/color/color.tool';
 import { Language } from '../../../../common/tools/language';
 import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
-import { SystemModuleShopTableBusiness } from './system-module-shop-table.business';
-import { SystemModuleShopTableConverter } from './system-module-shop-table.converter';
+import { SystemModuleShopTableBusiness } from './business/system-module-shop-table.business';
+import { SystemModuleShopTableProviders } from './business/system-module-shop-table.provider';
 import {
   SystemModuleShopTableArgs,
   SystemModuleShopTableFilter,
@@ -31,7 +31,7 @@ import {
   imports: [DatePipe, CommonModule, PaginatorComponent, TableSorterDirective],
   templateUrl: './system-module-shop-table.component.html',
   styleUrl: './system-module-shop-table.component.less',
-  providers: [SystemModuleShopTableBusiness, SystemModuleShopTableConverter],
+  providers: [...SystemModuleShopTableProviders],
 })
 export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
   @Input() args = new SystemModuleShopTableArgs();

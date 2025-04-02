@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SystemMapRoadBusiness } from './system-map-road.business';
-import { SystemMapShopBusiness } from './system-map-shop.business';
+import { SystemMapRoadBusiness } from './road/system-map-road.business';
+import { SystemMapShopBusiness } from './shop/system-map-shop.business';
 
 @Injectable()
 export class SystemMapBusiness {

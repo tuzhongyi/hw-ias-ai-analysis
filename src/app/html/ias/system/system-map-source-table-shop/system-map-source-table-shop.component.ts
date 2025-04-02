@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChange,
   SimpleChanges,
@@ -11,25 +12,23 @@ import {
 import { PaginatorComponent } from '../../../../common/components/paginator/paginator.component';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
-import { TableSorterDirective } from '../../../../common/directives/table-sorter/table-soater.directive';
-import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
-import { LocaleCompare } from '../../../../common/tools/compare-tool/compare.tool';
-import { LanguageTool } from '../../../../common/tools/language.tool';
-import { SystemMapSourceTableShopBusiness } from './system-map-source-table-shop.business';
-import {
-  SystemMapSourceTableShopFilter,
-  SystemMapSourceTableShopItem,
-} from './system-map-source-table-shop.model';
+import { GeoDirectionSort } from '../../../../common/tools/geo-tool/geo.model';
+import { SystemMapSourceTableShopBusiness } from './business/system-map-source-table-shop.business';
+import { SystemMapSourceTableShopConverter } from './business/system-map-source-table-shop.converter';
+import { SystemMapSourceTableShopItem } from './system-map-source-table-shop.model';
 
 @Component({
   selector: 'ias-system-map-source-table-shop',
-  imports: [CommonModule, TableSorterDirective, PaginatorComponent],
+  imports: [CommonModule, PaginatorComponent],
   templateUrl: './system-map-source-table-shop.component.html',
   styleUrl: './system-map-source-table-shop.component.less',
-  providers: [SystemMapSourceTableShopBusiness],
+  providers: [
+    SystemMapSourceTableShopConverter,
+    SystemMapSourceTableShopBusiness,
+  ],
 })
-export class SystemMapSourceTableShopComponent implements OnChanges {
+export class SystemMapSourceTableShopComponent implements OnInit, OnChanges {
   @Input('datas') shops: Shop[] = [];
   @Output() details = new EventEmitter<Shop>();
   @Input() selected?: Shop;
@@ -37,16 +36,14 @@ export class SystemMapSourceTableShopComponent implements OnChanges {
   @Output() itemhover = new EventEmitter<Shop>();
   @Output() itemblur = new EventEmitter<Shop>();
   @Output() position = new EventEmitter<Shop>();
+  @Input('sort') _sort?: EventEmitter<GeoDirectionSort>;
 
-  constructor(
-    private business: SystemMapSourceTableShopBusiness,
-    private language: LanguageTool
-  ) {}
+  constructor(private business: SystemMapSourceTableShopBusiness) {}
 
   widths = ['70px', 'auto', '100px', '70px', '8px'];
-  filter = new SystemMapSourceTableShopFilter();
   datas: SystemMapSourceTableShopItem[] = [];
   page = Page.create(1, 10);
+  private sort = new GeoDirectionSort();
 
   Color = ColorTool;
 
@@ -54,31 +51,36 @@ export class SystemMapSourceTableShopComponent implements OnChanges {
     this.changeshops(changes['shops']);
   }
 
-  changeshops(change: SimpleChange) {
-    if (change) {
-      this.filter.ids = this.shops.map((x) => x.Id);
-      this.load(1, this.page.PageSize, this.filter);
+  ngOnInit(): void {
+    if (this._sort) {
+      this._sort.subscribe((x) => {
+        this.sort = x;
+        this.load(
+          this.page.PageIndex,
+          this.page.PageSize,
+          this.shops,
+          this.sort
+        );
+      });
     }
   }
 
-  private load(
+  changeshops(change: SimpleChange) {
+    if (change) {
+      this.load(1, this.page.PageSize, this.shops, this.sort);
+    }
+  }
+
+  private async load(
     index: number,
     size: number,
-    filter: SystemMapSourceTableShopFilter
+    shops: Shop[],
+    sort: GeoDirectionSort
   ) {
-    this.business.load(index, size, filter).then((x) => {
-      let datas = x.Data.map((data) => {
-        let shop = this.shops.find((x) => data.Id === x.Id);
-        if (shop) {
-          data.ObjectState = shop.ObjectState;
-          data.ObjectStateName = this.language.ShopObjectState(
-            data.ObjectState
-          );
-        }
-        return data;
-      });
-      this.datas = datas;
+    return this.business.load(index, size, [...shops], sort).then((x) => {
+      this.datas = x.Data;
       this.page = x.Page;
+      return this.datas;
     });
   }
 
@@ -106,26 +108,7 @@ export class SystemMapSourceTableShopComponent implements OnChanges {
     }
   }
 
-  onsort(sort: Sort) {
-    this.datas = this.datas.sort((a: any, b: any) => {
-      return LocaleCompare.compare(
-        a[sort.active],
-        b[sort.active],
-        sort.direction === 'asc'
-      );
-    });
-    this.filter.asc = undefined;
-    this.filter.desc = undefined;
-    if (sort.direction === 'asc') {
-      this.filter.asc = sort.active;
-    } else {
-      this.filter.desc = sort.active;
-    }
-    this.load(this.page.PageIndex, this.page.PageSize, this.filter);
-  }
   onpage(num: number) {
-    if (this.filter) {
-      this.load(num, this.page.PageSize, this.filter);
-    }
+    this.load(num, this.page.PageSize, this.shops, this.sort);
   }
 }

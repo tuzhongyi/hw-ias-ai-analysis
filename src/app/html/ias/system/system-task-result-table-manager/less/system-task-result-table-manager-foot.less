@@ -4,6 +4,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border: 1px solid #2d76ce;
     border-top: none;
     background: linear-gradient(to top, rgba(30, 144, 255, 0.2) 0%, rgba(30, 144, 255, 0) 100%);
@@ -17,11 +18,17 @@
       .switch {
         height: 80%;
       }
+    }
 
+    &-sort {
+      height: 100%;
+      width: 26px;
+      margin-right: -10px;
+      display: flex;
+      justify-content: flex-end;
     }
 
     &-filter {
-      width: 300px;
       gap: 5px;
 
       .form-item {

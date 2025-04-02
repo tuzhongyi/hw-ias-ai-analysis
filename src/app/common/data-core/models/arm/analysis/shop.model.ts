@@ -92,4 +92,23 @@ export class Shop implements IIdNameModel {
   EmployeeNumber?: number;
   /**	String	经营范围：	O	*/
   BusinessScope?: string;
+
+  /**
+   * 	Int32
+   * 	商铺相对道路的位置，
+   *    1：东面
+   *    2：南面
+   *    3：西面
+   *    4：北面
+   * 	O
+   */
+  ShopSide?: number;
+  /**	Double	商铺偏北角朝向	O */
+  Course?: number;
+  /**	String	道路ID	O */
+  RoadId?: string;
+  /**	String	道路名称	O */
+  RoadName?: string;
+  /**	Int64	商铺在上道路序号	O */
+  RoadOrderNo?: number;
 }

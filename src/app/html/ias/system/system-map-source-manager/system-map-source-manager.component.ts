@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 
+import { GeoDirectionSort } from '../../../../common/tools/geo-tool/geo.model';
+import { DirectionSortControlComponent } from '../../share/direction-sort-control/direction-sort-control.component';
 import { SystemMapSourceTableRoadComponent } from '../system-map-source-table-road/system-map-source-table-road.component';
 import { SystemMapSourceTableShopComponent } from '../system-map-source-table-shop/system-map-source-table-shop.component';
 import { SystemMapFilterType } from '../system-map/system-map.model';
@@ -15,6 +17,7 @@ import { SystemMapFilterType } from '../system-map/system-map.model';
     FormsModule,
     SystemMapSourceTableShopComponent,
     SystemMapSourceTableRoadComponent,
+    DirectionSortControlComponent,
   ],
   templateUrl: './system-map-source-manager.component.html',
   styleUrl: './system-map-source-manager.component.less',
@@ -37,6 +40,8 @@ export class SystemMapSourceManagerComponent implements OnInit {
   constructor() {}
 
   Type = SystemMapFilterType;
+  sort = new GeoDirectionSort();
+  tosort = new EventEmitter<GeoDirectionSort>();
 
   ngOnInit(): void {}
 
@@ -59,5 +64,9 @@ export class SystemMapSourceManagerComponent implements OnInit {
   }
   onmouseout(data: Shop) {
     this.itemblur.emit(data);
+  }
+
+  onsort(sort: GeoDirectionSort) {
+    this.tosort.emit(sort);
   }
 }

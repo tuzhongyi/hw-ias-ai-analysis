@@ -14,8 +14,9 @@ import { LocalStorage } from '../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { SystemModuleShopListItemComponent } from '../system-module-shop-list-item/system-module-shop-list-item.component';
-import { SystemModuleShopTableBusiness } from '../system-module-shop-table/system-module-shop-table.business';
-import { SystemModuleShopTableConverter } from '../system-module-shop-table/system-module-shop-table.converter';
+import { SystemModuleShopTableBusiness } from '../system-module-shop-table/business/system-module-shop-table.business';
+
+import { SystemModuleShopTableConverter } from '../system-module-shop-table/business/system-module-shop-table.converter';
 import {
   SystemModuleShopTableArgs,
   SystemModuleShopTableFilter,

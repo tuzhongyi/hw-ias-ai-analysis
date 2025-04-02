@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonLabelSelecComponent } from '../../../../common/components/common-label-select/common-label-select.component';
 import { DateTimeControlComponent } from '../../../../common/components/date-time-control/date-time-control.component';
 import { WindowComponent } from '../../../../common/components/window-control/window.component';
+import { InputSelectRoadComponent } from '../../share/input-select-road/input-select-road.component';
 import { SelectShopObjectStateComponent } from '../../share/select/select-shop-object-state/select-shop-object-state.component';
 import { SystemModuleShopCreationComponent } from '../system-module-shop-creation/system-module-shop-creation.component';
 import { SystemModuleShopDetailsComponent } from '../system-module-shop-details/system-module-shop-details.component';
@@ -22,6 +23,7 @@ export const SystemModuleShopManagerImports = [
   SelectShopObjectStateComponent,
   SystemModuleShopDetailsComponent,
   SystemModuleShopCreationComponent,
+  InputSelectRoadComponent,
   WindowComponent,
 ];
 export const SystemModuleShopManagerProviders = [

@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { HowellPoint } from '../../../../common/data-core/models/arm/point.model';
-import { SystemMapRoadArgs } from './business/system-map-road.model';
+import { SystemMapRoadArgs } from './business/road/system-map-road.model';
 import { SystemMapShopArgs } from './business/system-map-shop.model';
 
 export enum SystemMapFilterType {

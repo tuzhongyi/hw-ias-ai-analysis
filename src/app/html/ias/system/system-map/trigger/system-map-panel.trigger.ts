@@ -142,8 +142,14 @@ export class SystemMapPanelTrigger {
           this.panel.source.show = false;
           this.panel.details.shop.show = false;
           this.panel.editor.circle.show = false;
+          this.panel.statistic.show = false;
           this.amap.shop.load([]);
           this.amap.map.focus();
+          this.panel.state.show = false;
+        } else {
+          this.panel.statistic.show = true;
+          this.panel.state.reset();
+          this.panel.state.show = true;
         }
       });
     },

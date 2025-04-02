@@ -7,7 +7,7 @@ export class SystemAMapShopPointExistedController extends SystemAMapShopPointAbs
   protected style = {
     radius: 5,
     unit: 'px',
-    color: '#388BFF',
+    color: 'rgb(30, 144, 255)',
     borderWidth: 0,
     blurWidth: 3,
   };

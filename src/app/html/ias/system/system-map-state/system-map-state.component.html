@@ -1,5 +1,10 @@
 <div class="panel-map-corner system-map-state">
-  <div class="system-map-state-item" *ngFor="let item of source.states | async">
+  <div
+    class="system-map-state-item"
+    [class.active]="selecteds.includes(item.Value)"
+    *ngFor="let item of source.states | async"
+    (click)="onselect(item.Value)"
+  >
     <div
       class="system-map-state-item-icon"
       [ngClass]="{
@@ -8,9 +13,9 @@
       red: item.Value === 0,
     }"
     ></div>
-    <div class="system-map-state-item-name" text-space-between>
+    <div class="system-map-state-item-name">
       {{ item.Name }}
     </div>
-    <div class="system-map-state-item-value">{{ count[item.Value] }}</div>
+    <div class="system-map-state-item-value">{{ count.get(item.Value) }}</div>
   </div>
 </div>

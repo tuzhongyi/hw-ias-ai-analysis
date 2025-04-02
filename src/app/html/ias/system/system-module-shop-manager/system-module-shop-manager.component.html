@@ -36,7 +36,7 @@
             </select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item state">
           <div class="form-item-text">状态</div>
           <div class="form-item-value state">
             <common-label-select
@@ -69,10 +69,25 @@
             </select>
           </div>
         </div>
+
+        <div class="form-item">
+          <div class="form-item-text">识别次数</div>
+          <div class="form-item-value number">
+            <input type="number" [(ngModel)]="args.count" />
+          </div>
+        </div>
         <div class="form-item">
           <div class="form-item-text">商铺名称</div>
-          <div class="form-item-value">
+          <div class="form-item-value text">
             <input type="text" [(ngModel)]="args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">道路名称</div>
+          <div class="form-item-value text">
+            <ias-input-select-road
+              [(roads)]="args.road"
+            ></ias-input-select-road>
           </div>
         </div>
       </div>

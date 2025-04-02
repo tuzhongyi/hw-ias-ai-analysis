@@ -15,13 +15,17 @@ import { Subscription } from 'rxjs';
 import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../common/data-core/models/page-list.model';
+import { DirectionSortControlComponent } from '../../share/direction-sort-control/direction-sort-control.component';
 import { SystemTaskResultShopTableBusiness } from '../system-task-result-shop-table/system-task-result-shop-table.business';
 import { SystemTaskResultShopTableComponent } from '../system-task-result-shop-table/system-task-result-shop-table.component';
 import { SystemTaskResultSignTableComponent } from '../system-task-result-sign-table/system-task-result-sign-table.component';
 import { SystemTaskResultTableManagerShopController } from './controller/system-task-result-table-manager-shop.controller';
 import { SystemTaskResultTableManagerSignController } from './controller/system-task-result-table-manager-sign.controller';
 import { SystemTaskResultTableManagerSourceController } from './controller/system-task-result-table-manager-source.controller';
-import { SystemTaskResultTableType } from './system-task-result-table-manager.model';
+import {
+  SystemTaskResultTableArgs,
+  SystemTaskResultTableType,
+} from './system-task-result-table-manager.model';
 
 @Component({
   selector: 'ias-system-task-result-table-manager',
@@ -30,6 +34,7 @@ import { SystemTaskResultTableType } from './system-task-result-table-manager.mo
     FormsModule,
     SystemTaskResultSignTableComponent,
     SystemTaskResultShopTableComponent,
+    DirectionSortControlComponent,
   ],
   templateUrl: './system-task-result-table-manager.component.html',
   styleUrl: './system-task-result-table-manager.component.less',
@@ -54,7 +59,7 @@ export class SystemTaskResultTableManagerComponent
 
   @Input() type = SystemTaskResultTableType.shop;
   @Output() typeChange = new EventEmitter<SystemTaskResultTableType>();
-  @Input('load') _load?: EventEmitter<string>;
+  @Input('load') _load?: EventEmitter<SystemTaskResultTableArgs>;
 
   constructor(
     public source: SystemTaskResultTableManagerSourceController,
@@ -64,7 +69,7 @@ export class SystemTaskResultTableManagerComponent
 
   filter = {
     channel: undefined,
-    type: undefined,
+    type: 1,
     label: undefined,
     confidence: 0,
   };
@@ -110,7 +115,8 @@ export class SystemTaskResultTableManagerComponent
   ngOnInit(): void {
     if (this._load) {
       let sub = this._load.subscribe((x) => {
-        this.shop.args.name = x;
+        this.shop.args.name = x.name;
+        this.shop.args.road = x.road;
         this.load();
       });
       this.subscription.add(sub);

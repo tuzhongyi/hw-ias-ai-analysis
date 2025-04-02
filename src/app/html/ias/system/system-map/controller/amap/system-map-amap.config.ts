@@ -1,6 +1,6 @@
 export class SystemMapAMapConfig {
   static icon = {
-    zooms: [19, 23] as [number, number],
+    zooms: [19, 50] as [number, number],
   };
 
   static point = {

@@ -1,5 +1,9 @@
-import { SystemMapRoadBusiness } from './business/system-map-road.business';
-import { SystemMapShopBusiness } from './business/system-map-shop.business';
+import { SystemMapRoadBusiness } from './business/road/system-map-road.business';
+import { SystemMapShopBusiness } from './business/shop/system-map-shop.business';
+import { SystemMapShopTaskBaseBusiness } from './business/shop/task/system-map-shop-task-base.business';
+import { SystemMapShopTaskCompareBusiness } from './business/shop/task/system-map-shop-task-compare.business';
+import { SystemMapShopTaskBusiness } from './business/shop/task/system-map-shop-task.business';
+
 import { SystemMapBusiness } from './business/system-map.business';
 import { SystemMapAMapController } from './controller/amap/system-map-amap.controller';
 import { SystemMapPanelControlsController } from './controller/panel/system-map-panel-controls.controller';
@@ -26,6 +30,9 @@ import { SystemMapTrigger } from './trigger/system-map.trigger';
 
 const SystemMapBusinessProviders = [
   SystemMapShopBusiness,
+  SystemMapShopTaskBusiness,
+  SystemMapShopTaskBaseBusiness,
+  SystemMapShopTaskCompareBusiness,
   SystemMapRoadBusiness,
   SystemMapBusiness,
 ];

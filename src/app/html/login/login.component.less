@@ -7,16 +7,34 @@
   background-position: center;
 
   @head-height: 108px;
+  z-index: 0;
+
+  &-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    video {
+      width: 100%;
+      height: 100%;
+    }
+  }
 
   &-head {
     height: @head-height;
     width: 80%;
+    z-index: 2;
+    position: relative;
   }
 
   &-body {
     height: calc(100% - @head-height);
     width: 100%;
     position: relative;
+    z-index: 2;
 
     input {
       background-color: transparent;

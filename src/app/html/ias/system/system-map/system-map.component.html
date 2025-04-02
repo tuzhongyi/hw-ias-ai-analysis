@@ -21,7 +21,11 @@
     ></ias-system-map-controls>
   </div>
   <div class="system-map-state" *ngIf="panel.state.show">
-    <ias-system-map-state [datas]="shops"></ias-system-map-state>
+    <ias-system-map-state
+      [datas]="shops"
+      [(selecteds)]="panel.state.selecteds"
+      (selectedsChange)="panel.state.onselect()"
+    ></ias-system-map-state>
   </div>
   <div
     class="system-map-editor-circle"
@@ -76,13 +80,15 @@
       [(taskselecteds)]="panel.task.selecteds"
       [shops]="shops"
       [load]="panel.task.load"
-      (compare)="panel.task.oncompare()"
+      (compare)="panel.task.oncompare($event)"
       (close)="panel.task.onclose()"
       (details)="panel.source.shop.ondetails($event)"
       (itemhover)="panel.source.shop.onmouseover($event)"
       (itemblur)="panel.source.shop.onmouseout($event)"
       (shopselectedChange)="panel.source.onselect($event)"
       (position)="panel.source.onposition($event)"
+      [(base)]="panel.task.base"
+      (loaded)="panel.task.onloaded($event)"
     ></ias-system-map-task-manager>
   </div>
 

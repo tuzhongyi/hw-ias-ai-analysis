@@ -1,19 +1,42 @@
 import { Injectable } from '@angular/core';
 import { ArmAnalysisRequestService } from '../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetShopsParams } from '../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
+import { ArmGeographicRequestService } from '../../../../common/data-core/requests/services/geographic/geographic.service';
+import { RoadViewModel } from '../../../../common/view-models/road/road.view-model';
 import { ShopConverter } from '../../../../common/view-models/shop/shop.converter';
-import { SystemTaskResultShopTableFilter } from './system-task-result-shop-table.model';
+import {
+  SystemTaskResultShopTableFilter,
+  SystemTaskResultShopTableItem,
+} from './system-task-result-shop-table.model';
 
 @Injectable()
 export class SystemTaskResultShopTableBusiness {
   constructor(
     private service: ArmAnalysisRequestService,
+    private geo: ArmGeographicRequestService,
     private converter: ShopConverter
   ) {}
 
   async load(filter: SystemTaskResultShopTableFilter) {
-    let datas = await this.data(filter);
-    return datas.map((data) => this.converter.convert(data));
+    let shops = await this.data(filter);
+    let datas = [];
+    for (let i = 0; i < shops.length; i++) {
+      let shop = this.converter.convert(shops[i]);
+      let item = new SystemTaskResultShopTableItem();
+      item = Object.assign(item, shop);
+      if (item.RoadId) {
+        item.Road = await this.road(item.RoadId);
+      }
+      datas.push(item);
+    }
+    return datas;
+  }
+
+  private async road(id: string) {
+    let data = await this.geo.road.get(id);
+    let model = new RoadViewModel();
+    model = Object.assign(model, data);
+    return model;
   }
 
   private data(filter: SystemTaskResultShopTableFilter) {
@@ -35,6 +58,9 @@ export class SystemTaskResultShopTableBusiness {
     }
     if (filter.name) {
       params.Name = filter.name;
+    }
+    if (filter.road && filter.road.length > 0) {
+      params.RoadIds = filter.road.map((road) => road.Id);
     }
     return this.service.shop.all(params);
   }

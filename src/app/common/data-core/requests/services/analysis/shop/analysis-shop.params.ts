@@ -39,6 +39,10 @@ export class GetShopsParams extends PagedDurationParams {
   CameraNos?: string[];
   /**	Int32[]	标注结果	O */
   ResultLabelTypes?: number[];
+  /**	String[]	道路ID	O */
+  RoadIds?: string[];
+  /**	Int32	识别到招牌的最小任务次数	O */
+  MinTaskCount?: number;
   /**	String	升序属性，不区分大小写	O	*/
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/
@@ -63,6 +67,18 @@ export class GetShopSignsParams extends PagedDurationParams {
   CameraNos?: string[];
   /**	Int32[]	招牌类型，1：商铺招牌	O */
   SignTypes?: number[];
+  /**
+   * 	Int32
+   * 	摄像机朝向
+   *  1：近端
+   *  2：远端
+   * 	O
+   */
+  CameraSide?: number;
+  /**	String[]	道路ID	O */
+  RoadIds?: string[];
+  /**	Int32	识别到招牌的最小任务次数	O */
+  MinTaskCount?: number;
   /**	String	升序属性，不区分大小写	O	*/
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/

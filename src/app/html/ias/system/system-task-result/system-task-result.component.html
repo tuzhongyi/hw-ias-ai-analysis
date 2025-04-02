@@ -10,7 +10,7 @@
         <div class="form-item">
           <div class="form-item-text">分析结果展示</div>
           <div class="form-item-value">
-            <select [(ngModel)]="table.args.mode">
+            <select [(ngModel)]="table.type">
               <option [ngValue]="0">商铺</option>
               <option [ngValue]="1">招牌</option>
             </select>
@@ -20,7 +20,7 @@
           <div
             class="form-item-text"
             [ngClass]="{
-              disabled: table.args.mode === 1
+              disabled: table.type === 1
             }"
           >
             商铺名称
@@ -29,14 +29,34 @@
             <input
               type="text"
               [(ngModel)]="table.args.name"
-              [disabled]="table.args.mode === 1"
+              [disabled]="table.type === 1"
             />
+          </div>
+        </div>
+        <div class="form-item">
+          <div
+            class="form-item-text"
+            [ngClass]="{
+              disabled: table.type === 1
+            }"
+          >
+            道路名称
+          </div>
+          <div class="form-item-value">
+            <ias-input-select-road
+              [(roads)]="table.args.road"
+            ></ias-input-select-road>
+            <!-- <input
+              type="text"
+              [(ngModel)]="table.args.name"
+              [disabled]="table.args.mode === 1"
+            /> -->
           </div>
         </div>
 
         <button
           class="button-clip-gradient"
-          [disabled]="table.args.mode === 1"
+          [disabled]="table.type === 1"
           (click)="table.load.on()"
         >
           搜索
@@ -72,7 +92,7 @@
           [(selected)]="selected"
           (selectedChange)="onselect($event)"
           [index]="indexchange"
-          [(type)]="table.args.mode"
+          [(type)]="table.type"
           (page)="onpage($event)"
           (loaded)="onloaded($event)"
           (error)="onerror($event)"

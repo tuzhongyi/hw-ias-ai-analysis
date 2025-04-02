@@ -9,6 +9,7 @@
         [index]="index"
         (page)="onpage($event)"
         (error)="onerror($event)"
+        [sort]="shop.tosort"
       ></ias-system-task-result-shop-table>
     </div>
 
@@ -113,11 +114,18 @@
         </div>
       </div>
     </div>
-    <div class="system-task-result-table-manager-foot-switch">
+    <div class="system-task-result-table-manager-foot-sort">
+      <ias-direction-sort-control
+        [(sort)]="shop.sort"
+        (sortChange)="shop.onsortchange($event)"
+      ></ias-direction-sort-control>
+    </div>
+    <!-- <div class="system-task-result-table-manager-foot-switch">
       <div class="switch" (click)="onswitch()">
         <div class="switch-item left" [class.selected]="type === 0">商铺</div>
         <div class="switch-item right" [class.selected]="type === 1">招牌</div>
       </div>
-    </div>
+      
+    </div> -->
   </div>
 </div>

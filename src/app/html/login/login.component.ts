@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
@@ -17,11 +17,12 @@ import { LoginBusiness } from './login.business';
   ],
   providers: [LoginBusiness],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   constructor(private business: LoginBusiness, private toastr: ToastrService) {}
 
   model = new LoginModel();
   remember = false;
+  private handle: any;
 
   private get check() {
     if (!this.model.username) {
@@ -34,13 +35,19 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    window.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        this.onlogin();
-      }
-    });
+    this.handle = this.onkeypress.bind(this);
+    window.addEventListener('keypress', this.handle);
     this.load();
     this.business.init();
+  }
+  ngOnDestroy(): void {
+    window.removeEventListener('keypress', this.handle);
+  }
+
+  onkeypress(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.onlogin();
+    }
   }
 
   load() {

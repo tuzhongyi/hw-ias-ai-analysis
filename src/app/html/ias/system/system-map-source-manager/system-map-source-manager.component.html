@@ -1,23 +1,33 @@
 <div class="system-map-source-manager root-router">
   <div class="system-map-source-manager-head">
-    <button
-      [ngClass]="{
-        'button-clip-gradient-2': type === Type.shop,
-        'button-clip-blue-2': type !== Type.shop
-      }"
-      (click)="ontype(Type.shop)"
-    >
-      商铺
-    </button>
-    <button
-      [ngClass]="{
-        'button-clip-gradient-2': type === Type.road,
-        'button-clip-blue-2': type !== Type.road
-      }"
-      (click)="ontype(Type.road)"
-    >
-      道路
-    </button>
+    <div class="button-group">
+      <button
+        [ngClass]="{
+          'button-clip-gradient-2': type === Type.shop,
+          'button-clip-blue-2': type !== Type.shop
+        }"
+        (click)="ontype(Type.shop)"
+      >
+        商铺
+      </button>
+      <button
+        [ngClass]="{
+          'button-clip-gradient-2': type === Type.road,
+          'button-clip-blue-2': type !== Type.road
+        }"
+        (click)="ontype(Type.road)"
+      >
+        道路
+      </button>
+    </div>
+
+    <div>
+      <ias-direction-sort-control
+        [(sort)]="sort"
+        (sortChange)="onsort($event)"
+        [direction]="'down'"
+      ></ias-direction-sort-control>
+    </div>
   </div>
   <div class="system-map-source-manager-body">
     <ng-container *ngIf="type === Type.shop">
@@ -25,6 +35,7 @@
         [datas]="shops"
         (details)="ondetails($event)"
         [selected]="selected"
+        [sort]="tosort"
         (selectedChange)="onselected($event)"
         (itemhover)="onmouseover($event)"
         (itemblur)="onmouseout($event)"

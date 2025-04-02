@@ -10,11 +10,15 @@ import { Page } from '../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../common/tools/language';
 import { LanguageTool } from '../../../../common/tools/language.tool';
 import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
+import { InputSelectRoadComponent } from '../../share/input-select-road/input-select-road.component';
 import { PictureWindowContentPageComponent } from '../../share/picture-window-content-page/picture-window-content-page.component';
 import { SystemTaskResultInfoComponent } from '../system-task-result-info/system-task-result-info.component';
 import { SystemTaskResultMapComponent } from '../system-task-result-map/system-task-result-map.component';
 import { SystemTaskResultTableManagerComponent } from '../system-task-result-table-manager/system-task-result-table-manager.component';
-import { SystemTaskResultTableType } from '../system-task-result-table-manager/system-task-result-table-manager.model';
+import {
+  SystemTaskResultTableArgs,
+  SystemTaskResultTableType,
+} from '../system-task-result-table-manager/system-task-result-table-manager.model';
 import { SystemTaskResultBusiness } from './system-task-result.business';
 import { SystemTaskResultWindow } from './system-task-result.window';
 
@@ -29,6 +33,7 @@ import { SystemTaskResultWindow } from './system-task-result.window';
     SystemTaskResultTableManagerComponent,
     SystemTaskResultInfoComponent,
     SystemTaskResultMapComponent,
+    InputSelectRoadComponent,
   ],
   templateUrl: './system-task-result.component.html',
   styleUrl: './system-task-result.component.less',
@@ -58,14 +63,12 @@ export class SystemTaskResultComponent implements OnInit {
   Language = Language;
 
   table = {
-    args: {
-      mode: SystemTaskResultTableType.shop,
-      name: '',
-    },
+    type: SystemTaskResultTableType.shop,
+    args: new SystemTaskResultTableArgs(),
     load: {
-      event: new EventEmitter<string>(),
+      event: new EventEmitter<SystemTaskResultTableArgs>(),
       on: () => {
-        this.table.load.event.emit(this.table.args.name);
+        this.table.load.event.emit(this.table.args);
       },
     },
   };

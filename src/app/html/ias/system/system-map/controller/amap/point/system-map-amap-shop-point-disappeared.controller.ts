@@ -7,7 +7,7 @@ export class SystemAMapShopPointDisappearedController extends SystemAMapShopPoin
   protected style = {
     radius: 5,
     unit: 'px',
-    color: '#f8433c',
+    color: 'rgb(255, 118, 44)',
     borderWidth: 0,
     blurWidth: 3,
   };

@@ -1,7 +1,7 @@
 export class SystemTaskResultSignTableArgs {
   taskId: string = '';
   channel?: string;
-  type?: number;
+  type?: number = 1;
   label?: number;
   shopId?: string;
   confidence = 0;

@@ -1,0 +1,8 @@
+<div class="input-select-road">
+  <ias-input-select
+    [(text)]="name"
+    (textChange)="oninput($event)"
+    (select)="onselect($event)"
+    [results]="roads"
+  ></ias-input-select>
+</div>

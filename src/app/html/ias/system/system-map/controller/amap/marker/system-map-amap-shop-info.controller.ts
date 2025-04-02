@@ -10,7 +10,7 @@ export class SystemAMapShopInfoController {
   private init() {
     return new AMap.Marker({
       anchor: 'bottom-center',
-      offset: [0, -50],
+      offset: [0, -70],
     });
   }
 

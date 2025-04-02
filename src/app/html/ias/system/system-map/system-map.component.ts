@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
-import { SystemMapRoadArgs } from './business/system-map-road.model';
-import { SystemMapShopArgs } from './business/system-map-shop.model';
+import { SystemMapRoadArgs } from './business/road/system-map-road.model';
+import {
+  SystemMapShopArgs,
+  SystemMapTaskShopArgs,
+} from './business/system-map-shop.model';
 import { SystemMapBusiness } from './business/system-map.business';
 import { SystemMapController } from './controller/system-map.controller';
 import { SystemMapImports } from './system-map.import';
@@ -97,16 +100,29 @@ export class SystemMapComponent implements OnInit, OnDestroy {
         this.load.shop(this.args.shop, this.args.distance);
         this.load.road(this.args.road, this.args.distance);
       });
-      this.panel.task.compare.subscribe((datas) => {
-        this.args.shop.task = datas;
+      this.panel.task.compare.subscribe((args) => {
+        this.args.shop.task = args;
         this.load.shop(this.args.shop, this.args.distance);
+        this.panel.state.show = true;
+      });
+      this.panel.task.return.subscribe(() => {
+        this.panel.state.reset();
+        this.panel.state.show = false;
       });
       this.panel.task.change.subscribe((show) => {
-        if (!show) {
+        if (show) {
+          this.args.shop.task = new SystemMapTaskShopArgs();
+        } else {
           this.args.shop.task = undefined;
           this.load.shop(this.args.shop, this.args.distance);
-        } else {
         }
+      });
+      this.panel.state.selected.subscribe((states) => {
+        let shops = this.shops.filter((shop) => {
+          return states.includes(shop.ObjectState);
+        });
+        console.log(states);
+        this.amap.shop.load(shops);
       });
     },
   };

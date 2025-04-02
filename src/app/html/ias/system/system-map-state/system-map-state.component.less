@@ -12,6 +12,21 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
+    opacity: 0.2;
+
+    &:hover {
+      opacity: 0.3;
+    }
+
+    &.active {
+      opacity: 0.9;
+
+      &:hover {
+        opacity: 1;
+      }
+
+    }
 
     &-icon {
       height: 20px;
@@ -30,7 +45,7 @@
       }
 
       &.red {
-        background-image: url('../../../../../assets/image/map/states/state-red.png');
+        background-image: url('../../../../../assets/image/map/states/state-orange.png');
       }
 
       &.yellow {

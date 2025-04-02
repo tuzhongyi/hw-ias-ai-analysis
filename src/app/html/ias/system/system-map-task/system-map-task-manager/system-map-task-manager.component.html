@@ -5,23 +5,77 @@
         [selecteds]="taskselecteds"
         (selectedsChange)="onselect($event)"
         [load]="task.load"
+        [maxselected]="maxselected"
+        (loaded)="onloaded($event)"
       ></ias-system-map-task-table>
     </div>
-    <div class="system-map-task-manager-foot button-group">
-      <button
-        class="button-clip-gradient"
-        [disabled]="taskselecteds.length < 2"
-        (click)="oncompare()"
-      >
-        比较
-      </button>
-      <button class="button-clip-blue" (click)="onclose()">关闭</button>
+    <div class="system-map-task-manager-foot">
+      <div class="source">
+        <label for="task-source">
+          <input
+            type="checkbox"
+            id="task-source"
+            [(ngModel)]="base"
+            (change)="onsource()"
+          />
+          与常驻商铺比较
+        </label>
+
+        <div
+          class="button"
+          *ngIf="shop.task"
+          (click)="shop.task.target($event)"
+        >
+          <i class="howell-icon-settingoutline"></i>
+          <!-- <div class="min-task-count">
+            <input
+              type="range"
+              min="2"
+              max="10"
+              [(ngModel)]="taskcount"
+              title="{{ taskcount }}次任务识别"
+            />
+            <div class="text">
+              {{ taskcount }}
+            </div>
+          </div> -->
+        </div>
+        <div
+          class="min-task-count"
+          *ngIf="shop.task && shop.task.show"
+          (click)="shop.task.stop($event)"
+        >
+          <div class="title">
+            任务中识别
+            <div class="title-text">{{ shop.task.count }}</div>
+            次以上
+          </div>
+          <div class="input">
+            <input
+              type="range"
+              min="2"
+              max="10"
+              [(ngModel)]="shop.task.count"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button
+          class="button-clip-gradient"
+          [disabled]="cancompare === false"
+          (click)="oncompare(true)"
+        >
+          比较
+        </button>
+        <button class="button-clip-blue" (click)="onclose()">关闭</button>
+      </div>
     </div>
   </ng-container>
   <ng-container *ngIf="compared">
     <div class="system-map-task-manager-head">
       <div class="button-group">
-        <div class="button" (click)="compared = false">
+        <div class="button" (click)="oncompare(false)">
           <i class="mdi mdi-arrow-left-bold"></i>
         </div>
         <button

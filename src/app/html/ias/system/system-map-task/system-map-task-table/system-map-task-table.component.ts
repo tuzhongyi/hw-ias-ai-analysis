@@ -15,6 +15,8 @@ import {
 } from '@angular/core';
 import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { Manager } from '../../../../../common/data-core/requests/managers/manager';
+import { LocaleCompare } from '../../../../../common/tools/compare-tool/compare.tool';
+import { wait } from '../../../../../common/tools/wait';
 import { PromiseValue } from '../../../../../common/view-models/value.promise';
 import { SystemMapTaskTableBusiness } from './system-map-task-table.business';
 import { SystemMapTaskTableArgs } from './system-map-task-table.model';
@@ -34,6 +36,8 @@ export class SystemMapTaskTableComponent
   @Input('selecteds') selectedIds: string[] = [];
   @Output() selectedsChange = new EventEmitter<string[]>();
   @Output() position = new EventEmitter<AnalysisTask>();
+  @Input() maxselected = 2;
+  @Output() loaded = new EventEmitter<AnalysisTask[]>();
 
   constructor(
     private business: SystemMapTaskTableBusiness,
@@ -81,9 +85,16 @@ export class SystemMapTaskTableComponent
   change = {
     selecteds: (data: SimpleChange) => {
       if (data) {
-        this.selecteds = this.selectedIds.map((x) => {
-          return this.datas.find((y) => y.Id === x)!;
-        });
+        wait(
+          () => {
+            return this.datas.length > 0;
+          },
+          () => {
+            this.selecteds = this.selectedIds.map((x) => {
+              return this.datas.find((y) => y.Id === x)!;
+            });
+          }
+        );
       }
     },
   };
@@ -100,7 +111,11 @@ export class SystemMapTaskTableComponent
     this.inited.get().then((inited) => {
       if (inited) {
         this.business.load(args).then((x) => {
+          x = x.sort((a, b) => {
+            return LocaleCompare.compare(a.CreationTime, b.CreationTime, false);
+          });
           this.datas = x;
+          this.loaded.emit(this.datas);
         });
       }
     });
@@ -109,11 +124,16 @@ export class SystemMapTaskTableComponent
   onselect(item: AnalysisTask) {
     if (this.selecteds.includes(item)) {
       this.selecteds = this.selecteds.filter((x) => x.Id !== item.Id);
-    } else if (this.selecteds.length < 2) {
+    } else if (this.selecteds.length < this.maxselected) {
       this.selecteds.push(item);
     } else {
       this.selecteds.shift();
       this.selecteds.push(item);
+    }
+    if (this.selecteds.length > 1) {
+      this.selecteds = this.selecteds.sort((a, b) => {
+        return LocaleCompare.compare(a.CreationTime, b.CreationTime);
+      });
     }
     this.selectedIds = this.selecteds.map((x) => x.Id);
     this.selectedsChange.emit(this.selectedIds);

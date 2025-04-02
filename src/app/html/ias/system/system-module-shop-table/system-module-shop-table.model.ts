@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { ShopObjectState } from '../../../../common/data-core/enums/analysis/shop-object-state.enum';
+import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
 import { DateTimeTool } from '../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../common/tools/date-time-tool/duration.model';
 import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
@@ -24,6 +25,8 @@ export class SystemModuleShopTableArgs {
   duration: Duration;
   states: ShopObjectState[] = [];
   type?: number;
+  road: Road[] = [];
+  count?: number;
 }
 export class SystemModuleShopTableFilter extends SystemModuleShopTableArgs {
   asc?: string;
@@ -37,6 +40,8 @@ export class SystemModuleShopTableFilter extends SystemModuleShopTableArgs {
     this.duration = args.duration;
     this.states = args.states;
     this.type = args.type;
+    this.road = args.road;
+    this.count = args.count;
   }
 }
 

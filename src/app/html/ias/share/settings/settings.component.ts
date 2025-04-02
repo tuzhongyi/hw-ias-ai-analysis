@@ -22,27 +22,36 @@ export class SettingsComponent implements OnInit, OnDestroy {
     account: false,
     question: false,
   };
-  handle: any;
+  handle: {
+    date?: any;
+    close?: any;
+  } = {};
 
   ngOnInit(): void {
-    window.addEventListener('click', (e) => {
-      e.stopImmediatePropagation();
-      this.menu.account = false;
-    });
-    this.handle = setInterval(() => {
+    this.handle.close = this.onaccountclose.bind(this);
+    window.addEventListener('click', this.handle.close);
+    this.handle.date = setInterval(() => {
       this.date.set(Date.now());
     }, 1000);
   }
   ngOnDestroy(): void {
-    if (this.handle) {
-      clearInterval(this.handle);
-      this.handle = undefined;
+    if (this.handle.date) {
+      clearInterval(this.handle.date);
+      this.handle.date = undefined;
+    }
+    if (this.handle.close) {
+      window.removeEventListener('click', this.handle.close);
+      this.handle.close = undefined;
     }
   }
 
   onaccount(e: Event) {
     e.stopImmediatePropagation();
     this.menu.account = !this.menu.account;
+  }
+  onaccountclose(e: Event) {
+    e.stopImmediatePropagation();
+    this.menu.account = false;
   }
   onsignout(e: Event) {
     this.account = undefined;

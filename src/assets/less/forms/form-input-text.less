@@ -1,5 +1,6 @@
 textarea,
 input[type="text"],
+input[type="number"],
 input[type="password"] {
   background-color: #060f2b;
   border: 1px solid #2d76ce;
@@ -47,4 +48,13 @@ textarea {
   padding: 3px 10px;
   height: 78px;
   box-sizing: border-box;
+}
+
+input[type="number"] {
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
