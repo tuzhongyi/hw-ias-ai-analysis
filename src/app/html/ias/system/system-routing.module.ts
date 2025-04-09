@@ -7,9 +7,10 @@ import { SystemModuleComponent } from './system-module/component/system-module.c
 import { SystemModuleIndexComponent } from './system-module/system-module-index/system-module-index.component';
 import { SystemModuleRoadManagerComponent } from './system-module/system-module-road/system-module-road-manager/system-module-road-manager.component';
 import { SystemModuleShopManagerComponent } from './system-module/system-module-shop/system-module-shop-manager/system-module-shop-manager.component';
-import { SystemTaskFileManagerComponent } from './system-task-file-manager/system-task-file-manager.component';
-import { SystemTaskManagerComponent } from './system-task-manager/system-task-manager.component';
-import { SystemTaskComponent } from './system-task/system-task.component';
+
+import { SystemTaskComponent } from './system-task/component/system-task.component';
+import { SystemTaskFileManagerComponent } from './system-task/system-task-file/system-task-file-manager/system-task-file-manager.component';
+import { SystemTaskManagerComponent } from './system-task/system-task-manager/system-task-manager.component';
 
 const routes: Routes = [
   {
