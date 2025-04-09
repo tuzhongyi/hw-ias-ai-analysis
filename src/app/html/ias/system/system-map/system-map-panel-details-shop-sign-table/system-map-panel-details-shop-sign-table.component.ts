@@ -17,7 +17,7 @@ import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/sh
 import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
 import { Language } from '../../../../../common/tools/language';
 import { ShopSignViewModel } from '../../../../../common/view-models/shop-sign/shop-sign.view-model';
-import { SystemModuleShopSignTableBusiness } from '../../system-module-shop-sign-table/system-module-shop-sign-table.business';
+import { SystemModuleShopSignTableBusiness } from '../../system-module/system-module-shop/system-module-shop-sign-table/system-module-shop-sign-table.business';
 
 @Component({
   selector: 'ias-system-map-panel-details-shop-sign-table',

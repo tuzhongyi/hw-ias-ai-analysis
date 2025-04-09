@@ -1,0 +1,136 @@
+.system-module-shop-list-item {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-image: url("../../../../../../../assets/image/cards/card-blue.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  position: relative;
+
+
+
+  &.green {
+    background-image: url("../../../../../../../assets/image/cards/card-green.png");
+  }
+
+  &.orange {
+    background-image: url("../../../../../../../assets/image/cards/card-orange.png");
+  }
+
+  &.gray {
+    background-image: url("../../../../../../../assets/image/cards/card-gray.png");
+  }
+
+  &-head {
+    height: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &-title {
+      font-size: 20px;
+      color: white;
+    }
+
+    .state {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      font-size: 14px;
+
+      &>* {
+        padding: 3px 5px;
+      }
+
+      &-blue {
+        color: #1e90ff;
+        background-color: #1e90ff44;
+      }
+
+      &-green {
+        color: #23e353;
+        background-color: #23e35344;
+      }
+
+      &-orange {
+        color: #ff762c;
+        background-color: #ff762c44;
+      }
+
+      &-gray {
+        color: #aaa;
+        background-color: #aaaaaa44;
+      }
+    }
+  }
+
+  &-body {
+    height: calc(100% - 20px - 20px - 10px * 2);
+    width: 100%;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background-color: black;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &-foot {
+    height: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &-info {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: calc(100% - 100px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      ._ {
+        padding: 0 5px;
+      }
+    }
+  }
+
+
+  .mask {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+
+  &:hover {
+    .mask {
+      display: block;
+    }
+  }
+}
