@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemMapPanel } from '../../system-map.model';
 import { SystemMapPanelSourceRoadController } from './system-map-panel-source-road.controller';
@@ -20,13 +21,13 @@ export class SystemMapPanelSourceController extends SystemMapPanel {
     super();
   }
 
-  onselect(data: Shop | Road) {
+  onselect(data: IShop | Road) {
     if (!data) {
       this.road.onselect();
-    } else if (data instanceof Shop) {
-      this.shop.onselect(data);
     } else if (data instanceof Road) {
       this.road.onselect(data);
+    } else {
+      this.shop.onselect(data);
     }
   }
   onposition(data: Shop | Road) {

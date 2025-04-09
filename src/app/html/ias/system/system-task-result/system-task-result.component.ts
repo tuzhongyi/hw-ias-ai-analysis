@@ -85,6 +85,7 @@ export class SystemTaskResultComponent implements OnInit {
 
   onselect(data: ShopSign) {
     if (this.window.picture.show) {
+      this.window.picture.title = data.Text ?? '';
       this.window.picture.id = data.ImageUrl;
       this.window.picture.polygon = data.Polygon ?? [];
     }
@@ -113,8 +114,17 @@ export class SystemTaskResultComponent implements OnInit {
     this.toastr.error(error.message);
     this.loading = false;
   }
-  onpicture(data: ShopSign) {
-    this.window.picture.title = data.Text ?? '';
+  async onpicture(data: ShopSign) {
+    if (this.table.type == 1) {
+      this.window.picture.title = data.Text ?? '';
+    } else {
+      if (data.ShopId) {
+        let shop = await this.business.shop(data.ShopId);
+        this.window.picture.title = shop.Name;
+      } else {
+        this.window.picture.title = data.Text ?? '';
+      }
+    }
     this.window.picture.id = data.ImageUrl;
     this.window.picture.polygon = data.Polygon ?? [];
     this.window.picture.show = true;

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TextSpaceBetweenDirective } from '../../../../common/directives/text-space-between/text-space-between.directive';
-import { SystemMapShopArgs } from '../system-map/business/system-map-shop.model';
+import { SystemMapShopArgs } from '../system-map/business/shop/system-map-shop.model';
 import { SystemMapDistanceArgs } from '../system-map/system-map.model';
 import { SystemMapFilterSourceController } from './controller/system-map-filter-source.controller';
 

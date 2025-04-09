@@ -22,7 +22,7 @@
   </div>
   <div class="system-map-state" *ngIf="panel.state.show">
     <ias-system-map-state
-      [datas]="shops"
+      [datas]="source.shop"
       [(selecteds)]="panel.state.selecteds"
       (selectedsChange)="panel.state.onselect()"
     ></ias-system-map-state>
@@ -65,8 +65,8 @@
     ></ias-system-map-source-table> -->
 
     <ias-system-map-source-manager
-      [shops]="shops"
-      [roads]="roads"
+      [shops]="source.shop"
+      [roads]="source.road"
       [(type)]="type"
       (details)="panel.source.shop.ondetails($event)"
       (itemhover)="panel.source.shop.onmouseover($event)"
@@ -78,7 +78,7 @@
   <div class="panel-map-border system-map-task" *ngIf="panel.task.show">
     <ias-system-map-task-manager
       [(taskselecteds)]="panel.task.selecteds"
-      [shops]="shops"
+      [shops]="source.shop"
       [load]="panel.task.load"
       (compare)="panel.task.oncompare($event)"
       (close)="panel.task.onclose()"
@@ -87,8 +87,9 @@
       (itemblur)="panel.source.shop.onmouseout($event)"
       (shopselectedChange)="panel.source.onselect($event)"
       (position)="panel.source.onposition($event)"
-      [(base)]="panel.task.base"
       (loaded)="panel.task.onloaded($event)"
+      (return)="panel.task.onreturn()"
+      (setting)="panel.setting.compare.show = true"
     ></ias-system-map-task-manager>
   </div>
 
@@ -102,8 +103,37 @@
     <ias-system-map-panel-details-shop
       [data]="panel.details.shop.data"
       (close)="panel.details.shop.show = false"
-      (picture)="onpicture($event)"
+      (sign)="panel.details.shop.onsign()"
     ></ias-system-map-panel-details-shop>
+  </div>
+  <div
+    class="system-map-details-shop-registration"
+    [ngClass]="{
+      source: panel.source.show || panel.task.show,
+      taskshop: panel.details.shop.show
+    }"
+    *ngIf="panel.details.registration.show"
+  >
+    <ias-system-map-panel-details-shop-registration
+      [data]="panel.details.registration.data"
+      (close)="panel.details.registration.show = false"
+    ></ias-system-map-panel-details-shop-registration>
+  </div>
+  <div
+    class="system-map-details-shop-sign"
+    [ngClass]="{
+      source: panel.source.show || panel.task.show
+    }"
+    *ngIf="panel.details.shop.sign.show"
+  >
+    <ias-system-map-panel-details-shop-sign
+      [shop]="panel.details.shop.data"
+      [sign]="panel.details.shop.sign.data"
+      (signChange)="panel.details.shop.sign.onselect($event)"
+      (picture)="onpicture($event)"
+      (close)="panel.details.shop.sign.show = false"
+      [page]="window.picture.topage"
+    ></ias-system-map-panel-details-shop-sign>
   </div>
   <div class="system-map-filter" *ngIf="panel.filter.show">
     <ias-system-map-filter
@@ -114,17 +144,26 @@
       (mapdistance)="panel.filter.ondistance()"
     ></ias-system-map-filter>
   </div>
+  <div class="system-map-setting-compare" *ngIf="panel.setting.compare.show">
+    <ias-system-map-setting-compare
+      [taskcount]="panel.task.datas.length"
+      [(args)]="args.task"
+      (close)="panel.setting.compare.show = false"
+    ></ias-system-map-setting-compare>
+  </div>
 
   <app-window
     *ngIf="window.picture.show"
     [Model]="window.picture"
     [style]="window.picture.style"
   >
-    <ias-picture-window-content
+    <ias-picture-window-content-page
       [id]="window.picture.id"
       [title]="window.picture.title"
       [polygon]="window.picture.polygon"
-      [zoom]="false"
-    ></ias-picture-window-content>
+      [zoom]="window.picture.polygon.length > 0"
+      [page]="window.picture.page"
+      (pageChange)="window.picture.onpage($event)"
+    ></ias-picture-window-content-page>
   </app-window>
 </div>

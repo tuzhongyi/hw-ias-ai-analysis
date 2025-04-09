@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
-import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 
+import { IShop } from '../../../../common/data-core/models/arm/analysis/shop.interface';
 import { GeoDirectionSort } from '../../../../common/tools/geo-tool/geo.model';
 import { DirectionSortControlComponent } from '../../share/direction-sort-control/direction-sort-control.component';
 import { SystemMapSourceTableRoadComponent } from '../system-map-source-table-road/system-map-source-table-road.component';
@@ -23,19 +23,19 @@ import { SystemMapFilterType } from '../system-map/system-map.model';
   styleUrl: './system-map-source-manager.component.less',
 })
 export class SystemMapSourceManagerComponent implements OnInit {
-  @Input() shops: Shop[] = [];
+  @Input() shops: IShop[] = [];
   @Input() roads: Road[] = [];
 
   @Input() type = SystemMapFilterType.shop;
   @Output() typeChange = new EventEmitter<SystemMapFilterType>();
 
-  @Output() details = new EventEmitter<Shop>();
-  @Input() selected?: Shop;
-  @Output() selectedChange = new EventEmitter<Shop | Road>();
+  @Output() details = new EventEmitter<IShop>();
+  @Input() selected?: IShop;
+  @Output() selectedChange = new EventEmitter<IShop | Road>();
 
-  @Output() itemhover = new EventEmitter<Shop>();
-  @Output() itemblur = new EventEmitter<Shop>();
-  @Output() position = new EventEmitter<Shop | Road>();
+  @Output() itemhover = new EventEmitter<IShop>();
+  @Output() itemblur = new EventEmitter<IShop>();
+  @Output() position = new EventEmitter<IShop | Road>();
 
   constructor() {}
 
@@ -50,19 +50,19 @@ export class SystemMapSourceManagerComponent implements OnInit {
     this.typeChange.emit(type);
   }
 
-  onselected(data?: Shop | Road) {
+  onselected(data?: IShop | Road) {
     this.selectedChange.emit(data);
   }
-  ondetails(data: Shop) {
+  ondetails(data: IShop) {
     this.details.emit(data);
   }
-  onposition(data: Shop | Road) {
+  onposition(data: IShop | Road) {
     this.position.emit(data);
   }
-  onmouseover(data: Shop) {
+  onmouseover(data: IShop) {
     this.itemhover.emit(data);
   }
-  onmouseout(data: Shop) {
+  onmouseout(data: IShop) {
     this.itemblur.emit(data);
   }
 

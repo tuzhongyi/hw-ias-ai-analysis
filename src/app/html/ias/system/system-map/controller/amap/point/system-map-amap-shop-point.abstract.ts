@@ -1,4 +1,4 @@
-import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemMapAMapConfig } from '../system-map-amap.config';
 import { SystemMapAMapConverter } from '../system-map-amap.converter';
 
@@ -24,7 +24,7 @@ export abstract class SystemAMapShopPointAbstract {
     return layer;
   }
 
-  load(datas: Shop[]) {
+  load(datas: IShop[]) {
     let geo = this.converter.geo.point(datas);
     this.layer.setSource(geo);
     this.layer.setStyle(this.style);

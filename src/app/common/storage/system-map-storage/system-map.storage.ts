@@ -1,5 +1,7 @@
 export class ISystemMapStorage {
   mintaskcount = 0;
+  ratio = 0.5;
+  distance = 100;
 }
 export class SystemMapStorage {
   key = 'system-map';

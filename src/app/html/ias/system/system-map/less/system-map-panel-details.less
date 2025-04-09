@@ -14,6 +14,42 @@
 
       &.source {
         left: calc(@map-left + @padding-x + @map-source-width + @padding-x);
+        width: 400px;
+      }
+
+      &-sign {
+        position: absolute;
+        left: calc(@map-left + @padding-x + @map-details-width + @padding-x);
+        bottom: calc(@map-bottom + @control-height + @padding-y + 10px);
+        height: calc(100% - @map-bottom - @control-height - @padding-y * 3 - @map-top - @map-filter-height);
+        transition: all 0.5s;
+        width: 525px;
+
+        &.source {
+          left: calc(@map-left + @padding-x + @map-source-width + @padding-x + 400px + @padding-x);
+
+        }
+      }
+
+      &-registration {
+        position: absolute;
+        left: calc(@map-left + @padding-x + @map-details-width + @padding-x);
+        bottom: calc(@map-bottom + @control-height + @padding-y + 10px);
+        height: calc(100% - @map-bottom - @control-height - @padding-y * 3 - @map-top - @map-filter-height);
+        transition: all 0.5s;
+        width: @map-details-width;
+
+        &.source {
+
+          left: calc(@map-left + @padding-x + @map-source-width + @padding-x);
+          width: 400px;
+
+          &.taskshop {
+            left: calc(@map-left + @padding-x + @map-source-width + @padding-x + 400px + @padding-x);
+          }
+        }
+
+
       }
     }
   }

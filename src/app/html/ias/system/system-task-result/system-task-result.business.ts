@@ -10,4 +10,8 @@ export class SystemTaskResultBusiness {
     params.TaskIds = [taskId];
     return this.service.shop.sign.result.labels(params);
   }
+
+  shop(id: string) {
+    return this.service.shop.get(id);
+  }
 }

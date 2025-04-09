@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   Output,
   SimpleChange,
@@ -14,11 +13,14 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/analysis-task.model';
-import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
+import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemMapSourceTableShopComponent } from '../../system-map-source-table-shop/system-map-source-table-shop.component';
 import { SystemMapTaskTableComponent } from '../system-map-task-table/system-map-task-table.component';
 import { SystemMapTaskTableArgs } from '../system-map-task-table/system-map-task-table.model';
-import { SystemMapTaskManagerShopTaskController } from './controller/system-map-task-manager-shop-task.controller';
+import {
+  SystemMapTaskShops,
+  TaskCompareType,
+} from './system-map-task-manager.model';
 
 @Component({
   selector: 'ias-system-map-task-manager',
@@ -30,52 +32,71 @@ import { SystemMapTaskManagerShopTaskController } from './controller/system-map-
   ],
   templateUrl: './system-map-task-manager.component.html',
   styleUrl: './system-map-task-manager.component.less',
-  providers: [SystemMapTaskManagerShopTaskController],
 })
-export class SystemMapTaskManagerComponent
-  implements OnChanges, OnInit, OnDestroy
-{
+export class SystemMapTaskManagerComponent implements OnChanges, OnInit {
   @Input('load') _load?: EventEmitter<string>;
   @Input() taskselecteds: string[] = [];
   @Output() taskselectedsChange = new EventEmitter<string[]>();
 
+  @Input() taskcount = 0;
+
   @Input() name?: string;
-  @Input() shops: Shop[] = [];
+  @Input() shops?: SystemMapTaskShops;
 
   @Output() close = new EventEmitter();
-  @Output() compare = new EventEmitter<boolean>();
+  @Output('compare') tocompare = new EventEmitter<
+    TaskCompareType | undefined
+  >();
 
-  @Output() shopselectedChange = new EventEmitter<Shop>();
-  @Output() details = new EventEmitter<Shop>();
-  @Output() itemhover = new EventEmitter<Shop>();
-  @Output() itemblur = new EventEmitter<Shop>();
-  @Output() position = new EventEmitter<Shop>();
+  @Output() return = new EventEmitter<void>();
 
-  @Input() base = false;
-  @Output() baseChange = new EventEmitter<boolean>();
+  @Output() shopselectedChange = new EventEmitter<IShop>();
+  @Output() details = new EventEmitter<IShop>();
+  @Output() itemhover = new EventEmitter<IShop>();
+  @Output() itemblur = new EventEmitter<IShop>();
+  @Output() position = new EventEmitter<IShop>();
 
   @Output() loaded = new EventEmitter<AnalysisTask[]>();
 
-  constructor(task: SystemMapTaskManagerShopTaskController) {
-    this.shop.task = task;
-    this.handle = this.shop.task.close.bind(this.shop.task);
-    document.addEventListener('click', this.handle);
-  }
+  @Output() setting = new EventEmitter<void>();
+
+  constructor() {}
 
   private subscription = new Subscription();
-  compared = false;
-  datas: Shop[] = [];
+
+  datas: IShop[] = [];
   state = ShopObjectState.Created;
   State = ShopObjectState;
   maxselected = 2;
-  handle: any;
+  TaskCompareType = TaskCompareType;
+
+  compare = {
+    doing: false,
+    eachother: {
+      change: () => {
+        if (this.maxselected === 2) {
+          this.maxselected = Number.MAX_VALUE;
+        } else {
+          this.maxselected = 2;
+        }
+      },
+    },
+    type: {
+      used: false,
+      value: TaskCompareType.base,
+      change: () => {
+        this.compare.type.used = true;
+        this.maxselected = Number.MAX_VALUE;
+      },
+    },
+  };
 
   task = {
     args: new SystemMapTaskTableArgs(),
     load: new EventEmitter<SystemMapTaskTableArgs>(),
   };
   get cancompare() {
-    if (this.base) {
+    if (this.compare.type.used) {
       return this.taskselecteds.length > 0;
     } else {
       return this.taskselecteds.length === 2;
@@ -94,17 +115,12 @@ export class SystemMapTaskManagerComponent
       this.subscription.add(sub);
     }
   }
-  ngOnDestroy(): void {
-    if (this.handle) {
-      document.removeEventListener('click', this.handle);
-      this.handle = undefined;
-    }
-  }
 
   private change = {
     shops: (data: SimpleChange) => {
-      if (data) {
-        this.load.shop(data.currentValue, this.state);
+      if (data && !data.firstChange && data.currentValue) {
+        this.load(data.currentValue, this.state);
+        this.compare.doing = true;
       }
     },
     name: (data: SimpleChange) => {
@@ -115,11 +131,21 @@ export class SystemMapTaskManagerComponent
     },
   };
 
-  load = {
-    shop: (datas: Shop[], state: ShopObjectState) => {
-      this.datas = datas.filter((x) => x.ObjectState === state);
-    },
-  };
+  load(data: SystemMapTaskShops, state: ShopObjectState) {
+    switch (state) {
+      case ShopObjectState.Created:
+        this.datas = [...data.created];
+        break;
+      case ShopObjectState.Disappeared:
+        this.datas = [...data.disappeared];
+        break;
+      case ShopObjectState.Existed:
+        this.datas = [...data.existed];
+        break;
+      default:
+        break;
+    }
+  }
 
   onselect(datas: string[]) {
     this.taskselecteds = datas;
@@ -128,42 +154,47 @@ export class SystemMapTaskManagerComponent
   onclose() {
     this.close.emit();
   }
-  oncompare(compared: boolean) {
-    this.compared = compared;
-    this.compare.emit(this.compared);
+  oncompare() {
+    if (this.compare.type.used) {
+      this.tocompare.emit(this.compare.type.value);
+    } else {
+      this.tocompare.emit();
+    }
+  }
+  onreturn() {
+    this.compare.doing = false;
+    this.return.emit();
   }
   onstate(state: ShopObjectState) {
     this.state = state;
-    this.load.shop(this.shops, state);
-  }
-  onsource() {
-    if (this.maxselected === 2) {
-      this.maxselected = Number.MAX_VALUE;
-    } else {
-      this.maxselected = 2;
+    if (this.shops) {
+      this.load(this.shops, state);
     }
-    this.baseChange.emit(this.base);
   }
   onloaded(datas: AnalysisTask[]) {
+    this.taskcount = datas.length;
     this.loaded.emit(datas);
   }
 
   shop = {
-    task: undefined as SystemMapTaskManagerShopTaskController | undefined,
-    onselected: (data?: Shop) => {
+    onselected: (data?: IShop) => {
       this.shopselectedChange.emit(data);
     },
-    ondetails: (data: Shop) => {
+    ondetails: (data: IShop) => {
       this.details.emit(data);
     },
-    onposition: (data: Shop) => {
+    onposition: (data: IShop) => {
       this.position.emit(data);
     },
-    onmouseover: (data: Shop) => {
+    onmouseover: (data: IShop) => {
       this.itemhover.emit(data);
     },
-    onmouseout: (data: Shop) => {
+    onmouseout: (data: IShop) => {
       this.itemblur.emit(data);
     },
   };
+
+  onsetting() {
+    this.setting.emit();
+  }
 }

@@ -13,8 +13,8 @@ export enum GeoLatitudeDirection {
 }
 
 export class GeoDirectionSort {
-  lon = GeoLongitudeDirection.east2west;
-  lat = GeoLatitudeDirection.north2south;
+  longitude = GeoLongitudeDirection.east2west;
+  latitude = GeoLatitudeDirection.north2south;
 }
 
 export enum GeoDirection {

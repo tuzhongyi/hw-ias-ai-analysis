@@ -20,14 +20,14 @@
       <div class="switch">
         <div
           class="switch-item left"
-          [class.selected]="sort.lat === Latitude.north2south"
+          [class.selected]="sort.latitude === Latitude.north2south"
           (click)="onlat($event)"
         >
           北→南
         </div>
         <div
           class="switch-item right"
-          [class.selected]="sort.lat === Latitude.south2north"
+          [class.selected]="sort.latitude === Latitude.south2north"
           (click)="onlat($event)"
         >
           北←南
@@ -38,14 +38,14 @@
       <div class="switch">
         <div
           class="switch-item left"
-          [class.selected]="sort.lon === Longitude.west2east"
+          [class.selected]="sort.longitude === Longitude.west2east"
           (click)="onlon($event)"
         >
           西→东
         </div>
         <div
           class="switch-item right"
-          [class.selected]="sort.lon === Longitude.east2west"
+          [class.selected]="sort.longitude === Longitude.east2west"
           (click)="onlon($event)"
         >
           西←东

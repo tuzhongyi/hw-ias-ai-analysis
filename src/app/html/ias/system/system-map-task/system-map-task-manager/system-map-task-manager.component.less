@@ -19,51 +19,9 @@
       align-items: center;
       gap: 10px;
 
-      position: relative;
-
-
-
-      .min-task-count {
-        position: absolute;
-        width: max-content;
-
-
-        border: 1px solid #2d76ce;
-        background-color: #080E2B;
-        box-shadow: 0 0 5px 5px rgba(45, 118, 206, 0.3);
-        padding: 15px;
-        box-sizing: border-box;
+      &-control {
         display: flex;
         align-items: center;
-        gap: 10px;
-        bottom: calc(100% + 5px);
-        left: 50%;
-        transform: translateX(-50%);
-
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-
-        &>* {}
-
-        &>.input {
-          width: calc(100%);
-
-          &>input {
-            width: 145px;
-          }
-        }
-
-        &>.title {
-          text-align: left;
-          display: flex;
-          align-items: center;
-
-          .title-text {
-            width: 20px;
-            text-align: center;
-          }
-        }
       }
     }
   }

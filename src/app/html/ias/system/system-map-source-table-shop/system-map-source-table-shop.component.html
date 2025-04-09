@@ -9,7 +9,7 @@
           <th class="center">#</th>
           <th>名称</th>
           <th>状态</th>
-          <th>操作</th>
+          <th class="center">操作</th>
           <th></th>
         </tr>
       </thead>
@@ -33,7 +33,7 @@
             color: Color.ShopObjectState(item.ObjectState),
           }"
           >
-            {{ item.ObjectStateName | async }}
+            {{ item.ObjectStateName }}
           </td>
           <td class="center">
             <div class="operation" *ngIf="item.index > 0">

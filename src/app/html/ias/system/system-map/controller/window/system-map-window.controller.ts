@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
+import { Page } from '../../../../../../common/data-core/models/page-list.model';
 
 @Injectable()
 export class SystemMapWindowController {
@@ -8,6 +9,7 @@ export class SystemMapWindowController {
 }
 
 class PictureWindow extends WindowViewModel {
+  topage = new EventEmitter<Page>();
   clear() {
     this.id = undefined;
     this.polygon = [];
@@ -22,4 +24,10 @@ class PictureWindow extends WindowViewModel {
   title = '';
   id?: string;
   polygon: HowellPoint[] = [];
+  page?: Page;
+
+  onpage(page: Page) {
+    this.page = page;
+    this.topage.emit(page);
+  }
 }

@@ -18,7 +18,7 @@
 
   &-body {
     width: 100%;
-    height: calc(100% - 36px - 10px);
+    height: calc(100% - 10px - 36px);
 
     display: flex;
     flex-direction: column;
@@ -27,17 +27,31 @@
     &-image {
       width: 100%;
       aspect-ratio: 16/9;
+      cursor: pointer;
     }
 
 
     &-info {
       flex-direction: column;
-      gap: 20px;
+      gap: 13px;
 
       .form-item {
         &-value {
           display: flex;
           justify-content: flex-end;
+          text-align: right;
+
+          &.task {
+            gap: 5px;
+            flex-wrap: wrap;
+
+            &>* {
+              font-size: 14px;
+              padding: 3px 5px;
+              color: #1e90ff;
+              background-color: #1e90ff44;
+            }
+          }
 
           &.states {
             display: flex;
@@ -76,5 +90,12 @@
         }
       }
     }
+  }
+
+  &-foot {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }

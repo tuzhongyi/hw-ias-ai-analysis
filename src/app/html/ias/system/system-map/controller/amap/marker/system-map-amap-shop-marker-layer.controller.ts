@@ -1,4 +1,4 @@
-import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemMapAMapConfig } from '../system-map-amap.config';
 import { SystemAMapShopInfoController } from './system-map-amap-shop-info.controller';
 import {
@@ -10,6 +10,7 @@ export class SystemAMapShopMarkerLayerController {
   event = new SystemAMapShopMarkerEvent();
 
   constructor(map: AMap.Map) {
+    this.zoom = map.getZoom();
     this.layer = this.init(map);
     this.info = new SystemAMapShopInfoController(map);
   }
@@ -17,6 +18,7 @@ export class SystemAMapShopMarkerLayerController {
   private layer: AMap.LabelsLayer;
   private info: SystemAMapShopInfoController;
   private points: SystemAMapShopLabelMarkerController[] = [];
+  private zoom: number;
 
   private init(map: AMap.Map) {
     let layer = new AMap.LabelsLayer({
@@ -30,7 +32,7 @@ export class SystemAMapShopMarkerLayerController {
 
   private regist(point: SystemAMapShopLabelMarkerController) {
     point.event.mouseover.subscribe((data) => {
-      this.info.add(data);
+      this.info.add(data, this.zoom);
       this.event.mouseover.emit(data);
     });
     point.event.mouseout.subscribe((data) => {
@@ -43,7 +45,7 @@ export class SystemAMapShopMarkerLayerController {
     });
   }
 
-  async load(datas: Shop[]) {
+  async load(datas: IShop[]) {
     let markers = [];
     for (let i = 0; i < datas.length; i++) {
       const data = datas[i];
@@ -62,14 +64,14 @@ export class SystemAMapShopMarkerLayerController {
     this.points = [];
   }
 
-  mouseover(data: Shop) {
-    this.info.add(data);
+  mouseover(data: IShop) {
+    this.info.add(data, this.zoom);
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {
       point.hover();
     }
   }
-  mouseout(data: Shop) {
+  mouseout(data: IShop) {
     this.info.remove();
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {
@@ -77,7 +79,7 @@ export class SystemAMapShopMarkerLayerController {
     }
   }
 
-  select(data: Shop) {
+  select(data: IShop) {
     this.blur();
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {
@@ -92,4 +94,11 @@ export class SystemAMapShopMarkerLayerController {
       }
     });
   }
+
+  set = {
+    zoom: (zoom: number) => {
+      this.zoom = zoom;
+      this.info.set.offset(zoom);
+    },
+  };
 }

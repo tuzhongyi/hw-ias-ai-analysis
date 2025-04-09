@@ -1,0 +1,60 @@
+.system-map-setting-compare {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 22%;
+  min-width: 300px;
+
+
+  &-head {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .forms {
+      flex-direction: column;
+
+      .form-item {
+        width: 100%;
+
+        &-text {
+          min-width: 111px;
+        }
+
+        &-value {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+      }
+    }
+
+    .noborder {
+      border: none;
+    }
+  }
+
+  &-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+}
+
+.system-map-setting-compare-mask {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}

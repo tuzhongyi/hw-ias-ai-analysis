@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
-import { SystemMapShopArgs } from '../../business/system-map-shop.model';
+import { SystemMapShopArgs } from '../../business/shop/system-map-shop.model';
 import { SystemMapPanel } from '../../system-map.model';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { ShopObjectState } from '../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemAMapShopPointCreatedController } from './system-map-amap-shop-point-created.controller';
 import { SystemAMapShopPointDisappearedController } from './system-map-amap-shop-point-disappeared.controller';
 import { SystemAMapShopPointExistedController } from './system-map-amap-shop-point-existed.controller';
@@ -15,7 +15,7 @@ export class SystemAMapShopPointLayerController {
   private disappeared: SystemAMapShopPointDisappearedController;
   private existed: SystemAMapShopPointExistedController;
 
-  async load(datas: Shop[]) {
+  async load(datas: IShop[]) {
     let point = {
       created: datas.filter((x) => x.ObjectState === ShopObjectState.Created),
       disappeared: datas.filter(

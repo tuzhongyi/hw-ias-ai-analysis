@@ -45,19 +45,19 @@ export class DirectionSortControlComponent implements OnInit, OnDestroy {
   }
 
   onlat(e: Event) {
-    if (this.sort.lat === GeoLatitudeDirection.north2south) {
-      this.sort.lat = GeoLatitudeDirection.south2north;
+    if (this.sort.latitude === GeoLatitudeDirection.north2south) {
+      this.sort.latitude = GeoLatitudeDirection.south2north;
     } else {
-      this.sort.lat = GeoLatitudeDirection.north2south;
+      this.sort.latitude = GeoLatitudeDirection.north2south;
     }
     this.sortChange.emit(this.sort);
     e.stopImmediatePropagation();
   }
   onlon(e: Event) {
-    if (this.sort.lon === GeoLongitudeDirection.east2west) {
-      this.sort.lon = GeoLongitudeDirection.west2east;
+    if (this.sort.longitude === GeoLongitudeDirection.east2west) {
+      this.sort.longitude = GeoLongitudeDirection.west2east;
     } else {
-      this.sort.lon = GeoLongitudeDirection.east2west;
+      this.sort.longitude = GeoLongitudeDirection.east2west;
     }
     this.sortChange.emit(this.sort);
     e.stopImmediatePropagation();

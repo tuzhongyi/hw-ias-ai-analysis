@@ -11,18 +11,18 @@
     </div>
   </div>
   <div class="system-map-panel-details-shop-body">
-    <div class="system-map-panel-details-shop-body-image" (click)="onpicture()">
+    <div class="system-map-panel-details-shop-body-image" (click)="onsign()">
       <ias-picture [id]="data.ImageUrl"></ias-picture>
     </div>
     <div class="system-map-panel-details-shop-body-info forms">
       <div class="form-item">
-        <div class="form-item-text">商铺名称</div>
+        <div class="form-item-text baseline">商铺名称</div>
         <div class="form-item-value">
           {{ data.Name }}
         </div>
       </div>
       <div class="form-item">
-        <div class="form-item-text">商铺地址</div>
+        <div class="form-item-text baseline">商铺地址</div>
         <div class="form-item-value">
           {{ data.Address ?? "-" }}
         </div>
@@ -60,6 +60,20 @@
           <div class="state-locked" *ngIf="data.Locked">已锁定</div>
         </div>
       </div>
+
+      <div class="form-item" *ngIf="task && task.length > 0">
+        <div class="form-item-text baseline">任务识别</div>
+        <div class="form-item-value task">
+          <div *ngFor="let item of task">{{ item.Name }}</div>
+        </div>
+      </div>
     </div>
   </div>
+  <!-- <div class="system-map-panel-details-shop-foot">
+    <div class="button-group">
+      <div class="button" title="查看商铺招牌" (click)="onsign()">
+        <i class="mdi mdi-tooltip-text"></i>
+      </div>
+    </div>
+  </div> -->
 </div>

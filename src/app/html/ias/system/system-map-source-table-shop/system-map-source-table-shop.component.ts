@@ -10,10 +10,13 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { PaginatorComponent } from '../../../../common/components/paginator/paginator.component';
-import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
+import { IShop } from '../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Page } from '../../../../common/data-core/models/page-list.model';
 import { ColorTool } from '../../../../common/tools/color/color.tool';
-import { GeoDirectionSort } from '../../../../common/tools/geo-tool/geo.model';
+import {
+  GeoDirection,
+  GeoDirectionSort,
+} from '../../../../common/tools/geo-tool/geo.model';
 import { SystemMapSourceTableShopBusiness } from './business/system-map-source-table-shop.business';
 import { SystemMapSourceTableShopConverter } from './business/system-map-source-table-shop.converter';
 import { SystemMapSourceTableShopItem } from './system-map-source-table-shop.model';
@@ -29,13 +32,13 @@ import { SystemMapSourceTableShopItem } from './system-map-source-table-shop.mod
   ],
 })
 export class SystemMapSourceTableShopComponent implements OnInit, OnChanges {
-  @Input('datas') shops: Shop[] = [];
-  @Output() details = new EventEmitter<Shop>();
-  @Input() selected?: Shop;
-  @Output() selectedChange = new EventEmitter<Shop>();
-  @Output() itemhover = new EventEmitter<Shop>();
-  @Output() itemblur = new EventEmitter<Shop>();
-  @Output() position = new EventEmitter<Shop>();
+  @Input('datas') shops: IShop[] = [];
+  @Output() details = new EventEmitter<IShop>();
+  @Input() selected?: IShop;
+  @Output() selectedChange = new EventEmitter<IShop>();
+  @Output() itemhover = new EventEmitter<IShop>();
+  @Output() itemblur = new EventEmitter<IShop>();
+  @Output() position = new EventEmitter<IShop>();
   @Input('sort') _sort?: EventEmitter<GeoDirectionSort>;
 
   constructor(private business: SystemMapSourceTableShopBusiness) {}
@@ -44,6 +47,7 @@ export class SystemMapSourceTableShopComponent implements OnInit, OnChanges {
   datas: SystemMapSourceTableShopItem[] = [];
   page = Page.create(1, 10);
   private sort = new GeoDirectionSort();
+  private direction = GeoDirection.ew;
 
   Color = ColorTool;
 
@@ -54,12 +58,19 @@ export class SystemMapSourceTableShopComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     if (this._sort) {
       this._sort.subscribe((x) => {
-        this.sort = x;
+        if (this.sort.latitude !== x.latitude) {
+          this.direction = GeoDirection.ns;
+        } else if (this.sort.longitude !== x.longitude) {
+          this.direction = GeoDirection.ew;
+        }
+        this.sort.latitude = x.latitude;
+        this.sort.longitude = x.longitude;
         this.load(
           this.page.PageIndex,
           this.page.PageSize,
           this.shops,
-          this.sort
+          this.sort,
+          this.direction
         );
       });
     }
@@ -67,41 +78,44 @@ export class SystemMapSourceTableShopComponent implements OnInit, OnChanges {
 
   changeshops(change: SimpleChange) {
     if (change) {
-      this.load(1, this.page.PageSize, this.shops, this.sort);
+      this.load(1, this.page.PageSize, this.shops, this.sort, this.direction);
     }
   }
 
   private async load(
     index: number,
     size: number,
-    shops: Shop[],
-    sort: GeoDirectionSort
+    shops: IShop[],
+    sort: GeoDirectionSort,
+    direction: GeoDirection
   ) {
-    return this.business.load(index, size, [...shops], sort).then((x) => {
-      this.datas = x.Data;
-      this.page = x.Page;
-      return this.datas;
-    });
+    return this.business
+      .load(index, size, [...shops], sort, direction)
+      .then((x) => {
+        this.datas = x.Data;
+        this.page = x.Page;
+        return this.datas;
+      });
   }
 
-  onselect(item: Shop) {
+  onselect(item: IShop) {
     this.selected = item;
     this.selectedChange.emit(item);
   }
 
-  ondetails(data: Shop, e: Event) {
+  ondetails(data: IShop, e: Event) {
     this.details.emit(data);
     if (this.selected === data) {
       e.stopImmediatePropagation();
     }
   }
-  onmouseover(data: Shop) {
+  onmouseover(data: IShop) {
     this.itemhover.emit(data);
   }
-  onmouseout(data: Shop) {
+  onmouseout(data: IShop) {
     this.itemblur.emit(data);
   }
-  onposition(data: Shop, e: Event) {
+  onposition(data: IShop, e: Event) {
     this.position.emit(data);
     if (this.selected === data) {
       e.stopImmediatePropagation();
@@ -109,6 +123,6 @@ export class SystemMapSourceTableShopComponent implements OnInit, OnChanges {
   }
 
   onpage(num: number) {
-    this.load(num, this.page.PageSize, this.shops, this.sort);
+    this.load(num, this.page.PageSize, this.shops, this.sort, this.direction);
   }
 }

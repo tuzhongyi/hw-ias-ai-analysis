@@ -3,20 +3,13 @@ import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-poin
 import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetShopsParams } from '../../../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
 import { SystemMapDistanceArgs } from '../../system-map.model';
-import { SystemMapShopArgs } from '../system-map-shop.model';
-import { SystemMapShopTaskBusiness } from './task/system-map-shop-task.business';
+import { SystemMapShopArgs } from './system-map-shop.model';
 
 @Injectable()
 export class SystemMapShopBusiness {
-  constructor(
-    private service: ArmAnalysisRequestService,
-    private task: SystemMapShopTaskBusiness
-  ) {}
+  constructor(private service: ArmAnalysisRequestService) {}
 
   async load(args: SystemMapShopArgs, distance: SystemMapDistanceArgs) {
-    if (args.task) {
-      return this.task.load(args.task, args);
-    }
     return this.data(args, distance);
   }
 

@@ -1,12 +1,12 @@
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
-import { IIdNameModel } from '../../model.interface';
 import { transformDateTime } from '../../transformer';
 import { GisPoint } from '../gis-point.model';
+import { IShop } from './shop.interface';
 
 /**	Shop (商铺信息)	*/
-export class Shop implements IIdNameModel {
+export class Shop implements IShop {
   /**	String	商铺ID	M	*/
   Id!: string;
   /**	Int64	整数ID	M	*/
@@ -111,4 +111,6 @@ export class Shop implements IIdNameModel {
   RoadName?: string;
   /**	Int64	商铺在上道路序号	O */
   RoadOrderNo?: number;
+
+  TaskIds?: string[];
 }

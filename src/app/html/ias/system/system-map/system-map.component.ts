@@ -1,12 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ShopObjectState } from '../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
-import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
+import { ShopSign } from '../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { IShop } from '../../../../common/data-core/models/arm/analysis/shop.interface';
+import { Paged } from '../../../../common/data-core/models/page-list.model';
+import { SystemMapPanelDetailsShopRegistrationComponent } from '../system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
+import { TaskCompareType } from '../system-map-task/system-map-task-manager/system-map-task-manager.model';
 import { SystemMapRoadArgs } from './business/road/system-map-road.model';
-import {
-  SystemMapShopArgs,
-  SystemMapTaskShopArgs,
-} from './business/system-map-shop.model';
+import { SystemMapShopArgs } from './business/shop/system-map-shop.model';
 import { SystemMapBusiness } from './business/system-map.business';
+import { SystemMapTaskArgs } from './business/task/system-map-task.model';
+import {
+  SystemMapShopSource,
+  SystemMapSource,
+} from './controller/source/system-map.source';
 import { SystemMapController } from './controller/system-map.controller';
 import { SystemMapImports } from './system-map.import';
 import {
@@ -19,7 +26,10 @@ import { SystemMapTrigger } from './trigger/system-map.trigger';
 
 @Component({
   selector: 'ias-system-map',
-  imports: [...SystemMapImports],
+  imports: [
+    ...SystemMapImports,
+    SystemMapPanelDetailsShopRegistrationComponent,
+  ],
   templateUrl: './system-map.component.html',
   styleUrls: ['./system-map.component.less', './less/system-map-panel.less'],
   providers: [...SystemMapProviders],
@@ -28,7 +38,8 @@ export class SystemMapComponent implements OnInit, OnDestroy {
   constructor(
     private business: SystemMapBusiness,
     private controller: SystemMapController,
-    private trigger: SystemMapTrigger
+    private trigger: SystemMapTrigger,
+    public source: SystemMapSource
   ) {}
 
   get panel() {
@@ -41,8 +52,6 @@ export class SystemMapComponent implements OnInit, OnDestroy {
     return this.controller.window;
   }
   args = new SystemMapArgs();
-  shops: Shop[] = [];
-  roads: Road[] = [];
   type = SystemMapFilterType.shop;
 
   ngOnInit(): void {
@@ -80,6 +89,15 @@ export class SystemMapComponent implements OnInit, OnDestroy {
       });
     },
     panel: () => {
+      this.panel.source.change.subscribe((show) => {
+        if (show) {
+        } else {
+          if (this.args.name) {
+            this.args.name = '';
+            this.onsearch(this.args.name);
+          }
+        }
+      });
       this.panel.source.shop.select.subscribe((x) => {
         if (x.Location) {
           this.args.distance.center.X = x.Location.Longitude;
@@ -101,38 +119,55 @@ export class SystemMapComponent implements OnInit, OnDestroy {
         this.load.road(this.args.road, this.args.distance);
       });
       this.panel.task.compare.subscribe((args) => {
-        this.args.shop.task = args;
-        this.load.shop(this.args.shop, this.args.distance);
+        this.args.name = '';
+        this.args.task = args;
+        switch (args.type) {
+          case TaskCompareType.base:
+            this.load.task.base(this.args.task);
+            break;
+          case TaskCompareType.registration:
+            this.load.task.registration(this.args.task);
+            break;
+          default:
+            this.load.task.eachother(this.args.task);
+            break;
+        }
         this.panel.state.show = true;
       });
       this.panel.task.return.subscribe(() => {
-        this.panel.state.reset();
-        this.panel.state.show = false;
+        this.args.name = '';
       });
       this.panel.task.change.subscribe((show) => {
         if (show) {
-          this.args.shop.task = new SystemMapTaskShopArgs();
+          this.args.task = new SystemMapTaskArgs();
         } else {
-          this.args.shop.task = undefined;
+          this.args.name = '';
           this.load.shop(this.args.shop, this.args.distance);
         }
       });
       this.panel.state.selected.subscribe((states) => {
-        let shops = this.shops.filter((shop) => {
+        let shops = this.source.shop.filter((shop) => {
           return states.includes(shop.ObjectState);
         });
         console.log(states);
         this.amap.shop.load(shops);
+      });
+      this.panel.details.shop.sign.select.subscribe((x) => {
+        if (this.window.picture.show) {
+          this.window.picture.id = x.ImageUrl;
+          this.window.picture.title = x.Text ?? '';
+          this.window.picture.polygon = x.Polygon ?? [];
+        }
       });
     },
   };
 
   load = {
     shop: (args: SystemMapShopArgs, distance: SystemMapDistanceArgs) => {
-      return new Promise<Shop[]>((resolve) => {
+      return new Promise<IShop[]>((resolve) => {
         this.business.shop.load(args, distance).then((x) => {
           resolve(x);
-          this.shops = x;
+          this.source.shop = new SystemMapShopSource(...x);
 
           this.amap.shop.load(x);
         });
@@ -142,28 +177,85 @@ export class SystemMapComponent implements OnInit, OnDestroy {
       return new Promise<Road[]>((resolve) => {
         this.business.road.load(args, distance).then((x) => {
           resolve(x);
-          this.roads = x;
+          this.source.road = x;
           this.amap.road.load(x);
         });
       });
     },
+    task: {
+      eachother: (args: SystemMapTaskArgs) => {
+        return new Promise<IShop[]>((resolve) => {
+          this.business.task.compare.load(args).then((x) => {
+            this.source.shop = new SystemMapShopSource(...x);
+            this.amap.shop.load(x);
+            resolve(x);
+          });
+        });
+      },
+      base: (args: SystemMapTaskArgs) => {
+        return new Promise<IShop[]>((resolve) => {
+          this.business.task.base.load(args).then((x) => {
+            this.source.shop = new SystemMapShopSource(...x);
+            this.amap.shop.load(x);
+            resolve(x);
+          });
+        });
+      },
+      registration: (args: SystemMapTaskArgs) => {
+        return new Promise<IShop[]>((resolve) => {
+          this.business.task.registration.load(args).then((x) => {
+            this.panel.details.registration.datas = x;
+
+            let shop = new SystemMapShopSource();
+            let shops = x.filter((x) => !!x.Shop).map((x) => x.Shop!);
+            let disappeareds = x
+              .filter((x) => !x.Shop && !!x.ShopRegistration)
+              .map((x) => x.ShopRegistration!);
+            disappeareds.forEach((item) => {
+              item.ObjectState = ShopObjectState.Disappeared;
+            });
+            shop = new SystemMapShopSource(...shops, ...disappeareds);
+            this.source.shop = shop;
+
+            this.amap.shop.load(this.source.shop);
+
+            resolve(this.source.shop);
+          });
+        });
+      },
+    },
   };
 
-  onsearch(name: string) {
+  async onsearch(name: string) {
     this.args.name = name;
-    this.load.shop(this.args.shop, this.args.distance);
+
     if (this.panel.task.show) {
-      this.panel.task.name = name;
-      this.panel.task.load.emit(this.panel.task.name);
+      if (this.panel.task.compared) {
+        this.source.search.shop.on(name);
+        this.amap.shop.load(this.source.shop);
+      } else {
+        this.panel.task.name = name;
+        this.panel.task.load.emit(this.panel.task.name);
+      }
     } else {
-      this.load.road(this.args.road, this.args.distance);
-      this.panel.source.show = true;
+      if (this.panel.editor.circle.show) {
+        this.panel.editor.circle.show = false;
+        this.args.distance.enabled = false;
+      }
+      await this.load.shop(this.args.shop, this.args.distance);
+      await this.load.road(this.args.road, this.args.distance);
+      if (name) {
+        this.panel.source.show = true;
+      }
     }
   }
 
-  onpicture(shop: Shop) {
-    this.window.picture.id = shop.ImageUrl;
-    this.window.picture.title = shop.Name;
+  onpicture(paged: Paged<ShopSign>) {
+    let data = paged.Data;
+    this.window.picture.id = data.ImageUrl;
+    this.window.picture.title = data.Text ?? '';
+    this.window.picture.polygon = data.Polygon ?? [];
+    this.window.picture.page = paged.Page;
     this.window.picture.show = true;
   }
 }

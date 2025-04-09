@@ -1,28 +1,28 @@
-import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemAMapShopIconController } from './system-map-amap-shop-icon.controller';
 
 import { EventEmitter } from '@angular/core';
 
 export class SystemAMapShopMarkerEvent {
-  mouseover = new EventEmitter<Shop>();
-  mouseout = new EventEmitter<Shop>();
-  click = new EventEmitter<Shop>();
+  mouseover = new EventEmitter<IShop>();
+  mouseout = new EventEmitter<IShop>();
+  click = new EventEmitter<IShop>();
 }
 
 export class SystemAMapShopLabelMarkerController {
   event = new SystemAMapShopMarkerEvent();
   marker: AMap.LabelMarker;
   selected = false;
-  data: Shop;
+  data: IShop;
 
-  constructor(data: Shop) {
+  constructor(data: IShop) {
     this.marker = this.create(data);
     this.data = data;
   }
 
   private icon = new SystemAMapShopIconController();
 
-  private create(data: Shop) {
+  private create(data: IShop) {
     if (data.Location) {
       let position: [number, number] = [
         data.Location.Longitude,

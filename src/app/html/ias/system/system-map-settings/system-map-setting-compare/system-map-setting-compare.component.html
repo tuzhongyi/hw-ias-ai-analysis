@@ -1,0 +1,79 @@
+<div class="system-map-setting-compare-mask">
+  <div class="panel-map-border system-map-setting-compare root-router">
+    <div class="system-map-setting-compare-head">
+      <div class="panel-map-title">比对设置</div>
+      <div class="operation">
+        <div class="button" (click)="onclose()">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+    <div class="system-map-setting-compare-body">
+      <div class="panel">
+        <div class="panel-title">常驻商铺比对设置</div>
+        <div class="forms">
+          <div class="form-item">
+            <div class="form-item-text">任务中识别次数</div>
+            <div class="form-item-value">
+              <input
+                type="range"
+                min="2"
+                [max]="base.max"
+                [(ngModel)]="base.count"
+              />
+              <input
+                type="number"
+                min="2"
+                [max]="base.max"
+                [(ngModel)]="base.count"
+              />
+              <span>次</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" *ngIf="args">
+        <div class="panel-head">
+          <div class="panel-title">注册商铺比对设置</div>
+        </div>
+        <div class="forms">
+          <div class="form-item">
+            <div class="form-item-text">名称相似度</div>
+            <div class="form-item-value">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                [(ngModel)]="registration.ratio"
+              />
+              <input
+                type="number"
+                min="0"
+                max="100"
+                [(ngModel)]="registration.ratio"
+              />
+              <span>％</span>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text">相差距离</div>
+            <div class="form-item-value">
+              <input
+                type="number"
+                min="0"
+                [(ngModel)]="registration.distance"
+              />
+              <span>米</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="system-map-setting-compare-foot">
+      <div class="button" (click)="onreset()">重置</div>
+      <div class="button-group">
+        <button class="button-clip-blue" (click)="onclose()">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,17 +3,17 @@ export class SystemTaskResultAMapIconController {
 
   create1(selected = false) {
     let src = this.icon(selected);
-    let width = 53;
-    let height = 68;
+    let width = 66;
+    let height = 88;
     let icon: AMap.Icon;
-    let ratio = 2;
+    let ratio = 0.7;
     if (!selected) {
-      ratio = 6;
+      ratio = 0.7;
     }
     let opts: AMap.IconOpts = {
-      size: [width / ratio, height / ratio],
+      size: [width * ratio, height * ratio],
       image: src,
-      imageSize: [width / ratio, height / ratio],
+      imageSize: [width * ratio, height * ratio],
       // imageOffset: [-width / ratio / 2, -height / ratio],
       anchor: 'bottom-center',
     };
@@ -23,18 +23,18 @@ export class SystemTaskResultAMapIconController {
   }
   private icon(selected = false) {
     if (selected) {
-      return '/assets/image/map/marker-red.png';
+      return '/assets/image/map/marker/marker-shop-green.png';
     }
-    return '/assets/image/map/marker-blue.png';
+    return '/assets/image/map/marker/marker-shop-white.png';
   }
   private size(selected = false): [number, number] {
-    let width = 53;
-    let height = 68;
-    let ratio = 6;
+    let width = 66;
+    let height = 88;
+    let ratio = 0.3;
     if (selected) {
-      ratio = 2;
+      ratio = 0.7;
     }
-    return [width / ratio, height / ratio];
+    return [width * ratio, height * ratio];
   }
   create(): AMap.LabelMarkerIconOptions {
     let icon = {

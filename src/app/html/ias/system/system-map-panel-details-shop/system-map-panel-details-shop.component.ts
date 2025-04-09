@@ -8,34 +8,52 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+import { AnalysisTask } from '../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
 import { Language } from '../../../../common/tools/language';
 import { ShopConverter } from '../../../../common/view-models/shop/shop.converter';
 import { ShopViewModel } from '../../../../common/view-models/shop/shop.view-model';
 import { PictureComponent } from '../../share/picture/picture.component';
+import { SystemMapPanelDetailsShopBusiness } from './system-map-panel-details-shop.business';
 
 @Component({
   selector: 'ias-system-map-panel-details-shop',
   imports: [CommonModule, PictureComponent],
   templateUrl: './system-map-panel-details-shop.component.html',
   styleUrl: './system-map-panel-details-shop.component.less',
+  providers: [SystemMapPanelDetailsShopBusiness],
 })
 export class SystemMapPanelDetailsShopComponent implements OnChanges {
   @Input('data') shop?: Shop;
   @Output() close = new EventEmitter<void>();
   @Output() picture = new EventEmitter<Shop>();
+  @Output() sign = new EventEmitter<Shop>();
 
-  constructor(private converter: ShopConverter) {}
+  constructor(
+    private converter: ShopConverter,
+    private business: SystemMapPanelDetailsShopBusiness
+  ) {}
 
   data?: ShopViewModel;
+  task?: AnalysisTask[];
 
   Language = Language;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['shop']) {
       if (this.shop) {
-        this.data = this.converter.convert(this.shop);
+        this.load(this.shop);
       }
+    }
+  }
+
+  load(shop: Shop) {
+    this.task = [];
+    this.data = this.converter.convert(shop);
+    if (shop.TaskIds && shop.TaskIds.length > 0) {
+      this.business.task(shop.TaskIds).then((x) => {
+        this.task = x;
+      });
     }
   }
 
@@ -44,5 +62,8 @@ export class SystemMapPanelDetailsShopComponent implements OnChanges {
   }
   onpicture() {
     this.picture.emit(this.data);
+  }
+  onsign() {
+    this.sign.emit(this.data);
   }
 }

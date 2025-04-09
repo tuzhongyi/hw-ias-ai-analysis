@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ShopObjectState } from '../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { Shop } from '../../../../common/data-core/models/arm/analysis/shop.model';
+import { IShop } from '../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemMapStateSourceController } from './controller/system-map-state-source.controller';
 
 @Component({
@@ -20,7 +20,7 @@ import { SystemMapStateSourceController } from './controller/system-map-state-so
   providers: [SystemMapStateSourceController],
 })
 export class SystemMapStateComponent implements OnChanges {
-  @Input() datas: Shop[] = [];
+  @Input() datas: IShop[] = [];
   @Input() selecteds: ShopObjectState[] = [];
   @Output() selectedsChange = new EventEmitter<ShopObjectState[]>();
   constructor(public source: SystemMapStateSourceController) {}

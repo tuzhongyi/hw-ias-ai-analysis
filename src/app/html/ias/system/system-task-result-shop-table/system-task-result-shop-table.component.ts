@@ -148,9 +148,9 @@ export class SystemTaskResultShopTableComponent implements OnInit, OnDestroy {
 
       switch (a.Road.Direction) {
         case GeoDirection.ew:
-          return GeoTool.point.sort.longitude(_a, _b, sort.lon);
+          return GeoTool.point.sort.longitude(_a, _b, sort.longitude);
         case GeoDirection.ns:
-          return GeoTool.point.sort.latitude(_a, _b, sort.lat);
+          return GeoTool.point.sort.latitude(_a, _b, sort.latitude);
         default:
           throw new Error('Road.direction');
       }

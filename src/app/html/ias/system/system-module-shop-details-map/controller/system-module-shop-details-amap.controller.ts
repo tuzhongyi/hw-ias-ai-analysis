@@ -20,10 +20,19 @@ export class SystemModuleShopDetailsAMapController {
 
   private _load(data: GisPoint) {
     let position: [number, number] = [data.Longitude, data.Latitude];
+    let size: [number, number] = [66 * 0.7, 86 * 0.7];
+    let icon = new AMap.Icon({
+      imageSize: size,
 
+      size: size,
+      image: '/assets/image/map/marker/marker-shop-white.png',
+      anchor: 'bottom-center',
+    });
     let marker = new AMap.Marker({
       position: position,
       draggable: true,
+      icon: icon,
+      offset: new AMap.Pixel(-size[0] / 2, -size[1]),
     });
     marker.on('dragging', (e: any) => {
       let position = [e.lnglat.lng, e.lnglat.lat];

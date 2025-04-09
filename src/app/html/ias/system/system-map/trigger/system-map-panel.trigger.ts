@@ -75,8 +75,11 @@ export class SystemMapPanelTrigger {
     },
     details: () => {
       this.panel.details.shop.change.subscribe((show) => {
-        if (!show) {
+        if (show) {
+        } else {
           this.amap.shop.blur();
+          this.panel.details.shop.sign.show = false;
+          this.panel.details.registration.show = false;
         }
       });
     },
@@ -91,6 +94,7 @@ export class SystemMapPanelTrigger {
           if (show) {
             this.panel.source.show = false;
             this.panel.details.shop.show = false;
+            this.panel.details.registration.show = false;
             this.panel.task.show = false;
           }
         });
@@ -104,6 +108,7 @@ export class SystemMapPanelTrigger {
         if (show) {
           this.panel.source.show = false;
           this.panel.details.shop.show = false;
+          this.panel.details.registration.show = false;
           this.panel.editor.circle.show = false;
           this.panel.task.show = false;
         } else {
@@ -120,6 +125,7 @@ export class SystemMapPanelTrigger {
           this.panel.statistic.show = false;
           this.panel.source.show = false;
           this.panel.details.shop.show = false;
+          this.panel.details.registration.show = false;
         } else {
           this.panel.search.show = true;
           this.panel.controls.show = true;
@@ -141,6 +147,7 @@ export class SystemMapPanelTrigger {
         if (show) {
           this.panel.source.show = false;
           this.panel.details.shop.show = false;
+          this.panel.details.registration.show = false;
           this.panel.editor.circle.show = false;
           this.panel.statistic.show = false;
           this.amap.shop.load([]);
@@ -151,6 +158,14 @@ export class SystemMapPanelTrigger {
           this.panel.state.reset();
           this.panel.state.show = true;
         }
+      });
+      this.panel.task.return.subscribe(() => {
+        this.panel.state.reset();
+        this.panel.state.show = false;
+        this.amap.shop.load([]);
+        this.amap.map.focus();
+        this.panel.details.shop.show = false;
+        this.panel.details.registration.show = false;
       });
     },
   };

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
 import { SystemMapController } from '../controller/system-map.controller';
 
 @Injectable()
@@ -18,8 +19,10 @@ export class SystemMapAMapTrigger {
 
   private regist() {
     this.amap.event.point.click.subscribe((x) => {
-      this.panel.details.shop.data = x;
-      this.panel.details.shop.show = true;
+      if (x instanceof Shop) {
+        this.panel.details.shop.data = x;
+        this.panel.details.shop.show = true;
+      }
     });
     this.amap.event.map.mousemmove.subscribe((x) => {
       if (!this.panel.position.show) {

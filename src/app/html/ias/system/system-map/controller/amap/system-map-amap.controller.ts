@@ -5,6 +5,7 @@ import { MapHelper } from '../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../common/view-models/value.promise';
 
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import {
   SystemAMapCircleEditorController,
   SystemAMapCircleEditorEvent,
@@ -75,6 +76,13 @@ export class SystemMapAMapController {
           x.moving(position);
         });
       });
+      map.on('zoomchange', (e: any) => {
+        let map = e.target as AMap.Map;
+        let zoom = map.getZoom();
+        this.layer.marker.get().then((x) => {
+          x.set.zoom(zoom);
+        });
+      });
     },
     layer: {
       marker: (map: AMap.Map) => {
@@ -135,7 +143,7 @@ export class SystemMapAMapController {
   };
 
   shop = {
-    load: (datas: Shop[]) => {
+    load: (datas: IShop[]) => {
       this.layer.marker.get().then((x) => {
         x.clear();
         x.load(datas);
@@ -145,17 +153,17 @@ export class SystemMapAMapController {
         x.load(datas);
       });
     },
-    hover: (shop: Shop) => {
+    hover: (shop: IShop) => {
       this.layer.marker.get().then((x) => {
         x.mouseover(shop);
       });
     },
-    out: (shop: Shop) => {
+    out: (shop: IShop) => {
       this.layer.marker.get().then((x) => {
         x.mouseout(shop);
       });
     },
-    select: (shop: Shop) => {
+    select: (shop: IShop) => {
       this.layer.marker.get().then((x) => {
         x.select(shop);
       });

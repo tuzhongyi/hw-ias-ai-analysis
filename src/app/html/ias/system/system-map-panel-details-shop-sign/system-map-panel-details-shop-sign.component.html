@@ -1,0 +1,31 @@
+<div class="panel-map-border system-map-panel-details-shop-sign">
+  <div class="system-map-panel-details-shop-sign-head">
+    <div class="panel-map-title">{{ shop?.Name }}</div>
+    <div>
+      <div class="button" (click)="onclose()">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+  </div>
+  <div class="system-map-panel-details-shop-sign-body">
+    <div
+      class="system-map-panel-details-shop-sign-body-image"
+      (click)="onpicture()"
+    >
+      <ias-picture
+        *ngIf="sign"
+        [id]="sign.ImageUrl"
+        [polygon]="sign.Polygon ?? []"
+      ></ias-picture>
+    </div>
+    <div class="system-map-panel-details-shop-sign-body-table">
+      <ias-system-map-panel-details-shop-sign-table
+        [data]="shop"
+        [selected]="sign"
+        (selectedChange)="onsign($event)"
+        (error)="onerror($event)"
+        (loaded)="onloaded($event)"
+      ></ias-system-map-panel-details-shop-sign-table>
+    </div>
+  </div>
+</div>

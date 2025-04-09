@@ -5,7 +5,6 @@ export class SystemMapShopArgs {
   camera?: string;
   label?: number;
   state?: number;
-  task?: SystemMapTaskShopArgs;
 
   clear() {
     this.name = undefined;
@@ -14,10 +13,5 @@ export class SystemMapShopArgs {
     this.camera = undefined;
     this.label = undefined;
     this.state = undefined;
-    this.task = undefined;
   }
-}
-export class SystemMapTaskShopArgs {
-  ids: string[] = [];
-  base?: string[];
 }

@@ -1,0 +1,10 @@
+<div class="system-map-task-manager-setting-min-count root-router">
+  <div class="system-map-task-manager-setting-min-count-title">
+    任务中识别
+    <div class="title-text">{{ count }}</div>
+    次以上
+  </div>
+  <div class="system-map-task-manager-setting-min-count-input">
+    <input type="range" min="2" [max]="max" [(ngModel)]="count" />
+  </div>
+</div>

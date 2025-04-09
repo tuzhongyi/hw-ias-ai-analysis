@@ -1,5 +1,5 @@
-<div class="system-map-task-manager">
-  <ng-container *ngIf="!compared">
+<div class="system-map-task-manager root-router">
+  <ng-container *ngIf="!compare.doing">
     <div class="system-map-task-manager-body">
       <ias-system-map-task-table
         [selecteds]="taskselecteds"
@@ -11,71 +11,45 @@
     </div>
     <div class="system-map-task-manager-foot">
       <div class="source">
-        <label for="task-source">
+        <div class="source-control">
           <input
             type="checkbox"
             id="task-source"
-            [(ngModel)]="base"
-            (change)="onsource()"
+            [(ngModel)]="compare.type.used"
+            (change)="compare.eachother.change()"
           />
-          与常驻商铺比较
-        </label>
-
-        <div
-          class="button"
-          *ngIf="shop.task"
-          (click)="shop.task.target($event)"
-        >
-          <i class="howell-icon-settingoutline"></i>
-          <!-- <div class="min-task-count">
-            <input
-              type="range"
-              min="2"
-              max="10"
-              [(ngModel)]="taskcount"
-              title="{{ taskcount }}次任务识别"
-            />
-            <div class="text">
-              {{ taskcount }}
-            </div>
-          </div> -->
+          <select
+            class="noborder select-white"
+            [(ngModel)]="compare.type.value"
+            (change)="compare.type.change()"
+          >
+            <option [ngValue]="TaskCompareType.base">与常驻商铺比对</option>
+            <option [ngValue]="TaskCompareType.registration">
+              与注册商铺比对
+            </option>
+          </select>
         </div>
-        <div
-          class="min-task-count"
-          *ngIf="shop.task && shop.task.show"
-          (click)="shop.task.stop($event)"
-        >
-          <div class="title">
-            任务中识别
-            <div class="title-text">{{ shop.task.count }}</div>
-            次以上
-          </div>
-          <div class="input">
-            <input
-              type="range"
-              min="2"
-              max="10"
-              [(ngModel)]="shop.task.count"
-            />
-          </div>
+
+        <div class="button" *ngIf="onsetting" (click)="onsetting()">
+          <i class="howell-icon-settingoutline"></i>
         </div>
       </div>
       <div class="button-group">
         <button
           class="button-clip-gradient"
           [disabled]="cancompare === false"
-          (click)="oncompare(true)"
+          (click)="oncompare()"
         >
-          比较
+          比对
         </button>
         <button class="button-clip-blue" (click)="onclose()">关闭</button>
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="compared">
+  <ng-container *ngIf="compare.doing">
     <div class="system-map-task-manager-head">
       <div class="button-group">
-        <div class="button" (click)="oncompare(false)">
+        <div class="button" (click)="onreturn()">
           <i class="mdi mdi-arrow-left-bold"></i>
         </div>
         <button
@@ -94,7 +68,7 @@
           }"
           (click)="onstate(State.Created)"
         >
-          新出现得
+          新出现的
         </button>
         <button
           [ngClass]="{

@@ -61,18 +61,18 @@ export class GeoPointSortTool {
 
   compare(a: GeoPoint, b: GeoPoint, sort: GeoDirectionSort) {
     let longitudeCompare = 0;
-    if (sort.lon === GeoLongitudeDirection.east2west) {
+    if (sort.longitude === GeoLongitudeDirection.east2west) {
       longitudeCompare = b[0] - a[0]; // 大的排前面
-    } else if (sort.lon === GeoLongitudeDirection.west2east) {
+    } else if (sort.longitude === GeoLongitudeDirection.west2east) {
       longitudeCompare = a[0] - b[0]; // 小的排前面
     }
 
     // 如果经度相同，再根据纬度排序
     if (longitudeCompare === 0) {
       let latitudeCompare = 0;
-      if (sort.lat === GeoLatitudeDirection.north2south) {
+      if (sort.latitude === GeoLatitudeDirection.north2south) {
         latitudeCompare = b[1] - a[1]; // 大的排前面
-      } else if (sort.lat === GeoLatitudeDirection.south2north) {
+      } else if (sort.latitude === GeoLatitudeDirection.south2north) {
         latitudeCompare = a[1] - b[1]; // 小的排前面
       }
       return latitudeCompare;

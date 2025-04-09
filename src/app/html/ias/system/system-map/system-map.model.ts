@@ -1,7 +1,8 @@
 import { EventEmitter } from '@angular/core';
 import { HowellPoint } from '../../../../common/data-core/models/arm/point.model';
 import { SystemMapRoadArgs } from './business/road/system-map-road.model';
-import { SystemMapShopArgs } from './business/system-map-shop.model';
+import { SystemMapShopArgs } from './business/shop/system-map-shop.model';
+import { SystemMapTaskArgs } from './business/task/system-map-task.model';
 
 export enum SystemMapFilterType {
   shop,
@@ -11,6 +12,7 @@ export enum SystemMapFilterType {
 export class SystemMapArgs {
   shop = new SystemMapShopArgs();
   road = new SystemMapRoadArgs();
+  task = new SystemMapTaskArgs();
   distance = new SystemMapDistanceArgs();
 
   public get name(): string | undefined {
@@ -19,6 +21,7 @@ export class SystemMapArgs {
   public set name(v: string | undefined) {
     this.shop.name = v;
     this.road.name = v;
+    this.task.name = v;
   }
 }
 
