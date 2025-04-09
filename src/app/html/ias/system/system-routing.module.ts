@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SystemComponent } from './component/system.component';
 import { SystemIndexComponent } from './system-index/system-index.component';
-import { SystemMapComponent } from './system-map/system-map.component';
+import { SystemMapComponent } from './system-map/component/system-map.component';
 import { SystemModuleIndexComponent } from './system-module-index/system-module-index.component';
 import { SystemModuleRoadManagerComponent } from './system-module-road-manager/system-module-road-manager.component';
 import { SystemModuleShopManagerComponent } from './system-module-shop-manager/system-module-shop-manager.component';
