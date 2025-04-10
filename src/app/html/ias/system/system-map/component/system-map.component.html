@@ -104,6 +104,7 @@
       [data]="panel.details.shop.data"
       (close)="panel.details.shop.show = false"
       (sign)="panel.details.shop.onsign()"
+      (picture)="onpicture($event)"
     ></ias-system-map-panel-details-shop>
   </div>
   <div
@@ -117,6 +118,7 @@
     <ias-system-map-panel-details-shop-registration
       [data]="panel.details.registration.data"
       (close)="panel.details.registration.show = false"
+      (picture)="onpicture($event)"
     ></ias-system-map-panel-details-shop-registration>
   </div>
   <div

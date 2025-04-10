@@ -7,18 +7,21 @@
   padding: 10px 20px;
   box-sizing: border-box;
 
+  @head-height: 36px;
+  @foot-height: 40px;
+
   &-head {
 
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 36px;
+    height: @head-height;
   }
 
   &-body {
     width: 100%;
-    height: calc(100% - 10px - 36px);
+    height: calc(100% - @head-height - 10px - 10px - @foot-height);
 
     display: flex;
     flex-direction: column;
@@ -93,7 +96,7 @@
   }
 
   &-foot {
-    height: 40px;
+    height: @foot-height;
     display: flex;
     align-items: center;
     justify-content: flex-end;
