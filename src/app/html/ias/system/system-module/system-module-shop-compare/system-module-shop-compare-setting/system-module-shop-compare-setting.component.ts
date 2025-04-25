@@ -37,6 +37,9 @@ export class SystemModuleShopCompareSettingComponent implements OnInit {
   private init() {
     this.business.count.then((x) => {
       this.max = x;
+      if (this.controller.task.count === 0) {
+        this.controller.task.count = x;
+      }
     });
   }
 

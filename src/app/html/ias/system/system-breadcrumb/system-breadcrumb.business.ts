@@ -45,7 +45,7 @@ export class SystemBreadcrumbBusiness {
   private module_shop() {
     let item = new SystemBreadcrumbItem();
     item.path = SystemPath.module_shop;
-    item.text = '商铺';
+    item.text = '分析商铺';
     return item;
   }
   private module_shop_registration() {
@@ -57,7 +57,7 @@ export class SystemBreadcrumbBusiness {
   private module_shop_compare() {
     let item = new SystemBreadcrumbItem();
     item.path = SystemPath.module_shop_compare;
-    item.text = '商铺比对';
+    item.text = '商铺管理';
     return item;
   }
   private module_road() {
