@@ -7,10 +7,10 @@
       <video
         autoplay="autoplay"
         controls
-        [src]="src"
         [currentTime]="video.time"
         (timeupdate)="ontimeupdate($event)"
         (error)="onvideoerror($event)"
+        [src]="src"
       ></video>
     </div>
     <div class="panel map">

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { SystemMapTaskArgs } from '../../component/business/task/system-map-task.model';
 import { SystemMapSettingCompareBaseController } from './controller/system-map-setting-compare-base.controller';
 import { SystemMapSettingCompareRegistrationController } from './controller/system-map-setting-compare-registration.controller';
 
@@ -22,10 +21,10 @@ export class SystemMapSettingCompareComponent {
   }
   @Input() set taskcount(v: number) {
     this.base.max = v;
+    if (this.base.count > v) {
+      this.base.count = v;
+    }
   }
-
-  @Input() args? = new SystemMapTaskArgs();
-  @Output() argsChange = new EventEmitter<SystemMapTaskArgs>();
   @Output() close = new EventEmitter<void>();
 
   constructor(

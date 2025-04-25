@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
@@ -19,8 +12,8 @@ import { SystemModuleRoadInfoBusiness } from './system-module-road-info.business
   styleUrl: './system-module-road-info.component.less',
   providers: [SystemModuleRoadInfoBusiness],
 })
-export class SystemModuleRoadInfoComponent implements OnChanges {
-  @Input('data') road?: Road;
+export class SystemModuleRoadInfoComponent {
+  @Input('data') data: Road = new Road();
   @Output() dataChange = new EventEmitter<Road>();
   @Output() ok = new EventEmitter<Road>();
   @Output() cancel = new EventEmitter<void>();
@@ -29,8 +22,6 @@ export class SystemModuleRoadInfoComponent implements OnChanges {
     private business: SystemModuleRoadInfoBusiness,
     private toastr: ToastrService
   ) {}
-
-  data = new Road();
 
   get check() {
     if (!this.data.Name) {
@@ -42,14 +33,6 @@ export class SystemModuleRoadInfoComponent implements OnChanges {
       return false;
     }
     return true;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['road']) {
-      if (this.road) {
-        this.data = Object.assign(this.data, this.road);
-      }
-    }
   }
 
   onok() {

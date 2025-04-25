@@ -24,7 +24,13 @@ export class ManagementUserInfoDetailsBusiness {
     data.UpdateTime = new Date();
     return this.service.security.user.update(data);
   }
-  group() {
-    return this.service.security.user.group();
+  async group() {
+    let groups = await this.service.security.user.group();
+    groups.forEach((x) => {
+      if (x.GroupId === 0) {
+        x.GroupName = '新建分组';
+      }
+    });
+    return groups;
   }
 }

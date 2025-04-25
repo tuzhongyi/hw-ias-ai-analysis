@@ -1,5 +1,7 @@
 import { instanceToPlain } from 'class-transformer';
 
+import { Cache } from '../../../../cache/cache';
+import { AbstractService } from '../../../../cache/cache.interface';
 import { Road } from '../../../../models/arm/analysis/road.model';
 import { PagedList } from '../../../../models/page-list.model';
 import { HowellResponse } from '../../../../models/response';
@@ -8,8 +10,11 @@ import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
 import { GetRoadsParams } from './geographic-road.params';
 
-export class ArmGeographicRoadRequestService {
-  constructor(private http: HowellHttpClient) {}
+@Cache(ArmGeographicUrl.road.basic(), Road)
+export class ArmGeographicRoadRequestService extends AbstractService<Road> {
+  constructor(private http: HowellHttpClient) {
+    super();
+  }
 
   async get(id: string) {
     let url = ArmGeographicUrl.road.item(id);

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthorizationStore } from './authorization/authorization.store';
 import { LoginInfoStore } from './login-info-storage/login-info.store';
+import { SystemCompareStorage } from './system-compare-storage/system-compare.storage';
 import { SystemMapStorage } from './system-map-storage/system-map.storage';
 import { SystemModuleShopStorage } from './system-module-storage/system-module-shop.storage';
 import { SystemTaskDurationTypeStorage } from './system-task-storage/system-task-duration.storage';
@@ -24,6 +25,7 @@ export class LocalStorage {
       shop: new SystemModuleShopStorage(),
     },
     map: new SystemMapStorage(),
+    compare: new SystemCompareStorage(),
   };
 
   clear() {
@@ -33,5 +35,6 @@ export class LocalStorage {
     this.system.task.info.clear();
     this.system.task.duration.clear();
     this.system.module.shop.clear();
+    this.system.compare.clear();
   }
 }

@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import {
   SystemTaskModel,
   TaskCompletedArgs,
@@ -10,7 +11,10 @@ import { SystemTaskManagerFileProgressController } from './system-task-manager-f
 
 @Injectable()
 export class SystemTaskManagerFileController {
-  constructor(private business: SystemTaskManagerBusiness) {}
+  constructor(
+    private business: SystemTaskManagerBusiness,
+    private global: GlobalStorage
+  ) {}
 
   progress = {
     task: new EventEmitter<TaskProgress>(),
@@ -32,6 +36,7 @@ export class SystemTaskManagerFileController {
   load(data: SystemTaskModel) {
     this.datas.push(data);
     let controller = new SystemTaskManagerFileProgressController(this.business);
+    this.global.uploading = true;
     controller.fileprogress.subscribe((value) => {
       this.progress.file.emit(value);
     });
@@ -46,8 +51,10 @@ export class SystemTaskManagerFileController {
   }
 
   oncomplete(id: string, files: string[] = []) {
+    this.global.uploading = this.files.every(
+      (x) => x.count.waiting > 0 || x.count.waiting > 0
+    );
     let data = this.datas.find((x) => x.task.Id === id);
-
     if (data) {
       let args: TaskCompletedArgs = {
         task: data.task,

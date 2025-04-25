@@ -5,7 +5,7 @@ import { ISystemMapStorage } from '../../../../../../../common/storage/system-ma
 @Injectable()
 export class SystemMapSettingCompareBaseController {
   public get count(): number {
-    return this.config.mintaskcount || this.max;
+    return this.config.mintaskcount;
   }
   public set count(v: number) {
     this.changed.count = true;

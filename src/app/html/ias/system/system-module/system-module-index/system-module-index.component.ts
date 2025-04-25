@@ -16,4 +16,10 @@ export class SystemModuleIndexComponent {
   onroad() {
     this.router.navigateByUrl(SystemPath.module_road);
   }
+  onregistration() {
+    this.router.navigateByUrl(SystemPath.module_shop_registration);
+  }
+  oncompare() {
+    this.router.navigateByUrl(SystemPath.module_shop_compare);
+  }
 }

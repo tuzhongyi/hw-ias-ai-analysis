@@ -18,7 +18,7 @@ class PictureWindow extends WindowViewModel {
   style = {
     width: '50%',
     height: 'auto',
-    aspectRatio: '16/9',
+    aspectRatio: '16/10.2',
     paddingTop: 0,
   };
   title = '';

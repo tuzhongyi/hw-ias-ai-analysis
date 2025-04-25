@@ -36,6 +36,7 @@
         [editing]="modify.doing"
         [datas]="table.datas"
         (create)="controller.info.onpath($event)"
+        (change)="modify.path.change($event)"
         [selected]="table.selected"
       ></ias-system-module-road-map>
     </div>

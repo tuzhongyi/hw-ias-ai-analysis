@@ -1,0 +1,53 @@
+<div class="system-module-shop-compare-details-shop" *ngIf="shop">
+  <div
+    class="system-module-shop-compare-details-shop-image"
+    (click)="onpicture()"
+  >
+    <ias-picture [id]="shop.ImageUrl"></ias-picture>
+  </div>
+  <div class="system-module-shop-compare-details-shop-info forms">
+    <div class="form-item">
+      <div class="form-item-text baseline">商铺名称</div>
+      <div class="form-item-value">
+        {{ shop.Name }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text baseline">商铺地址</div>
+      <div class="form-item-value">
+        {{ shop.Address ?? "-" }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">联系方式</div>
+      <div class="form-item-value">
+        {{ shop.Telphone ?? "-" }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">发现时间</div>
+      <div class="form-item-value">
+        {{ shop.BeginTime | date : Language.yyyyMMddHHmmss }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">最近出现</div>
+      <div class="form-item-value">
+        {{ shop.EndTime | date : Language.yyyyMMddHHmmss }}
+      </div>
+    </div>
+    <div class="form-item" *ngIf="shop.Locked">
+      <div class="form-item-text">状态</div>
+      <div class="form-item-value states">
+        <div class="state-locked" *ngIf="shop.Locked">已锁定</div>
+      </div>
+    </div>
+
+    <div class="form-item" *ngIf="shop.Tasks">
+      <div class="form-item-text baseline">任务识别</div>
+      <div class="form-item-value task">
+        <div *ngFor="let item of shop.Tasks | async">{{ item.Name }}</div>
+      </div>
+    </div>
+  </div>
+</div>

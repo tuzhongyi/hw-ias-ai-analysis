@@ -8,6 +8,8 @@ import { SystemModuleIndexComponent } from './system-module/system-module-index/
 import { SystemModuleRoadManagerComponent } from './system-module/system-module-road/system-module-road-manager/system-module-road-manager.component';
 import { SystemModuleShopManagerComponent } from './system-module/system-module-shop/system-module-shop-manager/system-module-shop-manager.component';
 
+import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
+import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
 import { SystemTaskFileManagerComponent } from './system-task/system-task-file/system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskManagerComponent } from './system-task/system-task-manager/system-task-manager.component';
@@ -62,6 +64,14 @@ const routes: Routes = [
           {
             path: 'shop',
             component: SystemModuleShopManagerComponent,
+          },
+          {
+            path: 'shop-registration',
+            component: SystemModuleShopRegistrationManagerComponent,
+          },
+          {
+            path: 'shop-compare',
+            component: SystemModuleShopCompareManagerComponent,
           },
           {
             path: 'road',

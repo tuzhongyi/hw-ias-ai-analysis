@@ -1,0 +1,121 @@
+<div class="system-module-shop-table">
+  <div class="system-module-shop-table-body table-page">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="onsort($event)"
+    >
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>照片</th>
+
+          <th sort="Name">名称</th>
+          <th sort="Address">地址</th>
+          <th sort="Telphone">联系方式</th>
+          <th sort="Confidence">置信度</th>
+          <th sort="ObjectState">状态</th>
+
+          <th sort="ShopType">类型</th>
+          <th sort="BeginTime">发现时间</th>
+          <th sort="EndTime">最近出现</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of data.shop; let index = index"
+          (click)="onselect(item)"
+          [ngClass]="{
+            nohover: !item,
+            nodata: !item,
+            selected: item === selected,
+          }"
+        >
+          <td class="center">
+            <ng-container *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </ng-container>
+          </td>
+
+          <td>
+            <div [ngClass]="{ noimage: !item.ImageUrl }" *ngIf="item">
+              <div
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: item.ImageUrl
+                    ? 'url(' + picture.get(item.ImageUrl) + ')'
+                    : 'none'
+                }"
+                (click)="picture.on($event, index, item)"
+              ></div>
+            </div>
+          </td>
+
+          <td [title]="item?.Name">
+            <div>{{ item?.Name }}</div>
+          </td>
+          <td [title]="item?.Address">
+            <div>{{ item?.Address }}</div>
+          </td>
+          <td [title]="item?.Telphone">
+            <div>{{ item?.Telphone }}</div>
+          </td>
+          <td>{{ item?.ConfidenceRatio }}</td>
+          <td
+            [ngStyle]="{
+              color: item ? Color.ShopObjectState(item.ObjectState) : ''
+            }"
+          >
+            {{ item?.ObjectStateName | async }}
+          </td>
+
+          <td [title]="item?.ShopTypeName | async">
+            <div>{{ item?.ShopTypeName | async }}</div>
+          </td>
+          <td>{{ item?.CreationTime | date : Language.yyyyMMddHHmmss }}</td>
+          <td>{{ item?.UpdateTime | date : Language.yyyyMMddHHmmss }}</td>
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="商铺详细信息"
+                (click)="oninfo(item, $event)"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+              <div
+                class="button"
+                title="商铺分析详情"
+                [ngClass]="{
+                  disabled: disabled.details(item)
+                }"
+                (click)="onsign($event, item)"
+              >
+                <i class="howell-icon-task_misson"></i>
+              </div>
+              <div
+                class="button"
+                title="商铺比对结果"
+                [ngClass]="{
+                  disabled: disabled.compare(item)
+                }"
+                (click)="oncompare($event, index, item)"
+              >
+                <i class="mdi mdi-compare"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="system-module-shop-table-foot" *ngIf="page.TotalRecordCount">
+    <paginator [page]="page" (change)="onpage($event)"> </paginator>
+  </div>
+</div>

@@ -56,6 +56,7 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
     '200px',
     '200px',
     '100px',
+    '100px',
   ];
   page = Page.create(1, 10);
   datas: AnalysisTaskAllModel[] = [];

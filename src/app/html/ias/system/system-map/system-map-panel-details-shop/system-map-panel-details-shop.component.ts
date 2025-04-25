@@ -49,7 +49,7 @@ export class SystemMapPanelDetailsShopComponent implements OnChanges {
 
   load(shop: Shop) {
     this.task = [];
-    this.data = this.converter.convert(shop);
+    this.data = this.converter.convert(shop) as ShopViewModel;
     if (shop.TaskIds && shop.TaskIds.length > 0) {
       this.business.task(shop.TaskIds).then((x) => {
         this.task = x;

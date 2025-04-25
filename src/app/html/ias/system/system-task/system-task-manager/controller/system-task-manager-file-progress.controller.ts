@@ -20,6 +20,13 @@ export class SystemTaskManagerFileProgressController {
       ...this.file.completed,
     ];
   }
+  get count() {
+    return {
+      waiting: this.file.waiting.length,
+      uploading: this.file.uploading.length,
+      completed: this.file.completed.length,
+    };
+  }
   get taskId() {
     if (this.task) {
       return this.task.Id;
@@ -61,7 +68,6 @@ export class SystemTaskManagerFileProgressController {
   load(data: SystemTaskModel) {
     this.task = data.task;
     this.file.waiting = [...data.files];
-
     this.try();
   }
 

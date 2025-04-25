@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EnumNameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import { TaskDuration } from '../../../../../../common/storage/system-compare-storage/system-compare.storage';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
-import { TaskDurationValue } from '../system-task-manager.model';
 
 @Injectable()
 export class SystemTaskManagerDurationController {
@@ -9,35 +9,35 @@ export class SystemTaskManagerDurationController {
     this.source = this.init();
   }
 
-  source: EnumNameValue<TaskDurationValue>[];
+  source: EnumNameValue<TaskDuration>[];
 
   private init() {
-    let day = new EnumNameValue(TaskDurationValue.day, '当日');
-    let week = new EnumNameValue(TaskDurationValue.week, '一周');
-    let month = new EnumNameValue(TaskDurationValue.month, '一个月');
-    let threemonth = new EnumNameValue(TaskDurationValue.threemonth, '三个月');
-    let halfyear = new EnumNameValue(TaskDurationValue.halfyear, '半年');
-    let year = new EnumNameValue(TaskDurationValue.year, '一年');
+    let day = new EnumNameValue(TaskDuration.day, '当日');
+    let week = new EnumNameValue(TaskDuration.week, '一周');
+    let month = new EnumNameValue(TaskDuration.month, '一个月');
+    let threemonth = new EnumNameValue(TaskDuration.treemonth, '三个月');
+    let halfyear = new EnumNameValue(TaskDuration.halfyear, '半年');
+    let year = new EnumNameValue(TaskDuration.year, '一年');
 
     return [day, week, month, threemonth, halfyear, year];
   }
 
-  get(value: TaskDurationValue, today: Date) {
+  get(value: TaskDuration, today: Date) {
     switch (value) {
-      case TaskDurationValue.day:
+      case TaskDuration.day:
         return DateTimeTool.all.day(today);
-      case TaskDurationValue.week:
+      case TaskDuration.week:
         return DateTimeTool.last.week(today);
-      case TaskDurationValue.month:
+      case TaskDuration.month:
         return DateTimeTool.last.month(today);
-      case TaskDurationValue.threemonth:
+      case TaskDuration.treemonth:
         return DateTimeTool.last.month(today, 3);
-      case TaskDurationValue.halfyear:
+      case TaskDuration.halfyear:
         return DateTimeTool.last.month(today, 6);
-      case TaskDurationValue.year:
+      case TaskDuration.year:
         return DateTimeTool.last.year(today);
       default:
-        throw new Error('TaskDurationValue not found');
+        throw new Error('TaskDuration not found');
     }
   }
 }

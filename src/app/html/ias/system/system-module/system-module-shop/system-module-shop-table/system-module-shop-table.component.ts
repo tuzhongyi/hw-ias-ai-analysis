@@ -9,7 +9,10 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
-import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import {
+  Page,
+  Paged,
+} from '../../../../../../common/data-core/models/page-list.model';
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
@@ -39,6 +42,9 @@ export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
   @Output() details = new EventEmitter<ShopViewModel>();
   @Output() info = new EventEmitter<ShopViewModel>();
   @Output() error = new EventEmitter<Error>();
+
+  @Output() picture = new EventEmitter<Paged<ShopViewModel>>();
+  @Input('page') _page = new EventEmitter<number>();
 
   constructor(
     private business: SystemModuleShopTableBusiness,
@@ -81,6 +87,17 @@ export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
           this.page.PageIndex = 1;
         }
         this.load(this.page.PageIndex, this.page.PageSize, this.filter);
+      });
+      this.subscription.add(sub);
+    }
+    if (this._page) {
+      let sub = this._page.subscribe((index) => {
+        this.business.get(index, this.filter).then((x) => {
+          let page = new Paged<ShopViewModel>();
+          page.Page = x.Page;
+          page.Data = x.Data[0];
+          this.picture.emit(page);
+        });
       });
       this.subscription.add(sub);
     }
@@ -151,6 +168,20 @@ export class SystemModuleShopTableComponent implements OnInit, OnDestroy {
     this.info.emit(item);
     if (this.selected === item) {
       e.stopPropagation();
+    }
+  }
+  onpicture(e: Event, index: number, item?: SystemModuleShopTableItem) {
+    e.stopImmediatePropagation();
+    if (item) {
+      let paged = new Paged<ShopViewModel>();
+      paged.Data = item;
+      paged.Page = new Page();
+      paged.Page.PageCount = this.page.TotalRecordCount;
+      paged.Page.PageIndex = index + 1;
+      paged.Page.PageSize = 1;
+      paged.Page.RecordCount = 1;
+      paged.Page.TotalRecordCount = this.page.TotalRecordCount;
+      this.picture.emit(paged);
     }
   }
 }

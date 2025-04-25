@@ -20,10 +20,15 @@ export class InputSelectRoadComponent {
 
   oninput(name: string) {
     this.name = name;
-    this.business.by.name(name).then((x) => {
-      this.roads = x;
+    if (this.name) {
+      this.business.by.name(name).then((x) => {
+        this.roads = x;
+        this.roadsChange.emit(this.roads);
+      });
+    } else {
+      this.roads = [];
       this.roadsChange.emit(this.roads);
-    });
+    }
   }
   onselect(id: string) {
     let items = this.roads.filter((x) => x.Id == id);

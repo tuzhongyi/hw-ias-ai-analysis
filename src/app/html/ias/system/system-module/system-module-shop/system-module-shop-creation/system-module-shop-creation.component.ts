@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ToastrService } from 'ngx-toastr';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { UploadControlComponent } from '../../../../../../common/components/upload-control/upload-control.component';
@@ -51,9 +52,8 @@ export class SystemModuleShopCreationComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      let str = JSON.stringify(this.data);
-      this.shop = Object.assign(this.shop, JSON.parse(str));
-      console.log(this.shop);
+      let plain = instanceToPlain(this.data);
+      this.shop = plainToInstance(Shop, plain);
     } else {
       this.business
         .one()

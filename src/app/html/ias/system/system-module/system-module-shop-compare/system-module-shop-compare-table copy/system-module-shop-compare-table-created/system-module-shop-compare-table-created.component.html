@@ -1,0 +1,87 @@
+<div class="system-module-shop-compare-table-created">
+  <div class="system-module-shop-compare-table-created-body table-page">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">
+            <input
+              type="checkbox"
+              [checked]="
+                selecteds.length === page.RecordCount && selecteds.length > 0
+              "
+              (change)="onall()"
+            />
+          </th>
+          <th class="center">序号</th>
+          <th>名称</th>
+          <th>地址</th>
+          <th>联系方式</th>
+          <th>置信度</th>
+          <th>类型</th>
+          <th>发现时间</th>
+          <th>最近出现</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          [ngClass]="{
+            nodata: !item,
+            selected: item && selecteds.includes(item)
+          }"
+          [ngStyle]="{
+            height: item ? 100 / page.PageSize + '%' : 0
+          }"
+          (click)="onselect(item)"
+        >
+          <td class="center">
+            <input
+              type="checkbox"
+              *ngIf="item"
+              (click)="onstop($event)"
+              [checked]="selecteds.includes(item)"
+            />
+          </td>
+          <td class="center">
+            <ng-container *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </ng-container>
+          </td>
+          <td [title]="item?.Name ?? ''">{{ item?.Name }}</td>
+          <td [title]="item?.Address ?? ''">{{ item?.Address }}</td>
+          <td [title]="item?.Telphone ?? ''">{{ item?.Telphone }}</td>
+          <td>{{ item?.ConfidenceRatio }}</td>
+          <td [title]="(item?.ShopTypeName | async) ?? ''">
+            {{ item?.ShopTypeName | async }}
+          </td>
+          <td
+            [title]="(item?.BeginTime | date : Language.yyyyMMddHHmmss) ?? ''"
+          >
+            {{ item?.BeginTime | date : Language.yyyyMMddHHmmss }}
+          </td>
+          <td [title]="(item?.EndTime | date : Language.yyyyMMddHHmmss) ?? ''">
+            {{ item?.EndTime | date : Language.yyyyMMddHHmmss }}
+          </td>
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="商铺详细信息"
+                (click)="oninfo(item, $event)"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="system-module-shop-compare-table-created-foot">
+    <paginator [page]="page" (change)="onpage($event)"> </paginator>
+  </div>
+</div>

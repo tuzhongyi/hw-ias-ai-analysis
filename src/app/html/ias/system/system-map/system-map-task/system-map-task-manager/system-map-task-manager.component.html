@@ -54,21 +54,21 @@
         </div>
         <button
           [ngClass]="{
-            'button-clip-gradient-2': state === State.Disappeared,
-            'button-clip-blue-2': state != State.Disappeared
-          }"
-          (click)="onstate(State.Disappeared)"
-        >
-          消失的
-        </button>
-        <button
-          [ngClass]="{
             'button-clip-gradient-2': state === State.Created,
             'button-clip-blue-2': state != State.Created
           }"
           (click)="onstate(State.Created)"
         >
           新出现的
+        </button>
+        <button
+          [ngClass]="{
+            'button-clip-gradient-2': state === State.Disappeared,
+            'button-clip-blue-2': state != State.Disappeared
+          }"
+          (click)="onstate(State.Disappeared)"
+        >
+          消失的
         </button>
         <button
           [ngClass]="{

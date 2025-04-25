@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import {
-  Page,
-  PagedList,
-} from '../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
 import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool';
 import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
 import {
@@ -31,7 +28,7 @@ export class SystemMapSourceTableShopBusiness {
       datas.push(item);
     }
     datas = this.sort(datas, sort, direction);
-    let paged = this.paged(datas, index, size);
+    let paged = PagedList.create(datas, index, size);
 
     for (let i = 0; i < paged.Data.length; i++) {
       paged.Data[i].index =
@@ -101,24 +98,5 @@ export class SystemMapSourceTableShopBusiness {
       }
     }
     return 0;
-  }
-
-  private paged<T>(datas: T[], index: number, size: number) {
-    let page = new Page();
-    page.PageIndex = index;
-    page.PageSize = size;
-    let count = datas.length;
-
-    let start = (index - 1) * size;
-    let onpage = datas.splice(start, size);
-
-    page.PageCount = Math.ceil(count / size);
-    page.RecordCount = onpage.length;
-    page.TotalRecordCount = count;
-
-    let paged = new PagedList<T>();
-    paged.Page = page;
-    paged.Data = onpage;
-    return paged;
   }
 }

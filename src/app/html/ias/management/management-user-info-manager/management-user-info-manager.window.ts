@@ -19,7 +19,7 @@ class DetailsWindow extends WindowViewModel {
   }
   style = {
     width: '580px',
-    height: '460px',
+    height: '506px',
     paddingTop: 0,
   };
   data?: User;

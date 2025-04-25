@@ -59,7 +59,7 @@ export class ManagementUserInfoDetailsComponent implements OnInit {
       this.toastr.warning('请选择用户权限');
       return false;
     }
-    if (!this.data.GroupId) {
+    if (!isFinite(this.data.GroupId)) {
       this.toastr.warning('请选择用户组');
       return false;
     }
@@ -92,13 +92,20 @@ export class ManagementUserInfoDetailsComponent implements OnInit {
     });
   }
 
-  onok() {
-    if (this.check) {
-      let promise: Promise<User>;
-      let group = this.groups.find((x) => x.GroupId == this.data.GroupId);
+  ongroup() {
+    if (this.data.GroupId === 0) {
+      this.data.GroupName = '';
+    } else {
+      let group = this.groups.find((x) => x.GroupId === this.data.GroupId);
       if (group) {
         this.data.GroupName = group.GroupName;
       }
+    }
+  }
+
+  onok() {
+    if (this.check) {
+      let promise: Promise<User>;
 
       if (this.user) {
         promise = this.business.update(this.data);

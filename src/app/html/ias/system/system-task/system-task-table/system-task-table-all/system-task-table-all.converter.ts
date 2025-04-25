@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { IConverter } from '../../../../../../common/data-core/models/converter.interface';
+import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
+import { GetShopsParams } from '../../../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
 import { LanguageTool } from '../../../../../../common/tools/language.tool';
 import { AnalysisTaskAllModel } from './system-task-table-all.model';
 
@@ -9,7 +11,10 @@ import { AnalysisTaskAllModel } from './system-task-table-all.model';
 export class SystemTaskTableAllConverter
   implements IConverter<AnalysisTask, AnalysisTaskAllModel>
 {
-  constructor(private tool: LanguageTool) {}
+  constructor(
+    private tool: LanguageTool,
+    private service: ArmAnalysisRequestService
+  ) {}
 
   convert(source: AnalysisTask) {
     let plain = instanceToPlain(source);
@@ -19,7 +24,16 @@ export class SystemTaskTableAllConverter
     model.TaskTypeName = this.tool.TaskType(model.TaskType, '-');
     model.UploadDuration.set(this.duration.upload(model));
     model.AnalysisDuration.set(this.duration.analysis(model));
+    model.ShopCount = this.shop(source.Id).then((x) => {
+      return x.Page.TotalRecordCount;
+    });
     return model;
+  }
+
+  shop(taskId: string) {
+    let params = new GetShopsParams();
+    params.TaskIds = [taskId];
+    return this.service.shop.list(params);
   }
 
   duration = {

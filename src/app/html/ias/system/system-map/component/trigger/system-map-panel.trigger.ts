@@ -79,7 +79,6 @@ export class SystemMapPanelTrigger {
         } else {
           this.amap.shop.blur();
           this.panel.details.shop.sign.show = false;
-          this.panel.details.registration.show = false;
         }
       });
     },

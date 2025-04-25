@@ -50,7 +50,7 @@ export class SystemTaskFileTableBusiness {
       return path.indexOf('/') >= 0;
     },
     get: (path: string) => {
-      let index = path.indexOf('/');
+      let index = path.lastIndexOf('/');
       return path.substring(0, index);
     },
   };

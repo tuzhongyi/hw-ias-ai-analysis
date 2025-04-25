@@ -6,7 +6,11 @@ import { SystemBreadcrumbItem } from './system-breadcrumb.model';
 export class SystemBreadcrumbBusiness {
   load(): SystemBreadcrumbItem[] {
     let models: SystemBreadcrumbItem[] = [];
-    if (location.pathname.indexOf(SystemPath.module_shop) >= 0) {
+    if (location.pathname.indexOf(SystemPath.module_shop_registration) >= 0) {
+      models = [this.home(), this.module(), this.module_shop_registration()];
+    } else if (location.pathname.indexOf(SystemPath.module_shop_compare) >= 0) {
+      models = [this.home(), this.module(), this.module_shop_compare()];
+    } else if (location.pathname.indexOf(SystemPath.module_shop) >= 0) {
       models = [this.home(), this.module(), this.module_shop()];
     } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
       models = [this.home(), this.module(), this.module_road()];
@@ -42,6 +46,18 @@ export class SystemBreadcrumbBusiness {
     let item = new SystemBreadcrumbItem();
     item.path = SystemPath.module_shop;
     item.text = '商铺';
+    return item;
+  }
+  private module_shop_registration() {
+    let item = new SystemBreadcrumbItem();
+    item.path = SystemPath.module_shop_registration;
+    item.text = '注册商铺';
+    return item;
+  }
+  private module_shop_compare() {
+    let item = new SystemBreadcrumbItem();
+    item.path = SystemPath.module_shop_compare;
+    item.text = '商铺比对';
     return item;
   }
   private module_road() {

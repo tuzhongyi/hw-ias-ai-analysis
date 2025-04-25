@@ -23,7 +23,7 @@ export class PromiseValue<T> {
   set(value: T): void {
     this._value = value;
   }
-  exists(): boolean {
+  get exists(): boolean {
     return !!this._value;
   }
 }

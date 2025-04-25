@@ -25,54 +25,12 @@
             </div>
           </div>
           <div class="form-item">
-            <div class="form-item-text" text-space-between>商铺类型</div>
-            <div class="form-item-value">
-              <select [(ngModel)]="filter.type">
-                <option [ngValue]="undefined">全部</option>
-                <option
-                  *ngFor="let item of source.types | async"
-                  [ngValue]="item.Value"
-                >
-                  {{ item.Name }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="form-item">
             <div class="form-item-text" text-space-between>商铺对象状态</div>
             <div class="form-item-value">
               <select [(ngModel)]="filter.state">
                 <option [ngValue]="undefined">全部</option>
                 <option
                   *ngFor="let item of source.states | async"
-                  [ngValue]="item.Value"
-                >
-                  {{ item.Name }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="form-item-text" text-space-between>摄像机位</div>
-            <div class="form-item-value">
-              <select [(ngModel)]="filter.camera">
-                <option [ngValue]="undefined">全部</option>
-                <option
-                  *ngFor="let item of source.cameras | async"
-                  [ngValue]="item.Value"
-                >
-                  {{ item.Name }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="form-item-text" text-space-between>准确性</div>
-            <div class="form-item-value">
-              <select [(ngModel)]="filter.label">
-                <option [ngValue]="undefined">全部</option>
-                <option
-                  *ngFor="let item of source.labels | async"
                   [ngValue]="item.Value"
                 >
                   {{ item.Name }}

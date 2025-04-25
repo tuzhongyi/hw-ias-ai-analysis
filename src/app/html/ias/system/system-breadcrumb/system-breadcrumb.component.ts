@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable, filter } from 'rxjs';
+import { GlobalStorage } from '../../../../common/storage/global.storage';
 import { SystemPath } from '../system.model';
 import { SystemBreadcrumbBusiness } from './system-breadcrumb.business';
 import { SystemBreadcrumbModel } from './system-breadcrumb.model';
@@ -17,7 +18,8 @@ import { SystemBreadcrumbModel } from './system-breadcrumb.model';
 export class SystemBreadcrumbComponent implements OnInit {
   constructor(
     private business: SystemBreadcrumbBusiness,
-    private router: Router
+    private router: Router,
+    private global: GlobalStorage
   ) {}
 
   model = new SystemBreadcrumbModel();
@@ -38,6 +40,12 @@ export class SystemBreadcrumbComponent implements OnInit {
   }
 
   onpath(path: SystemPath) {
-    this.router.navigateByUrl(path);
+    if (this.global.uploading) {
+      if (confirm('当前有文件正在上传，是否继续？')) {
+        this.router.navigateByUrl(path);
+      }
+    } else {
+      this.router.navigateByUrl(path);
+    }
   }
 }

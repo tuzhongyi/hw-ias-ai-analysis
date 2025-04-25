@@ -1,0 +1,68 @@
+<div class="system-module-shop-compare-table-existed">
+  <div class="system-module-shop-compare-table-existed-body table-page">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>名称</th>
+          <th>地址</th>
+          <th>联系方式</th>
+          <th>类型</th>
+          <th>创建时间</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          [ngClass]="{
+          nodata: !item,
+        }"
+        >
+          <td class="center">
+            <ng-container *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </ng-container>
+          </td>
+          <td [title]="item?.Name ?? ''">{{ item?.Name }}</td>
+          <td [title]="item?.Address ?? ''">{{ item?.Address }}</td>
+          <td [title]="item?.Telphone ?? ''">{{ item?.Telphone }}</td>
+          <td [title]="(item?.ShopTypeName | async) ?? ''">
+            {{ item?.ShopTypeName | async }}
+          </td>
+          <td
+            [title]="
+              (item?.CreationTime | date : Language.yyyyMMddHHmmss) ?? ''
+            "
+          >
+            {{ item?.CreationTime | date : Language.yyyyMMddHHmmss }}
+          </td>
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="商铺详细信息"
+                (click)="oninfo(item, $event)"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+              <div
+                class="button"
+                title="商铺比对信息"
+                (click)="oncompare(item, $event)"
+              >
+                <i class="mdi mdi-compare"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="system-module-shop-compare-table-existed-foot">
+    <paginator [page]="page" (change)="onpage($event)"> </paginator>
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { SystemModuleRoadInfoComponent } from '../system-module-road-info/system-module-road-info.component';
 import { SystemModuleRoadMapComponent } from '../system-module-road-map/system-module-road-map.component';
 import { SystemModuleRoadTableComponent } from '../system-module-road-table/system-module-road-table.component';
@@ -80,6 +81,8 @@ export class SystemModuleRoadManagerComponent implements OnInit {
     open: () => {
       this.create.doing = true;
       this.controller.info.show = true;
+      this.controller.info.data = new Road();
+      this.table.selected = undefined;
     },
     ok: (data: Road) => {
       this.controller.info.show = false;
@@ -107,6 +110,18 @@ export class SystemModuleRoadManagerComponent implements OnInit {
     cancel: () => {
       this.modify.doing = false;
       this.controller.info.show = false;
+    },
+    path: {
+      change: (path: [number, number][]) => {
+        if (this.controller.info.data) {
+          if (!this.controller.info.data.GeoLine) {
+            this.controller.info.data.GeoLine = [];
+          }
+          this.controller.info.data.GeoLine = path.map((x) => {
+            return GisPoint.create(x[0], x[1]);
+          });
+        }
+      },
     },
   };
   delete = {

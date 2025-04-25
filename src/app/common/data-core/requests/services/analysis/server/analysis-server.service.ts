@@ -1,4 +1,6 @@
 import { instanceToPlain } from 'class-transformer';
+import { Cache } from '../../../../cache/cache';
+import { AbstractService } from '../../../../cache/cache.interface';
 import { AnalysisServerCapability } from '../../../../models/arm/analysis/analysis-server-capability.model';
 import { AnalysisServer } from '../../../../models/arm/analysis/analysis-server.model';
 import { AnalysisTaskResult } from '../../../../models/arm/analysis/analysis-task-result.model';
@@ -72,9 +74,11 @@ export class ArmAnalysisServerRequestService {
     return this._task;
   }
 }
-class ArmAnalysisServerTaskRequestService {
-  constructor(private http: HowellHttpClient) {}
-
+@Cache(ArmAnalysisUrl.server.task.basic(), AnalysisTask)
+class ArmAnalysisServerTaskRequestService extends AbstractService<AnalysisTask> {
+  constructor(private http: HowellHttpClient) {
+    super();
+  }
   async all(
     params: GetAnalysisTaskListParams = new GetAnalysisTaskListParams()
   ) {
@@ -112,7 +116,7 @@ class ArmAnalysisServerTaskRequestService {
       return HowellResponseProcess.item(x, AnalysisTask);
     });
   }
-  async list(params: GetAnalysisTaskListParams) {
+  async list(params = new GetAnalysisTaskListParams()) {
     let url = ArmAnalysisUrl.server.task.list();
     let plain = instanceToPlain(params);
     return this.http

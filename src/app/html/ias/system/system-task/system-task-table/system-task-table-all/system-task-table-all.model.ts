@@ -7,4 +7,6 @@ export class AnalysisTaskAllModel extends AnalysisTaskModel {
   UploadDuration = signal(0);
   @Exclude()
   AnalysisDuration = signal(0);
+  @Exclude()
+  ShopCount?: Promise<number>;
 }

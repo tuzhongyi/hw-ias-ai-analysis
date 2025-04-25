@@ -31,6 +31,7 @@ import { SystemModuleShopDetailsWindow } from './system-module-shop-details.wind
 })
 export class SystemModuleShopDetailsComponent implements OnInit {
   @Input() data?: ShopViewModel;
+  @Input() change = true;
   @Output() ok = new EventEmitter<Shop>();
   @Output() cancel = new EventEmitter<void>();
 

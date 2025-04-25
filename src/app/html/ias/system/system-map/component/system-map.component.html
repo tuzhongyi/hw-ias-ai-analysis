@@ -149,7 +149,6 @@
   <div class="system-map-setting-compare" *ngIf="panel.setting.compare.show">
     <ias-system-map-setting-compare
       [taskcount]="panel.task.datas.length"
-      [(args)]="args.task"
       (close)="panel.setting.compare.show = false"
     ></ias-system-map-setting-compare>
   </div>

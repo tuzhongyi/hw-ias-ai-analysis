@@ -60,6 +60,7 @@ export class SystemTaskFileDetailsComponent implements OnInit {
   onvideoerror(e: Event) {
     if (!this.src) return;
     let target = e.currentTarget as HTMLVideoElement;
+
     let error = target.error;
 
     if (error) {

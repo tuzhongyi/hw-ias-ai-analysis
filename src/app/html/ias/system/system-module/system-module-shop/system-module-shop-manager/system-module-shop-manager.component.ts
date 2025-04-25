@@ -1,6 +1,10 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import {
+  Page,
+  Paged,
+} from '../../../../../../common/data-core/models/page-list.model';
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
@@ -41,6 +45,19 @@ export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
   storage: ISystemModuleShopStorage;
   handle: any;
   inited = false;
+
+  picture = {
+    page: new EventEmitter<number>(),
+    open: (paged: Paged<ShopViewModel>) => {
+      this.window.picture.page = paged.Page;
+      this.window.picture.id = paged.Data.ImageUrl;
+      this.window.picture.title = paged.Data.Name;
+      this.window.picture.show = true;
+    },
+    change: (page: Page) => {
+      this.picture.page.emit(page.PageIndex);
+    },
+  };
 
   ngOnInit(): void {
     this.source.state.select.subscribe((x) => {

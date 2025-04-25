@@ -9,8 +9,11 @@ import { SystemModuleRoadMapAMapPolylineController } from './system-module-road-
 
 @Injectable()
 export class SystemModuleRoadMapAMapController {
-  mousemove = new EventEmitter<[number, number]>();
-  mouseout = new EventEmitter<void>();
+  event = {
+    mousemove: new EventEmitter<[number, number]>(),
+    mouseout: new EventEmitter<void>(),
+    change: new EventEmitter<[number, number][]>(),
+  };
 
   creator = new PromiseValue<SystemModuleRoadMapAMapCreatorController>();
   editor = new PromiseValue<SystemModuleRoadMapAMapEditorController>();
@@ -43,10 +46,10 @@ export class SystemModuleRoadMapAMapController {
 
   private regist(map: AMap.Map) {
     map.on('mousemove', (e) => {
-      this.mousemove.emit([e.lnglat.lng, e.lnglat.lat]);
+      this.event.mousemove.emit([e.lnglat.lng, e.lnglat.lat]);
     });
     map.on('mouseout', () => {
-      this.mouseout.emit();
+      this.event.mouseout.emit();
     });
   }
 

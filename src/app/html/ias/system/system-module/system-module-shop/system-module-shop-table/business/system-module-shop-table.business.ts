@@ -5,8 +5,8 @@ import {
   SystemModuleShopTableFilter,
   SystemModuleShopTableItem,
 } from '../system-module-shop-table.model';
+import { SystemModuleShopTableService } from './service/system-module-shop-table.service';
 import { SystemModuleShopTableConverter } from './system-module-shop-table.converter';
-import { SystemModuleShopTableService } from './system-module-shop-table.service';
 
 @Injectable()
 export class SystemModuleShopTableBusiness {
@@ -48,5 +48,9 @@ export class SystemModuleShopTableBusiness {
     }
 
     return paged;
+  }
+
+  get(index: number, filter: SystemModuleShopTableFilter) {
+    return this.service.load(index, 1, filter);
   }
 }

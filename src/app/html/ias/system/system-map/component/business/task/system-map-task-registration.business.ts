@@ -3,7 +3,7 @@ import { ShopTaskCompareResult } from '../../../../../../../common/data-core/mod
 import { ArmGeographicRequestService } from '../../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { ShopTaskCompareParams } from '../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
 import { LocalStorage } from '../../../../../../../common/storage/local.storage';
-import { ISystemMapStorage } from '../../../../../../../common/storage/system-map-storage/system-map.storage';
+import { ISystemCompareStorage } from '../../../../../../../common/storage/system-compare-storage/system-compare.storage';
 import { SystemMapTaskFilter } from './system-map-task.model';
 
 @Injectable()
@@ -13,8 +13,8 @@ export class SystemMapTaskRegistrationBusiness {
     private local: LocalStorage
   ) {}
 
-  private get config(): ISystemMapStorage {
-    return this.local.system.map.get();
+  private get config(): ISystemCompareStorage {
+    return this.local.system.compare.get();
   }
 
   async load(task: SystemMapTaskFilter): Promise<ShopTaskCompareResult[]> {

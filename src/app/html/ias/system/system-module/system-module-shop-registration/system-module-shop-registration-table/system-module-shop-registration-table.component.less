@@ -1,0 +1,23 @@
+.system-module-shop-registration-table {
+  height: 100%;
+  width: 100%;
+  transition: all 0.5s;
+
+  @foot-height: 60px;
+
+  &-body {
+    height: calc(100% - @foot-height);
+
+    .image {
+      height: 80%;
+      cursor: pointer;
+    }
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

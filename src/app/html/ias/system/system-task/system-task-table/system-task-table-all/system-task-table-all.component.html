@@ -21,6 +21,7 @@
           <th sort="StartTime">开始分析时间</th>
           <th>完成时间</th>
           <th>用时</th>
+          <th>分析结果</th>
           <th class="center">操作</th>
         </tr>
       </thead>
@@ -71,6 +72,9 @@
             } @else{
             {{ Language.Time(item.UploadDuration()) }}
             } }
+          </td>
+          <td>
+            {{ item.ShopCount | async }}
           </td>
 
           <td class="center">

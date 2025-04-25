@@ -2,7 +2,7 @@
   <div class="system-module-shop-details-head">
     <ias-content-header [title]="'商铺分析详情'"></ias-content-header>
   </div>
-  <div class="system-module-shop-details-body">
+  <div class="system-module-shop-details-body" [ngClass]="{ change: change }">
     <div class="system-module-shop-details-body-table" *ngIf="data">
       <ias-system-module-shop-sign-table
         [data]="shop"
@@ -35,7 +35,7 @@
       ></ias-system-module-shop-details-map>
     </div>
   </div>
-  <div class="system-module-shop-details-foot">
+  <div class="system-module-shop-details-foot" *ngIf="change">
     <button class="button-clip-gradient" (click)="onok()">确定</button>
     <button class="button-clip-blue" (click)="oncancel()">取消</button>
   </div>

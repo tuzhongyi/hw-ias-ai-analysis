@@ -23,7 +23,7 @@ export class TextSpaceBetweenDirective implements AfterContentInit {
         this.ele.innerHTML = '';
       }
       if (value) {
-        this.create(value);
+        this.create(value.trim());
       }
     }
   }

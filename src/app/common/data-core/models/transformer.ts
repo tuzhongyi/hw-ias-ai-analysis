@@ -112,24 +112,39 @@ export function transformDateTime(params: TransformFnParams) {
   if (params.type === TransformationType.PLAIN_TO_CLASS) {
     return new Date(params.value);
   } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
-    let date = params.value as Date;
-    return `${date.getFullYear()}-${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}T${date
-      .getHours()
-      .toString()
-      .padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date
-      .getSeconds()
-      .toString()
-      .padStart(2, '0')}.${date.getMilliseconds()}${
-      date.getTimezoneOffset() < 0 ? '+' : '-'
-    }${Math.abs(date.getTimezoneOffset() / 60)
-      .toString()
-      .padStart(2, '0')}:${Math.abs(date.getTimezoneOffset() % 60)
-      .toString()
-      .padStart(2, '0')}`;
+    if (typeof params.value === 'string') {
+      return params.value;
+    } else if (params.value instanceof Date) {
+      let date = new Date(params.value.getTime());
+      return `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}T${date
+        .getHours()
+        .toString()
+        .padStart(2, '0')}:${date
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}:${date
+        .getSeconds()
+        .toString()
+        .padStart(2, '0')}.${date.getMilliseconds()}${
+        date.getTimezoneOffset() < 0 ? '+' : '-'
+      }${Math.abs(date.getTimezoneOffset() / 60)
+        .toString()
+        .padStart(2, '0')}:${Math.abs(date.getTimezoneOffset() % 60)
+        .toString()
+        .padStart(2, '0')}`;
+    } else {
+      return params.value;
+    }
   } else if (params.type === TransformationType.CLASS_TO_CLASS) {
-    return new Date(params.value);
+    if (typeof params.value === 'string') {
+      return new Date(params.value);
+    } else if (params.value instanceof Date) {
+      return new Date(params.value.getTime());
+    } else {
+      return new Date(params.value);
+    }
   } else {
     return params.value;
   }

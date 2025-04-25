@@ -4,6 +4,7 @@ import { SystemTaskModel } from '../system-task-creation/component/system-task-c
 
 import { Router } from '@angular/router';
 import { LocalStorage } from '../../../../../common/storage/local.storage';
+import { TaskDuration } from '../../../../../common/storage/system-compare-storage/system-compare.storage';
 import { Language } from '../../../../../common/tools/language';
 import { SystemPath } from '../../system.model';
 import {
@@ -12,7 +13,7 @@ import {
 } from '../system-task-table/system-task-table.model';
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
 import { SystemTaskManagerController } from './controller/system-task-manager.controller';
-import { TaskDurationValue } from './system-task-manager.model';
+
 import {
   SystemTaskManagerImports,
   SystemTaskManagerProviders,
@@ -35,7 +36,7 @@ export class SystemTaskManagerComponent implements OnInit {
     private router: Router
   ) {
     this.filter.duration.value =
-      this.local.system.task.duration.get() ?? TaskDurationValue.year;
+      this.local.system.task.duration.get() ?? TaskDuration.year;
 
     this.filter.duration.onchange();
   }
@@ -64,7 +65,7 @@ export class SystemTaskManagerComponent implements OnInit {
 
   filter = {
     duration: {
-      value: TaskDurationValue.year,
+      value: TaskDuration.year,
 
       onchange: () => {
         let today = this.table.args.duration.end;

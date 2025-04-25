@@ -33,7 +33,7 @@ export class SystemTaskResultShopTableBusiness {
   }
 
   private async road(id: string) {
-    let data = await this.geo.road.get(id);
+    let data = await this.geo.road.cache.get(id);
     let model = new RoadViewModel();
     model = Object.assign(model, data);
     return model;

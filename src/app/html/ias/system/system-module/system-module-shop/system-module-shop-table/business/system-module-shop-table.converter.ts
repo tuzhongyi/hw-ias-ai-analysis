@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { MediumRequestService } from '../../../../../../../common/data-core/requests/services/medium/medium.service';
 import { ShopConverter } from '../../../../../../../common/view-models/shop/shop.converter';
 import { SystemModuleShopTableItem } from '../system-module-shop-table.model';
@@ -11,7 +11,7 @@ export class SystemModuleShopTableConverter {
     private medium: MediumRequestService
   ) {}
 
-  convert(source: Shop) {
+  convert(source: IShop) {
     let model = new SystemModuleShopTableItem();
     let vm = this.converter.convert(source);
     model = Object.assign(model, vm);

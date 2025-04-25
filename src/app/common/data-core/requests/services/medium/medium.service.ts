@@ -21,4 +21,27 @@ export class MediumRequestService {
         return x.Data;
       });
   }
+
+  copy(id: string) {
+    return new Promise<string>((resolve, reject) => {
+      let url = this.picture(id);
+      let http = new XMLHttpRequest();
+      http.onload = () => {
+        if (http.status === 200) {
+          this.upload(http.response)
+            .then((x) => {
+              resolve(x);
+            })
+            .catch((x) => {
+              reject(x);
+            });
+        } else {
+          reject(http.status);
+        }
+      };
+      http.open('GET', url);
+      http.responseType = 'arraybuffer';
+      http.send();
+    });
+  }
 }

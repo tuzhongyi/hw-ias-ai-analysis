@@ -71,6 +71,20 @@ export class ArmGeographicShopRequestService {
     return data;
   }
 
+  excel = {
+    upload: (data: ArrayBuffer) => {
+      let url = ArmGeographicUrl.shop.excel();
+      return this.http
+        .post<HowellResponse<string>, any>(url, data)
+        .then((x) => {
+          if (x.FaultCode === 0) {
+            return x.Data;
+          }
+          throw new Error(`${x.FaultCode}:${x.FaultReason}`);
+        });
+    },
+  };
+
   task = {
     compare: (params: ShopTaskCompareParams) => {
       let url = ArmGeographicUrl.shop.task.compare();

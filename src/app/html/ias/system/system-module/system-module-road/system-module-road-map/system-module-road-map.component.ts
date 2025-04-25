@@ -4,11 +4,13 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
 import { SystemModuleRoadMapAMapController } from './controller/amap/system-module-road-map-amap.controller';
 import { SystemModuleRoadMapPositionController } from './controller/system-module-road-map-position.controller';
@@ -25,21 +27,37 @@ import { SystemModuleRoadMapController } from './controller/system-module-road-m
     SystemModuleRoadMapPositionController,
   ],
 })
-export class SystemModuleRoadMapComponent implements OnChanges, OnInit {
+export class SystemModuleRoadMapComponent
+  implements OnChanges, OnInit, OnDestroy
+{
   @Input() creating = false;
   @Input() editing = false;
 
   @Input() datas: Road[] = [];
   @Output() create = new EventEmitter<[number, number][]>();
   @Input() selected?: Road;
+  @Output('change') _change = new EventEmitter<[number, number][]>();
 
   constructor(public controller: SystemModuleRoadMapController) {}
+
+  private subscription = new Subscription();
+
   ngOnInit(): void {
     this.controller.amap.creator.get().then((creator) => {
-      creator.create.subscribe((x) => {
+      let sub = creator.create.subscribe((x) => {
         this.create.emit(x);
       });
+      this.subscription.add(sub);
     });
+    this.controller.amap.editor.get().then((editor) => {
+      let sub = editor.change.subscribe((x) => {
+        this._change.emit(x);
+      });
+      this.subscription.add(sub);
+    });
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.change.datas(changes['datas']);

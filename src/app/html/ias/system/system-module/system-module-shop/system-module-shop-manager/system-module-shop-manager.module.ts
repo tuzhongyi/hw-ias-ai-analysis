@@ -4,6 +4,7 @@ import { CommonLabelSelecComponent } from '../../../../../../common/components/c
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowComponent } from '../../../../../../common/components/window-control/window.component';
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
+import { PictureWindowContentPageComponent } from '../../../../share/picture-window-content-page/picture-window-content-page.component';
 import { SelectShopObjectStateComponent } from '../../../../share/select/select-shop-object-state/select-shop-object-state.component';
 import { SystemModuleShopCreationComponent } from '../system-module-shop-creation/system-module-shop-creation.component';
 import { SystemModuleShopDetailsComponent } from '../system-module-shop-details/system-module-shop-details.component';
@@ -25,6 +26,7 @@ export const SystemModuleShopManagerImports = [
   SystemModuleShopCreationComponent,
   InputSelectRoadComponent,
   WindowComponent,
+  PictureWindowContentPageComponent,
 ];
 export const SystemModuleShopManagerProviders = [
   SystemModuleShopManagerDurationController,

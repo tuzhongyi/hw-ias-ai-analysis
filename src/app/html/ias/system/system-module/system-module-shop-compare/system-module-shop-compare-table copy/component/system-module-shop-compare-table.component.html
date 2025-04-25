@@ -1,0 +1,35 @@
+<div class="system-module-shop-compare-table">
+  <div
+    [ngStyle]="{
+      display: state === ShopObjectState.Created ? 'block' : 'none'
+    }"
+  >
+    <ias-system-module-shop-compare-table-created
+      [datas]="data.created"
+      (info)="oninfo($event)"
+      [selecteds]="selecteds"
+      (selectedsChange)="onselect($event)"
+    ></ias-system-module-shop-compare-table-created>
+  </div>
+  <div
+    [ngStyle]="{
+      display: state === ShopObjectState.Disappeared ? 'block' : 'none'
+    }"
+  >
+    <ias-system-module-shop-compare-table-disappeared
+      [datas]="data.disappeared"
+      (info)="oninfo($event)"
+    ></ias-system-module-shop-compare-table-disappeared>
+  </div>
+  <div
+    [ngStyle]="{
+      display: state === ShopObjectState.Existed ? 'block' : 'none'
+    }"
+  >
+    <ias-system-module-shop-compare-table-existed
+      [datas]="data.existed"
+      (info)="oninfo($event)"
+      (compare)="oncompare($event)"
+    ></ias-system-module-shop-compare-table-existed>
+  </div>
+</div>

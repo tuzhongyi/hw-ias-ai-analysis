@@ -18,12 +18,14 @@
               <input
                 type="range"
                 min="2"
+                step="1"
                 [max]="base.max"
                 [(ngModel)]="base.count"
               />
               <input
                 type="number"
                 min="2"
+                step="1"
                 [max]="base.max"
                 [(ngModel)]="base.count"
               />
@@ -32,7 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="panel" *ngIf="args">
+      <div class="panel">
         <div class="panel-head">
           <div class="panel-title">注册商铺比对设置</div>
         </div>
@@ -44,12 +46,14 @@
                 type="range"
                 min="0"
                 max="100"
+                step="1"
                 [(ngModel)]="registration.ratio"
               />
               <input
                 type="number"
                 min="0"
                 max="100"
+                step="1"
                 [(ngModel)]="registration.ratio"
               />
               <span>％</span>

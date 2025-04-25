@@ -1,0 +1,79 @@
+<div class="system-module-shop-compare-setting root-router">
+  <div class="system-module-shop-compare-setting-head">
+    <ias-content-header [title]="'比对设置'"></ias-content-header>
+  </div>
+  <div class="system-module-shop-compare-setting-body">
+    <div class="panel">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">分析任务时间范围</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="controller.task.duration">
+              <option
+                *ngFor="let item of source.duration"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+            <span>内</span>
+            <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">最近分析任务次数</div>
+          <div class="form-item-value">
+            <input
+              type="range"
+              min="1"
+              [max]="max"
+              step="1"
+              [(ngModel)]="controller.task.count"
+            />
+            <input
+              type="number"
+              min="1"
+              [max]="max"
+              step="1"
+              [(ngModel)]="controller.task.count"
+            />
+            <span>次</span>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">名称相似度</div>
+          <div class="form-item-value">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              [(ngModel)]="controller.ratio"
+            />
+            <input
+              type="number"
+              min="0"
+              max="100"
+              step="1"
+              [(ngModel)]="controller.ratio"
+            />
+            <span>％</span>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">相差距离</div>
+          <div class="form-item-value">
+            <input type="number" min="0" [(ngModel)]="controller.distance" />
+            <span>米</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-shop-compare-setting-foot">
+    <div class="button" (click)="onreset()"></div>
+    <div class="button-group">
+      <button class="button-clip-blue" (click)="onclose()">关闭</button>
+    </div>
+  </div>
+</div>

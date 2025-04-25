@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ArmAnalysisRequestService } from '../../../../../../../common/data-core/requests/services/analysis/analysis.service';
-import { GetShopsParams } from '../../../../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
-import { SystemModuleShopTableFilter } from '../system-module-shop-table.model';
+import { ArmAnalysisRequestService } from '../../../../../../../../common/data-core/requests/services/analysis/analysis.service';
+import { GetShopsParams } from '../../../../../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
+import { SystemModuleShopTableFilter } from '../../system-module-shop-table.model';
 import { SystemModuleShopTableRoadService } from './system-module-shop-table-road.service';
 
 @Injectable()

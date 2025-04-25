@@ -1,0 +1,64 @@
+.system-module-shop-compare-picture {
+  width: 100%;
+  height: 100%;
+
+  transition: all 0.5s;
+  display: flex;
+  flex-direction: column;
+
+
+  @gap: 15px;
+  @foot-height: 30px;
+  gap: @gap;
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @gap - @foot-height);
+  }
+
+  &-foot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    .page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+
+    }
+
+    .button {
+      font-size: 20px;
+
+      &.left {
+        background: linear-gradient(to left, #2d76ce 40%, #fff 70%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        &.disabled {
+          background: #2d76ce;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      }
+
+      &.right {
+        background: linear-gradient(to right, #2d76ce 40%, #fff 70%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        &.disabled {
+          background: #2d76ce;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      }
+
+
+    }
+
+  }
+}

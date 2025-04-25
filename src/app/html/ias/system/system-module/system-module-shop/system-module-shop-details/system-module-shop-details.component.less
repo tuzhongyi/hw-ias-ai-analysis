@@ -16,12 +16,17 @@
 
   &-body {
     width: 100%;
-    height: calc(100% - @head-height - @foot-height - 15px * 2);
+    height: calc(100% - @head-height - 15px);
+
     display: flex;
     justify-content: space-between;
     gap: 10px;
 
     @body-width: calc(100% - 10px * 2);
+
+    &.change {
+      height: calc(100% - @head-height - @foot-height - 15px * 2);
+    }
 
     &-table {
       width: calc(@body-width * 0.4);

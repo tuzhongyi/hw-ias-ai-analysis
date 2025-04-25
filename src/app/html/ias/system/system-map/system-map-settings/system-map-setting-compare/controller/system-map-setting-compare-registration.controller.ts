@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 import { LocalStorage } from '../../../../../../../common/storage/local.storage';
-import { ISystemMapStorage } from '../../../../../../../common/storage/system-map-storage/system-map.storage';
+import { ISystemCompareStorage } from '../../../../../../../common/storage/system-compare-storage/system-compare.storage';
 
 @Injectable()
 export class SystemMapSettingCompareRegistrationController {
   public get ratio(): number {
-    return this.config.ratio * 100 || 50;
+    return this.storage.ratio * 100 || 50;
   }
   public set ratio(v: number) {
     this.changed.ratio = true;
-    this.config.ratio = v / 100;
-    this.local.system.map.set(this.config);
+    this.storage.ratio = v / 100;
+    this.local.system.compare.set(this.storage);
   }
 
   public get distance(): number {
-    return this.config.distance || 100;
+    return this.storage.distance || 100;
   }
   public set distance(v: number) {
     this.changed.distance = true;
-    this.config.distance = v;
-    this.local.system.map.set(this.config);
+    this.storage.distance = v;
+    this.local.system.compare.set(this.storage);
   }
 
   private changed = {
@@ -32,11 +32,11 @@ export class SystemMapSettingCompareRegistrationController {
   };
 
   constructor(private local: LocalStorage) {
-    this.config = local.system.map.get();
+    this.storage = local.system.compare.get();
     this.init();
   }
 
-  private config: ISystemMapStorage;
+  private storage: ISystemCompareStorage;
 
   private init() {
     this.original.ratio = this.ratio;
