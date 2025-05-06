@@ -100,7 +100,7 @@ export class SystemMapTaskTableComponent
   };
 
   private async init() {
-    let types = await this.manager.source.server.TaskTypes;
+    let types = await this.manager.source.server.TaskTypes.get();
     types.forEach((x) => {
       this.language.types.set(x.Value, x.Name);
     });

@@ -1,0 +1,9 @@
+<div class="picture-polygon">
+  <ias-picture-canvas
+    [src]="src"
+    [id]="id"
+    (error)="onerror($event)"
+    (canvas)="oncanvas($event)"
+    (image)="onimage($event)"
+  ></ias-picture-canvas>
+</div>

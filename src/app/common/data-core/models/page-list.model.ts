@@ -18,7 +18,7 @@ export class Page {
     page.PageIndex = index;
     page.PageSize = size;
     page.PageCount = Math.ceil(count / page.PageSize);
-    page.RecordCount = count;
+    page.RecordCount = size;
     page.TotalRecordCount = count;
     return page;
   }

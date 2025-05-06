@@ -13,10 +13,10 @@ export class SystemModuleShopRegistrationCreationSourceController {
   scopes: Promise<EnumNameValue<string>[]>;
 
   constructor(source: SourceManager) {
-    this.types = source.shop.ShopTypes;
-    this.states = source.shop.ShopObjectStates;
-    this.units = source.shop.UnitTypes;
-    this.industries = source.shop.Industries;
-    this.scopes = source.shop.BusinessScopes;
+    this.types = source.shop.ShopTypes.get();
+    this.states = source.shop.ShopObjectStates.get();
+    this.units = source.shop.UnitTypes.get();
+    this.industries = source.shop.Industries.get();
+    this.scopes = source.shop.BusinessScopes.get();
   }
 }

@@ -16,9 +16,9 @@ import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
-import { Language } from '../../../../../../common/tools/language';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { ShopSignViewModel } from '../../../../../../common/view-models/shop-sign/shop-sign.view-model';
-import { PictureComponent } from '../../../../share/picture/picture.component';
+import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
 import { SystemTaskResultInfoSourceController } from './controller/system-task-result-info-source.controller';
 import { SystemTaskResultInfoBusiness } from './system-task-result-info.business';
 import { SystemTaskResultInfoConverter } from './system-task-result-info.converter';
@@ -28,7 +28,7 @@ import { SystemTaskResultInfoConverter } from './system-task-result-info.convert
   imports: [
     CommonModule,
     FormsModule,
-    PictureComponent,
+    PicturePolygonComponent,
     TextSpaceBetweenDirective,
   ],
   templateUrl: './system-task-result-info.component.html',

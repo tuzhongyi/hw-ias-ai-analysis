@@ -10,7 +10,7 @@ import {
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
-import { Language } from '../../../../../../common/tools/language';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 
 import { Subscription } from 'rxjs';
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';

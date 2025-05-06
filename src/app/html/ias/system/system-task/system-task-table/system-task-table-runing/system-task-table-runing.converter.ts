@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { IConverter } from '../../../../../../common/data-core/models/converter.interface';
-import { LanguageTool } from '../../../../../../common/tools/language.tool';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { AnalysisTaskRuningModel } from './system-task-table-runing.model';
 
 @Injectable()
@@ -15,8 +15,11 @@ export class SystemTaskTableRuningConverter
     let plain = instanceToPlain(source);
     let model = plainToInstance(AnalysisTaskRuningModel, plain);
     model.hasdata = true;
-    model.StateName = this.tool.TaskState(model.State, '-');
-    model.TaskTypeName = this.tool.TaskType(model.TaskType, '-');
+    model.StateName = this.tool.analysis.server.TaskState(model.State, '-');
+    model.TaskTypeName = this.tool.analysis.server.TaskType(
+      model.TaskType,
+      '-'
+    );
     model.UploadDuration.set(this.duration.upload(model));
     model.AnalysisDuration.set(this.duration.analysis(model));
     if (source.State != undefined && source.State > 0) {

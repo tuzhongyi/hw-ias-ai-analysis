@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { Language } from '../../tools/language';
+import { Language } from '../../tools/language-tool/language';
 import { WindowViewModel } from './window.model';
 
 @Component({

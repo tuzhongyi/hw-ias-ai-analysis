@@ -4,7 +4,7 @@ import { ShopRegistration } from '../../../../../../common/data-core/models/arm/
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';
-import { LanguageTool } from '../../../../../../common/tools/language.tool';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { RoadViewModel } from '../../../../../../common/view-models/road/road.view-model';
 import {
   SystemMapSourceTableShopFrom,
@@ -23,7 +23,7 @@ export class SystemMapSourceTableShopConverter {
   async convert(shop: IShop) {
     let item = new SystemMapSourceTableShopItem();
     item = Object.assign(item, shop);
-    item.ObjectStateName = await this.language.ShopObjectState(
+    item.ObjectStateName = await this.language.analysis.shop.ShopObjectState(
       item.ObjectState
     );
     if (item.RoadId) {

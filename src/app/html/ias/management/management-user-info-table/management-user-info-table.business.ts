@@ -29,7 +29,7 @@ export class ManagementUserInfoTableBusiness {
   async convert(data: User) {
     let item = new ManagementUserInfoTableItem();
     item = Object.assign(item, data);
-    let capability = await this.manager.capability.security;
+    let capability = await this.manager.capability.security.get();
     if (capability.PriorityTypes && item.Priorities) {
       item.PriorityNames = item.Priorities.map((priority) => {
         let type = capability.PriorityTypes.find((x) => x.Value === priority);

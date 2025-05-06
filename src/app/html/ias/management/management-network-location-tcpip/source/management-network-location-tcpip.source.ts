@@ -6,21 +6,21 @@ import { Manager } from '../../../../../common/data-core/requests/managers/manag
 export class ManagementNetworkLocationTcpIpSource {
   constructor(manager: Manager) {
     this.speeds = new Promise((resolve) => {
-      manager.capability.network.then((x) => {
+      manager.capability.network.get().then((x) => {
         if (x.NetworkInterfaceSpeeds) {
           resolve(x.NetworkInterfaceSpeeds);
         }
       });
     });
     this.duplexs = new Promise((resolve) => {
-      manager.capability.network.then((x) => {
+      manager.capability.network.get().then((x) => {
         if (x.NetworkInterfaceDuplexs) {
           resolve(x.NetworkInterfaceDuplexs);
         }
       });
     });
     this.types = new Promise((resolve) => {
-      manager.capability.network.then((x) => {
+      manager.capability.network.get().then((x) => {
         if (x.AddressingTypes) {
           resolve(x.AddressingTypes);
         }

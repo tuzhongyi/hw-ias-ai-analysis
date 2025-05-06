@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RunningStatus } from '../../../../common/data-core/models/arm/running-status.model';
-import { Language } from '../../../../common/tools/language';
+import { Language } from '../../../../common/tools/language-tool/language';
 import { ManagementSystemStatusRunningBusiness } from './management-system-status-running.business';
 
 @Component({

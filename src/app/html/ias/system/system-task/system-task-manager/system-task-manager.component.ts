@@ -5,7 +5,7 @@ import { SystemTaskModel } from '../system-task-creation/component/system-task-c
 import { Router } from '@angular/router';
 import { LocalStorage } from '../../../../../common/storage/local.storage';
 import { TaskDuration } from '../../../../../common/storage/system-compare-storage/system-compare.storage';
-import { Language } from '../../../../../common/tools/language';
+import { Language } from '../../../../../common/tools/language-tool/language';
 import { SystemPath } from '../../system.model';
 import {
   AnalysisTaskModel,

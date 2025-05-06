@@ -22,6 +22,8 @@ export class SystemBreadcrumbBusiness {
       models = [this.home(), this.task()];
     } else if (location.pathname.indexOf(SystemPath.map) >= 0) {
       models = [this.home(), this.map()];
+    } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
+      models = [this.home(), this.event()];
     }
     if (models.length > 0) {
       models[models.length - 1].selected = true;
@@ -84,6 +86,12 @@ export class SystemBreadcrumbBusiness {
     let item = new SystemBreadcrumbItem();
     item.text = '地图';
     item.path = SystemPath.map;
+    return item;
+  }
+  private event() {
+    let item = new SystemBreadcrumbItem();
+    item.text = 'AI分析事件';
+    item.path = SystemPath.event;
     return item;
   }
 }

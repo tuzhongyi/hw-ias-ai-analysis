@@ -11,8 +11,8 @@ export class SystemTaskResultTableManagerSourceController {
   labels: Promise<EnumNameValue<ResultLabelType>[]>;
 
   constructor(source: SourceManager) {
-    this.channels = source.shop.CameraNos;
-    this.labels = source.shop.ResultLabelTypes;
-    this.types = source.shop.SignTypes;
+    this.channels = source.shop.CameraNos.get();
+    this.labels = source.shop.ResultLabelTypes.get();
+    this.types = source.shop.SignTypes.get();
   }
 }

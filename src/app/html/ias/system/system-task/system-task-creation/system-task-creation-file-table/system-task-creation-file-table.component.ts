@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Language } from '../../../../../../common/tools/language';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { SystemTaskCreationFileModel } from './system-task-creation-file-table.model';
 
 @Component({

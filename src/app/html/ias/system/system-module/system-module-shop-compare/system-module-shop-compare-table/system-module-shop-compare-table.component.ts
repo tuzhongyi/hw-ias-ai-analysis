@@ -23,7 +23,7 @@ import { TableSorterDirective } from '../../../../../../common/directives/table-
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
 import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
-import { Language } from '../../../../../../common/tools/language';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { IShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
 import { SystemModuleShopCompareTableBusiness } from './business/system-module-shop-compare-table.business';
 import {

@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../common/components/window-confirm/window-confirm.component';
 import { SystemTime } from '../../../../common/data-core/models/arm/system-time.model';
-import { Language } from '../../../../common/tools/language';
+import { Language } from '../../../../common/tools/language-tool/language';
 import { ManagementSystemDeviceDatetimeLocalController } from './controller/management-system-device-datetime-local.controller';
 import { ManagementSystemDeviceDatetimeNTPController } from './controller/management-system-device-datetime-ntp.controller';
 import { ManagementSystemDeviceDatetimeController } from './controller/management-system-device-datetime.controller';

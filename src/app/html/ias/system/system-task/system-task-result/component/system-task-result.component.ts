@@ -7,8 +7,8 @@ import { AnalysisTask } from '../../../../../../common/data-core/models/arm/anal
 import { LabelResultStatistic } from '../../../../../../common/data-core/models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
-import { Language } from '../../../../../../common/tools/language';
-import { LanguageTool } from '../../../../../../common/tools/language.tool';
+import { Language } from '../../../../../../common/tools/language-tool/language';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
 import { PictureWindowContentPageComponent } from '../../../../share/picture-window-content-page/picture-window-content-page.component';
@@ -76,7 +76,7 @@ export class SystemTaskResultComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.task.name = this.data.Name ?? '';
-      this.language.TaskType(this.data.TaskType).then((x) => {
+      this.language.analysis.server.TaskType(this.data.TaskType).then((x) => {
         this.task.type = x;
       });
     }

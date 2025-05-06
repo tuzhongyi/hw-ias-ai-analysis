@@ -23,8 +23,20 @@ export class SystemModuleShopCompareSettingTaskController {
     this.local.system.compare.set(this.storage);
   }
 
+  original = {
+    count: 0,
+    duration: TaskDuration.year,
+  };
+
   constructor(private local: LocalStorage) {
     this.storage = local.system.compare.get();
+    this.original.count = this.storage.task.count;
+    this.original.duration = this.storage.task.duration;
   }
   private storage: ISystemCompareStorage;
+
+  reset() {
+    this.count = this.original.count;
+    this.duration = this.original.duration;
+  }
 }

@@ -15,14 +15,14 @@ import {
   Paged,
   PagedList,
 } from '../../../../../common/data-core/models/page-list.model';
-import { PictureComponent } from '../../../share/picture/picture.component';
+import { PicturePolygonZoomComponent } from '../../../share/picture/picture-polygon-zoom/picture-polygon-zoom.component';
 import { SystemMapPanelDetailsShopSignTableComponent } from '../system-map-panel-details-shop-sign-table/system-map-panel-details-shop-sign-table.component';
 
 @Component({
   selector: 'ias-system-map-panel-details-shop-sign',
   imports: [
     CommonModule,
-    PictureComponent,
+    PicturePolygonZoomComponent,
     SystemMapPanelDetailsShopSignTableComponent,
   ],
   templateUrl: './system-map-panel-details-shop-sign.component.html',

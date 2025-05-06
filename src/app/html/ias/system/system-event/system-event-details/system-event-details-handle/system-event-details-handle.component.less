@@ -1,0 +1,44 @@
+.system-event-details-handle {
+  width: 100%;
+  height: 100%;
+
+  &-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .page {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
+
+
+      &-item {
+        font-size: 12px;
+        cursor: pointer;
+
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - 28px - 15px);
+
+
+    .nodata {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 26px;
+      background-color: #13224d;
+      color: #1e90ff;
+    }
+  }
+}

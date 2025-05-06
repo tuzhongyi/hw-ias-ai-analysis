@@ -13,7 +13,7 @@ import { Page } from '../../../../../../common/data-core/models/page-list.model'
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
-import { Language } from '../../../../../../common/tools/language';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import {
   AnalysisTaskModel,
   SystemTaskTableFilter,

@@ -28,7 +28,7 @@ export class SelectSecurityPriorityTypeComponent
   @Output() loaded = new EventEmitter<EnumNameValue<string>[]>();
 
   constructor(source: SourceManager) {
-    this.datas = source.security.PriorityTypes;
+    this.datas = source.security.PriorityTypes.get();
   }
 
   datas: Promise<EnumNameValue<string>[]>;

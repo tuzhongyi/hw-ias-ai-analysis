@@ -11,7 +11,7 @@ import { SignType } from '../../../../../../common/data-core/enums/analysis/sign
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
-import { PictureComponent } from '../../../../share/picture/picture.component';
+import { PictureComponent } from '../../../../share/picture/component/picture.component';
 
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { SystemModuleShopDetailsMapComponent } from '../../system-module-shop/system-module-shop-details-map/system-module-shop-details-map.component';

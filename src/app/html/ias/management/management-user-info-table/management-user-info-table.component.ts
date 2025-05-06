@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '../../../../common/data-core/models/user/user.model';
-import { Language } from '../../../../common/tools/language';
+import { Language } from '../../../../common/tools/language-tool/language';
 import { ManagementUserInfoTableBusiness } from './management-user-info-table.business';
 import { ManagementUserInfoTableItem } from './management-user-info-table.model';
 

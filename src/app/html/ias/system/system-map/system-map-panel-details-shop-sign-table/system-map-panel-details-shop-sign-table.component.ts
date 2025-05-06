@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
-import { Language } from '../../../../../common/tools/language';
+import { Language } from '../../../../../common/tools/language-tool/language';
 import { ShopSignViewModel } from '../../../../../common/view-models/shop-sign/shop-sign.view-model';
 import { SystemModuleShopSignTableBusiness } from '../../system-module/system-module-shop/system-module-shop-sign-table/system-module-shop-sign-table.business';
 

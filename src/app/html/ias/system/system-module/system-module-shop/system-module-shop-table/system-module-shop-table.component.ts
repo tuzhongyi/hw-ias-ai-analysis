@@ -18,7 +18,7 @@ import { Sort } from '../../../../../../common/directives/table-sorter/table-sor
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
-import { Language } from '../../../../../../common/tools/language';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
 import { SystemModuleShopTableBusiness } from './business/system-module-shop-table.business';
 import { SystemModuleShopTableProviders } from './business/system-module-shop-table.provider';

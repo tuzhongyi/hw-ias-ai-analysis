@@ -12,7 +12,7 @@ import { Shop } from '../../../../../../common/data-core/models/arm/analysis/sho
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
-import { PictureComponent } from '../../../../share/picture/picture.component';
+import { PictureComponent } from '../../../../share/picture/component/picture.component';
 import { SystemModuleShopDetailsMapComponent } from '../system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopCreationSourceController } from './controller/system-module-shop-creation-source.controller';
 import { SystemModuleShopCreationBusiness } from './system-module-shop-creation.business';

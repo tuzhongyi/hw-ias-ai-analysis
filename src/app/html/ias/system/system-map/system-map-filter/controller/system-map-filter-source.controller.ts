@@ -6,10 +6,10 @@ import { SourceManager } from '../../../../../../common/data-core/requests/manag
 @Injectable()
 export class SystemMapFilterSourceController {
   constructor(source: SourceManager) {
-    this.types = source.shop.ShopTypes;
-    this.states = source.shop.ShopObjectStates;
-    this.cameras = source.shop.CameraNos;
-    this.labels = source.shop.ResultLabelTypes;
+    this.types = source.shop.ShopTypes.get();
+    this.states = source.shop.ShopObjectStates.get();
+    this.cameras = source.shop.CameraNos.get();
+    this.labels = source.shop.ResultLabelTypes.get();
   }
 
   types: Promise<EnumNameValue<number>[]>;

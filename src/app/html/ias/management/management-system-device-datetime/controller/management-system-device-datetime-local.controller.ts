@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Language } from '../../../../../common/tools/language';
+import { Language } from '../../../../../common/tools/language-tool/language';
 
 @Injectable()
 export class ManagementSystemDeviceDatetimeLocalController {

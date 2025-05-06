@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
-import { LanguageTool } from '../../../../../../common/tools/language.tool';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { SystemTaskDetailsFileModel } from '../system-task-details-file-table/system-task-details-file-table.model';
 import { SystemTaskDetailsInfo } from './system-task-details-info.model';
 
@@ -12,8 +12,11 @@ export class SystemTaskDetailsInfoConverter {
   convert(source: AnalysisTask) {
     let plain = instanceToPlain(source);
     let model = plainToInstance(SystemTaskDetailsInfo, plain);
-    model.TaskTypeName = this.language.TaskType(model.TaskType, '-');
-    model.StateName = this.language.TaskState(model.State, '-');
+    model.TaskTypeName = this.language.analysis.server.TaskType(
+      model.TaskType,
+      '-'
+    );
+    model.StateName = this.language.analysis.server.TaskState(model.State, '-');
 
     return model;
   }

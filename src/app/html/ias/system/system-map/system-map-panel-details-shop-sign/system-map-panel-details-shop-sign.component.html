@@ -12,11 +12,11 @@
       class="system-map-panel-details-shop-sign-body-image"
       (click)="onpicture()"
     >
-      <ias-picture
+      <ias-picture-polygon-zoom
         *ngIf="sign"
         [id]="sign.ImageUrl"
         [polygon]="sign.Polygon ?? []"
-      ></ias-picture>
+      ></ias-picture-polygon-zoom>
     </div>
     <div class="system-map-panel-details-shop-sign-body-table">
       <ias-system-map-panel-details-shop-sign-table

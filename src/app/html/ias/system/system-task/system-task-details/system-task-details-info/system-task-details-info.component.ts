@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
-import { Language } from '../../../../../../common/tools/language';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { TaskProgress } from '../../system-task-table/system-task-table.model';
 import { SystemTaskDetailsInfoBusiness } from './system-task-details-info.business';
 import { SystemTaskDetailsInfoConverter } from './system-task-details-info.converter';

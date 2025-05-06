@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
-import { PictureComponent } from '../../../../share/picture/picture.component';
+import { PictureComponent } from '../../../../share/picture/component/picture.component';
 
 @Component({
   selector: 'ias-system-module-shop-list-item',

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../common/components/window-confirm/window-confirm.component';
 import { DeviceInfo } from '../../../../common/data-core/models/arm/device-info.model';
-import { Language } from '../../../../common/tools/language';
+import { Language } from '../../../../common/tools/language-tool/language';
 import { ManagementSystemDeviceInfoBusiness } from './management-system-device-info.business';
 import { ManagementSystemDeviceInfoWindow } from './management-system-device-info.window';
 

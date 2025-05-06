@@ -15,7 +15,7 @@ export class SystemModuleShopManagerSourceController {
     source: SourceManager
   ) {
     this.duration = duration.load();
-    this.types = source.shop.ShopTypes;
+    this.types = source.shop.ShopTypes.get();
   }
 
   duration: EnumNameValue<Duration>[];

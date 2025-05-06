@@ -10,6 +10,7 @@ import { HowellHttpClient } from '../../howell-http.client';
 import { HowellResponseProcess } from '../../service-process';
 import { SystemDataRequestService } from './data/system-data.service';
 import { SystemDeviceRequestService } from './device/system-device.service';
+import { SystemEventRequestService } from './event/system-event.service';
 import { SystemFileRequestService } from './file/system-file.service';
 import { SystemInputProxyRequestService } from './input-proxy/system-input-proxy.service';
 import { SystemNetworkRequestService } from './network/system-network.service';
@@ -118,5 +119,12 @@ export class ArmSystemRequestService {
       this._file = new SystemFileRequestService(this.http);
     }
     return this._file;
+  }
+  private _event?: SystemEventRequestService;
+  public get event(): SystemEventRequestService {
+    if (!this._event) {
+      this._event = new SystemEventRequestService(this.http);
+    }
+    return this._event;
   }
 }

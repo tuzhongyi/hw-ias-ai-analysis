@@ -4,7 +4,7 @@ import { FileInfo } from '../../../../common/data-core/models/arm/file/file-info
 import { TableSorterDirective } from '../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../common/directives/table-sorter/table-sorter.model';
 import { LocaleCompare } from '../../../../common/tools/compare-tool/compare.tool';
-import { Language } from '../../../../common/tools/language';
+import { Language } from '../../../../common/tools/language-tool/language';
 import { ManagementRecordFileTableBusiness } from './management-record-file-table.business';
 
 @Component({

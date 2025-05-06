@@ -43,7 +43,9 @@ export class SystemModuleShopCompareSettingComponent implements OnInit {
     });
   }
 
-  onreset() {}
+  onreset() {
+    this.controller.reset();
+  }
 
   onclose() {
     this.close.emit();

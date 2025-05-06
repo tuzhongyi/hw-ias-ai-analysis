@@ -23,7 +23,7 @@
 
       <div class="form-item submit">
         <button class="button-clip-gradient" (click)="table.search()">
-          搜索
+          查找
         </button>
       </div>
       <div class="form-item submit">
@@ -161,12 +161,12 @@
     *ngIf="window.compare.picture.show"
     [style]="window.compare.picture.style"
   >
-    <ias-system-module-shop-compare-picture
+    <ias-picture-window-content-page-list
       [datas]="window.compare.picture.datas"
       [title]="window.compare.picture.title"
       [(index)]="window.compare.picture.index"
       [page]="window.compare.page"
       (pageChange)="compare.picture.change($event)"
-    ></ias-system-module-shop-compare-picture>
+    ></ias-picture-window-content-page-list>
   </app-window>
 </div>

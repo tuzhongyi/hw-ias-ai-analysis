@@ -1,0 +1,126 @@
+<div class="system-event-table">
+  <div class="system-event-table-body table-page">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>照片</th>
+
+          <th>事件类型</th>
+          <th>是否实时</th>
+          <th>发现时间</th>
+          <th>派单时间</th>
+          <th>状态</th>
+
+          <th>处置员</th>
+          <th>处置时间</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="onselect(item)"
+          [ngClass]="{
+            nohover: !item,
+            nodata: !item,
+            selected: item === selected,
+          }"
+        >
+          <td class="center">
+            <ng-container *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </ng-container>
+          </td>
+
+          <td>
+            <div [ngClass]="{ noimage: !item.Resources }" *ngIf="item">
+              <div
+                *ngFor="let resource of item.Resources; let i = index"
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: resource.ImageUrl
+                    ? 'url(' + picture.get(resource.ImageUrl) + ')'
+                    : 'none'
+                }"
+                (click)="picture.on($event, { page: index, picture: i }, item)"
+              ></div>
+            </div>
+          </td>
+
+          <td>
+            <div>
+              {{ item?.EventTypeName | async }}
+            </div>
+          </td>
+          <td>
+            <div>{{ Language.YesOrNo(item?.IsLiveEvent, "") }}</div>
+          </td>
+          <td>
+            <div>{{ item?.EventTime | date : Language.yyyyMMddHHmmss }}</div>
+          </td>
+          <td>
+            <div>
+              {{
+                item
+                  ? (item.Assignment?.AssignmentTime
+                      | date : Language.yyyyMMddHHmmss) ?? "待派单"
+                  : ""
+              }}
+            </div>
+          </td>
+          <td
+            [ngClass]="{
+              
+              handled: !!(item?.Assignment?.Handled),
+              unhandle: !(item?.Assignment?.Handled),
+              unassigned: !(item?.Assignment?.Assigned),
+            }"
+          >
+            @if(item){ @if(item.Assignment){ @if(item.Assignment.IsMisInfo){
+            误报 } @else{ @if(item.Assignment.Assigned){
+            @if(item.Assignment.Handled){ 已处置 } @else{ 未处置 } } @else{
+            待派单 } } } @else{ 待派单 } }
+          </td>
+          <td>
+            {{ item?.Assignment?.Handler }}
+          </td>
+          <td>
+            {{ item?.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss }}
+          </td>
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="事件发生位置"
+                (click)="onposition($event, item)"
+              >
+                <i class="mdi mdi-map-marker"></i>
+              </div>
+              <div
+                class="button"
+                title="事件视频"
+                (click)="onvideo($event, item)"
+              >
+                <i class="mdi mdi-play-circle"></i>
+              </div>
+              <div
+                class="button"
+                title="事件详情"
+                (click)="ondetails($event, item)"
+              >
+                <i class="mdi mdi-clipboard-text"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="system-event-table-foot" *ngIf="page.TotalRecordCount">
+    <paginator [page]="page" (change)="onpage($event)"> </paginator>
+  </div>
+</div>

@@ -16,13 +16,13 @@ import {
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
 import { TaskDuration } from '../../../../../../common/storage/system-compare-storage/system-compare.storage';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
+import { PictureWindowContentPageListComponent } from '../../../../share/picture-window-content-page-list/picture-window-content-page-list.component';
 import { PictureWindowContentPageComponent } from '../../../../share/picture-window-content-page/picture-window-content-page.component';
 import { SelectShopObjectStateComponent } from '../../../../share/select/select-shop-object-state/select-shop-object-state.component';
 import { SystemModuleShopRegistrationCreationComponent } from '../../system-module-shop-registration/system-module-shop-registration-creation/system-module-shop-registration-creation.component';
 import { SystemModuleShopCreationComponent } from '../../system-module-shop/system-module-shop-creation/system-module-shop-creation.component';
 import { SystemModuleShopDetailsComponent } from '../../system-module-shop/system-module-shop-details/system-module-shop-details.component';
 import { SystemModuleShopCompareDetailsComponent } from '../system-module-shop-compare-details/component/system-module-shop-compare-details.component';
-import { SystemModuleShopComparePictureComponent } from '../system-module-shop-compare-picture/system-module-shop-compare-picture.component';
 import { SystemModuleShopCompareSettingComponent } from '../system-module-shop-compare-setting/system-module-shop-compare-setting.component';
 import { SystemModuleShopCompareTableArgs } from '../system-module-shop-compare-table/business/system-module-shop-compare-table.model';
 import { SystemModuleShopCompareTableComponent } from '../system-module-shop-compare-table/system-module-shop-compare-table.component';
@@ -40,9 +40,9 @@ import { SystemModuleShopCompareManagerWindow } from './system-module-shop-compa
     SystemModuleShopCreationComponent,
     SystemModuleShopRegistrationCreationComponent,
     SystemModuleShopCompareDetailsComponent,
-    SystemModuleShopComparePictureComponent,
     SystemModuleShopDetailsComponent,
     PictureWindowContentPageComponent,
+    PictureWindowContentPageListComponent,
     CommonLabelSelecComponent,
     SelectShopObjectStateComponent,
     WindowComponent,

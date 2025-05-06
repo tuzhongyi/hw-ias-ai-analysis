@@ -4,7 +4,7 @@ import { IShop } from '../../data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../data-core/models/arm/analysis/shop.model';
 import { ArmAnalysisRequestService } from '../../data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisTaskListParams } from '../../data-core/requests/services/analysis/server/analysis-server.params';
-import { LanguageTool } from '../../tools/language.tool';
+import { LanguageTool } from '../../tools/language-tool/language.tool';
 import {
   IShopViewModel,
   ShopRegistrationViewModel,
@@ -30,8 +30,10 @@ export class ShopConverter {
   private shop(data: Shop): IShopViewModel {
     let model = new ShopViewModel();
     model = Object.assign(model, data);
-    model.ObjectStateName = this.language.ShopObjectState(data.ObjectState);
-    model.ShopTypeName = this.language.ShopType(data.ShopType);
+    model.ObjectStateName = this.language.analysis.shop.ShopObjectState(
+      data.ObjectState
+    );
+    model.ShopTypeName = this.language.analysis.shop.ShopType(data.ShopType);
 
     if (data.Confidence) {
       model.ConfidenceRatio = `${(data.Confidence * 100).toFixed(2)}%`;
@@ -47,8 +49,12 @@ export class ShopConverter {
   private registration(data: ShopRegistration): IShopViewModel {
     let model = new ShopRegistrationViewModel();
     model = Object.assign(model, data);
-    model.ObjectStateName = this.language.ShopObjectState(data.ObjectState);
-    model.ShopTypeName = this.language.ShopType(data.ShopType ?? 1);
+    model.ObjectStateName = this.language.analysis.shop.ShopObjectState(
+      data.ObjectState
+    );
+    model.ShopTypeName = this.language.analysis.shop.ShopType(
+      data.ShopType ?? 1
+    );
     return model;
   }
 }

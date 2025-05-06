@@ -13,7 +13,7 @@ export class ManagementSystemDeviceDatetimeNTPSource {
   private init = {
     mode: () => {
       return new Promise<EnumNameValue[]>((resolve) => {
-        this.manager.capability.device.then((x) => {
+        this.manager.capability.device.get().then((x) => {
           if (x.NTPTimeMode) {
             resolve(x.NTPTimeMode);
           }

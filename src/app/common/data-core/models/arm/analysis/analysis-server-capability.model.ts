@@ -9,7 +9,7 @@ export class AnalysisServerCapability implements IModel {
   TaskTypes?: EnumNameValue<number>[];
   /**	EnumNameValue[]	任务状态	O	*/
   @Type(() => EnumNameValue)
-  TaskStates?: EnumNameValue[];
+  TaskStates?: EnumNameValue<number>[];
   /**	EnumNameValue[]	来源协议类型	O	*/
   @Type(() => EnumNameValue)
   VideoSourceProtocolTypes?: EnumNameValue[];

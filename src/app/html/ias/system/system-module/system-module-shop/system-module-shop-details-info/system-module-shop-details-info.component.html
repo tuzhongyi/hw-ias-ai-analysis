@@ -4,10 +4,10 @@
       class="system-module-shop-details-info-head-image"
       (click)="onpicture()"
     >
-      <ias-picture
+      <ias-picture-polygon-zoom
         [id]="sign?.ImageUrl"
         [polygon]="sign?.Polygon ?? []"
-      ></ias-picture>
+      ></ias-picture-polygon-zoom>
     </div>
   </div>
   <div class="system-module-shop-details-info-body forms">

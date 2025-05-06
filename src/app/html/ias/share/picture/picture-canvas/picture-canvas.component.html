@@ -1,0 +1,9 @@
+<div class="picture-canvas">
+  <ias-picture
+    [src]="src"
+    [id]="id"
+    (error)="onerror($event)"
+    (image)="onimage($event)"
+  ></ias-picture>
+  <canvas #canvas></canvas>
+</div>

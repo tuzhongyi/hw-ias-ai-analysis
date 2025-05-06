@@ -1,0 +1,32 @@
+<div class="system-event-details-handle panel" (wheel)="onwheel($event)">
+  <div class="system-event-details-handle-head panel-head">
+    <div class="panel-title">
+      {{ title }}
+    </div>
+    <div class="page" *ngIf="datas.length > 0">
+      <div
+        class="page-item"
+        *ngFor="let item of datas; let index = index"
+        (click)="picture.change(index)"
+      >
+        <i
+          class="mdi"
+          [ngClass]="
+        {
+          'mdi-checkbox-blank-circle':index === _index,
+          'mdi-checkbox-blank-circle-outline': index !== _index,
+        }
+        "
+        ></i>
+      </div>
+    </div>
+  </div>
+  <div class="system-event-details-handle-body">
+    <ias-picture-polygon-multiple
+      *ngIf="datas.length > 0"
+      [id]="datas[_index].id"
+      [polygon]="datas[_index].polygon ?? []"
+    ></ias-picture-polygon-multiple>
+    <div class="nodata" *ngIf="datas.length === 0">{{ nodata }}</div>
+  </div>
+</div>

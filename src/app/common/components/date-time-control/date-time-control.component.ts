@@ -12,7 +12,7 @@ import {
   DateTimePickerDirective,
   DateTimePickerView,
 } from '../../directives/date-time-picker/date-time-picker.directive';
-import { Language } from '../../tools/language';
+import { Language } from '../../tools/language-tool/language';
 
 @Component({
   selector: 'date-time-control',

@@ -1,0 +1,40 @@
+<div class="picture-window-content-page-list">
+  <div class="picture-window-content-page-list-body">
+    <ias-picture-window-content-page
+      [id]="picture.selected"
+      [title]="title"
+      [zoom]="false"
+      [page]="picture.page"
+      (pageChange)="picture.change($event)"
+    ></ias-picture-window-content-page>
+  </div>
+  <div class="picture-window-content-page-list-foot">
+    <div>
+      <div
+        class="button left"
+        [ngClass]="{
+          disabled: !page || page.PageIndex == 1
+        }"
+        (click)="onprev()"
+      >
+        <i class="howell-icon-arrow2left"></i>
+      </div>
+    </div>
+    <div class="page" *ngIf="page">
+      <div>{{ page.PageIndex }}</div>
+      <div>/</div>
+      <div>{{ page.PageCount }}</div>
+    </div>
+    <div>
+      <div
+        class="button right"
+        [ngClass]="{
+          disabled: !page || page.PageIndex == page.PageCount
+        }"
+        (click)="onnext()"
+      >
+        <i class="howell-icon-arrow2right"></i>
+      </div>
+    </div>
+  </div>
+</div>

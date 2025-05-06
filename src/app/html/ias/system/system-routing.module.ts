@@ -8,6 +8,8 @@ import { SystemModuleIndexComponent } from './system-module/system-module-index/
 import { SystemModuleRoadManagerComponent } from './system-module/system-module-road/system-module-road-manager/system-module-road-manager.component';
 import { SystemModuleShopManagerComponent } from './system-module/system-module-shop/system-module-shop-manager/system-module-shop-manager.component';
 
+import { SystemEventComponent } from './system-event/component/system-event.component';
+import { SystemEventManagerComponent } from './system-event/system-event-manager/system-event-manager.component';
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
@@ -90,6 +92,21 @@ const routes: Routes = [
           {
             path: 'index',
             component: SystemMapComponent,
+          },
+        ],
+      },
+      {
+        path: 'event',
+        component: SystemEventComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'manager',
+            pathMatch: 'full',
+          },
+          {
+            path: 'manager',
+            component: SystemEventManagerComponent,
           },
         ],
       },

@@ -16,7 +16,7 @@ import '../../../../assets/js/jquery/bootstrap/bootstrap-datetimepicker.css';
 import '../../../../assets/js/jquery/bootstrap/bootstrap-datetimepicker.js';
 import '../../../../assets/js/jquery/bootstrap/bootstrap-datetimepicker.zh-CN.js';
 import { DateTimeTool } from '../../tools/date-time-tool/datetime.tool.js';
-import { Language } from '../../tools/language';
+import { Language } from '../../tools/language-tool/language';
 
 declare let $: any;
 

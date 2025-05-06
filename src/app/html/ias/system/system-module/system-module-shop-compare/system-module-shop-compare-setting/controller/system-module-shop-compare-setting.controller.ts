@@ -20,12 +20,25 @@ export class SystemModuleShopCompareSettingController {
     this.local.system.compare.set(this.storage);
   }
 
+  original = {
+    ratio: 0,
+    distance: 0,
+  };
+
   constructor(
     private local: LocalStorage,
     public task: SystemModuleShopCompareSettingTaskController
   ) {
     this.storage = local.system.compare.get();
+    this.original.ratio = this.storage.ratio * 100;
+    this.original.distance = this.storage.distance;
   }
 
   private storage: ISystemCompareStorage;
+
+  reset() {
+    this.ratio = this.original.ratio;
+    this.distance = this.original.distance;
+    this.task.reset();
+  }
 }

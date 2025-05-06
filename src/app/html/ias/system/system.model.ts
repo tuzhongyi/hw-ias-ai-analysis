@@ -8,4 +8,5 @@ export enum SystemPath {
   module_shop_compare = 'system/module/shop-compare',
   module_road = 'system/module/road',
   map = 'system/map',
+  event = 'system/event',
 }

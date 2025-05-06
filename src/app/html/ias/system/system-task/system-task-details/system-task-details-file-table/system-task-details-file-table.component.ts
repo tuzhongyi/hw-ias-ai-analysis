@@ -13,7 +13,7 @@ import { UploadControlFileInfo } from '../../../../../../common/components/uploa
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
 import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
-import { Language } from '../../../../../../common/tools/language';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { FileProgress } from '../../system-task-manager/system-task-manager.model';
 import { SystemTaskDetailsFileBusiness } from './system-task-details-file-table.business';
 import { SystemTaskDetailsFileConverter } from './system-task-details-file-table.converter';
