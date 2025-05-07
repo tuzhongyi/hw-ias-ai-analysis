@@ -10,7 +10,7 @@ export class Shop implements IShop {
   /**	String	商铺ID	M	*/
   Id!: string;
   /**	Int64	整数ID	M	*/
-  IntId!: number;
+  IntId?: number;
   /**	String	商铺名称	M	*/
   Name!: string;
   /**	String[]	候选名称	O	*/
@@ -25,6 +25,8 @@ export class Shop implements IShop {
   Telphone?: string;
   /**	Int32	商铺类型，1-店铺招牌，2-指示牌，3-路牌，4-广告牌，5-宣传标语，10-其他	O */
   ShopType?: number;
+  /**	String	关联的注册商铺信息	O */
+  RegistrationId?: string;
   /**	Double	置信度，0-1	O	*/
   Confidence?: number;
   /**	GisPoint	商铺Gis坐标	O	*/

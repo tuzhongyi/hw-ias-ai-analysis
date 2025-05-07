@@ -1,4 +1,5 @@
 <div class="system-map root-router">
+  {{ panel.details.registration.show }}
   <div class="system-map-container" id="map-container"></div>
   <div class="system-map-search" *ngIf="panel.search.show">
     <ias-system-map-search
@@ -94,24 +95,25 @@
   </div>
 
   <div
-    class="system-map-details-shop"
+    class="system-map-details-shop-analysis"
     [ngClass]="{
-      source: panel.source.show || panel.task.show
+      source: panel.source.show || panel.task.show,
+      taskshop: panel.details.registration.show
     }"
-    *ngIf="panel.details.shop.show"
+    *ngIf="panel.details.analysis.show"
   >
     <ias-system-map-panel-details-shop
-      [data]="panel.details.shop.data"
-      (close)="panel.details.shop.show = false"
-      (sign)="panel.details.shop.onsign()"
+      [data]="panel.details.analysis.data"
+      (close)="panel.details.analysis.show = false"
+      (sign)="panel.details.analysis.onsign()"
       (picture)="onpicture($event)"
     ></ias-system-map-panel-details-shop>
   </div>
   <div
-    class="system-map-details-shop-registration"
+    class="system-map-details-shop"
     [ngClass]="{
       source: panel.source.show || panel.task.show,
-      taskshop: panel.details.shop.show
+      
     }"
     *ngIf="panel.details.registration.show"
   >
@@ -126,14 +128,14 @@
     [ngClass]="{
       source: panel.source.show || panel.task.show
     }"
-    *ngIf="panel.details.shop.sign.show"
+    *ngIf="panel.details.analysis.sign.show"
   >
     <ias-system-map-panel-details-shop-sign
-      [shop]="panel.details.shop.data"
-      [sign]="panel.details.shop.sign.data"
-      (signChange)="panel.details.shop.sign.onselect($event)"
+      [shop]="panel.details.analysis.data"
+      [sign]="panel.details.analysis.sign.data"
+      (signChange)="panel.details.analysis.sign.onselect($event)"
       (picture)="onpicture($event)"
-      (close)="panel.details.shop.sign.show = false"
+      (close)="panel.details.analysis.sign.show = false"
       [page]="window.picture.topage"
     ></ias-system-map-panel-details-shop-sign>
   </div>

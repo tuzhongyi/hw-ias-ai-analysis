@@ -12,8 +12,11 @@ export class LanguageAnalysisShopTool extends LanguageAbstract {
   }
 
   async ShopType(value?: number, def: string = ''): Promise<string> {
-    let values = await this.manager.ShopTypes.get();
-    return this.get(values, value, def);
+    if (value && isFinite(value)) {
+      let values = await this.manager.ShopTypes.get();
+      return this.get(values, value, def);
+    }
+    return def;
   }
 
   async ResultLabelType(value?: number, def: string = ''): Promise<string> {

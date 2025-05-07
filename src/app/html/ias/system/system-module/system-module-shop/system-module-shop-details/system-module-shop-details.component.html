@@ -1,6 +1,9 @@
 <div class="system-module-shop-details">
   <div class="system-module-shop-details-head">
-    <ias-content-header [title]="'商铺分析详情'"></ias-content-header>
+    <ias-content-header
+      [title]="'商铺分析详情'"
+      [window]="true"
+    ></ias-content-header>
   </div>
   <div class="system-module-shop-details-body" [ngClass]="{ change: change }">
     <div class="system-module-shop-details-body-table" *ngIf="data">

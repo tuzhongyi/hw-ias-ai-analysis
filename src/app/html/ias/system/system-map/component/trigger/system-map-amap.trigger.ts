@@ -22,8 +22,8 @@ export class SystemMapAMapTrigger {
   private regist() {
     this.amap.event.point.click.subscribe((data) => {
       if (data instanceof Shop) {
-        this.panel.details.shop.data = data;
-        this.panel.details.shop.show = true;
+        this.panel.details.analysis.data = data;
+        this.panel.details.analysis.show = true;
         if (data.ObjectState === ShopObjectState.Created) {
           this.panel.details.registration.show = false;
         } else if (data.ObjectState === ShopObjectState.Existed) {
@@ -39,9 +39,9 @@ export class SystemMapAMapTrigger {
       if (data instanceof ShopRegistration) {
         this.panel.details.registration.data = data;
         this.panel.details.registration.show = true;
-        if (this.panel.details.shop.show) {
+        if (this.panel.details.analysis.show) {
           if (data.ObjectState === ShopObjectState.Disappeared) {
-            this.panel.details.shop.show = false;
+            this.panel.details.analysis.show = false;
           }
         }
       }

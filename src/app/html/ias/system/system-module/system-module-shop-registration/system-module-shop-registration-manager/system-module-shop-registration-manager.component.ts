@@ -16,7 +16,7 @@ import {
 } from '../../../../../../common/data-core/models/page-list.model';
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
 import { PictureWindowContentPageComponent } from '../../../../share/picture-window-content-page/picture-window-content-page.component';
-import { SystemModuleShopRegistrationCreationComponent } from '../system-module-shop-registration-creation/system-module-shop-registration-creation.component';
+import { SystemModuleShopRegistrationInformationComponent } from '../system-module-shop-registration-information/system-module-shop-registration-information.component';
 import { SystemModuleShopRegistrationTableComponent } from '../system-module-shop-registration-table/system-module-shop-registration-table.component';
 import { SystemModuleShopRegistrationTableArgs } from '../system-module-shop-registration-table/system-module-shop-registration-table.model';
 import { SystemModuleShopRegistrationManagerBusiness } from './system-module-shop-registration-manager.business';
@@ -29,7 +29,7 @@ import { SystemModuleShopRegistrationManagerWindow } from './system-module-shop-
     FormsModule,
     InputSelectRoadComponent,
     SystemModuleShopRegistrationTableComponent,
-    SystemModuleShopRegistrationCreationComponent,
+    SystemModuleShopRegistrationInformationComponent,
     PictureWindowContentPageComponent,
 
     UploadControlComponent,

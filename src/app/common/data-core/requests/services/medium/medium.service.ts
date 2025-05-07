@@ -13,7 +13,7 @@ export class MediumRequestService {
     return ArmMediumUrl.picture.get(id);
   }
 
-  upload(data: BinaryData) {
+  async upload(data: BinaryData) {
     let url = ArmMediumUrl.picture.upload();
     return this.http
       .post<HowellResponse<string>, BinaryData>(url, data)
@@ -21,20 +21,13 @@ export class MediumRequestService {
         return x.Data;
       });
   }
-
-  copy(id: string) {
-    return new Promise<string>((resolve, reject) => {
+  async download(id: string) {
+    return new Promise<BinaryData>((resolve, reject) => {
       let url = this.picture(id);
       let http = new XMLHttpRequest();
       http.onload = () => {
         if (http.status === 200) {
-          this.upload(http.response)
-            .then((x) => {
-              resolve(x);
-            })
-            .catch((x) => {
-              reject(x);
-            });
+          resolve(http.response);
         } else {
           reject(http.status);
         }
@@ -42,6 +35,12 @@ export class MediumRequestService {
       http.open('GET', url);
       http.responseType = 'arraybuffer';
       http.send();
+    });
+  }
+
+  async copy(id: string) {
+    return this.download(id).then((x) => {
+      return this.upload(x);
     });
   }
 }

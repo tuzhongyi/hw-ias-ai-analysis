@@ -57,11 +57,11 @@
     *ngIf="window.create.show"
     [style]="window.create.style"
   >
-    <ias-system-module-shop-registration-creation
+    <ias-system-module-shop-registration-information
       [data]="window.create.data"
       (close)="window.create.show = false"
       (ok)="create.ok()"
-    ></ias-system-module-shop-registration-creation>
+    ></ias-system-module-shop-registration-information>
   </app-window>
   <app-window
     *ngIf="window.picture.show"

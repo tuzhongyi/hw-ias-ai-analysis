@@ -97,25 +97,25 @@
     *ngIf="window.create.shop.show"
     [style]="window.create.shop.style"
   >
-    <ias-system-module-shop-creation
+    <ias-system-module-shop-information
       [data]="window.create.shop.data"
       (close)="window.create.shop.show = false"
       (ok)="info.ok()"
-    ></ias-system-module-shop-creation>
+    ></ias-system-module-shop-information>
   </app-window>
   <app-window
     [Model]="window.create.registration"
     *ngIf="window.create.registration.show"
     [style]="window.create.registration.style"
   >
-    <ias-system-module-shop-registration-creation
+    <ias-system-module-shop-registration-information
       [data]="window.create.registration.data"
       [title]="window.create.registration.title"
       [input]="window.create.registration.input"
       (close)="window.create.registration.show = false"
       (ok)="info.ok()"
       (create)="input.ok($event)"
-    ></ias-system-module-shop-registration-creation>
+    ></ias-system-module-shop-registration-information>
   </app-window>
   <app-window
     [Model]="window.compare.info"

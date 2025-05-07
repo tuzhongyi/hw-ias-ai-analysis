@@ -17,11 +17,20 @@ export class SourceShopManager {
 
   private init() {
     this.capability.analysis.shop.get().then((x) => {
+      if (x.ShopTypes) {
+        this.ShopTypes.set(x.ShopTypes);
+      }
       if (x.SignTypes) {
         this.SignTypes.set(x.SignTypes);
       }
       if (x.ResultLabelTypes) {
         this.ResultLabelTypes.set(x.ResultLabelTypes);
+      }
+      if (x.BusinessScopes) {
+        this.BusinessScopes.set(x.BusinessScopes);
+      }
+      if (x.Industries) {
+        this.Industries.set(x.Industries);
       }
       if (x.ShopObjectStates) {
         this.ShopObjectStates.set(x.ShopObjectStates);

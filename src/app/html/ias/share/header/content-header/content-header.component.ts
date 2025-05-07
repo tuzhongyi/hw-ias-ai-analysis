@@ -10,4 +10,5 @@ import { Component, Input } from '@angular/core';
 export class ContentHeaderComponent {
   @Input() title: string = '';
   @Input() padding = '';
+  @Input() window = false;
 }

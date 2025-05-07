@@ -20,8 +20,7 @@
           <div class="form-item-value state">
             <common-label-select
               [autoclose]="true"
-              [(show)]="source.state.show"
-              [autoclose]="true"
+              [(show)]="source.state.show"              
               [selected]="source.state.selected"
               (remove)="source.state.onremove($event)"
             >
@@ -136,11 +135,11 @@
     *ngIf="window.create.show"
     [style]="window.create.style"
   >
-    <ias-system-module-shop-creation
+    <ias-system-module-shop-information
       [data]="window.create.data"
       (close)="window.create.show = false"
       (ok)="create.ok($event)"
-    ></ias-system-module-shop-creation>
+    ></ias-system-module-shop-information>
   </app-window>
   <app-window
     *ngIf="window.picture.show"

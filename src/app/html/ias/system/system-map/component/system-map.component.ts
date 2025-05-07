@@ -153,7 +153,7 @@ export class SystemMapComponent implements OnInit, OnDestroy {
         console.log(states);
         this.amap.shop.load(shops);
       });
-      this.panel.details.shop.sign.select.subscribe((x) => {
+      this.panel.details.analysis.sign.select.subscribe((x) => {
         if (this.window.picture.show) {
           this.window.picture.id = x.ImageUrl;
           this.window.picture.title = x.Text ?? '';

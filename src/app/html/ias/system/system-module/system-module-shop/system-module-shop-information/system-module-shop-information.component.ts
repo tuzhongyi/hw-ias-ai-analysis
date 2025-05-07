@@ -8,18 +8,17 @@ import { UploadControlComponent } from '../../../../../../common/components/uplo
 import { UploadControlFile } from '../../../../../../common/components/upload-control/upload-control.model';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { SignType } from '../../../../../../common/data-core/enums/analysis/sign-type.enum';
+import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
-
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
-import { SystemModuleShopDetailsMapComponent } from '../../system-module-shop/system-module-shop-details-map/system-module-shop-details-map.component';
-import { SystemModuleShopRegistrationCreationSourceController } from './controller/system-module-shop-registration-creation-source.controller';
-import { SystemModuleShopRegistrationCreationBusiness } from './system-module-shop-registration-creation.business';
+import { SystemModuleShopDetailsMapComponent } from '../system-module-shop-details-map/system-module-shop-details-map.component';
+import { SystemModuleShopInformationSourceController } from './controller/system-module-shop-information-source.controller';
+import { SystemModuleShopInformationBusiness } from './system-module-shop-information.business';
 
 @Component({
-  selector: 'ias-system-module-shop-registration-creation',
+  selector: 'ias-system-module-shop-information',
   imports: [
     CommonModule,
     FormsModule,
@@ -30,33 +29,31 @@ import { SystemModuleShopRegistrationCreationBusiness } from './system-module-sh
     HowellSelectComponent,
     SystemModuleShopDetailsMapComponent,
   ],
-  templateUrl: './system-module-shop-registration-creation.component.html',
-  styleUrl: './system-module-shop-registration-creation.component.less',
+  templateUrl: './system-module-shop-information.component.html',
+  styleUrl: './system-module-shop-information.component.less',
   providers: [
-    SystemModuleShopRegistrationCreationSourceController,
-    SystemModuleShopRegistrationCreationBusiness,
+    SystemModuleShopInformationSourceController,
+    SystemModuleShopInformationBusiness,
   ],
 })
-export class SystemModuleShopRegistrationCreationComponent implements OnInit {
-  @Input() data?: ShopRegistration;
-  @Output() ok = new EventEmitter<ShopRegistration>();
+export class SystemModuleShopInformationComponent implements OnInit {
+  @Input() data?: Shop;
+  @Output() ok = new EventEmitter<Shop>();
   @Output() close = new EventEmitter<void>();
-  @Input() title = '注册商铺详细信息';
-  @Input() input = false;
-  @Output() create = new EventEmitter<ShopRegistration>();
 
   constructor(
-    public source: SystemModuleShopRegistrationCreationSourceController,
-    private business: SystemModuleShopRegistrationCreationBusiness,
+    public source: SystemModuleShopInformationSourceController,
+    private business: SystemModuleShopInformationBusiness,
     private toastr: ToastrService
   ) {}
 
   shop = this.init();
+  sync = true;
 
   ngOnInit(): void {
     if (this.data) {
       let plain = instanceToPlain(this.data);
-      this.shop = plainToInstance(ShopRegistration, plain);
+      this.shop = plainToInstance(Shop, plain);
     } else {
       this.business
         .one()
@@ -73,7 +70,8 @@ export class SystemModuleShopRegistrationCreationComponent implements OnInit {
   }
 
   private init() {
-    let shop = new ShopRegistration();
+    let shop = new Shop();
+    shop.Locked = true;
     shop.ShopType = SignType.ShopSign;
     shop.ObjectState = ShopObjectState.Created;
     return shop;
@@ -127,7 +125,7 @@ export class SystemModuleShopRegistrationCreationComponent implements OnInit {
     }
   }
 
-  private toupdate() {
+  toupdate() {
     this.business
       .update(this.shop)
       .then((x) => {
@@ -138,9 +136,9 @@ export class SystemModuleShopRegistrationCreationComponent implements OnInit {
         this.toastr.error('操作失败');
       });
   }
-  private tocreate() {
+  tocreate() {
     this.business
-      .create(this.shop)
+      .create(this.shop, this.sync)
       .then((x) => {
         this.toastr.success('创建成功');
         this.ok.emit(this.shop);
@@ -152,9 +150,5 @@ export class SystemModuleShopRegistrationCreationComponent implements OnInit {
 
   tocancel() {
     this.close.emit();
-  }
-
-  oninput() {
-    this.create.emit(this.shop);
   }
 }

@@ -5,11 +5,11 @@ import { SystemMapPanelDetailsShopController } from './system-map-panel-details-
 @Injectable()
 export class SystemMapPanelDetailsController {
   constructor(
-    public shop: SystemMapPanelDetailsShopController,
+    public analysis: SystemMapPanelDetailsShopController,
     public registration: SystemMapPanelDetailsShopRegistrationController
   ) {}
 
   clear() {
-    this.shop.clear();
+    this.analysis.clear();
   }
 }

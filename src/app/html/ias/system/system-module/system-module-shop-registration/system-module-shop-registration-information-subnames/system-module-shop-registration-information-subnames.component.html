@@ -1,0 +1,18 @@
+<div class="system-module-shop-registration-information-subnames">
+  <div class="system-module-shop-registration-information-subnames-content">
+    <div class="content-scrool" wheel-horizontal-scroll>
+      <div class="content-item" *ngFor="let item of datas; let index = index">
+        <div class="content-item-text">{{ item }}</div>
+        <div class="content-item-button button" (click)="onremove(index)">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="system-module-shop-registration-information-subnames-button button"
+    (click)="onadd()"
+  >
+    <i class="mdi mdi-plus"></i>
+  </div>
+</div>

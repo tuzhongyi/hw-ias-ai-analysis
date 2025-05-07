@@ -74,11 +74,11 @@ export class SystemMapPanelTrigger {
       },
     },
     details: () => {
-      this.panel.details.shop.change.subscribe((show) => {
+      this.panel.details.analysis.change.subscribe((show) => {
         if (show) {
         } else {
           this.amap.shop.blur();
-          this.panel.details.shop.sign.show = false;
+          this.panel.details.analysis.sign.show = false;
         }
       });
     },
@@ -92,7 +92,7 @@ export class SystemMapPanelTrigger {
           }
           if (show) {
             this.panel.source.show = false;
-            this.panel.details.shop.show = false;
+            this.panel.details.analysis.show = false;
             this.panel.details.registration.show = false;
             this.panel.task.show = false;
           }
@@ -106,7 +106,7 @@ export class SystemMapPanelTrigger {
       this.panel.filter.change.subscribe((show) => {
         if (show) {
           this.panel.source.show = false;
-          this.panel.details.shop.show = false;
+          this.panel.details.analysis.show = false;
           this.panel.details.registration.show = false;
           this.panel.editor.circle.show = false;
           this.panel.task.show = false;
@@ -123,7 +123,7 @@ export class SystemMapPanelTrigger {
           this.panel.state.show = false;
           this.panel.statistic.show = false;
           this.panel.source.show = false;
-          this.panel.details.shop.show = false;
+          this.panel.details.analysis.show = false;
           this.panel.details.registration.show = false;
         } else {
           this.panel.search.show = true;
@@ -145,7 +145,7 @@ export class SystemMapPanelTrigger {
       this.panel.task.change.subscribe((show) => {
         if (show) {
           this.panel.source.show = false;
-          this.panel.details.shop.show = false;
+          this.panel.details.analysis.show = false;
           this.panel.details.registration.show = false;
           this.panel.editor.circle.show = false;
           this.panel.statistic.show = false;
@@ -163,7 +163,7 @@ export class SystemMapPanelTrigger {
         this.panel.state.show = false;
         this.amap.shop.load([]);
         this.amap.map.focus();
-        this.panel.details.shop.show = false;
+        this.panel.details.analysis.show = false;
         this.panel.details.registration.show = false;
       });
     },

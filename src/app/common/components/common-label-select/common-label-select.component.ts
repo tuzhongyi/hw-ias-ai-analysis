@@ -36,7 +36,8 @@ export class CommonLabelSelecComponent
 
   @Input() single = false;
 
-  @Input() showCloseIcon = true;
+  @Input() canremove = true;
+  @Input() candrop = true;
   @Input() height = 'auto';
 
   @Output() toggleDropDown = new EventEmitter<boolean>();
@@ -64,6 +65,9 @@ export class CommonLabelSelecComponent
   }
 
   toggleHandler(e: Event) {
+    if (!this.candrop) {
+      return;
+    }
     e.stopPropagation();
     this.show = !this.show;
     this.showChange.emit(this.show);

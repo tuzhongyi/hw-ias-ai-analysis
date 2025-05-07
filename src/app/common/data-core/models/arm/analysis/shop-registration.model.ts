@@ -11,6 +11,8 @@ export class ShopRegistration implements IShop {
   Id!: string;
   /**	String	商铺名称	M	*/
   Name!: string;
+  /**	String[]	商铺子名称，可能有多个，一边情况下是一个招牌下面或左右出现被切割的子招牌	O */
+  Subnames?: string[];
   /**	String	分店名称	O	*/
   BranchName?: string;
   /**	String	地址	O	*/

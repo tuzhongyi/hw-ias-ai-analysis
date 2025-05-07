@@ -10,11 +10,7 @@
     >
       <div class="label-select-item" *ngFor="let item of selected">
         <div class="title">{{ item.Name }}</div>
-        <div
-          class="clear"
-          *ngIf="showCloseIcon"
-          (click)="onremove($event, item)"
-        >
+        <div class="clear" *ngIf="canremove" (click)="onremove($event, item)">
           <i class="howell-icon-Close"></i>
         </div>
       </div>

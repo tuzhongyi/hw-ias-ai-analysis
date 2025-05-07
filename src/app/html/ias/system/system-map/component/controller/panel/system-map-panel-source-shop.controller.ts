@@ -24,7 +24,7 @@ export class SystemMapPanelSourceShopController extends SystemMapPanel {
   ondetails(data: IShop) {
     switch (data.ObjectState) {
       case ShopObjectState.Disappeared:
-        this.panel.shop.show = false;
+        this.panel.analysis.show = false;
         break;
       case ShopObjectState.Created:
         this.panel.registration.show = false;
@@ -54,12 +54,12 @@ export class SystemMapPanelSourceShopController extends SystemMapPanel {
 
   private details = {
     task: (data: Shop) => {
-      this.panel.shop.data = data;
-      this.panel.shop.show = true;
+      this.panel.analysis.data = data;
+      this.panel.analysis.show = true;
       let compared = this.panel.registration.datas.find(
         (x) => x.Shop?.Id === data.Id
       );
-      if (compared) {
+      if (compared && compared.ShopRegistration) {
         this.panel.registration.data = compared.ShopRegistration;
         this.panel.registration.show = true;
       }
@@ -99,8 +99,8 @@ export class SystemMapPanelSourceShopController extends SystemMapPanel {
 
   private toselect = {
     task: (data: Shop) => {
-      if (this.panel.shop.show) {
-        this.panel.shop.data = data;
+      if (this.panel.analysis.show) {
+        this.panel.analysis.data = data;
         if (this.panel.registration.show) {
           let compared = this.panel.registration.datas.find(
             (x) => x.Shop?.Id === data.Id

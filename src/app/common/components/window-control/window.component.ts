@@ -18,7 +18,7 @@ export class WindowComponent implements OnInit {
   @Input() mask = true;
   @Input() zindex?: number;
 
-  private _style: any = {
+  protected _style: any = {
     width: '80%',
     height: '80%',
     position: 'absolute',

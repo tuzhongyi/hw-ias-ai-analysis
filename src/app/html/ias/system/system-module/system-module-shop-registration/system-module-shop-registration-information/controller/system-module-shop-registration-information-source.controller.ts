@@ -5,7 +5,7 @@ import { EnumNameValue } from '../../../../../../../common/data-core/models/capa
 import { SourceManager } from '../../../../../../../common/data-core/requests/managers/source/source.manager';
 
 @Injectable()
-export class SystemModuleShopRegistrationCreationSourceController {
+export class SystemModuleShopRegistrationInformationSourceController {
   types: Promise<EnumNameValue<SignType>[]>;
   states: Promise<EnumNameValue<ShopObjectState>[]>;
   units: Promise<EnumNameValue<string>[]>;

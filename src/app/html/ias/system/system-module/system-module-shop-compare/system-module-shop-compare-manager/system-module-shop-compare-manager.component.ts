@@ -19,9 +19,9 @@ import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/date
 import { PictureWindowContentPageListComponent } from '../../../../share/picture-window-content-page-list/picture-window-content-page-list.component';
 import { PictureWindowContentPageComponent } from '../../../../share/picture-window-content-page/picture-window-content-page.component';
 import { SelectShopObjectStateComponent } from '../../../../share/select/select-shop-object-state/select-shop-object-state.component';
-import { SystemModuleShopRegistrationCreationComponent } from '../../system-module-shop-registration/system-module-shop-registration-creation/system-module-shop-registration-creation.component';
-import { SystemModuleShopCreationComponent } from '../../system-module-shop/system-module-shop-creation/system-module-shop-creation.component';
+import { SystemModuleShopRegistrationInformationComponent } from '../../system-module-shop-registration/system-module-shop-registration-information/system-module-shop-registration-information.component';
 import { SystemModuleShopDetailsComponent } from '../../system-module-shop/system-module-shop-details/system-module-shop-details.component';
+import { SystemModuleShopInformationComponent } from '../../system-module-shop/system-module-shop-information/system-module-shop-information.component';
 import { SystemModuleShopCompareDetailsComponent } from '../system-module-shop-compare-details/component/system-module-shop-compare-details.component';
 import { SystemModuleShopCompareSettingComponent } from '../system-module-shop-compare-setting/system-module-shop-compare-setting.component';
 import { SystemModuleShopCompareTableArgs } from '../system-module-shop-compare-table/business/system-module-shop-compare-table.model';
@@ -37,8 +37,8 @@ import { SystemModuleShopCompareManagerWindow } from './system-module-shop-compa
     FormsModule,
     SystemModuleShopCompareTableComponent,
     SystemModuleShopCompareSettingComponent,
-    SystemModuleShopCreationComponent,
-    SystemModuleShopRegistrationCreationComponent,
+    SystemModuleShopInformationComponent,
+    SystemModuleShopRegistrationInformationComponent,
     SystemModuleShopCompareDetailsComponent,
     SystemModuleShopDetailsComponent,
     PictureWindowContentPageComponent,

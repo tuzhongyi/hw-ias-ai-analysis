@@ -6,7 +6,7 @@ import { MediumRequestService } from '../../../../../../common/data-core/request
 import { Guid } from '../../../../../../common/tools/guid/guid';
 
 @Injectable()
-export class SystemModuleShopCreationBusiness {
+export class SystemModuleShopInformationBusiness {
   constructor(
     private service: ArmAnalysisRequestService,
     private medium: MediumRequestService
