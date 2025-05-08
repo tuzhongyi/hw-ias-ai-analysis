@@ -90,6 +90,28 @@
             </div>
           </div>
 
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>道路名称</div>
+            <div class="form-item-value text">
+              <ias-input-select-road
+                [(roads)]="road.selected"
+              ></ias-input-select-road>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>
+              商铺在道路上序号
+            </div>
+            <div class="form-item-value text">
+              <input
+                type="number"
+                min="0"
+                step="1"
+                wheel-input-number
+                [(ngModel)]="shop.RoadOrderNo"
+              />
+            </div>
+          </div>
           <div class="form-item" *ngIf="shop.Location">
             <div class="form-item-text">
               <div class="name" text-space-between>坐标经度</div>

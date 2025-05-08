@@ -12,13 +12,16 @@ import { TextSpaceBetweenDirective } from '../../../../../../common/directives/t
 import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 
+import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { WheelInputNumberDirective } from '../../../../../../common/directives/wheel-input-number/wheel-input-number.directive';
+import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopDetailsMapComponent } from '../../system-module-shop/system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopRegistrationInformationSubnameInputComponent } from '../system-module-shop-registration-information-subname-input/system-module-shop-registration-information-subname-input.component';
 import { SystemModuleShopRegistrationInformationSubnamesComponent } from '../system-module-shop-registration-information-subnames/system-module-shop-registration-information-subnames.component';
+import { SystemModuleShopRegistrationInformationBusiness } from './business/system-module-shop-registration-information.business';
 import { SystemModuleShopRegistrationInformationSourceController } from './controller/system-module-shop-registration-information-source.controller';
-import { SystemModuleShopRegistrationInformationBusiness } from './system-module-shop-registration-information.business';
 import { SystemModuleShopRegistrationInformationWindow } from './system-module-shop-registration-information.window';
 
 @Component({
@@ -28,6 +31,7 @@ import { SystemModuleShopRegistrationInformationWindow } from './system-module-s
     FormsModule,
     ContentHeaderComponent,
     TextSpaceBetweenDirective,
+    WheelInputNumberDirective,
     UploadControlComponent,
     PictureComponent,
     HowellSelectComponent,
@@ -35,6 +39,7 @@ import { SystemModuleShopRegistrationInformationWindow } from './system-module-s
     SystemModuleShopRegistrationInformationSubnamesComponent,
     SystemModuleShopRegistrationInformationSubnameInputComponent,
     WindowComponent,
+    InputSelectRoadComponent,
   ],
   templateUrl: './system-module-shop-registration-information.component.html',
   styleUrl: './system-module-shop-registration-information.component.less',
@@ -60,6 +65,7 @@ export class SystemModuleShopRegistrationInformationComponent
   ) {}
 
   shop = this.init();
+
   window = new SystemModuleShopRegistrationInformationWindow();
 
   ngOnInit(): void {
@@ -74,6 +80,8 @@ export class SystemModuleShopRegistrationInformationComponent
             this.image.data = x as ArrayBuffer;
           });
         }
+      }
+      if (this.shop.RoadId) {
       }
     } else {
       this.business
@@ -105,16 +113,16 @@ export class SystemModuleShopRegistrationInformationComponent
       this.toastr.warning('请选择商铺位置');
       return false;
     }
-    if (this.shop.ShopType === undefined) {
-      this.toastr.warning('请选择商铺类型');
-      return false;
-    }
     if (!this.shop.Location.Longitude) {
       this.toastr.warning('商铺坐标经度不能为空');
       return false;
     }
     if (!this.shop.Location.Latitude) {
       this.toastr.warning('商铺坐标纬度不能为空');
+      return false;
+    }
+    if (this.road.selected.length > 1) {
+      this.toastr.warning('请选择一条道路');
       return false;
     }
 
@@ -158,6 +166,19 @@ export class SystemModuleShopRegistrationInformationComponent
         this.shop.Subnames = [...this.shop.Subnames, value];
         this.window.subname.show = false;
       },
+    },
+  };
+  road = {
+    selected: [] as Road[],
+    change: (data: Road[]) => {
+      this.road.selected = data;
+      if (data.length === 1) {
+        this.shop.RoadId = data[0].Id;
+        this.shop.RoadName = data[0].Name;
+      } else {
+        this.shop.RoadId = undefined;
+        this.shop.RoadName = undefined;
+      }
     },
   };
 

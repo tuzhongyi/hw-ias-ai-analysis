@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { WheelInputNumberDirective } from '../../../../../../common/directives/wheel-input-number/wheel-input-number.directive';
 import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { SystemModuleShopCompareSettingTaskController } from './controller/system-module-shop-compare-setting-task.controller';
 import { SystemModuleShopCompareSettingController } from './controller/system-module-shop-compare-setting.controller';
@@ -9,7 +10,12 @@ import { SystemModuleShopCompareSettingBusiness } from './system-module-shop-com
 
 @Component({
   selector: 'ias-system-module-shop-compare-setting',
-  imports: [CommonModule, FormsModule, ContentHeaderComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ContentHeaderComponent,
+    WheelInputNumberDirective,
+  ],
   templateUrl: './system-module-shop-compare-setting.component.html',
   styleUrl: './system-module-shop-compare-setting.component.less',
   providers: [

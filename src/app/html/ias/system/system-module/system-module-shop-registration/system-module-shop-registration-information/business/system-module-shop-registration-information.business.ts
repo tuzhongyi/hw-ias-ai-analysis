@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
-import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';
-import { GetShopRegistrationsParams } from '../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
-import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
-import { Guid } from '../../../../../../common/tools/guid/guid';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { ArmGeographicRequestService } from '../../../../../../../common/data-core/requests/services/geographic/geographic.service';
+import { GetShopRegistrationsParams } from '../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
+import { MediumRequestService } from '../../../../../../../common/data-core/requests/services/medium/medium.service';
+import { Guid } from '../../../../../../../common/tools/guid/guid';
 
 @Injectable()
 export class SystemModuleShopRegistrationInformationBusiness {

@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { WheelInputNumberDirective } from '../../../../../../common/directives/wheel-input-number/wheel-input-number.directive';
 import { SystemMapSettingCompareBaseController } from './controller/system-map-setting-compare-base.controller';
 import { SystemMapSettingCompareRegistrationController } from './controller/system-map-setting-compare-registration.controller';
 
 @Component({
   selector: 'ias-system-map-setting-compare',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, WheelInputNumberDirective],
   templateUrl: './system-map-setting-compare.component.html',
   styleUrl: './system-map-setting-compare.component.less',
   providers: [

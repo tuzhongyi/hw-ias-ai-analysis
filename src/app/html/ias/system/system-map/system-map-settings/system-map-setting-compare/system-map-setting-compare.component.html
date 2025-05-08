@@ -24,10 +24,11 @@
               />
               <input
                 type="number"
+                wheel-input-number
                 min="2"
                 step="1"
                 [max]="base.max"
-                [(ngModel)]="base.count"
+                [(value)]="base.count"
               />
               <span>次</span>
             </div>
@@ -51,10 +52,11 @@
               />
               <input
                 type="number"
+                wheel-input-number
                 min="0"
                 max="100"
                 step="1"
-                [(ngModel)]="registration.ratio"
+                [(value)]="registration.ratio"
               />
               <span>％</span>
             </div>
@@ -64,8 +66,9 @@
             <div class="form-item-value">
               <input
                 type="number"
+                wheel-input-number
                 min="0"
-                [(ngModel)]="registration.distance"
+                [(value)]="registration.distance"
               />
               <span>米</span>
             </div>

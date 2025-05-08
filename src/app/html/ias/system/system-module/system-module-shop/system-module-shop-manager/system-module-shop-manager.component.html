@@ -20,7 +20,7 @@
           <div class="form-item-value state">
             <common-label-select
               [autoclose]="true"
-              [(show)]="source.state.show"              
+              [(show)]="source.state.show"
               [selected]="source.state.selected"
               (remove)="source.state.onremove($event)"
             >
@@ -51,7 +51,12 @@
         <div class="form-item">
           <div class="form-item-text">识别次数</div>
           <div class="form-item-value number">
-            <input type="number" [(ngModel)]="args.count" />
+            <input
+              type="number"
+              wheel-input-number
+              [min]="0"
+              [(value)]="args.count"
+            />
           </div>
         </div>
         <div class="form-item">

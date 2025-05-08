@@ -1,6 +1,7 @@
 export class ISystemCompareStorage {
   ratio = 0.5;
   distance = 100;
+  states: number[] = [];
   task = new ISystemCompareTaskStorage();
 }
 
