@@ -1,10 +1,4 @@
 <div class="system-module-shop-details">
-  <div class="system-module-shop-details-head">
-    <ias-content-header
-      [title]="'商铺分析详情'"
-      [window]="true"
-    ></ias-content-header>
-  </div>
   <div class="system-module-shop-details-body" [ngClass]="{ change: change }">
     <div class="system-module-shop-details-body-table" *ngIf="data">
       <ias-system-module-shop-sign-table
@@ -43,15 +37,16 @@
     <button class="button-clip-blue" (click)="oncancel()">取消</button>
   </div>
 
-  <app-window
+  <ias-window
     *ngIf="window.picture.show"
     [Model]="window.picture"
     [style]="window.picture.style"
+    [title]="window.picture.title"
   >
-    <ias-picture-window-content
+    <ias-picture-polygon-zoom
       [id]="window.picture.id"
-      [title]="window.picture.title"
       [polygon]="window.picture.polygon"
-    ></ias-picture-window-content>
-  </app-window>
+      [zoom]="window.picture.polygon.length > 0"
+    ></ias-picture-polygon-zoom>
+  </ias-window>
 </div>

@@ -62,45 +62,46 @@
     ></ias-system-event-table>
   </div>
 
-  <app-window
+  <ias-window
     [Model]="window.picture"
     *ngIf="window.picture.show"
     [style]="window.picture.style"
+    [title]="window.picture.title"
   >
-    <ias-picture-window-content-page-list
+    <ias-picture-list-page
       [datas]="window.picture.datas"
-      [title]="window.picture.title"
       [(index)]="window.picture.index"
       [page]="window.picture.page"
       (pageChange)="picture.change($event)"
-    ></ias-picture-window-content-page-list>
-  </app-window>
-  <app-window
+    ></ias-picture-list-page>
+  </ias-window>
+  <ias-window
     [Model]="window.details"
     *ngIf="window.details.show"
     [style]="window.details.style"
+    [title]="'AI分析工单'"
   >
     <ias-system-event-details
       [data]="window.details.data"
     ></ias-system-event-details>
-  </app-window>
-  <app-window
+  </ias-window>
+  <ias-window
     [Model]="window.video"
     *ngIf="window.video.show"
     [style]="window.video.style"
+    [title]="window.video.filename"
   >
-    <ias-video-window-content
-      [filename]="window.video.filename"
-    ></ias-video-window-content>
-  </app-window>
-  <app-window
+    <ias-video [filename]="window.video.filename"></ias-video>
+  </ias-window>
+  <ias-window
     [Model]="window.map"
     *ngIf="window.map.show"
     [style]="window.map.style"
+    [title]="window.map.title"
   >
     <ias-system-event-map
       [title]="window.map.title"
       [location]="window.map.data"
     ></ias-system-event-map>
-  </app-window>
+  </ias-window>
 </div>

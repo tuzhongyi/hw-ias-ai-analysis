@@ -8,7 +8,6 @@ import {
   Page,
   Paged,
 } from '../../../../../../../common/data-core/models/page-list.model';
-import { ContentHeaderComponent } from '../../../../../share/header/content-header/content-header.component';
 import { SystemModuleShopCompareDetailsShopRegistrationComponent } from '../system-module-shop-compare-details-shop-registration/system-module-shop-compare-details-shop-registration.component';
 import { SystemModuleShopCompareDetailsShopComponent } from '../system-module-shop-compare-details-shop/system-module-shop-compare-details-shop.component';
 
@@ -16,7 +15,6 @@ import { SystemModuleShopCompareDetailsShopComponent } from '../system-module-sh
   selector: 'ias-system-module-shop-compare-details',
   imports: [
     CommonModule,
-    ContentHeaderComponent,
     SystemModuleShopCompareDetailsShopComponent,
     SystemModuleShopCompareDetailsShopRegistrationComponent,
   ],

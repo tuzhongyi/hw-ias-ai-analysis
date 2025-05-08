@@ -1,10 +1,4 @@
 <div class="system-task-result root-router">
-  <div class="system-task-result-head">
-    <ias-content-header
-      [title]="task.name + ' ' + task.type"
-      [window]="true"
-    ></ias-content-header>
-  </div>
   <div class="system-task-result-body">
     <div class="system-task-result-body-info">
       <div class="forms args">
@@ -124,17 +118,17 @@
     </div>
   </div>
 
-  <app-window
+  <ias-window
     *ngIf="window.picture.show"
     [Model]="window.picture"
     [style]="window.picture.style"
+    [title]="window.picture.title"
   >
-    <ias-picture-window-content-page
+    <ias-picture-list
       [id]="window.picture.id"
-      [title]="window.picture.title"
       [polygon]="window.picture.polygon"
       [zoom]="true"
       [(page)]="page"
-    ></ias-picture-window-content-page>
-  </app-window>
+    ></ias-picture-list>
+  </ias-window>
 </div>

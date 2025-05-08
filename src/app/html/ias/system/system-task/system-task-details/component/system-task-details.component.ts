@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { UploadControlFileInfo } from '../../../../../../common/components/upload-control/upload-control.model';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
-import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 
 import { FileProgress } from '../../system-task-manager/system-task-manager.model';
 import { TaskProgress } from '../../system-task-table/system-task-table.model';
@@ -12,7 +11,6 @@ import { SystemTaskDetailsInfoComponent } from '../system-task-details-info/syst
 @Component({
   selector: 'ias-system-task-details',
   imports: [
-    ContentHeaderComponent,
     SystemTaskDetailsInfoComponent,
     SystemTaskDetailsFileTableComponent,
   ],

@@ -52,30 +52,31 @@
     ></ias-system-module-shop-registration-table>
   </div>
 
-  <app-window
-    [Model]="window.create"
-    *ngIf="window.create.show"
-    [style]="window.create.style"
+  <ias-window
+    [Model]="window.information"
+    *ngIf="window.information.show"
+    [style]="window.information.style"
+    [title]="window.information.title"
   >
     <ias-system-module-shop-registration-information
-      [data]="window.create.data"
-      (close)="window.create.show = false"
+      [data]="window.information.data"
+      (close)="window.information.show = false"
       (ok)="create.ok()"
     ></ias-system-module-shop-registration-information>
-  </app-window>
-  <app-window
+  </ias-window>
+  <ias-window
     *ngIf="window.picture.show"
     [Model]="window.picture"
     [style]="window.picture.style"
+    [title]="window.picture.title"
   >
-    <ias-picture-window-content-page
+    <ias-picture-list
       [id]="window.picture.id"
-      [title]="window.picture.title"
       [zoom]="false"
       [page]="window.picture.page"
       (pageChange)="table.picture.change($event)"
-    ></ias-picture-window-content-page>
-  </app-window>
+    ></ias-picture-list>
+  </ias-window>
   <confirm-window
     *ngIf="window.confirm.show"
     [model]="window.confirm"

@@ -14,6 +14,7 @@ import {
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
 import { SystemTaskManagerController } from './controller/system-task-manager.controller';
 
+import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import {
   SystemTaskManagerImports,
   SystemTaskManagerProviders,
@@ -33,7 +34,8 @@ export class SystemTaskManagerComponent implements OnInit {
     public controller: SystemTaskManagerController,
     private toastr: ToastrService,
     private local: LocalStorage,
-    private router: Router
+    private router: Router,
+    private language: LanguageTool
   ) {
     this.filter.duration.value =
       this.local.system.task.duration.get() ?? TaskDuration.year;
@@ -88,7 +90,10 @@ export class SystemTaskManagerComponent implements OnInit {
     this.table.load.emit(this.table.args);
   }
 
-  onresult(data: AnalysisTaskModel) {
+  async onresult(data: AnalysisTaskModel) {
+    this.window.result.title = `${
+      data.Name
+    } ${await this.language.analysis.server.TaskType(data.TaskType)}`;
     this.window.result.data = data;
     this.window.result.show = true;
   }

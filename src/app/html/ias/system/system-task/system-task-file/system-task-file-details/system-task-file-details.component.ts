@@ -3,13 +3,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../../../common/data-core/models/arm/file/file-info.model';
-import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { SystemTaskFileDetailsMapComponent } from '../system-task-file-details-map/system-task-file-details-map.component';
 import { SystemTaskFileDetailsBusiness } from './system-task-file-details.business';
 
 @Component({
   selector: 'ias-system-task-file-details',
-  imports: [ContentHeaderComponent, SystemTaskFileDetailsMapComponent],
+  imports: [SystemTaskFileDetailsMapComponent],
   templateUrl: './system-task-file-details.component.html',
   styleUrl: './system-task-file-details.component.less',
   providers: [SystemTaskFileDetailsBusiness],

@@ -3,20 +3,15 @@
   height: 100%;
   transition: all 0.5s;
 
-  @head-height: 60px;
   @foot-height: 36px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  &-head {
-    width: 100%;
-    height: @head-height;
-  }
 
   &-body {
     width: 100%;
-    height: calc(100% - @head-height - @foot-height - 15px * 2);
+    height: calc(100% - @foot-height - 15px);
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -96,6 +91,7 @@
         width: 100%;
         aspect-ratio: 16/9;
         padding: 0 !important;
+        position: relative;
 
         .upload-image {
           width: 100%;
@@ -106,6 +102,32 @@
           font-size: 50px;
 
           &:hover {
+            color: white;
+          }
+        }
+
+        &:hover {
+          .image-zoom {
+            opacity: 1;
+          }
+        }
+
+        .image-zoom {
+          opacity: 0;
+          position: absolute;
+          right: 10px;
+          bottom: 10px;
+          width: 30px;
+          height: 30px;
+          background-color: rgba(45, 118, 206, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 7px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgba(45, 118, 206, 1);
             color: white;
           }
         }

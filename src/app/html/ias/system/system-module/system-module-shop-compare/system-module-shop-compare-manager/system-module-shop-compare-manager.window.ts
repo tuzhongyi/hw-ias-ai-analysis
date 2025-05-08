@@ -6,10 +6,11 @@ import { Page } from '../../../../../../common/data-core/models/page-list.model'
 
 export class SystemModuleShopCompareManagerWindow {
   setting = new SettingWindow();
-  create = new CreateWindow();
+  information = new InformationWindow();
   compare = new CompareWindow();
   picture = new PictureWindow();
   sign = new SignWindow();
+  relate = new RelateWindow();
 }
 
 class SettingWindow extends WindowViewModel {
@@ -42,9 +43,9 @@ class ComparePictureWindow extends WindowViewModel {
   index = 1;
   title = '';
 }
-class CreateWindow {
-  shop = new CreateShopWindow();
-  registration = new CreateShopRegistrationWindow();
+class InformationWindow {
+  shop = new InformationShopWindow();
+  registration = new InformationShopRegistrationWindow();
 
   clear() {
     this.shop.clear();
@@ -55,7 +56,7 @@ class CreateWindow {
     this.registration.show = false;
   }
 }
-class CreateShopWindow extends WindowViewModel {
+class InformationShopWindow extends WindowViewModel {
   clear() {
     this.data = undefined;
   }
@@ -66,7 +67,7 @@ class CreateShopWindow extends WindowViewModel {
   };
   data?: Shop;
 }
-class CreateShopRegistrationWindow extends WindowViewModel {
+class InformationShopRegistrationWindow extends WindowViewModel {
   clear() {
     this.data = undefined;
   }
@@ -109,6 +110,17 @@ class SignWindow extends WindowViewModel {
   style = {
     width: '80%',
     height: '85%',
+    paddingTop: 0,
+  };
+  data?: Shop;
+}
+class RelateWindow extends WindowViewModel {
+  clear() {
+    this.data = undefined;
+  }
+  style = {
+    width: '70%',
+    height: '80%',
     paddingTop: 0,
   };
   data?: Shop;

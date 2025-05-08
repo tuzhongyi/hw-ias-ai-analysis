@@ -11,7 +11,6 @@ import { SignType } from '../../../../../../common/data-core/enums/analysis/sign
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
-import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 import { SystemModuleShopDetailsMapComponent } from '../system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopInformationSourceController } from './controller/system-module-shop-information-source.controller';
@@ -22,7 +21,6 @@ import { SystemModuleShopInformationBusiness } from './system-module-shop-inform
   imports: [
     CommonModule,
     FormsModule,
-    ContentHeaderComponent,
     TextSpaceBetweenDirective,
     UploadControlComponent,
     PictureComponent,

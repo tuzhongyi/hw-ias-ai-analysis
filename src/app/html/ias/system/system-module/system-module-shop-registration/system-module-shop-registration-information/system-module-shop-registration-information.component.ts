@@ -9,7 +9,6 @@ import { UploadControlFile } from '../../../../../../common/components/upload-co
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
-import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
@@ -29,7 +28,6 @@ import { SystemModuleShopRegistrationInformationWindow } from './system-module-s
   imports: [
     CommonModule,
     FormsModule,
-    ContentHeaderComponent,
     TextSpaceBetweenDirective,
     WheelInputNumberDirective,
     UploadControlComponent,
@@ -54,7 +52,6 @@ export class SystemModuleShopRegistrationInformationComponent
   @Input() data?: ShopRegistration;
   @Output() ok = new EventEmitter<ShopRegistration>();
   @Output() close = new EventEmitter<void>();
-  @Input() title = '注册商铺详细信息';
   @Input() input = false;
   @Output() create = new EventEmitter<ShopRegistration>();
 

@@ -3,21 +3,16 @@
   height: 100%;
   transition: all 0.5s;
 
-  @head-height: 60px;
   @foot-height: 36px;
   @gap: 15px;
   display: flex;
   flex-direction: column;
   gap: @gap;
 
-  &-head {
-    width: 100%;
-    height: @head-height;
-  }
 
   &-body {
     width: 100%;
-    height: calc(100% - @head-height - @foot-height - @gap * 2);
+    height: calc(100% - @foot-height - @gap);
 
     .forms {
       flex-direction: column;

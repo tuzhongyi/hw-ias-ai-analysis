@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UploadControlComponent } from '../../../../../../common/components/upload-control/upload-control.component';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
-import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 
 import { SystemTaskCreationFileTableComponent } from '../system-task-creation-file-table/system-task-creation-file-table.component';
 import { SystemTaskCreationFileController } from './controller/system-task-creation-file.controller';
@@ -18,7 +17,6 @@ import { SystemTaskModel } from './system-task-creation.model';
   imports: [
     CommonModule,
     FormsModule,
-    ContentHeaderComponent,
     SystemTaskCreationFileTableComponent,
     UploadControlComponent,
   ],

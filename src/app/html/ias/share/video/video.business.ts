@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ArmSystemRequestService } from '../../../../../common/data-core/requests/services/system/system.service';
+import { ArmSystemRequestService } from '../../../../common/data-core/requests/services/system/system.service';
 
 @Injectable()
-export class VideoWindowContentBusiness {
+export class VideoBusiness {
   constructor(private service: ArmSystemRequestService) {}
 
   async path(path: string) {

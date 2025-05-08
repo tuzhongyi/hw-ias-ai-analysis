@@ -3,11 +3,11 @@ import { ShopRegistration } from '../../../../../../common/data-core/models/arm/
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 
 export class SystemModuleShopRegistrationManagerWindow {
-  create = new CreateWindow();
+  information = new InformationWindow();
   picture = new PictureWindow();
   confirm = new ConfirmWindow();
 }
-class CreateWindow extends WindowViewModel {
+class InformationWindow extends WindowViewModel {
   clear() {
     this.data = undefined;
   }
@@ -17,6 +17,7 @@ class CreateWindow extends WindowViewModel {
     paddingTop: 0,
   };
   data?: ShopRegistration;
+  title = '注册商铺详细信息';
 }
 class PictureWindow extends WindowViewModel {
   clear() {

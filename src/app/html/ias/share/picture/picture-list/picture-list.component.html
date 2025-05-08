@@ -1,23 +1,23 @@
-<div class="picture-window-content-page">
+<div class="picture-list">
   <div
-    class="picture-window-content-page-control left"
+    class="picture-list-control left"
     *ngIf="page && this.page.PageCount > 0 && this.page.PageIndex > 1"
     (click)="onprov()"
   >
     <i class="howell-icon-arrowleftbold"></i>
   </div>
 
-  <div class="picture-window-content-page-container">
-    <ias-picture-window-content
+  <div class="picture-list-container">
+    <ias-picture-polygon-zoom
       [id]="id"
       [src]="src"
-      [title]="title"
       [polygon]="polygon"
       [zoom]="zoom"
-    ></ias-picture-window-content>
+    ></ias-picture-polygon-zoom>
   </div>
+
   <div
-    class="picture-window-content-page-control right"
+    class="picture-list-control right"
     *ngIf="page && this.page.PageIndex < this.page.PageCount"
     (click)="onnext()"
   >

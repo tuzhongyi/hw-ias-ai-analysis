@@ -23,4 +23,5 @@ class DetailsWindow extends WindowViewModel {
     paddingTop: 0,
   };
   data?: User;
+  title = '用户信息';
 }

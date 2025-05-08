@@ -7,20 +7,19 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
-import { Page } from '../../../../common/data-core/models/page-list.model';
-import { PictureWindowContentPageComponent } from '../picture-window-content-page/picture-window-content-page.component';
+import { Page } from '../../../../../common/data-core/models/page-list.model';
+import { PictureListComponent } from '../picture-list/picture-list.component';
 
 @Component({
-  selector: 'ias-picture-window-content-page-list',
-  imports: [CommonModule, PictureWindowContentPageComponent],
-  templateUrl: './picture-window-content-page-list.component.html',
-  styleUrl: './picture-window-content-page-list.component.less',
+  selector: 'ias-picture-list-page',
+  imports: [CommonModule, PictureListComponent],
+  templateUrl: './picture-list-page.component.html',
+  styleUrl: './picture-list-page.component.less',
 })
-export class PictureWindowContentPageListComponent {
+export class PictureListPageComponent {
   @Input() datas: string[] = [];
   @Input() index = 0;
   @Output() indexChange = new EventEmitter<number>();
-  @Input() title: string = '';
   @Input() page?: Page;
   @Output() pageChange = new EventEmitter<Page>();
 

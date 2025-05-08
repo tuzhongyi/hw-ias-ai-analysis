@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { WindowConfirmComponent } from '../../../../../common/components/window-confirm/window-confirm.component';
-import { WindowComponent } from '../../../../../common/components/window-control/window.component';
 import { SystemTaskCreationComponent } from '../system-task-creation/component/system-task-creation.component';
 
 import { FormsModule } from '@angular/forms';
 import { DateTimeControlComponent } from '../../../../../common/components/date-time-control/date-time-control.component';
 
+import { WindowComponent } from '../../../share/window/window.component';
 import { SystemTaskDetailsComponent } from '../system-task-details/component/system-task-details.component';
 import { SystemTaskFileManagerComponent } from '../system-task-file/system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskResultComponent } from '../system-task-result/component/system-task-result.component';
@@ -22,12 +22,12 @@ export const SystemTaskManagerImports = [
   FormsModule,
   SystemTaskTableComponent,
   SystemTaskCreationComponent,
-  WindowComponent,
   WindowConfirmComponent,
   DateTimeControlComponent,
   SystemTaskResultComponent,
   SystemTaskDetailsComponent,
   SystemTaskFileManagerComponent,
+  WindowComponent,
 ];
 
 export const SystemTaskManagerProviders = [

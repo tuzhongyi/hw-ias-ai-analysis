@@ -1,20 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
-import { ContentHeaderComponent } from '../../header/content-header/content-header.component';
-import { VideoWindowContentBusiness } from './video-window-content.business';
+import { VideoBusiness } from './video.business';
 
 @Component({
-  selector: 'ias-video-window-content',
-  imports: [ContentHeaderComponent],
-  templateUrl: './video-window-content.component.html',
-  styleUrl: './video-window-content.component.less',
-  providers: [VideoWindowContentBusiness],
+  selector: 'ias-video',
+  imports: [],
+  templateUrl: './video.component.html',
+  styleUrl: './video.component.less',
 })
-export class VideoWindowContentComponent implements OnInit {
+export class VideoComponent {
   @Input() filename?: string;
   constructor(
-    private business: VideoWindowContentBusiness,
+    private business: VideoBusiness,
     private sanitizer: DomSanitizer,
     private toastr: ToastrService
   ) {}

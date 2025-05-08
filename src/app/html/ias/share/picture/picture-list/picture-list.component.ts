@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HowellPoint } from '../../../../common/data-core/models/arm/point.model';
-import { Page } from '../../../../common/data-core/models/page-list.model';
-import { PictureWindowContentComponent } from '../picture-window-content/picture-window-content.component';
+import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
+import { Page } from '../../../../../common/data-core/models/page-list.model';
+import { PicturePolygonZoomComponent } from '../picture-polygon-zoom/picture-polygon-zoom.component';
 
 @Component({
-  selector: 'ias-picture-window-content-page',
-  imports: [CommonModule, PictureWindowContentComponent],
-  templateUrl: './picture-window-content-page.component.html',
-  styleUrl: './picture-window-content-page.component.less',
+  selector: 'ias-picture-list',
+  imports: [CommonModule, PicturePolygonZoomComponent],
+  templateUrl: './picture-list.component.html',
+  styleUrl: './picture-list.component.less',
 })
-export class PictureWindowContentPageComponent {
+export class PictureListComponent {
   @Input() src?: string;
   @Input() id?: string;
-  @Input() title: string = '';
   @Input() polygon: HowellPoint[] = [];
   @Input() zoom = true;
   @Input() page?: Page;

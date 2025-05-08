@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { WindowComponent } from '../../../../../../common/components/window-control/window.component';
+
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { LabelResultStatistic } from '../../../../../../common/data-core/models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
-import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
-import { PictureWindowContentPageComponent } from '../../../../share/picture-window-content-page/picture-window-content-page.component';
+import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
+import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemTaskResultInfoComponent } from '../system-task-result-info/system-task-result-info.component';
 import { SystemTaskResultMapComponent } from '../system-task-result-map/system-task-result-map.component';
 import { SystemTaskResultTableManagerComponent } from '../system-task-result-table-manager/system-task-result-table-manager.component';
@@ -27,9 +27,8 @@ import { SystemTaskResultWindow } from './system-task-result.window';
   imports: [
     CommonModule,
     FormsModule,
-    ContentHeaderComponent,
     WindowComponent,
-    PictureWindowContentPageComponent,
+    PictureListComponent,
     SystemTaskResultTableManagerComponent,
     SystemTaskResultInfoComponent,
     SystemTaskResultMapComponent,
@@ -47,11 +46,6 @@ export class SystemTaskResultComponent implements OnInit {
     private toastr: ToastrService,
     private business: SystemTaskResultBusiness
   ) {}
-
-  task = {
-    name: '',
-    type: '',
-  };
 
   indexchange = new EventEmitter<number>();
   selected?: ShopSign;
@@ -74,12 +68,6 @@ export class SystemTaskResultComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    if (this.data) {
-      this.task.name = this.data.Name ?? '';
-      this.language.analysis.server.TaskType(this.data.TaskType).then((x) => {
-        this.task.type = x;
-      });
-    }
     this.onlabeling();
   }
 

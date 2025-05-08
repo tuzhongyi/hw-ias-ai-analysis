@@ -34,6 +34,7 @@ class ConfirmWindow extends WindowViewModel {
 class ResultWindow extends WindowViewModel {
   clear() {
     this.data = undefined;
+    this.title = '';
   }
   style = {
     width: '85%',
@@ -41,6 +42,7 @@ class ResultWindow extends WindowViewModel {
     paddingTop: 0,
   };
   data?: AnalysisTask;
+  title = '';
 }
 class DetailsWindow extends WindowViewModel {
   clear() {

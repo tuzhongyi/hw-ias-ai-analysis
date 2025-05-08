@@ -6,7 +6,6 @@ import { CommonLabelSelecComponent } from '../../../../common/components/common-
 import { HowellSelectComponent } from '../../../../common/components/hw-select/select-control.component';
 import { UserGroup } from '../../../../common/data-core/models/user/user-group.model';
 import { User } from '../../../../common/data-core/models/user/user.model';
-import { ContentHeaderComponent } from '../../share/header/content-header/content-header.component';
 import { SelectSecurityPriorityTypeComponent } from '../../share/select/select-security-priority-type/select-security-priority-type.component';
 import { ManagementUserInfoDetailsPriorityController } from './controller/management-user-info-details-priority.controller';
 import { ManagementUserInfoDetailsController } from './controller/management-user-info-details.controller';
@@ -17,8 +16,6 @@ import { ManagementUserInfoDetailsBusiness } from './management-user-info-detail
   imports: [
     CommonModule,
     FormsModule,
-
-    ContentHeaderComponent,
     HowellSelectComponent,
     CommonLabelSelecComponent,
     SelectSecurityPriorityTypeComponent,
@@ -41,8 +38,6 @@ export class ManagementUserInfoDetailsComponent implements OnInit {
     private business: ManagementUserInfoDetailsBusiness,
     private toastr: ToastrService
   ) {}
-
-  title = '用户信息';
   data = this.create();
   groups: UserGroup[] = [];
 

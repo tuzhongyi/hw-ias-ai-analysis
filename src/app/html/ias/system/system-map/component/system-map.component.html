@@ -1,5 +1,4 @@
 <div class="system-map root-router">
-  {{ panel.details.registration.show }}
   <div class="system-map-container" id="map-container"></div>
   <div class="system-map-search" *ngIf="panel.search.show">
     <ias-system-map-search
@@ -154,19 +153,18 @@
       (close)="panel.setting.compare.show = false"
     ></ias-system-map-setting-compare>
   </div>
-
-  <app-window
+  <ias-window
     *ngIf="window.picture.show"
     [Model]="window.picture"
     [style]="window.picture.style"
+    [title]="window.picture.title"
   >
-    <ias-picture-window-content-page
+    <ias-picture-list
       [id]="window.picture.id"
-      [title]="window.picture.title"
       [polygon]="window.picture.polygon"
       [zoom]="window.picture.polygon.length > 0"
       [page]="window.picture.page"
       (pageChange)="window.picture.onpage($event)"
-    ></ias-picture-window-content-page>
-  </app-window>
+    ></ias-picture-list>
+  </ias-window>
 </div>

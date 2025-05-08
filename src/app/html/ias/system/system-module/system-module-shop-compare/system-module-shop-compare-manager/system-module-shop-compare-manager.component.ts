@@ -3,7 +3,6 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonLabelSelecComponent } from '../../../../../../common/components/common-label-select/common-label-select.component';
-import { WindowComponent } from '../../../../../../common/components/window-control/window.component';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { ShopTaskCompareResult } from '../../../../../../common/data-core/models/arm/analysis/shop-task-compare-result.model';
@@ -16,9 +15,10 @@ import {
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
 import { TaskDuration } from '../../../../../../common/storage/system-compare-storage/system-compare.storage';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
-import { PictureWindowContentPageListComponent } from '../../../../share/picture-window-content-page-list/picture-window-content-page-list.component';
-import { PictureWindowContentPageComponent } from '../../../../share/picture-window-content-page/picture-window-content-page.component';
+import { PictureListPageComponent } from '../../../../share/picture/picture-list-page/picture-list-page.component';
+import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { SelectShopObjectStateComponent } from '../../../../share/select/select-shop-object-state/select-shop-object-state.component';
+import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../../system-module-shop-registration/system-module-shop-registration-information/system-module-shop-registration-information.component';
 import { SystemModuleShopDetailsComponent } from '../../system-module-shop/system-module-shop-details/system-module-shop-details.component';
 import { SystemModuleShopInformationComponent } from '../../system-module-shop/system-module-shop-information/system-module-shop-information.component';
@@ -41,11 +41,11 @@ import { SystemModuleShopCompareManagerWindow } from './system-module-shop-compa
     SystemModuleShopRegistrationInformationComponent,
     SystemModuleShopCompareDetailsComponent,
     SystemModuleShopDetailsComponent,
-    PictureWindowContentPageComponent,
-    PictureWindowContentPageListComponent,
     CommonLabelSelecComponent,
     SelectShopObjectStateComponent,
     WindowComponent,
+    PictureListComponent,
+    PictureListPageComponent,
   ],
   templateUrl: './system-module-shop-compare-manager.component.html',
   styleUrl: './system-module-shop-compare-manager.component.less',
@@ -149,17 +149,17 @@ export class SystemModuleShopCompareManagerComponent implements OnInit {
   info = {
     open: (data: IShop) => {
       if (data instanceof Shop) {
-        this.window.create.shop.data = data;
-        this.window.create.shop.show = true;
+        this.window.information.shop.data = data;
+        this.window.information.shop.show = true;
       } else if (data instanceof ShopRegistration) {
-        this.window.create.registration.data = data;
-        this.window.create.registration.input = false;
-        this.window.create.registration.show = true;
+        this.window.information.registration.data = data;
+        this.window.information.registration.input = false;
+        this.window.information.registration.show = true;
       }
     },
     ok: () => {
-      this.window.create.clear();
-      this.window.create.close();
+      this.window.information.clear();
+      this.window.information.close();
     },
   };
 
@@ -216,9 +216,9 @@ export class SystemModuleShopCompareManagerComponent implements OnInit {
       if (!this.table.selected) return;
 
       this.business.convert.shop(this.table.selected as Shop).then((x) => {
-        this.window.create.registration.data = x;
-        this.window.create.registration.input = true;
-        this.window.create.registration.show = true;
+        this.window.information.registration.data = x;
+        this.window.information.registration.input = true;
+        this.window.information.registration.show = true;
       });
     },
     ok: (data: ShopRegistration) => {
@@ -233,6 +233,10 @@ export class SystemModuleShopCompareManagerComponent implements OnInit {
           this.toastr.error('导入失败');
         });
     },
+  };
+
+  relate = {
+    open: () => {},
   };
 
   async oncreate() {

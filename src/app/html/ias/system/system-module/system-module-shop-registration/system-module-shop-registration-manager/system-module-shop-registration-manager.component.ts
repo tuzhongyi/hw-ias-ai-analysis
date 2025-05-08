@@ -8,14 +8,14 @@ import {
   UploadControlFile,
 } from '../../../../../../common/components/upload-control/upload-control.model';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
-import { WindowComponent } from '../../../../../../common/components/window-control/window.component';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import {
   Page,
   Paged,
 } from '../../../../../../common/data-core/models/page-list.model';
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
-import { PictureWindowContentPageComponent } from '../../../../share/picture-window-content-page/picture-window-content-page.component';
+import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
+import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../system-module-shop-registration-information/system-module-shop-registration-information.component';
 import { SystemModuleShopRegistrationTableComponent } from '../system-module-shop-registration-table/system-module-shop-registration-table.component';
 import { SystemModuleShopRegistrationTableArgs } from '../system-module-shop-registration-table/system-module-shop-registration-table.model';
@@ -30,11 +30,10 @@ import { SystemModuleShopRegistrationManagerWindow } from './system-module-shop-
     InputSelectRoadComponent,
     SystemModuleShopRegistrationTableComponent,
     SystemModuleShopRegistrationInformationComponent,
-    PictureWindowContentPageComponent,
-
     UploadControlComponent,
     WindowConfirmComponent,
     WindowComponent,
+    PictureListComponent,
   ],
   templateUrl: './system-module-shop-registration-manager.component.html',
   styleUrl: './system-module-shop-registration-manager.component.less',
@@ -71,17 +70,17 @@ export class SystemModuleShopRegistrationManagerComponent {
 
   create = {
     open: () => {
-      this.window.create.clear();
-      this.window.create.show = true;
+      this.window.information.clear();
+      this.window.information.show = true;
     },
     ok: () => {
-      this.window.create.show = false;
+      this.window.information.show = false;
     },
   };
   info = {
     open: (shop: ShopRegistration) => {
-      this.window.create.data = shop;
-      this.window.create.show = true;
+      this.window.information.data = shop;
+      this.window.information.show = true;
     },
   };
   delete = {

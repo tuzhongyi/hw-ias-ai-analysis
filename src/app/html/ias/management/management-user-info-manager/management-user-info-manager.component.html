@@ -28,15 +28,16 @@
     (cancel)="window.confirm.show = false"
   >
   </confirm-window>
-  <app-window
+  <ias-window
     *ngIf="window.details.show"
     [Model]="window.details"
     [style]="window.details.style"
+    [title]="window.details.title"
   >
     <ias-management-user-info-details
       [data]="window.details.data"
       (cancel)="window.details.show = false"
       (ok)="details.ok()"
     ></ias-management-user-info-details>
-  </app-window>
+  </ias-window>
 </div>

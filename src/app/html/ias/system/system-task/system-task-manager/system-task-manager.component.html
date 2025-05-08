@@ -103,30 +103,33 @@
     ></ias-system-task-table>
   </div>
 
-  <app-window
+  <ias-window
     *ngIf="window.creation.show"
     [Model]="window.creation"
     [style]="window.creation.style"
+    [title]="'添加分析任务'"
   >
     <ias-system-task-creation
       (close)="window.creation.show = false"
       (ok)="create.ok($event)"
     ></ias-system-task-creation>
-  </app-window>
-  <app-window
+  </ias-window>
+  <ias-window
     *ngIf="window.result.show"
     [Model]="window.result"
     [style]="window.result.style"
+    [title]="window.result.title"
   >
     <ias-system-task-result
       [data]="window.result.data"
       (close)="window.result.show = false"
     ></ias-system-task-result>
-  </app-window>
-  <app-window
+  </ias-window>
+  <ias-window
     *ngIf="window.details.show"
     [Model]="window.details"
     [style]="window.details.style"
+    [title]="'AI分析任务详情'"
   >
     <ias-system-task-details
       [data]="window.details.data"
@@ -134,7 +137,7 @@
       [fileprogress]="controller.file.progress.file"
       [taskprogress]="controller.file.progress.task"
     ></ias-system-task-details>
-  </app-window>
+  </ias-window>
   <confirm-window
     *ngIf="window.confirm.show"
     [model]="window.confirm"

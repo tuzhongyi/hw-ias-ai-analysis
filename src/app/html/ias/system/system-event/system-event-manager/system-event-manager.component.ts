@@ -2,7 +2,6 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Component, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DateTimeControlComponent } from '../../../../../common/components/date-time-control/date-time-control.component';
-import { WindowComponent } from '../../../../../common/components/window-control/window.component';
 import { EventRecord } from '../../../../../common/data-core/models/arm/event/event-record.model';
 import {
   Page,
@@ -10,8 +9,9 @@ import {
 } from '../../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
-import { PictureWindowContentPageListComponent } from '../../../share/picture-window-content-page-list/picture-window-content-page-list.component';
-import { VideoWindowContentComponent } from '../../../share/video/video-window-content/video-window-content.component';
+import { PictureListPageComponent } from '../../../share/picture/picture-list-page/picture-list-page.component';
+import { VideoComponent } from '../../../share/video/video.component';
+import { WindowComponent } from '../../../share/window/window.component';
 import { SystemEventDetailsComponent } from '../system-event-details/component/system-event-details.component';
 import { SystemEventMapComponent } from '../system-event-map/system-event-map.component';
 import { SystemEventTableArgs } from '../system-event-table/business/system-event-table.model';
@@ -28,9 +28,9 @@ import { SystemEventManagerWindow } from './system-event-manager.window';
     SystemEventTableComponent,
     SystemEventDetailsComponent,
     SystemEventMapComponent,
-    PictureWindowContentPageListComponent,
-    VideoWindowContentComponent,
+    VideoComponent,
     WindowComponent,
+    PictureListPageComponent,
   ],
   templateUrl: './system-event-manager.component.html',
   styleUrl: './system-event-manager.component.less',

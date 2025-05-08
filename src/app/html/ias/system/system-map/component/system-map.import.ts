@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { WindowComponent } from '../../../../../common/components/window-control/window.component';
-import { PictureWindowContentPageComponent } from '../../../share/picture-window-content-page/picture-window-content-page.component';
+import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
+import { WindowComponent } from '../../../share/window/window.component';
 import { SystemMapControlsComponent } from '../system-map-controls/system-map-controls.component';
 import { SystemMapEditorCircleComponent } from '../system-map-editor-circle/system-map-editor-circle.component';
 import { SystemMapFilterComponent } from '../system-map-filter/system-map-filter.component';
@@ -25,7 +25,7 @@ export const SystemMapImports = [
   SystemMapPanelDetailsShopRegistrationComponent,
   SystemMapPanelDetailsShopComponent,
   WindowComponent,
-  PictureWindowContentPageComponent,
+  PictureListComponent,
   SystemMapSourceManagerComponent,
   SystemMapTaskManagerComponent,
   SystemMapPanelDetailsShopSignComponent,

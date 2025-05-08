@@ -8,18 +8,14 @@
 
 
   @gap: 15px;
-  @head-height: 60px;
   @foot-height: 30px;
   gap: @gap;
 
-  &-head {
-    width: 100%;
-    height: @head-height;
-  }
+
 
   &-body {
     width: 100%;
-    height: calc(100% - @head-height - @gap - @gap - @foot-height);
+    height: calc(100% - @gap - @foot-height);
     display: flex;
     gap: 10px;
 

@@ -1,14 +1,13 @@
-<div class="picture-window-content-page-list">
-  <div class="picture-window-content-page-list-body">
-    <ias-picture-window-content-page
+<div class="picture-list-page">
+  <div class="picture-list-page-body">
+    <ias-picture-list
       [id]="picture.selected"
-      [title]="title"
       [zoom]="false"
       [page]="picture.page"
       (pageChange)="picture.change($event)"
-    ></ias-picture-window-content-page>
+    ></ias-picture-list>
   </div>
-  <div class="picture-window-content-page-list-foot">
+  <div class="picture-list-page-foot">
     <div>
       <div
         class="button left"

@@ -99,12 +99,12 @@ export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
 
   create = {
     open: () => {
-      this.window.create.clear();
-      this.window.create.show = true;
+      this.window.information.clear();
+      this.window.information.show = true;
     },
     ok: (data: Shop) => {
-      this.window.create.clear();
-      this.window.create.show = false;
+      this.window.information.clear();
+      this.window.information.show = false;
       let args = new SystemModuleShopTableLoadArgs(this.args, true);
       this.load.emit(args);
     },
@@ -124,12 +124,12 @@ export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
   };
   info = {
     open: (data: ShopViewModel) => {
-      this.window.create.data = data;
-      this.window.create.show = true;
+      this.window.information.data = data;
+      this.window.information.show = true;
     },
     ok: () => {
-      this.window.create.clear();
-      this.window.create.show = false;
+      this.window.information.clear();
+      this.window.information.show = false;
     },
   };
 }

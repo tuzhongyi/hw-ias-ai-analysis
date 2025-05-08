@@ -3,20 +3,15 @@
   height: 100%;
   transition: all 0.5s;
 
-  @head-height: 60px;
   @foot-height: 36px;
   display: flex;
   flex-direction: column;
   gap: 15px;
 
-  &-head {
-    width: 100%;
-    height: @head-height;
-  }
 
   &-body {
     width: 100%;
-    height: calc(100% - @head-height - 15px);
+    height: calc(100%);
 
     display: flex;
     justify-content: space-between;
@@ -25,7 +20,7 @@
     @body-width: calc(100% - 10px * 2);
 
     &.change {
-      height: calc(100% - @head-height - @foot-height - 15px * 2);
+      height: calc(100% - @foot-height - 15px);
     }
 
     &-table {

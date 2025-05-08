@@ -39,13 +39,14 @@
     ></ias-management-record-file-table>
   </div>
 
-  <app-window
+  <ias-window
     *ngIf="window.details.show"
     [Model]="window.details"
     [style]="window.details.style"
+    [title]="window.details.data?.FileName ?? ''"
   >
     <ias-system-task-file-details
       [data]="window.details.data"
     ></ias-system-task-file-details>
-  </app-window>
+  </ias-window>
 </div>

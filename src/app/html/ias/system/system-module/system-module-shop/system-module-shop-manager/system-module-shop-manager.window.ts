@@ -5,7 +5,7 @@ import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.vi
 
 export class SystemModuleShopManagerWindow {
   details = new DetailsWindow();
-  create = new CreateWindow();
+  information = new InformationWindow();
 
   picture = new PictureWindow();
 }
@@ -21,7 +21,7 @@ class DetailsWindow extends WindowViewModel {
   };
   data?: ShopViewModel;
 }
-class CreateWindow extends WindowViewModel {
+class InformationWindow extends WindowViewModel {
   clear() {
     this.data = undefined;
   }
