@@ -1,9 +1,9 @@
-.system-module-shop-registration-table {
+.system-module-shop-compare-relate-table {
   height: 100%;
   width: 100%;
   transition: all 0.5s;
 
-  @foot-height: 60px;
+  @foot-height: 36px;
 
   &-body {
     height: calc(100% - @foot-height);
@@ -11,6 +11,25 @@
     .image {
       height: 70%;
       cursor: pointer;
+    }
+
+    table {
+
+      tbody {
+
+        background-color: rgba(19, 34, 64, 0.5);
+      }
+
+      tr {
+
+
+        td,
+        th {
+          &:first-child {
+            padding: 0 10px;
+          }
+        }
+      }
     }
   }
 

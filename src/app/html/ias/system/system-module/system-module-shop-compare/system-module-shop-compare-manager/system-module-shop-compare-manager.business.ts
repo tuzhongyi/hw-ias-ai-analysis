@@ -17,6 +17,9 @@ export class SystemModuleShopCompareManagerBusiness {
   async create(shop: ShopRegistration) {
     return this.service.shop.create(shop);
   }
+  update(shop: Shop) {
+    return this.service.shop.update(shop);
+  }
 
   private _count = 0;
   get count() {

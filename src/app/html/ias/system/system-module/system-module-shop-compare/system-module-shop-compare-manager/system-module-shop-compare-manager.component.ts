@@ -23,6 +23,7 @@ import { SystemModuleShopRegistrationInformationComponent } from '../../system-m
 import { SystemModuleShopDetailsComponent } from '../../system-module-shop/system-module-shop-details/system-module-shop-details.component';
 import { SystemModuleShopInformationComponent } from '../../system-module-shop/system-module-shop-information/system-module-shop-information.component';
 import { SystemModuleShopCompareDetailsComponent } from '../system-module-shop-compare-details/component/system-module-shop-compare-details.component';
+import { SystemModuleShopCompareRelateComponent } from '../system-module-shop-compare-relate/component/system-module-shop-compare-relate.component';
 import { SystemModuleShopCompareSettingComponent } from '../system-module-shop-compare-setting/system-module-shop-compare-setting.component';
 import { SystemModuleShopCompareTableArgs } from '../system-module-shop-compare-table/business/system-module-shop-compare-table.model';
 import { SystemModuleShopCompareTableComponent } from '../system-module-shop-compare-table/system-module-shop-compare-table.component';
@@ -40,6 +41,7 @@ import { SystemModuleShopCompareManagerWindow } from './system-module-shop-compa
     SystemModuleShopInformationComponent,
     SystemModuleShopRegistrationInformationComponent,
     SystemModuleShopCompareDetailsComponent,
+    SystemModuleShopCompareRelateComponent,
     SystemModuleShopDetailsComponent,
     CommonLabelSelecComponent,
     SelectShopObjectStateComponent,
@@ -236,7 +238,30 @@ export class SystemModuleShopCompareManagerComponent implements OnInit {
   };
 
   relate = {
-    open: () => {},
+    open: () => {
+      if (!this.table.selected) return;
+      this.window.relate.data = this.table.selected as Shop;
+      this.window.relate.show = true;
+    },
+    ok: (data: ShopRegistration) => {
+      if (this.table.selected instanceof Shop) {
+        this.table.selected.RegistrationId = data.Id;
+        this.business
+          .update(this.table.selected)
+          .then((x) => {
+            this.toastr.success('操作成功');
+            this.table.selected = undefined;
+            this.table.load.emit(this.table.args);
+          })
+          .catch((x) => {
+            this.toastr.error('操作失败');
+          });
+      }
+    },
+    close: () => {
+      this.window.relate.clear();
+      this.window.relate.show = false;
+    },
   };
 
   async oncreate() {

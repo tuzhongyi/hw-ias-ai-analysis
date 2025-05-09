@@ -38,11 +38,15 @@ export class PictureComponent implements OnChanges {
     if (changes['url']) {
       if (this.url) {
         this.src = this.url;
+      } else {
+        this.src = undefined;
       }
     }
     if (changes['id']) {
       if (this.id) {
         this.src = this.business.load(this.id);
+      } else {
+        this.src = undefined;
       }
     }
   }

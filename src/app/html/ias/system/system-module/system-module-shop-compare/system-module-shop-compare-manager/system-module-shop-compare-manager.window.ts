@@ -17,7 +17,6 @@ class SettingWindow extends WindowViewModel {
   style = {
     width: '435px',
     height: 'auto',
-    paddingTop: 0,
   };
 }
 class CompareWindow {
@@ -29,7 +28,6 @@ class CompareInfoWindow extends WindowViewModel {
   style = {
     width: '56%',
     height: '80%',
-    paddingTop: 0,
   };
   data?: ShopTaskCompareResult;
 }
@@ -37,7 +35,6 @@ class ComparePictureWindow extends WindowViewModel {
   style = {
     width: '56%',
     height: '80%',
-    paddingTop: 0,
   };
   datas: string[] = [];
   index = 1;
@@ -63,7 +60,6 @@ class InformationShopWindow extends WindowViewModel {
   style = {
     width: '70%',
     height: '80%',
-    paddingTop: 0,
   };
   data?: Shop;
 }
@@ -74,7 +70,6 @@ class InformationShopRegistrationWindow extends WindowViewModel {
   style = {
     width: '70%',
     height: '80%',
-    paddingTop: 0,
   };
   data?: ShopRegistration;
   get title() {
@@ -95,7 +90,6 @@ class PictureWindow extends WindowViewModel {
   style = {
     width: '60%',
     height: 'calc(60% + 60px)',
-    paddingTop: 0,
   };
   title = '';
   id?: string;
@@ -110,7 +104,6 @@ class SignWindow extends WindowViewModel {
   style = {
     width: '80%',
     height: '85%',
-    paddingTop: 0,
   };
   data?: Shop;
 }
@@ -121,7 +114,7 @@ class RelateWindow extends WindowViewModel {
   style = {
     width: '70%',
     height: '80%',
-    paddingTop: 0,
   };
   data?: Shop;
+  title = '关联注册商铺';
 }

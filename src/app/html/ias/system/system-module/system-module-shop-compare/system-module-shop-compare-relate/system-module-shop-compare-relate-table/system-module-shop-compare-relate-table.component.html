@@ -1,5 +1,5 @@
-<div class="system-module-shop-registration-table">
-  <div class="system-module-shop-registration-table-body table-page">
+<div class="system-module-shop-compare-relate-table">
+  <div class="system-module-shop-compare-relate-table-body table-page-list">
     <table
       border="0"
       cellpadding="0"
@@ -12,22 +12,11 @@
       </colgroup>
       <thead>
         <tr>
-          <th class="center">
-            <input
-              type="checkbox"
-              [checked]="
-                selecteds.length > 0 && selecteds.length === page.RecordCount
-              "
-            />
-          </th>
           <th class="center">序号</th>
           <th>照片</th>
           <th sort="Name">名称</th>
           <th sort="Address">地址</th>
           <th sort="Telphone">联系方式</th>
-          <th sort="RoadName">所在道路</th>
-          <th sort="CreationTime">创建时间</th>
-          <th class="center">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -35,20 +24,13 @@
           *ngFor="let item of datas; let index = index"
           (click)="select.on(item)"
           [ngClass]="{
-            selected: item && selecteds.includes(item),
+            selected: item && selected === item,
             nodata: !item
           }"
           [ngStyle]="{
             height: item ? 100 / page.PageSize + '%' : 0
           }"
         >
-          <td class="center">
-            <input
-              type="checkbox"
-              *ngIf="item"
-              [checked]="selecteds.includes(item)"
-            />
-          </td>
           <td class="center">
             <div *ngIf="item">
               {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
@@ -78,27 +60,12 @@
           <td [title]="item?.Telphone ?? ''">
             {{ item?.Telphone }}
           </td>
-          <td [title]="item?.RoadName ?? ''">
-            {{ item?.RoadName }}
-          </td>
-          <td>{{ item?.CreationTime | date : Language.yyyyMMddHHmmss }}</td>
-          <td class="center">
-            <div class="operation" *ngIf="item">
-              <div
-                class="button"
-                title="商铺详细信息"
-                (click)="oninfo(item, $event)"
-              >
-                <i class="howell-icon-details"></i>
-              </div>
-            </div>
-          </td>
         </tr>
       </tbody>
     </table>
   </div>
   <div
-    class="system-module-shop-registration-table-foot"
+    class="system-module-shop-compare-relate-table-foot"
     *ngIf="page.TotalRecordCount"
   >
     <paginator [page]="page" (change)="onpage($event)"> </paginator>

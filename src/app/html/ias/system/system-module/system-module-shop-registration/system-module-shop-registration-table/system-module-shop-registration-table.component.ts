@@ -79,17 +79,49 @@ export class SystemModuleShopRegistrationTableComponent
       this.subscription.add(sub);
     }
     this.filter = this.filter.load(this.args);
-    this.load(1, 10, this.filter);
+    this.load(1, this.page.PageSize, this.filter);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  select = {
+    on: (item?: SystemModuleShopRegistrationTableItem) => {
+      if (!item) return;
+      let index = this.selecteds.findIndex((x) => x.Id === item.Id);
+      if (index < 0) {
+        this.selecteds.push(item);
+      } else {
+        this.selecteds.splice(index, 1);
+      }
+      this.selectedsChange.emit(this.selecteds);
+    },
+    all: () => {
+      if (this.selecteds.length === this.page.RecordCount) {
+        this.selecteds = [];
+      } else {
+        this.selecteds = [];
+        for (let i = 0; i < this.datas.length; i++) {
+          const data = this.datas[i];
+          if (data) {
+            this.selecteds.push(data);
+          }
+        }
+      }
+      this.selectedsChange.emit(this.selecteds);
+    },
+    clear: () => {
+      this.selecteds = [];
+      this.selectedsChange.emit(this.selecteds);
+    },
+  };
 
   load(
     index: number,
     size: number,
     filter: SystemModuleShopRegistrationTableFilter
   ) {
+    this.select.clear();
     this.business.load(index, size, filter).then((x) => {
       this.page = x.Page;
 
@@ -105,29 +137,6 @@ export class SystemModuleShopRegistrationTableComponent
       this.load(num, this.page.PageSize, this.filter);
       this.selecteds = [];
       this.selectedsChange.emit(this.selecteds);
-    }
-  }
-  onselect(item?: SystemModuleShopRegistrationTableItem) {
-    if (!item) return;
-    let index = this.selecteds.findIndex((x) => x.Id === item.Id);
-    if (index < 0) {
-      this.selecteds.push(item);
-    } else {
-      this.selecteds.splice(index, 1);
-    }
-    this.selectedsChange.emit(this.selecteds);
-  }
-  onall() {
-    if (this.selecteds.length === this.page.RecordCount) {
-      this.selecteds = [];
-    } else {
-      this.selecteds = [];
-      for (let i = 0; i < this.datas.length; i++) {
-        const data = this.datas[i];
-        if (data) {
-          this.selecteds.push(data);
-        }
-      }
     }
   }
 

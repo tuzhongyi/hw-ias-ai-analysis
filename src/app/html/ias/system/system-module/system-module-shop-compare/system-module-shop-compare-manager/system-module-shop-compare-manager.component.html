@@ -171,6 +171,14 @@
       (cancel)="window.sign.show = false"
     ></ias-system-module-shop-details>
   </ias-window>
+  <ias-window
+    [Model]="window.relate"
+    *ngIf="window.relate.show"
+    [style]="window.relate.style"
+    [title]="window.relate.title"
+  >
+    <ias-system-module-shop-compare-relate></ias-system-module-shop-compare-relate>
+  </ias-window>
 
   <ias-window
     [Model]="window.compare.picture"

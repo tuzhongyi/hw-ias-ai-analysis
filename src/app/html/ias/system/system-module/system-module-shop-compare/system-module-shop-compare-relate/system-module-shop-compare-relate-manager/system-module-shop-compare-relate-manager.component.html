@@ -1,0 +1,27 @@
+<div class="system-module-shop-compare-relate-manager">
+  <div class="system-module-shop-compare-relate-manager-head">
+    <div class="system-module-shop-compare-relate-manager-head-title">
+      注册商铺列表
+    </div>
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">商铺名称</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="table.args.name" />
+        </div>
+      </div>
+      <div class="form-item submit">
+        <button class="button-clip-gradient" (click)="table.search()">
+          查找
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-shop-compare-relate-manager-body">
+    <ias-system-module-shop-compare-relate-table
+      [selected]="selected"
+      (selectedChange)="onselect($event)"
+      [load]="table.load"
+    ></ias-system-module-shop-compare-relate-table>
+  </div>
+</div>

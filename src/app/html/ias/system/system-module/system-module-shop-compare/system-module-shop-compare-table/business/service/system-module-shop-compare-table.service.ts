@@ -12,6 +12,9 @@ export class SystemModuleShopCompareTableService {
 
   async load(args: SystemModuleShopCompareTableArgs) {
     let tasks = await this.task.load(args.task);
+    if (tasks.length === 0) {
+      return [];
+    }
     let taskIds = tasks.map((task) => task.Id);
     return this.service.compare(taskIds);
   }

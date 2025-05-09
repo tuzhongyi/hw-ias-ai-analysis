@@ -1,0 +1,31 @@
+<div class="system-module-shop-compare-relate">
+  <div class="system-module-shop-compare-relate-body">
+    <div class="system-module-shop-compare-relate-body-info">
+      <div class="panel system-module-shop-compare-relate-body-info-analysis">
+        <div class="panel-title">分析商铺</div>
+        <div class="panel-body">
+          <ias-picture [id]="shop?.ImageUrl"></ias-picture>
+        </div>
+      </div>
+      <div
+        class="panel system-module-shop-compare-relate-body-info-registration"
+      >
+        <div class="panel-title">注册商铺</div>
+        <div class="panel-body">
+          <ias-picture *ngIf="selected" [id]="selected.ImageUrl"></ias-picture>
+          <div *ngIf="!selected" class="nodata">请选择</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel system-module-shop-compare-relate-body-table">
+      <ias-system-module-shop-compare-relate-manager
+        [(selected)]="selected"
+      ></ias-system-module-shop-compare-relate-manager>
+    </div>
+  </div>
+  <div class="system-module-shop-compare-relate-foot button-group">
+    <button class="button-clip-gradient" (click)="onok()">绑定</button>
+    <button class="button-clip-blue" (click)="oncancel()">取消</button>
+  </div>
+</div>
