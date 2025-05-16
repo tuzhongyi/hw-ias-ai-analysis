@@ -9,11 +9,12 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../common/components/paginator/paginator.component';
-import { EventRecord } from '../../../../../common/data-core/models/arm/event/event-record.model';
+import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import {
   Page,
   Paged,
 } from '../../../../../common/data-core/models/page-list.model';
+import { ColorTool } from '../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../common/tools/language-tool/language';
 import { SystemEventTableBusiness } from './business/system-event-table.business';
 import {
@@ -33,20 +34,26 @@ import { SystemEventTableService } from './business/system-event-table.service';
 export class SystemEventTableComponent implements OnInit, OnDestroy {
   @Input() args = new SystemEventTableArgs();
   @Input('load') _load?: EventEmitter<SystemEventTableArgs>;
-  @Output() position = new EventEmitter<EventRecord>();
-  @Output() video = new EventEmitter<EventRecord>();
-  @Output() details = new EventEmitter<EventRecord>();
-  @Output('picture') picture_ = new EventEmitter<Paged<Paged<EventRecord>>>();
+  @Output() position = new EventEmitter<MobileEventRecord>();
+  @Output() video = new EventEmitter<MobileEventRecord>();
+  @Output() details = new EventEmitter<MobileEventRecord>();
+  @Output('picture') picture_ = new EventEmitter<
+    Paged<Paged<MobileEventRecord>>
+  >();
   @Input() get?: EventEmitter<number>;
+  @Output() got = new EventEmitter<Paged<Paged<MobileEventRecord>>>();
+  @Output() handle = new EventEmitter<Paged<MobileEventRecord>>();
+  @Output() merge = new EventEmitter<MobileEventRecord>();
 
   constructor(private business: SystemEventTableBusiness) {}
 
-  widths = ['5%', '15%', '10%', '6%', '12%', '12%', '8%', '10%', '12%', '10%'];
+  widths = ['5%', '15%', '12%', '10%', '6%', '12%', '8%', '10%', '12%', '10%'];
   datas: (SystemEventTableItem | undefined)[] = [];
   page = Page.create(1, 10);
   selected?: SystemEventTableItem;
 
   Language = Language;
+  Color = ColorTool;
 
   private filter = new SystemEventTableFilter();
   private subscription = new Subscription();
@@ -62,13 +69,13 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
     if (this.get) {
       let sub = this.get.subscribe((index) => {
         this.business.load(index, 1, this.filter).then((x) => {
-          let paged = new Paged<Paged<EventRecord>>();
+          let paged = new Paged<Paged<MobileEventRecord>>();
           paged.Page = x.Page;
-          let data = new Paged<EventRecord>();
+          let data = new Paged<MobileEventRecord>();
           data.Page = Page.create(1, 1, x.Data[0].Resources?.length ?? 0);
           data.Data = x.Data[0];
           paged.Data = data;
-          this.picture_.emit(paged);
+          this.got.emit(paged);
         });
       });
       this.subscription.add(sub);
@@ -86,6 +93,7 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
     this.business.load(index, size, this.filter).then((x) => {
       this.page = x.Page;
       this.datas = x.Data;
+
       while (this.datas.length < this.page.PageSize) {
         this.datas.push(undefined);
       }
@@ -112,18 +120,18 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
         page: number;
         picture: number;
       },
-      item: EventRecord
+      item: MobileEventRecord
     ) => {
       if (this.selected === item) {
         e.stopImmediatePropagation();
       }
 
-      let paged = new Paged<Paged<EventRecord>>();
+      let paged = new Paged<Paged<MobileEventRecord>>();
       let _index =
         this.page.PageSize * (this.page.PageIndex - 1) + index.page + 1;
       paged.Page = Page.create(_index, 1, this.page.TotalRecordCount);
 
-      let data = new Paged<EventRecord>();
+      let data = new Paged<MobileEventRecord>();
       data.Page = Page.create(
         index.picture + 1,
         1,
@@ -135,25 +143,60 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
       this.picture_.emit(paged);
     },
   };
+  disabled = {
+    relate: (item: MobileEventRecord) => {
+      return !(item.EventType == 9);
+    },
+    position: (item: MobileEventRecord) => {
+      return !item.Location;
+    },
+    video: (item: MobileEventRecord) => {
+      if (item.Resources && item.Resources.length > 0) {
+        return !item.Resources[0].RecordUrl;
+      }
+      return true;
+    },
+  };
 
   onpage(index: number) {
     this.load(index, this.page.PageSize);
   }
 
-  onposition(e: Event, item: EventRecord) {
+  onposition(e: Event, item: MobileEventRecord) {
     this.position.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }
   }
-  onvideo(e: Event, item: EventRecord) {
+  onvideo(e: Event, item: MobileEventRecord) {
     this.video.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }
   }
-  ondetails(e: Event, item: EventRecord) {
+  ondetails(e: Event, item: MobileEventRecord) {
     this.details.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
+  onhandle(e: Event, item: MobileEventRecord, index: number) {
+    let paged = new Paged<MobileEventRecord>();
+    paged.Data = item;
+    paged.Page = new Page();
+    paged.Page.PageIndex =
+      this.page.PageSize * (this.page.PageIndex - 1) + index + 1;
+    paged.Page.PageSize = 1;
+    paged.Page.RecordCount = 1;
+    paged.Page.PageCount = this.page.TotalRecordCount;
+    paged.Page.TotalRecordCount = this.page.TotalRecordCount;
+    this.handle.emit(paged);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
+  onmerge(e: Event, item: MobileEventRecord) {
+    this.merge.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }

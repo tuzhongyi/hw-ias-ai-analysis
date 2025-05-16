@@ -40,6 +40,8 @@ export class ShopRegistration implements IShop {
   Classification?: number;
   /**	Int32	用户分组ID	O	*/
   GroupId?: number;
+  /**	Int32	营业状态，1：停业，2：营业，3：装修	O */
+  BusinessState?: number;
   /**	String	描述信息	O	*/
   Description?: string;
   /**	String	所属街道	O	*/

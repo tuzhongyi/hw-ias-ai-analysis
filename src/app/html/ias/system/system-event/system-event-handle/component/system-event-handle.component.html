@@ -1,0 +1,164 @@
+<div class="system-event-handle">
+  <div class="system-event-handle-body">
+    <div class="panel system-event-handle-body-record">
+      <div class="system-event-handle-body-record-picture">
+        <ias-picture-polygon-multiple
+          [id]="picture.id"
+          [polygon]="picture.polygon"
+        >
+        </ias-picture-polygon-multiple>
+      </div>
+      <div class="system-event-handle-body-record-info">
+        <ias-system-event-record-details
+          [data]="data"
+        ></ias-system-event-record-details>
+      </div>
+    </div>
+    <div class="panel system-event-handle-body-sign">
+      <div class="system-event-handle-body-sign-picture">
+        <ias-picture-polygon-zoom
+          [id]="sign?.ImageUrl"
+          [polygon]="sign?.Polygon ?? []"
+        ></ias-picture-polygon-zoom>
+      </div>
+      <div class="system-event-handle-body-sign-table">
+        <ias-system-map-panel-details-shop-sign-table
+          *ngIf="shop"
+          [data]="shop"
+          [taskId]="data?.TaskId"
+          [(selected)]="sign"
+        ></ias-system-map-panel-details-shop-sign-table>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="data">
+    <div class="system-event-handle-operation">
+      <label [class.disabled]="!!data.Assignment?.Handled" for="misinform">
+        <input
+          type="radio"
+          name="operation"
+          id="misinform"
+          [checked]="model.misinform"
+          [disabled]="!!data.Assignment?.Handled"
+          (change)="operation.change('misinform')"
+        />
+        事件误报
+      </label>
+
+      <label [class.disabled]="!!data.Assignment?.Handled" for="marking">
+        <input
+          type="radio"
+          name="operation"
+          id="marking"
+          [checked]="model.shopmarking"
+          [disabled]="!!data.Assignment?.Handled"
+          (change)="operation.change('shopmarking')"
+        />
+        屏蔽商铺
+      </label>
+      <label
+        [class.disabled]="!!data.Assignment?.Handled"
+        for="merge"
+        *ngIf="data.EventType === Type.ShopSignCreated"
+      >
+        <input
+          type="radio"
+          name="operation"
+          id="merge"
+          [checked]="model.registrationmerge"
+          [disabled]="!!data.Assignment?.Handled"
+          (change)="operation.change('registrationmerge')"
+        />
+        合并商铺招牌
+      </label>
+      <label
+        [class.disabled]="!!data.Assignment?.Handled"
+        for="delete"
+        *ngIf="data.EventType === Type.ShopSignDisappeared"
+      >
+        <input
+          type="radio"
+          name="operation"
+          id="delete"
+          [checked]="model.registrationdelete"
+          [disabled]="!!data.Assignment?.Handled"
+          (change)="operation.change('registrationdelete')"
+        />
+        删除商铺
+      </label>
+
+      <label
+        [class.disabled]="!!data.Assignment?.Handled"
+        for="create"
+        *ngIf="data.EventType === Type.ShopSignCreated"
+      >
+        <input
+          type="radio"
+          name="operation"
+          id="create"
+          [checked]="model.registrationcreate"
+          [disabled]="!!data.Assignment?.Handled"
+          (change)="operation.change('registrationcreate')"
+        />
+        新增商铺
+      </label>
+      <label
+        [class.disabled]="!!data.Assignment?.Handled"
+        for="suspension"
+        *ngIf="data.EventType === Type.ShopSignDisappeared"
+      >
+        <input
+          type="radio"
+          name="operation"
+          id="suspension"
+          [checked]="model.shopsuspension"
+          [disabled]="!!data.Assignment?.Handled"
+          (change)="operation.change('shopsuspension')"
+        />
+        商铺停业
+      </label>
+      <label
+        [class.disabled]="!!data.Assignment?.Handled"
+        for="decoration"
+        *ngIf="data.EventType === Type.ShopSignDisappeared"
+      >
+        <input
+          type="radio"
+          name="operation"
+          id="decoration"
+          [checked]="model.shopdecoration"
+          [disabled]="!!data.Assignment?.Handled"
+          (change)="operation.change('shopdecoration')"
+        />
+        商铺装修
+      </label>
+      <label
+        [class.disabled]="!!data.Assignment?.Handled"
+        for="operation"
+        *ngIf="data.EventType === Type.ShopSignCreated"
+      >
+        <input
+          type="radio"
+          name="operation"
+          id="operation"
+          [checked]="model.shopoperation"
+          [disabled]="!!data.Assignment?.Handled"
+          (change)="operation.change('shopoperation')"
+        />
+        商铺营业
+      </label>
+    </div>
+  </ng-container>
+
+  <div class="system-event-handle-foot">
+    <div></div>
+    <div>
+      <ias-list-page [page]="page" (change)="onpage($event)"></ias-list-page>
+    </div>
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="onok()">确定</button>
+      <button class="button-clip-blue" (click)="oncancel()">取消</button>
+    </div>
+  </div>
+</div>

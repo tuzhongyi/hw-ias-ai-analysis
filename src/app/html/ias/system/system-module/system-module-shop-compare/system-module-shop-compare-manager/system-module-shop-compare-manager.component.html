@@ -177,7 +177,11 @@
     [style]="window.relate.style"
     [title]="window.relate.title"
   >
-    <ias-system-module-shop-compare-relate></ias-system-module-shop-compare-relate>
+    <ias-system-module-shop-compare-relate
+      [data]="window.relate.data"
+      (ok)="relate.ok($event)"
+      (cancel)="window.relate.show = false"
+    ></ias-system-module-shop-compare-relate>
   </ias-window>
 
   <ias-window

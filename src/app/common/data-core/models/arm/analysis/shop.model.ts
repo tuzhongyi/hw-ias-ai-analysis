@@ -27,6 +27,10 @@ export class Shop implements IShop {
   ShopType?: number;
   /**	String	关联的注册商铺信息	O */
   RegistrationId?: string;
+  /**	Boolean	是否为副或子招牌，true表示是子招牌，null或false表示不是。	O */
+  IsSubSignboard?: boolean;
+  /**	Int32	营业状态，1：停业，2：营业，3：装修	O */
+  BusinessState?: number;
   /**	Double	置信度，0-1	O	*/
   Confidence?: number;
   /**	GisPoint	商铺Gis坐标	O	*/

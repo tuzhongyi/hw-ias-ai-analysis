@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { EventRecord } from '../../../../../../common/data-core/models/arm/event/event-record.model';
+import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 
 @Component({
   selector: 'ias-system-event-details-assgin',
@@ -8,5 +8,5 @@ import { EventRecord } from '../../../../../../common/data-core/models/arm/event
   styleUrl: './system-event-details-assgin.component.less',
 })
 export class SystemEventDetailsAssginComponent {
-  @Input() data?: EventRecord;
+  @Input() data?: MobileEventRecord;
 }

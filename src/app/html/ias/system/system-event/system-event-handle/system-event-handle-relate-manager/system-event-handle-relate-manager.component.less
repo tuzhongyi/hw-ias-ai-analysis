@@ -1,0 +1,44 @@
+.system-event-handle-relate-manager {
+  width: 100%;
+  height: 100%;
+
+  @head-height: 36px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &-head {
+    width: 100%;
+    height: @head-height;
+    display: flex;
+    justify-content: space-between;
+
+    &-title {
+      font-size: 20px;
+      color: white;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+
+    .near {
+      width: auto;
+    }
+
+    .distance {
+      width: 80px;
+
+      .unit {
+        font-size: 14px;
+        color: white;
+      }
+    }
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @head-height - 10px);
+  }
+}

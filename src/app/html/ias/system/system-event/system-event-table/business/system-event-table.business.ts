@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { EventRecord } from '../../../../../../common/data-core/models/arm/event/event-record.model';
+import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
 import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
@@ -26,7 +26,7 @@ export class SystemEventTableBusiness {
     return paged;
   }
 
-  convert(source: EventRecord) {
+  convert(source: MobileEventRecord) {
     let plain = instanceToPlain(source);
     let data = plainToInstance(SystemEventTableItem, plain);
     data.EventTypeName = this.language.event.EventType(data.EventType, '');

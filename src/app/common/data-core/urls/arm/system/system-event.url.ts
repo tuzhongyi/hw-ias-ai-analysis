@@ -1,11 +1,9 @@
 import { AbstractUrl } from '../../abstract.url';
+import { SystemEventHandleUrl } from './system-event-handle.url';
 
 export class SystemEventUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/Events`);
-  }
-  handle(id: string) {
-    return `${this.item(id)}/Handle`;
   }
   misinfo(id: string) {
     return `${this.item(id)}/Misinfo`;
@@ -15,5 +13,9 @@ export class SystemEventUrl extends AbstractUrl {
   }
   capability() {
     return `${this.basic()}/Capability`;
+  }
+
+  handle(id: string) {
+    return new SystemEventHandleUrl(this.item(id));
   }
 }

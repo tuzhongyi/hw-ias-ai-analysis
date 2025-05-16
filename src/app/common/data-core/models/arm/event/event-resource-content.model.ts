@@ -15,6 +15,14 @@ export class EventResourceContent implements IModel {
   ResourceName!: string;
   /**	Int32	摄像机机位	O	*/
   PositionNo?: number;
+  /**
+   * String
+   * 关联的资源ID，
+   * 如：资源类型为Shop时，如果有关联的注册商铺此处为注册商铺ID
+   * O
+   **/
+  RelationId?: string;
+
   /**	Int64	数值	O	*/
   Value?: number;
   /**	String	图片地址	O	*/

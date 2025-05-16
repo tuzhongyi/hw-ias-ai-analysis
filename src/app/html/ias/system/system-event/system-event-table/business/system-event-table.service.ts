@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { ArmEventTriggerType } from '../../../../../../common/data-core/enums/event/arm-event-trigger-type.enum';
 import { ArmEventType } from '../../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { EventDataObject } from '../../../../../../common/data-core/models/arm/event/event-data-object.model';
-import { EventRecord } from '../../../../../../common/data-core/models/arm/event/event-record.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
+import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
 import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import {
@@ -22,7 +24,11 @@ export class SystemEventTableService {
     private analysis: ArmAnalysisRequestService
   ) {}
 
-  async load(index: number, size: number, filter: SystemEventTableFilter) {
+  async load(
+    index: number,
+    size: number,
+    filter: SystemEventTableFilter
+  ): Promise<PagedList<MobileEventRecord>> {
     let params = new GetEventsParams();
     params.PageIndex = index;
     params.PageSize = size;
@@ -54,6 +60,11 @@ export class SystemEventTableService {
         break;
     }
 
+    // let datas = [this.create.record()];
+    // let paged = PagedList.create(datas, index, size);
+
+    // return paged;
+
     // return this.test.shop(index, size, filter);
 
     return this.service.event.list(params);
@@ -71,7 +82,7 @@ export class SystemEventTableService {
       params.BeginTime = filter.duration.begin;
       params.EndTime = filter.duration.end;
       let paged = await this.analysis.shop.list(params);
-      let data = new PagedList<EventRecord>();
+      let data = new PagedList<MobileEventRecord>();
       data.Page = paged.Page;
 
       data.Data = [];
@@ -91,9 +102,9 @@ export class SystemEventTableService {
 
   private convert = {
     shop: async (shop: Shop) => {
-      let record = new EventRecord();
+      let record = new MobileEventRecord();
       record.EventTime = shop.CreationTime;
-      record.EventType = shop.ShopType as ArmEventType;
+      record.EventType = ArmEventType.ShopSignDisappeared;
       record.TriggerType = shop.ObjectState;
       record.IsLiveEvent = true;
       record.Id = shop.Id;
@@ -120,6 +131,33 @@ export class SystemEventTableService {
       data.Id = sign.Id;
       data.Polygon = sign.Polygon ?? [];
       return data;
+    },
+  };
+
+  private create = {
+    record: () => {
+      let record = new MobileEventRecord();
+      record.EventTime = new Date();
+      record.EventType = ArmEventType.ShopSignCreated;
+      record.TriggerType = ArmEventTriggerType.Begin;
+      record.IsLiveEvent = true;
+      record.Id = '1';
+      record.BeginTime = new Date();
+      record.EndTime = new Date();
+      record.Location = new GisPoint();
+      record.Location.Longitude = 121.31;
+      record.Location.Latitude = 31.23;
+      record.Resources = [this.create.resource()];
+      return record;
+    },
+    resource: () => {
+      let resource = new EventResourceContent();
+
+      resource.ResourceId = '1';
+      resource.ResourceName = '商铺招牌';
+      resource.RecordUrl = '2025_04_25/quyang/C2_2025_04_25T09_33_04_R.mkv';
+      resource.PositionNo = 1;
+      return resource;
     },
   };
 }

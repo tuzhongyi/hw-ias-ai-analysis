@@ -1,0 +1,16 @@
+<div class="system-event-handle-creation">
+  <div class="system-event-handle-creation-text">
+    是否新增商铺： <span class="name">{{ name }}</span> ？
+  </div>
+  <div class="system-event-handle-creation-value">
+    <label for="main">
+      <input type="radio" id="main" [checked]="!is" (change)="onmain()" />
+      主招牌
+    </label>
+
+    <label for="sub">
+      <input type="radio" id="sub" [checked]="is" (change)="onsub()" />
+      子招牌
+    </label>
+  </div>
+</div>

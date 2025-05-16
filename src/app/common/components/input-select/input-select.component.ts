@@ -24,6 +24,7 @@ export class InputSelectComponent implements OnChanges {
   @Input() results: IIdNameModel[] = [];
   @Input() placeholder: string = '';
   @Output() select = new EventEmitter<string>();
+  @Input() selected?: IIdNameModel;
 
   constructor() {}
 
@@ -42,6 +43,15 @@ export class InputSelectComponent implements OnChanges {
       if (change && !change.firstChange) {
         if (!this.is.selected) {
           this.is.dropdown = this.results.length > 0;
+        }
+      }
+    },
+    selected: (change: SimpleChange) => {
+      if (change && !change.firstChange) {
+        if (this.selected) {
+          this.text = this.selected.Name;
+          this.is.selected = true;
+          this.is.dropdown = false;
         }
       }
     },

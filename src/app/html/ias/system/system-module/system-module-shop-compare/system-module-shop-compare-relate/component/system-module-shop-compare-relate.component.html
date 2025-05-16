@@ -2,15 +2,15 @@
   <div class="system-module-shop-compare-relate-body">
     <div class="system-module-shop-compare-relate-body-info">
       <div class="panel system-module-shop-compare-relate-body-info-analysis">
-        <div class="panel-title">分析商铺</div>
+        <div class="panel-title">{{ data?.Name ?? "分析商铺" }}</div>
         <div class="panel-body">
-          <ias-picture [id]="shop?.ImageUrl"></ias-picture>
+          <ias-picture [id]="data?.ImageUrl"></ias-picture>
         </div>
       </div>
       <div
         class="panel system-module-shop-compare-relate-body-info-registration"
       >
-        <div class="panel-title">注册商铺</div>
+        <div class="panel-title">{{ selected?.Name ?? "注册商铺" }}</div>
         <div class="panel-body">
           <ias-picture *ngIf="selected" [id]="selected.ImageUrl"></ias-picture>
           <div *ngIf="!selected" class="nodata">请选择</div>

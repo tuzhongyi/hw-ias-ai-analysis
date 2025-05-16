@@ -6,7 +6,11 @@
       </div>
     </div>
     <div class="confirm-body">
-      <div class="hw-simple-title">{{ content }}</div>
+      <div class="hw-simple-title">
+        {{ content }}
+
+        <ng-content></ng-content>
+      </div>
     </div>
     <div class="confirm-foot">
       <button class="button-clip-gradient" (click)="onok()">

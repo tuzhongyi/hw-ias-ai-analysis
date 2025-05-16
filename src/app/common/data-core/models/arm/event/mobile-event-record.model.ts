@@ -7,7 +7,7 @@ import { Assignment } from './assignment.model';
 import { EventResourceContent } from './event-resource-content.model';
 
 /**	EventRecord (AI事件记录)	*/
-export class EventRecord implements IIdModel {
+export class MobileEventRecord implements IIdModel {
   /**	String	事件ID	M	*/
   Id!: string;
   /**	String	设备ID，设备序列号	M	*/
@@ -42,4 +42,6 @@ export class EventRecord implements IIdModel {
   Location?: GisPoint;
   /**	Int32	用户分组ID 	O */
   GroupId?: number;
+  /**	String	任务ID（店招新增，店招消失事件）	O */
+  TaskId?: string;
 }

@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './input-icon.component.less',
 })
 export class InputIconComponent {
-  @Input() value?: string | null;
+  @Input() value?: string | number | null;
   @Output() valueChange = new EventEmitter<string>();
   @Input() canclear = true;
   @Input() canhover = true;

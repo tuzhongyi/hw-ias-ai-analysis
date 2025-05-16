@@ -56,4 +56,16 @@ export class ColorTool {
         return '';
     }
   }
+
+  static EventType(value?: number) {
+    switch (value) {
+      case 9:
+        return '#23e353';
+      case 8:
+        return '#ff762c';
+
+      default:
+        return '#ddf4ff';
+    }
+  }
 }

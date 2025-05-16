@@ -22,6 +22,12 @@ export class SystemModuleShopRegistrationInformationBusiness {
     throw new Error('未找到店铺');
   }
 
+  road = {
+    get: (id: string) => {
+      return this.service.road.get(id);
+    },
+  };
+
   picture = {
     upload: (data: ArrayBuffer) => {
       return this.medium.upload(data);

@@ -1,6 +1,6 @@
 import { ArmEventTriggerType } from '../../../../../../common/data-core/enums/event/arm-event-trigger-type.enum';
 import { ArmEventType } from '../../../../../../common/data-core/enums/event/arm-event-type.enum';
-import { EventRecord } from '../../../../../../common/data-core/models/arm/event/event-record.model';
+import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 
 export class SystemEventTableArgs {
@@ -15,7 +15,7 @@ export class SystemEventTableFilter extends SystemEventTableArgs {
   }
 }
 
-export class SystemEventTableItem extends EventRecord {
+export class SystemEventTableItem extends MobileEventRecord {
   EventTypeName!: Promise<string>;
 }
 

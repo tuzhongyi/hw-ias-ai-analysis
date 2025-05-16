@@ -25,32 +25,6 @@
     </div>
   </div>
   <div class="system-module-shop-compare-details-foot">
-    <div>
-      <div
-        class="button left"
-        [ngClass]="{
-          disabled: !page || page.PageIndex == 1
-        }"
-        (click)="onprev()"
-      >
-        <i class="howell-icon-arrow2left"></i>
-      </div>
-    </div>
-    <div class="page" *ngIf="page">
-      <div>{{ page.PageIndex }}</div>
-      <div>/</div>
-      <div>{{ page.PageCount }}</div>
-    </div>
-    <div>
-      <div
-        class="button right"
-        [ngClass]="{
-          disabled: !page || page.PageIndex == page.PageCount
-        }"
-        (click)="onnext()"
-      >
-        <i class="howell-icon-arrow2right"></i>
-      </div>
-    </div>
+    <ias-list-page [page]="page" (change)="onpage($event)"></ias-list-page>
   </div>
 </div>

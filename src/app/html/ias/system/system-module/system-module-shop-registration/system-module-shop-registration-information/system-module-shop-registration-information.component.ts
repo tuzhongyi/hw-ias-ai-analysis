@@ -79,6 +79,9 @@ export class SystemModuleShopRegistrationInformationComponent
         }
       }
       if (this.shop.RoadId) {
+        this.business.road.get(this.shop.RoadId).then((x) => {
+          this.road.selected = x;
+        });
       }
     } else {
       this.business
@@ -118,7 +121,7 @@ export class SystemModuleShopRegistrationInformationComponent
       this.toastr.warning('商铺坐标纬度不能为空');
       return false;
     }
-    if (this.road.selected.length > 1) {
+    if (this.road.selected) {
       this.toastr.warning('请选择一条道路');
       return false;
     }
@@ -166,9 +169,10 @@ export class SystemModuleShopRegistrationInformationComponent
     },
   };
   road = {
-    selected: [] as Road[],
+    selected: undefined as Road | undefined,
+    datas: [] as Road[],
     change: (data: Road[]) => {
-      this.road.selected = data;
+      this.road.datas = data;
       if (data.length === 1) {
         this.shop.RoadId = data[0].Id;
         this.shop.RoadName = data[0].Name;

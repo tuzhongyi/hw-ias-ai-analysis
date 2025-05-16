@@ -1,0 +1,17 @@
+<div class="list-page">
+  <div>
+    <div class="button left" (click)="onprev()">
+      <i class="howell-icon-arrow2left"></i>
+    </div>
+  </div>
+  <div class="page" *ngIf="page">
+    <div>{{ page.PageIndex }}</div>
+    <div>/</div>
+    <div>{{ page.PageCount }}</div>
+  </div>
+  <div>
+    <div class="button right" (click)="onnext()">
+      <i class="howell-icon-arrow2right"></i>
+    </div>
+  </div>
+</div>

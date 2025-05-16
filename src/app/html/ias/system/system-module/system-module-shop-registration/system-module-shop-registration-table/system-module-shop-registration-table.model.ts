@@ -1,12 +1,18 @@
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 
 export class SystemModuleShopRegistrationTableArgs {
   name?: string;
   telphone?: string;
   states: ShopObjectState[] = [];
   road: Road[] = [];
+
+  point?: {
+    location: GisPoint;
+    distance: number;
+  };
 }
 
 export class SystemModuleShopRegistrationTableFilter extends SystemModuleShopRegistrationTableArgs {

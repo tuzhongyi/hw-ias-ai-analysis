@@ -9,10 +9,10 @@
           <th class="center">序号</th>
           <th>照片</th>
 
+          <th>资源名称</th>
           <th>事件类型</th>
           <th>是否实时</th>
           <th>发现时间</th>
-          <th>派单时间</th>
           <th>状态</th>
 
           <th>处置员</th>
@@ -52,7 +52,18 @@
           </td>
 
           <td>
-            <div>
+            <div *ngIf="item && item.Resources">
+              <span *ngFor="let resource of item.Resources">{{
+                resource.ResourceName
+              }}</span>
+            </div>
+          </td>
+          <td>
+            <div
+              [ngStyle]="{
+              color: Color.EventType(item?.EventType),
+            }"
+            >
               {{ item?.EventTypeName | async }}
             </div>
           </td>
@@ -62,28 +73,30 @@
           <td>
             <div>{{ item?.EventTime | date : Language.yyyyMMddHHmmss }}</div>
           </td>
-          <td>
-            <div>
-              {{
-                item
-                  ? (item.Assignment?.AssignmentTime
-                      | date : Language.yyyyMMddHHmmss) ?? "待派单"
-                  : ""
-              }}
-            </div>
-          </td>
           <td
             [ngClass]="{
               
               handled: !!(item?.Assignment?.Handled),
               unhandle: !(item?.Assignment?.Handled),
-              unassigned: !(item?.Assignment?.Assigned),
+              unassigned: !(item?.Assignment),
             }"
           >
-            @if(item){ @if(item.Assignment){ @if(item.Assignment.IsMisInfo){
-            误报 } @else{ @if(item.Assignment.Assigned){
-            @if(item.Assignment.Handled){ 已处置 } @else{ 未处置 } } @else{
-            待派单 } } } @else{ 待派单 } }
+            <ng-container *ngIf="item">
+              <ng-container *ngIf="item.Assignment">
+                <div *ngIf="item.Assignment.IsMisInfo" class="handled">
+                  误报
+                </div>
+                <ng-container *ngIf="!item.Assignment.IsMisInfo">
+                  <div *ngIf="item.Assignment.Handled" class="handled">
+                    已处置
+                  </div>
+                  <div *ngIf="!item.Assignment.Handled" class="unhandle">
+                    待处置
+                  </div>
+                </ng-container>
+              </ng-container>
+              <div *ngIf="!item.Assignment" class="unassigned">待派单</div>
+            </ng-container>
           </td>
           <td>
             {{ item?.Assignment?.Handler }}
@@ -95,6 +108,26 @@
             <div class="operation" *ngIf="item">
               <div
                 class="button"
+                [ngClass]="{
+                  disabled: disabled.relate(item)
+                }"
+                title="合并到注册商铺"
+                (click)="onmerge($event, item)"
+              >
+                <i class="mdi mdi-link"></i>
+              </div>
+              <div
+                class="button"
+                title="处置"
+                (click)="onhandle($event, item, index)"
+              >
+                <i class="mdi mdi-apple-keyboard-command"></i>
+              </div>
+              <div
+                class="button"
+                [ngClass]="{
+                  disabled: disabled.position(item)
+                }"
                 title="事件发生位置"
                 (click)="onposition($event, item)"
               >
@@ -102,6 +135,9 @@
               </div>
               <div
                 class="button"
+                [ngClass]="{
+                  disabled: disabled.video(item)
+                }"
                 title="事件视频"
                 (click)="onvideo($event, item)"
               >

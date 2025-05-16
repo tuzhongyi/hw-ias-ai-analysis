@@ -1,0 +1,30 @@
+<div class="system-event-record-details-page">
+  <div class="system-event-record-details-page-picture panel">
+    <ias-picture-polygon-multiple
+      [id]="picture.id"
+      [polygon]="picture.polygon"
+    ></ias-picture-polygon-multiple>
+  </div>
+  <div class="system-event-record-details-page-info">
+    <ias-system-event-record-details
+      [data]="data"
+    ></ias-system-event-record-details>
+  </div>
+  <div class="system-event-record-details-page-page">
+    <div>
+      <div class="button left" (click)="page.prev()">
+        <i class="howell-icon-arrow2left"></i>
+      </div>
+    </div>
+    <div class="page" *ngIf="_page">
+      <div>{{ _page.PageIndex }}</div>
+      <div>/</div>
+      <div>{{ _page.PageCount }}</div>
+    </div>
+    <div>
+      <div class="button right" (click)="page.next()">
+        <i class="howell-icon-arrow2right"></i>
+      </div>
+    </div>
+  </div>
+</div>

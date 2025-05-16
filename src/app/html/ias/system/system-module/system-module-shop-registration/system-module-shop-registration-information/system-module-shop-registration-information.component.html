@@ -1,4 +1,4 @@
-<div class="system-module-shop-registration-information">
+<div class="system-module-shop-registration-information root-router">
   <div class="system-module-shop-registration-information-body">
     <div class="system-module-shop-registration-information-body-medium">
       <div
@@ -94,7 +94,8 @@
             <div class="form-item-text" text-space-between>道路名称</div>
             <div class="form-item-value text">
               <ias-input-select-road
-                [(roads)]="road.selected"
+                [(roads)]="road.datas"
+                [selected]="road.selected"
               ></ias-input-select-road>
             </div>
           </div>

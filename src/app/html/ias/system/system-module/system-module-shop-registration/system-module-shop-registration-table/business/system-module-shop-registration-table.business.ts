@@ -67,6 +67,11 @@ export class SystemModuleShopRegistrationTableBusiness {
       params.ObjectStates = filter.states;
     }
 
+    if (filter.point) {
+      params.Location = filter.point.location;
+      params.LocationDistance = filter.point.distance;
+    }
+
     return this.service.shop.list(params);
   }
 }

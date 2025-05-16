@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { EventRecord } from '../../../../../../common/data-core/models/arm/event/event-record.model';
+import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { IPictureModel } from '../../../../share/picture/component/picture.model';
 import { SystemEventDetailsAssginComponent } from '../system-event-details-assgin/system-event-details-assgin.component';
 import { SystemEventDetailsHandleComponent } from '../system-event-details-handle/system-event-details-handle.component';
@@ -18,7 +18,7 @@ import { SystemEventDetailsTimelineComponent } from '../system-event-details-tim
   styleUrl: './system-event-details.component.less',
 })
 export class SystemEventDetailsComponent implements OnInit {
-  @Input() data?: EventRecord;
+  @Input() data?: MobileEventRecord;
 
   constructor() {}
 

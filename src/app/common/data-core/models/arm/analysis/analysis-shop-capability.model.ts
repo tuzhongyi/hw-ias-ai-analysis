@@ -18,7 +18,7 @@ export class AnalysisShopCapability implements IModel {
   ResultLabelTypes?: EnumNameValue<ResultLabelType>[];
   /**	EnumNameValue[]	经营范围	O	*/
   @Type(() => EnumNameValue)
-  BusinessScopes?: EnumNameValue[];
+  BusinessScopes?: EnumNameValue<string>[];
   /**	EnumNameValue[]	所属行业	O	*/
   @Type(() => EnumNameValue)
   Industries?: EnumNameValue[];
@@ -27,8 +27,17 @@ export class AnalysisShopCapability implements IModel {
   ShopObjectStates?: EnumNameValue<ShopObjectState>[];
   /**	EnumNameValue[]	摄像机机位	O	*/
   @Type(() => EnumNameValue)
-  CameraNos?: EnumNameValue[];
+  CameraNos?: EnumNameValue<string>[];
   /**	EnumNameValue[]	单位类型	O	*/
   @Type(() => EnumNameValue)
-  UnitTypes?: EnumNameValue[];
+  UnitTypes?: EnumNameValue<string>[];
+  /**	EnumNameValue[]	商铺朝向	O	R */
+  @Type(() => EnumNameValue)
+  ShopSides?: EnumNameValue<number>[];
+  /**	EnumNameValue[]	摄像机朝向	O	R */
+  @Type(() => EnumNameValue)
+  CameraSides?: EnumNameValue<number>[];
+  /**	EnumNameValue[]	营业状态	O	R */
+  @Type(() => EnumNameValue)
+  BusinessStates?: EnumNameValue<number>[];
 }

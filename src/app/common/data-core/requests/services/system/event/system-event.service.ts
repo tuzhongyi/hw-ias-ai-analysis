@@ -1,11 +1,12 @@
 import { instanceToPlain } from 'class-transformer';
-import { EventRecord } from '../../../../models/arm/event/event-record.model';
+import { MobileEventRecord } from '../../../../models/arm/event/mobile-event-record.model';
 import { EventCapability } from '../../../../models/capabilities/arm/event/event-capability.model';
 import { PagedList } from '../../../../models/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
+import { SystemEventHandleRequestService } from './handle/system-event-handle.service';
 import { GetEventsParams } from './system-event.params';
 
 export class SystemEventRequestService {
@@ -13,23 +14,23 @@ export class SystemEventRequestService {
 
   async get(id: string) {
     let url = ArmSystemUrl.event.item(id);
-    return this.http.get<HowellResponse<EventRecord>>(url).then((x) => {
-      return HowellResponseProcess.item(x, EventRecord);
+    return this.http.get<HowellResponse<MobileEventRecord>>(url).then((x) => {
+      return HowellResponseProcess.item(x, MobileEventRecord);
     });
   }
   async list(params: GetEventsParams) {
     let url = ArmSystemUrl.event.list();
     let plain = instanceToPlain(params);
     return this.http
-      .post<HowellResponse<PagedList<EventRecord>>, any>(url, plain)
+      .post<HowellResponse<PagedList<MobileEventRecord>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, EventRecord);
+        return HowellResponseProcess.paged(x, MobileEventRecord);
       });
   }
   async all(params: GetEventsParams = new GetEventsParams()) {
-    let data: EventRecord[] = [];
+    let data: MobileEventRecord[] = [];
     let index = 1;
-    let paged: PagedList<EventRecord>;
+    let paged: PagedList<MobileEventRecord>;
     do {
       params.PageIndex = index;
       paged = await this.list(params);
@@ -39,26 +40,17 @@ export class SystemEventRequestService {
     return data;
   }
 
-  async handle(id: string, data: FormData) {
-    let url = ArmSystemUrl.event.handle(id);
-    return this.http
-      .post<HowellResponse<EventRecord>, any>(url, data)
-      .then((x) => {
-        return HowellResponseProcess.item(x, EventRecord);
-      });
-  }
-
   async misinfo(id: string) {
     let url = ArmSystemUrl.event.misinfo(id);
-    return this.http.post<HowellResponse<EventRecord>>(url).then((x) => {
-      return HowellResponseProcess.item(x, EventRecord);
+    return this.http.post<HowellResponse<MobileEventRecord>>(url).then((x) => {
+      return HowellResponseProcess.item(x, MobileEventRecord);
     });
   }
 
   async assgin(id: string) {
     let url = ArmSystemUrl.event.assgin(id);
-    return this.http.post<HowellResponse<EventRecord>>(url).then((x) => {
-      return HowellResponseProcess.item(x, EventRecord);
+    return this.http.post<HowellResponse<MobileEventRecord>>(url).then((x) => {
+      return HowellResponseProcess.item(x, MobileEventRecord);
     });
   }
 
@@ -67,5 +59,13 @@ export class SystemEventRequestService {
     return this.http.get<HowellResponse<EventCapability>>(url).then((x) => {
       return HowellResponseProcess.item(x, EventCapability);
     });
+  }
+
+  private _handle?: SystemEventHandleRequestService;
+  public get handle(): SystemEventHandleRequestService {
+    if (!this._handle) {
+      this._handle = new SystemEventHandleRequestService(this.http);
+    }
+    return this._handle;
   }
 }

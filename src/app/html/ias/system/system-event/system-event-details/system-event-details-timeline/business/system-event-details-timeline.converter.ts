@@ -1,10 +1,10 @@
 import { formatDate } from '@angular/common';
-import { EventRecord } from '../../../../../../../common/data-core/models/arm/event/event-record.model';
+import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { IEChartModel } from './system-event-details-timeline.model';
 
 export class SystemEventDetailsTimelineConverter {
-  convert(data: EventRecord) {
+  convert(data: MobileEventRecord) {
     return [
       this.discover(data),
       this.task(data),
@@ -13,7 +13,7 @@ export class SystemEventDetailsTimelineConverter {
     ];
   }
 
-  private discover(data: EventRecord) {
+  private discover(data: MobileEventRecord) {
     let model: IEChartModel = {
       name: '',
       value: 0,
@@ -23,7 +23,7 @@ export class SystemEventDetailsTimelineConverter {
     }
     return model;
   }
-  private task(data: EventRecord) {
+  private task(data: MobileEventRecord) {
     let model: IEChartModel = {
       name: '',
       value: 0,
@@ -42,7 +42,7 @@ export class SystemEventDetailsTimelineConverter {
     return model;
   }
 
-  private processed(data: EventRecord) {
+  private processed(data: MobileEventRecord) {
     let model: IEChartModel = {
       name: '',
       value: 0,
@@ -61,7 +61,7 @@ export class SystemEventDetailsTimelineConverter {
     return model;
   }
 
-  private handled(data: EventRecord) {
+  private handled(data: MobileEventRecord) {
     let model: IEChartModel = {
       name: '',
       value: 0,

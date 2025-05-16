@@ -30,6 +30,7 @@ export class SystemMapPanelDetailsShopSignTableComponent
   implements OnInit, OnChanges, AfterViewChecked
 {
   @Input('data') shop?: Shop;
+  @Input() taskId?: string;
   @Input() selected?: ShopSign;
   @Output() selectedChange = new EventEmitter<ShopSign>();
   @Output() error = new EventEmitter<Error>();
@@ -48,7 +49,7 @@ export class SystemMapPanelDetailsShopSignTableComponent
 
   ngOnInit(): void {
     if (this.shop) {
-      this.load(this.shop.Id);
+      this.load(this.shop.Id, this.taskId);
     }
   }
 
@@ -84,9 +85,9 @@ export class SystemMapPanelDetailsShopSignTableComponent
     },
   };
 
-  private load(id: string) {
+  private load(id: string, taskId?: string) {
     this.business
-      .load(id)
+      .load(id, taskId)
       .then((x) => {
         this.datas = x;
         this.loaded.emit(this.datas);

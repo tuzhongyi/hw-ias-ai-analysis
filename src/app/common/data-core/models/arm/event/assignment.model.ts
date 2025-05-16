@@ -20,4 +20,10 @@ export class Assignment implements IModel {
   HandledImageUrls?: string[];
   /**	Boolean	是否为误报，true：误报，标记误报的事件Handled会被处置为true。	O	*/
   IsMisInfo?: boolean;
+  /**	String	处置描述	O */
+  HandleDescription?: string;
+  /**	String	店招关联描述	O */
+  AssociationDescription?: string;
+  /**	Int32	店招关联方式，1：误报，2：消失，3：停业或装修，4：恢复营业，5：新增屏蔽，6：子招牌合并	O */
+  AssociationType?: number;
 }

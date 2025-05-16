@@ -19,7 +19,7 @@ import { SystemModuleShopCompareRelateManagerComponent } from '../system-module-
   styleUrl: './system-module-shop-compare-relate.component.less',
 })
 export class SystemModuleShopCompareRelateComponent {
-  @Input() shop?: Shop;
+  @Input() data?: Shop;
   @Output() cancel = new EventEmitter<void>();
   @Output() ok = new EventEmitter<ShopRegistration>();
 

@@ -18,6 +18,7 @@ import { Page } from '../../../../../../common/data-core/models/page-list.model'
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { ShopSignViewModel } from '../../../../../../common/view-models/shop-sign/shop-sign.view-model';
+import { ListPageComponent } from '../../../../share/list-page/list-page.component';
 import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
 import { SystemTaskResultInfoSourceController } from './controller/system-task-result-info-source.controller';
 import { SystemTaskResultInfoBusiness } from './system-task-result-info.business';
@@ -30,6 +31,7 @@ import { SystemTaskResultInfoConverter } from './system-task-result-info.convert
     FormsModule,
     PicturePolygonComponent,
     TextSpaceBetweenDirective,
+    ListPageComponent,
   ],
   templateUrl: './system-task-result-info.component.html',
   styleUrl: './system-task-result-info.component.less',
@@ -93,15 +95,8 @@ export class SystemTaskResultInfoComponent {
     },
   };
 
-  onnext() {
-    if (this.page && this.page.PageIndex < this.page.PageCount) {
-      this.get.emit(++this.page.PageIndex);
-    }
-  }
-  onprev() {
-    if (this.page && this.page.PageIndex > 1) {
-      this.get.emit(--this.page.PageIndex);
-    }
+  onpage(index: number) {
+    this.get.emit(index);
   }
 
   onpicture() {

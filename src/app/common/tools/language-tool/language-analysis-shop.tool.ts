@@ -23,4 +23,8 @@ export class LanguageAnalysisShopTool extends LanguageAbstract {
     let values = await this.manager.ResultLabelTypes.get();
     return this.get(values, value, def);
   }
+  async BusinessState(value?: number, def: string = ''): Promise<string> {
+    let values = await this.manager.BusinessStates.get();
+    return this.get(values, value, def);
+  }
 }

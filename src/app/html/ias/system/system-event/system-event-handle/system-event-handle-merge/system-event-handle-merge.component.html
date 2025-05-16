@@ -1,0 +1,39 @@
+<div class="system-event-handle-merge">
+  <div class="forms">
+    <div class="form-item">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        商铺招牌名称
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="name" (input)="onname()" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        合并至注册商铺
+      </div>
+      <div class="form-item-value">
+        <input
+          type="text"
+          class="choose"
+          [value]="registration ? registration.Name : '请选择'"
+          (click)="onchoose()"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text"></div>
+      <div class="form-item-value radio">
+        <label for="main">
+          <input type="radio" id="main" [checked]="!is" (change)="onmain()" />
+          主招牌
+        </label>
+
+        <label for="sub">
+          <input type="radio" id="sub" [checked]="is" (change)="onsub()" />
+          子招牌
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

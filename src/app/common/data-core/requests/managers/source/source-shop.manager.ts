@@ -11,6 +11,9 @@ export class SourceShopManager {
   ShopObjectStates = new PromiseValue<EnumNameValue<number>[]>();
   CameraNos = new PromiseValue<EnumNameValue[]>();
   UnitTypes = new PromiseValue<EnumNameValue[]>();
+  ShopSides = new PromiseValue<EnumNameValue<number>[]>();
+  CameraSides = new PromiseValue<EnumNameValue<number>[]>();
+  BusinessStates = new PromiseValue<EnumNameValue<number>[]>();
   constructor(private capability: CapabilityManager) {
     this.init();
   }
@@ -40,6 +43,15 @@ export class SourceShopManager {
       }
       if (x.UnitTypes) {
         this.UnitTypes.set(x.UnitTypes);
+      }
+      if (x.ShopSides) {
+        this.ShopSides.set(x.ShopSides);
+      }
+      if (x.CameraSides) {
+        this.CameraSides.set(x.CameraSides);
+      }
+      if (x.BusinessStates) {
+        this.BusinessStates.set(x.BusinessStates);
       }
     });
   }

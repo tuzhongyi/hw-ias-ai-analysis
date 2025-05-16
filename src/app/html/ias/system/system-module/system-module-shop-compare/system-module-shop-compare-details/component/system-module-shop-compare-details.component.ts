@@ -8,6 +8,7 @@ import {
   Page,
   Paged,
 } from '../../../../../../../common/data-core/models/page-list.model';
+import { ListPageComponent } from '../../../../../share/list-page/list-page.component';
 import { SystemModuleShopCompareDetailsShopRegistrationComponent } from '../system-module-shop-compare-details-shop-registration/system-module-shop-compare-details-shop-registration.component';
 import { SystemModuleShopCompareDetailsShopComponent } from '../system-module-shop-compare-details-shop/system-module-shop-compare-details-shop.component';
 
@@ -15,6 +16,7 @@ import { SystemModuleShopCompareDetailsShopComponent } from '../system-module-sh
   selector: 'ias-system-module-shop-compare-details',
   imports: [
     CommonModule,
+    ListPageComponent,
     SystemModuleShopCompareDetailsShopComponent,
     SystemModuleShopCompareDetailsShopRegistrationComponent,
   ],
@@ -39,14 +41,7 @@ export class SystemModuleShopCompareDetailsComponent {
     this.picture.emit(paged);
   }
 
-  onnext() {
-    if (this.page && this.page.PageIndex < this.page.PageCount) {
-      this.get.emit(++this.page.PageIndex);
-    }
-  }
-  onprev() {
-    if (this.page && this.page.PageIndex > 1) {
-      this.get.emit(--this.page.PageIndex);
-    }
+  onpage(index: number) {
+    this.get.emit(index);
   }
 }

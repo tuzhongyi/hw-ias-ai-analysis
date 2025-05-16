@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
-import { EventRecord } from '../../../../../../common/data-core/models/arm/event/event-record.model';
+import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { wait } from '../../../../../../common/tools/wait';
 import { SystemEventDetailsTimelineBusiness } from './business/system-event-details-timeline.business';
 import { SystemEventDetailsTimelineOptions } from './system-event-details-timeline.option';
@@ -24,8 +24,8 @@ import { SystemEventDetailsTimelineOptions } from './system-event-details-timeli
 export class SystemEventDetailsTimelineComponent
   implements OnInit, AfterViewInit
 {
-  @Input() data?: EventRecord;
-  @Input('load') _load?: EventEmitter<EventRecord>;
+  @Input() data?: MobileEventRecord;
+  @Input('load') _load?: EventEmitter<MobileEventRecord>;
 
   constructor(private business: SystemEventDetailsTimelineBusiness) {}
 
@@ -63,7 +63,7 @@ export class SystemEventDetailsTimelineComponent
     });
   }
 
-  private load(data: EventRecord) {
+  private load(data: MobileEventRecord) {
     let models = this.business.load(data);
     let serie = (this.option.series as any)[0];
     let visual = this.option.visualMap as any;
