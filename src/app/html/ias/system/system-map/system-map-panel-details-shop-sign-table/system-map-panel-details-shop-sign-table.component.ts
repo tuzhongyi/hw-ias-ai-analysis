@@ -72,7 +72,7 @@ export class SystemMapPanelDetailsShopSignTableComponent
   change = {
     shop: (simple: SimpleChange) => {
       if (simple && !simple.firstChange && this.shop) {
-        this.load(this.shop.Id);
+        this.load(this.shop.Id, this.taskId);
       }
     },
     sign: (simple: SimpleChange) => {

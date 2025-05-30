@@ -77,6 +77,9 @@ export class SystemEventManagerComponent {
     args: new SystemEventTableArgs(),
     load: new EventEmitter<SystemEventTableArgs>(),
     get: new EventEmitter<number>(),
+    search: () => {
+      this.table.load.emit(this.table.args);
+    },
     on: {
       page: (index: number) => {
         this.table.get.emit(index);

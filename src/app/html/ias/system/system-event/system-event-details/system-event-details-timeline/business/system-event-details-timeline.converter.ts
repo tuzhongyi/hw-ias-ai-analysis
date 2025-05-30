@@ -1,4 +1,5 @@
 import { formatDate } from '@angular/common';
+import { ArmEventType } from '../../../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { IEChartModel } from './system-event-details-timeline.model';
@@ -20,6 +21,8 @@ export class SystemEventDetailsTimelineConverter {
     };
     if (data.BeginTime) {
       model.name = formatDate(data.BeginTime, Language.MonthDayHHmmss, 'en');
+    } else {
+      model.name = formatDate(data.EventTime, Language.MonthDayHHmmss, 'en');
     }
     return model;
   }
@@ -28,17 +31,31 @@ export class SystemEventDetailsTimelineConverter {
       name: '',
       value: 0,
     };
-    if (
-      data.Assignment &&
-      data.Assignment.Assigned &&
-      data.Assignment.AssignmentTime
-    ) {
-      model.name = formatDate(
-        data.Assignment.AssignmentTime,
-        Language.MonthDayHHmmss,
-        'en'
-      );
+    if (data.Assignment) {
+      if (data.Assignment.Assigned && data.Assignment.AssignmentTime) {
+        model.name = formatDate(
+          data.Assignment.AssignmentTime,
+          Language.MonthDayHHmmss,
+          'en'
+        );
+      }
     }
+
+    switch (data.EventType) {
+      case ArmEventType.ShopSignCreated:
+      case ArmEventType.ShopSignDisappeared:
+        if (!model.name) {
+          model.name = formatDate(
+            data.EventTime,
+            Language.MonthDayHHmmss,
+            'en'
+          );
+        }
+        break;
+      default:
+        break;
+    }
+
     return model;
   }
 

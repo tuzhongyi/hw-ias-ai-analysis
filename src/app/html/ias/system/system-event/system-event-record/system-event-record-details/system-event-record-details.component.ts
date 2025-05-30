@@ -27,7 +27,7 @@ export class SystemEventRecordDetailsComponent implements OnChanges {
 
   constructor(private _language: LanguageTool) {}
 
-  shop?: EventResourceContent;
+  resource?: EventResourceContent;
   language = {
     event: '',
     trigger: '',
@@ -46,7 +46,7 @@ export class SystemEventRecordDetailsComponent implements OnChanges {
       if (change) {
         if (this.data) {
           if (this.data.Resources && this.data.Resources.length > 0) {
-            this.shop = this.data.Resources[0];
+            this.resource = this.data.Resources[0];
           }
           this.init(this.data);
         }

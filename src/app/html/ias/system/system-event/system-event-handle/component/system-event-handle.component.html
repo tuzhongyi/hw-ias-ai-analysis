@@ -19,6 +19,7 @@
         <ias-picture-polygon-zoom
           [id]="sign?.ImageUrl"
           [polygon]="sign?.Polygon ?? []"
+          [zoom]="sign?.Polygon ? true : false"
         ></ias-picture-polygon-zoom>
       </div>
       <div class="system-event-handle-body-sign-table">
@@ -157,7 +158,13 @@
       <ias-list-page [page]="page" (change)="onpage($event)"></ias-list-page>
     </div>
     <div class="button-group">
-      <button class="button-clip-gradient" (click)="onok()">确定</button>
+      <button
+        class="button-clip-gradient"
+        (click)="onok()"
+        [disabled]="!!data?.Assignment?.Handled"
+      >
+        确定
+      </button>
       <button class="button-clip-blue" (click)="oncancel()">取消</button>
     </div>
   </div>

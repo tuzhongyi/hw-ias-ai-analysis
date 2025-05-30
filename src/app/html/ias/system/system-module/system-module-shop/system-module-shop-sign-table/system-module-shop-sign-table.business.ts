@@ -13,7 +13,7 @@ export class SystemModuleShopSignTableBusiness {
   ) {}
 
   async load(id: string, taskId?: string) {
-    let datas = await this.data(id);
+    let datas = await this.data(id, taskId);
     return datas.map((data) => this.converter.convert(data));
   }
 

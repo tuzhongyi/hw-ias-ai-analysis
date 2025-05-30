@@ -145,7 +145,7 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
   };
   disabled = {
     relate: (item: MobileEventRecord) => {
-      return !(item.EventType == 9);
+      return !(item.EventType == 9) || item.Assignment?.Handled;
     },
     position: (item: MobileEventRecord) => {
       return !item.Location;

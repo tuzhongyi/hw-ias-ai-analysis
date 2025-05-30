@@ -36,12 +36,12 @@
         {{ data.EndTime | date : Language.YearMonthDayHHmmss }}
       </div>
     </div>
-    <ng-container *ngIf="shop">
+    <ng-container *ngIf="resource">
       <div class="form-item">
         <div class="form-item-text" text-space-between [suffix]="':'">
-          商铺名称
+          资源名称
         </div>
-        <div class="form-item-value">{{ shop.ResourceName }}</div>
+        <div class="form-item-value">{{ resource.ResourceName }}</div>
       </div>
     </ng-container>
     <div class="form-item">
