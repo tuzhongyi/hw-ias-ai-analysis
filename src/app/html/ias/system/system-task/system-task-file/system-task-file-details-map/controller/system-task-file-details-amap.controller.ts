@@ -14,7 +14,7 @@ export class SystemTaskFileDetailsAMapController {
   label = new PromiseValue<SystemTaskFileDetailsAMapLabelController>();
 
   constructor() {
-    MapHelper.amap.get('map-container').then((x) => {
+    MapHelper.amap.get('system-task-file-details-map-container').then((x) => {
       this.map.set(x);
       this.arrow.set(new SystemTaskFileDetailsAMapArrowController(x));
       this.path.set(new SystemTaskFileDetailsAMapPathController(x));

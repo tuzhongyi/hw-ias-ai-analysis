@@ -448,4 +448,23 @@ export class Language {
         return def;
     }
   }
+
+  static AssociationType(value?: number, def = '未知') {
+    switch (value) {
+      case 1:
+        return '误报';
+      case 2:
+        return '消失';
+      case 3:
+        return '停业或装修';
+      case 4:
+        return '恢复营业';
+      case 5:
+        return '新增屏蔽';
+      case 6:
+        return '子招牌合并';
+      default:
+        return def;
+    }
+  }
 }

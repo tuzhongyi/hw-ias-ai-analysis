@@ -56,16 +56,87 @@
     <ias-system-event-table
       [args]="table.args"
       [load]="table.load"
-      [get]="table.get"
-      (got)="table.on.got($event)"
       (picture)="table.on.picture($event)"
-      (details)="table.on.details($event)"
-      (position)="table.on.position($event)"
+      (process)="table.on.process($event)"
+      (task)="table.on.task($event)"
       (video)="table.on.video($event)"
-      (handle)="table.on.handle($event)"
-      (merge)="table.on.merge($event)"
+      (details)="table.on.details($event)"
     ></ias-system-event-table>
   </div>
+
+  <ias-window
+    [Model]="window.process.sign.discover"
+    *ngIf="window.process.sign.discover.show"
+    [style]="window.process.sign.discover.style"
+    [title]="window.process.sign.discover.title"
+  >
+    <ias-system-event-process-sign-disconver
+      [data]="window.process.sign.discover.data"
+      [load]="controller.process.sign.discover.load"
+      (cancel)="window.process.sign.discover.show = false"
+      (picture)="picture.open($event)"
+      (marking)="controller.process.sign.discover.on.marking($event)"
+      (merge)="controller.process.sign.discover.on.merge($event)"
+      (create)="controller.process.sign.discover.on.create($event)"
+    ></ias-system-event-process-sign-disconver>
+  </ias-window>
+  <ias-window
+    [Model]="window.process.sign.disappear"
+    *ngIf="window.process.sign.disappear.show"
+    [style]="window.process.sign.disappear.style"
+    [title]="window.process.sign.disappear.title"
+  >
+    <ias-system-event-process-sign-disappear
+      [data]="window.process.sign.disappear.data"
+      (cancel)="window.process.sign.disappear.show = false"
+      (picture)="picture.open($event)"
+      (misinfo)="controller.process.sign.disappear.on.misinfo($event)"
+      (delete)="controller.process.sign.disappear.on.delete($event)"
+    ></ias-system-event-process-sign-disappear>
+  </ias-window>
+  <ias-window
+    [Model]="window.info"
+    *ngIf="window.info.show"
+    [style]="window.info.style"
+    [title]="window.info.title"
+  >
+    <ias-system-event-process-info
+      [data]="window.info.data"
+      (cancel)="window.info.show = false"
+      (picture)="picture.open($event)"
+    ></ias-system-event-process-info>
+  </ias-window>
+  <ias-window
+    [Model]="window.shop"
+    *ngIf="window.shop.show"
+    [style]="window.shop.style"
+    [title]="window.shop.title"
+  >
+    <ias-system-module-shop-registration-information
+      [data]="window.shop.data"
+      [input]="true"
+      (close)="window.shop.show = false"
+      (ok)="controller.process.sign.discover.on.shop.ok()"
+    ></ias-system-module-shop-registration-information>
+  </ias-window>
+
+  <ias-window
+    [Model]="window.task"
+    *ngIf="window.task.show"
+    [style]="window.task.style"
+    [title]="'AI分析工单'"
+  >
+    <ias-system-event-task [data]="window.task.data"></ias-system-event-task>
+  </ias-window>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.message"
+    (ok)="confirm.ok()"
+    (cancel)="confirm.close()"
+  >
+  </confirm-window>
 
   <ias-window
     [Model]="window.picture"
@@ -73,22 +144,13 @@
     [style]="window.picture.style"
     [title]="window.picture.title"
   >
-    <ias-picture-list-page
-      [datas]="window.picture.datas"
-      [(index)]="window.picture.index"
+    <ias-picture-list
+      [id]="window.picture.url"
+      [polygon]="window.picture.polygon"
+      [zoom]="window.picture.polygon.length > 0"
       [page]="window.picture.page"
       (pageChange)="picture.change($event)"
-    ></ias-picture-list-page>
-  </ias-window>
-  <ias-window
-    [Model]="window.details"
-    *ngIf="window.details.show"
-    [style]="window.details.style"
-    [title]="'AI分析工单'"
-  >
-    <ias-system-event-details
-      [data]="window.details.data"
-    ></ias-system-event-details>
+    ></ias-picture-list>
   </ias-window>
   <ias-window
     [Model]="window.video"
@@ -98,81 +160,4 @@
   >
     <ias-video [filename]="window.video.filename"></ias-video>
   </ias-window>
-  <ias-window
-    [Model]="window.map"
-    *ngIf="window.map.show"
-    [style]="window.map.style"
-    [title]="window.map.title"
-  >
-    <ias-system-event-map [location]="window.map.data"></ias-system-event-map>
-  </ias-window>
-  <ias-window
-    [Model]="window.handle"
-    *ngIf="window.handle.show"
-    [style]="window.handle.style"
-    [title]="'事件处置'"
-  >
-    <ias-system-event-handle
-      [data]="window.handle.data"
-      [page]="window.handle.page"
-      (get)="table.on.page($event)"
-      (misinform)="handle.on.misinform($event)"
-      (registrationdelete)="handle.on.registration.delete($event)"
-      (registrationcreate)="handle.on.registration.create($event)"
-      (registrationmerge)="handle.on.registration.merge($event)"
-      (shopsuspension)="handle.on.shop.suspension($event)"
-      (shopoperation)="handle.on.shop.operation($event)"
-      (shopdecoration)="handle.on.shop.decoration($event)"
-      (shopmarking)="handle.on.shop.marking($event)"
-      (close)="window.handle.show = false"
-    ></ias-system-event-handle>
-  </ias-window>
-  <confirm-window
-    [model]="window.creation"
-    *ngIf="window.creation.show"
-    [style]="window.creation.style"
-    (ok)="confirm.ok()"
-    (cancel)="confirm.close()"
-  >
-    <ias-system-event-handle-creation
-      [name]="window.creation.name"
-      [(is)]="window.creation.sub"
-    ></ias-system-event-handle-creation>
-  </confirm-window>
-  <confirm-window
-    [model]="window.merge"
-    *ngIf="window.merge.show"
-    [style]="window.merge.style"
-    [title]="window.merge.title"
-    (ok)="confirm.ok()"
-    (cancel)="confirm.close()"
-  >
-    <ias-system-event-handle-merge
-      [data]="window.merge.data"
-      [(name)]="window.merge.name"
-      [(is)]="window.merge.sub"
-      [registration]="window.merge.registration"
-      (choose)="handle.merge.relate.open($event)"
-    ></ias-system-event-handle-merge>
-  </confirm-window>
-  <ias-window
-    [Model]="window.relate"
-    *ngIf="window.relate.show"
-    [style]="window.relate.style"
-    [title]="window.relate.title"
-  >
-    <ias-system-event-handle-relate
-      [data]="window.relate.data"
-      (ok)="handle.merge.relate.ok($event)"
-      (cancel)="window.relate.show = false"
-    ></ias-system-event-handle-relate>
-  </ias-window>
-  <confirm-window
-    *ngIf="window.confirm.show"
-    [model]="window.confirm"
-    [content]="window.confirm.message"
-    (ok)="confirm.ok()"
-    (cancel)="confirm.close()"
-  >
-  </confirm-window>
 </div>

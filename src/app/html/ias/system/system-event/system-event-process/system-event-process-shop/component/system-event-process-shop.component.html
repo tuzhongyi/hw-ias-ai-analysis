@@ -1,0 +1,31 @@
+<div class="system-event-process-shop">
+  <div class="system-event-process-shop-body">
+    <ias-system-event-process-shop-table
+      [args]="args"
+      [load]="load"
+      [selected]="selected"
+      (selectedChange)="table.select($event)"
+      (loaded)="table.loaded($event)"
+    ></ias-system-event-process-shop-table>
+  </div>
+  <div class="system-event-process-shop-foot">
+    <div>
+      <label for="subname">
+        <input
+          type="checkbox"
+          id="subname"
+          [(ngModel)]="subname"
+          (change)="on.subname()"
+        />子招牌
+      </label>
+    </div>
+    <div class="button-group">
+      <button (click)="on.create()">
+        <i class="howell-icon-garbage2"></i> 创建
+      </button>
+      <button (click)="on.filter()">
+        <i class="mdi mdi-filter-outline"></i> 筛选
+      </button>
+    </div>
+  </div>
+</div>

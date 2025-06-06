@@ -39,21 +39,13 @@ export class SystemEventTableService {
       params.EventType = filter.type;
     }
     switch (filter.state) {
-      case 0:
-        params.Assigned = false;
-        break;
       case 1:
-        params.Assigned = true;
-        break;
-      case 2:
-        params.Assigned = true;
         params.Handled = false;
         break;
-      case 3:
-        params.Assigned = true;
+      case 2:
         params.Handled = true;
         break;
-      case 4:
+      case 3:
         params.IsMisInfo = true;
         break;
       default:

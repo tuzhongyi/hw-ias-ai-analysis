@@ -13,10 +13,9 @@ import { PictureComponent } from '../../../../share/picture/component/picture.co
 
 import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
-import { WheelInputNumberDirective } from '../../../../../../common/directives/wheel-input-number/wheel-input-number.directive';
-import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopDetailsMapComponent } from '../../system-module-shop/system-module-shop-details-map/system-module-shop-details-map.component';
+import { SystemModuleShopRegistrationInformationBusinessInfoComponent } from '../system-module-shop-registration-information-business-info/system-module-shop-registration-information-business-info.component';
 import { SystemModuleShopRegistrationInformationSubnameInputComponent } from '../system-module-shop-registration-information-subname-input/system-module-shop-registration-information-subname-input.component';
 import { SystemModuleShopRegistrationInformationSubnamesComponent } from '../system-module-shop-registration-information-subnames/system-module-shop-registration-information-subnames.component';
 import { SystemModuleShopRegistrationInformationBusiness } from './business/system-module-shop-registration-information.business';
@@ -29,15 +28,14 @@ import { SystemModuleShopRegistrationInformationWindow } from './system-module-s
     CommonModule,
     FormsModule,
     TextSpaceBetweenDirective,
-    WheelInputNumberDirective,
     UploadControlComponent,
     PictureComponent,
     HowellSelectComponent,
     SystemModuleShopDetailsMapComponent,
     SystemModuleShopRegistrationInformationSubnamesComponent,
     SystemModuleShopRegistrationInformationSubnameInputComponent,
+    SystemModuleShopRegistrationInformationBusinessInfoComponent,
     WindowComponent,
-    InputSelectRoadComponent,
   ],
   templateUrl: './system-module-shop-registration-information.component.html',
   styleUrl: './system-module-shop-registration-information.component.less',
@@ -60,12 +58,24 @@ export class SystemModuleShopRegistrationInformationComponent
     private business: SystemModuleShopRegistrationInformationBusiness,
     private toastr: ToastrService
   ) {}
-
-  shop = this.init();
+  private init = {
+    shop: () => {
+      let shop = new ShopRegistration();
+      shop.ObjectState = ShopObjectState.Created;
+      return shop;
+    },
+    road: () => {
+      this.business.road.all().then((x) => {
+        this.road.datas = x;
+      });
+    },
+  };
+  shop = this.init.shop();
 
   window = new SystemModuleShopRegistrationInformationWindow();
 
   ngOnInit(): void {
+    this.init.road();
     if (this.data) {
       let plain = instanceToPlain(this.data);
       this.shop = plainToInstance(ShopRegistration, plain);
@@ -77,11 +87,6 @@ export class SystemModuleShopRegistrationInformationComponent
             this.image.data = x as ArrayBuffer;
           });
         }
-      }
-      if (this.shop.RoadId) {
-        this.business.road.get(this.shop.RoadId).then((x) => {
-          this.road.selected = x;
-        });
       }
     } else {
       this.business
@@ -96,12 +101,6 @@ export class SystemModuleShopRegistrationInformationComponent
           this.shop.Location.Altitude = 0;
         });
     }
-  }
-
-  private init() {
-    let shop = new ShopRegistration();
-    shop.ObjectState = ShopObjectState.Created;
-    return shop;
   }
 
   get check() {
@@ -121,13 +120,14 @@ export class SystemModuleShopRegistrationInformationComponent
       this.toastr.warning('商铺坐标纬度不能为空');
       return false;
     }
-    if (this.road.selected) {
-      this.toastr.warning('请选择一条道路');
-      return false;
-    }
 
     if (!this.shop.ImageUrl) {
       this.toastr.warning('请上传商铺图片');
+      return false;
+    }
+
+    if (!this.shop.RoadId) {
+      this.toastr.warning('请选择一条道路');
       return false;
     }
 
@@ -169,17 +169,17 @@ export class SystemModuleShopRegistrationInformationComponent
     },
   };
   road = {
-    selected: undefined as Road | undefined,
     datas: [] as Road[],
-    change: (data: Road[]) => {
-      this.road.datas = data;
-      if (data.length === 1) {
-        this.shop.RoadId = data[0].Id;
-        this.shop.RoadName = data[0].Name;
-      } else {
-        this.shop.RoadId = undefined;
-        this.shop.RoadName = undefined;
-      }
+  };
+  info = {
+    business: {
+      open: () => {
+        this.window.business.show = true;
+      },
+      ok: (data: ShopRegistration) => {
+        this.data = data;
+        this.window.business.show = false;
+      },
     },
   };
 
@@ -206,6 +206,12 @@ export class SystemModuleShopRegistrationInformationComponent
       }
     }
     if (this.check) {
+      let road = this.road.datas.find((x) => x.Id === this.shop.RoadId);
+      if (!road) {
+        this.toastr.warning('所选择道路不存在');
+        return;
+      }
+      this.shop.RoadName = road.Name;
       this.business
         .update(this.shop)
         .then((x) => {
@@ -229,6 +235,12 @@ export class SystemModuleShopRegistrationInformationComponent
       }
     }
     if (this.check) {
+      let road = this.road.datas.find((x) => x.Id === this.shop.RoadId);
+      if (!road) {
+        this.toastr.warning('所选择道路不存在');
+        return;
+      }
+      this.shop.RoadName = road.Name;
       this.business
         .create(this.shop)
         .then((x) => {
@@ -252,6 +264,12 @@ export class SystemModuleShopRegistrationInformationComponent
         .then((x) => {
           this.shop.ImageUrl = x;
           if (this.check) {
+            let road = this.road.datas.find((x) => x.Id === this.shop.RoadId);
+            if (!road) {
+              this.toastr.warning('所选择道路不存在');
+              return;
+            }
+            this.shop.RoadName = road.Name;
             this.business
               .create(this.shop)
               .then((x) => {

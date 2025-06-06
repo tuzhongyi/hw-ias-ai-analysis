@@ -31,12 +31,17 @@ export class SystemEventManagerHandleBusiness {
       params.RegistrationId = registrationId;
       return this.service.event.handle.shop.create(eventId, params);
     },
-    merge: (id: string, registrationId: string, sub: boolean, name: string) => {
+    merge: (
+      id: string,
+      registrationId: string,
+      subname: boolean,
+      name?: string
+    ) => {
       let params = new MergeShopParams();
-      params.IsSubSignboard = sub;
+      params.IsSubSignboard = subname ? true : undefined;
       params.RegistrationId = registrationId;
-      params.Name = name;
-      return this.service.event.handle.shop.create(id, params);
+      params.Name = name ? name : undefined;
+      return this.service.event.handle.shop.merge(id, params);
     },
   };
 

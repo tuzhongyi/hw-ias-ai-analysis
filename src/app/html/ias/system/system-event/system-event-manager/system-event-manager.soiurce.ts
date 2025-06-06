@@ -15,11 +15,9 @@ export class SystemEventManagerSource {
   private init = {
     state: () => {
       return [
-        { Name: '待派单', Value: 0 },
-        { Name: '已派单', Value: 1 },
-        { Name: '待处置', Value: 2 },
-        { Name: '已处置', Value: 3 },
-        { Name: '误报', Value: 4 },
+        { Name: '待处置', Value: 1 },
+        { Name: '已处置', Value: 2 },
+        { Name: '屏蔽或误报', Value: 3 },
       ];
     },
   };

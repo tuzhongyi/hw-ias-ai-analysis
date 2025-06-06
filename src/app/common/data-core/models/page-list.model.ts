@@ -31,7 +31,8 @@ export class PagedList<T> implements IModel {
   Data!: T[];
 
   static create<T>(datas: T[], index: number, size: number) {
-    let count = datas.length;
+    let _datas = [...datas];
+    let count = _datas.length;
 
     let page = new Page();
 
@@ -46,7 +47,7 @@ export class PagedList<T> implements IModel {
     page.PageSize = size;
 
     let start = (index - 1) * size;
-    let onpage = datas.splice(start, size);
+    let onpage = _datas.splice(start, size);
 
     page.RecordCount = onpage.length;
     page.TotalRecordCount = count;
@@ -61,4 +62,17 @@ export class PagedList<T> implements IModel {
 export class Paged<T> implements IModel {
   Page!: Page;
   Data!: T;
+
+  static create<T>(
+    data: T,
+    index: number,
+    size: number = 1,
+    count: number = 0
+  ) {
+    let page = Page.create(index, size, count);
+    let paged = new Paged<T>();
+    paged.Page = page;
+    paged.Data = data;
+    return paged;
+  }
 }

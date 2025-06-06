@@ -26,6 +26,9 @@ export class SystemModuleShopRegistrationInformationBusiness {
     get: (id: string) => {
       return this.service.road.get(id);
     },
+    all: () => {
+      return this.service.road.all();
+    },
   };
 
   picture = {

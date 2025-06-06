@@ -1,0 +1,44 @@
+.system-event-task {
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+
+
+
+  &-body {
+    width: 100%;
+    height: calc(100%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .timeline {
+      width: 100%;
+      height: 130px;
+    }
+
+    .assgin {
+      width: 100%;
+      height: 130px;
+
+      .unassigned {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .handle {
+      width: 100%;
+      flex-grow: 1;
+      display: flex;
+      gap: 15px;
+
+      &>* {
+        width: calc((100% - 15px) * 0.5);
+      }
+    }
+  }
+}

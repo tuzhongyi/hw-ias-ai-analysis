@@ -1,0 +1,40 @@
+<div class="system-event-task">
+  <div class="system-event-task-body">
+    <div class="panel timeline">
+      <ias-system-event-task-timeline
+        [data]="data"
+      ></ias-system-event-task-timeline>
+    </div>
+    <div class="panel assgin">
+      <ias-system-event-task-assgin
+        *ngIf="data?.Assignment?.Assigned"
+        [data]="data"
+      ></ias-system-event-task-assgin>
+      <div class="unassigned">
+        <button
+          class="button-clip-gradient"
+          *ngIf="!data?.Assignment?.Assigned"
+        >
+          派单
+        </button>
+      </div>
+    </div>
+    <div class="handle">
+      <ias-system-event-task-handle
+        [datas]="unhandle.datas"
+        [title]="unhandle.title"
+        [(index)]="unhandle.index"
+        [nodata]="unhandle.nodata"
+      ></ias-system-event-task-handle>
+
+      <div>
+        <ias-system-event-task-handle
+          [datas]="handled.datas"
+          [title]="handled.title"
+          [(index)]="handled.index"
+          [nodata]="handled.nodata"
+        ></ias-system-event-task-handle>
+      </div>
+    </div>
+  </div>
+</div>

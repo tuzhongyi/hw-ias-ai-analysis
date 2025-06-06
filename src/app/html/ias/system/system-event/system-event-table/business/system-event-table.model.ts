@@ -4,7 +4,7 @@ import { MobileEventRecord } from '../../../../../../common/data-core/models/arm
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 
 export class SystemEventTableArgs {
-  duration = DateTimeTool.last.year(new Date());
+  duration = DateTimeTool.last.month(new Date());
   type?: ArmEventType;
   state?: number;
 }

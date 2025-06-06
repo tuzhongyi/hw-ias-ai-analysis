@@ -1,0 +1,61 @@
+<div class="system-event-process-shop-info" *ngIf="data">
+  <div class="forms">
+    <div class="form-item">
+      <div class="form-item-text baseline">商铺名称:</div>
+      <div class="form-item-value">{{ data.Name }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">商铺子名称:</div>
+      <div class="form-item-value">
+        {{
+          data.Subnames && data.Subnames.length > 0
+            ? data.Subnames.join(",")
+            : "-"
+        }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">分店名称:</div>
+      <div class="form-item-value">{{ data.BranchName || "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">联系方式:</div>
+      <div class="form-item-value">{{ data.Telphone || "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">营业状态:</div>
+      <div class="form-item-value">{{ state }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">关联商铺数量:</div>
+      <div class="form-item-value">{{ data.AssociatedCount ?? "-" }}</div>
+    </div>
+  </div>
+  <div class="forms">
+    <div class="form-item">
+      <div class="form-item-text">所属街道:</div>
+      <div class="form-item-value">{{ data.StreetName || "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">所属片区:</div>
+      <div class="form-item-value">{{ data.GridCellName || "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">所在道路:</div>
+      <div class="form-item-value">{{ data.RoadName || "-" }}</div>
+    </div>
+
+    <div class="form-item">
+      <div class="form-item-text baseline">商铺地址:</div>
+      <div class="form-item-value">{{ data.Address || "-" }}</div>
+    </div>
+    <!-- <div class="form-item">
+      <div class="form-item-text">坐标经度:</div>
+      <div class="form-item-value">{{ data.Location?.Longitude || "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">坐标纬度:</div>
+      <div class="form-item-value">{{ data.Location?.Latitude || "-" }}</div>
+    </div> -->
+  </div>
+</div>

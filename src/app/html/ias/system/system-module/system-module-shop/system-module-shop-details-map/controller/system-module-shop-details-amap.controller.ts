@@ -10,7 +10,7 @@ export class SystemModuleShopDetailsAMapController {
   dragend = new EventEmitter<number[]>();
 
   constructor() {
-    MapHelper.amap.get('map-container').then((x) => {
+    MapHelper.amap.get('system-module-shop-details-map-container').then((x) => {
       this.map.set(x);
     });
   }

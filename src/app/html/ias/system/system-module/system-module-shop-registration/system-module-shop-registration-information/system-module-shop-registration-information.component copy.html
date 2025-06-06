@@ -1,0 +1,339 @@
+<div class="system-module-shop-registration-information root-router">
+  <div class="system-module-shop-registration-information-body">
+    <div class="system-module-shop-registration-information-body-medium">
+      <div
+        class="panel system-module-shop-registration-information-body-medium-image"
+      >
+        <upload-control
+          [accept]="'image/*'"
+          [type]="0"
+          (upload)="image.upload($event)"
+        >
+          <ias-picture [src]="image.src" *ngIf="image.src"></ias-picture>
+          <div class="upload-image" *ngIf="!shop.ImageUrl">
+            <i class="howell-icon-plus"></i>
+          </div>
+        </upload-control>
+        <!-- <div class="image-zoom">
+          <i class="mdi mdi-magnify-plus-outline"></i>
+        </div> -->
+      </div>
+      <div
+        class="panel system-module-shop-registration-information-body-medium-map"
+      >
+        <ias-system-module-shop-details-map
+          *ngIf="shop.Location"
+          [data]="shop.Location"
+          [load]="location.change"
+          (dataChange)="onposition($event)"
+        ></ias-system-module-shop-details-map>
+      </div>
+    </div>
+    <div class="system-module-shop-registration-information-body-info">
+      <div class="panel">
+        <div class="panel-title">基本信息</div>
+        <div class="forms">
+          <div class="form-item full">
+            <div class="form-item-text">
+              <div class="name" text-space-between>商铺名称</div>
+              <div class="must">*</div>
+            </div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.Name" />
+            </div>
+          </div>
+          <div class="form-item full">
+            <div class="form-item-text">
+              <div class="name" text-space-between>商铺子名称</div>
+            </div>
+            <div class="form-item-value">
+              <ias-system-module-shop-registration-information-subnames
+                [datas]="shop.Subnames"
+                (add)="subname.input.open()"
+              ></ias-system-module-shop-registration-information-subnames>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>商铺类型</div>
+            <div class="form-item-value">
+              <hw-select [cannull]="true" [selected]="shop.ShopType">
+                <select [(ngModel)]="shop.ShopType">
+                  <option
+                    [ngValue]="item.Value"
+                    *ngFor="let item of source.types | async"
+                  >
+                    {{ item.Name }}
+                  </option>
+                </select>
+              </hw-select>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>分店名称</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.BranchName" />
+            </div>
+          </div>
+
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>商铺地址</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.Address" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>联系方式</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.Telphone" />
+            </div>
+          </div>
+
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>道路名称</div>
+            <div class="form-item-value text">
+              <ias-input-select-road
+                [(roads)]="road.datas"
+                [selected]="road.selected"
+              ></ias-input-select-road>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>
+              商铺在道路上序号
+            </div>
+            <div class="form-item-value text">
+              <input
+                type="number"
+                min="0"
+                step="1"
+                wheel-input-number
+                [(ngModel)]="shop.RoadOrderNo"
+              />
+            </div>
+          </div>
+          <div class="form-item" *ngIf="shop.Location">
+            <div class="form-item-text">
+              <div class="name" text-space-between>坐标经度</div>
+              <div class="must">*</div>
+            </div>
+            <div class="form-item-value">
+              <input
+                type="text"
+                [(ngModel)]="shop.Location.Longitude"
+                (input)="location.on()"
+              />
+            </div>
+          </div>
+          <div class="form-item" *ngIf="shop.Location">
+            <div class="form-item-text">
+              <div class="name" text-space-between>坐标纬度</div>
+              <div class="must">*</div>
+            </div>
+            <div class="form-item-value">
+              <input
+                type="text"
+                [(ngModel)]="shop.Location.Latitude"
+                (input)="location.on()"
+              />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>创建时间</div>
+            <div class="form-item-value">
+              <input
+                type="text"
+                readonly
+                [value]="shop.CreationTime | date : 'yyyy-MM-dd HH:mm:ss'"
+              />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>更新时间</div>
+            <div class="form-item-value">
+              <input
+                type="text"
+                readonly
+                [value]="shop.UpdateTime | date : 'yyyy-MM-dd HH:mm:ss'"
+              />
+            </div>
+          </div>
+
+          <div class="form-item full textarea">
+            <div class="form-item-text baseline" text-space-between>
+              描述信息
+            </div>
+            <div class="form-item-value">
+              <textarea [(ngModel)]="shop.Description"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">所属区域</div>
+        <div class="forms">
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>所属街道</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.StreetId" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>街道名称</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.StreetName" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>所属片区</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.GridCellId" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>所属片区名称</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.GridCellName" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">经营信息</div>
+        <div class="forms">
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>
+              统一社会信用代码
+            </div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.UscId" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>单位名称</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.UnitName" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>入驻载体名称</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.CarrierName" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>载体类型</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.CarrierType" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>单位类型</div>
+            <div class="form-item-value">
+              <hw-select [cannull]="true" [selected]="shop.UnitType">
+                <select [(ngModel)]="shop.UnitType">
+                  <option
+                    [ngValue]="item.Value"
+                    *ngFor="let item of source.units | async"
+                  >
+                    {{ item.Name }}
+                  </option>
+                </select>
+              </hw-select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>经营地址</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.BusinessAddress" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>注册地址</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.RegisteredAddress" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>所属行业</div>
+            <div class="form-item-value">
+              <hw-select [cannull]="true" [selected]="shop.Industry">
+                <select [(ngModel)]="shop.Industry">
+                  <option
+                    [ngValue]="item.Value"
+                    *ngFor="let item of source.industries | async"
+                  >
+                    {{ item.Name }}
+                  </option>
+                </select>
+              </hw-select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>企业负责人</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.PersonInCharge" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>联系人</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.Contract" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>联系方式</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.ContractDetails" />
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>经营范围</div>
+            <div class="form-item-value">
+              <hw-select [cannull]="true" [selected]="shop.BusinessScope">
+                <select [(ngModel)]="shop.BusinessScope">
+                  <option
+                    [ngValue]="item.Value"
+                    *ngFor="let item of source.scopes | async"
+                  >
+                    {{ item.Name }}
+                  </option>
+                </select>
+              </hw-select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-text" text-space-between>从业人数</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="shop.EmployeeNumber" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-shop-registration-information-foot">
+    <div class="button-group">
+      <button class="button-clip-gradient" *ngIf="input" (click)="oninput()">
+        导入
+      </button>
+      <button class="button-clip-gradient" *ngIf="!input" (click)="onok()">
+        确定
+      </button>
+      <button class="button-clip-blue" (click)="tocancel()">取消</button>
+    </div>
+  </div>
+
+  <ias-window
+    *ngIf="window.subname.show"
+    [Model]="window.subname"
+    [style]="window.subname.style"
+    [title]="window.subname.title"
+  >
+    <ias-system-module-shop-registration-information-subname-input
+      (close)="subname.input.close()"
+      (ok)="subname.input.add($event)"
+    ></ias-system-module-shop-registration-information-subname-input>
+  </ias-window>
+</div>

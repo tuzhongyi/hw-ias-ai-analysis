@@ -1,0 +1,36 @@
+.system-event-process-sign-disconver {
+  &-body {
+    &-shop {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+
+
+      &-head {
+        font-size: 20px;
+        color: white;
+      }
+
+      &-picture {
+        width: 100%;
+        aspect-ratio: 16 / 8;
+        width: 100%;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      &-table {
+        width: 100%;
+        flex-grow: 1;
+        overflow-y: hidden;
+      }
+
+      &-filter {
+        position: absolute;
+        right: 10px;
+        bottom: calc(10px + 32px + 1px + 1px);
+      }
+    }
+  }
+}

@@ -127,4 +127,9 @@ export class ShopRegistration implements IShop {
   RoadName?: string;
   /**	Int64	商铺在上道路序号	O	*/
   RoadOrderNo?: number;
+
+  /**	Double	距离中心点的GPS坐标距离，单位：米	O */
+  GPSDistance?: number;
+  /**	Int32	关联的商铺数量	O */
+  AssociatedCount?: number;
 }

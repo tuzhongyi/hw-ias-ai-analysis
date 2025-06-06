@@ -20,7 +20,10 @@ export class SystemModuleRoadMapAMapController {
 
   constructor() {
     MapHelper.amap
-      .get('map-container', [...MapHelper.amap.plugins, 'AMap.PolylineEditor'])
+      .get('system-module-road-map', [
+        ...MapHelper.amap.plugins,
+        'AMap.PolylineEditor',
+      ])
       .then((x) => {
         this.map.set(x);
         this.regist(x);

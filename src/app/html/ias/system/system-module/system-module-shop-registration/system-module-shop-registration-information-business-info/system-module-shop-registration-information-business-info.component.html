@@ -1,0 +1,100 @@
+<div
+  class="system-module-shop-registration-information-bussiness-info"
+  *ngIf="data"
+>
+  <div class="system-module-shop-registration-information-bussiness-info-body">
+    <div class="forms">
+      <div class="form-item full">
+        <div class="form-item-text" text-space-between>统一社会信用代码</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.UscId" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>单位名称</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.UnitName" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>单位类型</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.UnitType" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>载体类型</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.CarrierType" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>入驻载体名称</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.CarrierName" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>经营地址</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.BusinessAddress" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>注册地址</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.RegisteredAddress" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>企业负责人</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.PersonInCharge" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>所属行业</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.Industry" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>联系人</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.Contract" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>联系方式</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.ContractDetails" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>经营范围</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.BusinessScope" />
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>从业人数</div>
+        <div class="form-item-value">
+          <input
+            type="number"
+            wheel-input-number
+            [(value)]="data.EmployeeNumber"
+            min="0"
+            step="1"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="system-module-shop-registration-information-bussiness-info-foot button-group"
+  >
+    <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+    <button class="button-clip-blue" (click)="on.close()">取消</button>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+.system-event-process-shop-filter {
+  padding: 10px;
+  border: 2px #2d76ce solid;
+  box-shadow: 0 0 10px 0 rgb(105 173 255);
+  background: #050d14;
+  height: 100%;
+  pointer-events: all;
+  z-index: 9001;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &-head {
+    font-size: 20px;
+    color: white;
+  }
+
+  &-body {
+    flex-grow: 1;
+    overflow-y: hidden;
+
+    .forms {
+      flex-direction: column;
+      gap: 8px;
+
+      .form-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+
+        &-value {
+          width: 100%;
+
+          input,
+          select {
+            width: 100%;
+            height: 28px;
+            min-height: 28px;
+          }
+        }
+      }
+    }
+  }
+
+  &-foot {
+    justify-content: flex-end;
+
+    button {
+      height: 28px;
+      width: 80px;
+      min-width: 80px;
+    }
+  }
+}

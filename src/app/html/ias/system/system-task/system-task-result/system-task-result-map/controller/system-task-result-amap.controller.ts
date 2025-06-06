@@ -7,7 +7,7 @@ import { SystemTaskResultAMapLayerController } from './system-task-result-amap-l
 @Injectable()
 export class SystemTaskResultAMapController {
   constructor() {
-    MapHelper.amap.get('map-container').then((x) => {
+    MapHelper.amap.get('system-task-result-map-container').then((x) => {
       this.map.set(x);
       this.layer.set(new SystemTaskResultAMapLayerController(x));
     });

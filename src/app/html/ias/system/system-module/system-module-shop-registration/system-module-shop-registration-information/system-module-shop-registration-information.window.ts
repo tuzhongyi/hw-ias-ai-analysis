@@ -2,6 +2,7 @@ import { WindowViewModel } from '../../../../../../common/components/window-cont
 
 export class SystemModuleShopRegistrationInformationWindow {
   subname = new SubnameWindow();
+  business = new BusinessWindow();
 }
 
 class SubnameWindow extends WindowViewModel {
@@ -10,4 +11,11 @@ class SubnameWindow extends WindowViewModel {
     height: 'auto',
   };
   title = '添加子名称';
+}
+class BusinessWindow extends WindowViewModel {
+  style = {
+    width: '70%',
+    height: 'auto',
+  };
+  title = '营业执照信息';
 }

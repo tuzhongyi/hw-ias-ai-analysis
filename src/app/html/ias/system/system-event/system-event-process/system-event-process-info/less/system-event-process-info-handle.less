@@ -1,0 +1,57 @@
+.system-event-process-info {
+  &-body {
+    &-handle {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+
+      &-head {
+        font-size: 20px;
+        color: white;
+      }
+
+      &-picture {
+        width: 100%;
+        aspect-ratio: 16 / 8;
+        width: 100%;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      &-info {
+        width: 100%;
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 15px;
+      }
+
+      &-undo {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 30px;
+
+
+
+        &-image {
+          background-image: url(../../../../../../../../assets/image/no-data.png);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 100% 100%;
+          width: 30%;
+          aspect-ratio: 294/200;
+        }
+
+        &-text {
+          color: #3A72CE;
+          font-weight: bold;
+          font-size: 30px;
+        }
+      }
+
+    }
+  }
+}

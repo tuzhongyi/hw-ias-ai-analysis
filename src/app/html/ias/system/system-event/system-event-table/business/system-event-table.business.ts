@@ -23,6 +23,7 @@ export class SystemEventTableBusiness {
     let paged = new PagedList<SystemEventTableItem>();
     paged.Page = datas.Page;
     paged.Data = datas.Data.map((x) => this.convert(x));
+
     return paged;
   }
 

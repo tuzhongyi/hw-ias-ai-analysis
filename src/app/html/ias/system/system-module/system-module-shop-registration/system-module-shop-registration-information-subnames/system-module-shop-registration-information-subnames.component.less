@@ -46,12 +46,27 @@
 
   &-button {
     height: 100%;
-    aspect-ratio: 1;
+    width: auto;
+
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #2d76ce;
-    font-size: 24px;
+    color: #ddf4ff;
+    background-color: rgba(45, 118, 206, 0.3);
+    padding: 0 10px;
+    font-size: 14px;
+    border-left: 1px solid #2d76ce;
+
+    &:hover {
+      color: white;
+      background-color: rgba(45, 118, 206, 0.5);
+    }
+
+    i {
+      color: #2d76ce;
+      font-size: 24px;
+    }
+
   }
 }

@@ -1,0 +1,53 @@
+.system-event-process-sign-disappear {
+  &-body {
+
+    &-record {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &-head {
+        font-size: 20px;
+        color: white;
+      }
+
+      &-picture {
+        width: 100%;
+        aspect-ratio: 16 / 8;
+        width: 100%;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      &-content {
+        flex-grow: 1;
+        width: 100%;
+        display: flex;
+        gap: 10px;
+
+        &-info {
+          width: calc((100% - 10px) / 2);
+          height: auto !important;
+          flex-grow: 1;
+
+          box-sizing: border-box;
+
+          &.red {
+            border: 1px solid #914319;
+          }
+
+          &.green {
+            border: 1px solid #288f32;
+          }
+        }
+
+        &-map {
+          width: calc((100% - 10px) / 2);
+          height: auto !important;
+          flex-grow: 1;
+        }
+      }
+
+    }
+  }
+}

@@ -31,7 +31,7 @@ export class SystemMapAMapController {
   constructor() {
     MapHelper.amap
       .get(
-        'map-container',
+        'system-map',
         [...MapHelper.amap.plugins, 'AMap.CircleEditor', 'AMap.Adaptor'],
         true
       )

@@ -1,0 +1,161 @@
+.system-module-shop-registration-information {
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+
+  @foot-height: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @foot-height - 15px);
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    .panel {
+      padding: 15px;
+    }
+
+    .form {
+      &s {
+        flex-wrap: wrap;
+
+      }
+
+
+      &-item {
+        width: calc((100% - 20px) * 0.5);
+        height: 36px;
+
+        &.full {
+          width: 100%;
+
+
+        }
+
+        &.textarea {
+          height: 60px;
+
+          textarea {
+            width: 100%;
+            height: 60px;
+          }
+        }
+
+        &-text {
+          width: 126px;
+          min-width: 126px;
+
+          &>.name {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+          }
+        }
+
+        &-value {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          height: 100%;
+
+          &>* {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            width: 100%;
+            height: 100%;
+          }
+
+
+        }
+
+
+      }
+
+
+    }
+
+    &-medium {
+      width: calc((100% - 10px) * 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &-image {
+        flex-grow: 0;
+        width: 100%;
+        aspect-ratio: 16/9;
+        padding: 0 !important;
+        position: relative;
+
+        .upload-image {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 50px;
+
+          &:hover {
+            color: white;
+          }
+        }
+
+        &:hover {
+          .image-zoom {
+            opacity: 1;
+          }
+        }
+
+        .image-zoom {
+          opacity: 0;
+          position: absolute;
+          right: 10px;
+          bottom: 10px;
+          width: 30px;
+          height: 30px;
+          background-color: rgba(45, 118, 206, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 7px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgba(45, 118, 206, 1);
+            color: white;
+          }
+        }
+      }
+
+      &-map {
+        width: 100%;
+        flex-grow: 1;
+        padding: 0 !important;
+      }
+    }
+
+    &-info {
+      width: calc((100% - 10px) * 0.6);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+    }
+  }
+
+  &-foot {
+    width: 100%;
+    height: @foot-height;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+  }
+}

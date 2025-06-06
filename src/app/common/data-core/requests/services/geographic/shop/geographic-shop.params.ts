@@ -22,6 +22,10 @@ export class GetShopRegistrationsParams extends PagedParams {
   Classifications?: number[];
   /**	String[]	道路ID	O	*/
   RoadIds?: string[];
+  /**	Int32[]	营业状态，1：停业，2：营业，3：装修	O */
+  BusinessStates?: number[];
+  /**	Int32	关联的商铺数量，大于等于的数量。	O */
+  AssociatedCount?: number;
   /**	String	升序属性，不区分大小写	O	*/
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/

@@ -1,0 +1,82 @@
+<div class="system-event-process-sign-disconver">
+  <div class="system-event-process-sign-disconver-body">
+    <div class="system-event-process-sign-disconver-body-record panel">
+      <div class="system-event-process-sign-disconver-body-record-head">
+        详细信息
+      </div>
+      <div
+        class="system-event-process-sign-disconver-body-record-picture border"
+        (click)="record.picture.click()"
+      >
+        <ias-picture-polygon-multiple
+          [id]="record.picture.src"
+          [polygon]="record.picture.polygon"
+        ></ias-picture-polygon-multiple>
+      </div>
+      <div class="system-event-process-sign-disconver-body-record-content">
+        <div
+          class="system-event-process-sign-disconver-body-record-content-info"
+          [ngClass]="
+        {
+          red:data?.EventType === 8,
+          green: data?.EventType === 9,
+        }"
+        >
+          <ias-system-event-record-details
+            [data]="data"
+          ></ias-system-event-record-details>
+        </div>
+        <div
+          class="system-event-process-sign-disconver-body-record-content-map border"
+        >
+          <ias-system-event-map
+            [location]="data?.Location"
+            [marker]="map.marker"
+            [points]="map.point ? [map.point] : []"
+          ></ias-system-event-map>
+        </div>
+      </div>
+    </div>
+    <div class="system-event-process-sign-disconver-body-shop panel">
+      <div class="system-event-process-sign-disconver-body-shop-head">
+        处置信息
+      </div>
+      <div
+        class="system-event-process-sign-disconver-body-shop-picture border"
+        (click)="shop.picture.click()"
+      >
+        <ias-picture-polygon-multiple
+          [id]="shop.picture.src"
+          [polygon]="shop.picture.polygon"
+        ></ias-picture-polygon-multiple>
+      </div>
+      <div class="system-event-process-sign-disconver-body-shop-table">
+        <ias-system-event-process-shop
+          [data]="data"
+          (selectedChange)="shop.on.select($event)"
+          [(subname)]="subname"
+          [args]="shop.args"
+          [load]="_load"
+          (filter)="shop.on.filter()"
+          (create)="shop.on.create()"
+        ></ias-system-event-process-shop>
+      </div>
+      <div
+        class="system-event-process-sign-disconver-body-shop-filter"
+        *ngIf="shop.filter.show"
+      >
+        <ias-system-event-process-shop-filter
+          [args]="shop.args"
+          (ok)="shop.filter.ok($event)"
+          (close)="shop.filter.close()"
+        ></ias-system-event-process-shop-filter>
+      </div>
+    </div>
+  </div>
+  <div class="system-event-process-sign-disconver-foot button-group">
+    <!-- <button class="button-clip-gradient" (click)="on.misinfo()">误报</button> -->
+    <button class="button-clip-gradient" (click)="on.marking()">屏蔽</button>
+    <button class="button-clip-gradient" (click)="on.merge()">关联商铺</button>
+    <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+  </div>
+</div>

@@ -14,6 +14,7 @@
     height: calc(100% - @foot-height - 15px);
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     gap: 10px;
 
     .panel {
@@ -22,20 +23,15 @@
 
     .form {
       &s {
-        flex-wrap: wrap;
-
+        flex-direction: column;
+        height: auto;
+        width: calc((100% - 10px) * 0.5);
       }
 
 
       &-item {
-        width: calc((100% - 20px) * 0.5);
-        height: 36px;
-
-        &.full {
-          width: 100%;
-
-
-        }
+        width: 100%;
+        height: 28px;
 
         &.textarea {
           height: 60px;
@@ -70,8 +66,21 @@
             width: 100%;
             height: 100%;
           }
+        }
 
+        .business {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          width: 100%;
+          height: 100%;
 
+          &-state {}
+
+          &-info {
+            white-space: nowrap;
+            width: 200px;
+          }
         }
 
 
@@ -81,14 +90,13 @@
     }
 
     &-medium {
-      width: calc((100% - 10px) * 0.4);
+      width: 100%;
       display: flex;
-      flex-direction: column;
       gap: 10px;
 
       &-image {
         flex-grow: 0;
-        width: 100%;
+        width: calc((100% - 10px) * 0.5);
         aspect-ratio: 16/9;
         padding: 0 !important;
         position: relative;
@@ -134,17 +142,17 @@
       }
 
       &-map {
-        width: 100%;
-        flex-grow: 1;
+        width: calc((100% - 10px) * 0.5);
         padding: 0 !important;
       }
     }
 
     &-info {
-      width: calc((100% - 10px) * 0.6);
+      width: 100%;
       box-sizing: border-box;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+
       gap: 10px;
       overflow-y: auto;
     }

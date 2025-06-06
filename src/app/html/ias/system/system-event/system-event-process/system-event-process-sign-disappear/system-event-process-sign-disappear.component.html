@@ -1,0 +1,65 @@
+<div class="system-event-process-sign-disappear">
+  <div class="system-event-process-sign-disappear-body">
+    <div class="system-event-process-sign-disappear-body-record panel">
+      <div class="system-event-process-sign-disappear-body-record-head">
+        详细信息
+      </div>
+      <div
+        class="system-event-process-sign-disappear-body-record-picture border"
+        (click)="record.picture.click()"
+      >
+        <ias-picture-polygon-multiple
+          [id]="record.picture.src"
+          [polygon]="record.picture.polygon"
+        ></ias-picture-polygon-multiple>
+      </div>
+      <div class="system-event-process-sign-disappear-body-record-content">
+        <div
+          class="system-event-process-sign-disappear-body-record-content-info"
+          [ngClass]="
+        {
+          red:data?.EventType === 8,
+          green: data?.EventType === 9,
+        }"
+        >
+          <ias-system-event-record-details
+            [data]="data"
+          ></ias-system-event-record-details>
+        </div>
+        <div
+          class="system-event-process-sign-disappear-body-record-content-map border"
+        >
+          <ias-system-event-map
+            [location]="data?.Location"
+            [marker]="map.marker"
+            [points]="map.point ? [map.point] : []"
+          ></ias-system-event-map>
+        </div>
+      </div>
+    </div>
+    <div class="system-event-process-sign-disappear-body-shop panel">
+      <div class="system-event-process-sign-disappear-body-shop-head">
+        关联商铺信息
+      </div>
+      <div
+        class="system-event-process-sign-disappear-body-shop-picture border"
+        (click)="shop.picture.click()"
+      >
+        <ias-picture-polygon-multiple
+          [id]="shop.picture.src"
+          [polygon]="shop.picture.polygon"
+        ></ias-picture-polygon-multiple>
+      </div>
+      <div class="system-event-process-sign-disappear-body-shop-info border">
+        <ias-system-event-process-shop-info
+          [data]="shop.data"
+        ></ias-system-event-process-shop-info>
+      </div>
+    </div>
+  </div>
+  <div class="system-event-process-sign-disappear-foot button-group">
+    <button class="button-clip-gradient" (click)="on.misinfo()">误报</button>
+    <button class="button-clip-gradient" (click)="on.delete()">删除商铺</button>
+    <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+  </div>
+</div>

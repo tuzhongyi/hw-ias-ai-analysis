@@ -1,0 +1,35 @@
+@import "./less/system-event-process-sign-disconver-record.less";
+@import "./less/system-event-process-sign-disconver-shop.less";
+
+.system-event-process-sign-disconver {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .border {
+    border: 1px solid #2d76ce;
+    box-sizing: border-box;
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - 36px - 15px);
+    display: flex;
+    gap: 15px;
+
+    .panel {
+      width: calc((100% - 10px) / 2);
+      height: 100%;
+
+    }
+
+
+  }
+
+  &-foot {
+    height: 36px;
+    justify-content: flex-end;
+  }
+}

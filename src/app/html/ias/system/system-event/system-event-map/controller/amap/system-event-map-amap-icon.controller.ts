@@ -1,27 +1,33 @@
-import { MapMarkerType } from '../../system-event-map.model';
+import {
+  MapMarkerShopColor,
+  MapMarkerType,
+} from '../../system-event-map.model';
 
 export class SystemEventMapAMapIconController {
   private type = MapMarkerType.other;
+  private color?: MapMarkerShopColor;
   private is = {
     selected: false,
     hover: false,
   };
 
   private get icon() {
-    let _default = '/assets/image/map/marker-red.png';
+    let _default = `/assets/image/map/marker-red.png`;
 
     switch (this.type) {
       case MapMarkerType.shop:
+        let color = this.color ?? MapMarkerShopColor.green;
+
         if (this.is.selected) {
           if (this.is.hover) {
-            return '/assets/image/map/marker/marker-shop-green-hover.png';
+            return `/assets/image/map/marker/marker-shop-${color}-hover.png`;
           }
-          return '/assets/image/map/marker/marker-shop-green.png';
+          return `/assets/image/map/marker/marker-shop-${color}.png`;
         }
         if (this.is.hover) {
-          return '/assets/image/map/marker/marker-shop-blue-hover.png';
+          return `/assets/image/map/marker/marker-shop-${color}-hover.png`;
         }
-        return '/assets/image/map/marker/marker-shop-blue.png';
+        return `/assets/image/map/marker/marker-shop-${color}.png`;
       default:
         return _default;
     }
@@ -45,8 +51,9 @@ export class SystemEventMapAMapIconController {
     return icon;
   }
 
-  get(type: MapMarkerType) {
+  get(type: MapMarkerType, color?: MapMarkerShopColor) {
     this.type = type;
+    this.color = color;
     return this._get();
   }
 

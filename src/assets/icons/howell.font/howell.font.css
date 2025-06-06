@@ -2321,6 +2321,10 @@ a .howell-icon-flip-vertical:before {
   content: "\f320";
 }
 
+.howell-icon-garbage2 {
+  margin-top: 1px;
+}
+
 .howell-icon-garbage2:before {
   content: "\f321";
 }

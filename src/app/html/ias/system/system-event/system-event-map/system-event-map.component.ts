@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { SystemEventMapAMapController } from './controller/amap/system-event-map-amap.controller';
-import { ISystemEventMapArgs, MapMarkerType } from './system-event-map.model';
+import { ISystemEventMapArgs, MapMarker } from './system-event-map.model';
 
 @Component({
   selector: 'ias-system-event-map',
@@ -18,18 +18,20 @@ import { ISystemEventMapArgs, MapMarkerType } from './system-event-map.model';
 })
 export class SystemEventMapComponent implements OnInit, OnChanges {
   @Input() location?: GisPoint;
-  @Input() type = MapMarkerType.other;
+  @Input() marker = new MapMarker();
   @Input() points: GisPoint[] = [];
 
   constructor(private amap: SystemEventMapAMapController) {}
 
   private args: ISystemEventMapArgs = {
-    type: this.type,
+    type: this.marker.type,
+    color: this.marker.color,
   };
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['type']) {
-      this.args.type = changes['type'].currentValue;
+    if (changes['marker']) {
+      this.args.type = this.marker.type;
+      this.args.color = this.marker.color;
     }
     if (changes['points']) {
       this.amap.point.clear().then((x) => {

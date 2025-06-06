@@ -1,31 +1,79 @@
+import { Injectable } from '@angular/core';
 import { WindowViewModel } from '../../../../../common/components/window-control/window.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/analysis/shop-registration.model';
-import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
+import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
 import { Page } from '../../../../../common/data-core/models/page-list.model';
+import { HtmlTool } from '../../../../../common/tools/html-tool/html.tool';
 
+@Injectable()
 export class SystemEventManagerWindow {
   picture = new PictureWindow();
-  details = new DetailsWindow();
+  task = new TaskWindow();
   video = new VideoWindow();
-  map = new MapWindow();
-  handle = new HandleWindow();
-  creation = new CreationWindow();
-  merge = new MergeWindow();
-  relate = new RelateWindow();
   confirm = new ConfirmWindow();
+  process = {
+    sign: {
+      discover: new ProcessSignDisconverWindow(),
+      disappear: new ProcessSignDisappearWindow(),
+    },
+  };
+  shop = new ShopWindow();
+  info = new InfoWindow();
 }
 
 class PictureWindow extends WindowViewModel {
   style = {
-    width: '56%',
-    height: '80%',
+    width: HtmlTool.screen.has.head.from.height(
+      screen.availHeight * 0.85,
+      16 / 9,
+      60
+    ),
+    height: '85%',
   };
-  datas: string[] = [];
-  index = 1;
+
   title = '';
   page?: Page;
+  url?: string;
+  polygon: HowellPoint[] = [];
+
+  clear() {
+    this.title = '';
+
+    this.url = undefined;
+    this.polygon = [];
+  }
+
+  set(data?: MobileEventRecord): void;
+  set(data?: ShopRegistration): void;
+  set(data?: MobileEventRecord | ShopRegistration): void {
+    this.clear();
+    if (data instanceof MobileEventRecord) {
+      this.from.record(data);
+    } else if (data instanceof ShopRegistration) {
+      this.from.shop(data);
+    }
+  }
+
+  private from = {
+    record: (data: MobileEventRecord) => {
+      if (data.Resources && data.Resources.length > 0) {
+        let resource = data.Resources[0];
+
+        this.title = resource.ResourceName;
+        this.url = resource.ImageUrl;
+        this.polygon = [];
+        if (resource.Objects && resource.Objects.length > 0) {
+          this.polygon = resource.Objects[0].Polygon;
+        }
+      }
+    },
+    shop: (data: ShopRegistration) => {
+      this.title = data.Name;
+      this.url = data.ImageUrl;
+      this.polygon = [];
+    },
+  };
 }
 class VideoWindow extends WindowViewModel {
   style = {
@@ -34,15 +82,7 @@ class VideoWindow extends WindowViewModel {
   };
   filename?: string;
 }
-class MapWindow extends WindowViewModel {
-  style = {
-    width: '56%',
-    height: '74%',
-  };
-  title = '';
-  data?: GisPoint;
-}
-class DetailsWindow extends WindowViewModel {
+class TaskWindow extends WindowViewModel {
   style = {
     width: '56%',
     height: '80%',
@@ -57,48 +97,61 @@ class HandleWindow extends WindowViewModel {
   data?: MobileEventRecord;
   page?: Page;
 }
-class CreationWindow extends WindowViewModel {
-  clear() {
-    this.name = '';
-    this.sub = false;
-  }
+
+class ShopWindow extends WindowViewModel {
   style = {
-    width: '500px',
-    height: 'auto',
+    width: HtmlTool.screen.has.head.from.height(
+      screen.availHeight * 0.85,
+      16 / 9,
+      60
+    ),
+    height: '85%',
   };
-  name = '';
-  sub = false;
-}
-class MergeWindow extends WindowViewModel {
-  clear() {
-    this.data = undefined;
-    this.name = '';
-    this.sub = false;
-    this.registration = undefined;
-  }
-  style = {
-    width: '500px',
-    height: 'auto',
-  };
-  title = '合并商铺招牌';
-  data?: MobileEventRecord;
-  name = '';
-  registration?: ShopRegistration;
-  sub = false;
-}
-class RelateWindow extends WindowViewModel {
-  clear() {
-    this.data = undefined;
-  }
-  style = {
-    width: '90%',
-    height: '80%',
-  };
-  data?: Shop;
-  title = '关联注册商铺';
+  data?: ShopRegistration;
+  title = '添加注册商铺';
 }
 
 class ConfirmWindow extends WindowViewModel {
+  clear() {
+    this.message = '';
+    this.result = undefined;
+  }
   message: string = '';
-  result: string = '';
+  result?: boolean;
+}
+class ProcessSignDisconverWindow extends WindowViewModel {
+  style = {
+    width: HtmlTool.screen.has.head.from.height(
+      screen.availHeight * 0.85,
+      16 / 9,
+      60
+    ),
+    height: '85%',
+  };
+  data?: MobileEventRecord;
+  title = '店招发现处置';
+}
+class ProcessSignDisappearWindow extends WindowViewModel {
+  style = {
+    width: HtmlTool.screen.has.head.from.height(
+      screen.availHeight * 0.85,
+      16 / 9,
+      60
+    ),
+    height: '85%',
+  };
+  data?: MobileEventRecord;
+  title = '店招消失处置';
+}
+class InfoWindow extends WindowViewModel {
+  style = {
+    width: HtmlTool.screen.has.head.from.height(
+      screen.availHeight * 0.85,
+      16 / 9,
+      60
+    ),
+    height: '85%',
+  };
+  data?: MobileEventRecord;
+  title = 'AI分析事件信息';
 }

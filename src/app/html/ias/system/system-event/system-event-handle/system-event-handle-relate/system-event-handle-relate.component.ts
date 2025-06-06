@@ -6,7 +6,10 @@ import { ShopRegistration } from '../../../../../../common/data-core/models/arm/
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 import { SystemEventMapComponent } from '../../system-event-map/system-event-map.component';
-import { MapMarkerType } from '../../system-event-map/system-event-map.model';
+import {
+  MapMarkerShopColor,
+  MapMarkerType,
+} from '../../system-event-map/system-event-map.model';
 import { SystemEventHandleRelateManagerComponent } from '../system-event-handle-relate-manager/system-event-handle-relate-manager.component';
 
 @Component({
@@ -30,7 +33,10 @@ export class SystemEventHandleRelateComponent {
 
   selected?: ShopRegistration;
   map = {
-    type: MapMarkerType.shop,
+    marker: {
+      type: MapMarkerType.shop,
+      color: MapMarkerShopColor.blue,
+    },
   };
 
   onok() {

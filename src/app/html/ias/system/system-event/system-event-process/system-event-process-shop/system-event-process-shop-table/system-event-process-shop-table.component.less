@@ -1,0 +1,63 @@
+.system-event-process-shop-table {
+  height: 100%;
+  width: 100%;
+  transition: all 0.5s;
+  display: block;
+
+  &-body {
+    height: 100%;
+    width: 100%;
+
+    &.table-split {
+      border: none;
+
+      .table-split-head {
+        border: none;
+        height: 32px;
+        background: #132240;
+        color: #69adff;
+
+        table {
+          tr {
+            th {
+              &:first-child {
+                padding-left: 10px;
+              }
+            }
+          }
+        }
+      }
+
+
+      .table-split-body {
+        height: calc(100% - 40px);
+
+        table {
+          tr {
+            height: 32px;
+            background-color: transparent;
+
+            &:hover {
+              background-color: rgba(30, 144, 255, 0.3);
+            }
+
+            &.selected {
+              background-color: rgba(30, 144, 255, 0.4);
+              color: white;
+            }
+
+            td {
+              &:first-child {
+                padding-left: 10px;
+
+                input {
+                  transform: scale(0.8);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { MapHelper } from '../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
 import {
   ISystemEventMapArgs,
+  MapMarkerShopColor,
   MapMarkerType,
 } from '../../system-event-map.model';
 import { SystemEventMapAMapMarkerController } from './system-event-map-amap-marker.controller';
@@ -13,7 +14,10 @@ import { SystemEventMapAMapPointController } from './system-event-map-amap-point
 export class SystemEventMapAMapController {
   constructor() {
     MapHelper.amap
-      .get('map-container', [...MapHelper.amap.plugins, 'AMap.PolylineEditor'])
+      .get('system-event-map', [
+        ...MapHelper.amap.plugins,
+        'AMap.PolylineEditor',
+      ])
       .then((x) => {
         this.map.set(x);
       });
@@ -23,9 +27,9 @@ export class SystemEventMapAMapController {
   private marker = new SystemEventMapAMapMarkerController();
   private points: SystemEventMapAMapPointController[] = [];
 
-  private _load(data: GisPoint, type: MapMarkerType) {
+  private _load(data: GisPoint, args: ISystemEventMapArgs) {
     this.map.get().then((x) => {
-      let marker = this.marker.set(data, type);
+      let marker = this.marker.set(data, args);
       this.marker.select();
       x.add(marker);
       x.setCenter(this.marker.position);
@@ -33,7 +37,7 @@ export class SystemEventMapAMapController {
   }
 
   async load(data: GisPoint, args: ISystemEventMapArgs) {
-    this._load(data, args.type);
+    this._load(data, args);
   }
 
   point = {
@@ -41,7 +45,10 @@ export class SystemEventMapAMapController {
       this.map.get().then((map) => {
         this.points = datas.map((x) => {
           let point = new SystemEventMapAMapPointController();
-          let marker = point.set(x, MapMarkerType.shop);
+          let marker = point.set(x, {
+            type: MapMarkerType.shop,
+            color: MapMarkerShopColor.blue,
+          });
           map.add(marker);
           return point;
         });

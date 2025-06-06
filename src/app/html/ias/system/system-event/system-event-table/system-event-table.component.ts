@@ -35,15 +35,14 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
   @Input() args = new SystemEventTableArgs();
   @Input('load') _load?: EventEmitter<SystemEventTableArgs>;
   @Output() position = new EventEmitter<MobileEventRecord>();
-  @Output() video = new EventEmitter<MobileEventRecord>();
-  @Output() details = new EventEmitter<MobileEventRecord>();
-  @Output('picture') picture_ = new EventEmitter<
-    Paged<Paged<MobileEventRecord>>
-  >();
+
+  @Output('picture') picture_ = new EventEmitter<MobileEventRecord>();
   @Input() get?: EventEmitter<number>;
   @Output() got = new EventEmitter<Paged<Paged<MobileEventRecord>>>();
-  @Output() handle = new EventEmitter<Paged<MobileEventRecord>>();
-  @Output() merge = new EventEmitter<MobileEventRecord>();
+  @Output() process = new EventEmitter<MobileEventRecord>();
+  @Output() video = new EventEmitter<MobileEventRecord>();
+  @Output() details = new EventEmitter<MobileEventRecord>();
+  @Output() task = new EventEmitter<MobileEventRecord>();
 
   constructor(private business: SystemEventTableBusiness) {}
 
@@ -114,33 +113,12 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
     get: (url: string) => {
       return this.business.medium.picture(url);
     },
-    on: (
-      e: Event,
-      index: {
-        page: number;
-        picture: number;
-      },
-      item: MobileEventRecord
-    ) => {
+    on: (e: Event, item: MobileEventRecord) => {
       if (this.selected === item) {
         e.stopImmediatePropagation();
       }
 
-      let paged = new Paged<Paged<MobileEventRecord>>();
-      let _index =
-        this.page.PageSize * (this.page.PageIndex - 1) + index.page + 1;
-      paged.Page = Page.create(_index, 1, this.page.TotalRecordCount);
-
-      let data = new Paged<MobileEventRecord>();
-      data.Page = Page.create(
-        index.picture + 1,
-        1,
-        item.Resources?.length ?? 0
-      );
-      data.Data = item;
-      paged.Data = data;
-
-      this.picture_.emit(paged);
+      this.picture_.emit(item);
     },
   };
   disabled = {
@@ -180,23 +158,20 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
       e.stopImmediatePropagation();
     }
   }
-  onhandle(e: Event, item: MobileEventRecord, index: number) {
-    let paged = new Paged<MobileEventRecord>();
-    paged.Data = item;
-    paged.Page = new Page();
-    paged.Page.PageIndex =
-      this.page.PageSize * (this.page.PageIndex - 1) + index + 1;
-    paged.Page.PageSize = 1;
-    paged.Page.RecordCount = 1;
-    paged.Page.PageCount = this.page.TotalRecordCount;
-    paged.Page.TotalRecordCount = this.page.TotalRecordCount;
-    this.handle.emit(paged);
+  onshopregistration(e: Event, item: MobileEventRecord) {
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }
   }
-  onmerge(e: Event, item: MobileEventRecord) {
-    this.merge.emit(item);
+
+  onprocess(e: Event, item: MobileEventRecord) {
+    this.process.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
+  ontask(e: Event, item: MobileEventRecord) {
+    this.task.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }

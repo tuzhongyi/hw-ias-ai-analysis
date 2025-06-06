@@ -1,6 +1,6 @@
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
-import { MapMarkerType } from '../../system-event-map.model';
+import { ISystemEventMapArgs } from '../../system-event-map.model';
 import { SystemEventMapAMapIconController } from './system-event-map-amap-icon.controller';
 
 export class SystemEventMapAMapPointController {
@@ -9,9 +9,9 @@ export class SystemEventMapAMapPointController {
   marker = new PromiseValue<AMap.Marker>();
   position: [number, number] = [0, 0];
 
-  set(data: GisPoint, type: MapMarkerType) {
+  set(data: GisPoint, args: ISystemEventMapArgs) {
     this.position = [data.Longitude, data.Latitude];
-    let icon = this.icon.get(type);
+    let icon = this.icon.get(args.type, args.color);
     let marker = new AMap.Marker({
       position: this.position,
       draggable: false,

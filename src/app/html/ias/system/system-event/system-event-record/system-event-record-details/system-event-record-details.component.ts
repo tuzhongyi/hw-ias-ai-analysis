@@ -30,7 +30,6 @@ export class SystemEventRecordDetailsComponent implements OnChanges {
   resource?: EventResourceContent;
   language = {
     event: '',
-    trigger: '',
     live: '',
   };
   operation = new SystemEventRecordDetailsOperation();
@@ -56,9 +55,6 @@ export class SystemEventRecordDetailsComponent implements OnChanges {
 
   private async init(data: MobileEventRecord) {
     this.language.event = await this._language.event.EventType(data.EventType);
-    this.language.trigger = await this._language.event.TriggerType(
-      data.TriggerType
-    );
-    this.language.live = data.IsLiveEvent ? '是' : '否';
+    this.language.live = data.IsLiveEvent ? '实时' : '非实时';
   }
 }
