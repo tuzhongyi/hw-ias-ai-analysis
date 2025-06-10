@@ -13,6 +13,7 @@ import { PicturePolygonZoomComponent } from '../picture-polygon-zoom/picture-pol
 export class PictureListComponent {
   @Input() src?: string;
   @Input() id?: string;
+  @Input() default?: string;
   @Input() polygon: HowellPoint[] = [];
   @Input() zoom = true;
   @Input() page?: Page;

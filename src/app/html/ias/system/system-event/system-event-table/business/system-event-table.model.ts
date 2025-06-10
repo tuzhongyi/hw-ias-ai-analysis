@@ -7,6 +7,7 @@ export class SystemEventTableArgs {
   duration = DateTimeTool.last.month(new Date());
   type?: ArmEventType;
   state?: number;
+  resource?: string;
 }
 
 export class SystemEventTableFilter extends SystemEventTableArgs {

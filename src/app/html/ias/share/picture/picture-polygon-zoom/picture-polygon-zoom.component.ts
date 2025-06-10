@@ -19,6 +19,7 @@ import { PicturePolygonComponent } from '../picture-polygon/picture-polygon.comp
 export class PicturePolygonZoomComponent implements OnChanges {
   @Input() src?: string;
   @Input() id?: string;
+  @Input() default?: string;
   @Output() error = new EventEmitter<Event>();
   @Input() polygon: HowellPoint[] = [];
   @Input('zoom') canzoom = false;

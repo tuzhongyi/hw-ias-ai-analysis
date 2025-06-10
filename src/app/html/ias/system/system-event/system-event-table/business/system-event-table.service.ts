@@ -13,7 +13,7 @@ import {
   GetShopSignsParams,
   GetShopsParams,
 } from '../../../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
-import { GetEventsParams } from '../../../../../../common/data-core/requests/services/system/event/system-event.params';
+import { GetMobileEventsParams } from '../../../../../../common/data-core/requests/services/system/event/system-event.params';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
 import { SystemEventTableFilter } from './system-event-table.model';
 
@@ -29,11 +29,15 @@ export class SystemEventTableService {
     size: number,
     filter: SystemEventTableFilter
   ): Promise<PagedList<MobileEventRecord>> {
-    let params = new GetEventsParams();
+    let params = new GetMobileEventsParams();
     params.PageIndex = index;
     params.PageSize = size;
     params.BeginTime = filter.duration.begin;
     params.EndTime = filter.duration.end;
+
+    if (filter.resource) {
+      params.ResourceName = filter.resource;
+    }
 
     if (filter.type) {
       params.EventType = filter.type;

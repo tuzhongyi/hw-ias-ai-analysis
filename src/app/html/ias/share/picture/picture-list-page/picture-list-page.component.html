@@ -2,7 +2,8 @@
   <div class="picture-list-page-body">
     <ias-picture-list
       [id]="picture.selected"
-      [zoom]="false"
+      [default]="default"
+      [zoom]="zoom"
       [page]="picture.page"
       (pageChange)="picture.change($event)"
     ></ias-picture-list>

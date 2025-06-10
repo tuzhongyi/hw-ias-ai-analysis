@@ -13,12 +13,13 @@
         </colgroup>
         <thead>
           <tr>
-            <th></th>
+            <th class="center"></th>
             <th class="center">#</th>
             <th sort="Name">商铺名称</th>
             <th sort="GPSDistance">距离(米)</th>
             <th sort="RoadName">道路</th>
             <th sort="AssociatedCount">关联商铺</th>
+            <!-- <th>操作</th> -->
           </tr>
         </thead>
       </table>
@@ -32,17 +33,19 @@
           <tr
             *ngFor="let item of datas; let index = index"
             [ngClass]="{
-              selected: selected == item
+              selected: selected == item,
             }"
             (click)="on.select(item)"
           >
-            <td>
-              <input type="checkbox" [checked]="selected == item" />
+            <td class="center">
+              <div *ngIf="table.processed(item)" title="已合并">
+                <i class="mdi mdi-link-variant"></i>
+              </div>
             </td>
             <td class="center">
               {{ index + 1 }}
             </td>
-            <td [title]="item.Name">
+            <td [title]="table.title(item)">
               {{ item.Name }}
             </td>
 
@@ -55,6 +58,13 @@
             <td>
               {{ item.AssociatedCount ? "已关联" : "未关联" }}
             </td>
+            <!-- <td>
+              <div class="operation">
+                <button class="button">
+                  <i class="howell-icon-edit"></i>
+                </button>
+              </div>
+            </td> -->
           </tr>
         </tbody>
       </table>

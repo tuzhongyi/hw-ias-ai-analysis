@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { TableSorterDirective } from '../../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../../common/directives/table-sorter/table-sorter.model';
 import { LocaleCompare } from '../../../../../../../common/tools/compare-tool/compare.tool';
@@ -36,19 +37,23 @@ import {
 export class SystemEventProcessShopTableComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy
 {
+  @Input() record?: MobileEventRecord;
   @Input() args = new SystemEventProcessShopTableArgs();
   @Input('load') _load?: EventEmitter<SystemEventProcessShopTableArgs>;
   @Input() selected?: ShopRegistration;
   @Output() selectedChange = new EventEmitter<ShopRegistration>();
-  @Output() loaded = new EventEmitter<ShopRegistration[]>();
+  @Output('loaded') _loaded = new EventEmitter<ShopRegistration[]>();
+  @Output() edit = new EventEmitter<ShopRegistration>();
 
   constructor(private business: SystemEventProcessShopTableBusiness) {}
 
   @ViewChild('body') _body?: ElementRef<HTMLDivElement>;
 
   clecked = false;
+  loaded = false;
   datas: ShopRegistration[] = [];
-  widths = ['50px', '50px', 'auto', '100px', 'auto', '100px'];
+  // widths = ['50px', '50px', '40px', 'auto', '100px', 'auto', '100px', '52px'];
+  widths = ['40px', '50px', 'auto', '100px', 'auto', '100px'];
   Language = Language;
   sort: Sort = {
     active: 'GPSDistance',
@@ -103,6 +108,7 @@ export class SystemEventProcessShopTableComponent
           this.clecked = false;
           return;
         }
+
         if (this.selected && this.datas.length > 0) {
           let index = this.datas.findIndex((x) => x.Id === this.selected?.Id);
           if (index >= 0) {
@@ -112,6 +118,7 @@ export class SystemEventProcessShopTableComponent
       }
     },
   };
+
   private scroll(index: number, size: number) {
     this.body.get().then((body) => {
       let top = body.scrollHeight * (index / size);
@@ -119,12 +126,37 @@ export class SystemEventProcessShopTableComponent
     });
   }
   private load(filter: SystemEventProcessShopTableFilter) {
-    this.business.load(filter).then((x) => {
-      this.datas = x;
-      this.on.sort(this.sort);
-      this.loaded.emit(this.datas);
-    });
+    this.loaded = false;
+    this.business
+      .load(filter)
+      .then((x) => {
+        this.datas = x;
+        this.on.sort(this.sort);
+        this._loaded.emit(this.datas);
+      })
+      .finally(() => {
+        this.loaded = true;
+      });
   }
+
+  table = {
+    processed: (item: ShopRegistration) => {
+      if (this.record && this.record.Resources) {
+        let resource = this.record.Resources[0];
+        if (resource.RelationId) {
+          return item.Id === resource.RelationId;
+        }
+      }
+      return false;
+    },
+    title: (item: ShopRegistration) => {
+      let title = item.Name;
+      if (item.Subnames && item.Subnames.length > 0) {
+        title += `：\n${item.Subnames.join(',\n')}`;
+      }
+      return title;
+    },
+  };
 
   on = {
     select: (item: ShopRegistration) => {
@@ -143,6 +175,9 @@ export class SystemEventProcessShopTableComponent
           sort.direction === 'asc'
         );
       });
+    },
+    edit: (item: ShopRegistration) => {
+      this.edit.emit(item);
     },
   };
 }

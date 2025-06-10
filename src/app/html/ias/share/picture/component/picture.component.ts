@@ -22,8 +22,21 @@ import { PictureBusiness } from './picture.business';
 export class PictureComponent implements OnChanges {
   @Input('src') url?: string;
   @Input() id?: string;
+
   @Output() error = new EventEmitter<Event>();
   @Output('image') image_ = new EventEmitter<HTMLImageElement>();
+
+  private _default =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAANSURBVBhXY2BgYPgPAAEEAQBwIGULAAAAAElFTkSuQmCC';
+  public get default(): string {
+    return this._default;
+  }
+  @Input()
+  public set default(v: string | undefined) {
+    if (v) {
+      this._default = v;
+    }
+  }
 
   constructor(private business: PictureBusiness) {}
 
@@ -53,8 +66,9 @@ export class PictureComponent implements OnChanges {
 
   onerror(e: Event) {
     let trigger = e.currentTarget as HTMLImageElement;
-    trigger.src = '/assets/image/no-image.png';
-    // 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAANSURBVBhXY2BgYPgPAAEEAQBwIGULAAAAAElFTkSuQmCC';
+    let src = this._default;
+    trigger.src = src;
+
     this.error.emit(e);
   }
 }

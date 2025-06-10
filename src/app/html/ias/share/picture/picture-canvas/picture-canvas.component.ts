@@ -17,6 +17,7 @@ import { PictureComponent } from '../component/picture.component';
 export class PictureCanvasComponent {
   @Input() src?: string;
   @Input() id?: string;
+  @Input() default?: string;
   @Output() error = new EventEmitter<Event>();
   @Output() canvas = new EventEmitter<HTMLCanvasElement>();
   @Output() image = new EventEmitter<HTMLImageElement>();

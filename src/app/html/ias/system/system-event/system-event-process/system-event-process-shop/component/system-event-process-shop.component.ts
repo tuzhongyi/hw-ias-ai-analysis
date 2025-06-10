@@ -83,15 +83,30 @@ export class SystemEventProcessShopComponent
         this.data.Resources.length > 0
       ) {
         let resource = this.data.Resources[0];
-        let index = items.findIndex((x) => resource.ResourceName == x.Name);
+
+        let index = -1;
+        if (resource.RelationId) {
+          index = items.findIndex((x) => resource.RelationId == x.Id);
+        } else {
+          index = items.findIndex((x) => resource.ResourceName == x.Name);
+        }
+
         if (index >= 0) {
           this.selected = items[index];
+          this.table.subname(resource.ResourceName, this.selected);
         } else {
           this.selected = undefined;
         }
-
         this.selectedChange.emit(this.selected);
       }
+    },
+    subname: (name: string, item: ShopRegistration) => {
+      if (item.Name == name) {
+        this.subname = false;
+      } else if (item.Subnames && item.Subnames.length > 0) {
+        this.subname = item.Subnames.includes(name);
+      }
+      this.subnameChange.emit(this.subname);
     },
   };
 

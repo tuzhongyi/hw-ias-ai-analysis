@@ -5,7 +5,7 @@ export class SystemEventProcessShopTableArgs {
   road?: string;
   associated?: boolean;
   location!: GisPoint;
-  distance: number = 1000;
+  distance: number = 200;
 }
 export class SystemEventProcessShopTableFilter extends SystemEventProcessShopTableArgs {
   asc?: string;

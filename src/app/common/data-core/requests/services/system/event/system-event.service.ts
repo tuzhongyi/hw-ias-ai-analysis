@@ -7,7 +7,7 @@ import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
 import { SystemEventHandleRequestService } from './handle/system-event-handle.service';
-import { GetEventsParams } from './system-event.params';
+import { GetMobileEventsParams } from './system-event.params';
 
 export class SystemEventRequestService {
   constructor(private http: HowellHttpClient) {}
@@ -18,7 +18,7 @@ export class SystemEventRequestService {
       return HowellResponseProcess.item(x, MobileEventRecord);
     });
   }
-  async list(params: GetEventsParams) {
+  async list(params: GetMobileEventsParams) {
     let url = ArmSystemUrl.event.list();
     let plain = instanceToPlain(params);
     return this.http
@@ -27,7 +27,7 @@ export class SystemEventRequestService {
         return HowellResponseProcess.paged(x, MobileEventRecord);
       });
   }
-  async all(params: GetEventsParams = new GetEventsParams()) {
+  async all(params: GetMobileEventsParams = new GetMobileEventsParams()) {
     let data: MobileEventRecord[] = [];
     let index = 1;
     let paged: PagedList<MobileEventRecord>;

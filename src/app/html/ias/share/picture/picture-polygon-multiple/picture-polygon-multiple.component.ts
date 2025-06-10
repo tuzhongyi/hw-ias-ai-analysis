@@ -20,6 +20,7 @@ import { PictureCanvasController } from './picture-canvas.controller';
 export class PicturePolygonMultipleComponent implements OnChanges {
   @Input() src?: string;
   @Input() id?: string;
+  @Input() default?: string;
   @Output() error = new EventEmitter<Event>();
   @Input() polygon: HowellPoint[][] = [];
   @Output() image = new EventEmitter<HTMLImageElement>();

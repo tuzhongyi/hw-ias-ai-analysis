@@ -39,26 +39,49 @@
       </div>
     </div>
 
-    <div class="form-item">
-      <div class="form-item-text" text-space-between [suffix]="':'">
-        处置状态
-      </div>
-      <div
-        class="form-item-value"
-        [ngClass]="{
-          handled: data.Assignment?.Handled,
-          unhandle: !data.Assignment?.Handled
-        }"
-      >
-        {{ data.Assignment?.Handled ? "已处置" : "待处置" }}
-      </div>
-    </div>
-
     <div class="form-item" *ngIf="data.Description">
       <div class="form-item-text" text-space-between [suffix]="':'">
         描述内容
       </div>
       <div class="form-item-value">{{ data.Description }}</div>
     </div>
+
+    <div class="form-item" *ngIf="!data.Assignment || !data.Assignment.Handled">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        处置状态
+      </div>
+      <div class="form-item-value unhandle">待处置</div>
+    </div>
+
+    <ng-container *ngIf="data.Assignment">
+      <div class="form-item">
+        <div class="form-item-text" text-space-between [suffix]="':'">
+          处置状态
+        </div>
+        <div
+          class="form-item-value"
+          [ngClass]="{
+            misinfo: data.Assignment.IsMisInfo,
+            handled: !data.Assignment.IsMisInfo,
+          }"
+        >
+          {{
+            data.Assignment.IsMisInfo
+              ? data.EventType === 9
+                ? "屏蔽"
+                : "误报"
+              : "已处置"
+          }}
+        </div>
+      </div>
+      <div class="form-item" *ngIf="data.Assignment?.AssociationDescription">
+        <div class="form-item-text" text-space-between [suffix]="':'">
+          处置描述
+        </div>
+        <div class="form-item-value">
+          {{ data.Assignment.AssociationDescription }}
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
