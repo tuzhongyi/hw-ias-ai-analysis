@@ -19,7 +19,7 @@
             <th sort="GPSDistance">距离(米)</th>
             <th sort="RoadName">道路</th>
             <th sort="AssociatedCount">关联商铺</th>
-            <!-- <th>操作</th> -->
+            <th>操作</th>
           </tr>
         </thead>
       </table>
@@ -58,13 +58,13 @@
             <td>
               {{ item.AssociatedCount ? "已关联" : "未关联" }}
             </td>
-            <!-- <td>
+            <td>
               <div class="operation">
-                <button class="button">
+                <button class="button" (click)="on.edit(item)">
                   <i class="howell-icon-edit"></i>
                 </button>
               </div>
-            </td> -->
+            </td>
           </tr>
         </tbody>
       </table>

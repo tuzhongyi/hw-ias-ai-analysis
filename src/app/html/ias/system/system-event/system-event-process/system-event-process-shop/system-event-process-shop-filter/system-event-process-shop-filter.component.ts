@@ -43,5 +43,13 @@ export class SystemEventProcessShopFilterComponent implements OnInit {
     close: () => {
       this.close.emit();
     },
+    reset: () => {
+      this.args = new SystemEventProcessShopTableArgs();
+      if (this._args) {
+        this.args.location = this._args?.location;
+        this.args.distance = this._args?.distance;
+      }
+      this.load(this.args);
+    },
   };
 }

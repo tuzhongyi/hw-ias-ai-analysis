@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { UploadControlFileInfo } from '../../../../../../common/components/upload-control/upload-control.model';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 
+import { CommonModule } from '@angular/common';
+import { TaskCompletedArgs } from '../../system-task-creation/component/system-task-creation.model';
 import { FileProgress } from '../../system-task-manager/system-task-manager.model';
 import { TaskProgress } from '../../system-task-table/system-task-table.model';
 import { SystemTaskDetailsFileTableComponent } from '../system-task-details-file-table/system-task-details-file-table.component';
@@ -11,21 +13,48 @@ import { SystemTaskDetailsInfoComponent } from '../system-task-details-info/syst
 @Component({
   selector: 'ias-system-task-details',
   imports: [
+    CommonModule,
     SystemTaskDetailsInfoComponent,
     SystemTaskDetailsFileTableComponent,
   ],
   templateUrl: './system-task-details.component.html',
   styleUrl: './system-task-details.component.less',
 })
-export class SystemTaskDetailsComponent {
+export class SystemTaskDetailsComponent implements OnInit {
   @Input() data?: AnalysisTask;
   @Input() files: UploadControlFileInfo[] = [];
   @Input() fileprogress?: EventEmitter<FileProgress>;
   @Input() taskprogress?: EventEmitter<TaskProgress>;
+  @Output() analysis = new EventEmitter<TaskCompletedArgs>();
+  @Output() close = new EventEmitter<AnalysisTask>();
 
   constructor(private toastr: ToastrService) {}
 
-  onerror(e: Error) {
-    this.toastr.error(e.message);
+  completed = false;
+
+  ngOnInit(): void {
+    let completed = this.files.filter((x) => x.completed);
+    this.completed = completed.length === this.files.length;
   }
+
+  on = {
+    error: (e: Error) => {
+      this.toastr.error(e.message);
+    },
+    completed: () => {
+      this.completed = true;
+    },
+    analysis: () => {
+      if (this.data) {
+        let args: TaskCompletedArgs = {
+          task: this.data,
+          files: this.files.map((x) => x.filename),
+        };
+        this.analysis.emit(args);
+      }
+    },
+    close: () => {
+      this.close.emit();
+    },
+  };
 }

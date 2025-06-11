@@ -52,8 +52,7 @@ export class SystemEventProcessShopTableComponent
   clecked = false;
   loaded = false;
   datas: ShopRegistration[] = [];
-  // widths = ['50px', '50px', '40px', 'auto', '100px', 'auto', '100px', '52px'];
-  widths = ['40px', '50px', 'auto', '100px', 'auto', '100px'];
+  widths = ['40px', '50px', 'auto', '100px', 'auto', '100px', '52px'];
   Language = Language;
   sort: Sort = {
     active: 'GPSDistance',

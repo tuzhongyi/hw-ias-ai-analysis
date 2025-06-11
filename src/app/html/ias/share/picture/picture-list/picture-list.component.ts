@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ContainerPageComponent } from '../../../../../common/components/container-page/container-page.component';
 import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
 import { Page } from '../../../../../common/data-core/models/page-list.model';
 import { PicturePolygonZoomComponent } from '../picture-polygon-zoom/picture-polygon-zoom.component';
 
 @Component({
   selector: 'ias-picture-list',
-  imports: [CommonModule, PicturePolygonZoomComponent],
+  imports: [CommonModule, PicturePolygonZoomComponent, ContainerPageComponent],
   templateUrl: './picture-list.component.html',
   styleUrl: './picture-list.component.less',
 })
@@ -19,20 +20,9 @@ export class PictureListComponent {
   @Input() page?: Page;
   @Output() pageChange = new EventEmitter<Page>();
 
-  onprov(): void {
-    if (this.page) {
-      let page = new Page();
-      page = Object.assign(page, this.page);
-      page.PageIndex--;
+  on = {
+    page: (page: Page) => {
       this.pageChange.emit(page);
-    }
-  }
-  onnext(): void {
-    if (this.page) {
-      let page = new Page();
-      page = Object.assign(page, this.page);
-      page.PageIndex++;
-      this.pageChange.emit(page);
-    }
-  }
+    },
+  };
 }

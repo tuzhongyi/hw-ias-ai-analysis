@@ -1,0 +1,20 @@
+<div class="container-zoom">
+  <div
+    class="container-zoom-content"
+    [style.transform]="
+      'scale(' +
+      scale +
+      ') translate(' +
+      translateX +
+      'px, ' +
+      translateY +
+      'px)'
+    "
+    (mousedown)="onMouseDown($event)"
+    (mousemove)="onMouseMove($event)"
+    (mouseup)="onMouseUp()"
+    (mouseleave)="onMouseUp()"
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

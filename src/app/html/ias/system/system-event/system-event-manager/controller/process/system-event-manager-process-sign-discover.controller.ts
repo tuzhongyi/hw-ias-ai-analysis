@@ -36,6 +36,10 @@ export class SystemEventManagerProcessSignDiscoverController {
       this.window.shop.data = shop;
       this.window.shop.show = true;
     },
+    edit: (data: ShopRegistration) => {
+      this.window.edit.name.data = data;
+      this.window.edit.name.show = true;
+    },
     merge: (data: {
       name?: string;
       subname: boolean;
@@ -83,9 +87,13 @@ export class SystemEventManagerProcessSignDiscoverController {
     },
 
     shop: {
-      ok: () => {
+      create: () => {
         this.load.emit();
         this.window.shop.show = false;
+      },
+      edit: () => {
+        this.load.emit();
+        this.window.edit.name.show = false;
       },
     },
   };

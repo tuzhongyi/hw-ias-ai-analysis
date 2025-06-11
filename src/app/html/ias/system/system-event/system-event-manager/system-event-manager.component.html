@@ -84,6 +84,7 @@
       (marking)="controller.process.sign.discover.on.marking($event)"
       (merge)="controller.process.sign.discover.on.merge($event)"
       (create)="controller.process.sign.discover.on.create($event)"
+      (shopedit)="controller.process.sign.discover.on.edit($event)"
     ></ias-system-event-process-sign-disconver>
   </ias-window>
   <ias-window
@@ -122,8 +123,20 @@
       [data]="window.shop.data"
       [input]="true"
       (close)="window.shop.show = false"
-      (ok)="controller.process.sign.discover.on.shop.ok()"
+      (ok)="controller.process.sign.discover.on.shop.create()"
     ></ias-system-module-shop-registration-information>
+  </ias-window>
+  <ias-window
+    [Model]="window.edit.name"
+    *ngIf="window.edit.name.show"
+    [style]="window.edit.name.style"
+    [title]="window.edit.name.title"
+  >
+    <ias-system-event-process-shop-name
+      [data]="window.edit.name.data"
+      (close)="window.edit.name.show = false"
+      (ok)="controller.process.sign.discover.on.shop.edit()"
+    ></ias-system-event-process-shop-name>
   </ias-window>
 
   <ias-window

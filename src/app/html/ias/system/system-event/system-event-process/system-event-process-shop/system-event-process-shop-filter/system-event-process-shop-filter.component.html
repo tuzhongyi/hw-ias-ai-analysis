@@ -44,8 +44,11 @@
       </div>
     </div>
   </div>
-  <div class="system-event-process-shop-filter-foot button-group">
-    <button class="button-clip-gradient" (click)="on.ok()">确认</button>
-    <button class="button-clip-blue" (click)="on.close()">取消</button>
+  <div class="system-event-process-shop-filter-foot">
+    <div class="button" (click)="on.reset()">重置</div>
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确认</button>
+      <button class="button-clip-blue" (click)="on.close()">取消</button>
+    </div>
   </div>
 </div>

@@ -1,0 +1,21 @@
+<div class="container-page">
+  <div
+    class="container-page-control left"
+    *ngIf="page && this.page.PageCount > 0 && this.page.PageIndex > 1"
+    (click)="onprov()"
+  >
+    <i class="howell-icon-arrowleftbold"></i>
+  </div>
+
+  <div class="container-page-content">
+    <ng-content></ng-content>
+  </div>
+
+  <div
+    class="container-page-control right"
+    *ngIf="page && this.page.PageIndex < this.page.PageCount"
+    (click)="onnext()"
+  >
+    <i class="howell-icon-arrowrightbold"></i>
+  </div>
+</div>

@@ -20,6 +20,11 @@ export class SystemEventTableBusiness {
 
   async load(index: number, size: number, filter: SystemEventTableFilter) {
     let datas = await this.service.load(index, size, filter);
+
+    if (datas.Page.PageCount > 0 && datas.Page.PageCount < index) {
+      datas = await this.service.load(datas.Page.PageCount, size, filter);
+    }
+
     let paged = new PagedList<SystemEventTableItem>();
     paged.Page = datas.Page;
     paged.Data = datas.Data.map((x) => this.convert(x));

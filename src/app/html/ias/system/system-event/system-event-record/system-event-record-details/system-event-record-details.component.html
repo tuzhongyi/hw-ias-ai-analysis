@@ -9,7 +9,7 @@
   <div class="system-event-record-details-head-body forms">
     <ng-container *ngIf="resource">
       <div class="form-item">
-        <div class="form-item-text" text-space-between [suffix]="':'">
+        <div class="form-item-text baseline" text-space-between [suffix]="':'">
           触发源名称
         </div>
         <div class="form-item-value name">{{ resource.ResourceName }}</div>
@@ -53,7 +53,7 @@
       <div class="form-item-value unhandle">待处置</div>
     </div>
 
-    <ng-container *ngIf="data.Assignment">
+    <ng-container *ngIf="data.Assignment && data.Assignment.Handled">
       <div class="form-item">
         <div class="form-item-text" text-space-between [suffix]="':'">
           处置状态

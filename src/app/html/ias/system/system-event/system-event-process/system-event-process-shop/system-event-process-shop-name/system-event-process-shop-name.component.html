@@ -2,19 +2,57 @@
   <div class="system-event-process-shop-name-body">
     <div class="forms">
       <div class="form-item">
-        <div class="form-item-text"></div>
-        <div class="form-item-value"></div>
+        <div class="form-item-text">
+          <div class="name" text-space-between>商铺名称</div>
+          <div class="must">*</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="shop.Name" />
+        </div>
+      </div>
+      <div class="form-item full">
+        <div class="form-item-text baseline">
+          <div class="name" text-space-between>商铺子名称</div>
+        </div>
+        <div class="form-item-value subname">
+          <span *ngIf="!shop.Subnames || shop.Subnames.length == 0">无</span>
+          <div
+            class="subname-item"
+            *ngFor="let item of shop.Subnames; let index = index"
+          >
+            <div class="subname-item-text" [title]="item">{{ item }}</div>
+            <div
+              class="subname-item-button button"
+              (click)="on.subitem.remove(index)"
+            >
+              <i class="howell-icon-Close"></i>
+            </div>
+          </div>
+          <!-- <div class="subname-item">
+            <div class="subname-item-text"><input type="text" /></div>
+            <div class="subname-item-button button">
+              <i class="howell-icon-Check"></i>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="form-item full">
+        <div class="form-item-text">
+          <div class="name" text-space-between></div>
+        </div>
+        <div class="form-item-value">
+          <div class="subname-add">
+            <div class="subname-add-input"><input type="text" #add /></div>
+            <div class="subname-add-button" (click)="on.subitem.add(add.value)">
+              添加
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="system-event-process-shop-name-foot">
-    <div class="button-group">
-      <button (click)="on.ok()">
-        <i class="howell-icon-garbage2"></i> 创建
-      </button>
-      <button (click)="on.cancel()">
-        <i class="mdi mdi-filter-outline"></i> 筛选
-      </button>
-    </div>
+  <div class="system-event-process-shop-name-foot button-group">
+    <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+    <button class="button-clip-blue" (click)="on.cancel()">取消</button>
   </div>
 </div>

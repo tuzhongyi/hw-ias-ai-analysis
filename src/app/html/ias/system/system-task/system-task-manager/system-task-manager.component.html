@@ -136,6 +136,8 @@
       [files]="window.details.files"
       [fileprogress]="controller.file.progress.file"
       [taskprogress]="controller.file.progress.task"
+      (close)="window.details.show = false"
+      (analysis)="on.completed($event)"
     ></ias-system-task-details>
   </ias-window>
   <confirm-window

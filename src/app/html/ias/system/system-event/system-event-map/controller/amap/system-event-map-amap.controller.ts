@@ -27,17 +27,30 @@ export class SystemEventMapAMapController {
   private marker = new SystemEventMapAMapMarkerController();
   private points: SystemEventMapAMapPointController[] = [];
 
-  private _load(data: GisPoint, args: ISystemEventMapArgs) {
+  private _load(data: GisPoint, args: ISystemEventMapArgs, center: boolean) {
     this.map.get().then((x) => {
       let marker = this.marker.set(data, args);
       this.marker.select();
       x.add(marker);
-      x.setCenter(this.marker.position);
+      if (center) {
+        x.setCenter(this.marker.position);
+      }
     });
   }
 
-  async load(data: GisPoint, args: ISystemEventMapArgs) {
-    this._load(data, args);
+  async load(
+    data: GisPoint,
+    args: ISystemEventMapArgs,
+    center: boolean = false
+  ) {
+    this._load(data, args, center);
+  }
+  async clear() {
+    let map = await this.map.get();
+    let marker = await this.marker.get();
+    if (marker) {
+      map.remove(marker);
+    }
   }
 
   point = {

@@ -6,12 +6,46 @@
       </div>
       <div
         class="system-event-process-sign-disconver-body-record-picture border"
-        (click)="record.picture.click()"
       >
-        <ias-picture-polygon-multiple
-          [id]="record.picture.src"
-          [polygon]="record.picture.polygon"
-        ></ias-picture-polygon-multiple>
+        <!-- (click)="record.picture.click()" -->
+        <div
+          class="system-event-process-sign-disconver-body-record-picture-body"
+        >
+          <howell-container-page
+            [page]="record.picture.page.value"
+            (pageChange)="record.picture.page.change($event)"
+          >
+            <howell-container-zoom [(reset)]="record.picture.zoom.reset.value">
+              <ias-picture-polygon
+                [id]="record.picture.src"
+                [polygon]="record.picture.polygon"
+              ></ias-picture-polygon>
+            </howell-container-zoom>
+          </howell-container-page>
+        </div>
+        <div
+          class="system-event-process-sign-disconver-body-record-picture-foot"
+        >
+          <div
+            class="system-event-process-sign-disconver-body-record-picture-foot-name"
+          >
+            {{ record.sign.selected?.Text }}
+          </div>
+          <div
+            class="system-event-process-sign-disconver-body-record-picture-foot-page"
+          >
+            {{ record.picture.page.value.PageIndex }}/{{
+              record.picture.page.value.PageCount
+            }}
+          </div>
+          <div
+            class="system-event-process-sign-disconver-body-record-picture-foot-reset"
+          >
+            <div class="button" (click)="record.picture.zoom.reset.set()">
+              重置
+            </div>
+          </div>
+        </div>
       </div>
       <div class="system-event-process-sign-disconver-body-record-content">
         <div
@@ -30,7 +64,8 @@
           class="system-event-process-sign-disconver-body-record-content-map border"
         >
           <ias-system-event-map
-            [location]="data?.Location"
+            *ngIf="map.location"
+            [location]="map.location"
             [marker]="map.marker"
             [points]="map.point ? [map.point] : []"
           ></ias-system-event-map>
@@ -41,15 +76,26 @@
       <div class="system-event-process-sign-disconver-body-shop-head">
         注册商铺信息
       </div>
-      <div
-        class="system-event-process-sign-disconver-body-shop-picture border"
-        (click)="shop.picture.click()"
-      >
-        <ias-picture-polygon-multiple
-          [id]="shop.picture.src"
-          [polygon]="shop.picture.polygon"
-        ></ias-picture-polygon-multiple>
+      <div class="system-event-process-sign-disconver-body-shop-picture border">
+        <!-- (click)="shop.picture.click()" -->
+        <div class="system-event-process-sign-disconver-body-shop-picture-body">
+          <howell-container-zoom [(reset)]="shop.picture.zoom.reset.value">
+            <ias-picture-polygon [id]="shop.picture.src"></ias-picture-polygon>
+          </howell-container-zoom>
+        </div>
+        <div class="system-event-process-sign-disconver-body-shop-picture-foot">
+          <div class="subname">
+            <div
+              class="subname-item"
+              *ngFor="let subname of shop.selected?.Subnames"
+            >
+              {{ subname }}
+            </div>
+          </div>
+          <div class="button" (click)="shop.picture.zoom.reset.set()">重置</div>
+        </div>
       </div>
+
       <div class="system-event-process-sign-disconver-body-shop-table">
         <ias-system-event-process-shop
           [data]="data"
@@ -59,6 +105,7 @@
           [load]="_load"
           (filter)="shop.on.filter()"
           (create)="shop.on.create()"
+          (edit)="shop.on.edit($event)"
         ></ias-system-event-process-shop>
       </div>
       <div

@@ -46,7 +46,19 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
 
   constructor(private business: SystemEventTableBusiness) {}
 
-  widths = ['5%', '15%', '12%', '10%', '6%', '12%', '8%', '10%', '12%', '10%'];
+  widths = [
+    '5%',
+    '10%',
+    '12%',
+    '8%',
+    '6%',
+    '12%',
+    '8%',
+    '10%',
+    '12%',
+    '7%',
+    '10%',
+  ];
   datas: (SystemEventTableItem | undefined)[] = [];
   page = Page.create(1, 10);
   selected?: SystemEventTableItem;
@@ -61,7 +73,7 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
     if (this._load) {
       let sub = this._load.subscribe((x) => {
         this.args = x;
-        this.load(this.page.PageIndex, this.page.PageSize, this.args);
+        this.load(1, this.page.PageSize, this.args);
       });
       this.subscription.add(sub);
     }

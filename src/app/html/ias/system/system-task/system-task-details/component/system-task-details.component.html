@@ -1,11 +1,12 @@
-<div class="system-task-details">
+<div class="system-task-details" *ngIf="data">
   <div class="system-task-details-body">
     <div class="system-task-details-body-info panel">
       <ias-system-task-details-info
         [data]="data"
-        [filecount]="data?.Files?.length || files.length"
+        [filecount]="data.Files?.length || files.length"
         [progress]="taskprogress"
-        (error)="onerror($event)"
+        (error)="on.error($event)"
+        (completed)="on.completed()"
       ></ias-system-task-details-info>
     </div>
     <div class="system-task-details-body-file">
@@ -14,5 +15,15 @@
         [progress]="fileprogress"
       ></ias-system-task-details-file-table>
     </div>
+  </div>
+  <div class="system-task-details-foot button-group">
+    <button
+      class="button-clip-gradient"
+      [disabled]="completed === false"
+      (click)="on.analysis()"
+    >
+      开始分析
+    </button>
+    <button class="button-clip-blue" (click)="on.close()">关闭</button>
   </div>
 </div>

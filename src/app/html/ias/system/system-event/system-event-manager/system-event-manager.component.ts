@@ -27,6 +27,7 @@ import { SystemEventManagerShopBusiness } from './business/system-event-manager-
 import { SystemEventManagerBusiness } from './business/system-event-manager.business';
 
 import { SystemEventProcessInfoComponent } from '../system-event-process/system-event-process-info/system-event-process-info.component';
+import { SystemEventProcessShopNameComponent } from '../system-event-process/system-event-process-shop/system-event-process-shop-name/system-event-process-shop-name.component';
 import { SystemEventProcessSignDisappearComponent } from '../system-event-process/system-event-process-sign-disappear/system-event-process-sign-disappear.component';
 import { SystemEventManagerProcessSignDisappearController } from './controller/process/system-event-manager-process-sign-disappear.controller';
 import { SystemEventManagerProcessSignDiscoverController } from './controller/process/system-event-manager-process-sign-discover.controller';
@@ -51,6 +52,7 @@ import { SystemEventManagerWindow } from './system-event-manager.window';
     SystemEventProcessSignDisconverComponent,
     SystemModuleShopRegistrationInformationComponent,
     SystemEventProcessSignDisappearComponent,
+    SystemEventProcessShopNameComponent,
     SystemEventProcessInfoComponent,
   ],
   templateUrl: './system-event-manager.component.html',

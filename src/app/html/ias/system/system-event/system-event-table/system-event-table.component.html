@@ -17,6 +17,7 @@
 
           <th>处置员</th>
           <th>处置时间</th>
+          <th>处置描述</th>
           <th class="center">操作</th>
         </tr>
       </thead>
@@ -113,6 +114,9 @@
           </td>
           <td>
             {{ item?.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss }}
+          </td>
+          <td>
+            {{ item?.Assignment?.AssociationDescription }}
           </td>
           <td class="center">
             <div class="operation" *ngIf="item">

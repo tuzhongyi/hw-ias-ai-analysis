@@ -1,6 +1,9 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { SystemTaskModel } from '../system-task-creation/component/system-task-creation.model';
+import {
+  SystemTaskModel,
+  TaskCompletedArgs,
+} from '../system-task-creation/component/system-task-creation.model';
 
 import { Router } from '@angular/router';
 import { LocalStorage } from '../../../../../common/storage/local.storage';
@@ -53,14 +56,7 @@ export class SystemTaskManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.controller.file.complete.subscribe((data) => {
-      this.business.task
-        .source(data.task, data.files)
-        .then((x) => {
-          this.table.load.emit(this.table.args);
-        })
-        .catch((e) => {
-          this.toastr.error('上传文件后，写入文件名失败');
-        });
+      this.on.completed(data);
     });
     this.table.args.finished = this.local.system.task.index.get();
   }
@@ -153,6 +149,20 @@ export class SystemTaskManagerComponent implements OnInit {
       } else {
         this.window.confirm.show = false;
       }
+    },
+  };
+
+  on = {
+    completed: (args: TaskCompletedArgs) => {
+      this.business.task
+        .source(args.task, args.files)
+        .then((x) => {
+          this.table.load.emit(this.table.args);
+          this.window.details.show = false;
+        })
+        .catch((e) => {
+          this.toastr.error('上传文件后，写入文件名失败');
+        });
     },
   };
 }

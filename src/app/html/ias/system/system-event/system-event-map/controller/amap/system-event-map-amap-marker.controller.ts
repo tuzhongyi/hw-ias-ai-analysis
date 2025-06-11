@@ -8,7 +8,12 @@ export class SystemEventMapAMapMarkerController {
 
   private marker = new PromiseValue<AMap.Marker>();
   position: [number, number] = [0, 0];
-
+  async get() {
+    if (this.marker.exists) {
+      return this.marker.get();
+    }
+    return undefined;
+  }
   set(data: GisPoint, args: ISystemEventMapArgs) {
     this.position = [data.Longitude, data.Latitude];
     let icon = this.icon.get(args.type, args.color);

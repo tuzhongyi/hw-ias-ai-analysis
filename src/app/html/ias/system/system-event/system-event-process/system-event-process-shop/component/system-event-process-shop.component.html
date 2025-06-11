@@ -7,6 +7,7 @@
       [selected]="selected"
       (selectedChange)="table.select($event)"
       (loaded)="table.loaded($event)"
+      (edit)="table.on.edit($event)"
     ></ias-system-event-process-shop-table>
   </div>
   <div class="system-event-process-shop-foot">

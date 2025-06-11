@@ -1,12 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ContainerPageComponent } from '../../../../../../common/components/container-page/container-page.component';
+import { ContainerZoomComponent } from '../../../../../../common/components/container-zoom/container-zoom.component';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
-import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
-import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
+import {
+  Page,
+  PagedList,
+} from '../../../../../../common/data-core/models/page-list.model';
+import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
 import { SystemEventMapComponent } from '../../system-event-map/system-event-map.component';
 import {
   MapMarkerShopColor,
@@ -16,13 +22,18 @@ import { SystemEventRecordDetailsComponent } from '../../system-event-record/sys
 import { SystemEventProcessShopComponent } from '../system-event-process-shop/component/system-event-process-shop.component';
 import { SystemEventProcessShopFilterComponent } from '../system-event-process-shop/system-event-process-shop-filter/system-event-process-shop-filter.component';
 import { SystemEventProcessShopTableArgs } from '../system-event-process-shop/system-event-process-shop-table/system-event-process-shop-table.model';
+import { SystemEventProcessSignDisconverShopSignBusiness } from './business/system-event-process-sign-disconver-shop-sign.business';
+import { SystemEventProcessSignDisconverShopBusiness } from './business/system-event-process-sign-disconver-shop.business';
+import { SystemEventProcessSignDisconverBusiness } from './business/system-event-process-sign-disconver.business';
 
 @Component({
   selector: 'ias-system-event-process-sign-disconver',
   imports: [
     CommonModule,
     FormsModule,
-    PicturePolygonMultipleComponent,
+    ContainerPageComponent,
+    ContainerZoomComponent,
+    PicturePolygonComponent,
     SystemEventRecordDetailsComponent,
     SystemEventMapComponent,
     SystemEventProcessShopComponent,
@@ -30,6 +41,11 @@ import { SystemEventProcessShopTableArgs } from '../system-event-process-shop/sy
   ],
   templateUrl: './system-event-process-sign-disconver.component.html',
   styleUrl: './system-event-process-sign-disconver.component.less',
+  providers: [
+    SystemEventProcessSignDisconverBusiness,
+    SystemEventProcessSignDisconverShopBusiness,
+    SystemEventProcessSignDisconverShopSignBusiness,
+  ],
 })
 export class SystemEventProcessSignDisconverComponent implements OnInit {
   @Input() data?: MobileEventRecord;
@@ -47,8 +63,9 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
     PagedList<MobileEventRecord | ShopRegistration | undefined>
   >();
   @Output() cancel = new EventEmitter<void>();
+  @Output() shopedit = new EventEmitter<ShopRegistration>();
 
-  constructor() {}
+  constructor(private business: SystemEventProcessSignDisconverBusiness) {}
 
   subname = false;
 
@@ -60,18 +77,32 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
   }
 
   load = {
-    picture: (data: MobileEventRecord) => {
+    picture: async (data: MobileEventRecord) => {
       if (data && data.Resources && data.Resources.length > 0) {
         let resource = data.Resources[0];
-        this.record.picture.src = resource.ImageUrl ?? '';
-        if (resource.Objects) {
-          this.record.picture.polygon = resource.Objects.map(
-            (x) => x.Polygon ?? []
+        this.record.sign.datas = await this.business.shop.sign.load(
+          resource.ResourceId,
+          data.TaskId
+        );
+        if (this.record.sign.datas.length > 0) {
+          this.record.sign.selected = this.record.sign.datas[0];
+          this.record.picture.page.value = Page.create(
+            1,
+            1,
+            this.record.sign.datas.length
           );
+          this.record.picture.src = this.record.sign.selected.ImageUrl ?? '';
+          this.record.picture.polygon = this.record.sign.selected.Polygon ?? [];
+        } else {
+          this.record.picture.src = resource.ImageUrl ?? '';
+          if (resource.Objects && resource.Objects.length > 0) {
+            this.record.picture.polygon = resource.Objects[0].Polygon ?? [];
+          }
         }
       }
     },
     map: (data: MobileEventRecord) => {
+      this.map.location = data.Location;
       switch (data.EventType) {
         case 8:
           this.map.marker.color = MapMarkerShopColor.orange;
@@ -87,6 +118,7 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
   };
 
   map = {
+    location: undefined as GisPoint | undefined,
     marker: {
       type: MapMarkerType.shop,
       color: MapMarkerShopColor.orange,
@@ -94,9 +126,33 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
     point: undefined as GisPoint | undefined,
   };
   record = {
+    sign: {
+      datas: [] as ShopSign[],
+      selected: undefined as ShopSign | undefined,
+    },
     picture: {
       src: '',
-      polygon: [] as HowellPoint[][],
+      polygon: [] as HowellPoint[],
+      page: {
+        value: Page.create(1, 1),
+        change: (page: Page) => {
+          this.record.picture.page.value = page;
+          this.record.sign.selected =
+            this.record.sign.datas[page.PageIndex - 1];
+          this.record.picture.src = this.record.sign.selected.ImageUrl ?? '';
+          this.record.picture.polygon = this.record.sign.selected.Polygon ?? [];
+          this.record.picture.zoom.reset.set();
+          this.map.location = this.record.sign.selected.Location;
+        },
+      },
+      zoom: {
+        reset: {
+          value: false,
+          set: () => {
+            this.record.picture.zoom.reset.value = true;
+          },
+        },
+      },
       click: () => {
         if (this.data) {
           let datas = new Array<
@@ -115,7 +171,16 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
   shop = {
     picture: {
       src: '',
-      polygon: [] as HowellPoint[][],
+      polygon: [] as HowellPoint[],
+
+      zoom: {
+        reset: {
+          value: false,
+          set: () => {
+            this.shop.picture.zoom.reset.value = true;
+          },
+        },
+      },
       click: () => {
         if (this.data) {
           let datas = new Array<
@@ -149,6 +214,9 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
       },
       filter: () => {
         this.shop.filter.show = !this.shop.filter.show;
+      },
+      edit: (shop: ShopRegistration) => {
+        this.shopedit.emit(shop);
       },
     },
     filter: {

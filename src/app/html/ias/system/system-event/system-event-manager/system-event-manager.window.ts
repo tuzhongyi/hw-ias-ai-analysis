@@ -12,6 +12,9 @@ export class SystemEventManagerWindow {
   task = new TaskWindow();
   video = new VideoWindow();
   confirm = new ConfirmWindow();
+  edit = {
+    name: new EditNameWindow(),
+  };
   process = {
     sign: {
       discover: new ProcessSignDisconverWindow(),
@@ -130,6 +133,14 @@ class ProcessSignDisconverWindow extends WindowViewModel {
   };
   data?: MobileEventRecord;
   title = '店招发现处置';
+}
+class EditNameWindow extends WindowViewModel {
+  style = {
+    width: '500px',
+    height: 'auto',
+  };
+  data?: ShopRegistration;
+  title = '修改注册商铺名称';
 }
 class ProcessSignDisappearWindow extends WindowViewModel {
   style = {

@@ -29,6 +29,7 @@ export class SystemTaskDetailsInfoComponent implements OnInit, OnDestroy {
   @Input() filecount = 0;
   @Input('progress') _progress?: EventEmitter<TaskProgress>;
   @Output() error = new EventEmitter<Error>();
+  @Output() completed = new EventEmitter<AnalysisTask>();
   constructor(private business: SystemTaskDetailsInfoBusiness) {}
 
   model?: SystemTaskDetailsInfo;
@@ -55,6 +56,9 @@ export class SystemTaskDetailsInfoComponent implements OnInit, OnDestroy {
       let sub = this._progress.subscribe((progress) => {
         this.filecompleted = progress.completed;
         this.progress = progress.progress;
+        if (this.filecompleted >= this.filecount) {
+          this.completed.emit(this.data!);
+        }
       });
       this.subscription.add(sub);
     }

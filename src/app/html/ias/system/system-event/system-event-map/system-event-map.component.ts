@@ -29,6 +29,13 @@ export class SystemEventMapComponent implements OnInit, OnChanges {
   };
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['location'] && !changes['location'].firstChange) {
+      this.amap.clear().then(() => {
+        if (this.location) {
+          this.amap.load(this.location, this.args);
+        }
+      });
+    }
     if (changes['marker']) {
       this.args.type = this.marker.type;
       this.args.color = this.marker.color;
@@ -42,7 +49,7 @@ export class SystemEventMapComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this.location) {
-      this.amap.load(this.location, this.args);
+      this.amap.load(this.location, this.args, true);
     }
   }
 

@@ -38,6 +38,7 @@ export class SystemEventProcessShopComponent
 
   @Output() filter = new EventEmitter<void>();
   @Output() create = new EventEmitter<MobileEventRecord>();
+  @Output() edit = new EventEmitter<ShopRegistration>();
 
   constructor() {}
 
@@ -107,6 +108,11 @@ export class SystemEventProcessShopComponent
         this.subname = item.Subnames.includes(name);
       }
       this.subnameChange.emit(this.subname);
+    },
+    on: {
+      edit: (item: ShopRegistration) => {
+        this.edit.emit(item);
+      },
     },
   };
 
