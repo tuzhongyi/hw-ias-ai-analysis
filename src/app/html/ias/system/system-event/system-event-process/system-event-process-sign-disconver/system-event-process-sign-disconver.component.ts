@@ -208,6 +208,7 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
           this.shop.picture.src = '';
           this.map.point = undefined;
         }
+        this.shop.picture.zoom.reset.set();
       },
       create: () => {
         this.create.emit(this.data);

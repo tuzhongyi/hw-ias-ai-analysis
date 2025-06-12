@@ -1,5 +1,6 @@
 import { instanceToPlain } from 'class-transformer';
 import { MobileEventRecord } from '../../../../models/arm/event/mobile-event-record.model';
+import { FileGpsItem } from '../../../../models/arm/file/file-gps-item.model';
 import { EventCapability } from '../../../../models/capabilities/arm/event/event-capability.model';
 import { PagedList } from '../../../../models/page-list.model';
 import { HowellResponse } from '../../../../models/response';
@@ -68,4 +69,18 @@ export class SystemEventRequestService {
     }
     return this._handle;
   }
+
+  record = {
+    file: (id: string) => {
+      return ArmSystemUrl.event.record.file(id);
+    },
+  };
+  gps = {
+    items: (id: string) => {
+      let url = ArmSystemUrl.event.gps.items(id);
+      return this.http.get<HowellResponse<FileGpsItem[]>>(url).then((x) => {
+        return HowellResponseProcess.array(x, FileGpsItem);
+      });
+    },
+  };
 }

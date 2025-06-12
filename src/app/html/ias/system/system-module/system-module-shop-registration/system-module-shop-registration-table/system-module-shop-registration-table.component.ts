@@ -167,7 +167,8 @@ export class SystemModuleShopRegistrationTableComponent
       paged.Data = item;
       paged.Page = new Page();
       paged.Page.PageCount = this.page.TotalRecordCount;
-      paged.Page.PageIndex = index + 1;
+      paged.Page.PageIndex =
+        this.page.PageSize * (this.page.PageIndex - 1) + index + 1;
       paged.Page.PageSize = 1;
       paged.Page.RecordCount = 1;
       paged.Page.TotalRecordCount = this.page.TotalRecordCount;

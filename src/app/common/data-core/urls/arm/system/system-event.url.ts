@@ -14,6 +14,16 @@ export class SystemEventUrl extends AbstractUrl {
   capability() {
     return `${this.basic()}/Capability`;
   }
+  record = {
+    file: (id: string) => {
+      return `${this.item(id)}/RecordFile.mkv`;
+    },
+  };
+  gps = {
+    items: (id: string) => {
+      return `${this.item(id)}/GpsItems`;
+    },
+  };
 
   handle(id: string) {
     return new SystemEventHandleUrl(this.item(id));

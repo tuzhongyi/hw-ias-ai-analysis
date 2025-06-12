@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ArmAnalysisRequestService } from '../../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetShopSignsParams } from '../../../../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
+import { LocaleCompare } from '../../../../../../../common/tools/compare-tool/compare.tool';
 
 @Injectable()
 export class SystemEventProcessSignDisconverShopSignBusiness {
   constructor(private service: ArmAnalysisRequestService) {}
 
-  load(shopId: string, taskId?: string) {
+  async load(shopId: string, taskId?: string) {
+    let datas = await this.data(shopId, taskId);
+    return datas.sort((a, b) => {
+      return LocaleCompare.compare(a.Confidence, b.Confidence, false);
+    });
+  }
+
+  private data(shopId: string, taskId?: string) {
     let params = new GetShopSignsParams();
     if (taskId) {
       params.TaskIds = [taskId];

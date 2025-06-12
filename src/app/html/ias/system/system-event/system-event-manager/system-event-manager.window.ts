@@ -80,10 +80,11 @@ class PictureWindow extends WindowViewModel {
 }
 class VideoWindow extends WindowViewModel {
   style = {
-    width: '56%',
+    width: '74%',
     height: '74%',
   };
-  filename?: string;
+  data?: MobileEventRecord;
+  title = '';
 }
 class TaskWindow extends WindowViewModel {
   style = {

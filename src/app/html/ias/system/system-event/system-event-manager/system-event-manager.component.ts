@@ -13,7 +13,6 @@ import {
 import { Language } from '../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
-import { VideoComponent } from '../../../share/video/video.component';
 import { WindowComponent } from '../../../share/window/window.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../../system-module/system-module-shop-registration/system-module-shop-registration-information/system-module-shop-registration-information.component';
 import { SystemEventProcessSignDisconverComponent } from '../system-event-process/system-event-process-sign-disconver/system-event-process-sign-disconver.component';
@@ -29,6 +28,7 @@ import { SystemEventManagerBusiness } from './business/system-event-manager.busi
 import { SystemEventProcessInfoComponent } from '../system-event-process/system-event-process-info/system-event-process-info.component';
 import { SystemEventProcessShopNameComponent } from '../system-event-process/system-event-process-shop/system-event-process-shop-name/system-event-process-shop-name.component';
 import { SystemEventProcessSignDisappearComponent } from '../system-event-process/system-event-process-sign-disappear/system-event-process-sign-disappear.component';
+import { SystemEventVideoComponent } from '../system-event-video/system-event-video.component';
 import { SystemEventManagerProcessSignDisappearController } from './controller/process/system-event-manager-process-sign-disappear.controller';
 import { SystemEventManagerProcessSignDiscoverController } from './controller/process/system-event-manager-process-sign-discover.controller';
 import { SystemEventManagerProcessSignController } from './controller/process/system-event-manager-process-sign.controller';
@@ -45,7 +45,7 @@ import { SystemEventManagerWindow } from './system-event-manager.window';
     DateTimeControlComponent,
     SystemEventTableComponent,
     SystemEventTaskComponent,
-    VideoComponent,
+    SystemEventVideoComponent,
     WindowComponent,
     WindowConfirmComponent,
     PictureListComponent,
@@ -168,11 +168,15 @@ export class SystemEventManagerComponent implements OnInit {
       this.table.load.emit(this.table.args);
     },
     on: {
-      video: (data: MobileEventRecord) => {
+      video: async (data: MobileEventRecord) => {
+        let name = await this.language.event.EventType(data.EventType);
+        this.window.video.title = `${name}`;
         if (data.Resources && data.Resources.length > 0) {
-          this.window.video.filename = data.Resources[0].RecordUrl;
-          this.window.video.show = true;
+          let resource = data.Resources[0];
+          this.window.video.title = `${resource.ResourceName} ${name}`;
         }
+        this.window.video.data = data;
+        this.window.video.show = true;
       },
       details: (data: MobileEventRecord) => {
         this.window.info.data = data;

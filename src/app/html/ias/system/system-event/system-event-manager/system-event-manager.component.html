@@ -175,8 +175,8 @@
     [Model]="window.video"
     *ngIf="window.video.show"
     [style]="window.video.style"
-    [title]="window.video.filename"
+    [title]="window.video.title"
   >
-    <ias-video [filename]="window.video.filename"></ias-video>
+    <ias-system-event-video [data]="window.video.data"></ias-system-event-video>
   </ias-window>
 </div>

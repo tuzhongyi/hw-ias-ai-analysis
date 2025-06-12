@@ -1,0 +1,24 @@
+<div class="video-path">
+  <div class="video-path-body">
+    <div class="panel video">
+      <video
+        autoplay="autoplay"
+        controls
+        [currentTime]="video.time"
+        (timeupdate)="ontimeupdate($event)"
+        (error)="onvideoerror($event)"
+        [src]="src"
+      ></video>
+    </div>
+    <div class="panel map" *ngIf="map.business">
+      <howell-video-path-map
+        [business]="map.business"
+        [args]="map.args"
+        [to]="video.event.time"
+        (trigger)="onseek($event)"
+        (loaded)="onmaploaded()"
+        (error)="onerror($event)"
+      ></howell-video-path-map>
+    </div>
+  </div>
+</div>

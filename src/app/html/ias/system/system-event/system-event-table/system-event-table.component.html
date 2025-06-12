@@ -9,7 +9,7 @@
           <th class="center">序号</th>
           <th>照片</th>
 
-          <th>资源名称</th>
+          <th>触发源名称</th>
           <th>事件类型</th>
           <th>是否实时</th>
           <th>发现时间</th>
@@ -165,9 +165,6 @@
               </div> -->
               <div
                 class="button"
-                [ngClass]="{
-                  disabled: disabled.video(item)
-                }"
                 title="事件视频"
                 (click)="onvideo($event, item)"
               >

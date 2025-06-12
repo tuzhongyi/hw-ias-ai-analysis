@@ -8,8 +8,10 @@ import { VideoBusiness } from './video.business';
   imports: [],
   templateUrl: './video.component.html',
   styleUrl: './video.component.less',
+  providers: [VideoBusiness],
 })
 export class VideoComponent {
+  @Input() path?: string;
   @Input() filename?: string;
   constructor(
     private business: VideoBusiness,
@@ -20,7 +22,9 @@ export class VideoComponent {
   src?: SafeResourceUrl;
 
   ngOnInit(): void {
-    if (this.filename) {
+    if (this.path) {
+      this.src = this.sanitizer.bypassSecurityTrustResourceUrl(this.path);
+    } else if (this.filename) {
       this.load(this.filename);
     }
   }

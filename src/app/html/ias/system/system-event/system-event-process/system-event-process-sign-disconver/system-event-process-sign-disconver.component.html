@@ -30,6 +30,7 @@
             class="system-event-process-sign-disconver-body-record-picture-foot-name"
           >
             {{ record.sign.selected?.Text }}
+            {{ ((record.sign.selected?.Confidence ?? 0) * 100).toFixed(2) }}%
           </div>
           <div
             class="system-event-process-sign-disconver-body-record-picture-foot-page"
