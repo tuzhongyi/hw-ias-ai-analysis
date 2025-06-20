@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ShopObjectState } from '../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { Road } from '../../../../../../../common/data-core/models/arm/analysis/road.model';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 
 @Injectable()
 export class SystemMapSource {

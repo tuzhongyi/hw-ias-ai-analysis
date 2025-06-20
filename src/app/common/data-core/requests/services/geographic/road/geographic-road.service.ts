@@ -2,7 +2,7 @@ import { instanceToPlain } from 'class-transformer';
 
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
-import { Road } from '../../../../models/arm/analysis/road.model';
+import { Road } from '../../../../models/arm/geographic/road.model';
 import { PagedList } from '../../../../models/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmGeographicUrl } from '../../../../urls/arm/geographic/geographic.url';

@@ -159,14 +159,14 @@
 
   <ias-window
     [Model]="window.picture"
-    *ngIf="window.picture.show"
+    *ngIf="window.picture.show && window.picture.args"
     [style]="window.picture.style"
     [title]="window.picture.title"
   >
     <ias-picture-list
-      [id]="window.picture.url"
-      [polygon]="window.picture.polygon"
-      [zoom]="window.picture.polygon.length > 0"
+      [id]="window.picture.args.id"
+      [polygon]="window.picture.args.polygon"
+      [zoom]="window.picture.args.polygon.length > 0"
       [page]="window.picture.page"
       (pageChange)="picture.change($event)"
     ></ias-picture-list>

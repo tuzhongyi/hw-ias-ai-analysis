@@ -4,7 +4,10 @@ import { AbstractService } from '../../../../cache/cache.interface';
 import { AnalysisServerCapability } from '../../../../models/arm/analysis/analysis-server-capability.model';
 import { AnalysisServer } from '../../../../models/arm/analysis/analysis-server.model';
 import { AnalysisTaskResult } from '../../../../models/arm/analysis/analysis-task-result.model';
-import { AnalysisTask } from '../../../../models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../models/arm/analysis/task/analysis-task.model';
+import { ShopTaskStatistic } from '../../../../models/arm/analysis/task/shop-task-statistic.model';
+import { TaskRoadRoute } from '../../../../models/arm/analysis/task/task-road-route.model';
+import { FileGpsItem } from '../../../../models/arm/file/file-gps-item.model';
 import { PagedList } from '../../../../models/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmAnalysisUrl } from '../../../../urls/arm/analysis/analysis.url';
@@ -14,6 +17,9 @@ import {
   AnalysisTaskSource,
   GetAnalysisTaskListParams,
   GetAnalysisTaskResultListParams,
+  GetShopTaskStatisticParams,
+  GetTaskRecordFileGpsItemsParams,
+  GetTaskRecordFileParams,
 } from './analysis-server.params';
 
 export class ArmAnalysisServerRequestService {
@@ -145,6 +151,66 @@ class ArmAnalysisServerTaskRequestService extends AbstractService<AnalysisTask> 
     }
     return this._result;
   }
+
+  shop = {
+    statistic: (params: GetShopTaskStatisticParams) => {
+      let url = ArmAnalysisUrl.server.task.shop.statistic();
+      let plain = instanceToPlain(params);
+      return this.http
+        .post<HowellResponse<ShopTaskStatistic>, any>(url, plain)
+        .then((x) => {
+          return HowellResponseProcess.item(x, ShopTaskStatistic);
+        });
+    },
+  };
+  road = {
+    route: (id: string) => {
+      let url = ArmAnalysisUrl.server.task.road.route(id);
+      return this.http.get<HowellResponse<TaskRoadRoute[]>>(url).then((x) => {
+        return HowellResponseProcess.array(x, TaskRoadRoute);
+      });
+    },
+  };
+  gps = {
+    items: (id: string, rectified?: boolean) => {
+      let url = ArmAnalysisUrl.server.task.gps.items(id, rectified);
+      return this.http.get<HowellResponse<FileGpsItem[]>>(url).then((x) => {
+        return HowellResponseProcess.array(x, FileGpsItem);
+      });
+    },
+  };
+  record = {
+    file: {
+      mkv: (id: string, params: GetTaskRecordFileParams) => {
+        let plain = instanceToPlain(params) as GetTaskRecordFileParams;
+        // let plain = params;
+        return ArmAnalysisUrl.server.task.record
+          .file(id)
+          .mkv(plain.Longitude, plain.Latitude, plain.Channel, plain.Duration);
+      },
+      gps: {
+        items: (id: string, params: GetTaskRecordFileGpsItemsParams) => {
+          let plain = instanceToPlain(
+            params
+          ) as GetTaskRecordFileGpsItemsParams;
+          console.log(params);
+          console.log(plain);
+          let url = ArmAnalysisUrl.server.task.record
+            .file(id)
+            .gps.items(
+              plain.Longitude,
+              plain.Latitude,
+              plain.Channel,
+              plain.Duration,
+              plain.Rectified
+            );
+          return this.http.get<HowellResponse<FileGpsItem[]>>(url).then((x) => {
+            return HowellResponseProcess.array(x, FileGpsItem);
+          });
+        },
+      },
+    },
+  };
 }
 
 class ArmAnalysisServerTaskResultRequestService {

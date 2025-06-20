@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { WindowViewModel } from '../../../../../common/components/window-control/window.model';
-import { ShopRegistration } from '../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
+import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../common/data-core/models/page-list.model';
 import { HtmlTool } from '../../../../../common/tools/html-tool/html.tool';
+import { PicturePolygonArgs } from '../../../share/picture/picture-polygon/picture-polygon.model';
 
 @Injectable()
 export class SystemEventManagerWindow {
@@ -37,24 +38,21 @@ class PictureWindow extends WindowViewModel {
 
   title = '';
   page?: Page;
-  url?: string;
-  polygon: HowellPoint[] = [];
+  args?: PicturePolygonArgs;
 
   clear() {
     this.title = '';
-
-    this.url = undefined;
-    this.polygon = [];
+    this.args = undefined;
   }
 
-  set(data?: MobileEventRecord): void;
-  set(data?: ShopRegistration): void;
-  set(data?: MobileEventRecord | ShopRegistration): void {
+  set(data: MobileEventRecord | ShopRegistration | ShopSign): void {
     this.clear();
     if (data instanceof MobileEventRecord) {
       this.from.record(data);
     } else if (data instanceof ShopRegistration) {
       this.from.shop(data);
+    } else if (data instanceof ShopSign) {
+      this.from.sign(data);
     }
   }
 
@@ -63,25 +61,37 @@ class PictureWindow extends WindowViewModel {
       if (data.Resources && data.Resources.length > 0) {
         let resource = data.Resources[0];
 
+        this.args = new PicturePolygonArgs();
         this.title = resource.ResourceName;
-        this.url = resource.ImageUrl;
-        this.polygon = [];
+        this.args.id = resource.ImageUrl;
+        this.args.polygon = [];
         if (resource.Objects && resource.Objects.length > 0) {
-          this.polygon = resource.Objects[0].Polygon;
+          this.args.polygon = resource.Objects[0].Polygon;
         }
       }
     },
     shop: (data: ShopRegistration) => {
       this.title = data.Name;
-      this.url = data.ImageUrl;
-      this.polygon = [];
+      this.args = new PicturePolygonArgs();
+      this.args.id = data.ImageUrl;
+      this.args.polygon = [];
+    },
+    sign: (data: ShopSign) => {
+      this.title = data.Text ?? '';
+      this.args = new PicturePolygonArgs();
+      this.args.id = data.ImageUrl;
+      this.args.polygon = data.Polygon ?? [];
     },
   };
 }
 class VideoWindow extends WindowViewModel {
   style = {
-    width: '74%',
-    height: '74%',
+    width: `${screen.availWidth * 0.85}px`,
+    height: HtmlTool.screen.has.head.from.width(
+      screen.availWidth * 0.85,
+      16 / 9,
+      -200
+    ),
   };
   data?: MobileEventRecord;
   title = '';

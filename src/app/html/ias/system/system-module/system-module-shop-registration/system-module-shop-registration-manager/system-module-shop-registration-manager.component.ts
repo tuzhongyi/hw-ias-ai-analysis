@@ -8,7 +8,7 @@ import {
   UploadControlFile,
 } from '../../../../../../common/components/upload-control/upload-control.model';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import {
   Page,
   Paged,

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Road } from '../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../common/data-core/models/arm/geographic/road.model';
 
 import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { GeoDirectionSort } from '../../../../../common/tools/geo-tool/geo.model';

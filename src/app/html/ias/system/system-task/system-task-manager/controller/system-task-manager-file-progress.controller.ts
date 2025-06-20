@@ -3,7 +3,7 @@ import {
   UploadControlFile,
   UploadControlFileInfo,
 } from '../../../../../../common/components/upload-control/upload-control.model';
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { SystemTaskModel } from '../../system-task-creation/component/system-task-creation.model';
 import { TaskProgress } from '../../system-task-table/system-task-table.model';
 import { SystemTaskManagerTestBusiness } from '../business/system-task-manager-test.business';

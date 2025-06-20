@@ -1,8 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { ShopObjectState } from '../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import {
   SystemMapSourceTableShopFrom,
   SystemMapSourceTableShopItem,

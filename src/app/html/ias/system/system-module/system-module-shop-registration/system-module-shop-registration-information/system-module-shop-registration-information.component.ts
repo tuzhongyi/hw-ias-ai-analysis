@@ -11,8 +11,8 @@ import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-poin
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopDetailsMapComponent } from '../../system-module-shop/system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopRegistrationInformationBusinessInfoComponent } from '../system-module-shop-registration-information-business-info/system-module-shop-registration-information-business-info.component';

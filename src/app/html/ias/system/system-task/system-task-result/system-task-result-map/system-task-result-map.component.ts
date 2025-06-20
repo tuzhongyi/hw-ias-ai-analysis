@@ -6,8 +6,8 @@ import {
   OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { SystemTaskResultAMapController } from './controller/system-task-result-amap.controller';
 
 @Component({

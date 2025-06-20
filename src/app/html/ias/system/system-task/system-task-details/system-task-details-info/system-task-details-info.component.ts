@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { TaskProgress } from '../../system-task-table/system-task-table.model';

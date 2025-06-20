@@ -12,9 +12,9 @@ import {
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { ShopTaskCompareResult } from '../../../../../../common/data-core/models/arm/analysis/shop-task-compare-result.model';
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import {
   Page,
   Paged,

@@ -1,3 +1,4 @@
+import { ShopStatisticStatus } from '../../../html/ias/system/system-task/system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 import { ResultLabelType } from '../../data-core/enums/analysis/result-label-type.enum';
 import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum';
 import { DeviceProtocolType } from '../../data-core/enums/device-protocol-type.enum';
@@ -463,6 +464,18 @@ export class Language {
         return '新增屏蔽';
       case 6:
         return '子招牌合并';
+      default:
+        return def;
+    }
+  }
+  static ShopStatisticStatus(value?: ShopStatisticStatus, def = '未知') {
+    switch (value) {
+      case ShopStatisticStatus.associated:
+        return '已关联';
+      case ShopStatisticStatus.discover:
+        return '新发现';
+      case ShopStatisticStatus.misinfo:
+        return '误报/屏蔽';
       default:
         return def;
     }

@@ -1,5 +1,5 @@
-import { Road } from '../../../../../../../common/data-core/models/arm/analysis/road.model';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 
 export class SystemMapAMapConverter {
   geo = {

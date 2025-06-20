@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Road } from '../../../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { SystemModuleRoadMapAMapCreatorController } from './creator/system-module-road-map-amap-creator.controller';

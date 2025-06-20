@@ -1,10 +1,12 @@
 <div class="picture-polygon-multiple">
-  <ias-picture-canvas
-    [src]="src"
-    [id]="id"
-    [default]="default"
-    (error)="onerror($event)"
-    (canvas)="oncanvas($event)"
-    (image)="onimage($event)"
-  ></ias-picture-canvas>
+  <howell-container-zoom>
+    <ias-picture-canvas
+      [src]="src"
+      [id]="id"
+      [default]="default"
+      (error)="onerror($event)"
+      (canvas)="oncanvas($event)"
+      (image)="onimage($event)"
+    ></ias-picture-canvas>
+  </howell-container-zoom>
 </div>

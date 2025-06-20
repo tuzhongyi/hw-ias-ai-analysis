@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisTaskListParams } from '../../../../../../common/data-core/requests/services/analysis/server/analysis-server.params';
 import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';

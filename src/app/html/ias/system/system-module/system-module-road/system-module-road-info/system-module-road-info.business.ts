@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { Guid } from '../../../../../../common/tools/guid/guid';
 

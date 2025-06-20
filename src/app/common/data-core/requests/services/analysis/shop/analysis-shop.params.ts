@@ -43,6 +43,12 @@ export class GetShopsParams extends PagedDurationParams {
   RoadIds?: string[];
   /**	Int32	识别到招牌的最小任务次数	O */
   MinTaskCount?: number;
+  /**	Int32[]	营业状态，1：停业，2：营业，3：装修	O */
+  BusinessStates?: number[];
+  /**	String[]	关联的注册商铺信息	O */
+  RegistrationIds?: string[];
+  /**	Boolean	是否为副或子招牌，true表示是子招牌，null或false表示不是。	O */
+  IsSubSignboard?: boolean;
   /**	String	升序属性，不区分大小写	O	*/
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/

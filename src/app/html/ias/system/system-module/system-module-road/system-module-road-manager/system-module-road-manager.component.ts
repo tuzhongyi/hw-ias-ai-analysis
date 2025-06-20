@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { SystemModuleRoadInfoComponent } from '../system-module-road-info/system-module-road-info.component';
 import { SystemModuleRoadMapComponent } from '../system-module-road-map/system-module-road-map.component';

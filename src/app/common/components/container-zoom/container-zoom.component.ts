@@ -47,6 +47,10 @@ export class ContainerZoomComponent implements OnChanges {
     }
   }
 
+  onDoubleClick(event: MouseEvent) {
+    this.onReset();
+  }
+
   onMouseDown(event: MouseEvent) {
     this.reset = false;
     this.resetChange.emit(this.reset);
@@ -59,8 +63,8 @@ export class ContainerZoomComponent implements OnChanges {
     this.reset = false;
     this.resetChange.emit(this.reset);
     if (!this.isDragging) return;
-    const dx = event.clientX - this.startX;
-    const dy = event.clientY - this.startY;
+    const dx = (event.clientX - this.startX) / this.scale;
+    const dy = (event.clientY - this.startY) / this.scale;
     this.translateX = this.lastX + dx;
     this.translateY = this.lastY + dy;
   }

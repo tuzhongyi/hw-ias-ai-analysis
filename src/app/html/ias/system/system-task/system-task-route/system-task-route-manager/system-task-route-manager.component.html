@@ -1,0 +1,16 @@
+<div class="system-task-route-manager">
+  <div class="system-task-route-manager-statistic">
+    <ias-system-task-route-statistic
+      [data]="data"
+      (analysis)="on.analysis($event)"
+      (registration)="on.registration($event)"
+    ></ias-system-task-route-statistic>
+  </div>
+
+  <div class="system-task-route-manager-map">
+    <ias-system-task-route-map
+      [data]="data"
+      (current)="on.current($event)"
+    ></ias-system-task-route-map>
+  </div>
+</div>

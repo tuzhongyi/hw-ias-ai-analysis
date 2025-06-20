@@ -11,7 +11,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { SystemModuleRoadMapAMapController } from './controller/amap/system-module-road-map-amap.controller';
 import { SystemModuleRoadMapPositionController } from './controller/system-module-road-map-position.controller';
 import { SystemModuleRoadMapController } from './controller/system-module-road-map.controller';

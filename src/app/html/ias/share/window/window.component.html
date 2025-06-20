@@ -9,10 +9,15 @@
 >
   <div class="window-content">
     <div class="window-content-head">
-      <ias-content-header
-        [title]="title ?? ''"
-        [window]="true"
-      ></ias-content-header>
+      <div class="window-content-head-header">
+        <ias-content-header
+          [title]="title ?? ''"
+          [window]="true"
+        ></ias-content-header>
+      </div>
+      <div class="window-content-head-operation">
+        <ng-content select="window-head-operation"></ng-content>
+      </div>
     </div>
     <div class="window-content-body">
       <ng-content></ng-content>

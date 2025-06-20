@@ -6,13 +6,14 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { ContainerZoomComponent } from '../../../../../common/components/container-zoom/container-zoom.component';
 import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
 import { PromiseValue } from '../../../../../common/view-models/value.promise';
 import { PicturePolygonComponent } from '../picture-polygon/picture-polygon.component';
 
 @Component({
   selector: 'ias-picture-polygon-zoom',
-  imports: [PicturePolygonComponent],
+  imports: [PicturePolygonComponent, ContainerZoomComponent],
   templateUrl: './picture-polygon-zoom.component.html',
   styleUrl: './picture-polygon-zoom.component.less',
 })

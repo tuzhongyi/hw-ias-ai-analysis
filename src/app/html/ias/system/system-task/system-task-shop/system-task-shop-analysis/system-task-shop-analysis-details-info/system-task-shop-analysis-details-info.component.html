@@ -1,0 +1,34 @@
+<div class="system-task-shop-analysis-details-info forms" *ngIf="shop">
+  <div class="form-item">
+    <div class="form-item-text">商铺名称:</div>
+    <div class="form-item-value">{{ shop.Name }}</div>
+  </div>
+  <div class="form-item">
+    <div class="form-item-text">关联注册商铺:</div>
+    <div class="form-item-value">{{ registration?.Name ?? "-" }}</div>
+  </div>
+  <div class="form-item">
+    <div class="form-item-text">商铺类型:</div>
+    <div class="form-item-value">{{ info.ShopType }}</div>
+  </div>
+  <div class="form-item">
+    <div class="form-item-text">招牌类型:</div>
+    <div class="form-item-value">
+      {{ shop.IsSubSignboard ? "子招牌" : "主招牌" }}
+    </div>
+  </div>
+  <div class="form-item">
+    <div class="form-item-text">所在道路:</div>
+    <div class="form-item-value">{{ shop.RoadName ?? "-" }}</div>
+  </div>
+  <div class="form-item">
+    <div class="form-item-text">置信度:</div>
+    <div class="form-item-value">
+      {{ ((shop.Confidence ?? 0) * 100).toFixed(2) }}%
+    </div>
+  </div>
+  <div class="form-item" [title]="shop.Id">
+    <div class="form-item-text">商铺编号:</div>
+    <div class="form-item-value">{{ shop.Id }}</div>
+  </div>
+</div>

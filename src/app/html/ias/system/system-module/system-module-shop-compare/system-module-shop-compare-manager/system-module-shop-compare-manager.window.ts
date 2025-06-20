@@ -1,7 +1,7 @@
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { ShopTaskCompareResult } from '../../../../../../common/data-core/models/arm/analysis/shop-task-compare-result.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 
 export class SystemModuleShopCompareManagerWindow {

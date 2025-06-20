@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { MediumRequestService } from '../../../../../../../common/data-core/requests/services/medium/medium.service';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 import { SystemModuleShopRegistrationTableItem } from '../system-module-shop-registration-table.model';

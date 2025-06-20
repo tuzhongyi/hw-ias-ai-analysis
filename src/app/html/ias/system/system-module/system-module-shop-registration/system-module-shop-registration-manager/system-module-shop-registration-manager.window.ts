@@ -1,5 +1,5 @@
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 
 export class SystemModuleShopRegistrationManagerWindow {

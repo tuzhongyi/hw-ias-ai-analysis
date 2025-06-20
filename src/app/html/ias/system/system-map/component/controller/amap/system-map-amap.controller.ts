@@ -4,8 +4,8 @@ import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-p
 import { MapHelper } from '../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
 
-import { Road } from '../../../../../../../common/data-core/models/arm/analysis/road.model';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import {
   SystemAMapCircleEditorController,
   SystemAMapCircleEditorEvent,

@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Road } from '../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../common/data-core/models/arm/geographic/road.model';
 
 @Component({
   selector: 'ias-system-map-source-table-road',

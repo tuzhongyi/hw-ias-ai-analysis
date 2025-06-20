@@ -17,7 +17,10 @@ import {
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
 import { SystemTaskManagerController } from './controller/system-task-manager.controller';
 
+import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
+import { ShopStatisticStatus } from '../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
+import { SystemTaskVideoArgs } from '../system-task-video/system-task-video.model';
 import {
   SystemTaskManagerImports,
   SystemTaskManagerProviders,
@@ -87,11 +90,14 @@ export class SystemTaskManagerComponent implements OnInit {
   }
 
   async onresult(data: AnalysisTaskModel) {
-    this.window.result.title = `${
-      data.Name
-    } ${await this.language.analysis.server.TaskType(data.TaskType)}`;
-    this.window.result.data = data;
-    this.window.result.show = true;
+    this.window.route.title = data.Name ?? '';
+    this.window.route.data = data;
+    this.window.route.show = true;
+    // this.window.result.title = `${
+    //   data.Name
+    // } ${await this.language.analysis.server.TaskType(data.TaskType)}`;
+    // this.window.result.data = data;
+    // this.window.result.show = true;
   }
   ondetails(data: AnalysisTaskModel) {
     this.window.details.data = data;
@@ -163,6 +169,30 @@ export class SystemTaskManagerComponent implements OnInit {
         .catch((e) => {
           this.toastr.error('上传文件后，写入文件名失败');
         });
+    },
+  };
+  route = {
+    on: {
+      current: (data: FileGpsItem) => {
+        if (this.window.route.data) {
+          this.window.video.title = `${this.window.route.data.Name}`;
+          let args = new SystemTaskVideoArgs();
+          args.TaskId = this.window.route.data.Id;
+          args.Longitude = data.Longitude;
+          args.Latitude = data.Latitude;
+          this.window.video.args = args;
+          this.window.video.show = true;
+        }
+      },
+      analysis: (status?: ShopStatisticStatus) => {
+        this.window.shop.analysis.status = status;
+        this.window.shop.analysis.data = this.window.route.data;
+        this.window.shop.analysis.show = true;
+      },
+      registration: (associated?: boolean) => {
+        this.window.shop.registration.state = associated;
+        this.window.shop.registration.show = true;
+      },
     },
   };
 }

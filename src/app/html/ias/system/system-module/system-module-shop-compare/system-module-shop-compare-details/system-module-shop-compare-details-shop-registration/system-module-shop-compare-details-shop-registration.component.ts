@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
 

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
-import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool';
-import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
 import {
   GeoDirection,
   GeoDirectionSort,
@@ -22,12 +20,12 @@ export class SystemMapSourceTableShopBusiness {
     sort: GeoDirectionSort,
     direction: GeoDirection
   ) {
-    let datas = [];
+    let datas: SystemMapSourceTableShopItem[] = [];
     for (let i = 0; i < shops.length; i++) {
       let item = await this.converter.convert(shops[i]);
       datas.push(item);
     }
-    datas = this.sort(datas, sort, direction);
+    datas = GeoTool.direction.sort(datas, sort, direction);
     let paged = PagedList.create(datas, index, size);
 
     for (let i = 0; i < paged.Data.length; i++) {
@@ -43,60 +41,5 @@ export class SystemMapSourceTableShopBusiness {
     }
 
     return paged;
-  }
-
-  private sort(
-    items: SystemMapSourceTableShopItem[],
-    sort: GeoDirectionSort,
-    direction: GeoDirection
-  ) {
-    let group = ArrayTool.groupBy(items, (x) => {
-      return x.Road?.Id ?? '';
-    });
-
-    let sorteds: SystemMapSourceTableShopItem[][] = [];
-
-    for (let key in group) {
-      let items = group[key];
-      let sorted = items.sort((a, b) => this.compare(a, b, sort));
-      sorteds.push(sorted);
-    }
-
-    sorteds = sorteds.sort((a, b) => {
-      let _a: GeoDirection | undefined = undefined;
-      let _b: GeoDirection | undefined = undefined;
-      if (a.length > 0) {
-        _a = a[0].Road?.Direction;
-      }
-      if (b.length > 0) {
-        _b = b[0].Road?.Direction;
-      }
-      return LocaleCompare.compare(_a, _b, direction === GeoDirection.ew);
-    });
-    if (sorteds.length > 0) {
-      return sorteds.reduce((a, b) => a.concat(b));
-    }
-    return [];
-  }
-
-  private compare(
-    a: SystemMapSourceTableShopItem,
-    b: SystemMapSourceTableShopItem,
-    sort: GeoDirectionSort
-  ) {
-    if (a.Location && a.Road && b.Location && b.Road) {
-      let _a: [number, number] = [a.Location.Longitude, a.Location.Latitude];
-      let _b: [number, number] = [b.Location.Longitude, b.Location.Latitude];
-
-      switch (a.Road.Direction) {
-        case GeoDirection.ew:
-          return GeoTool.point.sort.longitude(_a, _b, sort.longitude);
-        case GeoDirection.ns:
-          return GeoTool.point.sort.latitude(_a, _b, sort.latitude);
-        default:
-          throw new Error('Road.direction');
-      }
-    }
-    return 0;
   }
 }

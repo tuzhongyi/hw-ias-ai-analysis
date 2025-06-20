@@ -1,0 +1,31 @@
+<div class="system-task-shop-analysis-details">
+  <div class="system-task-shop-analysis-details-picture panel">
+    <howell-container-page
+      [page]="picture.page.data"
+      (pageChange)="picture.page.change($event)"
+    >
+      <howell-container-zoom>
+        <ias-picture-polygon
+          [id]="picture.src"
+          [polygon]="picture.polygon"
+        ></ias-picture-polygon>
+      </howell-container-zoom>
+    </howell-container-page>
+  </div>
+  <div class="system-task-shop-analysis-details-body">
+    <div class="system-task-shop-analysis-details-info panel">
+      <ias-system-task-shop-analysis-details-info
+        [shop]="shop"
+        [registration]="registration"
+      ></ias-system-task-shop-analysis-details-info>
+    </div>
+    <div class="system-task-shop-analysis-details-map panel">
+      <ias-map
+        [location]="map.location"
+        [move]="true"
+        [marker]="map.marker"
+        [points]="map.point ? [map.point] : []"
+      ></ias-map>
+    </div>
+  </div>
+</div>

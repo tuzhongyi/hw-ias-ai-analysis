@@ -11,9 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 import { ResultLabelType } from '../../../../../../common/data-core/enums/analysis/result-label-type.enum';
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { Language } from '../../../../../../common/tools/language-tool/language';

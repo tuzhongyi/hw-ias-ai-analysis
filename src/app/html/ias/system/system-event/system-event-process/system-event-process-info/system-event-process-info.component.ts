@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
-import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
-import { SystemEventMapComponent } from '../../system-event-map/system-event-map.component';
+import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import {
   MapMarkerShopColor,
   MapMarkerType,
-} from '../../system-event-map/system-event-map.model';
+} from '../../../../share/map/ias-map.model';
+import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
 import { SystemEventProcessInfoHandledComponent } from '../system-event-process-info-handled/system-event-process-info-handled.component';
 import { SystemEventProcessInfoBusiness } from './system-event-process-info.business';
@@ -23,7 +23,7 @@ import { SystemEventProcessInfoBusiness } from './system-event-process-info.busi
     FormsModule,
     PicturePolygonMultipleComponent,
     SystemEventRecordDetailsComponent,
-    SystemEventMapComponent,
+    IASMapComponent,
     SystemEventProcessInfoHandledComponent,
   ],
   templateUrl: './system-event-process-info.component.html',
@@ -33,7 +33,7 @@ import { SystemEventProcessInfoBusiness } from './system-event-process-info.busi
 export class SystemEventProcessInfoComponent implements OnInit {
   @Input() data?: MobileEventRecord;
   @Output() picture = new EventEmitter<
-    PagedList<MobileEventRecord | ShopRegistration | undefined>
+    PagedList<MobileEventRecord | ShopRegistration>
   >();
 
   constructor(private business: SystemEventProcessInfoBusiness) {}
@@ -100,9 +100,7 @@ export class SystemEventProcessInfoComponent implements OnInit {
       polygon: [] as HowellPoint[][],
       click: () => {
         if (this.data) {
-          let datas = new Array<
-            MobileEventRecord | ShopRegistration | undefined
-          >();
+          let datas = new Array<MobileEventRecord | ShopRegistration>();
           datas.push(this.data);
           if (this.shop.data) {
             datas.push(this.shop.data);
@@ -120,9 +118,7 @@ export class SystemEventProcessInfoComponent implements OnInit {
       polygon: [] as HowellPoint[][],
       click: () => {
         if (this.data && this.shop.data) {
-          let datas = new Array<
-            MobileEventRecord | ShopRegistration | undefined
-          >();
+          let datas = new Array<MobileEventRecord | ShopRegistration>();
           datas.push(this.data);
           datas.push(this.shop.data);
           let paged = PagedList.create(datas, datas.length, datas.length);

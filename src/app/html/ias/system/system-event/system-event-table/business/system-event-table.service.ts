@@ -48,6 +48,7 @@ export class SystemEventTableService {
         break;
       case 2:
         params.Handled = true;
+        params.IsMisInfo = false;
         break;
       case 3:
         params.IsMisInfo = true;

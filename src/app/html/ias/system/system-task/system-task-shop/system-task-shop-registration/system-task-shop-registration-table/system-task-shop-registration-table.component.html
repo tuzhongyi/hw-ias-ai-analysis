@@ -1,0 +1,85 @@
+<div class="system-task-shop-registration-table table-split">
+  <div class="table-split-head">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="sort.on.table($event)"
+    >
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th sort="Name">商铺名称</th>
+          <th sort="RoadName">所在道路</th>
+          <th sort="AssociatedCount">状态</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="table-split-body" #body>
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="on.select(item)"
+          [ngClass]="{
+            selected: item === selected
+          }"
+        >
+          <td class="center">
+            <div>{{ index + 1 }}</div>
+          </td>
+          <td [title]="item.Name">
+            {{ item.Name }}
+          </td>
+          <td>
+            {{ item.RoadName ?? "-" }}
+          </td>
+          <td>
+            <span
+              [ngClass]="{
+                red: !item.AssociatedCount
+              }"
+            >
+              {{ !item.AssociatedCount ? "未检测到" : "已检测到" }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-split-foot">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">总数:</div>
+        <div class="form-item-value">
+          <span>{{ table.count.all }}</span>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">已检测到:</div>
+        <div class="form-item-value">
+          <span>{{ table.count.associated }}</span>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">未检测到:</div>
+        <div class="form-item-value">
+          <span>{{ table.count.unassociated }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="button-group">
+      <ias-direction-sort-control [name]="'排序'"></ias-direction-sort-control>
+    </div> -->
+  </div>
+
+  <div class="loading" *ngIf="loading"></div>
+</div>

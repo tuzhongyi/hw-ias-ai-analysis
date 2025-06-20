@@ -13,7 +13,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { Manager } from '../../../../../../common/data-core/requests/managers/manager';
 import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
 import { wait } from '../../../../../../common/tools/wait';

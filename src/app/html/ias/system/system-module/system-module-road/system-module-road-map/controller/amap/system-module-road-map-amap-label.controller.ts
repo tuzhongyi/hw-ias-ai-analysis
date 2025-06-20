@@ -1,4 +1,4 @@
-import { Road } from '../../../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
 
 export class SystemModuleRoadMapAMapLabelController {

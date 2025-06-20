@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { SystemModuleRoadInfoBusiness } from './system-module-road-info.business';
 

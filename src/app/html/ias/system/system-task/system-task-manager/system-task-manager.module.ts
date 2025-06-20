@@ -9,7 +9,11 @@ import { WindowComponent } from '../../../share/window/window.component';
 import { SystemTaskDetailsComponent } from '../system-task-details/component/system-task-details.component';
 import { SystemTaskFileManagerComponent } from '../system-task-file/system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskResultComponent } from '../system-task-result/component/system-task-result.component';
+import { SystemTaskRouteManagerComponent } from '../system-task-route/system-task-route-manager/system-task-route-manager.component';
+import { SystemTaskShopAnalysisManagerComponent } from '../system-task-shop/system-task-shop-analysis/system-task-shop-analysis-manager/system-task-shop-analysis-manager.component';
+import { SystemTaskShopRegistrationManagerComponent } from '../system-task-shop/system-task-shop-registration/system-task-shop-registration-manager/system-task-shop-registration-manager.component';
 import { SystemTaskTableComponent } from '../system-task-table/system-task-table.component';
+import { SystemTaskVideoComponent } from '../system-task-video/system-task-video.component';
 import { SystemTaskManagerFileBusiness } from './business/system-task-manager-file.business';
 import { SystemTaskManagerTaskBusiness } from './business/system-task-manager-task.business';
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
@@ -28,6 +32,10 @@ export const SystemTaskManagerImports = [
   SystemTaskDetailsComponent,
   SystemTaskFileManagerComponent,
   WindowComponent,
+  SystemTaskRouteManagerComponent,
+  SystemTaskVideoComponent,
+  SystemTaskShopAnalysisManagerComponent,
+  SystemTaskShopRegistrationManagerComponent,
 ];
 
 export const SystemTaskManagerProviders = [

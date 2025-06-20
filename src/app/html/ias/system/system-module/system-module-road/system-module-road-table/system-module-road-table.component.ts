@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { SystemModuleRoadTableBusiness } from './system-module-road-table.business';
 import { SystemModuleRoadTableArgs } from './system-module-road-table.model';
 

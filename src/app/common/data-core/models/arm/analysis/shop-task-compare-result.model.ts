@@ -3,7 +3,7 @@
 import { Type } from 'class-transformer';
 import 'reflect-metadata';
 import { IModel } from '../../model.interface';
-import { ShopRegistration } from './shop-registration.model';
+import { ShopRegistration } from '../geographic/shop-registration.model';
 import { Shop } from './shop.model';
 
 export class ShopTaskCompareResult implements IModel {

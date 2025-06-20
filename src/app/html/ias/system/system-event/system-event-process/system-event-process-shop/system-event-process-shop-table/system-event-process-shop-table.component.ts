@@ -14,8 +14,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { TableSorterDirective } from '../../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../../common/directives/table-sorter/table-sorter.model';
 import { LocaleCompare } from '../../../../../../../common/tools/compare-tool/compare.tool';

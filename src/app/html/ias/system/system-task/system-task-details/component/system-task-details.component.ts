@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { UploadControlFileInfo } from '../../../../../../common/components/upload-control/upload-control.model';
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 
 import { CommonModule } from '@angular/common';
 import { TaskCompletedArgs } from '../../system-task-creation/component/system-task-creation.model';

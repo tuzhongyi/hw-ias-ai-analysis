@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { FileInfo } from '../../../../../../common/data-core/models/arm/file/file-info.model';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemTaskFileDetailsComponent } from '../system-task-file-details/system-task-file-details.component';

@@ -126,6 +126,19 @@
     ></ias-system-task-result>
   </ias-window>
   <ias-window
+    *ngIf="window.route.show"
+    [Model]="window.route"
+    [style]="window.route.style"
+    [title]="window.route.title"
+  >
+    <ias-system-task-route-manager
+      [data]="window.route.data"
+      (current)="route.on.current($event)"
+      (analysis)="route.on.analysis($event)"
+      (registration)="route.on.registration($event)"
+    ></ias-system-task-route-manager>
+  </ias-window>
+  <ias-window
     *ngIf="window.details.show"
     [Model]="window.details"
     [style]="window.details.style"
@@ -139,6 +152,52 @@
       (close)="window.details.show = false"
       (analysis)="on.completed($event)"
     ></ias-system-task-details>
+  </ias-window>
+  <ias-window
+    *ngIf="window.video.show && window.video.args"
+    [Model]="window.video"
+    [style]="window.video.style"
+    [title]="window.video.title"
+    [CloseButton]="false"
+  >
+    <div ngProjectAs="window-head-operation" class="window-video-operation">
+      <select
+        [(ngModel)]="window.video.args.Channel"
+        (change)="window.video.change()"
+      >
+        <!-- <option [ngValue]="undefined">全部</option> -->
+        <option [ngValue]="1">通道1</option>
+        <option [ngValue]="2">通道2</option>
+        <option [ngValue]="3">通道3</option>
+        <option [ngValue]="4">通道4</option>
+        <option [ngValue]="5">通道5</option>
+      </select>
+      <div class="button" (click)="window.video.show = false">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+    <ias-system-task-video [args]="window.video.args"></ias-system-task-video>
+  </ias-window>
+  <ias-window
+    *ngIf="window.shop.analysis.show"
+    [Model]="window.shop.analysis"
+    [style]="window.shop.analysis.style"
+    [title]="window.shop.analysis.title"
+  >
+    <ias-system-task-shop-analysis-manager
+      [data]="window.shop.analysis.data"
+      [status]="window.shop.analysis.status"
+    ></ias-system-task-shop-analysis-manager>
+  </ias-window>
+  <ias-window
+    *ngIf="window.shop.registration.show"
+    [Model]="window.shop.registration"
+    [style]="window.shop.registration.style"
+    [title]="window.shop.registration.title"
+  >
+    <ias-system-task-shop-registration-manager
+      [associated]="window.shop.registration.state"
+    ></ias-system-task-shop-registration-manager>
   </ias-window>
   <confirm-window
     *ngIf="window.confirm.show"

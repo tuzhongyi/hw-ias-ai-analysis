@@ -1,0 +1,51 @@
+<div class="system-task-shop-registration-manager">
+  <div class="system-task-shop-registration-manager-head">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">商铺名称</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="table.args.name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">所在道路</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="table.args.roadId">
+            <option [ngValue]="undefined">全部</option>
+            <option *ngFor="let item of source.road" [ngValue]="item.Id">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-text">状态</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="table.args.associated">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="true">已检测到</option>
+            <option [ngValue]="false">未检测到</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item submit">
+        <button class="button-clip-gradient" (click)="on.search()">查找</button>
+      </div>
+    </div>
+  </div>
+  <div class="system-task-shop-registration-manager-body">
+    <div class="system-task-shop-registration-manager-table" *ngIf="inited">
+      <ias-system-task-shop-registration-table
+        [args]="table.args"
+        [load]="table.load"
+        [(selected)]="table.selected"
+      ></ias-system-task-shop-registration-table>
+    </div>
+    <div class="system-task-shop-registration-manager-details">
+      <ias-system-task-shop-registration-details
+        [data]="table.selected"
+      ></ias-system-task-shop-registration-details>
+    </div>
+  </div>
+</div>

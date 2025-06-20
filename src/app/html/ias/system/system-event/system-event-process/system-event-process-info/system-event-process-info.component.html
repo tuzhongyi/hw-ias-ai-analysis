@@ -2,10 +2,7 @@
   <div class="system-event-process-info-body">
     <div class="system-event-process-info-body-record panel">
       <div class="system-event-process-info-body-record-head">详细信息</div>
-      <div
-        class="system-event-process-info-body-record-picture border"
-        (click)="record.picture.click()"
-      >
+      <div class="system-event-process-info-body-record-picture border">
         <ias-picture-polygon-multiple
           [id]="record.picture.src"
           [polygon]="record.picture.polygon"
@@ -25,11 +22,11 @@
           ></ias-system-event-record-details>
         </div>
         <div class="system-event-process-info-body-record-content-map border">
-          <ias-system-event-map
+          <ias-map
             [location]="data?.Location"
             [marker]="map.marker"
             [points]="map.point ? [map.point] : []"
-          ></ias-system-event-map>
+          ></ias-map>
         </div>
       </div>
     </div>
@@ -50,10 +47,7 @@
       "
     >
       <div class="system-event-process-info-body-handle-head">处置信息</div>
-      <div
-        class="system-event-process-info-body-handle-picture border"
-        (click)="shop.picture.click()"
-      >
+      <div class="system-event-process-info-body-handle-picture border">
         <ias-picture-polygon-multiple
           [id]="shop.picture.src"
           [polygon]="shop.picture.polygon"

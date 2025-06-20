@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Road } from '../../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 
 @Injectable()

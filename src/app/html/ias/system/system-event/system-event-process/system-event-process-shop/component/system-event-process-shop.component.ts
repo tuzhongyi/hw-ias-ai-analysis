@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { SystemEventProcessShopTableComponent } from '../system-event-process-shop-table/system-event-process-shop-table.component';
 import { SystemEventProcessShopTableArgs } from '../system-event-process-shop-table/system-event-process-shop-table.model';
 

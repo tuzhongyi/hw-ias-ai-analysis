@@ -1,0 +1,13 @@
+<div class="picture-polygon-zoom">
+  <div class="picture-polygon-zoom-image" (click)="zoom.on()">
+    <ias-picture-polygon
+      [src]="src"
+      [id]="id"
+      [default]="default"
+      [polygon]="polygon"
+      (error)="onerror($event)"
+      (image)="onimage($event)"
+      [draw]="!zoom.is"
+    ></ias-picture-polygon>
+  </div>
+</div>

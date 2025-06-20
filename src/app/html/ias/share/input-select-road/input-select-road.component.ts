@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { InputSelectComponent } from '../../../../common/components/input-select/input-select.component';
-import { Road } from '../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../common/data-core/models/arm/geographic/road.model';
 import { InputSelectRoadBusiness } from './input-select-road.business';
 
 @Component({

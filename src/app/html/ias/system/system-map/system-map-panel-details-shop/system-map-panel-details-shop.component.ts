@@ -8,8 +8,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { Shop } from '../../../../../common/data-core/models/arm/analysis/shop.model';
+import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { Language } from '../../../../../common/tools/language-tool/language';
 import { ShopConverter } from '../../../../../common/view-models/shop/shop.converter';
 import { ShopViewModel } from '../../../../../common/view-models/shop/shop.view-model';

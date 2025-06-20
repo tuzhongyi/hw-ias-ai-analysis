@@ -1,4 +1,4 @@
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 
 export enum SystemTaskResultTableType {
   shop,

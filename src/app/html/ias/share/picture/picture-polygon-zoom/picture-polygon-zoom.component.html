@@ -1,5 +1,5 @@
 <div class="picture-polygon-zoom">
-  <div class="picture-polygon-zoom-image" (click)="zoom.on()">
+  <howell-container-zoom>
     <ias-picture-polygon
       [src]="src"
       [id]="id"
@@ -9,5 +9,5 @@
       (image)="onimage($event)"
       [draw]="!zoom.is"
     ></ias-picture-polygon>
-  </div>
+  </howell-container-zoom>
 </div>

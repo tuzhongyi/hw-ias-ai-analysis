@@ -1,4 +1,4 @@
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { RoadViewModel } from '../../../../../../common/view-models/road/road.view-model';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
 

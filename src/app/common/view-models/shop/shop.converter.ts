@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ShopRegistration } from '../../data-core/models/arm/analysis/shop-registration.model';
 import { IShop } from '../../data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../data-core/models/arm/analysis/shop.model';
+import { ShopRegistration } from '../../data-core/models/arm/geographic/shop-registration.model';
 import { ArmAnalysisRequestService } from '../../data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisTaskListParams } from '../../data-core/requests/services/analysis/server/analysis-server.params';
+import { ArmGeographicRequestService } from '../../data-core/requests/services/geographic/geographic.service';
 import { LanguageTool } from '../../tools/language-tool/language.tool';
 import {
   IShopViewModel,
@@ -17,7 +18,8 @@ import {
 export class ShopConverter {
   constructor(
     private language: LanguageTool,
-    private analysis: ArmAnalysisRequestService
+    private analysis: ArmAnalysisRequestService,
+    private geo: ArmGeographicRequestService
   ) {}
   convert<T extends IShop>(data: T): IShopViewModel {
     if (data instanceof Shop) {
@@ -43,7 +45,6 @@ export class ShopConverter {
       params.TaskIds = data.TaskIds;
       model.Tasks = this.analysis.server.task.cache.array(params);
     }
-
     return model;
   }
   private registration(data: ShopRegistration): IShopViewModel {

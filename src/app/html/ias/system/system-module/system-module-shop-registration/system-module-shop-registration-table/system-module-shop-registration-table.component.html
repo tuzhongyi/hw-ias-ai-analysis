@@ -26,6 +26,7 @@
           <th sort="Address">地址</th>
           <th sort="Telphone">联系方式</th>
           <th sort="RoadName">所在道路</th>
+          <th sort="AssociatedCount">关联商铺数量</th>
           <th sort="CreationTime">创建时间</th>
           <th class="center">操作</th>
         </tr>
@@ -80,6 +81,9 @@
           </td>
           <td [title]="item?.RoadName ?? ''">
             {{ item?.RoadName }}
+          </td>
+          <td>
+            {{ item?.AssociatedCount }}
           </td>
           <td>{{ item?.CreationTime | date : Language.yyyyMMddHHmmss }}</td>
           <td class="center">

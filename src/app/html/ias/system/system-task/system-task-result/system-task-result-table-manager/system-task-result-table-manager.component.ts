@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { DirectionSortControlComponent } from '../../../../share/direction-sort-control/direction-sort-control.component';
 import { SystemTaskResultShopTableBusiness } from '../system-task-result-shop-table/system-task-result-shop-table.business';

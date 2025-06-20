@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { FileInfo } from '../../../../../../common/data-core/models/arm/file/file-info.model';
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';

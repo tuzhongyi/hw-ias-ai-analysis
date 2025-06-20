@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { ConvertTool } from '../../../../../../../common/tools/convert-tool/convert.tool';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 import { wait } from '../../../../../../../common/tools/wait';

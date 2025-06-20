@@ -5,19 +5,21 @@
         autoplay="autoplay"
         controls
         [currentTime]="video.time"
-        (timeupdate)="ontimeupdate($event)"
-        (error)="onvideoerror($event)"
-        [src]="src"
+        (timeupdate)="video.on.time.update($event)"
+        (error)="video.on.error($event)"
+        [src]="video.src"
       ></video>
     </div>
-    <div class="panel map" *ngIf="map.business">
+    <div class="panel map">
       <howell-video-path-map
-        [business]="map.business"
-        [args]="map.args"
+        [datas]="path"
+        [points]="points"
+        [args]="args"
+        [loading]="loading"
         [to]="video.event.time"
-        (trigger)="onseek($event)"
-        (loaded)="onmaploaded()"
-        (error)="onerror($event)"
+        (trigger)="video.on.seek($event)"
+        (loaded)="map.on.loaded()"
+        (error)="map.on.error($event)"
       ></howell-video-path-map>
     </div>
   </div>

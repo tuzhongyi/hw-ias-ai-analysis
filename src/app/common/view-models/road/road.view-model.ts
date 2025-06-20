@@ -1,4 +1,4 @@
-import { Road } from '../../data-core/models/arm/analysis/road.model';
+import { Road } from '../../data-core/models/arm/geographic/road.model';
 import { GeoDirection } from '../../tools/geo-tool/geo.model';
 import { GeoTool } from '../../tools/geo-tool/geo.tool';
 

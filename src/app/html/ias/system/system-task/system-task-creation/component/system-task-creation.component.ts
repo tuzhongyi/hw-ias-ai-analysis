@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UploadControlComponent } from '../../../../../../common/components/upload-control/upload-control.component';
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 
 import { SystemTaskCreationFileTableComponent } from '../system-task-creation-file-table/system-task-creation-file-table.component';
 import { SystemTaskCreationFileController } from './controller/system-task-creation-file.controller';

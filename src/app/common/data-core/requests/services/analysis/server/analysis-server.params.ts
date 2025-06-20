@@ -1,7 +1,12 @@
+import { Transform } from 'class-transformer';
 import {
   IParams,
   PagedDurationParams,
 } from '../../../../models/params.interface';
+import {
+  transformLatitude,
+  transformLongitude,
+} from '../../../../models/transformer';
 
 export class GetAnalysisTaskListParams extends PagedDurationParams {
   /**	String	任务名称	O	*/
@@ -36,4 +41,24 @@ export class AnalysisTaskSource implements IParams {
   SourceType!: number;
   /**	String[]	数据来源：视频文件名称	M	RW */
   Files?: string[];
+}
+export class GetShopTaskStatisticParams implements IParams {
+  /**	String[]	任务ID列表	M */
+  TaskIds!: string[];
+}
+export class GetTaskRecordFileParams implements IParams {
+  /**	Double	经度	M */
+  @Transform(transformLongitude)
+  Longitude!: number;
+  /**	Double	纬度	M */
+  @Transform(transformLatitude)
+  Latitude!: number;
+  /**	Int32	通道编号，从1开始1-5	O */
+  Channel?: number;
+  /**	Double	单个通道的总时长，单位：秒 默认10秒	O */
+  Duration?: number;
+}
+export class GetTaskRecordFileGpsItemsParams extends GetTaskRecordFileParams {
+  /**	Boolean	是否根据道路矫正坐标，默认false：不矫正	O */
+  Rectified?: boolean;
 }

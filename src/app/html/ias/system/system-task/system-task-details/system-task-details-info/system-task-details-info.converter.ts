@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { SystemTaskDetailsFileModel } from '../system-task-details-file-table/system-task-details-file-table.model';
 import { SystemTaskDetailsInfo } from './system-task-details-info.model';

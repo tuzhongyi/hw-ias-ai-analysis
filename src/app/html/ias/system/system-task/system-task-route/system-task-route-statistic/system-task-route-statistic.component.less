@@ -1,0 +1,66 @@
+.system-task-route-statistic {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 15px;
+
+  &>* {
+
+    display: flex;
+    align-items: stretch;
+
+    gap: 10px;
+  }
+
+  &-analysis {
+    height: 100%;
+    width: calc((100% - 15px) / 7 * 4);
+
+    &>* {
+      width: calc((100% - 10px * 3) / 4);
+    }
+  }
+
+  &-registration {
+    height: 100%;
+    width: calc((100% - 15px) / 7 * 3);
+
+    &>* {
+      width: calc((100% - 10px * 2) / 3);
+    }
+  }
+
+  .statistic {
+    &-item {
+      background-color: rgba(19, 34, 77, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 10px;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(30, 144, 255, 0.3);
+      }
+
+      &-name {
+        width: 100%;
+        font-size: 20px;
+        color: #69adff;
+        white-space: nowrap;
+
+        &.new {
+          color: rgb(35, 227, 83);
+        }
+      }
+
+      &-value {
+        width: 100%;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
-import { Road } from '../../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 
 export class SystemModuleRoadManagerWindow {
   confirm = new ConfirmWindow();

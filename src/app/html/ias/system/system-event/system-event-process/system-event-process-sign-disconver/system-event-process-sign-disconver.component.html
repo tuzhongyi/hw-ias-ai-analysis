@@ -40,10 +40,21 @@
             }}
           </div>
           <div
-            class="system-event-process-sign-disconver-body-record-picture-foot-reset"
+            class="system-event-process-sign-disconver-body-record-picture-foot-button button-group"
           >
-            <div class="button" (click)="record.picture.zoom.reset.set()">
-              重置
+            <div
+              class="button"
+              title="窗口查看大图"
+              (click)="record.picture.full()"
+            >
+              <i class="mdi mdi-fullscreen"></i>
+            </div>
+            <div
+              class="button"
+              (click)="record.picture.zoom.reset.set()"
+              title="重置"
+            >
+              <i class="mdi mdi-backup-restore"></i>
             </div>
           </div>
         </div>
@@ -64,12 +75,12 @@
         <div
           class="system-event-process-sign-disconver-body-record-content-map border"
         >
-          <ias-system-event-map
+          <ias-map
             *ngIf="map.location"
             [location]="map.location"
             [marker]="map.marker"
             [points]="map.point ? [map.point] : []"
-          ></ias-system-event-map>
+          ></ias-map>
         </div>
       </div>
     </div>
@@ -93,7 +104,22 @@
               {{ subname }}
             </div>
           </div>
-          <div class="button" (click)="shop.picture.zoom.reset.set()">重置</div>
+          <div class="button-group">
+            <div
+              class="button"
+              title="窗口查看大图"
+              (click)="shop.picture.full()"
+            >
+              <i class="mdi mdi-fullscreen"></i>
+            </div>
+            <div
+              class="button"
+              (click)="shop.picture.zoom.reset.set()"
+              title="重置"
+            >
+              <i class="mdi mdi-backup-restore"></i>
+            </div>
+          </div>
         </div>
       </div>
 

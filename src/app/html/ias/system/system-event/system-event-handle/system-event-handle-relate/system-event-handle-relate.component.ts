@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
-import { PictureComponent } from '../../../../share/picture/component/picture.component';
-import { SystemEventMapComponent } from '../../system-event-map/system-event-map.component';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
+import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import {
   MapMarkerShopColor,
   MapMarkerType,
-} from '../../system-event-map/system-event-map.model';
+} from '../../../../share/map/ias-map.model';
+import { PictureComponent } from '../../../../share/picture/component/picture.component';
 import { SystemEventHandleRelateManagerComponent } from '../system-event-handle-relate-manager/system-event-handle-relate-manager.component';
 
 @Component({
@@ -18,7 +18,7 @@ import { SystemEventHandleRelateManagerComponent } from '../system-event-handle-
     CommonModule,
     FormsModule,
     PictureComponent,
-    SystemEventMapComponent,
+    IASMapComponent,
     SystemEventHandleRelateManagerComponent,
   ],
   templateUrl: './system-event-handle-relate.component.html',

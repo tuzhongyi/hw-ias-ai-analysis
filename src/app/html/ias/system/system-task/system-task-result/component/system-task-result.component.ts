@@ -3,9 +3,9 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
-import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/analysis-task.model';
 import { LabelResultStatistic } from '../../../../../../common/data-core/models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';

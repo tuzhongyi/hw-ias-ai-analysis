@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { RoadViewModel } from '../../../../../../common/view-models/road/road.view-model';

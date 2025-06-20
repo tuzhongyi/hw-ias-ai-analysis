@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Road } from '../../../../../../../common/data-core/models/arm/analysis/road.model';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { SystemMapPanel } from '../../system-map.model';
 import { SystemMapPanelSourceRoadController } from './system-map-panel-source-road.controller';
 import { SystemMapPanelSourceShopController } from './system-map-panel-source-shop.controller';

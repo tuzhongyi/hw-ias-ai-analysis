@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { Road } from '../../../../../common/data-core/models/arm/analysis/road.model';
 import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { Road } from '../../../../../common/data-core/models/arm/geographic/road.model';
 import { Paged } from '../../../../../common/data-core/models/page-list.model';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
 import { TaskCompareType } from '../system-map-task/system-map-task-manager/system-map-task-manager.model';

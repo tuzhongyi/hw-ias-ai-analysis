@@ -1,0 +1,40 @@
+.system-task-shop-analysis-table {
+  height: 100%;
+  width: 100%;
+  transition: all 0.5s;
+  position: relative;
+
+  .table-split-head {
+    height: 60px;
+  }
+
+  .table-split-body {
+    height: calc(100% - 60px - 45px);
+
+    .red {
+      color: #ff762c;
+    }
+
+    .green {
+      color: #23e353;
+    }
+  }
+
+  .table-split-foot {
+    height: 45px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #2d76ce;
+    background: linear-gradient(to top, rgba(30, 144, 255, 0.2) 0%, rgba(30, 144, 255, 0) 100%);
+    box-sizing: border-box;
+    padding: 0 10px;
+
+    font-size: 14px;
+
+    .button-group {
+      position: relative;
+    }
+  }
+}

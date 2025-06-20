@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { Road } from '../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';

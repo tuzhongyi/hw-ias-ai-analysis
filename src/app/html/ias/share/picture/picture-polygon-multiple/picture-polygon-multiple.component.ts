@@ -6,6 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { ContainerZoomComponent } from '../../../../../common/components/container-zoom/container-zoom.component';
 import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
 import { PromiseValue } from '../../../../../common/view-models/value.promise';
 import { PictureCanvasComponent } from '../picture-canvas/picture-canvas.component';
@@ -13,7 +14,7 @@ import { PictureCanvasController } from './picture-canvas.controller';
 
 @Component({
   selector: 'ias-picture-polygon-multiple',
-  imports: [PictureCanvasComponent],
+  imports: [PictureCanvasComponent, ContainerZoomComponent],
   templateUrl: './picture-polygon-multiple.component.html',
   styleUrl: './picture-polygon-multiple.component.less',
 })

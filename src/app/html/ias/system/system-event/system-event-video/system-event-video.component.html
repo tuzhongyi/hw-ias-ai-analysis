@@ -1,7 +1,10 @@
 <div class="system-event-video">
   <howell-video-path
-    *ngIf="map && path"
-    [path]="path"
-    [args]="map"
+    *ngIf="map"
+    [src]="src"
+    [path]="map.items"
+    [loading]="map.loading"
+    [points]="map.points"
+    [args]="map.args"
   ></howell-video-path>
 </div>

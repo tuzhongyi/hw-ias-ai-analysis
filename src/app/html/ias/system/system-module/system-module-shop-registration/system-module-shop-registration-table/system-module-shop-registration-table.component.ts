@@ -9,7 +9,8 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import {
   Page,
   Paged,
@@ -52,7 +53,7 @@ export class SystemModuleShopRegistrationTableComponent
 
   page = Page.create(1, 10);
   datas: (SystemModuleShopRegistrationTableItem | undefined)[] = [];
-  widths = ['4%', '8%', '10%', '20%', '20%', '8%', '15%', '10%', '5%'];
+  widths = ['4%', '6%', '10%', '20%', '20%', '8%', '10%', '7%', '10%', '5%'];
   filter = new SystemModuleShopRegistrationTableFilter();
   subscription = new Subscription();
 

@@ -3,21 +3,22 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContainerPageComponent } from '../../../../../../common/components/container-page/container-page.component';
 import { ContainerZoomComponent } from '../../../../../../common/components/container-zoom/container-zoom.component';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
 import {
   Page,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
+import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
-import { SystemEventMapComponent } from '../../system-event-map/system-event-map.component';
+
 import {
   MapMarkerShopColor,
   MapMarkerType,
-} from '../../system-event-map/system-event-map.model';
+} from '../../../../share/map/ias-map.model';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
 import { SystemEventProcessShopComponent } from '../system-event-process-shop/component/system-event-process-shop.component';
 import { SystemEventProcessShopFilterComponent } from '../system-event-process-shop/system-event-process-shop-filter/system-event-process-shop-filter.component';
@@ -35,7 +36,7 @@ import { SystemEventProcessSignDisconverBusiness } from './business/system-event
     ContainerZoomComponent,
     PicturePolygonComponent,
     SystemEventRecordDetailsComponent,
-    SystemEventMapComponent,
+    IASMapComponent,
     SystemEventProcessShopComponent,
     SystemEventProcessShopFilterComponent,
   ],
@@ -60,7 +61,7 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
 
   @Output() create = new EventEmitter<MobileEventRecord>();
   @Output() picture = new EventEmitter<
-    PagedList<MobileEventRecord | ShopRegistration | undefined>
+    PagedList<ShopSign | ShopRegistration>
   >();
   @Output() cancel = new EventEmitter<void>();
   @Output() shopedit = new EventEmitter<ShopRegistration>();
@@ -153,18 +154,11 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
           },
         },
       },
-      click: () => {
-        if (this.data) {
-          let datas = new Array<
-            MobileEventRecord | ShopRegistration | undefined
-          >();
-          datas.push(this.data);
-          if (this.shop.selected) {
-            datas.push(this.shop.selected);
-          }
-          let paged = PagedList.create(datas, 1, datas.length);
-          this.picture.emit(paged);
-        }
+      full: () => {
+        let paged = new PagedList<ShopSign>();
+        paged.Data = [...this.record.sign.datas];
+        paged.Page = this.record.picture.page.value;
+        this.picture.emit(paged);
       },
     },
   };
@@ -181,17 +175,9 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
           },
         },
       },
-      click: () => {
-        if (this.data) {
-          let datas = new Array<
-            MobileEventRecord | ShopRegistration | undefined
-          >();
-          datas.push(this.data);
-          if (this.shop.selected) {
-            datas.push(this.shop.selected);
-          }
-          let paged = PagedList.create(datas, datas.length, datas.length);
-          paged.Page.PageIndex = 2;
+      full: () => {
+        if (this.shop.selected) {
+          let paged = PagedList.create([this.shop.selected], 1, 1);
           this.picture.emit(paged);
         }
       },

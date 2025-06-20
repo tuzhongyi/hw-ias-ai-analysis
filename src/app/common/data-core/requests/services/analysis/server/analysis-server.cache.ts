@@ -1,7 +1,7 @@
 import { LocaleCompare } from '../../../../../tools/compare-tool/compare.tool';
 import { IService } from '../../../../cache/cache.interface';
 import { ServiceCache } from '../../../../cache/service.cache';
-import { AnalysisTask } from '../../../../models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../models/arm/analysis/task/analysis-task.model';
 import { GetAnalysisTaskListParams } from './analysis-server.params';
 
 export class AnalysisTaskCache extends ServiceCache<AnalysisTask> {

@@ -6,12 +6,18 @@
       </div>
       <div
         class="system-event-process-sign-disappear-body-record-picture border"
-        (click)="record.picture.click()"
       >
-        <ias-picture-polygon-multiple
-          [id]="record.picture.src"
-          [polygon]="record.picture.polygon"
-        ></ias-picture-polygon-multiple>
+        <howell-container-page
+          [page]="record.picture.page.value"
+          (pageChange)="record.picture.page.change($event)"
+        >
+          <howell-container-zoom [(reset)]="record.picture.zoom.reset.value">
+            <ias-picture-polygon
+              [id]="record.picture.src"
+              [polygon]="record.picture.polygon"
+            ></ias-picture-polygon>
+          </howell-container-zoom>
+        </howell-container-page>
       </div>
       <div class="system-event-process-sign-disappear-body-record-content">
         <div
@@ -29,11 +35,11 @@
         <div
           class="system-event-process-sign-disappear-body-record-content-map border"
         >
-          <ias-system-event-map
+          <ias-map
             [location]="data?.Location"
             [marker]="map.marker"
             [points]="map.point ? [map.point] : []"
-          ></ias-system-event-map>
+          ></ias-map>
         </div>
       </div>
     </div>
@@ -41,14 +47,10 @@
       <div class="system-event-process-sign-disappear-body-shop-head">
         关联商铺信息
       </div>
-      <div
-        class="system-event-process-sign-disappear-body-shop-picture border"
-        (click)="shop.picture.click()"
-      >
-        <ias-picture-polygon-multiple
-          [id]="shop.picture.src"
-          [polygon]="shop.picture.polygon"
-        ></ias-picture-polygon-multiple>
+      <div class="system-event-process-sign-disappear-body-shop-picture border">
+        <howell-container-zoom>
+          <ias-picture-polygon [id]="shop.picture.src"></ias-picture-polygon>
+        </howell-container-zoom>
       </div>
       <div class="system-event-process-sign-disappear-body-shop-info border">
         <ias-system-event-process-shop-info

@@ -20,6 +20,7 @@ import {
   styleUrl: './direction-sort-control.component.less',
 })
 export class DirectionSortControlComponent implements OnInit, OnDestroy {
+  @Input() name = '';
   @Input() sort = new GeoDirectionSort();
   @Output() sortChange = new EventEmitter<GeoDirectionSort>();
   @Input() direction: 'top' | 'down' = 'top';

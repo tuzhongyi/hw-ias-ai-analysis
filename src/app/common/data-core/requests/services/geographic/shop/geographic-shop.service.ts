@@ -1,6 +1,8 @@
 import { instanceToPlain } from 'class-transformer';
-import { ShopRegistration } from '../../../../models/arm/analysis/shop-registration.model';
+import { Cache } from '../../../../cache/cache';
+import { AbstractService } from '../../../../cache/cache.interface';
 import { ShopTaskCompareResult } from '../../../../models/arm/analysis/shop-task-compare-result.model';
+import { ShopRegistration } from '../../../../models/arm/geographic/shop-registration.model';
 import { PagedList } from '../../../../models/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmGeographicUrl } from '../../../../urls/arm/geographic/geographic.url';
@@ -11,8 +13,11 @@ import {
   ShopTaskCompareParams,
 } from './geographic-shop.params';
 
-export class ArmGeographicShopRequestService {
-  constructor(private http: HowellHttpClient) {}
+@Cache(ArmGeographicUrl.shop.basic(), ShopRegistration)
+export class ArmGeographicShopRequestService extends AbstractService<ShopRegistration> {
+  constructor(private http: HowellHttpClient) {
+    super();
+  }
 
   async get(id: string) {
     let url = ArmGeographicUrl.shop.item(id);

@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonLabelSelecComponent } from '../../../../../../common/components/common-label-select/common-label-select.component';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { ShopRegistration } from '../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { ShopTaskCompareResult } from '../../../../../../common/data-core/models/arm/analysis/shop-task-compare-result.model';
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import {
   Page,
   Paged,

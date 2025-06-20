@@ -1,0 +1,29 @@
+.system-task-shop-analysis-manager {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &-head {
+    width: 100%;
+    height: 36px;
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - 36px - 15px);
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+
+    &>* {
+      width: calc((100% - 10px) * 0.5);
+      height: 100%;
+    }
+  }
+
+
+
+  &-details {}
+}

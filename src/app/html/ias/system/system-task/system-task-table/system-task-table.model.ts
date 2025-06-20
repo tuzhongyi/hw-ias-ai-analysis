@@ -1,4 +1,4 @@
-import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/analysis-task.model';
+import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { DateTimeTool } from '../../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../../common/tools/date-time-tool/duration.model';
 

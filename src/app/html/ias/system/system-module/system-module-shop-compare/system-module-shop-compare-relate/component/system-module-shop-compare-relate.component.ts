@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
 import { SystemModuleShopCompareRelateManagerComponent } from '../system-module-shop-compare-relate-manager/system-module-shop-compare-relate-manager.component';
 

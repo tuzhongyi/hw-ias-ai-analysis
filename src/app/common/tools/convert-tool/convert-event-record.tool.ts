@@ -1,8 +1,8 @@
 import { ShopObjectState } from '../../data-core/enums/analysis/shop-object-state.enum';
 import { BusinessState } from '../../data-core/enums/event/arm-business-state.enum';
-import { ShopRegistration } from '../../data-core/models/arm/analysis/shop-registration.model';
 import { Shop } from '../../data-core/models/arm/analysis/shop.model';
 import { MobileEventRecord } from '../../data-core/models/arm/event/mobile-event-record.model';
+import { ShopRegistration } from '../../data-core/models/arm/geographic/shop-registration.model';
 
 export class ConvertEventRecordTool {
   shop(data: MobileEventRecord) {

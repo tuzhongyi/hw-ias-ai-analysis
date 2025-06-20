@@ -1,0 +1,21 @@
+<div class="system-task-shop-registration-details">
+  <div class="system-task-shop-registration-details-picture panel">
+    <howell-container-zoom>
+      <ias-picture [id]="picture.src"></ias-picture>
+    </howell-container-zoom>
+  </div>
+  <div class="system-task-shop-registration-details-body">
+    <div class="system-task-shop-registration-details-info panel">
+      <ias-system-task-shop-registration-info
+        [data]="data"
+      ></ias-system-task-shop-registration-info>
+    </div>
+    <div class="system-task-shop-registration-details-map panel">
+      <ias-map
+        [location]="map.location"
+        [move]="true"
+        [marker]="map.marker"
+      ></ias-map>
+    </div>
+  </div>
+</div>

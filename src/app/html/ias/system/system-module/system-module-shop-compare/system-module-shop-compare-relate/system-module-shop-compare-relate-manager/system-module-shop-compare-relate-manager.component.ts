@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/analysis/shop-registration.model';
+import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { SystemModuleShopRegistrationTableArgs } from '../../../system-module-shop-registration/system-module-shop-registration-table/system-module-shop-registration-table.model';
 import { SystemModuleShopCompareRelateTableComponent } from '../system-module-shop-compare-relate-table/system-module-shop-compare-relate-table.component';
 

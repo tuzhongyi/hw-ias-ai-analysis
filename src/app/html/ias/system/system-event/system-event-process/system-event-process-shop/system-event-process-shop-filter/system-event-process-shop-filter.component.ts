@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Road } from '../../../../../../../common/data-core/models/arm/analysis/road.model';
+import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { WheelInputNumberDirective } from '../../../../../../../common/directives/wheel-input-number/wheel-input-number.directive';
 import { SystemEventProcessShopTableArgs } from '../system-event-process-shop-table/system-event-process-shop-table.model';
 import { SystemEventProcessShopFilterBusiness } from './system-event-process-shop-filter.business';

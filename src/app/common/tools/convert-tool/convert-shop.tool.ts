@@ -1,5 +1,5 @@
-import { ShopRegistration } from '../../data-core/models/arm/analysis/shop-registration.model';
 import { Shop } from '../../data-core/models/arm/analysis/shop.model';
+import { ShopRegistration } from '../../data-core/models/arm/geographic/shop-registration.model';
 import { Guid } from '../guid/guid';
 
 export class ConvertShopTool {

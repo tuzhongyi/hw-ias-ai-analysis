@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../../common/components/window-confirm/window-confirm.component';
-import { ShopRegistration } from '../../../../../common/data-core/models/arm/analysis/shop-registration.model';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import {
   Page,
   PagedList,
@@ -25,6 +25,7 @@ import { SystemEventManagerShopRegistrationBusiness } from './business/system-ev
 import { SystemEventManagerShopBusiness } from './business/system-event-manager-shop.business';
 import { SystemEventManagerBusiness } from './business/system-event-manager.business';
 
+import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { SystemEventProcessInfoComponent } from '../system-event-process/system-event-process-info/system-event-process-info.component';
 import { SystemEventProcessShopNameComponent } from '../system-event-process/system-event-process-shop/system-event-process-shop-name/system-event-process-shop-name.component';
 import { SystemEventProcessSignDisappearComponent } from '../system-event-process/system-event-process-sign-disappear/system-event-process-sign-disappear.component';
@@ -100,6 +101,7 @@ export class SystemEventManagerComponent implements OnInit {
             .marking(id)
             .then((x) => {
               this.toastr.success('屏蔽成功');
+              this.table.args.first = false;
               this.table.load.emit(this.table.args);
             })
             .catch((e) => {
@@ -116,6 +118,7 @@ export class SystemEventManagerComponent implements OnInit {
             .merge(data.eventId, data.shopId, data.subname, data.name)
             .then((x) => {
               this.toastr.success('关联成功');
+              this.table.args.first = false;
               this.table.load.emit(this.table.args);
             })
             .catch((e) => {
@@ -132,6 +135,7 @@ export class SystemEventManagerComponent implements OnInit {
             .misinform(id)
             .then((x) => {
               this.toastr.success('标记误报成功');
+              this.table.args.first = false;
               this.table.load.emit(this.table.args);
             })
             .catch((e) => {
@@ -148,6 +152,7 @@ export class SystemEventManagerComponent implements OnInit {
             .delete(id)
             .then((x) => {
               this.toastr.success('删除成功');
+              this.table.args.first = false;
               this.table.load.emit(this.table.args);
             })
             .catch((e) => {
@@ -165,6 +170,7 @@ export class SystemEventManagerComponent implements OnInit {
     args: new SystemEventTableArgs(),
     load: new EventEmitter<SystemEventTableArgs>(),
     search: () => {
+      this.table.args.first = true;
       this.table.load.emit(this.table.args);
     },
     on: {
@@ -197,44 +203,28 @@ export class SystemEventManagerComponent implements OnInit {
   };
 
   picture = {
-    data: {
-      shop: undefined as ShopRegistration | undefined,
-      record: undefined as MobileEventRecord | undefined,
-    },
+    datas: [] as Array<MobileEventRecord | ShopRegistration | ShopSign>,
     open: (
-      paged: PagedList<MobileEventRecord | ShopRegistration | undefined>,
+      paged: PagedList<MobileEventRecord | ShopRegistration | ShopSign>,
       opened: boolean = false
     ) => {
       if (paged.Data.length == 0) return;
-      this.picture.data.record = paged.Data[0] as MobileEventRecord;
-      if (paged.Data.length > 1) {
-        this.picture.data.shop = paged.Data[1] as ShopRegistration;
-      }
-      let page = Page.create(
-        paged.Page.PageIndex,
-        1,
-        paged.Page.TotalRecordCount
-      );
-      this.window.picture.page = page;
-      if (paged.Page.PageIndex === 1) {
-        this.window.picture.set(this.picture.data.record);
-      } else if (paged.Page.PageIndex == 2) {
-        this.window.picture.set(this.picture.data.shop);
-      } else {
-        return;
-      }
+
+      this.picture.datas = paged.Data;
+
+      this.window.picture.page = paged.Page;
+      let index = paged.Page.PageIndex - 1;
+      let data = paged.Data[index];
+      this.window.picture.set(data);
       if (!opened) {
         this.window.picture.show = true;
       }
     },
     change: (page: Page) => {
       this.window.picture.page = page;
-      if (page.PageIndex === 1 && this.picture.data.record) {
-        this.window.picture.set(this.picture.data.record);
-      } else if (page.PageIndex === 2) {
-        this.window.picture.set(this.picture.data.shop);
-      } else {
-      }
+      let index = page.PageIndex - 1;
+      let data = this.picture.datas[index];
+      this.window.picture.set(data);
     },
   };
 
