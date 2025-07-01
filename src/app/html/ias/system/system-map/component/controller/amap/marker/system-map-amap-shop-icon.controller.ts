@@ -1,6 +1,9 @@
 import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
+import { ISystemAMapShopIconController } from './system-map-amap-shop-marker.model';
 
-export class SystemAMapShopIconController {
+export class SystemAMapShopIconController
+  implements ISystemAMapShopIconController
+{
   private size(selected = false): [number, number] {
     let width = 66;
     let height = 86;

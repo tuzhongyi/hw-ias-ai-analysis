@@ -38,6 +38,7 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
   @Output() details = new EventEmitter<AnalysisTaskModel>();
   @Output() error = new EventEmitter<Error>();
   @Output() files = new EventEmitter<AnalysisTaskModel>();
+  @Output() result = new EventEmitter<AnalysisTaskModel>();
 
   constructor(
     private business: SystemTaskTableRuningBusiness,
@@ -142,6 +143,13 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
   }
   onfiles(item: AnalysisTaskModel, e: Event) {
     this.files.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
+
+  onresult(item: AnalysisTaskModel, e: Event) {
+    this.result.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }

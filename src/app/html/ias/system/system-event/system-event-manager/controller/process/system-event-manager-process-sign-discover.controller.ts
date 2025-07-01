@@ -43,11 +43,11 @@ export class SystemEventManagerProcessSignDiscoverController {
     merge: (data: {
       name?: string;
       subname: boolean;
-      associated: ShopRegistration;
+      detected: ShopRegistration;
       data: MobileEventRecord;
     }) => {
       this.window.confirm.clear();
-      this.window.confirm.message = `是否与商铺 ${data.associated.Name} 关联？`;
+      this.window.confirm.message = `是否与商铺 ${data.detected.Name} 关联？`;
       this.window.confirm.show = true;
 
       wait(
@@ -58,7 +58,7 @@ export class SystemEventManagerProcessSignDiscoverController {
           if (this.window.confirm.result) {
             this.event.merge.emit({
               eventId: data.data.Id,
-              shopId: data.associated.Id,
+              shopId: data.detected.Id,
               subname: data.subname,
               name: data.name,
             });

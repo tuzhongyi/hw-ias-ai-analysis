@@ -470,7 +470,7 @@ export class Language {
   }
   static ShopStatisticStatus(value?: ShopStatisticStatus, def = '未知') {
     switch (value) {
-      case ShopStatisticStatus.associated:
+      case ShopStatisticStatus.detected:
         return '已关联';
       case ShopStatisticStatus.discover:
         return '新发现';

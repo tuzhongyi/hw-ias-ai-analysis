@@ -1,5 +1,6 @@
 export class SystemTaskShopRegistrationTableArgs {
+  taskId?: string;
   name?: string;
   roadId?: string;
-  associated?: boolean;
+  detected?: boolean;
 }

@@ -1,5 +1,5 @@
 export enum ShopStatisticStatus {
-  associated = 1,
+  detected = 1,
   discover,
   misinfo,
 }

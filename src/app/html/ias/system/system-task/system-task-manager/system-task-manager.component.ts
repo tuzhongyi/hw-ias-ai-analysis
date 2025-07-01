@@ -17,6 +17,7 @@ import {
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
 import { SystemTaskManagerController } from './controller/system-task-manager.controller';
 
+import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import { ShopStatisticStatus } from '../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
@@ -189,9 +190,22 @@ export class SystemTaskManagerComponent implements OnInit {
         this.window.shop.analysis.data = this.window.route.data;
         this.window.shop.analysis.show = true;
       },
-      registration: (associated?: boolean) => {
-        this.window.shop.registration.state = associated;
+      registration: (detected?: boolean) => {
+        this.window.shop.registration.data = this.window.route.data;
+        this.window.shop.registration.state = detected;
         this.window.shop.registration.show = true;
+      },
+      video: (data: IShop) => {
+        if (this.window.route.data && data.Location) {
+          this.window.video.title = `${data.Name}`;
+          let args = new SystemTaskVideoArgs();
+          args.TaskId = this.window.route.data.Id;
+          args.Longitude = data.Location.Longitude;
+          args.Latitude = data.Location.Latitude;
+          args.Rectified = true;
+          this.window.video.args = args;
+          this.window.video.show = true;
+        }
       },
     },
   };

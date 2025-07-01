@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ArmGeographicRequestService } from '../../../../../../../common/data-core/requests/services/geographic/geographic.service';
-import { GetShopRegistrationsParams } from '../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
+import { GetShopRegistrationTaskDetectedResultParams } from '../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
 
 @Injectable()
 export class SystemTaskRouteMapShopRegistrationBusiness {
   constructor(private service: ArmGeographicRequestService) {}
 
-  load() {
-    let params = new GetShopRegistrationsParams();
-    return this.service.shop.cache.array(params);
+  load(taskId: string, detected?: boolean) {
+    let params = new GetShopRegistrationTaskDetectedResultParams();
+    params.TaskIds = [taskId];
+    params.RouteFilterEnabled = true;
+    params.Detected = detected;
+    return this.service.shop.task.detected.result.all(params);
   }
 }

@@ -1,15 +1,15 @@
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemAMapShopIconController } from './system-map-amap-shop-icon.controller';
 
-import { EventEmitter } from '@angular/core';
+import {
+  ISystemAMapShopIconController,
+  ISystemAMapShopLabelMarkerController,
+  SystemAMapShopMarkerEvent,
+} from './system-map-amap-shop-marker.model';
 
-export class SystemAMapShopMarkerEvent {
-  mouseover = new EventEmitter<IShop>();
-  mouseout = new EventEmitter<IShop>();
-  click = new EventEmitter<IShop>();
-}
-
-export class SystemAMapShopLabelMarkerController {
+export class SystemAMapShopLabelMarkerController
+  implements ISystemAMapShopLabelMarkerController
+{
   event = new SystemAMapShopMarkerEvent();
   marker: AMap.LabelMarker;
   selected = false;
@@ -20,7 +20,8 @@ export class SystemAMapShopLabelMarkerController {
     this.data = data;
   }
 
-  private icon = new SystemAMapShopIconController();
+  protected icon: ISystemAMapShopIconController =
+    new SystemAMapShopIconController();
 
   private create(data: IShop) {
     if (data.Location) {

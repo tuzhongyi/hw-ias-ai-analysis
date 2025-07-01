@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { EnumTool } from '../../../../../../../common/tools/enum-tool/enum.tool';
@@ -29,6 +30,7 @@ import { SystemTaskShopAnalysisManagerBusiness } from './system-task-shop-analys
 export class SystemTaskShopAnalysisManagerComponent implements OnInit {
   @Input() data?: AnalysisTask;
   @Input() status?: ShopStatisticStatus;
+  @Output() video = new EventEmitter<IShop>();
   constructor(private business: SystemTaskShopAnalysisManagerBusiness) {}
   Language = Language;
   table = {
@@ -59,6 +61,9 @@ export class SystemTaskShopAnalysisManagerComponent implements OnInit {
   on = {
     search: () => {
       this.table.load.emit(this.table.args);
+    },
+    video: (item: ISystemTaskShopAnalysisTableItem) => {
+      this.video.emit(item.shop);
     },
   };
 }

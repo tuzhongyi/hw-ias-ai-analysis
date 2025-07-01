@@ -3,7 +3,7 @@ import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-p
 export class SystemEventProcessShopTableArgs {
   name?: string;
   road?: string;
-  associated?: boolean;
+  detected?: boolean;
   location!: GisPoint;
   distance: number = 200;
 }

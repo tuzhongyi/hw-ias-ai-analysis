@@ -1,9 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { SystemTaskRouteMapPathBusiness } from './business/system-task-route-map-path.business';
 import { SystemTaskRouteMapRoadBusiness } from './business/system-task-route-map-road.business';
+import { SystemTaskRouteMapShopAnalysisBusiness } from './business/system-task-route-map-shop-analysis.business';
 import { SystemTaskRouteMapShopRegistrationBusiness } from './business/system-task-route-map-shop-registration.business';
 import { SystemTaskRouteMapShopBusiness } from './business/system-task-route-map-shop.business';
 import { SystemTaskRouteMapBusiness } from './business/system-task-route-map.business';
@@ -24,9 +32,10 @@ import { SystemTaskRouteMapController } from './controller/system-task-route-map
     SystemTaskRouteMapPathBusiness,
     SystemTaskRouteMapShopBusiness,
     SystemTaskRouteMapShopRegistrationBusiness,
+    SystemTaskRouteMapShopAnalysisBusiness,
   ],
 })
-export class SystemTaskRouteMapComponent implements OnInit {
+export class SystemTaskRouteMapComponent implements OnInit, OnDestroy {
   @Input() data?: AnalysisTask;
   @Output() current = new EventEmitter<FileGpsItem>();
   @Output() loaded = new EventEmitter<ShopRegistration>();
@@ -38,10 +47,16 @@ export class SystemTaskRouteMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.load.road();
+
     if (this.data) {
       this.load.path(this.data.Id);
+      this.load.shop.load(this.data.Id);
     }
+
     this.regist();
+  }
+  ngOnDestroy(): void {
+    this.controller.amap.destory();
   }
 
   private load = {
@@ -56,11 +71,22 @@ export class SystemTaskRouteMapComponent implements OnInit {
       });
     },
     shop: {
-      registration: () => {},
+      load: async (taskId: string) => {
+        let registration = await this.business.shop.registration.load(taskId);
+        let analysis = await this.business.shop.analysis.load(taskId);
+        let ids = registration.map((x) => x.Id);
+        let shops = analysis.filter((x) => {
+          if (x.RegistrationId) {
+            return ids.includes(x.RegistrationId);
+          }
+          return false;
+        });
+        this.controller.amap.point.load(registration, shops);
+      },
     },
   };
   private regist() {
-    this.controller.amap.event.dblclick.subscribe((x) => {
+    this.controller.amap.event.path.dblclick.subscribe((x) => {
       this.current.emit(x);
     });
   }

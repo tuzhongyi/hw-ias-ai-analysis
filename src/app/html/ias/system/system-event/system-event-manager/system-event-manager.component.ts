@@ -26,6 +26,7 @@ import { SystemEventManagerShopBusiness } from './business/system-event-manager-
 import { SystemEventManagerBusiness } from './business/system-event-manager.business';
 
 import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { EventResourceContent } from '../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { SystemEventProcessInfoComponent } from '../system-event-process/system-event-process-info/system-event-process-info.component';
 import { SystemEventProcessShopNameComponent } from '../system-event-process/system-event-process-shop/system-event-process-shop-name/system-event-process-shop-name.component';
 import { SystemEventProcessSignDisappearComponent } from '../system-event-process/system-event-process-sign-disappear/system-event-process-sign-disappear.component';
@@ -189,7 +190,14 @@ export class SystemEventManagerComponent implements OnInit {
         this.window.info.show = true;
       },
       picture: (data: MobileEventRecord) => {
-        let paged = PagedList.create([data], 1, 1);
+        let datas = data.Resources?.filter((x) => x.ImageUrl) ?? [];
+        let page = new Page();
+        page.PageCount = datas.length;
+        page.TotalRecordCount = datas.length;
+
+        let paged = new PagedList<EventResourceContent>();
+        paged.Page = page;
+        paged.Data = datas;
         this.picture.open(paged, this.window.picture.show);
       },
       process: (data: MobileEventRecord) => {
@@ -203,9 +211,13 @@ export class SystemEventManagerComponent implements OnInit {
   };
 
   picture = {
-    datas: [] as Array<MobileEventRecord | ShopRegistration | ShopSign>,
+    datas: [] as Array<
+      MobileEventRecord | EventResourceContent | ShopRegistration | ShopSign
+    >,
     open: (
-      paged: PagedList<MobileEventRecord | ShopRegistration | ShopSign>,
+      paged: PagedList<
+        MobileEventRecord | EventResourceContent | ShopRegistration | ShopSign
+      >,
       opened: boolean = false
     ) => {
       if (paged.Data.length == 0) return;

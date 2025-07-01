@@ -13,12 +13,12 @@ export class SystemTaskShopAnalysisTableBusiness {
 
   count = {
     all: 0,
-    associated: 0,
+    detected: 0,
     discover: 0,
     misinfo: 0,
     clear: () => {
       this.count.all = 0;
-      this.count.associated = 0;
+      this.count.detected = 0;
       this.count.discover = 0;
       this.count.misinfo = 0;
     },
@@ -35,7 +35,7 @@ export class SystemTaskShopAnalysisTableBusiness {
       if (shop.Marking) {
         this.count.misinfo++;
       } else if (shop.RegistrationId) {
-        this.count.associated++;
+        this.count.detected++;
       } else if (shop.ObjectState === ShopObjectState.Created) {
         this.count.discover++;
       }
@@ -54,7 +54,7 @@ export class SystemTaskShopAnalysisTableBusiness {
     args: SystemTaskShopAnalysisTableArgs
   ) {
     switch (args.status) {
-      case ShopStatisticStatus.associated:
+      case ShopStatisticStatus.detected:
         datas = datas.filter((x) => x.shop.RegistrationId);
         break;
       case ShopStatisticStatus.discover:

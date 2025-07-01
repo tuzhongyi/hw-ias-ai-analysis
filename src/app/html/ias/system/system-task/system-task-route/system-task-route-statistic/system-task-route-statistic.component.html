@@ -4,10 +4,14 @@
       <div class="statistic-item-name">任务识别商铺</div>
       <div class="statistic-item-value">{{ statistic?.ShopCount ?? 0 }}</div>
     </div>
-    <div class="statistic-item" (click)="on.analysis(Status.associated)">
+    <div class="statistic-item" (click)="on.analysis(Status.detected)">
       <div class="statistic-item-name">识别已关联商铺</div>
       <div class="statistic-item-value">
-        {{ statistic?.ShopRegistrationCount ?? 0 }}
+        {{
+          (statistic?.ShopCount ?? 0) -
+            (statistic?.NewShopCount ?? 0) -
+            (statistic?.MisdetectedShopCount ?? 0)
+        }}
       </div>
     </div>
     <div class="statistic-item" (click)="on.analysis(Status.discover)">
@@ -24,16 +28,23 @@
   <div class="system-task-route-statistic-registration panel">
     <div class="statistic-item" (click)="on.registration()">
       <div class="statistic-item-name">全部注册商铺</div>
-      <div class="statistic-item-value">{{ registration.count }}</div>
+      <div class="statistic-item-value">
+        {{ statistic?.ShopRegistrationCount ?? 0 }}
+      </div>
     </div>
     <div class="statistic-item" (click)="on.registration(true)">
       <div class="statistic-item-name">已检测到注册商铺</div>
-      <div class="statistic-item-value">{{ registration.associated }}</div>
+      <div class="statistic-item-value">
+        {{
+          (statistic?.ShopRegistrationCount ?? 0) -
+            (statistic?.UndetectedShopRegistrationCount ?? 0)
+        }}
+      </div>
     </div>
     <div class="statistic-item" (click)="on.registration(false)">
       <div class="statistic-item-name">未检测到注册商铺</div>
       <div class="statistic-item-value">
-        {{ registration.count - registration.associated }}
+        {{ statistic?.UndetectedShopRegistrationCount ?? 0 }}
       </div>
     </div>
   </div>

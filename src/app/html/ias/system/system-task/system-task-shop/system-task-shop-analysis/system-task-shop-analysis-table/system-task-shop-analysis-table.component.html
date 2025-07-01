@@ -17,6 +17,7 @@
           <th sort="Registration">关联注册商铺</th>
           <th sort="RoadName">所在道路</th>
           <th sort="Status">状态</th>
+          <th class="center">操作</th>
         </tr>
       </thead>
     </table>
@@ -56,6 +57,13 @@
               {{ table.status(item.shop) }}
             </span>
           </td>
+          <td class="center">
+            <div class="operation">
+              <div class="button" (click)="on.video(item, $event)">
+                <i class="howell-icon-video"></i>
+              </div>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -71,7 +79,7 @@
       <div class="form-item">
         <div class="form-item-text">已关联:</div>
         <div class="form-item-value">
-          <span>{{ table.count.associated }}</span>
+          <span>{{ table.count.detected }}</span>
         </div>
       </div>
       <div class="form-item">

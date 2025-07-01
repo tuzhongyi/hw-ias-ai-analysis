@@ -110,11 +110,16 @@ export class SystemModuleShopRegistrationManagerComponent {
     accept: '*.*',
     type: FileReadType.ArrayBuffer,
     do: (file: UploadControlFile) => {
-      this.business.upload(file.data as ArrayBuffer).then((x) => {
-        this.toastr.success('导入成功');
-        this.table.selecteds = [];
-        this.table.load.emit(this.table.args);
-      });
+      this.business
+        .upload(file.data as ArrayBuffer)
+        .then((x) => {
+          this.toastr.success('导入成功');
+          this.table.selecteds = [];
+          this.table.load.emit(this.table.args);
+        })
+        .catch((e) => {
+          this.toastr.error('导入失败');
+        });
     },
   };
 }

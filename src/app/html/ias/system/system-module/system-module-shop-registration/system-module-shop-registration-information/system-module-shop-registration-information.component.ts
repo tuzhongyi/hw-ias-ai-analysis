@@ -11,6 +11,7 @@ import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-poin
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 
+import '../../../../../../../assets/js/map/CoordinateTransform.js';
 import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { WindowComponent } from '../../../../share/window/window.component';
@@ -21,6 +22,8 @@ import { SystemModuleShopRegistrationInformationSubnamesComponent } from '../sys
 import { SystemModuleShopRegistrationInformationBusiness } from './business/system-module-shop-registration-information.business';
 import { SystemModuleShopRegistrationInformationSourceController } from './controller/system-module-shop-registration-information-source.controller';
 import { SystemModuleShopRegistrationInformationWindow } from './system-module-shop-registration-information.window';
+declare var wgs84togcj02: any;
+declare var bd09togcj02: any;
 
 @Component({
   selector: 'ias-system-module-shop-registration-information',
@@ -136,8 +139,80 @@ export class SystemModuleShopRegistrationInformationComponent
 
   location = {
     change: new EventEmitter<GisPoint>(),
-    on: () => {
-      this.location.change.emit(this.shop.Location);
+    type: 0,
+    on: {
+      longitude: () => {
+        if (this.shop.Location) {
+          if (typeof this.shop.Location.Latitude === 'string') {
+            this.shop.Location.Latitude = parseFloat(
+              this.shop.Location.Latitude
+            );
+          }
+          if (typeof this.shop.Location.Longitude === 'string') {
+            this.shop.Location.Longitude = parseFloat(
+              this.shop.Location.Longitude
+            );
+          }
+          let position: [number, number];
+          switch (this.location.type) {
+            case 0:
+              position = wgs84togcj02(
+                this.shop.Location.Longitude,
+                this.shop.Location.Latitude
+              );
+              this.shop.Location.Longitude = position[0];
+              break;
+            case 2:
+              position = bd09togcj02(
+                this.shop.Location.Longitude,
+                this.shop.Location.Latitude
+              );
+              this.shop.Location.Longitude = position[0];
+
+              break;
+
+            default:
+              break;
+          }
+          this.location.change.emit(this.shop.Location);
+        }
+      },
+      latitude: () => {
+        if (this.shop.Location) {
+          if (typeof this.shop.Location.Latitude === 'string') {
+            this.shop.Location.Latitude = parseFloat(
+              this.shop.Location.Latitude
+            );
+          }
+          if (typeof this.shop.Location.Longitude === 'string') {
+            this.shop.Location.Longitude = parseFloat(
+              this.shop.Location.Longitude
+            );
+          }
+          let position: [number, number];
+          switch (this.location.type) {
+            case 0:
+              position = wgs84togcj02(
+                this.shop.Location.Longitude,
+                this.shop.Location.Latitude
+              );
+              this.shop.Location.Latitude = position[1];
+              break;
+            case 2:
+              position = bd09togcj02(
+                this.shop.Location.Longitude,
+                this.shop.Location.Latitude
+              );
+              this.shop.Location.Latitude = position[1];
+
+              break;
+
+            default:
+              break;
+          }
+          this.location.change.emit(this.shop.Location);
+        }
+      },
     },
   };
   image = {

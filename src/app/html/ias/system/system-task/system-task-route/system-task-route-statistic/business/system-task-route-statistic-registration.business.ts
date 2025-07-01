@@ -13,7 +13,7 @@ export class SystemTaskRouteStatisticRegistrationBusiness {
     return paged.Page.TotalRecordCount;
   }
 
-  async associated() {
+  async detected() {
     let params = new GetShopRegistrationsParams();
     params.PageSize = 1;
     params.AssociatedCount = 1;

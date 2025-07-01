@@ -43,6 +43,7 @@ export class SystemTaskShopAnalysisTableComponent implements OnInit, OnDestroy {
   @Input() selected?: ISystemTaskShopAnalysisTableItem;
   @Output() selectedChange =
     new EventEmitter<ISystemTaskShopAnalysisTableItem>();
+  @Output() video = new EventEmitter<ISystemTaskShopAnalysisTableItem>();
 
   constructor(private business: SystemTaskShopAnalysisTableBusiness) {}
 
@@ -83,7 +84,7 @@ export class SystemTaskShopAnalysisTableComponent implements OnInit, OnDestroy {
   table = {
     count: {
       all: 0,
-      associated: 0,
+      detected: 0,
       discover: 0,
       misinfo: 0,
     },
@@ -92,7 +93,7 @@ export class SystemTaskShopAnalysisTableComponent implements OnInit, OnDestroy {
         return Language.ShopStatisticStatus(ShopStatisticStatus.misinfo);
       }
       if (item.RegistrationId) {
-        return Language.ShopStatisticStatus(ShopStatisticStatus.associated);
+        return Language.ShopStatisticStatus(ShopStatisticStatus.detected);
       }
       return Language.ShopStatisticStatus(ShopStatisticStatus.discover);
     },
@@ -102,6 +103,13 @@ export class SystemTaskShopAnalysisTableComponent implements OnInit, OnDestroy {
     select: (item: ISystemTaskShopAnalysisTableItem) => {
       this.selected = item;
       this.selectedChange.emit(this.selected);
+    },
+
+    video: (item: ISystemTaskShopAnalysisTableItem, e: Event) => {
+      this.video.emit(item);
+      if (this.selected === item) {
+        e.stopPropagation();
+      }
     },
   };
 

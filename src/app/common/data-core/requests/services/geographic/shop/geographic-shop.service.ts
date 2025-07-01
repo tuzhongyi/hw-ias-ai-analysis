@@ -2,6 +2,7 @@ import { instanceToPlain } from 'class-transformer';
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { ShopTaskCompareResult } from '../../../../models/arm/analysis/shop-task-compare-result.model';
+import { ShopRegistrationTaskDetectedResult } from '../../../../models/arm/geographic/shop-registration-task-detected-result.model';
 import { ShopRegistration } from '../../../../models/arm/geographic/shop-registration.model';
 import { PagedList } from '../../../../models/page-list.model';
 import { HowellResponse } from '../../../../models/response';
@@ -9,6 +10,7 @@ import { ArmGeographicUrl } from '../../../../urls/arm/geographic/geographic.url
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
 import {
+  GetShopRegistrationTaskDetectedResultParams,
   GetShopRegistrationsParams,
   ShopTaskCompareParams,
 } from './geographic-shop.params';
@@ -99,6 +101,39 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
         .then((x) => {
           return HowellResponseProcess.array(x, ShopTaskCompareResult);
         });
+    },
+    detected: {
+      result: {
+        all: async (
+          params: GetShopRegistrationTaskDetectedResultParams
+        ): Promise<ShopRegistrationTaskDetectedResult[]> => {
+          let data: ShopRegistration[] = [];
+          let index = 1;
+          let paged: PagedList<ShopRegistrationTaskDetectedResult>;
+          do {
+            params.PageIndex = index;
+            paged = await this.task.detected.result.list(params);
+            data = data.concat(paged.Data);
+            index++;
+          } while (index <= paged.Page.PageCount);
+          return data;
+        },
+        list: (params: GetShopRegistrationTaskDetectedResultParams) => {
+          let url = ArmGeographicUrl.shop.task.detected.result();
+          let plain = instanceToPlain(params);
+          return this.http
+            .post<
+              HowellResponse<PagedList<ShopRegistrationTaskDetectedResult>>,
+              any
+            >(url, plain)
+            .then((x) => {
+              return HowellResponseProcess.paged(
+                x,
+                ShopRegistrationTaskDetectedResult
+              );
+            });
+        },
+      },
     },
   };
 }

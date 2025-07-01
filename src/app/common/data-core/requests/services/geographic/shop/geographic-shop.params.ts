@@ -40,3 +40,20 @@ export class ShopTaskCompareParams implements IParams {
   /**	Double	GPS相差距离，单位：米，默认：100米	O	*/
   Distance?: number;
 }
+export class GetShopRegistrationTaskDetectedResultParams extends PagedParams {
+  /**	String[]	比对任务ID列表	M	*/
+  TaskIds!: string[];
+  /**	Boolean	是否识别到，true：识别到的，false：未识别的。	O	*/
+  Detected?: boolean;
+  /**
+   * Boolean
+   * 是否过滤掉任务线路未经过的注册商铺，默认：false。
+   * 注意：过滤是前后会怎加10-15米的误差范围，防止漏掉
+   * O
+   **/
+  RouteFilterEnabled?: boolean;
+  /**	String	升序属性，不区分大小写	O	*/
+  Asc?: string;
+  /**	String	降序属性，不区分大小写	O	*/
+  Desc?: string;
+}

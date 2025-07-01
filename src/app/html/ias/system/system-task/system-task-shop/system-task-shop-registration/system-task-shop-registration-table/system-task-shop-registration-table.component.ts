@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ShopRegistrationTaskDetectedResult } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { TableSorterDirective } from '../../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../../common/directives/table-sorter/table-sorter.model';
@@ -29,11 +30,12 @@ export class SystemTaskShopRegistrationTableComponent
   @Input('load') _load?: EventEmitter<SystemTaskShopRegistrationTableArgs>;
   @Input() selected?: ShopRegistration;
   @Output() selectedChange = new EventEmitter<ShopRegistration>();
+  @Output() video = new EventEmitter<ShopRegistration>();
 
   constructor(private business: SystemTaskShopRegistrationTableBusiness) {}
 
-  widths: string[] = ['10%', 'auto', '25%', '15%'];
-  datas: ShopRegistration[] = [];
+  widths: string[] = ['10%', 'auto', '25%', '15%', '10%'];
+  datas: ShopRegistrationTaskDetectedResult[] = [];
   loading = false;
   private subscription = new Subscription();
 
@@ -69,8 +71,8 @@ export class SystemTaskShopRegistrationTableComponent
   table = {
     count: {
       all: 0,
-      associated: 0,
-      unassociated: 0,
+      detected: 0,
+      undetected: 0,
     },
   };
 
@@ -79,11 +81,17 @@ export class SystemTaskShopRegistrationTableComponent
       this.selected = item;
       this.selectedChange.emit(this.selected);
     },
+    video: (item: ShopRegistration, e: Event) => {
+      this.video.emit(item);
+      if (this.selected === item) {
+        e.stopPropagation();
+      }
+    },
   };
 
   sort = {
     data: {
-      active: 'AssociatedCount',
+      active: 'Detected',
       direction: 'asc',
     } as Sort,
     on: {

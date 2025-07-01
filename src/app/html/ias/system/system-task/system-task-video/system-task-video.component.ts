@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
+import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
+import {
+  MapMarkerShopColor,
+  MapMarkerType,
+} from '../../../share/map/ias-map.model';
 import { VideoPathComponent } from '../../../share/video-path/component/video-path.component';
 import { SystemTaskVideoBusiness } from './system-task-video.business';
 import { SystemTaskVideoArgs } from './system-task-video.model';
@@ -21,14 +26,19 @@ export class SystemTaskVideoComponent implements OnChanges {
   map = {
     items: [] as FileGpsItem[],
     loading: false,
+    points: [] as GisPoint[],
+    args: {
+      type: MapMarkerType.shop,
+      color: MapMarkerShopColor.green,
+    },
   };
   count = 5;
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['args'] && !changes['args'].firstChange) {
       if (this.args) {
         this.load.video(this.args);
         this.load.gps(this.args);
+        this.load.point(this.args);
       }
     }
   }
@@ -37,6 +47,7 @@ export class SystemTaskVideoComponent implements OnChanges {
     if (this.args) {
       this.load.video(this.args);
       this.load.gps(this.args);
+      this.load.point(this.args);
     }
   }
 
@@ -64,6 +75,12 @@ export class SystemTaskVideoComponent implements OnChanges {
             }
           }
         });
+    },
+    point: (item: SystemTaskVideoArgs) => {
+      let point = new GisPoint();
+      point.Longitude = item.Longitude;
+      point.Latitude = item.Latitude;
+      this.map.points = [point];
     },
   };
 }

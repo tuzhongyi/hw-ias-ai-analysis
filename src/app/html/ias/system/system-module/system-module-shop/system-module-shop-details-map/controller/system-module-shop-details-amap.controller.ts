@@ -62,6 +62,7 @@ export class SystemModuleShopDetailsAMapController {
   destroy() {
     this.map.get().then((x) => {
       x.destroy();
+      this.map.clear();
     });
   }
 }

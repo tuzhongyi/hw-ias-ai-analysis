@@ -1,4 +1,4 @@
-<div class="system-task-shop-registration-manager">
+<div class="system-task-shop-registration-manager" *ngIf="table.args.taskId">
   <div class="system-task-shop-registration-manager-head">
     <div class="forms">
       <div class="form-item">
@@ -22,7 +22,7 @@
       <div class="form-item">
         <div class="form-item-text">状态</div>
         <div class="form-item-value">
-          <select [(ngModel)]="table.args.associated">
+          <select [(ngModel)]="table.args.detected">
             <option [ngValue]="undefined">全部</option>
             <option [ngValue]="true">已检测到</option>
             <option [ngValue]="false">未检测到</option>
@@ -40,6 +40,7 @@
         [args]="table.args"
         [load]="table.load"
         [(selected)]="table.selected"
+        (video)="on.video($event)"
       ></ias-system-task-shop-registration-table>
     </div>
     <div class="system-task-shop-registration-manager-details">

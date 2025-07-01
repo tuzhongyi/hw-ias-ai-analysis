@@ -1256,7 +1256,7 @@ import jQuery from '../jquery.min.js';
         // prevents error if sorton array is wrong
         if (col < c.columns) {
 
-          // set order if not already defined - due to colspan header without associated header cell
+          // set order if not already defined - due to colspan header without detected header cell
           // adding this check prevents a javascript error
           if (!c.sortVars[col].order) {
             if (ts.getOrder(c.sortInitialOrder)) {

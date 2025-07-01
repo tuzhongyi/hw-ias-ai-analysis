@@ -33,10 +33,10 @@ import { SystemEventTableService } from './business/system-event-table.service';
 })
 export class SystemEventTableComponent implements OnInit, OnDestroy {
   @Input() args = new SystemEventTableArgs();
-  @Input('load') _load?: EventEmitter<SystemEventTableArgs>;
+  @Input('load') input_load?: EventEmitter<SystemEventTableArgs>;
   @Output() position = new EventEmitter<MobileEventRecord>();
 
-  @Output('picture') picture_ = new EventEmitter<MobileEventRecord>();
+  @Output('picture') output_picture = new EventEmitter<MobileEventRecord>();
   @Input() get?: EventEmitter<number>;
   @Output() got = new EventEmitter<Paged<Paged<MobileEventRecord>>>();
   @Output() process = new EventEmitter<MobileEventRecord>();
@@ -70,8 +70,8 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   ngOnInit(): void {
-    if (this._load) {
-      let sub = this._load.subscribe((x) => {
+    if (this.input_load) {
+      let sub = this.input_load.subscribe((x) => {
         this.args = x;
         this.load(
           this.args.first ? 1 : this.page.PageIndex,
@@ -134,7 +134,7 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
         e.stopImmediatePropagation();
       }
 
-      this.picture_.emit(item);
+      this.output_picture.emit(item);
     },
   };
   disabled = {

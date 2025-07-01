@@ -63,6 +63,9 @@ export class SystemModuleShopRegistrationInformationBusiness {
 
   update(data: ShopRegistration) {
     data.UpdateTime = new Date();
-    return this.service.shop.update(data);
+    return this.service.shop.update(data).then((x) => {
+      this.service.shop.cache.clear();
+      return x;
+    });
   }
 }

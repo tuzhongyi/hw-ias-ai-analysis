@@ -104,4 +104,10 @@ export class SystemModuleRoadMapAMapController {
       map.setFitView();
     });
   }
+  destroy() {
+    this.map.get().then((x) => {
+      x.destroy();
+      this.map.clear();
+    });
+  }
 }

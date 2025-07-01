@@ -53,7 +53,7 @@ export class SystemModuleShopRegistrationTableComponent
 
   page = Page.create(1, 10);
   datas: (SystemModuleShopRegistrationTableItem | undefined)[] = [];
-  widths = ['4%', '6%', '10%', '20%', '20%', '8%', '10%', '7%', '10%', '5%'];
+  widths = ['4%', '4%', '6%', '20%', '20%', '12%', '10%', '7%', '12%', '5%'];
   filter = new SystemModuleShopRegistrationTableFilter();
   subscription = new Subscription();
 

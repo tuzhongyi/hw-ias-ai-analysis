@@ -54,7 +54,7 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
   @Output() merge = new EventEmitter<{
     name?: string;
     subname: boolean;
-    associated: ShopRegistration;
+    detected: ShopRegistration;
     data: MobileEventRecord;
   }>();
   @Output() marking = new EventEmitter<MobileEventRecord>();
@@ -239,7 +239,7 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
         this.merge.emit({
           name: name,
           subname: this.subname,
-          associated: this.shop.selected,
+          detected: this.shop.selected,
           data: this.data,
         });
       }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ShopRegistration } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
+import { ShopRegistrationTaskDetectedResult } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
 import { ArmGeographicRequestService } from '../../../../../../../../common/data-core/requests/services/geographic/geographic.service';
-import { GetShopRegistrationsParams } from '../../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
+import { GetShopRegistrationTaskDetectedResultParams } from '../../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
 import { SystemTaskShopRegistrationTableArgs } from '../system-task-shop-registration-table.model';
 
 @Injectable()
@@ -10,26 +10,29 @@ export class SystemTaskShopRegistrationTableBusiness {
 
   count = {
     all: 0,
-    associated: 0,
-    unassociated: 0,
+    detected: 0,
+    undetected: 0,
     clear: () => {
       this.count.all = 0;
-      this.count.associated = 0;
-      this.count.unassociated = 0;
+      this.count.detected = 0;
+      this.count.undetected = 0;
     },
   };
 
   async load(args: SystemTaskShopRegistrationTableArgs) {
-    let datas = await this.data.load();
+    if (!args.taskId) {
+      throw new Error('Task ID is required to load shop registrations.');
+    }
+    let datas = await this.data.load(args.taskId);
     this.count.clear();
     this.count.all = datas.length;
     let results = [];
     for (let i = 0; i < datas.length; i++) {
       const item = datas[i];
-      if (item.AssociatedCount) {
-        this.count.associated++;
+      if (item.Detected) {
+        this.count.detected++;
       } else {
-        this.count.unassociated++;
+        this.count.undetected++;
       }
       if (this.filter(item, args)) {
         results.push(item);
@@ -38,7 +41,10 @@ export class SystemTaskShopRegistrationTableBusiness {
     return results;
   }
 
-  filter(item: ShopRegistration, args: SystemTaskShopRegistrationTableArgs) {
+  filter(
+    item: ShopRegistrationTaskDetectedResult,
+    args: SystemTaskShopRegistrationTableArgs
+  ) {
     let result = true;
     if (args.name) {
       result = item.Name.toLowerCase().includes(args.name.toLowerCase());
@@ -46,24 +52,19 @@ export class SystemTaskShopRegistrationTableBusiness {
     if (args.roadId) {
       result = item.RoadId === args.roadId;
     }
-    switch (args.associated) {
-      case true:
-        result = item.AssociatedCount != undefined && item.AssociatedCount > 0;
-        break;
-      case false:
-        result =
-          item.AssociatedCount === undefined || item.AssociatedCount === 0;
-        break;
-      default:
-        break;
+    if (args.detected != undefined) {
+      result = item.Detected == args.detected;
     }
+
     return result;
   }
 
   private data = {
-    load: () => {
-      let params = new GetShopRegistrationsParams();
-      return this.service.shop.cache.array(params);
+    load: (taskId: string) => {
+      let params = new GetShopRegistrationTaskDetectedResultParams();
+      params.TaskIds = [taskId];
+      params.RouteFilterEnabled = true;
+      return this.service.shop.task.detected.result.all(params);
     },
   };
 }

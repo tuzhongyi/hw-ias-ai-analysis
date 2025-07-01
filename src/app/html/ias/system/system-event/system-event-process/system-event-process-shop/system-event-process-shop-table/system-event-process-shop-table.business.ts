@@ -19,8 +19,8 @@ export class SystemEventProcessShopTableBusiness {
     if (filter.road) {
       params.RoadIds = [filter.road];
     }
-    if (filter.associated != undefined) {
-      params.AssociatedCount = filter.associated ? 1 : undefined;
+    if (filter.detected != undefined) {
+      params.AssociatedCount = filter.detected ? 1 : undefined;
     }
     params.Location = filter.location;
     params.LocationDistance = filter.distance;

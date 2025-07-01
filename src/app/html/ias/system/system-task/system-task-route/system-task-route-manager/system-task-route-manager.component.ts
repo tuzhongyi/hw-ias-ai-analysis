@@ -29,8 +29,8 @@ export class SystemTaskRouteManagerComponent {
     analysis: (type?: ShopStatisticStatus) => {
       this.analysis.emit(type);
     },
-    registration: (associated?: boolean) => {
-      this.registration.emit(associated);
+    registration: (detected?: boolean) => {
+      this.registration.emit(detected);
     },
   };
 }

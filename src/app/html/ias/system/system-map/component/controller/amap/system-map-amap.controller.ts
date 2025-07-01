@@ -11,7 +11,7 @@ import {
   SystemAMapCircleEditorEvent,
 } from './circle/system-map-amap-circle-editor.controller';
 import { SystemAMapShopMarkerLayerController } from './marker/system-map-amap-shop-marker-layer.controller';
-import { SystemAMapShopMarkerEvent } from './marker/system-map-amap-shop-marker.controller';
+import { SystemAMapShopMarkerEvent } from './marker/system-map-amap-shop-marker.model';
 import { SystemAMapShopPointLayerController } from './point/system-map-amap-shop-point-layer.controller';
 import { SystemMapAMapRoadLabelController } from './road/system-map-amap-road-label.controller';
 import { SystemMapAMapRoadPolylineController } from './road/system-map-amap-road-polyline.controller';

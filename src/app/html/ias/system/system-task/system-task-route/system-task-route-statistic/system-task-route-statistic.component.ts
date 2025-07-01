@@ -31,10 +31,6 @@ export class SystemTaskRouteStatisticComponent implements OnInit {
 
   Status = ShopStatisticStatus;
   statistic?: ShopTaskStatistic;
-  registration = {
-    count: 0,
-    associated: 0,
-  };
 
   ngOnInit(): void {
     if (this.task) {
@@ -46,20 +42,14 @@ export class SystemTaskRouteStatisticComponent implements OnInit {
     this.business.task.load(data.Id).then((x) => {
       this.statistic = x;
     });
-    this.business.registration.count().then((x) => {
-      this.registration.count = x;
-    });
-    this.business.registration.associated().then((x) => {
-      this.registration.associated = x;
-    });
   }
 
   on = {
     analysis: (type?: ShopStatisticStatus) => {
       this.out_analysis.emit(type);
     },
-    registration: (associated?: boolean) => {
-      this.out_registration.emit(associated);
+    registration: (detected?: boolean) => {
+      this.out_registration.emit(detected);
     },
   };
 }

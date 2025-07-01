@@ -58,6 +58,7 @@ export class SystemModuleRoadMapComponent
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.controller.amap.destroy();
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.change.datas(changes['datas']);

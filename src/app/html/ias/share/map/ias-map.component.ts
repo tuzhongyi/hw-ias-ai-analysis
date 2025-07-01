@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
@@ -16,7 +17,7 @@ import { IIASMapArgs, MapMarker } from './ias-map.model';
   styleUrl: './ias-map.component.less',
   providers: [IASMapAMapController],
 })
-export class IASMapComponent implements OnInit, OnChanges {
+export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() location?: GisPoint;
   @Input() move = false;
   @Input() marker = new MapMarker();
@@ -59,6 +60,10 @@ export class IASMapComponent implements OnInit, OnChanges {
     if (this.location) {
       this.amap.load(this.location, this.args, true);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.amap.destroy();
   }
 
   load(location: GisPoint) {

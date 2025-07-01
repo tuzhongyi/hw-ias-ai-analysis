@@ -153,6 +153,31 @@
       (analysis)="on.completed($event)"
     ></ias-system-task-details>
   </ias-window>
+
+  <ias-window
+    *ngIf="window.shop.analysis.show"
+    [Model]="window.shop.analysis"
+    [style]="window.shop.analysis.style"
+    [title]="window.shop.analysis.title"
+  >
+    <ias-system-task-shop-analysis-manager
+      [data]="window.shop.analysis.data"
+      [status]="window.shop.analysis.status"
+      (video)="route.on.video($event)"
+    ></ias-system-task-shop-analysis-manager>
+  </ias-window>
+  <ias-window
+    *ngIf="window.shop.registration.show"
+    [Model]="window.shop.registration"
+    [style]="window.shop.registration.style"
+    [title]="window.shop.registration.title"
+  >
+    <ias-system-task-shop-registration-manager
+      [detected]="window.shop.registration.state"
+      [task]="window.shop.registration.data"
+      (video)="route.on.video($event)"
+    ></ias-system-task-shop-registration-manager>
+  </ias-window>
   <ias-window
     *ngIf="window.video.show && window.video.args"
     [Model]="window.video"
@@ -177,27 +202,6 @@
       </div>
     </div>
     <ias-system-task-video [args]="window.video.args"></ias-system-task-video>
-  </ias-window>
-  <ias-window
-    *ngIf="window.shop.analysis.show"
-    [Model]="window.shop.analysis"
-    [style]="window.shop.analysis.style"
-    [title]="window.shop.analysis.title"
-  >
-    <ias-system-task-shop-analysis-manager
-      [data]="window.shop.analysis.data"
-      [status]="window.shop.analysis.status"
-    ></ias-system-task-shop-analysis-manager>
-  </ias-window>
-  <ias-window
-    *ngIf="window.shop.registration.show"
-    [Model]="window.shop.registration"
-    [style]="window.shop.registration.style"
-    [title]="window.shop.registration.title"
-  >
-    <ias-system-task-shop-registration-manager
-      [associated]="window.shop.registration.state"
-    ></ias-system-task-shop-registration-manager>
   </ias-window>
   <confirm-window
     *ngIf="window.confirm.show"

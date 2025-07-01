@@ -23,6 +23,9 @@ export class PromiseValue<T> {
   set(value: T): void {
     this._value = value;
   }
+  clear() {
+    this._value = undefined;
+  }
   get exists(): boolean {
     return !!this._value;
   }

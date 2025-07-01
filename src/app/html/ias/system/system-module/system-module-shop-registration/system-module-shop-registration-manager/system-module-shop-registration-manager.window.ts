@@ -13,7 +13,7 @@ class InformationWindow extends WindowViewModel {
   }
   style = {
     width: '70%',
-    height: '80%',
+    height: '85%',
     paddingTop: 0,
   };
   data?: ShopRegistration;

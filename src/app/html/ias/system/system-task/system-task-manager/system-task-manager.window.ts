@@ -120,5 +120,6 @@ class ShopRegistrationWindow extends WindowViewModel {
     height: '85%',
   };
   state?: boolean;
+  data?: AnalysisTask;
   title = '注册商铺信息';
 }

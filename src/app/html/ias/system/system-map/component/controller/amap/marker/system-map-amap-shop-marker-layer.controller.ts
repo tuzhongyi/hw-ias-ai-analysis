@@ -1,10 +1,11 @@
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemMapAMapConfig } from '../system-map-amap.config';
 import { SystemAMapShopInfoController } from './system-map-amap-shop-info.controller';
+import { SystemAMapShopLabelMarkerController } from './system-map-amap-shop-marker.controller';
 import {
-  SystemAMapShopLabelMarkerController,
+  ISystemAMapShopLabelMarkerController,
   SystemAMapShopMarkerEvent,
-} from './system-map-amap-shop-marker.controller';
+} from './system-map-amap-shop-marker.model';
 
 export class SystemAMapShopMarkerLayerController {
   event = new SystemAMapShopMarkerEvent();
@@ -17,7 +18,7 @@ export class SystemAMapShopMarkerLayerController {
 
   private layer: AMap.LabelsLayer;
   private info: SystemAMapShopInfoController;
-  private points: SystemAMapShopLabelMarkerController[] = [];
+  private points: ISystemAMapShopLabelMarkerController[] = [];
   private zoom: number;
 
   private init(map: AMap.Map) {

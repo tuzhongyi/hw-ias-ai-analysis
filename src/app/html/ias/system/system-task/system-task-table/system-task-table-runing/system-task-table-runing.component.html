@@ -79,7 +79,15 @@
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              @if(item.State === -1){
+              @if(item.State != -1){
+              <div
+                class="button"
+                title="分析结果"
+                (click)="onresult(item, $event)"
+              >
+                <i class="howell-icon-task_misson"></i>
+              </div>
+              } @if(item.State === -1){
               <div
                 class="button"
                 title="任务信息"

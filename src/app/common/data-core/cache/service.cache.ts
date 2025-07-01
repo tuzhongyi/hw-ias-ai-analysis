@@ -110,4 +110,8 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
       throw new Error('not found');
     });
   }
+
+  clear() {
+    this._cache.clear();
+  }
 }

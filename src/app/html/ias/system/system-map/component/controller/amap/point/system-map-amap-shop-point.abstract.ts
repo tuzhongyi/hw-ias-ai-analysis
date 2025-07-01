@@ -1,8 +1,12 @@
+import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemMapAMapConfig } from '../system-map-amap.config';
 import { SystemMapAMapConverter } from '../system-map-amap.converter';
 
 export abstract class SystemAMapShopPointAbstract {
+  event = {
+    move: new EventEmitter<[number, number]>(),
+  };
   protected abstract style: {
     radius: number;
     unit: string;
@@ -39,6 +43,7 @@ export abstract class SystemAMapShopPointAbstract {
     let point = this.layer.queryFeature(position);
     if (point) {
       console.log(point);
+      this.event.move.emit(position);
     }
   }
 }
