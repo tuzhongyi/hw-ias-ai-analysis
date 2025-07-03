@@ -17,13 +17,44 @@
     align-items: stretch;
     gap: 10px;
 
-    &>* {
-      width: calc((100% - 10px) * 0.5);
-      height: 100%;
-    }
   }
 
+  &-table {
+    width: calc((100% - 10px) * 0.5);
+    height: 100%;
+  }
 
+  &-details {
+    width: calc((100% - 10px - 40px) * 0.5);
+    height: 100%;
+  }
 
-  &-details {}
+  &-menu {
+    width: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    &-item {
+      font-size: 18px;
+      color: #777;
+      writing-mode: vertical-lr;
+      text-orientation: upright;
+
+      cursor: pointer;
+
+      &.selected {
+        color: #1e90ff;
+
+        &:hover {
+          color: #1e90ff;
+        }
+      }
+
+      &:hover {
+        color: #999;
+      }
+    }
+  }
 }

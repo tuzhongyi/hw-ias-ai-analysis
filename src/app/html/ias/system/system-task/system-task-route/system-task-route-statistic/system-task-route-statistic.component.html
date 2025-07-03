@@ -33,7 +33,9 @@
       </div>
     </div>
     <div class="statistic-item" (click)="on.registration(true)">
-      <div class="statistic-item-name">已检测到注册商铺</div>
+      <div class="statistic-item-name" style="color: #1e90ff">
+        已检测到注册商铺
+      </div>
       <div class="statistic-item-value">
         {{
           (statistic?.ShopRegistrationCount ?? 0) -
@@ -42,7 +44,9 @@
       </div>
     </div>
     <div class="statistic-item" (click)="on.registration(false)">
-      <div class="statistic-item-name">未检测到注册商铺</div>
+      <div class="statistic-item-name" style="color: #ff762c">
+        未检测到注册商铺
+      </div>
       <div class="statistic-item-value">
         {{ statistic?.UndetectedShopRegistrationCount ?? 0 }}
       </div>

@@ -1,9 +1,18 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalStorage {
+  unload = new EventEmitter<void>();
+
+  constructor() {
+    window.onbeforeunload = () => {
+      console.log('onbeforeinput');
+      this.unload.emit();
+    };
+  }
+
   private _uploading: boolean = false;
   public get uploading(): boolean {
     return this._uploading;
@@ -17,7 +26,9 @@ export class GlobalStorage {
         return false;
       };
     } else {
-      window.onbeforeunload = null;
+      window.onbeforeunload = () => {
+        this.unload.emit();
+      };
     }
   }
 }

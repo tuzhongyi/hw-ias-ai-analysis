@@ -28,7 +28,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   } = {};
 
   ngOnInit(): void {
-    this.handle.close = this.onaccountclose.bind(this);
+    this.handle.close = this.on.account.close.bind(this);
     window.addEventListener('click', this.handle.close);
     this.handle.date = setInterval(() => {
       this.date.set(Date.now());
@@ -45,21 +45,28 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onaccount(e: Event) {
-    e.stopImmediatePropagation();
-    this.menu.account = !this.menu.account;
-  }
-  onaccountclose(e: Event) {
-    e.stopImmediatePropagation();
-    this.menu.account = false;
-  }
-  onsignout(e: Event) {
-    this.account = undefined;
-    this.local.clear();
-    e.stopImmediatePropagation();
-    this.router.navigateByUrl(`${RoutePath.login}`);
-  }
-  onhelp() {
-    window.open('/help/help.html');
-  }
+  on = {
+    account: {
+      click: (e: Event) => {
+        e.stopImmediatePropagation();
+        this.menu.account = !this.menu.account;
+      },
+      close: (e: Event) => {
+        e.stopImmediatePropagation();
+        this.menu.account = false;
+      },
+    },
+    sign: {
+      out: (e: Event) => {
+        this.account = undefined;
+        this.local.clear();
+        this.local.login.clear();
+        e.stopImmediatePropagation();
+        this.router.navigateByUrl(`${RoutePath.login}`);
+      },
+    },
+    help: () => {
+      window.open('/help/help.html');
+    },
+  };
 }

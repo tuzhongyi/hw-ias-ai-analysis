@@ -1,4 +1,4 @@
-<div class="system-task-shop-analysis-details">
+<div class="system-task-shop-analysis-details root-router">
   <div class="system-task-shop-analysis-details-picture panel">
     <howell-container-page
       [page]="picture.page.data"
@@ -24,7 +24,7 @@
         [location]="map.location"
         [move]="true"
         [marker]="map.marker"
-        [points]="map.point ? [map.point] : []"
+        [points]="map.points"
       ></ias-map>
     </div>
   </div>

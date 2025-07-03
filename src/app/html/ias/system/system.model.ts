@@ -9,4 +9,8 @@ export enum SystemPath {
   module_road = 'system/module/road',
   map = 'system/map',
   event = 'system/event',
+  event_index = 'system/event/index',
+  event_shop_manager = 'system/event/manager/shop',
+  event_realtime_manager = 'system/event/manager/realtime',
+  event_analysis_manager = 'system/event/manager/analysis',
 }

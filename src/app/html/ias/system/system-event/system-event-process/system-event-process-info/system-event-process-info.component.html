@@ -1,12 +1,17 @@
 <div class="system-event-process-info">
   <div class="system-event-process-info-body">
-    <div class="system-event-process-info-body-record panel">
+    <div class="system-event-process-info-body-record">
       <div class="system-event-process-info-body-record-head">详细信息</div>
       <div class="system-event-process-info-body-record-picture border">
-        <ias-picture-polygon-multiple
-          [id]="record.picture.src"
-          [polygon]="record.picture.polygon"
-        ></ias-picture-polygon-multiple>
+        <howell-container-page
+          [page]="record.picture.page.data"
+          (pageChange)="record.picture.page.change($event)"
+        >
+          <ias-picture-polygon-multiple
+            [id]="record.picture.src"
+            [polygon]="record.picture.polygon"
+          ></ias-picture-polygon-multiple>
+        </howell-container-page>
       </div>
       <div class="system-event-process-info-body-record-content">
         <div
@@ -14,7 +19,7 @@
           [ngClass]="
         {
           red:data?.EventType === 8,
-          green: data?.EventType === 9,
+          green: data?.EventType === 9,          
         }"
         >
           <ias-system-event-record-details
@@ -28,37 +33,6 @@
             [points]="map.point ? [map.point] : []"
           ></ias-map>
         </div>
-      </div>
-    </div>
-
-    <div
-      class="system-event-process-info-body-handle-undo border"
-      *ngIf="!data?.Assignment?.Handled"
-    >
-      <div class="system-event-process-info-body-handle-undo-image"></div>
-      <div class="system-event-process-info-body-handle-undo-text">待处置</div>
-    </div>
-
-    <div
-      class="system-event-process-info-body-handle panel"
-      *ngIf="
-        (data?.Assignment?.Handled && data?.EventType === 9) ||
-        (data?.Assignment?.Handled && data?.EventType === 8)
-      "
-    >
-      <div class="system-event-process-info-body-handle-head">处置信息</div>
-      <div class="system-event-process-info-body-handle-picture border">
-        <ias-picture-polygon-multiple
-          [id]="shop.picture.src"
-          [polygon]="shop.picture.polygon"
-          [default]="'/assets/image/no-image.png'"
-        ></ias-picture-polygon-multiple>
-      </div>
-      <div class="system-event-process-info-body-handle-info border">
-        <ias-system-event-process-info-handled
-          [shop]="shop.data"
-          [data]="data"
-        ></ias-system-event-process-info-handled>
       </div>
     </div>
   </div>

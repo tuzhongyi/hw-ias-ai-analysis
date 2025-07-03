@@ -42,6 +42,9 @@ export class SystemEventTableService {
     if (filter.type) {
       params.EventType = filter.type;
     }
+    if (filter.types && filter.types.length > 0) {
+      params.EventTypes = filter.types;
+    }
     switch (filter.state) {
       case 1:
         params.Handled = false;
@@ -57,12 +60,9 @@ export class SystemEventTableService {
         break;
     }
 
-    // let datas = [this.create.record()];
-    // let paged = PagedList.create(datas, index, size);
-
-    // return paged;
-
-    // return this.test.shop(index, size, filter);
+    if (filter.taskId) {
+      params.TaskId = filter.taskId;
+    }
 
     return this.service.event.list(params);
   }

@@ -46,19 +46,7 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
 
   constructor(private business: SystemEventTableBusiness) {}
 
-  widths = [
-    '5%',
-    '10%',
-    '12%',
-    '8%',
-    '6%',
-    '12%',
-    '8%',
-    '10%',
-    '12%',
-    '7%',
-    '10%',
-  ];
+  widths = ['5%', '10%', '15%', '8%', '12%', '8%', '10%', '12%', '10%', '10%'];
   datas: (SystemEventTableItem | undefined)[] = [];
   page = Page.create(1, 10);
   selected?: SystemEventTableItem;

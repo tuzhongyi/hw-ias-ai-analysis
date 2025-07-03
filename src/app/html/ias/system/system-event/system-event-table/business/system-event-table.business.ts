@@ -36,6 +36,8 @@ export class SystemEventTableBusiness {
     let plain = instanceToPlain(source);
     let data = plainToInstance(SystemEventTableItem, plain);
     data.EventTypeName = this.language.event.EventType(data.EventType, '');
+    data.ResourceName =
+      source.Resources?.map((x) => x.ResourceName).join('\n') ?? '';
     return data;
   }
 }

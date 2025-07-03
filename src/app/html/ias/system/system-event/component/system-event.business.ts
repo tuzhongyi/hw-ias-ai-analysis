@@ -10,6 +10,19 @@ export class SystemEventBusiness {
     if (location.pathname.indexOf(SystemPath.event) >= 0) {
       title = 'AI分析事件';
     }
+    if (location.pathname.indexOf(SystemPath.event_shop_manager) >= 0) {
+      title = '商铺事件';
+    } else if (
+      location.pathname.indexOf(SystemPath.event_realtime_manager) >= 0
+    ) {
+      title = '实时事件';
+    } else if (
+      location.pathname.indexOf(SystemPath.event_analysis_manager) >= 0
+    ) {
+      title = '分析事件';
+    } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
+      title = 'AI分析事件';
+    }
     return title;
   }
 }

@@ -1,0 +1,44 @@
+<div class="system-event-process-details">
+  <div class="system-event-process-details-body">
+    <div class="system-event-process-details-record panel">
+      <ias-system-event-process-info
+        *ngIf="this.load.ed"
+        [data]="data"
+        [registration]="shop.data"
+      ></ias-system-event-process-info>
+    </div>
+    <div
+      class="system-event-process-details-body-handle-undo border"
+      *ngIf="!data?.Assignment?.Handled"
+    >
+      <div class="system-event-process-details-body-handle-undo-image"></div>
+      <div class="system-event-process-details-body-handle-undo-text">
+        待处置
+      </div>
+    </div>
+
+    <div
+      class="system-event-process-details-body-handle panel"
+      *ngIf="
+        (data?.Assignment?.Handled && data?.EventType === 9) ||
+        (data?.Assignment?.Handled && data?.EventType === 8)
+      "
+    >
+      <div class="system-event-process-details-body-handle-head">处置信息</div>
+      <div class="system-event-process-details-body-handle-picture border">
+        <ias-picture-polygon-multiple
+          [id]="shop.picture.src"
+          [polygon]="shop.picture.polygon"
+          [default]="'/assets/image/no-image.png'"
+        ></ias-picture-polygon-multiple>
+      </div>
+      <div class="system-event-process-details-body-handle-info border">
+        <ias-system-event-process-handled
+          [shop]="shop.data"
+          [data]="data"
+        ></ias-system-event-process-handled>
+      </div>
+    </div>
+  </div>
+  <div class="system-event-process-details-foot"></div>
+</div>

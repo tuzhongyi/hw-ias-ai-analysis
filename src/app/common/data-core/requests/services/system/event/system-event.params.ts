@@ -16,8 +16,11 @@ export class GetMobileEventsParams extends PagedDurationParams {
   ResourceName?: string;
   /**	Int32[]	店招关联方式，1：误报，2：消失，3：停业或装修，4：恢复营业，5：新增屏蔽，6：子招牌合并	O */
   AssociationTypes?: number[];
+  TaskId?: string;
   /**	String	升序属性，不区分大小写	O */
   Asc?: string;
   /**	String	降序属性，不区分大小写	O */
   Desc?: string;
+  /**	Int32[]	事件类型	O */
+  EventTypes?: number[];
 }

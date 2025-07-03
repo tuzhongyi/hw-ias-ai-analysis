@@ -39,14 +39,47 @@
       <ias-system-task-shop-registration-table
         [args]="table.args"
         [load]="table.load"
-        [(selected)]="table.selected"
+        [selected]="details.registration.data"
+        (selectedChange)="details.set($event)"
         (video)="on.video($event)"
       ></ias-system-task-shop-registration-table>
     </div>
     <div class="system-task-shop-registration-manager-details">
       <ias-system-task-shop-registration-details
-        [data]="table.selected"
+        *ngIf="details.index === 0"
+        [data]="details.registration.data"
       ></ias-system-task-shop-registration-details>
+      <ias-system-task-shop-analysis-details
+        *ngIf="details.index > 0"
+        [shop]="details.analysis.data[details.index - 1]"
+        [registration]="details.registration.data"
+        [task]="task"
+      >
+      </ias-system-task-shop-analysis-details>
+    </div>
+    <div class="system-task-shop-registration-manager-menu">
+      <div
+        class="system-task-shop-registration-manager-menu-item"
+        [ngClass]="{
+          selected: details.index === 0
+        }"
+        (click)="details.change(0)"
+      >
+        注册商铺
+      </div>
+      <div
+        class="system-task-shop-registration-manager-menu-item"
+        *ngFor="let item of details.analysis.data; let index = index"
+        [ngClass]="{
+          selected: details.index === index + 1
+        }"
+        (click)="details.change(index + 1)"
+      >
+        <span>识别商铺</span>@if(details.analysis.data.length > 1){<span>{{
+          index + 1
+        }}</span>
+        }
+      </div>
     </div>
   </div>
 </div>

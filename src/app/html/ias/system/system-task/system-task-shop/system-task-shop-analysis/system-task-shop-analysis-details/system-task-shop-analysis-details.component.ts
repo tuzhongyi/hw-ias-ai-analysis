@@ -59,7 +59,7 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
           let item = this.sign.datas[index];
           this.picture.src = item.ImageUrl ?? '';
           this.picture.polygon = item.Polygon ?? [];
-          this.map.point = item.Location;
+          this.map.points = item.Location ? [item.Location] : [];
         }
       },
     },
@@ -69,7 +69,7 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
       type: MapMarkerType.shop,
       color: MapMarkerShopColor.green,
     },
-    point: undefined as GisPoint | undefined,
+    points: [] as GisPoint[],
     location: undefined as GisPoint | undefined,
   };
 
@@ -105,7 +105,8 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
         this.picture.src = first.ImageUrl ?? '';
         this.picture.polygon = first.Polygon ?? [];
         this.picture.page.data = Page.create(1, 1, this.sign.datas.length);
-        this.map.point = first.Location;
+
+        this.map.points = first.Location ? [first.Location] : [];
       }
     });
   }

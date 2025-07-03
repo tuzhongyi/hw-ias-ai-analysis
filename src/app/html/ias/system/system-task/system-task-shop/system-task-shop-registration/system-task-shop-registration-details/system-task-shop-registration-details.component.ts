@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ContainerZoomComponent } from '../../../../../../../common/components/container-zoom/container-zoom.component';
-import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
+import { ShopRegistrationTaskDetectedResult } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 import {
@@ -30,7 +30,7 @@ import { SystemTaskShopRegistrationInfoComponent } from '../system-task-shop-reg
   styleUrl: './system-task-shop-registration-details.component.less',
 })
 export class SystemTaskShopRegistrationDetailsComponent implements OnChanges {
-  @Input() data?: ShopRegistration;
+  @Input() data?: ShopRegistrationTaskDetectedResult;
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     this.change.data(changes['data']);
@@ -41,9 +41,9 @@ export class SystemTaskShopRegistrationDetailsComponent implements OnChanges {
         if (this.data) {
           this.map.location = this.data.Location;
           let marker = Object.assign({}, this.map.marker);
-          marker.color = !this.data.AssociatedCount
-            ? MapMarkerShopColor.orange
-            : MapMarkerShopColor.blue;
+          marker.color = this.data.Detected
+            ? MapMarkerShopColor.blue
+            : MapMarkerShopColor.orange;
           this.map.marker = marker;
           this.picture.src = this.data.ImageUrl ?? '';
         }

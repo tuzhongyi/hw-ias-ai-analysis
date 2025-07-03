@@ -28,8 +28,9 @@ export class SystemTaskShopRegistrationTableComponent
 {
   @Input() args = new SystemTaskShopRegistrationTableArgs();
   @Input('load') _load?: EventEmitter<SystemTaskShopRegistrationTableArgs>;
-  @Input() selected?: ShopRegistration;
-  @Output() selectedChange = new EventEmitter<ShopRegistration>();
+  @Input() selected?: ShopRegistrationTaskDetectedResult;
+  @Output() selectedChange =
+    new EventEmitter<ShopRegistrationTaskDetectedResult>();
   @Output() video = new EventEmitter<ShopRegistration>();
 
   constructor(private business: SystemTaskShopRegistrationTableBusiness) {}
@@ -77,7 +78,7 @@ export class SystemTaskShopRegistrationTableComponent
   };
 
   on = {
-    select: (item: ShopRegistration) => {
+    select: (item: ShopRegistrationTaskDetectedResult) => {
       this.selected = item;
       this.selectedChange.emit(this.selected);
     },

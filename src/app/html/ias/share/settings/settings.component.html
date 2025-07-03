@@ -4,7 +4,7 @@
     <div class="settings-background-content">
       <div class="operation">
         <div class="operation-item" title="">
-          <div class="button" (click)="onaccount($event)">
+          <div class="button" (click)="on.account.click($event)">
             <i class="fa fa-user-circle-o"></i>
           </div>
 
@@ -15,7 +15,10 @@
               </div>
               {{ account.username }}
             </div>
-            <div class="operation-menu-item button" (click)="onsignout($event)">
+            <div
+              class="operation-menu-item button"
+              (click)="on.sign.out($event)"
+            >
               <div class="operation-menu-item-icon">
                 <i class="fa fa-sign-out"></i>
               </div>
@@ -24,7 +27,7 @@
           </div>
         </div>
         <div class="operation-item" title="帮助">
-          <div class="button question" (click)="onhelp()">
+          <div class="button question" (click)="on.help()">
             <i class="fa fa-question-circle-o"></i>
           </div>
         </div>

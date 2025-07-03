@@ -11,14 +11,17 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
+import { SystemTaskShopAnalysisDetailsComponent } from '../../system-task-shop-analysis/system-task-shop-analysis-details/system-task-shop-analysis-details.component';
 import { SystemTaskShopRegistrationDetailsComponent } from '../system-task-shop-registration-details/system-task-shop-registration-details.component';
 import { SystemTaskShopRegistrationTableComponent } from '../system-task-shop-registration-table/system-task-shop-registration-table.component';
 import { SystemTaskShopRegistrationTableArgs } from '../system-task-shop-registration-table/system-task-shop-registration-table.model';
-import { SystemTaskShopRegistrationManagerBusiness } from './system-task-shop-registration-manager.business';
+import { SystemTaskShopRegistrationManagerAnalysisBusiness } from './business/system-task-shop-registration-manager-analysis.business';
+import { SystemTaskShopRegistrationManagerBusiness } from './business/system-task-shop-registration-manager.business';
 
 @Component({
   selector: 'ias-system-task-shop-registration-manager',
@@ -27,10 +30,14 @@ import { SystemTaskShopRegistrationManagerBusiness } from './system-task-shop-re
     FormsModule,
     SystemTaskShopRegistrationTableComponent,
     SystemTaskShopRegistrationDetailsComponent,
+    SystemTaskShopAnalysisDetailsComponent,
   ],
   templateUrl: './system-task-shop-registration-manager.component.html',
   styleUrl: './system-task-shop-registration-manager.component.less',
-  providers: [SystemTaskShopRegistrationManagerBusiness],
+  providers: [
+    SystemTaskShopRegistrationManagerAnalysisBusiness,
+    SystemTaskShopRegistrationManagerBusiness,
+  ],
 })
 export class SystemTaskShopRegistrationManagerComponent
   implements OnChanges, OnInit
@@ -45,7 +52,6 @@ export class SystemTaskShopRegistrationManagerComponent
   table = {
     args: new SystemTaskShopRegistrationTableArgs(),
     load: new EventEmitter<SystemTaskShopRegistrationTableArgs>(),
-    selected: undefined as ShopRegistration | undefined,
   };
   source = {
     road: [] as Road[],
@@ -82,6 +88,29 @@ export class SystemTaskShopRegistrationManagerComponent
     },
     video: (item: ShopRegistration) => {
       this.video.emit(item);
+    },
+  };
+  details = {
+    index: 0,
+    registration: {
+      data: undefined as ShopRegistration | undefined,
+    },
+    analysis: {
+      data: [] as Shop[],
+      index: -1,
+    },
+    set: async (data: ShopRegistration) => {
+      if (this.task) {
+        this.details.registration.data = data;
+        this.details.analysis.data = await this.business.analysis.load(
+          this.task.Id,
+          data.Id
+        );
+      }
+    },
+
+    change: (index: number) => {
+      this.details.index = index;
     },
   };
 }

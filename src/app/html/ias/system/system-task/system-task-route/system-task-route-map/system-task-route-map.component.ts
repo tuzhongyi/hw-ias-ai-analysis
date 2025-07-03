@@ -72,16 +72,21 @@ export class SystemTaskRouteMapComponent implements OnInit, OnDestroy {
     },
     shop: {
       load: async (taskId: string) => {
-        let registration = await this.business.shop.registration.load(taskId);
+        let result = await this.business.shop.registration.load(taskId);
         let analysis = await this.business.shop.analysis.load(taskId);
-        let ids = registration.map((x) => x.Id);
+        let ids = result.map((x) => x.Id);
         let shops = analysis.filter((x) => {
+          if (x.Marking) {
+            return false;
+          }
           if (x.RegistrationId) {
-            return ids.includes(x.RegistrationId);
+            return !ids.includes(x.RegistrationId);
           }
           return false;
         });
-        this.controller.amap.point.load(registration, shops);
+        ids = shops.map((x) => x.Id);
+        shops = await this.business.shop.registration.contains(shops);
+        this.controller.amap.point.load(result, shops);
       },
     },
   };

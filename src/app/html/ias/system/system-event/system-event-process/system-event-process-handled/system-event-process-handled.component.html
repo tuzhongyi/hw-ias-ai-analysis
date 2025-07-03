@@ -1,0 +1,61 @@
+<div class="system-event-process-handled">
+  <div class="forms" *ngIf="shop">
+    <div class="form-item">
+      <div class="form-item-text baseline">商铺名称:</div>
+      <div class="form-item-value">{{ shop.Name }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text baseline">商铺子名称:</div>
+      <div class="form-item-value">
+        {{
+          shop.Subnames && shop.Subnames.length > 0
+            ? shop.Subnames.join(",")
+            : "-"
+        }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">关联商铺数量:</div>
+      <div class="form-item-value">{{ shop.AssociatedCount ?? "-" }}</div>
+    </div>
+
+    <div class="form-item">
+      <div class="form-item-text">所在道路:</div>
+      <div class="form-item-value">{{ shop.RoadName || "-" }}</div>
+    </div>
+
+    <div class="form-item">
+      <div class="form-item-text baseline">商铺地址:</div>
+      <div class="form-item-value">{{ shop.Address || "-" }}</div>
+    </div>
+  </div>
+  <div class="forms" *ngIf="data && data.Assignment">
+    <div class="form-item">
+      <div class="form-item-text">处置人员:</div>
+      <div class="form-item-value">{{ data.Assignment.Handler || "-" }}</div>
+    </div>
+
+    <div class="form-item">
+      <div class="form-item-text">处置时间:</div>
+      <div class="form-item-value">
+        {{
+          data.Assignment.HandledTime
+            ? (data.Assignment.HandledTime | date : Language.YearMonthDayHHmmss)
+            : "-"
+        }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">处置结果:</div>
+      <div class="form-item-value">
+        {{ Language.AssociationType(data.Assignment.AssociationType, "-") }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">处置描述:</div>
+      <div class="form-item-value">
+        {{ description() }}
+      </div>
+    </div>
+  </div>
+</div>

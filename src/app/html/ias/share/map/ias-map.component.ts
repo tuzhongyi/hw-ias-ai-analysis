@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   Input,
@@ -12,7 +13,7 @@ import { IIASMapArgs, MapMarker } from './ias-map.model';
 
 @Component({
   selector: 'ias-map',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './ias-map.component.html',
   styleUrl: './ias-map.component.less',
   providers: [IASMapAMapController],
@@ -25,6 +26,7 @@ export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private amap: IASMapAMapController) {}
 
+  hasdata = true;
   private args: IIASMapArgs = {
     type: this.marker.type,
     color: this.marker.color,
@@ -44,8 +46,15 @@ export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (load) {
       this.amap.clear().then(() => {
-        if (this.location) {
+        if (
+          this.location &&
+          this.location.Longitude > 0 &&
+          this.location.Latitude > 0
+        ) {
+          this.hasdata = true;
           this.amap.load(this.location, this.args, this.move);
+        } else {
+          this.hasdata = false;
         }
       });
     }
@@ -57,8 +66,15 @@ export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.location) {
+    if (
+      this.location &&
+      this.location.Longitude > 0 &&
+      this.location.Latitude > 0
+    ) {
+      this.hasdata = true;
       this.amap.load(this.location, this.args, true);
+    } else {
+      this.hasdata = false;
     }
   }
 

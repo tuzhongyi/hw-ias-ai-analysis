@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
-import { SystemTaskRouteMapComponent } from '../system-task-route-map/system-task-route-map.component';
+import { SystemTaskRouteMapManagerComponent } from '../system-task-route-map-manager/system-task-route-map-manager.component';
 import { SystemTaskRouteStatisticComponent } from '../system-task-route-statistic/system-task-route-statistic.component';
 import { ShopStatisticStatus } from '../system-task-route-statistic/system-task-route-statistic.model';
 
@@ -11,7 +11,7 @@ import { ShopStatisticStatus } from '../system-task-route-statistic/system-task-
   imports: [
     CommonModule,
     SystemTaskRouteStatisticComponent,
-    SystemTaskRouteMapComponent,
+    SystemTaskRouteMapManagerComponent,
   ],
   templateUrl: './system-task-route-manager.component.html',
   styleUrl: './system-task-route-manager.component.less',

@@ -65,6 +65,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         .then(() => {
           if (this.remember) {
             this.business.remember(this.model.username, this.model.password);
+          } else {
+            this.business.forget();
           }
         })
         .catch((x) => {

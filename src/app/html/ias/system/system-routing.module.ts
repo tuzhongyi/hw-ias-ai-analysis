@@ -9,7 +9,10 @@ import { SystemModuleRoadManagerComponent } from './system-module/system-module-
 import { SystemModuleShopManagerComponent } from './system-module/system-module-shop/system-module-shop-manager/system-module-shop-manager.component';
 
 import { SystemEventComponent } from './system-event/component/system-event.component';
-import { SystemEventManagerComponent } from './system-event/system-event-manager/system-event-manager.component';
+import { SystemEventIndexComponent } from './system-event/system-event-index/system-event-index.component';
+import { SystemEventManagerAnalysisComponent } from './system-event/system-event-manager/system-event-manager-analysis/system-event-manager-analysis.component';
+import { SystemEventManagerRealtimeComponent } from './system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
+import { SystemEventManagerShopComponent } from './system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
@@ -101,12 +104,34 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            redirectTo: 'manager',
+            redirectTo: 'index',
             pathMatch: 'full',
           },
           {
+            path: 'index',
+            component: SystemEventIndexComponent,
+          },
+          {
             path: 'manager',
-            component: SystemEventManagerComponent,
+            children: [
+              {
+                path: '',
+                redirectTo: 'index',
+                pathMatch: 'full',
+              },
+              {
+                path: 'shop',
+                component: SystemEventManagerShopComponent,
+              },
+              {
+                path: 'realtime',
+                component: SystemEventManagerRealtimeComponent,
+              },
+              {
+                path: 'analysis',
+                component: SystemEventManagerAnalysisComponent,
+              },
+            ],
           },
         ],
       },
