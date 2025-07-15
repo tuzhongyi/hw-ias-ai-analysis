@@ -1,0 +1,9 @@
+<div class="input-select-task">
+  <ias-input-select
+    [(text)]="name"
+    (textChange)="oninput($event)"
+    (select)="onselect($event)"
+    [results]="tasks"
+    (focus)="onfocus()"
+  ></ias-input-select>
+</div>

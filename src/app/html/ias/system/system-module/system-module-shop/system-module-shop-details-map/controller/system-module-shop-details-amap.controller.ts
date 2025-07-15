@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 
 import { MapHelper } from '../../../../../../../common/helper/map/map.helper';
+import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
 
 @Injectable()
@@ -20,12 +21,12 @@ export class SystemModuleShopDetailsAMapController {
 
   private _load(data: GisPoint) {
     let position: [number, number] = [data.Longitude, data.Latitude];
-    let size: [number, number] = [66 * 0.7, 86 * 0.7];
+    let size: [number, number] = [76 * 0.7, 86 * 0.7];
     let icon = new AMap.Icon({
       imageSize: size,
 
       size: size,
-      image: '/assets/image/map/marker/marker-shop-white.png',
+      image: PathTool.image.map.shop.white.normal,
       anchor: 'bottom-center',
     });
     let marker = new AMap.Marker({

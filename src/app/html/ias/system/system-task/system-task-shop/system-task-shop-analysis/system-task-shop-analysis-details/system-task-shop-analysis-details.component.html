@@ -4,7 +4,7 @@
       [page]="picture.page.data"
       (pageChange)="picture.page.change($event)"
     >
-      <howell-container-zoom>
+      <howell-container-zoom [fullable]="true" (full)="picture.full()">
         <ias-picture-polygon
           [id]="picture.src"
           [polygon]="picture.polygon"

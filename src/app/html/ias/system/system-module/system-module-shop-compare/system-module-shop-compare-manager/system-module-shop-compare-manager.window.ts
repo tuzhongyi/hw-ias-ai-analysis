@@ -3,6 +3,7 @@ import { ShopTaskCompareResult } from '../../../../../../common/data-core/models
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemModuleShopCompareManagerWindow {
   setting = new SettingWindow();
@@ -26,15 +27,13 @@ class CompareWindow {
 }
 class CompareInfoWindow extends WindowViewModel {
   style = {
-    width: '56%',
-    height: '80%',
+    ...SizeTool.window.middle,
   };
   data?: ShopTaskCompareResult;
 }
 class ComparePictureWindow extends WindowViewModel {
   style = {
-    width: '56%',
-    height: '80%',
+    ...SizeTool.window,
   };
   datas: string[] = [];
   index = 1;
@@ -58,8 +57,7 @@ class InformationShopWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '70%',
-    height: '80%',
+    ...SizeTool.window.large,
   };
   data?: Shop;
 }
@@ -68,8 +66,7 @@ class InformationShopRegistrationWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '70%',
-    height: '80%',
+    ...SizeTool.window.large,
   };
   data?: ShopRegistration;
   get title() {
@@ -88,8 +85,7 @@ class PictureWindow extends WindowViewModel {
     this.page = undefined;
   }
   style = {
-    width: '60%',
-    height: 'calc(60% + 60px)',
+    ...SizeTool.window.large,
   };
   title = '';
   id?: string;
@@ -102,8 +98,7 @@ class SignWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '80%',
-    height: '85%',
+    ...SizeTool.window.large,
   };
   data?: Shop;
 }
@@ -112,8 +107,7 @@ class RelateWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '70%',
-    height: '80%',
+    ...SizeTool.window.large,
   };
   data?: Shop;
   title = '关联注册商铺';

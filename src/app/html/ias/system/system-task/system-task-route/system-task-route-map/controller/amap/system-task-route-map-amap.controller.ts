@@ -6,6 +6,7 @@ import { Shop } from '../../../../../../../../common/data-core/models/arm/analys
 import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
+import { ShopRegistration } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { ClassTool } from '../../../../../../../../common/tools/class-tool/class.tool';
 import { Language } from '../../../../../../../../common/tools/language-tool/language';
@@ -95,9 +96,9 @@ export class SystemTaskRouteMapAMapController {
         //     label.hide();
         //   });
         // });
-        // controller.event.click.subscribe((x) => {
-        //   this.event.point.click.emit(x);
-        // });
+        controller.event.click.subscribe((x) => {
+          this.event.point.click.emit(x);
+        });
         this.controller.marker.set(controller);
       } catch (error) {
         console.error(error);
@@ -263,7 +264,6 @@ export class SystemTaskRouteMapAMapController {
           label.add(data);
         }
       });
-      map.setFitView(undefined, false);
     },
   };
   path = {
@@ -276,8 +276,10 @@ export class SystemTaskRouteMapAMapController {
         x.Latitude,
       ]);
       controller.load(positions);
-      let map = await this.amap.get();
-      map.setFitView(undefined, false);
+    },
+    clear: async () => {
+      let controller = await this.controller.path.get();
+      controller.clear();
     },
   };
   point = {
@@ -311,7 +313,11 @@ export class SystemTaskRouteMapAMapController {
           ...this.point.datas.existed,
           ...this.point.datas.disappeared,
         ].flat();
-        x.load(datas);
+        x.load(datas).then((markers) => {
+          this.amap.get().then((map) => {
+            map.setFitView(markers, false);
+          });
+        });
       });
     },
     clear: async () => {
@@ -319,15 +325,56 @@ export class SystemTaskRouteMapAMapController {
       this.point.datas.disappeared = [];
       this.point.datas.existed = [];
 
-      let controller = await this.controller.point.get();
-      controller.clear();
+      let point = await this.controller.point.get();
+      point.clear();
+      let marker = await this.controller.marker.get();
+      marker.clear();
+    },
+    focus: async (data: ShopRegistration) => {
+      if (data.Location) {
+        let position: [number, number] = [
+          data.Location.Longitude,
+          data.Location.Latitude,
+        ];
+        this.amap.get().then((x) => {
+          x.setCenter(position);
+          x.setZoom(19.5);
+        });
+        let marker = await this.controller.marker.get();
+        marker.select(data);
+      }
+    },
+    over: async (data: ShopRegistration) => {
+      let marker = await this.controller.marker.get();
+      marker.mouseover(data);
+    },
+    out: async (data: ShopRegistration) => {
+      let marker = await this.controller.marker.get();
+      marker.mouseout(data);
     },
   };
 
-  destory() {
-    this.amap.get().then((x) => {
-      x.destroy();
-      this.amap.clear();
-    });
-  }
+  map = {
+    destory: () => {
+      this.loca.get().then((loca) => {
+        loca.destroy();
+        this.loca.clear();
+        this.amap.get().then((map) => {
+          map.destroy();
+          this.amap.clear();
+        });
+      });
+    },
+    move: (data: ShopRegistration) => {
+      if (data.Location) {
+        let position: [number, number] = [
+          data.Location.Longitude,
+          data.Location.Latitude,
+        ];
+        this.amap.get().then((x) => {
+          x.setCenter(position);
+        });
+      }
+    },
+  };
 }

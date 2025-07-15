@@ -1,3 +1,4 @@
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { MapMarkerShopColor, MapMarkerType } from '../../ias-map.model';
 
 export class IASMapAMapIconController {
@@ -9,7 +10,7 @@ export class IASMapAMapIconController {
   };
 
   private get icon() {
-    let _default = `/assets/image/map/marker-red.png`;
+    let _default = PathTool.image.map.shop.red.normal;
 
     switch (this.type) {
       case MapMarkerType.shop:
@@ -17,14 +18,14 @@ export class IASMapAMapIconController {
 
         if (this.is.selected) {
           if (this.is.hover) {
-            return `/assets/image/map/marker/marker-shop-${color}-hover.png`;
+            return PathTool.image.map.shop[color].hover;
           }
-          return `/assets/image/map/marker/marker-shop-${color}.png`;
+          return PathTool.image.map.shop[color].normal;
         }
         if (this.is.hover) {
-          return `/assets/image/map/marker/marker-shop-${color}-hover.png`;
+          return PathTool.image.map.shop[color].hover;
         }
-        return `/assets/image/map/marker/marker-shop-${color}.png`;
+        return PathTool.image.map.shop[color].normal;
       default:
         return _default;
     }
@@ -33,7 +34,7 @@ export class IASMapAMapIconController {
     let _default: [number, number] = [51 * 0.7, 70 * 0.7];
     switch (this.type) {
       case MapMarkerType.shop:
-        return [66 * 0.7, 86 * 0.7];
+        return [76 * 0.7, 86 * 0.7];
       default:
         return _default;
     }

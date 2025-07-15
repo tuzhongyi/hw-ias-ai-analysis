@@ -1,8 +1,8 @@
 import { TransformationType, TransformFnParams } from 'class-transformer';
 import '../../../../assets/js/map/CoordinateTransform.js';
+import { GeoTool } from '../../tools/geo-tool/geo.tool.js';
 import { Time } from './common/time.model';
-declare var gcj02towgs84: any;
-declare var wgs84togcj02: any;
+
 export function transformLatitude(params: TransformFnParams) {
   if (!params.value) return params.value;
   if (!params.obj) return params.value;
@@ -18,10 +18,10 @@ export function transformLatitude(params: TransformFnParams) {
   }
 
   if (params.type === TransformationType.PLAIN_TO_CLASS) {
-    let position = wgs84togcj02(longitude, value);
+    let position = GeoTool.point.convert.wgs84.to.gcj02(longitude, value);
     return position[1];
   } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
-    let position = gcj02towgs84(longitude, value);
+    let position = GeoTool.point.convert.gcj02.to.wgs84(longitude, value);
     return position[1];
   } else {
     return params.value;
@@ -42,10 +42,10 @@ export function transformLongitude(params: TransformFnParams) {
   }
 
   if (params.type === TransformationType.PLAIN_TO_CLASS) {
-    let position = wgs84togcj02(value, latitude);
+    let position = GeoTool.point.convert.wgs84.to.gcj02(value, latitude);
     return position[0];
   } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
-    let position = gcj02towgs84(value, latitude);
+    let position = GeoTool.point.convert.gcj02.to.wgs84(value, latitude);
     return position[0];
   } else {
     return params.value;

@@ -97,6 +97,7 @@
       [progress]="controller.file.progress.task"
       (delete)="delete.confirm($event)"
       (result)="onresult($event)"
+      (route)="onroute($event)"
       (details)="ondetails($event)"
       (files)="onfiles($event)"
       (error)="onerror($event)"
@@ -136,6 +137,8 @@
       (current)="route.on.current($event)"
       (analysis)="route.on.analysis($event)"
       (registration)="route.on.registration($event)"
+      (video)="route.on.video($event)"
+      (picture)="picture.on($event)"
     ></ias-system-task-route-manager>
   </ias-window>
   <ias-window
@@ -176,6 +179,7 @@
       [detected]="window.shop.registration.state"
       [task]="window.shop.registration.data"
       (video)="route.on.video($event)"
+      (picture)="picture.on($event)"
     ></ias-system-task-shop-registration-manager>
   </ias-window>
   <ias-window
@@ -211,4 +215,23 @@
     (cancel)="window.confirm.show = false"
   >
   </confirm-window>
+  <ias-window
+    *ngIf="window.picture.show"
+    [Model]="window.picture"
+    [style]="window.picture.style"
+    [title]="window.picture.title"
+  >
+    <howell-container-page
+      [page]="window.picture.page"
+      (pageChange)="picture.change($event)"
+    >
+      <howell-container-zoom>
+        <ias-picture-polygon
+          [id]="window.picture.src"
+          [polygon]="window.picture.polygon"
+        >
+        </ias-picture-polygon>
+      </howell-container-zoom>
+    </howell-container-page>
+  </ias-window>
 </div>

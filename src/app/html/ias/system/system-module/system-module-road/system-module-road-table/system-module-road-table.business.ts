@@ -9,13 +9,11 @@ export class SystemModuleRoadTableBusiness {
 
   async load(args: SystemModuleRoadTableArgs) {
     let datas = await this.data(args);
-
     return datas;
   }
 
   private data(args: SystemModuleRoadTableArgs) {
     let params = new GetRoadsParams();
-
     params.Name = args.name;
     return this.service.road.all(params);
   }

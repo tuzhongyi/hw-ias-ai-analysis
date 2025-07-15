@@ -80,7 +80,7 @@
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              @if(item.State === -1){
+              @if(item.State === State.uploading){
               <div
                 class="button"
                 title="任务信息"
@@ -88,7 +88,15 @@
               >
                 <i class="howell-icon-details"></i>
               </div>
-              } @if(item.State != -1){
+              } @if(item.State != State.uploading){
+              <div
+                class="button"
+                title="分析任务详情"
+                (click)="onroute(item, $event)"
+              >
+                <i class="howell-icon-route"></i>
+              </div>
+              }@if(item.State === State.completed){
               <div
                 class="button"
                 title="分析结果"
@@ -96,8 +104,9 @@
               >
                 <i class="howell-icon-task_misson"></i>
               </div>
-              } @if(item.State === 0 || item.State === 1 ||item.State === 2 ||
-              item.State === 3){
+              } @if(item.State === State.notstarted || item.State ===
+              State.inprogress ||item.State === State.completed || item.State
+              === State.failed){
               <div
                 class="button"
                 title="视频文件"
@@ -105,8 +114,9 @@
               >
                 <i class="mdi mdi-file-video"></i>
               </div>
-              } @if(item.State === -1 || item.State === 0 || item.State === 1 ||
-              item.State === 3){
+              } @if(item.State === State.uploading || item.State ===
+              State.notstarted || item.State === State.inprogress || item.State
+              === State.failed){
 
               <div
                 class="button"

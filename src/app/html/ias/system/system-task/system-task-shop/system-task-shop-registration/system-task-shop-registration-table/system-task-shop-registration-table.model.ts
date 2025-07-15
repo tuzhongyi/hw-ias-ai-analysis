@@ -1,6 +1,11 @@
 export class SystemTaskShopRegistrationTableArgs {
   taskId?: string;
   name?: string;
-  roadId?: string;
+  road: SystemTaskShopRegistrationTableRoadArgs = {};
+
   detected?: boolean;
+}
+interface SystemTaskShopRegistrationTableRoadArgs {
+  on?: string;
+  ori?: string;
 }

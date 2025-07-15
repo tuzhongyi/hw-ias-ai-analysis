@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -16,7 +17,7 @@ declare var $: any;
 
 @Component({
   selector: 'paginator',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.less',
 })
@@ -24,6 +25,7 @@ export class PaginatorComponent implements AfterViewInit, OnChanges {
   @Input() page = Page.create(1, 50, 50);
   @Input() jump = true;
   @Input() total = true;
+  @Input() ungap = false;
   @Output() change = new EventEmitter<number>();
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -1,9 +1,11 @@
+import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
+
 export class SystemTaskResultAMapIconController {
   constructor() {}
 
   create1(selected = false) {
     let src = this.icon(selected);
-    let width = 66;
+    let width = 76;
     let height = 88;
     let icon: AMap.Icon;
     let ratio = 0.7;
@@ -23,12 +25,12 @@ export class SystemTaskResultAMapIconController {
   }
   private icon(selected = false) {
     if (selected) {
-      return '/assets/image/map/marker/marker-shop-green.png';
+      return PathTool.image.map.shop.green.normal;
     }
-    return '/assets/image/map/marker/marker-shop-white.png';
+    return PathTool.image.map.shop.white.normal;
   }
   private size(selected = false): [number, number] {
-    let width = 66;
+    let width = 76;
     let height = 88;
     let ratio = 0.3;
     if (selected) {

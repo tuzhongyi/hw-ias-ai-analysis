@@ -67,7 +67,6 @@ function wgs84togcj02 (lng, lat) {
     return [mglng, mglat]
   }
 }
-window.wgs84togcj02 = wgs84togcj02
 
 /**
  * GCJ02 转换为 WGS84
@@ -93,7 +92,7 @@ function gcj02towgs84 (lng, lat) {
     return [lng * 2 - mglng, lat * 2 - mglat]
   }
 }
-window.gcj02towgs84 = gcj02towgs84
+
 
 function transformlat (lng, lat) {
   var ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng));
@@ -120,3 +119,8 @@ function transformlng (lng, lat) {
 function out_of_china (lng, lat) {
   return (lng < 72.004 || lng > 137.8347) || ((lat < 0.8293 || lat > 55.8271) || false);
 }
+
+window.bd09togcj02 = bd09togcj02
+window.gcj02tobd09 = gcj02tobd09;
+window.wgs84togcj02 = wgs84togcj02
+window.gcj02towgs84 = gcj02towgs84

@@ -1,14 +1,14 @@
 import { Transform } from 'class-transformer';
-import { IModel } from '../../../model.interface';
+import { IIdNameModel } from '../../../model.interface';
 import { transformDateTime } from '../../../transformer';
 /**	AnalysisTask (AI分析任务)	*/
-export class AnalysisTask implements IModel {
+export class AnalysisTask implements IIdNameModel<string, string | undefined> {
   /**	String	任务ID	O	*/
   Id!: string;
   /**	Int64	任务ID	O	*/
   IntId!: number;
   /**	String	任务名称	O	*/
-  Name?: string;
+  Name: string | undefined;
   /**	Int32	任务类型：101-商铺识别	M	*/
   TaskType!: number;
   /**	Int32	数据来源类型：0-视频文件	O	*/

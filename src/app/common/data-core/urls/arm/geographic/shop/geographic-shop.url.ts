@@ -5,9 +5,14 @@ export class GeographicShopUrl extends AbstractUrl {
     super(`${base}/Shops`);
   }
 
-  excel(isWGS84: boolean = true) {
-    return `${this.basic()}/Excels?IsWGS84=${isWGS84}`;
-  }
+  excel = {
+    upload: (isWGS84: boolean = true) => {
+      return `${this.basic()}/Excels?IsWGS84=${isWGS84}`;
+    },
+    download: (roadId: string) => {
+      return `${this.basic()}/Excels?RoadId=${roadId}`;
+    },
+  };
 
   task = {
     compare: () => {

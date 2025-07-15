@@ -49,8 +49,11 @@ export class SystemTaskShopRegistrationTableBusiness {
     if (args.name) {
       result = item.Name.toLowerCase().includes(args.name.toLowerCase());
     }
-    if (args.roadId) {
-      result = item.RoadId === args.roadId;
+    if (args.road.on) {
+      result = item.RoadId === args.road.on;
+    }
+    if (args.road.ori) {
+      result = item.OriRoadId === args.road.ori;
     }
     if (args.detected != undefined) {
       result = item.Detected == args.detected;

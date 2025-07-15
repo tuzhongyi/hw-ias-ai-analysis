@@ -1,0 +1,57 @@
+<div
+  class="system-task-route-map-panel-details-manager panel-map-border root-router"
+  *ngIf="data"
+>
+  <div class="system-task-route-map-panel-details-manager-head">
+    <div class="panel-map-title">{{ title }}</div>
+    <div class="panel-map-operation button-group">
+      <div class="button" (click)="on.video()">
+        <i class="howell-icon-video"></i>
+      </div>
+      <div class="button" (click)="on.close()">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="system-task-route-map-panel-details-manager-body">
+    <div class="system-task-route-map-panel-details-manager-body-content">
+      <ias-system-task-route-map-panel-details-shop-registration
+        *ngIf="details.index === 0"
+        [data]="data"
+        (picture)="on.picture($event)"
+      ></ias-system-task-route-map-panel-details-shop-registration>
+      <ias-system-task-route-map-panel-details-shop-analysis
+        *ngIf="details.index > 0"
+        [data]="details.analysis.data[details.index - 1]"
+        [task]="task"
+        (picture)="on.picture($event)"
+      >
+      </ias-system-task-route-map-panel-details-shop-analysis>
+    </div>
+    <div class="system-task-route-map-panel-details-manager-body-menu">
+      <div
+        class="system-task-route-map-panel-details-manager-body-menu-item"
+        [ngClass]="{
+          selected: details.index === 0
+        }"
+        (click)="details.change(0)"
+      >
+        注册商铺
+      </div>
+      <div
+        class="system-task-route-map-panel-details-manager-body-menu-item"
+        *ngFor="let item of details.analysis.data; let index = index"
+        [ngClass]="{
+          selected: details.index === index + 1
+        }"
+        (click)="details.change(index + 1)"
+      >
+        <span>识别商铺</span>@if(details.analysis.data.length > 1){<span>{{
+          index + 1
+        }}</span>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,10 +13,14 @@ export class SystemTaskShopAnalysisTableArgs
 {
   taskId: string = '';
   name?: string;
-  roadId?: string;
+  road: ISystemTaskShopAnalysisTableRoadArgs = {};
   status?: ShopStatisticStatus;
 }
 export interface ISystemTaskShopAnalysisTableItem {
   shop: Shop;
   registration?: ShopRegistration;
+}
+export class ISystemTaskShopAnalysisTableRoadArgs {
+  on?: string;
+  ori?: string;
 }

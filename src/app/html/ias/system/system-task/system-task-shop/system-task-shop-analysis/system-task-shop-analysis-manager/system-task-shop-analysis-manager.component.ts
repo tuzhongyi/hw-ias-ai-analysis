@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
-import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
+import { IIdNameModel } from '../../../../../../../common/data-core/models/model.interface';
 import { EnumTool } from '../../../../../../../common/tools/enum-tool/enum.tool';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { ShopStatisticStatus } from '../../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
@@ -37,9 +37,39 @@ export class SystemTaskShopAnalysisManagerComponent implements OnInit {
     args: new SystemTaskShopAnalysisTableArgs(),
     load: new EventEmitter<SystemTaskShopAnalysisTableArgs>(),
     selected: undefined as ISystemTaskShopAnalysisTableItem | undefined,
+    inited: false,
+    loaded: (datas: ISystemTaskShopAnalysisTableItem[]) => {
+      if (this.table.inited) return;
+      this.table.inited = true;
+      let roads = datas
+        .filter((x) => !!x.shop.RoadId && !!x.shop.RoadName)
+        .map((x) => {
+          return {
+            Id: x.shop.RoadId!,
+            Name: x.shop.RoadName || '',
+          };
+        });
+      let map = new Map(roads.map((x) => [x.Id, x]));
+      this.source.road.on = Array.from(map.values());
+
+      roads = datas
+        .filter((x) => !!x.shop.OriRoadId && !!x.shop.OriRoadName)
+        .map((x) => {
+          return {
+            Id: x.shop.OriRoadId!,
+            Name: x.shop.OriRoadName || '',
+          };
+        });
+
+      map = new Map(roads.map((x) => [x.Id, x]));
+      this.source.road.ori = Array.from(map.values());
+    },
   };
   source = {
-    road: [] as Road[],
+    road: {
+      on: [] as IIdNameModel[],
+      ori: [] as IIdNameModel[],
+    },
     status: [] as ShopStatisticStatus[],
   };
 
@@ -53,9 +83,6 @@ export class SystemTaskShopAnalysisManagerComponent implements OnInit {
 
   init() {
     this.source.status = EnumTool.values(ShopStatisticStatus);
-    this.business.load().then((x) => {
-      this.source.road = x;
-    });
   }
 
   on = {

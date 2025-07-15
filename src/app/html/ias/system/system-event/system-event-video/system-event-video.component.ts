@@ -82,6 +82,8 @@ export class SystemEventVideoComponent implements OnInit {
             } else {
               this.map.loading = false;
             }
+          } else {
+            this.map.loading = false;
           }
         });
     },

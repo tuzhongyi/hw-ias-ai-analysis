@@ -1,6 +1,6 @@
 <div class="system-task-shop-registration-details root-router">
   <div class="system-task-shop-registration-details-picture panel">
-    <howell-container-zoom>
+    <howell-container-zoom [fullable]="true" (full)="picture.full()">
       <ias-picture [id]="picture.src"></ias-picture>
     </howell-container-zoom>
   </div>

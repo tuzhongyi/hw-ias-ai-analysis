@@ -11,4 +11,10 @@ export class ArmMediumUrl {
     },
     upload: () => `${this.basic}/Pictures`,
   };
+
+  static auiio = {
+    get: (id: string) => {
+      return `${this.basic}/Audios/${id}`;
+    },
+  };
 }

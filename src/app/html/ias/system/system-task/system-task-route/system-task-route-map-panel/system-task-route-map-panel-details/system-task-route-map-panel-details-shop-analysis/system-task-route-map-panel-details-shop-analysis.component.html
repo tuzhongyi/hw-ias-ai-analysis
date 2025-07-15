@@ -1,0 +1,74 @@
+<div
+  class="system-task-route-map-panel-details-shop-analysis root-router"
+  *ngIf="data"
+>
+  <div class="system-task-route-map-panel-details-shop-analysis-image">
+    <howell-container-page
+      [small]="true"
+      [page]="picture.page.data"
+      (pageChange)="picture.page.change($event)"
+    >
+      <howell-container-zoom [fullable]="true" (full)="picture.full()">
+        <ias-picture-polygon
+          [id]="picture.src"
+          [polygon]="picture.polygon"
+        ></ias-picture-polygon>
+      </howell-container-zoom>
+    </howell-container-page>
+  </div>
+  <div class="system-task-route-map-panel-details-shop-analysis-info forms">
+    <div class="form-item">
+      <div class="form-item-text baseline">商铺名称</div>
+      <div class="form-item-value">
+        {{ data.Name }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text baseline">关联注册商铺</div>
+      <div class="form-item-value">
+        {{ registration ? registration.Name : "-" }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text baseline">招牌类型</div>
+      <div class="form-item-value">
+        {{ data.IsSubSignboard ? "子招牌" : "主招牌" }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">所在道路:</div>
+      <div class="form-item-value">{{ data.RoadName ?? "-" }}</div>
+    </div>
+
+    <div class="form-item">
+      <div class="form-item-text">置信度</div>
+      <div class="form-item-value">
+        {{ ((data.Confidence ?? 0) * 100).toFixed(2) }}%
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">商铺编号</div>
+      <div class="form-item-value">
+        {{ data.Id }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">发现时间</div>
+      <div class="form-item-value">
+        {{ data.BeginTime | date : Language.yyyyMMddHHmmss }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">最近出现</div>
+      <div class="form-item-value">
+        {{ data.EndTime | date : Language.yyyyMMddHHmmss }}
+      </div>
+    </div>
+    <div class="form-item" *ngIf="data.Locked">
+      <div class="form-item-text">状态</div>
+      <div class="form-item-value states">
+        <div class="state-locked" *ngIf="data.Locked">已锁定</div>
+      </div>
+    </div>
+  </div>
+</div>

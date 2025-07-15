@@ -1,11 +1,12 @@
 import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
+import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { ISystemAMapShopIconController } from './system-map-amap-shop-marker.model';
 
 export class SystemAMapShopIconController
   implements ISystemAMapShopIconController
 {
   private size(selected = false): [number, number] {
-    let width = 66;
+    let width = 76;
     let height = 86;
 
     if (selected) {
@@ -18,7 +19,7 @@ export class SystemAMapShopIconController
   private get opts(): AMap.LabelMarkerIconOptions {
     let icon = {
       type: 'image',
-      image: '/assets/image/map/marker/marker-shop-white.png',
+      image: PathTool.image.map.shop.white.normal,
       size: this.size(),
       anchor: 'bottom-center',
     };
@@ -29,16 +30,16 @@ export class SystemAMapShopIconController
     return {
       normal: {
         ...this.opts,
-        image: '/assets/image/map/marker/marker-shop-green.png',
+        image: PathTool.image.map.shop.green.normal,
       },
       hover: {
         ...this.opts,
-        image: '/assets/image/map/marker/marker-shop-green-hover.png',
+        image: PathTool.image.map.shop.green.hover,
       },
       selected: {
         ...this.opts,
         size: this.size(true),
-        image: '/assets/image/map/marker/marker-shop-green-selected.png',
+        image: PathTool.image.map.shop.green.selected,
       },
     };
   }
@@ -46,16 +47,16 @@ export class SystemAMapShopIconController
     return {
       normal: {
         ...this.opts,
-        image: '/assets/image/map/marker/marker-shop-orange.png',
+        image: PathTool.image.map.shop.orange.normal,
       },
       hover: {
         ...this.opts,
-        image: '/assets/image/map/marker/marker-shop-orange-hover.png',
+        image: PathTool.image.map.shop.orange.hover,
       },
       selected: {
         ...this.opts,
         size: this.size(true),
-        image: '/assets/image/map/marker/marker-shop-orange-selected.png',
+        image: PathTool.image.map.shop.orange.selected,
       },
     };
   }
@@ -63,16 +64,16 @@ export class SystemAMapShopIconController
     return {
       normal: {
         ...this.opts,
-        image: '/assets/image/map/marker/marker-shop-blue.png',
+        image: PathTool.image.map.shop.blue.normal,
       },
       hover: {
         ...this.opts,
-        image: '/assets/image/map/marker/marker-shop-blue-hover.png',
+        image: PathTool.image.map.shop.blue.hover,
       },
       selected: {
         ...this.opts,
         size: this.size(true),
-        image: '/assets/image/map/marker/marker-shop-blue-selected.png',
+        image: PathTool.image.map.shop.blue.selected,
       },
     };
   }

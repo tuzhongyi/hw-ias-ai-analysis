@@ -12,8 +12,10 @@ import { TextSpaceBetweenDirective } from '../../../../../../common/directives/t
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 
 import '../../../../../../../assets/js/map/CoordinateTransform.js';
+import { GisType } from '../../../../../../common/data-core/enums/gis-type.enum';
 import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
+import { GeoTool } from '../../../../../../common/tools/geo-tool/geo.tool';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopDetailsMapComponent } from '../../system-module-shop/system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopRegistrationInformationBusinessInfoComponent } from '../system-module-shop-registration-information-business-info/system-module-shop-registration-information-business-info.component';
@@ -22,8 +24,6 @@ import { SystemModuleShopRegistrationInformationSubnamesComponent } from '../sys
 import { SystemModuleShopRegistrationInformationBusiness } from './business/system-module-shop-registration-information.business';
 import { SystemModuleShopRegistrationInformationSourceController } from './controller/system-module-shop-registration-information-source.controller';
 import { SystemModuleShopRegistrationInformationWindow } from './system-module-shop-registration-information.window';
-declare var wgs84togcj02: any;
-declare var bd09togcj02: any;
 
 @Component({
   selector: 'ias-system-module-shop-registration-information',
@@ -61,6 +61,7 @@ export class SystemModuleShopRegistrationInformationComponent
     private business: SystemModuleShopRegistrationInformationBusiness,
     private toastr: ToastrService
   ) {}
+  GisType = GisType;
   private init = {
     shop: () => {
       let shop = new ShopRegistration();
@@ -82,6 +83,9 @@ export class SystemModuleShopRegistrationInformationComponent
     if (this.data) {
       let plain = instanceToPlain(this.data);
       this.shop = plainToInstance(ShopRegistration, plain);
+      if (this.shop.Location) {
+        this.location.load(this.shop.Location);
+      }
 
       if (this.shop.ImageUrl) {
         this.image.src = this.business.picture.get(this.shop.ImageUrl);
@@ -139,80 +143,48 @@ export class SystemModuleShopRegistrationInformationComponent
 
   location = {
     change: new EventEmitter<GisPoint>(),
-    type: 0,
-    on: {
-      longitude: () => {
+    type: {
+      value: GisType.WGS84,
+      change: () => {
         if (this.shop.Location) {
-          if (typeof this.shop.Location.Latitude === 'string') {
-            this.shop.Location.Latitude = parseFloat(
-              this.shop.Location.Latitude
-            );
-          }
-          if (typeof this.shop.Location.Longitude === 'string') {
-            this.shop.Location.Longitude = parseFloat(
-              this.shop.Location.Longitude
-            );
-          }
-          let position: [number, number];
-          switch (this.location.type) {
-            case 0:
-              position = wgs84togcj02(
-                this.shop.Location.Longitude,
-                this.shop.Location.Latitude
-              );
-              this.shop.Location.Longitude = position[0];
-              break;
-            case 2:
-              position = bd09togcj02(
-                this.shop.Location.Longitude,
-                this.shop.Location.Latitude
-              );
-              this.shop.Location.Longitude = position[0];
-
-              break;
-
-            default:
-              break;
-          }
-          this.location.change.emit(this.shop.Location);
+          this.location.load(this.shop.Location);
         }
       },
-      latitude: () => {
-        if (this.shop.Location) {
-          if (typeof this.shop.Location.Latitude === 'string') {
-            this.shop.Location.Latitude = parseFloat(
-              this.shop.Location.Latitude
-            );
-          }
-          if (typeof this.shop.Location.Longitude === 'string') {
-            this.shop.Location.Longitude = parseFloat(
-              this.shop.Location.Longitude
-            );
-          }
-          let position: [number, number];
-          switch (this.location.type) {
-            case 0:
-              position = wgs84togcj02(
-                this.shop.Location.Longitude,
-                this.shop.Location.Latitude
-              );
-              this.shop.Location.Latitude = position[1];
-              break;
-            case 2:
-              position = bd09togcj02(
-                this.shop.Location.Longitude,
-                this.shop.Location.Latitude
-              );
-              this.shop.Location.Latitude = position[1];
-
-              break;
-
-            default:
-              break;
-          }
-          this.location.change.emit(this.shop.Location);
-        }
-      },
+    },
+    value: '',
+    load: (data: GisPoint) => {
+      let position: number[] = [];
+      switch (this.location.type.value) {
+        case GisType.WGS84:
+          position = GeoTool.point.convert.gcj02.to.wgs84(
+            data.Longitude,
+            data.Latitude
+          );
+          break;
+        case GisType.BD09:
+          position = GeoTool.point.convert.bd09.to.gcj02(
+            data.Longitude,
+            data.Latitude
+          );
+          break;
+        case GisType.GCJ02:
+          position = [data.Longitude, data.Latitude];
+          break;
+        default:
+          break;
+      }
+      if (position.length > 0) {
+        this.location.value = position.join(',');
+      }
+    },
+    set: () => {
+      let position = this.location.value.split(',').map((x) => parseFloat(x));
+      if (position.length === 2) {
+        this.shop.Location = GisPoint.create(position[0], position[1]);
+        this.location.change.emit(this.shop.Location);
+      } else {
+        this.toastr.warning('请输入正确的坐标格式');
+      }
     },
   };
   image = {
@@ -260,6 +232,7 @@ export class SystemModuleShopRegistrationInformationComponent
 
   onposition(data: GisPoint) {
     this.shop.Location = data;
+    this.location.load(this.shop.Location);
   }
 
   onok() {

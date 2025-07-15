@@ -1,8 +1,7 @@
 import { Transform } from 'class-transformer';
 import { IModel } from '../model.interface';
 
-/**	EnumNameValue (枚举类型)	*/
-export class EnumNameValue<T = string> implements IModel {
+export class NameValue<T = string> implements IModel {
   constructor(value?: T, name?: string) {
     if (value !== undefined) {
       this.Value = value;
@@ -26,3 +25,5 @@ export class EnumNameValue<T = string> implements IModel {
   /**	String	枚举名称	M	*/
   Name!: string;
 }
+/**	EnumNameValue (枚举类型)	*/
+export class EnumNameValue<T = string> extends NameValue<T> {}

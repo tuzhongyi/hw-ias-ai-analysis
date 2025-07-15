@@ -1,0 +1,36 @@
+<div class="system-map-search-shop-road panel-map">
+  <div class="system-map-search-shop-road-select">
+    <select [(ngModel)]="type" (change)="on.select.change()">
+      <option [ngValue]="0">商铺名称</option>
+      <option [ngValue]="1">所在道路</option>
+      <option [ngValue]="2">门面道路</option>
+    </select>
+  </div>
+  <div class="system-map-search-shop-road-input">
+    <input type="text" *ngIf="type === 0" [(ngModel)]="name" />
+    <ias-input-select-road
+      *ngIf="type === 1"
+      [(selected)]="road.on"
+      [auto]="true"
+      [(clear)]="clear"
+    ></ias-input-select-road>
+    <ias-input-select-road
+      *ngIf="type === 2"
+      [(selected)]="road.ori"
+      [auto]="true"
+      [(clear)]="clear"
+    ></ias-input-select-road>
+  </div>
+  <div class="system-map-search-shop-road-buttons button-group">
+    <button
+      class="button clear"
+      *ngIf="(name || road.on || road.ori) && clearable"
+      (click)="on.clear()"
+    >
+      <i class="howell-icon-Close"></i>
+    </button>
+    <button class="button search" (click)="on.search()">
+      <i class="howell-icon-search"></i>
+    </button>
+  </div>
+</div>

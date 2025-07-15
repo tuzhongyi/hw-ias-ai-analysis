@@ -1,5 +1,5 @@
-<div class="system-event-table">
-  <div class="system-event-table-body table-page">
+<div class="system-event-table-analysis">
+  <div class="system-event-table-analysis-body table-page">
     <table border="0" cellpadding="0" cellspacing="0">
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
@@ -16,7 +16,8 @@
 
           <th>处置员</th>
           <th>处置时间</th>
-          <th>处置描述</th>
+          <th>描述</th>
+
           <th class="center">操作</th>
         </tr>
       </thead>
@@ -103,33 +104,22 @@
           </td>
           <td>
             {{ item?.Assignment?.Handler }}
+            <!-- <audio
+              *ngIf="item && item.AudioUrl"
+              controls
+              [src]="audio.get(item.AudioUrl)"
+            ></audio>
+            <span *ngIf="item && !item.AudioUrl">-</span> -->
           </td>
           <td>
             {{ item?.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss }}
           </td>
           <td>
-            {{ item?.Assignment?.AssociationDescription }}
+            {{ item?.Description }}
           </td>
           <td class="center">
             <div class="operation" *ngIf="item">
               <div
-                *ngIf="item.EventType == 9"
-                class="button"
-                title="事件处置"
-                (click)="onprocess($event, item)"
-              >
-                <i class="mdi mdi-link-variant"></i>
-              </div>
-              <div
-                *ngIf="item.EventType == 8"
-                class="button"
-                title="事件处置"
-                (click)="onprocess($event, item)"
-              >
-                <i class="mdi mdi-link-variant-off"></i>
-              </div>
-              <div
-                *ngIf="item.EventType != 8 && item.EventType != 9"
                 class="button"
                 title="事件处置"
                 (click)="onprocess($event, item)"
@@ -175,7 +165,7 @@
       </tbody>
     </table>
   </div>
-  <div class="system-event-table-foot" *ngIf="page.TotalRecordCount">
+  <div class="system-event-table-analysis-foot" *ngIf="page.TotalRecordCount">
     <paginator [page]="page" (change)="onpage($event)"> </paginator>
   </div>
 </div>

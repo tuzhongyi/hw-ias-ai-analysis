@@ -1,0 +1,60 @@
+<ias-window
+  [Model]="Model"
+  [style]="style"
+  [title]="title"
+  [CloseButton]="false"
+>
+  <div ngProjectAs="window-head-operation" class="window-head-operation">
+    <div class="button" (click)="on.close()">
+      <i class="howell-icon-Close"></i>
+    </div>
+  </div>
+  <div class="system-module-shop-registration-map-manager">
+    <ias-system-module-shop-registration-map
+      [load]="map.load"
+      [focus]="map.focus"
+      [over]="map.over"
+      [out]="map.out"
+      [(changed)]="data.changed"
+      (loaded)="on.map.loaded($event)"
+    ></ias-system-module-shop-registration-map>
+    <div class="system-module-shop-registration-map-manager-search">
+      <ias-system-map-search-shop-road
+        (search)="on.map.search($event)"
+      ></ias-system-map-search-shop-road>
+    </div>
+    <div
+      class="system-module-shop-registration-map-manager-list"
+      *ngIf="panel.list.show"
+    >
+      <ias-system-module-shop-registration-map-panel-shop-list
+        [datas]="data.source"
+        (selectedChange)="on.table.select($event)"
+        (position)="on.table.position($event)"
+        (details)="on.table.details($event)"
+        (itemhover)="on.table.item.over($event)"
+        (itemblur)="on.table.item.out($event)"
+        (close)="panel.list.show = false"
+      ></ias-system-module-shop-registration-map-panel-shop-list>
+    </div>
+    <div class="system-module-shop-registration-map-manager-buttons">
+      <div
+        class="panel-map button"
+        *ngIf="data.changed.length > 0"
+        (click)="on.map.revoke()"
+      >
+        撤销
+      </div>
+      <div class="panel-map button" *ngIf="data.changed.length > 0">保存</div>
+    </div>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="confirm.ok()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
+</ias-window>

@@ -1,0 +1,24 @@
+<div
+  class="system-module-shop-registration-map-panel-shop-list panel-map-border root-router"
+>
+  <div class="system-module-shop-registration-map-panel-shop-list-head">
+    <div class="panel-map-title">注册商铺列表</div>
+    <div>
+      <div class="button" (click)="on.close()">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-shop-registration-map-panel-shop-list-body">
+    <ias-system-module-shop-registration-map-panel-shop-table
+      [datas]="datas"
+      [selected]="selected"
+      (selectedChange)="on.selected.change($event)"
+      (details)="on.details($event)"
+      (edit)="on.edit($event)"
+      (position)="on.position($event)"
+      (itemhover)="on.item.hover($event)"
+      (itemblur)="on.item.blur($event)"
+    ></ias-system-module-shop-registration-map-panel-shop-table>
+  </div>
+</div>

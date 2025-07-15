@@ -1,6 +1,7 @@
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
 
 export class SystemModuleShopManagerWindow {
@@ -15,9 +16,7 @@ class DetailsWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '80%',
-    height: '85%',
-    paddingTop: 0,
+    ...SizeTool.window.large,
   };
   data?: ShopViewModel;
 }
@@ -26,9 +25,7 @@ class InformationWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '70%',
-    height: '80%',
-    paddingTop: 0,
+    ...SizeTool.window.large,
   };
   data?: Shop;
 }
@@ -38,10 +35,7 @@ class PictureWindow extends WindowViewModel {
     this.title = '';
   }
   style = {
-    width: '50%',
-    height: 'auto',
-    aspectRatio: '16/10.2',
-    paddingTop: 0,
+    ...SizeTool.window.large,
   };
   title = '';
   id?: string;

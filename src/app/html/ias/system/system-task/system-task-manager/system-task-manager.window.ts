@@ -1,7 +1,9 @@
 import { UploadControlFileInfo } from '../../../../../common/components/upload-control/upload-control.model';
 import { WindowViewModel } from '../../../../../common/components/window-control/window.model';
 import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
-import { HtmlTool } from '../../../../../common/tools/html-tool/html.tool';
+import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
+import { Page } from '../../../../../common/data-core/models/page-list.model';
+import { SizeTool } from '../../../../../common/tools/size-tool/size.tool';
 import { ShopStatisticStatus } from '../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 import { AnalysisTaskModel } from '../system-task-table/system-task-table.model';
 import { SystemTaskVideoArgs } from '../system-task-video/system-task-video.model';
@@ -17,6 +19,7 @@ export class SystemTaskManagerWindow {
     analysis: new ShopAnalysisWindow(),
     registration: new ShopRegistrationWindow(),
   };
+  picture = new PictureWindow();
 }
 
 class CreationWindow extends WindowViewModel {
@@ -46,9 +49,7 @@ class ResultWindow extends WindowViewModel {
     this.title = '';
   }
   style = {
-    width: '85%',
-    height: '90%',
-    paddingTop: 0,
+    ...SizeTool.window.large,
   };
   data?: AnalysisTask;
   title = '';
@@ -70,8 +71,7 @@ class RouteWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '99%',
-    height: '99%',
+    ...SizeTool.window.full,
   };
   title = '';
   data?: AnalysisTask;
@@ -81,12 +81,7 @@ class VideoWindow extends WindowViewModel {
     this.args = undefined;
   }
   style = {
-    width: `${screen.availWidth * 0.85}px`,
-    height: HtmlTool.screen.has.head.from.width(
-      screen.availWidth * 0.85,
-      16 / 9,
-      -200
-    ),
+    ...SizeTool.window.video.path,
   };
   title = '';
   args?: SystemTaskVideoArgs;
@@ -97,14 +92,24 @@ class VideoWindow extends WindowViewModel {
     }
   }
 }
+class PictureWindow extends WindowViewModel {
+  clear() {
+    this.title = '';
+    this.src = undefined;
+    this.page = undefined;
+    this.polygon = [];
+  }
+  style = {
+    ...SizeTool.window.large,
+  };
+  title = '';
+  src?: string;
+  polygon: HowellPoint[] = [];
+  page?: Page;
+}
 class ShopAnalysisWindow extends WindowViewModel {
   style = {
-    width: HtmlTool.screen.has.head.from.height(
-      screen.availHeight * 0.85,
-      16 / 9,
-      60
-    ),
-    height: '85%',
+    ...SizeTool.window.large,
   };
   data?: AnalysisTask;
   status?: ShopStatisticStatus;
@@ -112,12 +117,7 @@ class ShopAnalysisWindow extends WindowViewModel {
 }
 class ShopRegistrationWindow extends WindowViewModel {
   style = {
-    width: HtmlTool.screen.has.head.from.height(
-      screen.availHeight * 0.85,
-      16 / 9,
-      60
-    ),
-    height: '85%',
+    ...SizeTool.window.large,
   };
   state?: boolean;
   data?: AnalysisTask;

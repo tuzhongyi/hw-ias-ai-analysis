@@ -19,7 +19,7 @@ import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemEventProcessDetailsComponent } from '../../system-event-process/system-event-process-details/system-event-process-details.component';
 import { SystemEventProcessRealtimeComponent } from '../../system-event-process/system-event-process-realtime/system-event-process-realtime.component';
 import { SystemEventTableArgs } from '../../system-event-table/business/system-event-table.model';
-import { SystemEventTableComponent } from '../../system-event-table/system-event-table.component';
+import { SystemEventTableRealtimeComponent } from '../../system-event-table/system-event-table-realtime/system-event-table-realtime.component';
 import { SystemEventTaskComponent } from '../../system-event-task/component/system-event-task.component';
 import { SystemEventVideoComponent } from '../../system-event-video/system-event-video.component';
 import { SystemEventManagerRealtimeController } from './controller/system-event-manager-realtime.controller';
@@ -32,7 +32,7 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
     CommonModule,
     FormsModule,
     DateTimeControlComponent,
-    SystemEventTableComponent,
+    SystemEventTableRealtimeComponent,
     SystemEventTaskComponent,
     SystemEventVideoComponent,
     WindowComponent,

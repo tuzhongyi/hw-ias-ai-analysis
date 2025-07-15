@@ -1,0 +1,60 @@
+.system-map-search-shop-road {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  box-sizing: border-box;
+  position: relative;
+
+  @select-width: 110px;
+
+
+
+  &-select {
+    width: @select-width;
+  }
+
+  &-input {
+    width: calc(100% - @select-width);
+    position: relative;
+
+    &-clear {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 38px;
+    }
+  }
+
+  &-buttons {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: calc(100% - 30px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 0;
+
+    &>button {
+
+      &.search {
+        color: #2d76ce;
+        font-size: 20px;
+        height: 100%;
+        aspect-ratio: 1;
+      }
+
+      &.clear {
+        height: 100%;
+      }
+
+      &:hover {
+        color: white;
+      }
+    }
+
+
+  }
+}

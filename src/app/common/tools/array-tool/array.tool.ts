@@ -32,9 +32,9 @@ export class ArrayTool {
     // return Object.values(result);
   }
   /** 去重 */
-  static distinct<T>(datas: T[], cannull = true) {
+  static distinct<T>(datas: T[], nullable = true) {
     let items: T[] = [...datas];
-    if (!cannull) {
+    if (!nullable) {
       items = datas.filter((x) => x !== null && x !== undefined);
     }
 

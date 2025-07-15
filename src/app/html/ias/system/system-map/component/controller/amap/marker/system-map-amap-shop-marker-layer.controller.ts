@@ -58,6 +58,7 @@ export class SystemAMapShopMarkerLayerController {
       }
     }
     this.layer.add(markers);
+    return markers;
   }
 
   clear() {

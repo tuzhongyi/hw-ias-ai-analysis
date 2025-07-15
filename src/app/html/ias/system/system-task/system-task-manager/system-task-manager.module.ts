@@ -5,6 +5,9 @@ import { SystemTaskCreationComponent } from '../system-task-creation/component/s
 import { FormsModule } from '@angular/forms';
 import { DateTimeControlComponent } from '../../../../../common/components/date-time-control/date-time-control.component';
 
+import { ContainerPageComponent } from '../../../../../common/components/container-page/container-page.component';
+import { ContainerZoomComponent } from '../../../../../common/components/container-zoom/container-zoom.component';
+import { PicturePolygonComponent } from '../../../share/picture/picture-polygon/picture-polygon.component';
 import { WindowComponent } from '../../../share/window/window.component';
 import { SystemTaskDetailsComponent } from '../system-task-details/component/system-task-details.component';
 import { SystemTaskFileManagerComponent } from '../system-task-file/system-task-file-manager/system-task-file-manager.component';
@@ -36,6 +39,9 @@ export const SystemTaskManagerImports = [
   SystemTaskVideoComponent,
   SystemTaskShopAnalysisManagerComponent,
   SystemTaskShopRegistrationManagerComponent,
+  ContainerZoomComponent,
+  ContainerPageComponent,
+  PicturePolygonComponent,
 ];
 
 export const SystemTaskManagerProviders = [

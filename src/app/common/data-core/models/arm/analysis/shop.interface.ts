@@ -117,4 +117,17 @@ export interface IShop {
   RoadName?: string;
   /**	Int64	商铺在上道路序号	O	*/
   RoadOrderNo?: number;
+
+  /**	String	门面道路ID	O */
+  OriRoadId?: string;
+  /**	String	门面道路名称	O */
+  OriRoadName?: string;
+  /**	Int64	商铺在门面道路序号	O */
+  OriRoadOrderNo?: number;
+  /**	Boolean	是否已移除	O */
+  Removal?: boolean;
+  /**	String	分组GUID，用于中心服务器区分来源	O */
+  GroupGuid?: string;
+  /**	String	分组名称	O */
+  GroupName?: string;
 }

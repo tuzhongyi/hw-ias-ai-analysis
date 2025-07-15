@@ -25,4 +25,19 @@ export class Road implements IIdNameModel {
   /**	DateTime	更新时间	M */
   @Transform(transformDateTime)
   UpdateTime!: Date;
+
+  /**	String	省、直辖市	O */
+  State?: string;
+  /**	String	市、区	O */
+  City?: string;
+  /**	String	镇，县	O */
+  Town?: string;
+  /**	String	国家	O */
+  County?: string;
+  /**	String	国家编码	O */
+  CountyCode?: string;
+  /**	String	分组GUID，用于中心服务器区分来源	O */
+  GroupGuid?: string;
+  /**	String	分组名称	O */
+  GroupName?: string;
 }

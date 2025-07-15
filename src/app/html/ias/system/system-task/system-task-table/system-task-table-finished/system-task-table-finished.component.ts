@@ -38,6 +38,7 @@ export class SystemTaskTableFinishedComponent implements OnInit, OnDestroy {
   @Input('load') _load?: EventEmitter<SystemTaskTableFilter>;
 
   @Output() result = new EventEmitter<AnalysisTaskModel>();
+  @Output() route = new EventEmitter<AnalysisTaskModel>();
   @Output() files = new EventEmitter<AnalysisTaskModel>();
   @Output() error = new EventEmitter<Error>();
 
@@ -98,6 +99,12 @@ export class SystemTaskTableFinishedComponent implements OnInit, OnDestroy {
 
   onresult(item: AnalysisTaskModel, e: Event) {
     this.result.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
+  onroute(item: AnalysisTaskModel, e: Event) {
+    this.route.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }

@@ -1,0 +1,180 @@
+<div class="system-event-table-shop">
+  <div class="system-event-table-shop-body table-page">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>照片</th>
+
+          <th>触发源名称</th>
+          <th>事件类型</th>
+          <th>发现时间</th>
+          <th>状态</th>
+
+          <th>处置员</th>
+          <th>处置时间</th>
+          <th>描述</th>
+
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="onselect(item)"
+          [ngClass]="{
+            nohover: !item,
+            nodata: !item,
+            selected: item === selected,
+          }"
+        >
+          <td class="center">
+            <ng-container *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </ng-container>
+          </td>
+
+          <td>
+            <div [ngClass]="{ noimage: !item.Resources }" *ngIf="item">
+              <div
+                *ngFor="let resource of item.Resources; let i = index"
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: resource.ImageUrl
+                    ? 'url(' + picture.get(resource.ImageUrl) + ')'
+                    : 'none'
+                }"
+                (click)="picture.on($event, item)"
+              ></div>
+            </div>
+          </td>
+
+          <td [title]="item?.ResourceName">
+            {{ item?.ResourceName }}
+          </td>
+          <td>
+            <div
+              [ngStyle]="{
+              color: Color.EventType(item?.EventType),
+            }"
+            >
+              {{ item?.EventTypeName | async }}
+            </div>
+          </td>
+          <td>
+            <div>{{ item?.EventTime | date : Language.yyyyMMddHHmmss }}</div>
+          </td>
+          <td
+            [ngClass]="{
+              
+              handled: !!(item?.Assignment?.Handled),
+              unhandle: !(item?.Assignment?.Handled),
+              unassigned: !(item?.Assignment),
+            }"
+          >
+            <ng-container *ngIf="item">
+              <ng-container *ngIf="item.Assignment">
+                <div
+                  *ngIf="item.Assignment.IsMisInfo && item.EventType === 9"
+                  class="misinfo"
+                >
+                  屏蔽
+                </div>
+                <div
+                  *ngIf="item.Assignment.IsMisInfo && item.EventType !== 9"
+                  class="misinfo"
+                >
+                  误报
+                </div>
+
+                <ng-container *ngIf="!item.Assignment.IsMisInfo">
+                  <div *ngIf="item.Assignment.Handled" class="handled">
+                    已处置
+                  </div>
+                  <div *ngIf="!item.Assignment.Handled" class="unhandle">
+                    待处置
+                  </div>
+                </ng-container>
+              </ng-container>
+              <div *ngIf="!item.Assignment" class="unassigned">待派单</div>
+            </ng-container>
+          </td>
+          <td>
+            {{ item?.Assignment?.Handler }}
+            <!-- <audio
+              *ngIf="item && item.AudioUrl"
+              controls
+              [src]="audio.get(item.AudioUrl)"
+            ></audio>
+            <span *ngIf="item && !item.AudioUrl">-</span> -->
+          </td>
+          <td>
+            {{ item?.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss }}
+          </td>
+          <td>
+            {{ item?.Description }}
+          </td>
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                *ngIf="item.EventType == 9"
+                class="button"
+                title="事件处置"
+                (click)="onprocess($event, item)"
+              >
+                <i class="mdi mdi-link-variant"></i>
+              </div>
+              <div
+                *ngIf="item.EventType == 8"
+                class="button"
+                title="事件处置"
+                (click)="onprocess($event, item)"
+              >
+                <i class="mdi mdi-link-variant-off"></i>
+              </div>
+
+              <div
+                class="button"
+                title="事件派单"
+                (click)="ontask($event, item)"
+              >
+                <i class="mdi mdi-nfc-tap"></i>
+              </div>
+
+              <!-- <div
+                class="button"
+                [ngClass]="{
+                  disabled: disabled.position(item)
+                }"
+                title="事件发生位置"
+                (click)="onposition($event, item)"
+              >
+                <i class="mdi mdi-map-marker"></i>
+              </div> -->
+              <div
+                class="button"
+                title="事件视频"
+                (click)="onvideo($event, item)"
+              >
+                <i class="mdi mdi-youtube-play"></i>
+              </div>
+              <div
+                class="button"
+                title="事件详情"
+                (click)="ondetails($event, item)"
+              >
+                <i class="mdi mdi-clipboard-text"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="system-event-table-shop-foot" *ngIf="page.TotalRecordCount">
+    <paginator [page]="page" (change)="onpage($event)"> </paginator>
+  </div>
+</div>

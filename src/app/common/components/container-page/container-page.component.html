@@ -1,6 +1,9 @@
 <div class="container-page">
   <div
     class="container-page-control left"
+    [ngClass]="{
+      small: small
+    }"
     *ngIf="page && this.page.PageCount > 0 && this.page.PageIndex > 1"
     (click)="onprov()"
   >
@@ -13,6 +16,9 @@
 
   <div
     class="container-page-control right"
+    [ngClass]="{
+      small: small
+    }"
     *ngIf="page && this.page.PageIndex < this.page.PageCount"
     (click)="onnext()"
   >

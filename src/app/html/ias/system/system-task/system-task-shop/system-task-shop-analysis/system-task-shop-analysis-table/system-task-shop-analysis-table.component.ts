@@ -14,7 +14,6 @@ import { Sort } from '../../../../../../../common/directives/table-sorter/table-
 import { LocaleCompare } from '../../../../../../../common/tools/compare-tool/compare.tool';
 import { GeoDirectionSort } from '../../../../../../../common/tools/geo-tool/geo.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
-import { DirectionSortControlComponent } from '../../../../../share/direction-sort-control/direction-sort-control.component';
 import { ShopStatisticStatus } from '../../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 import { SystemTaskShopAnalysisTableShopAnalysisService } from './business/service/system-task-shop-analysis-table-shop-analysis.service';
 import { SystemTaskShopAnalysisTableShopRegistrationService } from './business/service/system-task-shop-analysis-table-shop-registration.service';
@@ -27,7 +26,7 @@ import {
 
 @Component({
   selector: 'ias-system-task-shop-analysis-table',
-  imports: [CommonModule, TableSorterDirective, DirectionSortControlComponent],
+  imports: [CommonModule, TableSorterDirective],
   templateUrl: './system-task-shop-analysis-table.component.html',
   styleUrl: './system-task-shop-analysis-table.component.less',
   providers: [
@@ -44,10 +43,11 @@ export class SystemTaskShopAnalysisTableComponent implements OnInit, OnDestroy {
   @Output() selectedChange =
     new EventEmitter<ISystemTaskShopAnalysisTableItem>();
   @Output() video = new EventEmitter<ISystemTaskShopAnalysisTableItem>();
+  @Output() loaded = new EventEmitter<ISystemTaskShopAnalysisTableItem[]>();
 
   constructor(private business: SystemTaskShopAnalysisTableBusiness) {}
 
-  widths: string[] = ['10%', 'auto', 'auto', '20%', '15%'];
+  widths: string[] = ['10%', 'auto', 'auto', '15%', '15%', '91px', '10%'];
   datas: ISystemTaskShopAnalysisTableItem[] = [];
   loading = false;
   private subscription = new Subscription();
@@ -69,10 +69,12 @@ export class SystemTaskShopAnalysisTableComponent implements OnInit, OnDestroy {
   private async load(args: SystemTaskShopAnalysisTableArgs) {
     this.loading = true;
     try {
-      this.datas = await this.business.load(args);
+      let datas = await this.business.load(args);
+      this.loaded.emit(datas);
       this.table.count = this.business.count;
-
+      this.datas = datas;
       this.sort.on.table(this.sort.data);
+
       if (this.datas.length > 0) {
         this.on.select(this.datas[0]);
       }

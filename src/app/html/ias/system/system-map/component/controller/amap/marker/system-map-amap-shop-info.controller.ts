@@ -1,4 +1,4 @@
-import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { ISystemAMapShopMarkerInfo } from './system-map-amap-shop-marker.model';
 
 export class SystemAMapShopInfoController {
   constructor(private map: AMap.Map) {
@@ -14,8 +14,8 @@ export class SystemAMapShopInfoController {
     });
   }
 
-  add(data: IShop, zoom: number) {
-    if (data.Location) {
+  add(data: ISystemAMapShopMarkerInfo, zoom: number) {
+    if (data && data.Location) {
       let content = `<div class="amap-info-window">
                         <div class="amap-info-window-content">${data.Name}</div>                      
                         <div class="amap-info-sharp"></div>
@@ -44,6 +44,9 @@ export class SystemAMapShopInfoController {
       }
       let pixel = new AMap.Pixel(...offset);
       this.marker.setOffset(pixel);
+    },
+    position: (position: [number, number]) => {
+      this.marker.setPosition(position);
     },
   };
 }

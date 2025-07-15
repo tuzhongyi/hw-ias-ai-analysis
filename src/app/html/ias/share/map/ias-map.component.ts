@@ -60,7 +60,8 @@ export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (changes['points']) {
       this.amap.point.clear().then((x) => {
-        this.amap.point.load(this.points);
+        this.amap.point.load(this.points, this.move);
+        this.hasdata = true;
       });
     }
   }

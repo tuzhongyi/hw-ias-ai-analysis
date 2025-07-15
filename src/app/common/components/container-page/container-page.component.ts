@@ -10,6 +10,7 @@ import { Page } from '../../data-core/models/page-list.model';
 })
 export class ContainerPageComponent {
   @Input() page?: Page;
+  @Input() small: boolean = false;
   @Output() pageChange = new EventEmitter<Page>();
   onprov(): void {
     if (this.page) {

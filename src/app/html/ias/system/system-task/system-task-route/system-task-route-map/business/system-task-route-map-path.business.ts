@@ -5,7 +5,7 @@ import { ArmAnalysisRequestService } from '../../../../../../../common/data-core
 export class SystemTaskRouteMapPathBusiness {
   constructor(private service: ArmAnalysisRequestService) {}
 
-  load(id: string) {
-    return this.service.server.task.gps.items(id);
+  load(id: string, rectified?: boolean) {
+    return this.service.server.task.gps.items(id, rectified);
   }
 }

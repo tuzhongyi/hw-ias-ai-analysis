@@ -1,11 +1,41 @@
 <div class="system-event-process-realtime">
   <div class="system-event-process-realtime-body">
-    <ias-system-event-process-info
-      [data]="data"
-    ></ias-system-event-process-info>
+    <div class="system-event-process-realtime-picture panel">
+      <howell-container-page
+        [page]="picture.page.data"
+        (pageChange)="picture.page.change($event)"
+      >
+        <ias-picture-polygon-multiple
+          [id]="picture.src"
+          [polygon]="picture.polygon"
+        ></ias-picture-polygon-multiple>
+      </howell-container-page>
+    </div>
+    <div class="system-event-process-realtime-map panel">
+      <ias-map [location]="map.location" [points]="map.points"></ias-map>
+    </div>
+    <div class="system-event-process-realtime-info panel">
+      <ias-system-event-record-details
+        [data]="data"
+      ></ias-system-event-record-details>
+    </div>
+    <div class="system-event-process-realtime-audio panel">
+      <div class="panel-head">
+        <div class="panel-title">现场录音</div>
+        <div *ngIf="data && data.AudioUrl">
+          <ias-audio-button [id]="data.AudioUrl"></ias-audio-button>
+        </div>
+      </div>
+      <div class="panel-body">
+        {{ data?.AudioContent }}
+      </div>
+    </div>
   </div>
-  <div class="system-event-process-realtime-foot button-group">
-    <button class="button-clip-gradient" (click)="on.ok()">处置</button>
-    <button class="button-clip-blue" (click)="on.close()">取消</button>
+  <div class="system-event-process-realtime-foot">
+    <div class="audio"></div>
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">处置</button>
+      <button class="button-clip-blue" (click)="on.close()">取消</button>
+    </div>
   </div>
 </div>

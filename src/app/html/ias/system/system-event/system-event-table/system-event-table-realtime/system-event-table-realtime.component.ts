@@ -8,30 +8,31 @@ import {
   Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PaginatorComponent } from '../../../../../common/components/paginator/paginator.component';
-import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
+import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import {
   Page,
   Paged,
-} from '../../../../../common/data-core/models/page-list.model';
-import { ColorTool } from '../../../../../common/tools/color/color.tool';
-import { Language } from '../../../../../common/tools/language-tool/language';
-import { SystemEventTableBusiness } from './business/system-event-table.business';
+} from '../../../../../../common/data-core/models/page-list.model';
+import { ColorTool } from '../../../../../../common/tools/color/color.tool';
+import { Language } from '../../../../../../common/tools/language-tool/language';
+import { AudioButtonComponent } from '../../../../share/audio/audio-button/audio-button.component';
+import { SystemEventTableBusiness } from '../business/system-event-table.business';
 import {
   SystemEventTableArgs,
   SystemEventTableFilter,
   SystemEventTableItem,
-} from './business/system-event-table.model';
-import { SystemEventTableService } from './business/system-event-table.service';
+} from '../business/system-event-table.model';
+import { SystemEventTableService } from '../business/system-event-table.service';
 
 @Component({
-  selector: 'ias-system-event-table',
-  imports: [CommonModule, PaginatorComponent],
-  templateUrl: './system-event-table.component.html',
-  styleUrl: './system-event-table.component.less',
+  selector: 'ias-system-event-table-realtime',
+  imports: [CommonModule, PaginatorComponent, AudioButtonComponent],
+  templateUrl: './system-event-table-realtime.component.html',
+  styleUrl: './system-event-table-realtime.component.less',
   providers: [SystemEventTableService, SystemEventTableBusiness],
 })
-export class SystemEventTableComponent implements OnInit, OnDestroy {
+export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
   @Input() args = new SystemEventTableArgs();
   @Input('load') input_load?: EventEmitter<SystemEventTableArgs>;
   @Output() position = new EventEmitter<MobileEventRecord>();
@@ -123,6 +124,13 @@ export class SystemEventTableComponent implements OnInit, OnDestroy {
       }
 
       this.output_picture.emit(item);
+    },
+  };
+  audio = {
+    stop: new EventEmitter<void>(),
+    click: (e: Event) => {
+      this.audio.stop.emit();
+      e.stopImmediatePropagation();
     },
   };
   disabled = {

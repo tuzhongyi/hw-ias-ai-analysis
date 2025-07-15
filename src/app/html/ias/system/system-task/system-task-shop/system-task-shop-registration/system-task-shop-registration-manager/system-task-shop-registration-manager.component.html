@@ -10,9 +10,21 @@
       <div class="form-item">
         <div class="form-item-text">所在道路</div>
         <div class="form-item-value">
-          <select [(ngModel)]="table.args.roadId">
+          <select [(ngModel)]="table.args.road.on">
             <option [ngValue]="undefined">全部</option>
-            <option *ngFor="let item of source.road" [ngValue]="item.Id">
+            <option *ngFor="let item of source.road.on" [ngValue]="item.Id">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-text">门面道路</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="table.args.road.ori">
+            <option [ngValue]="undefined">全部</option>
+            <option *ngFor="let item of source.road.ori" [ngValue]="item.Id">
               {{ item.Name }}
             </option>
           </select>
@@ -42,18 +54,21 @@
         [selected]="details.registration.data"
         (selectedChange)="details.set($event)"
         (video)="on.video($event)"
+        (loaded)="table.loaded($event)"
       ></ias-system-task-shop-registration-table>
     </div>
     <div class="system-task-shop-registration-manager-details">
       <ias-system-task-shop-registration-details
         *ngIf="details.index === 0"
         [data]="details.registration.data"
+        (picture)="on.picture($event)"
       ></ias-system-task-shop-registration-details>
       <ias-system-task-shop-analysis-details
         *ngIf="details.index > 0"
         [shop]="details.analysis.data[details.index - 1]"
         [registration]="details.registration.data"
         [task]="task"
+        (picture)="on.picture($event)"
       >
       </ias-system-task-shop-analysis-details>
     </div>

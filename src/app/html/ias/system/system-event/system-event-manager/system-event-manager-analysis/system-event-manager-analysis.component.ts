@@ -18,7 +18,7 @@ import { PictureListComponent } from '../../../../share/picture/picture-list/pic
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemEventProcessDetailsComponent } from '../../system-event-process/system-event-process-details/system-event-process-details.component';
 import { SystemEventTableArgs } from '../../system-event-table/business/system-event-table.model';
-import { SystemEventTableComponent } from '../../system-event-table/system-event-table.component';
+import { SystemEventTableAnalysisComponent } from '../../system-event-table/system-event-table-analysis/system-event-table-analysis.component';
 import { SystemEventTaskComponent } from '../../system-event-task/component/system-event-task.component';
 import { SystemEventVideoComponent } from '../../system-event-video/system-event-video.component';
 import { SystemEventManagerAnalysisController } from './controller/system-event-manager-analysis.controller';
@@ -31,7 +31,7 @@ import { SystemEventManagerAnalysisWindow } from './system-event-manager-analysi
     CommonModule,
     FormsModule,
     DateTimeControlComponent,
-    SystemEventTableComponent,
+    SystemEventTableAnalysisComponent,
     SystemEventTaskComponent,
     SystemEventVideoComponent,
     WindowComponent,

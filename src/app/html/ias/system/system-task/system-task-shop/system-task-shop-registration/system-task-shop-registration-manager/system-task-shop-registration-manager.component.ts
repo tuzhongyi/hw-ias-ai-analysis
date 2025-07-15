@@ -13,9 +13,12 @@ import { FormsModule } from '@angular/forms';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
-import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
+import { NameValue } from '../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import { IIdNameModel } from '../../../../../../../common/data-core/models/model.interface';
+import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
+import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemTaskShopAnalysisDetailsComponent } from '../../system-task-shop-analysis/system-task-shop-analysis-details/system-task-shop-analysis-details.component';
 import { SystemTaskShopRegistrationDetailsComponent } from '../system-task-shop-registration-details/system-task-shop-registration-details.component';
 import { SystemTaskShopRegistrationTableComponent } from '../system-task-shop-registration-table/system-task-shop-registration-table.component';
@@ -45,6 +48,9 @@ export class SystemTaskShopRegistrationManagerComponent
   @Input() detected?: boolean;
   @Input() task?: AnalysisTask;
   @Output() video = new EventEmitter<IShop>();
+  @Output() picture = new EventEmitter<
+    PagedList<NameValue<PicturePolygonArgs>>
+  >();
   constructor(private business: SystemTaskShopRegistrationManagerBusiness) {}
 
   Language = Language;
@@ -52,9 +58,39 @@ export class SystemTaskShopRegistrationManagerComponent
   table = {
     args: new SystemTaskShopRegistrationTableArgs(),
     load: new EventEmitter<SystemTaskShopRegistrationTableArgs>(),
+    inited: false,
+    loaded: (datas: IShop[]) => {
+      if (this.table.inited) return;
+      this.table.inited = true;
+      let roads = datas
+        .filter((x) => !!x.RoadId && !!x.RoadName)
+        .map((x) => {
+          return {
+            Id: x.RoadId!,
+            Name: x.RoadName || '',
+          };
+        });
+      let map = new Map(roads.map((x) => [x.Id, x]));
+      this.source.road.on = Array.from(map.values());
+
+      roads = datas
+        .filter((x) => !!x.OriRoadId && !!x.OriRoadName)
+        .map((x) => {
+          return {
+            Id: x.OriRoadId!,
+            Name: x.OriRoadName || '',
+          };
+        });
+
+      map = new Map(roads.map((x) => [x.Id, x]));
+      this.source.road.ori = Array.from(map.values());
+    },
   };
   source = {
-    road: [] as Road[],
+    road: {
+      on: [] as IIdNameModel[],
+      ori: [] as IIdNameModel[],
+    },
   };
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -77,9 +113,9 @@ export class SystemTaskShopRegistrationManagerComponent
   }
 
   init() {
-    this.business.load().then((x) => {
-      this.source.road = x;
-    });
+    // this.business.load().then((x) => {
+    //   this.source.road = x;
+    // });
   }
 
   on = {
@@ -88,6 +124,9 @@ export class SystemTaskShopRegistrationManagerComponent
     },
     video: (item: ShopRegistration) => {
       this.video.emit(item);
+    },
+    picture: (data: PagedList<NameValue<PicturePolygonArgs>>) => {
+      this.picture.emit(data);
     },
   };
   details = {

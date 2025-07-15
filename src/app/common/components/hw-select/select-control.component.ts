@@ -20,7 +20,7 @@ import { SelectDirective } from './select.directive';
   styleUrls: ['./select-control.component.less'],
 })
 export class HowellSelectComponent implements OnInit, AfterViewChecked {
-  @Input() cannull: boolean = false;
+  @Input() nullable: boolean = false;
   @Input() nulltext = '请选择';
 
   @Input() public set style(v: any) {
@@ -50,7 +50,7 @@ export class HowellSelectComponent implements OnInit, AfterViewChecked {
 
   constructor(public detector: ChangeDetectorRef) {}
   ngAfterViewChecked(): void {
-    if (this.cannull) {
+    if (this.nullable) {
       if (this.selected === undefined) {
         if (this.element) {
           this.element.value = '';

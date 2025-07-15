@@ -1,3 +1,4 @@
+import { ShopState } from '../../../../../common/data-core/enums/analysis/shop-state.enum';
 import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { IConverter } from '../../../../../common/data-core/models/converter.interface';
 import { PagedList } from '../../../../../common/data-core/models/page-list.model';
@@ -37,11 +38,22 @@ export class SystemTaskTableBusiness<T extends AnalysisTaskModel> {
     params.PageIndex = index;
     params.PageSize = size;
     if (args.finished === undefined) {
-      params.TaskStates = [-1, 0, 1, 2, 3];
+      params.TaskStates = [
+        ShopState.uploading,
+        ShopState.notstarted,
+        ShopState.inprogress,
+        ShopState.completed,
+        ShopState.failed,
+      ];
     } else if (args.finished) {
-      params.TaskStates = [2];
+      params.TaskStates = [ShopState.completed];
     } else {
-      params.TaskStates = [-1, 0, 1, 3];
+      params.TaskStates = [
+        ShopState.uploading,
+        ShopState.notstarted,
+        ShopState.inprogress,
+        ShopState.failed,
+      ];
     }
     if (args.name) {
       params.Name = args.name;

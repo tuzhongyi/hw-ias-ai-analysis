@@ -5,7 +5,7 @@ import { EventResourceContent } from '../../../../../../common/data-core/models/
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
-import { HtmlTool } from '../../../../../../common/tools/html-tool/html.tool';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';
 
 @Injectable()
@@ -29,12 +29,7 @@ export class SystemEventManagerShopWindow {
 
 class PictureWindow extends WindowViewModel {
   style = {
-    width: HtmlTool.screen.has.head.from.height(
-      screen.availHeight * 0.85,
-      16 / 9,
-      60
-    ),
-    height: '85%',
+    ...SizeTool.window.large,
   };
 
   title = '';
@@ -93,32 +88,21 @@ class PictureWindow extends WindowViewModel {
 }
 class VideoWindow extends WindowViewModel {
   style = {
-    width: `${screen.availWidth * 0.85}px`,
-    height: HtmlTool.screen.has.head.from.width(
-      screen.availWidth * 0.85,
-      16 / 9,
-      -200
-    ),
+    ...SizeTool.window.video.path,
   };
   data?: MobileEventRecord;
   title = '';
 }
 class TaskWindow extends WindowViewModel {
   style = {
-    width: '56%',
-    height: '80%',
+    ...SizeTool.window.middle,
   };
   data?: MobileEventRecord;
 }
 
 class ShopWindow extends WindowViewModel {
   style = {
-    width: HtmlTool.screen.has.head.from.height(
-      screen.availHeight * 0.85,
-      16 / 9,
-      60
-    ),
-    height: '85%',
+    ...SizeTool.window.large,
   };
   data?: ShopRegistration;
   title = '添加注册商铺';
@@ -134,12 +118,7 @@ class ConfirmWindow extends WindowViewModel {
 }
 class ProcessSignDisconverWindow extends WindowViewModel {
   style = {
-    width: HtmlTool.screen.has.head.from.height(
-      screen.availHeight * 0.85,
-      16 / 9,
-      60
-    ),
-    height: '85%',
+    ...SizeTool.window.large,
   };
   data?: MobileEventRecord;
   title = '店招发现处置';
@@ -154,24 +133,14 @@ class EditNameWindow extends WindowViewModel {
 }
 class ProcessSignDisappearWindow extends WindowViewModel {
   style = {
-    width: HtmlTool.screen.has.head.from.height(
-      screen.availHeight * 0.85,
-      16 / 9,
-      60
-    ),
-    height: '85%',
+    ...SizeTool.window.large,
   };
   data?: MobileEventRecord;
   title = '店招消失处置';
 }
 class DetailsWindow extends WindowViewModel {
   style = {
-    width: HtmlTool.screen.has.head.from.height(
-      screen.availHeight * 0.85,
-      16 / 9,
-      60
-    ),
-    height: '85%',
+    ...SizeTool.window.large,
   };
   data?: MobileEventRecord;
   title = 'AI分析事件信息';

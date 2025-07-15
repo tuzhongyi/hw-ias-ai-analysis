@@ -1,0 +1,34 @@
+<div
+  class="panel-map-corner system-task-route-map-panel-shop-registration-state"
+>
+  <div
+    class="system-task-route-map-panel-shop-registration-state-item"
+    [class.active]="selecteds.includes(true)"
+    (click)="onselect(true)"
+  >
+    <div
+      class="system-task-route-map-panel-shop-registration-state-item-icon blue"
+    ></div>
+    <div class="system-task-route-map-panel-shop-registration-state-item-name">
+      已检测
+    </div>
+    <div class="system-task-route-map-panel-shop-registration-state-item-value">
+      {{ count.get(true) }}
+    </div>
+  </div>
+  <div
+    class="system-task-route-map-panel-shop-registration-state-item"
+    [class.active]="selecteds.includes(false)"
+    (click)="onselect(false)"
+  >
+    <div
+      class="system-task-route-map-panel-shop-registration-state-item-icon red"
+    ></div>
+    <div class="system-task-route-map-panel-shop-registration-state-item-name">
+      未检测
+    </div>
+    <div class="system-task-route-map-panel-shop-registration-state-item-value">
+      {{ count.get(false) }}
+    </div>
+  </div>
+</div>

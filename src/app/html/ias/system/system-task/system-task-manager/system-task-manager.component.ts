@@ -17,9 +17,17 @@ import {
 import { SystemTaskManagerBusiness } from './business/system-task-manager.business';
 import { SystemTaskManagerController } from './controller/system-task-manager.controller';
 
+import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
+import { ShopRegistrationTaskDetectedResult } from '../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
+import { NameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import {
+  Page,
+  PagedList,
+} from '../../../../../common/data-core/models/page-list.model';
 import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
+import { PicturePolygonArgs } from '../../../share/picture/picture-polygon/picture-polygon.model';
 import { ShopStatisticStatus } from '../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 import { SystemTaskVideoArgs } from '../system-task-video/system-task-video.model';
 import {
@@ -91,14 +99,16 @@ export class SystemTaskManagerComponent implements OnInit {
   }
 
   async onresult(data: AnalysisTaskModel) {
+    this.window.result.title = `${
+      data.Name
+    } ${await this.language.analysis.server.TaskType(data.TaskType)}`;
+    this.window.result.data = data;
+    this.window.result.show = true;
+  }
+  onroute(data: AnalysisTaskModel) {
     this.window.route.title = data.Name ?? '';
     this.window.route.data = data;
     this.window.route.show = true;
-    // this.window.result.title = `${
-    //   data.Name
-    // } ${await this.language.analysis.server.TaskType(data.TaskType)}`;
-    // this.window.result.data = data;
-    // this.window.result.show = true;
   }
   ondetails(data: AnalysisTaskModel) {
     this.window.details.data = data;
@@ -120,6 +130,27 @@ export class SystemTaskManagerComponent implements OnInit {
   onerror(e: Error) {
     this.toastr.error(e.message);
   }
+
+  picture = {
+    datas: [] as NameValue<PicturePolygonArgs>[],
+    on: (paged: PagedList<NameValue<PicturePolygonArgs>>) => {
+      this.picture.datas = paged.Data;
+      this.window.picture.page = Page.create(
+        paged.Page.PageIndex,
+        1,
+        paged.Page.PageSize
+      );
+      this.picture.change(this.window.picture.page);
+    },
+    change: (page: Page) => {
+      this.window.picture.page = page;
+      let data = this.picture.datas[page.PageIndex - 1];
+      this.window.picture.title = data.Name;
+      this.window.picture.src = data.Value.id;
+      this.window.picture.polygon = data.Value.polygon;
+      this.window.picture.show = true;
+    },
+  };
 
   create = {
     open: () => {
@@ -199,10 +230,18 @@ export class SystemTaskManagerComponent implements OnInit {
         if (this.window.route.data && data.Location) {
           this.window.video.title = `${data.Name}`;
           let args = new SystemTaskVideoArgs();
+          if (data instanceof ShopRegistrationTaskDetectedResult) {
+            args.Detected = data.Detected;
+          } else if (data.ObjectState === ShopObjectState.Existed) {
+            args.Detected = true;
+          } else if (data.ObjectState == ShopObjectState.Disappeared) {
+            args.Detected = false;
+          }
           args.TaskId = this.window.route.data.Id;
           args.Longitude = data.Location.Longitude;
           args.Latitude = data.Location.Latitude;
           args.Rectified = true;
+          args.Point = data.Location;
           this.window.video.args = args;
           this.window.video.show = true;
         }

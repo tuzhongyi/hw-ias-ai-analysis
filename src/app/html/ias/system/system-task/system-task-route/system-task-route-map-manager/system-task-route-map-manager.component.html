@@ -1,7 +1,58 @@
 <div class="system-task-route-map-manager">
   <ias-system-task-route-map
-    [data]="data"
+    [data]="task"
+    [load]="map.load"
+    [focus]="map.focus"
+    [over]="map.over"
+    [out]="map.out"
+    [rectified]="map.rectified"
     (current)="on.current($event)"
     (loaded)="on.loaded($event)"
+    (pointclick)="on.point.click($event)"
   ></ias-system-task-route-map>
+  <div class="system-task-route-map-manager-search">
+    <ias-system-map-search
+      [(name)]="map.args.name"
+      (search)="on.search()"
+    ></ias-system-map-search>
+  </div>
+  <div class="system-task-route-map-manager-list" *ngIf="panel.list.show">
+    <ias-system-task-route-map-panel-shop-registration-list
+      [datas]="datas"
+      (selectedChange)="on.table.select($event)"
+      (position)="on.table.position($event)"
+      (details)="on.table.details($event)"
+      (video)="on.table.video($event)"
+      (itemhover)="on.table.item.over($event)"
+      (itemblur)="on.table.item.out($event)"
+      (close)="panel.list.show = false"
+    ></ias-system-task-route-map-panel-shop-registration-list>
+  </div>
+  <div
+    class="system-task-route-map-manager-details"
+    [ngClass]="{
+      left: panel.list.show
+    }"
+    *ngIf="panel.details.show"
+  >
+    <ias-system-task-route-map-panel-details-manager
+      [data]="panel.details.data"
+      [task]="task"
+      (close)="panel.details.show = false"
+      (picture)="on.picture($event)"
+      (video)="on.video($event)"
+    >
+    </ias-system-task-route-map-panel-details-manager>
+  </div>
+  <div class="system-task-route-map-manager-state">
+    <ias-system-task-route-map-panel-shop-registration-state
+      [datas]="datas"
+      (selectedsChange)="on.state($event)"
+    ></ias-system-task-route-map-panel-shop-registration-state>
+  </div>
+  <div class="system-task-route-map-manager-settings">
+    <ias-system-task-route-map-panel-settings
+      [(rectified)]="map.rectified"
+    ></ias-system-task-route-map-panel-settings>
+  </div>
 </div>

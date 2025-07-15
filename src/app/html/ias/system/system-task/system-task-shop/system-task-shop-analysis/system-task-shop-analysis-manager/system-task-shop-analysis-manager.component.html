@@ -10,9 +10,20 @@
       <div class="form-item">
         <div class="form-item-text">所在道路</div>
         <div class="form-item-value">
-          <select [(ngModel)]="table.args.roadId">
+          <select [(ngModel)]="table.args.road.on">
             <option [ngValue]="undefined">全部</option>
-            <option *ngFor="let item of source.road" [ngValue]="item.Id">
+            <option *ngFor="let item of source.road.on" [ngValue]="item.Id">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">门面道路</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="table.args.road.ori">
+            <option [ngValue]="undefined">全部</option>
+            <option *ngFor="let item of source.road.ori" [ngValue]="item.Id">
               {{ item.Name }}
             </option>
           </select>
@@ -43,6 +54,7 @@
         [load]="table.load"
         [(selected)]="table.selected"
         (video)="on.video($event)"
+        (loaded)="table.loaded($event)"
       ></ias-system-task-shop-analysis-table>
     </div>
     <div class="system-task-shop-analysis-manager-details">

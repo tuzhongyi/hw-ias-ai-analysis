@@ -16,6 +16,7 @@
           <th sort="Name">商铺名称</th>
           <th sort="Registration">关联注册商铺</th>
           <th sort="RoadName">所在道路</th>
+          <th sort="OriRoadName">门面道路</th>
           <th sort="Status">状态</th>
           <th class="center">操作</th>
         </tr>
@@ -46,6 +47,9 @@
           </td>
           <td>
             {{ item.shop.RoadName ?? "-" }}
+          </td>
+          <td>
+            {{ item.shop.OriRoadName ?? "-" }}
           </td>
           <td>
             <span

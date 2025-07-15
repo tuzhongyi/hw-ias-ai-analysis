@@ -15,6 +15,7 @@
           <th class="center">序号</th>
           <th sort="Name">商铺名称</th>
           <th sort="RoadName">所在道路</th>
+          <th sort="OriRoadName">门面道路</th>
           <th sort="Detected">状态</th>
           <th class="center">操作</th>
         </tr>
@@ -44,6 +45,9 @@
             {{ item.RoadName ?? "-" }}
           </td>
           <td>
+            {{ item.OriRoadName ?? "-" }}
+          </td>
+          <td>
             <span
               [ngClass]="{
                 red: !item.Detected
@@ -54,11 +58,7 @@
           </td>
           <td class="center">
             <div class="operation">
-              <div
-                class="button"
-                [class.disabled]="!item.Detected"
-                (click)="on.video(item, $event)"
-              >
+              <div class="button" (click)="on.video(item, $event)">
                 <i class="howell-icon-video"></i>
               </div>
             </div>

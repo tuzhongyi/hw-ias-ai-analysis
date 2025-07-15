@@ -44,12 +44,16 @@
         <div class="form-item">
           <div class="form-item-text">任务</div>
           <div class="form-item-value">
-            <select [(ngModel)]="table.args.taskId">
+            <!-- <select [(ngModel)]="table.args.taskId">
               <option [ngValue]="undefined">全部</option>
               <option [ngValue]="item.Id" *ngFor="let item of source.task">
                 {{ item.Name }}
               </option>
-            </select>
+            </select> -->
+            <ias-input-select-task
+              [(tasks)]="source.task"
+              (selectedChange)="table.task.change($event)"
+            ></ias-input-select-task>
           </div>
         </div>
         <div class="form-item">
@@ -67,7 +71,7 @@
     </div>
   </div>
   <div class="system-event-manager-shop-body">
-    <ias-system-event-table
+    <ias-system-event-table-shop
       [args]="table.args"
       [load]="table.load"
       (picture)="table.on.picture($event)"
@@ -75,7 +79,7 @@
       (task)="table.on.task($event)"
       (video)="table.on.video($event)"
       (details)="table.on.details($event)"
-    ></ias-system-event-table>
+    ></ias-system-event-table-shop>
   </div>
 
   <ias-window

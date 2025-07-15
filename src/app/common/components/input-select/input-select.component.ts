@@ -21,10 +21,12 @@ import { IIdNameModel } from '../../data-core/models/model.interface';
 export class InputSelectComponent implements OnChanges {
   @Input() text?: string;
   @Output() textChange = new EventEmitter<string>();
-  @Input() results: IIdNameModel[] = [];
+  @Input() results: IIdNameModel<string, string | undefined>[] = [];
   @Input() placeholder: string = '';
   @Output() select = new EventEmitter<string>();
-  @Input() selected?: IIdNameModel;
+  @Input() selected?: IIdNameModel<string, string | undefined>;
+
+  @Output() focus = new EventEmitter<void>();
 
   constructor() {}
 
@@ -90,10 +92,11 @@ export class InputSelectComponent implements OnChanges {
     if (this.results.length > 0) {
       this.is.dropdown = true;
     }
+    this.focus.emit();
   }
 
   // 选择搜索结果
-  onselect(item: IIdNameModel): void {
+  onselect(item: IIdNameModel<string, string | undefined>): void {
     this.is.selected = true;
     this.text = item.Name;
     this.select.emit(item.Id);

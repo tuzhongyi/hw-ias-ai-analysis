@@ -8,7 +8,10 @@ export class SystemModuleShopRegistrationTableArgs {
   name?: string;
   telphone?: string;
   states: ShopObjectState[] = [];
-  road: Road[] = [];
+  road = {
+    on: [] as Road[],
+    ori: [] as Road[],
+  };
 
   point?: {
     location: GisPoint;
@@ -26,7 +29,5 @@ export class SystemModuleShopRegistrationTableFilter extends SystemModuleShopReg
 }
 
 export class SystemModuleShopRegistrationTableItem extends ShopRegistration {
-  ObjectStateName?: string;
-  ShopTypeName?: string;
   Image?: string;
 }

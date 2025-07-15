@@ -1,0 +1,22 @@
+<div class="system-module-shop-registration-download-manager">
+  <div class="system-module-shop-registration-download-manager-body forms">
+    <div class="form-item">
+      <div class="form-item-text">所在道路</div>
+      <div class="form-item-value">
+        <hw-select [nullable]="true" [selected]="road.selected">
+          <select #select [(ngModel)]="road.selected">
+            <option [ngValue]="item" *ngFor="let item of road.datas">
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+  </div>
+  <div
+    class="system-module-shop-registration-download-manager-foot button-group"
+  >
+    <button class="button-clip-gradient" (click)="on.download()">下载</button>
+    <button class="button-clip-blue" (click)="on.close()">关闭</button>
+  </div>
+</div>

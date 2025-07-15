@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
@@ -13,7 +15,11 @@ import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/a
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { HowellPoint } from '../../../../../../../common/data-core/models/arm/point.model';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { NameValue } from '../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import {
+  Page,
+  PagedList,
+} from '../../../../../../../common/data-core/models/page-list.model';
 import { ShopViewModel } from '../../../../../../../common/view-models/shop/shop.view-model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 import {
@@ -21,6 +27,7 @@ import {
   MapMarkerType,
 } from '../../../../../share/map/ias-map.model';
 import { PicturePolygonComponent } from '../../../../../share/picture/picture-polygon/picture-polygon.component';
+import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemTaskShopAnalysisDetailsInfoComponent } from '../system-task-shop-analysis-details-info/system-task-shop-analysis-details-info.component';
 import { SystemTaskShopAnalysisDetailsBusiness } from './system-task-shop-analysis-details.business';
 
@@ -42,6 +49,9 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
   @Input() shop?: ShopViewModel;
   @Input() registration?: ShopRegistration;
   @Input() task?: AnalysisTask;
+  @Output('picture') output_picture = new EventEmitter<
+    PagedList<NameValue<PicturePolygonArgs>>
+  >();
   constructor(private business: SystemTaskShopAnalysisDetailsBusiness) {}
 
   sign = {
@@ -62,6 +72,27 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
           this.map.points = item.Location ? [item.Location] : [];
         }
       },
+    },
+    full: () => {
+      let datas = this.sign.datas.map((x) => {
+        let nv = new NameValue<PicturePolygonArgs>();
+        let args = new PicturePolygonArgs();
+        args.id = x.ImageUrl;
+        args.polygon = x.Polygon ?? [];
+        nv.Value = args;
+        nv.Name = x.Text ?? '';
+        return nv;
+      });
+      let page = new Page();
+      page.PageCount = 1;
+      page.PageIndex = this.picture.page.data.PageIndex;
+      page.PageSize = datas.length;
+      page.RecordCount = datas.length;
+      page.TotalRecordCount = datas.length;
+      let paged = new PagedList<NameValue<PicturePolygonArgs>>();
+      paged.Data = datas;
+      paged.Page = page;
+      this.output_picture.emit(paged);
     },
   };
   map = {

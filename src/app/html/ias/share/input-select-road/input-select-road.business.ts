@@ -6,16 +6,21 @@ import { GetRoadsParams } from '../../../../common/data-core/requests/services/g
 export class InputSelectRoadBusiness {
   constructor(private service: ArmGeographicRequestService) {}
 
+  all() {
+    let params = new GetRoadsParams();
+    return this.service.road.cache.array(params);
+  }
+
   by = {
     name: (name: string) => {
       let params = new GetRoadsParams();
       params.Name = name;
-      return this.service.road.all(params);
+      return this.service.road.cache.array(params);
     },
     id: (id: string) => {
       let params = new GetRoadsParams();
       params.Ids = [id];
-      return this.service.road.all(params);
+      return this.service.road.cache.array(params);
     },
   };
 }

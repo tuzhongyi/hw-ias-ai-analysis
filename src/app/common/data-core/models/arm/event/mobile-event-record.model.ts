@@ -44,4 +44,14 @@ export class MobileEventRecord implements IIdModel {
   GroupId?: number;
   /**	String	任务ID（店招新增，店招消失事件）	O */
   TaskId?: string;
+  /**	String	事件配对ID	O */
+  Guid?: string;
+  /**	String	分组GUID，用于中心服务器区分来源	O */
+  GroupGuid?: string;
+  /**	String	分组名称	O */
+  GroupName?: string;
+  /**	String	音频文件ID	O */
+  AudioUrl?: string;
+  /**	String	音频文件语音内容，一般情况下5分钟内会完成音频文件内容的解析	O */
+  AudioContent?: string;
 }

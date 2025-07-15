@@ -64,6 +64,8 @@ export class SystemEventTableService {
       params.TaskId = filter.taskId;
     }
 
+    params.Desc = 'EventTime';
+
     return this.service.event.list(params);
   }
 

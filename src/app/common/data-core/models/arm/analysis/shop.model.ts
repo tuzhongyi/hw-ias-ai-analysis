@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
 import { transformDateTime } from '../../transformer';
 import { GisPoint } from '../gis-point.model';
+import { HowellPoint } from '../point.model';
 import { IShop } from './shop.interface';
 
 /**	Shop (商铺信息)	*/
@@ -119,4 +120,21 @@ export class Shop implements IShop {
   RoadOrderNo?: number;
 
   TaskIds?: string[];
+
+  /**	String	门面道路ID	O */
+  OriRoadId?: string;
+  /**	String	门面道路名称	O */
+  OriRoadName?: string;
+  /**	Int64	商铺在门面道路序号	O */
+  OriRoadOrderNo?: number;
+  /**	Int32	任务次数	O */
+  TaskCount?: number;
+  /**	Point[]	招牌多边形在图片上的归一化坐标	O */
+  Polygon?: HowellPoint[];
+  /**	Boolean	是否已移除	O */
+  Removal?: boolean;
+  /**	String	分组GUID，用于中心服务器区分来源	O */
+  GroupGuid?: string;
+  /**	String	分组名称	O */
+  GroupName?: string;
 }

@@ -32,10 +32,11 @@ export class SystemTaskShopRegistrationTableComponent
   @Output() selectedChange =
     new EventEmitter<ShopRegistrationTaskDetectedResult>();
   @Output() video = new EventEmitter<ShopRegistration>();
+  @Output() loaded = new EventEmitter<ShopRegistrationTaskDetectedResult[]>();
 
   constructor(private business: SystemTaskShopRegistrationTableBusiness) {}
 
-  widths: string[] = ['10%', 'auto', '25%', '15%', '10%'];
+  widths: string[] = ['10%', 'auto', '15%', '15%', '84px', '10%'];
   datas: ShopRegistrationTaskDetectedResult[] = [];
   loading = false;
   private subscription = new Subscription();
@@ -58,6 +59,7 @@ export class SystemTaskShopRegistrationTableComponent
     this.loading = true;
     try {
       this.datas = await this.business.load(args);
+      this.loaded.emit(this.datas);
       this.table.count = this.business.count;
 
       this.sort.on.table(this.sort.data);

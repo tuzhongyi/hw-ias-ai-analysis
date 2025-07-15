@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
+import { ShopState } from '../../../../../../common/data-core/enums/analysis/shop-state.enum';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
@@ -39,6 +40,7 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   @Output() delete = new EventEmitter<AnalysisTaskModel>();
   @Output() details = new EventEmitter<AnalysisTaskModel>();
   @Output() error = new EventEmitter<Error>();
+  @Output() route = new EventEmitter<AnalysisTaskModel>();
 
   constructor(
     private business: SystemTaskTableAllBusiness,
@@ -61,6 +63,7 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   page = Page.create(1, 10);
   datas: AnalysisTaskAllModel[] = [];
   selected?: AnalysisTaskModel;
+  State = ShopState;
 
   Language = Language;
   Color = ColorTool;
@@ -152,12 +155,19 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
       e.stopImmediatePropagation();
     }
   }
+  onroute(item: AnalysisTaskModel, e: Event) {
+    this.route.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
   onfiles(item: AnalysisTaskModel, e: Event) {
     this.files.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }
   }
+
   onsort(sort: Sort) {
     this.filter.asc = undefined;
     this.filter.desc = undefined;

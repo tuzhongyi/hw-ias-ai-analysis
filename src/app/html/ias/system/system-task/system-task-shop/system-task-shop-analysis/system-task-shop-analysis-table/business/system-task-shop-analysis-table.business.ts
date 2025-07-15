@@ -70,8 +70,11 @@ export class SystemTaskShopAnalysisTableBusiness {
       default:
         break;
     }
-    if (args.roadId) {
-      datas = datas.filter((x) => x.shop.RoadId === args.roadId);
+    if (args.road.on) {
+      datas = datas.filter((x) => x.shop.RoadId === args.road.on);
+    }
+    if (args.road.ori) {
+      datas = datas.filter((x) => x.shop.OriRoadId === args.road.ori);
     }
     if (args.name) {
       datas = datas.filter((x) => {

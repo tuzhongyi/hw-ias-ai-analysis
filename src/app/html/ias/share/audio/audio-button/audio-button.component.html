@@ -1,0 +1,10 @@
+<button class="button" (click)="on.play()">
+  <i
+    class="mdi"
+    [ngClass]="{
+      'mdi-volume-high': animation.index == 0,
+      'mdi-volume-low': animation.index == 1,
+      'mdi-volume-medium': animation.index == 2
+    }"
+  ></i>
+</button>

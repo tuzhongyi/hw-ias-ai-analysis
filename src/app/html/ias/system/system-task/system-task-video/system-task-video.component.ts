@@ -73,14 +73,20 @@ export class SystemTaskVideoComponent implements OnChanges {
             } else {
               this.map.loading = false;
             }
+          } else {
+            this.map.loading = false;
           }
         });
     },
     point: (item: SystemTaskVideoArgs) => {
-      let point = new GisPoint();
-      point.Longitude = item.Longitude;
-      point.Latitude = item.Latitude;
-      this.map.points = [point];
+      if (item.Point) {
+        if (item.Detected != undefined) {
+          this.map.args.color = item.Detected
+            ? MapMarkerShopColor.blue
+            : MapMarkerShopColor.orange;
+        }
+        this.map.points = [item.Point];
+      }
     },
   };
 }

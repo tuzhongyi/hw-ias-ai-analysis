@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -29,7 +29,7 @@ import {
 
 @Component({
   selector: 'ias-system-module-shop-registration-table',
-  imports: [DatePipe, CommonModule, PaginatorComponent, TableSorterDirective],
+  imports: [CommonModule, PaginatorComponent, TableSorterDirective],
   templateUrl: './system-module-shop-registration-table.component.html',
   styleUrl: './system-module-shop-registration-table.component.less',
   providers: [
@@ -44,16 +44,19 @@ export class SystemModuleShopRegistrationTableComponent
   @Input('load') _load?: EventEmitter<SystemModuleShopRegistrationTableArgs>;
   @Output() error = new EventEmitter<Error>();
   @Output() picture = new EventEmitter<Paged<ShopRegistration>>();
+
   @Input() selecteds: ShopRegistration[] = [];
   @Output() selectedsChange = new EventEmitter<ShopRegistration[]>();
+
   @Output() info = new EventEmitter<ShopRegistration>();
   @Input('page') _page = new EventEmitter<number>();
+  @Output() loaded = new EventEmitter<ShopRegistration[]>();
 
   constructor(private business: SystemModuleShopRegistrationTableBusiness) {}
 
   page = Page.create(1, 10);
   datas: (SystemModuleShopRegistrationTableItem | undefined)[] = [];
-  widths = ['4%', '4%', '6%', '20%', '20%', '12%', '10%', '7%', '12%', '5%'];
+  widths = ['5%', '6%', '10%', '20%', '20%', '12%', '12%', '10%', '5%'];
   filter = new SystemModuleShopRegistrationTableFilter();
   subscription = new Subscription();
 
@@ -127,6 +130,7 @@ export class SystemModuleShopRegistrationTableComponent
       this.page = x.Page;
 
       this.datas = x.Data;
+      this.loaded.emit(x.Data);
       while (this.datas.length < this.page.PageSize) {
         this.datas.push(undefined);
       }

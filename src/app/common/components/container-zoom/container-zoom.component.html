@@ -18,4 +18,11 @@
   >
     <ng-content></ng-content>
   </div>
+  <div
+    class="container-zoom-in button panel-map"
+    *ngIf="fullable"
+    (click)="onfull()"
+  >
+    <i class="mdi mdi-fullscreen"></i>
+  </div>
 </div>

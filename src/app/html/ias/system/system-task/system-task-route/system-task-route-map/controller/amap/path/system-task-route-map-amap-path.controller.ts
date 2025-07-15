@@ -95,4 +95,11 @@ export class SystemTaskRouteMapAMapPathController {
       this.terminal.load(positions[0], positions[positions.length - 1]);
     }
   }
+
+  clear() {
+    if (this.positions) {
+      this.map.remove(this.positions);
+    }
+    this.terminal.clear();
+  }
 }

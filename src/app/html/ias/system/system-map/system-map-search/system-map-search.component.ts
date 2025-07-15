@@ -38,6 +38,10 @@ export class SystemMapSearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  onname(name: string) {
+    this.name = name;
+    this.nameChange.emit(name);
+  }
   onenter(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       this.onsearch();

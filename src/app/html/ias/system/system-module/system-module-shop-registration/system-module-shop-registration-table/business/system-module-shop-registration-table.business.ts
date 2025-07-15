@@ -20,7 +20,7 @@ export class SystemModuleShopRegistrationTableBusiness {
     size: number,
     filter: SystemModuleShopRegistrationTableFilter
   ): Promise<PagedList<SystemModuleShopRegistrationTableItem>> {
-    let datas = await this.data(index, size, filter);
+    let datas = await this.data.load(index, size, filter);
 
     if (
       datas.Page.PageCount > 0 &&
@@ -41,37 +41,42 @@ export class SystemModuleShopRegistrationTableBusiness {
   }
 
   get(index: number, filter: SystemModuleShopRegistrationTableFilter) {
-    return this.data(index, 1, filter);
+    return this.data.load(index, 1, filter);
   }
 
-  private data(
-    index: number,
-    size: number,
-    filter: SystemModuleShopRegistrationTableFilter
-  ) {
-    let params = new GetShopRegistrationsParams();
-    params.PageIndex = index;
-    params.PageSize = size;
-    params.Asc = filter.asc;
-    params.Desc = filter.desc;
-    if (filter.name) {
-      params.Name = filter.name;
-    }
-    if (filter.telphone) {
-      params.Telphone = filter.telphone;
-    }
-    if (filter.road && filter.road.length > 0) {
-      params.RoadIds = filter.road.map((x) => x.Id);
-    }
-    if (filter.states && filter.states.length > 0) {
-      params.ObjectStates = filter.states;
-    }
+  private data = {
+    load: (
+      index: number,
+      size: number,
+      filter: SystemModuleShopRegistrationTableFilter
+    ) => {
+      let params = new GetShopRegistrationsParams();
+      params.PageIndex = index;
+      params.PageSize = size;
+      params.Asc = filter.asc;
+      params.Desc = filter.desc;
+      if (filter.name) {
+        params.Name = filter.name;
+      }
+      if (filter.telphone) {
+        params.Telphone = filter.telphone;
+      }
+      if (filter.road.on && filter.road.on.length > 0) {
+        params.RoadIds = filter.road.on.map((x) => x.Id);
+      }
+      if (filter.road.ori && filter.road.ori.length > 0) {
+        params.OriRoadIds = filter.road.ori.map((x) => x.Id);
+      }
+      if (filter.states && filter.states.length > 0) {
+        params.ObjectStates = filter.states;
+      }
 
-    if (filter.point) {
-      params.Location = filter.point.location;
-      params.LocationDistance = filter.point.distance;
-    }
+      if (filter.point) {
+        params.Location = filter.point.location;
+        params.LocationDistance = filter.point.distance;
+      }
 
-    return this.service.shop.list(params);
-  }
+      return this.service.shop.list(params);
+    },
+  };
 }

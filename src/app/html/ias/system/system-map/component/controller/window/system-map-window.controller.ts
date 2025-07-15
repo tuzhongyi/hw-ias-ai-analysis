@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
 import { HowellPoint } from '../../../../../../../common/data-core/models/arm/point.model';
 import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 
 @Injectable()
 export class SystemMapWindowController {
@@ -16,10 +17,7 @@ class PictureWindow extends WindowViewModel {
     this.title = '';
   }
   style = {
-    width: '50%',
-    height: 'auto',
-    aspectRatio: '16/10.2',
-    paddingTop: 0,
+    ...SizeTool.window.large,
   };
   title = '';
   id?: string;

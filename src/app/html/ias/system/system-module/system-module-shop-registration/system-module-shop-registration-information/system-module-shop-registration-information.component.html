@@ -75,7 +75,7 @@
         <div class="form-item">
           <div class="form-item-text" text-space-between>营业状态</div>
           <div class="form-item-value business">
-            <hw-select [cannull]="false" [selected]="shop.BusinessState">
+            <hw-select [nullable]="false" [selected]="shop.BusinessState">
               <select class="business-state" [(ngModel)]="shop.BusinessState">
                 <option
                   [ngValue]="item.Value"
@@ -114,8 +114,23 @@
             <div class="must">*</div>
           </div>
           <div class="form-item-value">
-            <hw-select [cannull]="false" [selected]="shop.RoadId">
+            <hw-select [nullable]="false" [selected]="shop.RoadId">
               <select [(ngModel)]="shop.RoadId">
+                <option [ngValue]="road.Id" *ngFor="let road of road.datas">
+                  {{ road.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">
+            <div class="name" text-space-between>门面道路</div>
+            <div class="must">*</div>
+          </div>
+          <div class="form-item-value">
+            <hw-select [nullable]="false" [selected]="shop.OriRoadId">
+              <select [(ngModel)]="shop.OriRoadId">
                 <option [ngValue]="road.Id" *ngFor="let road of road.datas">
                   {{ road.Name }}
                 </option>
@@ -128,36 +143,26 @@
             <div class="name" text-space-between>输入坐标系</div>
           </div>
           <div class="form-item-value">
-            <select [(ngModel)]="location.type">
-              <option [ngValue]="0">WGS84</option>
-              <option [ngValue]="1">GCJ02</option>
-              <option [ngValue]="2">BD09</option>
+            <select
+              [(ngModel)]="location.type.value"
+              (change)="location.type.change()"
+            >
+              <option [ngValue]="GisType.WGS84">WGS84</option>
+              <option [ngValue]="GisType.GCJ02">GCJ02</option>
+              <option [ngValue]="GisType.BD09">BD09</option>
             </select>
           </div>
         </div>
         <div class="form-item" *ngIf="shop.Location">
           <div class="form-item-text">
-            <div class="name" text-space-between>坐标经度</div>
+            <div class="name" text-space-between>坐标</div>
             <div class="must">*</div>
           </div>
           <div class="form-item-value">
             <input
               type="text"
-              [(ngModel)]="shop.Location.Longitude"
-              (input)="location.on.longitude()"
-            />
-          </div>
-        </div>
-        <div class="form-item" *ngIf="shop.Location">
-          <div class="form-item-text">
-            <div class="name" text-space-between>坐标纬度</div>
-            <div class="must">*</div>
-          </div>
-          <div class="form-item-value">
-            <input
-              type="text"
-              [(ngModel)]="shop.Location.Latitude"
-              (input)="location.on.latitude()"
+              [(ngModel)]="location.value"
+              (input)="location.set()"
             />
           </div>
         </div>

@@ -47,18 +47,22 @@ export class IASMapAMapController {
   }
 
   point = {
-    load: (datas: GisPoint[]) => {
-      this.map.get().then((map) => {
-        this.points = datas.map((x) => {
-          let point = new IASMapAMapPointController();
-          let marker = point.set(x, {
-            type: MapMarkerType.shop,
-            color: MapMarkerShopColor.blue,
-          });
-          map.add(marker);
-          return point;
+    load: async (datas: GisPoint[], focus?: boolean) => {
+      let map = await this.map.get();
+      this.points = datas.map((x) => {
+        let point = new IASMapAMapPointController();
+        let marker = point.set(x, {
+          type: MapMarkerType.shop,
+          color: MapMarkerShopColor.blue,
         });
+        map.add(marker);
+        return point;
       });
+      if (focus) {
+        setTimeout(() => {
+          map.setFitView(undefined, false);
+        }, 1000);
+      }
     },
     clear: async () => {
       let map = await this.map.get();

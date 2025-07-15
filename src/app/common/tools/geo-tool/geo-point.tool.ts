@@ -1,8 +1,10 @@
+import { GeoPointConvertTool } from './geo-point-convert.tool';
 import { GeoPointSortTool } from './geo-point-sort.tool';
 import { GeoPoint } from './geo.model';
 
 export class GeoPointTool {
   sort = new GeoPointSortTool();
+  convert = new GeoPointConvertTool();
 
   /** 角度 */
   private radians(degrees: number): number {

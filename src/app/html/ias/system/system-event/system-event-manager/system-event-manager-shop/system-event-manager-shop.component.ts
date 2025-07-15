@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
@@ -14,6 +15,7 @@ import {
 } from '../../../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
+import { InputSelectTaskComponent } from '../../../../share/input-select-task/input-select-task.component';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../../../system-module/system-module-shop-registration/system-module-shop-registration-information/system-module-shop-registration-information.component';
@@ -22,7 +24,7 @@ import { SystemEventProcessShopNameComponent } from '../../system-event-process/
 import { SystemEventProcessSignDisappearComponent } from '../../system-event-process/system-event-process-sign-disappear/system-event-process-sign-disappear.component';
 import { SystemEventProcessSignDisconverComponent } from '../../system-event-process/system-event-process-sign-disconver/system-event-process-sign-disconver.component';
 import { SystemEventTableArgs } from '../../system-event-table/business/system-event-table.model';
-import { SystemEventTableComponent } from '../../system-event-table/system-event-table.component';
+import { SystemEventTableShopComponent } from '../../system-event-table/system-event-table-shop/system-event-table-shop.component';
 import { SystemEventTaskComponent } from '../../system-event-task/component/system-event-task.component';
 import { SystemEventVideoComponent } from '../../system-event-video/system-event-video.component';
 import { SystemEventManagerShopAnalysisBusiness } from './business/system-event-manager-shop-analysis.business';
@@ -44,7 +46,7 @@ import { SystemEventManagerShopWindow } from './system-event-manager-shop.window
     CommonModule,
     FormsModule,
     DateTimeControlComponent,
-    SystemEventTableComponent,
+    SystemEventTableShopComponent,
     SystemEventTaskComponent,
     SystemEventVideoComponent,
     WindowComponent,
@@ -55,6 +57,7 @@ import { SystemEventManagerShopWindow } from './system-event-manager-shop.window
     SystemEventProcessSignDisappearComponent,
     SystemEventProcessShopNameComponent,
     SystemEventProcessDetailsComponent,
+    InputSelectTaskComponent,
   ],
   templateUrl: './system-event-manager-shop.component.html',
   styleUrl: './system-event-manager-shop.component.less',
@@ -87,7 +90,7 @@ export class SystemEventManagerShopComponent implements OnInit {
   Language = Language;
 
   ngOnInit(): void {
-    this.init.task();
+    // this.init.task();
     this.init.table();
     this.regist.process.marking();
     this.regist.process.merge();
@@ -182,6 +185,11 @@ export class SystemEventManagerShopComponent implements OnInit {
   table = {
     args: new SystemEventTableArgs(),
     load: new EventEmitter<SystemEventTableArgs>(),
+    task: {
+      change: (data: AnalysisTask) => {
+        this.table.args.taskId = data?.Id;
+      },
+    },
     search: () => {
       this.table.args.first = true;
       this.table.load.emit(this.table.args);

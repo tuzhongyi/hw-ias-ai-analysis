@@ -17,7 +17,9 @@ import {
 })
 export class ContainerZoomComponent implements OnChanges {
   @Input() reset = false;
+  @Input() fullable = false;
   @Output() resetChange = new EventEmitter<boolean>();
+  @Output() full = new EventEmitter<void>();
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['reset'] && !changes['reset'].firstChange) {
       this.onReset();
@@ -83,5 +85,9 @@ export class ContainerZoomComponent implements OnChanges {
     this.translateY = 0;
     this.lastX = 0;
     this.lastY = 0;
+  }
+
+  onfull() {
+    this.full.emit();
   }
 }

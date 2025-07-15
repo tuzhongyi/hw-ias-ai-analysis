@@ -1,4 +1,5 @@
 import { ShopObjectState } from '../../data-core/enums/analysis/shop-object-state.enum';
+import { ShopState } from '../../data-core/enums/analysis/shop-state.enum';
 
 class CanvasDrawColor {
   stroke = {
@@ -40,17 +41,17 @@ export class ColorTool {
         return '';
     }
   }
-  static TaskState(value?: number) {
+  static TaskState(value?: ShopState) {
     switch (value) {
-      case -1:
+      case ShopState.uploading:
         return '#69adff';
-      case 0:
+      case ShopState.notstarted:
         return '#ca98f7';
-      case 1:
+      case ShopState.inprogress:
         return '#01edf5';
-      case 2:
+      case ShopState.completed:
         return '#23e353';
-      case 3:
+      case ShopState.failed:
         return '#ff5151';
       default:
         return '';

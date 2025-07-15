@@ -38,6 +38,7 @@ export class SystemTaskTableComponent implements OnInit, OnDestroy {
   @Output() result = new EventEmitter<AnalysisTaskModel>();
   @Output() details = new EventEmitter<AnalysisTaskModel>();
   @Output() files = new EventEmitter<AnalysisTaskModel>();
+  @Output() route = new EventEmitter<AnalysisTaskModel>();
   @Output() error = new EventEmitter<Error>();
 
   constructor() {}
@@ -73,6 +74,9 @@ export class SystemTaskTableComponent implements OnInit, OnDestroy {
   }
   onfiles(data: AnalysisTaskModel) {
     this.files.emit(data);
+  }
+  onroute(data: AnalysisTaskModel) {
+    this.route.emit(data);
   }
   onerror(e: Error) {
     this.error.emit(e);

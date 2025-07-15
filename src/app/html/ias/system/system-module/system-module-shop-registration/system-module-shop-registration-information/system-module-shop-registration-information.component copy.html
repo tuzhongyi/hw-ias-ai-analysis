@@ -57,7 +57,7 @@
           <div class="form-item">
             <div class="form-item-text" text-space-between>商铺类型</div>
             <div class="form-item-value">
-              <hw-select [cannull]="true" [selected]="shop.ShopType">
+              <hw-select [nullable]="true" [selected]="shop.ShopType">
                 <select [(ngModel)]="shop.ShopType">
                   <option
                     [ngValue]="item.Value"
@@ -231,7 +231,7 @@
           <div class="form-item">
             <div class="form-item-text" text-space-between>单位类型</div>
             <div class="form-item-value">
-              <hw-select [cannull]="true" [selected]="shop.UnitType">
+              <hw-select [nullable]="true" [selected]="shop.UnitType">
                 <select [(ngModel)]="shop.UnitType">
                   <option
                     [ngValue]="item.Value"
@@ -258,7 +258,7 @@
           <div class="form-item">
             <div class="form-item-text" text-space-between>所属行业</div>
             <div class="form-item-value">
-              <hw-select [cannull]="true" [selected]="shop.Industry">
+              <hw-select [nullable]="true" [selected]="shop.Industry">
                 <select [(ngModel)]="shop.Industry">
                   <option
                     [ngValue]="item.Value"
@@ -291,7 +291,7 @@
           <div class="form-item">
             <div class="form-item-text" text-space-between>经营范围</div>
             <div class="form-item-value">
-              <hw-select [cannull]="true" [selected]="shop.BusinessScope">
+              <hw-select [nullable]="true" [selected]="shop.BusinessScope">
                 <select [(ngModel)]="shop.BusinessScope">
                   <option
                     [ngValue]="item.Value"

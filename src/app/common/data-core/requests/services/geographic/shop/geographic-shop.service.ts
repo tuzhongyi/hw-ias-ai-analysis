@@ -80,7 +80,7 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
 
   excel = {
     upload: (data: ArrayBuffer) => {
-      let url = ArmGeographicUrl.shop.excel();
+      let url = ArmGeographicUrl.shop.excel.upload();
       return this.http
         .post<HowellResponse<string>, any>(url, data)
         .then((x) => {
@@ -89,6 +89,9 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
           }
           throw new Error(`${x.FaultCode}:${x.FaultReason}`);
         });
+    },
+    download: (roadId: string) => {
+      return ArmGeographicUrl.shop.excel.download(roadId);
     },
   };
 
