@@ -16,7 +16,6 @@ export class SystemTaskFileDetailsAMapPathController {
       [e.lnglat.lng, e.lnglat.lat],
       [...this.points]
     ) as [number, number];
-    console.log(point);
     if (point) {
       let closest = GeoTool.point.closest(this.points, point);
       if (closest) {
@@ -68,5 +67,12 @@ export class SystemTaskFileDetailsAMapPathController {
     setTimeout(() => {
       this.map.setFitView(this.positions, true);
     }, 2 * 1000);
+  }
+
+  clear() {
+    if (this.positions) {
+      this.map.remove(this.positions);
+      this.positions = undefined;
+    }
   }
 }

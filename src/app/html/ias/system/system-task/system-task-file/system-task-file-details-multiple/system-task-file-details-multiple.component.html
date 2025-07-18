@@ -1,0 +1,36 @@
+<div class="system-task-file-details-multiple">
+  <div class="system-task-file-details-multiple-body">
+    <div class="panel video">
+      <video
+        video-directive
+        *ngFor="let item of video.src; let index = index"
+        autoplay="autoplay"
+        controls
+        [currentTime]="video.time"
+        (timeupdate)="video.on.update($event, index)"
+        (pause)="video.on.pause($event)"
+        (play)="video.on.play($event)"
+        (seeked)="video.on.seek.seeked($event)"
+        (error)="video.on.error($event)"
+        [src]="item"
+        [ngStyle]="{
+          height:
+            'calc((100% - 5px * ' +
+            (video.src.length - 1) +
+            ') / ' +
+            video.src.length +
+            ')'
+        }"
+      ></video>
+    </div>
+    <div class="panel map">
+      <ias-system-task-file-details-map
+        [data]="map.data"
+        [to]="map.time"
+        (trigger)="map.on.seek($event)"
+        (loaded)="map.on.loaded()"
+        (error)="map.on.error($event)"
+      ></ias-system-task-file-details-map>
+    </div>
+  </div>
+</div>

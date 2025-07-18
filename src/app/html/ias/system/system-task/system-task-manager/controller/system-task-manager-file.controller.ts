@@ -43,14 +43,14 @@ export class SystemTaskManagerFileController {
     controller.taskprogress.subscribe((value) => {
       this.progress.task.emit(value);
       if (value.progress >= 100) {
-        this.oncomplete(value.taskid, value.files);
+        this.oncomplete(value.taskid, value.files, data.start);
       }
     });
     controller.load(data);
     this.files.push(controller);
   }
 
-  oncomplete(id: string, files: string[] = []) {
+  oncomplete(id: string, files: string[] = [], start: boolean) {
     this.global.uploading = this.files.every(
       (x) => x.count.waiting > 0 || x.count.waiting > 0
     );
@@ -59,6 +59,7 @@ export class SystemTaskManagerFileController {
       let args: TaskCompletedArgs = {
         task: data.task,
         files: files,
+        start: start,
       };
       this.complete.emit(args);
     }

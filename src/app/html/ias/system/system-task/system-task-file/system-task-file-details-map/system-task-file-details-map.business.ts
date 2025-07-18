@@ -6,9 +6,10 @@ import { ArmSystemRequestService } from '../../../../../../common/data-core/requ
 export class SystemTaskFileDetailsMapBusiness {
   constructor(private service: ArmSystemRequestService) {}
 
-  load(filename: string) {
+  load(filename: string, rectified: boolean) {
     let params = new ParseGpsItemParams();
     params.FileName = filename;
+    params.Rectified = rectified;
     return this.service.file.gps(params);
   }
 }

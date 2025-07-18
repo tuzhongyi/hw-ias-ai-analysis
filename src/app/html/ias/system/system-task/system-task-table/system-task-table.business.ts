@@ -17,6 +17,11 @@ export class SystemTaskTableBusiness<T extends AnalysisTaskModel> {
 
   async load(index: number, size: number, args: SystemTaskTableFilter) {
     let data = await this.data(index, size, args);
+
+    if (data.Page.PageCount > 0 && data.Page.PageCount < index) {
+      data = await this.data(data.Page.PageCount, size, args);
+    }
+
     let paged = new PagedList<T>();
     paged.Page = data.Page;
     paged.Data = data.Data.map((x, i) => {
@@ -39,20 +44,20 @@ export class SystemTaskTableBusiness<T extends AnalysisTaskModel> {
     params.PageSize = size;
     if (args.finished === undefined) {
       params.TaskStates = [
-        ShopState.uploading,
-        ShopState.notstarted,
-        ShopState.inprogress,
-        ShopState.completed,
-        ShopState.failed,
+        ShopState.Uploading,
+        ShopState.NotStarted,
+        ShopState.OnGoing,
+        ShopState.Finished,
+        ShopState.Failed,
       ];
     } else if (args.finished) {
-      params.TaskStates = [ShopState.completed];
+      params.TaskStates = [ShopState.Finished];
     } else {
       params.TaskStates = [
-        ShopState.uploading,
-        ShopState.notstarted,
-        ShopState.inprogress,
-        ShopState.failed,
+        ShopState.Uploading,
+        ShopState.NotStarted,
+        ShopState.OnGoing,
+        ShopState.Failed,
       ];
     }
     if (args.name) {

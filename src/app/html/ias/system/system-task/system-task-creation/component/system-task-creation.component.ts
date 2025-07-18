@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UploadControlComponent } from '../../../../../../common/components/upload-control/upload-control.component';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 
+import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { SystemTaskCreationFileTableComponent } from '../system-task-creation-file-table/system-task-creation-file-table.component';
 import { SystemTaskCreationFileController } from './controller/system-task-creation-file.controller';
 import { SystemTaskCreationSourceController } from './controller/system-task-creation-source.controller';
@@ -19,6 +20,7 @@ import { SystemTaskModel } from './system-task-creation.model';
     FormsModule,
     SystemTaskCreationFileTableComponent,
     UploadControlComponent,
+    TextSpaceBetweenDirective,
   ],
   templateUrl: './system-task-creation.component.html',
   styleUrl: './system-task-creation.component.less',
@@ -40,6 +42,7 @@ export class SystemTaskCreationComponent implements OnInit {
   ) {}
 
   task = new AnalysisTask();
+  start = true;
 
   ngOnInit(): void {
     this.controller.source.types.then((x) => {
@@ -77,6 +80,7 @@ export class SystemTaskCreationComponent implements OnInit {
           this.ok.emit({
             task: x,
             files: this.controller.file.files,
+            start: this.start,
           });
         })
         .catch((e) => {

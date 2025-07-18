@@ -7,8 +7,13 @@ import { SystemTaskFileDetailsAMapController } from './system-task-file-details-
 
 @Injectable()
 export class SystemTaskFileDetailsMapController {
-  trigger = new EventEmitter<FileGpsItem>();
-  speed = new EventEmitter<number>();
+  event = {
+    trigger: new EventEmitter<FileGpsItem>(),
+    speed: new EventEmitter<number>(),
+    position: new EventEmitter<[number, number]>(),
+    point: new EventEmitter<[number, number]>(),
+  };
+
   constructor(private map: SystemTaskFileDetailsAMapController) {
     this.regist();
   }
@@ -22,6 +27,11 @@ export class SystemTaskFileDetailsMapController {
     });
     let path = await this.map.path.get();
     path.load(ll);
+  }
+
+  async clear() {
+    let path = await this.map.path.get();
+    path.clear();
   }
 
   private regist() {
@@ -58,6 +68,9 @@ export class SystemTaskFileDetailsMapController {
         });
       });
     });
+    this.map.event.point.subscribe((x) => {
+      this.event.point.emit(x);
+    });
   }
 
   private async onmouseover(point: [number, number]) {
@@ -76,7 +89,7 @@ export class SystemTaskFileDetailsMapController {
       return ClassTool.equals.array([x.Longitude, x.Latitude], point);
     });
     if (item) {
-      this.trigger.emit(item);
+      this.event.trigger.emit(item);
     }
   }
 
@@ -89,7 +102,8 @@ export class SystemTaskFileDetailsMapController {
     let finded = ArrayTool.closest(times, stamp);
     if (finded) {
       let item = this.datas[finded.index];
-      this.speed.emit(item.Speed);
+      this.event.speed.emit(item.Speed);
+      this.event.position.emit([item.Longitude, item.Latitude]);
 
       let way = this.datas.slice(0, finded.index).map<[number, number]>((x) => {
         return [x.Longitude, x.Latitude];

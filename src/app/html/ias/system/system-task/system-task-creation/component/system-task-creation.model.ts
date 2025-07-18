@@ -4,8 +4,10 @@ import { AnalysisTask } from '../../../../../../common/data-core/models/arm/anal
 export interface SystemTaskModel {
   task: AnalysisTask;
   files: UploadControlFile[];
+  start: boolean;
 }
 export interface TaskCompletedArgs {
   task: AnalysisTask;
   files: string[];
+  start: boolean;
 }

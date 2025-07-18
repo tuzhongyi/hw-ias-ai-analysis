@@ -79,7 +79,7 @@
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              @if(item.State != State.uploading){
+              @if(item.State != State.Uploading){
               <div
                 class="button"
                 title="分析任务详情"
@@ -87,7 +87,7 @@
               >
                 <i class="howell-icon-route"></i>
               </div>
-              } @if(item.State === State.uploading){
+              } @if(item.State === State.Uploading){
               <div
                 class="button"
                 title="任务信息"
@@ -100,6 +100,14 @@
                 class="button"
                 title="视频文件"
                 (click)="onfiles(item, $event)"
+              >
+                <i class="mdi mdi-file-video"></i>
+              </div>
+              } @if(item.State === State.Paused){
+              <div
+                class="button"
+                title="开始分析"
+                (click)="onanalysis(item, $event)"
               >
                 <i class="mdi mdi-file-video"></i>
               </div>

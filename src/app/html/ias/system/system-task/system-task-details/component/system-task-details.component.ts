@@ -49,6 +49,7 @@ export class SystemTaskDetailsComponent implements OnInit {
         let args: TaskCompletedArgs = {
           task: this.data,
           files: this.files.map((x) => x.filename),
+          start: true,
         };
         this.analysis.emit(args);
       }

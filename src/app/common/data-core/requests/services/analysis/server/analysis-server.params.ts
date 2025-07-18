@@ -39,8 +39,10 @@ export class GetAnalysisTaskResultListParams extends PagedDurationParams {
 export class AnalysisTaskSource implements IParams {
   /**	Int32	数据来源类型：0-视频文件	M	RW */
   SourceType!: number;
-  /**	String[]	数据来源：视频文件名称	M	RW */
+  /**	String[]	数据来源：视频文件名称	O	RW */
   Files?: string[];
+  /**	Boolean	自动开始分析任务，默认:true，false:不开始分析。	O	RW  */
+  StartAnalysis?: boolean;
 }
 export class GetShopTaskStatisticParams implements IParams {
   /**	String[]	任务ID列表	M */

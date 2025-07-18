@@ -1,0 +1,89 @@
+.system-task-file-details-map-panel-position {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 15px;
+  transition: all .3s;
+  clip-path: polygon(0 0,
+      58px 0,
+      58px 50px,
+      0 58px);
+
+  &:hover,
+  &.fixed {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+
+    .panel-title {
+      .title {
+        display: block;
+      }
+    }
+
+    .panel-operation {
+      display: flex;
+    }
+
+  }
+
+
+
+  &-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .title {
+        display: none;
+      }
+    }
+
+    .panel-operation {
+      display: none;
+      align-items: center;
+      justify-content: flex-end;
+
+      .button-fixed {
+        transform: rotate(45deg);
+      }
+    }
+
+
+
+  }
+
+  &-body {
+    .forms {
+      flex-direction: column;
+
+      .form-item {
+        &-text {
+          width: 60px;
+        }
+
+        &-value {
+          user-select: text;
+          width: calc(100% - 60px - 22px - 15px * 2);
+        }
+
+        &-suffix {
+          width: 22px;
+          flex-grow: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+<div
+  class="map-panel-settings panel-map"
+  [ngClass]="{
+    'top-left': top && left,
+    'top-right': top && !left,
+    'bottom-left': !top && left,
+    'bottom-right': !top && !left
+  }"
+>
+  <div class="map-panel-settings-button">
+    <div class="button">
+      <i class="howell-icon-settingoutline"></i>
+    </div>
+  </div>
+  <div class="map-panel-settings-content">
+    <div class="map-panel-settings-content-body forms">
+      <div class="form-item">
+        <div class="form-item-text">
+          <label for="map-panel-settings-rectified">轨迹纠偏</label>
+        </div>
+        <div class="form-item-value">
+          <input
+            type="checkbox"
+            id="map-panel-settings-rectified"
+            [(ngModel)]="rectified"
+            (change)="on.rectified()"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

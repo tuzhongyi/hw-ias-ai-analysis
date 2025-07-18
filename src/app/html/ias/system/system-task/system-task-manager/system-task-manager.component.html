@@ -96,11 +96,12 @@
       [load]="table.load"
       [progress]="controller.file.progress.task"
       (delete)="delete.confirm($event)"
-      (result)="onresult($event)"
-      (route)="onroute($event)"
-      (details)="ondetails($event)"
-      (files)="onfiles($event)"
-      (error)="onerror($event)"
+      (result)="table.on.result($event)"
+      (route)="table.on.route($event)"
+      (details)="table.on.details($event)"
+      (files)="table.on.files($event)"
+      (error)="table.on.error($event)"
+      (analysis)="table.on.analysis($event)"
     ></ias-system-task-table>
   </div>
 
@@ -167,6 +168,7 @@
       [data]="window.shop.analysis.data"
       [status]="window.shop.analysis.status"
       (video)="route.on.video($event)"
+      (picture)="picture.on($event)"
     ></ias-system-task-shop-analysis-manager>
   </ias-window>
   <ias-window

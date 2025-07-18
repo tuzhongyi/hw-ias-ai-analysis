@@ -1,7 +1,5 @@
 import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { ShopRegistration } from '../../../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { ObjectTool } from '../../../../../../../../../common/tools/object-tool/object.tool';
 import { SystemAMapShopMarkerEvent } from '../../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-marker.model';
 import { SystemMapAMapConfig } from '../../../../../../system-map/component/controller/amap/system-map-amap.config';
 import { SystemModuleShopRegistrationMapAMapMarkerIconController } from './system-module-shop-registration-map-amap-marker-icon.controller';
@@ -19,7 +17,7 @@ export class SystemModuleShopRegistrationMapAMapMarkerController {
 
   constructor(data: IShop) {
     this.marker = this.create(data);
-    this.data = ObjectTool.copy(data, ShopRegistration, ['Location']);
+    this.data = data;
   }
 
   protected icon =
@@ -98,5 +96,8 @@ export class SystemModuleShopRegistrationMapAMapMarkerController {
     this.selected = false;
     this.marker.setIcon(this.icon.out);
     this.marker.setzIndex(1);
+  }
+  move(position: [number, number]) {
+    this.marker.setPosition(position);
   }
 }

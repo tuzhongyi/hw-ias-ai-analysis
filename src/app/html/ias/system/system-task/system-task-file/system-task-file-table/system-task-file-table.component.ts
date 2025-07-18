@@ -19,12 +19,13 @@ export class SystemTaskFileTableComponent implements OnInit {
   @Input() data?: AnalysisTask;
   @Output() video = new EventEmitter<FileInfo>();
   @Output() error = new EventEmitter<Error>();
+  @Input() selecteds: FileInfo[] = [];
+  @Output() selectedsChange = new EventEmitter<FileInfo[]>();
+  @Input() selectmax = 2;
   constructor(private business: SystemTaskFileTableBusiness) {}
 
-  selected?: FileInfo;
-
   datas: FileInfo[] = [];
-  widths = ['100px', 'auto', '25%', '15%', '150px'];
+  widths = ['100px', '100px', 'auto', '25%', '15%', '150px'];
   Language = Language;
 
   ngOnInit(): void {
@@ -47,19 +48,27 @@ export class SystemTaskFileTableComponent implements OnInit {
   }
 
   onselect(item: FileInfo) {
-    this.selected = item;
+    if (this.selecteds.includes(item)) {
+      this.selecteds = this.selecteds.filter((x) => x !== item);
+    } else {
+      this.selecteds.push(item);
+      while (this.selecteds.length > this.selectmax) {
+        this.selecteds.shift();
+      }
+    }
+    this.selectedsChange.emit(this.selecteds);
   }
 
   onvideo(item: FileInfo, e: Event) {
     this.video.emit(item);
-    if (this.selected === item) {
+    if (this.selecteds.includes(item)) {
       e.stopImmediatePropagation();
     }
   }
   ondownload(item: FileInfo, e: Event) {
     let url = this.business.path(item);
     window.open(url, '_blank');
-    if (this.selected === item) {
+    if (this.selecteds.includes(item)) {
       e.stopImmediatePropagation();
     }
   }

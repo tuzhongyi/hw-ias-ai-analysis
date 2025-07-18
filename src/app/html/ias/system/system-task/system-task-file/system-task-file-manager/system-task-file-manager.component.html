@@ -1,8 +1,18 @@
 <div class="system-task-file-manager" *ngIf="task">
+  <div class="system-task-file-manager-operation">
+    <button
+      class="button-clip-gradient"
+      [disabled]="selecteds.length < 2"
+      (click)="on.multiple()"
+    >
+      多视频播放
+    </button>
+  </div>
   <ias-system-task-file-table
     [data]="task"
-    (video)="onvideo($event)"
-    (error)="onerror($event)"
+    (video)="on.video($event)"
+    (error)="on.error($event)"
+    [(selecteds)]="selecteds"
   ></ias-system-task-file-table>
 
   <ias-window
@@ -14,5 +24,15 @@
     <ias-system-task-file-details
       [data]="window.details.data"
     ></ias-system-task-file-details>
+  </ias-window>
+  <ias-window
+    *ngIf="window.multiple.show"
+    [Model]="window.multiple"
+    [style]="window.multiple.style"
+    [title]="window.multiple.title"
+  >
+    <ias-system-task-file-details-multiple
+      [datas]="selecteds"
+    ></ias-system-task-file-details-multiple>
   </ias-window>
 </div>

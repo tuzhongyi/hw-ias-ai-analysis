@@ -21,7 +21,9 @@ export class SystemModuleShopRegistrationManagerBusiness {
     throw new Error('部分数据删除失败');
   }
 
-  upload(data: ArrayBuffer) {
-    return this.service.shop.excel.upload(data);
+  upload(data: ArrayBuffer, progress: (value: number) => void) {
+    return this.service.shop.excel.upload(data, (value: number) => {
+      progress(value);
+    });
   }
 }

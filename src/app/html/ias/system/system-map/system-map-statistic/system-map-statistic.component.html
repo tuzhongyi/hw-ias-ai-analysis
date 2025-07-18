@@ -4,8 +4,19 @@
       <div class="system-map-statistic-item-icon-shop"></div>
     </div>
     <div class="system-map-statistic-item-content">
-      <div class="system-map-statistic-item-content-title">商铺</div>
-      <div class="system-map-statistic-item-content-value">{{ shop }}</div>
+      <div
+        class="system-map-statistic-item-content-title"
+        [ngClass]="{
+        green:color == 'green',
+        blue:color == 'blue',
+        orange:color == 'orange',
+      }"
+      >
+        {{ title }}
+      </div>
+      <div class="system-map-statistic-item-content-value">
+        {{ shop }}
+      </div>
     </div>
   </div>
 </div>

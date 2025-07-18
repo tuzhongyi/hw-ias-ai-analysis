@@ -47,7 +47,7 @@ export class SystemTaskShopAnalysisTableComponent implements OnInit, OnDestroy {
 
   constructor(private business: SystemTaskShopAnalysisTableBusiness) {}
 
-  widths: string[] = ['10%', 'auto', 'auto', '15%', '15%', '91px', '10%'];
+  widths: string[] = ['10%', 'auto', '15%', '15%', '91px', '10%'];
   datas: ISystemTaskShopAnalysisTableItem[] = [];
   loading = false;
   private subscription = new Subscription();

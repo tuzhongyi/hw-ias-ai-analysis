@@ -13,6 +13,7 @@
         </colgroup>
         <thead>
           <tr>
+            <th class="center">选择</th>
             <th class="center">序号</th>
             <th sort="FileName">文件名称</th>
             <th sort="ModifiedTime">修改日期</th>
@@ -33,9 +34,14 @@
             (click)="onselect(item)"
             (dblclick)="onvideo(item, $event)"
             [ngClass]="{
-              selected: selected === item
+              selected: selecteds.includes(item)
             }"
           >
+            <td class="center">
+              <div>
+                <input type="checkbox" [checked]="selecteds.includes(item)" />
+              </div>
+            </td>
             <td class="center">
               <div>{{ index + 1 }}</div>
             </td>

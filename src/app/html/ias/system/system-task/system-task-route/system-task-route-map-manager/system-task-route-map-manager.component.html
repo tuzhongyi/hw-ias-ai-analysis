@@ -51,8 +51,17 @@
     ></ias-system-task-route-map-panel-shop-registration-state>
   </div>
   <div class="system-task-route-map-manager-settings">
-    <ias-system-task-route-map-panel-settings
+    <ias-map-panel-settings
       [(rectified)]="map.rectified"
-    ></ias-system-task-route-map-panel-settings>
+      [top]="false"
+      [left]="false"
+    ></ias-map-panel-settings>
+  </div>
+  <div class="system-task-route-map-manager-statistic">
+    <ias-system-task-route-map-panel-statistic
+      [data]="task"
+      (analysis)="on.analysis($event)"
+      (registration)="on.registration($event)"
+    ></ias-system-task-route-map-panel-statistic>
   </div>
 </div>

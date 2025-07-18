@@ -1,19 +1,17 @@
 import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
 import { ISystemAMapShopIconController } from './system-map-amap-shop-marker.model';
 
 export class SystemAMapShopIconController
   implements ISystemAMapShopIconController
 {
   private size(selected = false): [number, number] {
-    let width = 76;
-    let height = 86;
-
     if (selected) {
-      return [76 * 0.7, 95 * 0.7];
+      return [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.width * 0.7];
     }
 
-    return [width * 0.7, height * 0.7];
+    return [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.width * 0.7];
   }
 
   private get opts(): AMap.LabelMarkerIconOptions {

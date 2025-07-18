@@ -7,14 +7,16 @@ import { ShopRegistrationTaskDetectedResult } from '../../../../../../common/dat
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { NameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
+import { IASMapPanelSettingsComponent } from '../../../../share/map-panel/ias-map-panel-settings/ias-map-panel-settings.component';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemMapSearchComponent } from '../../../system-map/system-map-search/system-map-search.component';
 import { SystemTaskRouteMapPanelDetailsManagerComponent } from '../system-task-route-map-panel/system-task-route-map-panel-details/system-task-route-map-panel-details-manager/system-task-route-map-panel-details-manager.component';
-import { SystemTaskRouteMapPanelSettingsComponent } from '../system-task-route-map-panel/system-task-route-map-panel-settings/system-task-route-map-panel-settings.component';
 import { SystemTaskRouteMapPanelShopRegistrationListComponent } from '../system-task-route-map-panel/system-task-route-map-panel-shop-registration-list/system-task-route-map-panel-shop-registration-list.component';
 import { SystemTaskRouteMapPanelShopRegistrationStateComponent } from '../system-task-route-map-panel/system-task-route-map-panel-shop-registration-state/system-task-route-map-panel-shop-registration-state.component';
+import { SystemTaskRouteMapPanelStatisticComponent } from '../system-task-route-map-panel/system-task-route-map-panel-statistic/system-task-route-map-panel-statistic.component';
 import { SystemTaskRouteMapComponent } from '../system-task-route-map/system-task-route-map.component';
 import { SystemTaskRouteMapArgs } from '../system-task-route-map/system-task-route-map.model';
+import { ShopStatisticStatus } from '../system-task-route-statistic/system-task-route-statistic.model';
 import { SystemTaskRouteMapManagerPanel } from './panel/system-task-route-map-manager.panel';
 
 @Component({
@@ -26,7 +28,8 @@ import { SystemTaskRouteMapManagerPanel } from './panel/system-task-route-map-ma
     SystemTaskRouteMapPanelDetailsManagerComponent,
     SystemTaskRouteMapPanelShopRegistrationListComponent,
     SystemTaskRouteMapPanelShopRegistrationStateComponent,
-    SystemTaskRouteMapPanelSettingsComponent,
+    IASMapPanelSettingsComponent,
+    SystemTaskRouteMapPanelStatisticComponent,
   ],
   templateUrl: './system-task-route-map-manager.component.html',
   styleUrl: './system-task-route-map-manager.component.less',
@@ -39,10 +42,12 @@ export class SystemTaskRouteMapManagerComponent {
   @Output() picture = new EventEmitter<
     PagedList<NameValue<PicturePolygonArgs>>
   >();
+  @Output() analysis = new EventEmitter<ShopStatisticStatus | undefined>();
+  @Output() registration = new EventEmitter<boolean | undefined>();
 
   map = {
     args: new SystemTaskRouteMapArgs(),
-    rectified: true,
+    rectified: false,
     load: new EventEmitter<SystemTaskRouteMapArgs>(),
     focus: new EventEmitter<ShopRegistration>(),
     over: new EventEmitter<ShopRegistration>(),
@@ -105,6 +110,12 @@ export class SystemTaskRouteMapManagerComponent {
     },
     picture: (data: PagedList<NameValue<PicturePolygonArgs>>) => {
       this.picture.emit(data);
+    },
+    analysis: (type?: ShopStatisticStatus) => {
+      this.analysis.emit(type);
+    },
+    registration: (detected?: boolean) => {
+      this.registration.emit(detected);
     },
   };
 }

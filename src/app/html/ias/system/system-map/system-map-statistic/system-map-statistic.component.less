@@ -8,14 +8,15 @@
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
-    width: 200px;
+    min-width: 200px;
+
 
     &-icon {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 90px;
-      height: 90px;
+      width: 80px;
+      height: 80px;
       background-image: url("../../../../../../assets/image/map/panel/panel-statistic-item.png");
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -42,6 +43,18 @@
         color: #69bbff;
         font-weight: bold;
         text-shadow: #000 0px 0 10px;
+
+        &.green {
+          color: #23e353;
+        }
+
+        &.blue {
+          color: #1e90ff;
+        }
+
+        &.orange {
+          color: #ff762c;
+        }
       }
 
       &-value {

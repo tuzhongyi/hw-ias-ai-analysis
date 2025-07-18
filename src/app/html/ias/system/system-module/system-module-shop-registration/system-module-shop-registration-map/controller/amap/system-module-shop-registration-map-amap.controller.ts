@@ -4,6 +4,7 @@ import { Road } from '../../../../../../../../common/data-core/models/arm/geogra
 import { ShopRegistration } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { ClassTool } from '../../../../../../../../common/tools/class-tool/class.tool';
+import { ObjectTool } from '../../../../../../../../common/tools/object-tool/object.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { SystemModuleShopRegistrationMapAMapLabelController } from './label/system-module-shop-registration-map-amap-label.controller';
 import { SystemModuleShopRegistrationMapAMapMarkerLayerController } from './marker/system-module-shop-registration-map-amap-marker-layer.controller';
@@ -195,12 +196,12 @@ export class SystemModuleShopRegistrationMapAMapController {
   point = {
     datas: [] as IShop[],
     load: (datas: ShopRegistration[]) => {
-      this.point.datas = [...datas];
+      this.point.datas = datas.map((x) => ObjectTool.copy(x, ShopRegistration));
       this.controller.point.get().then((x) => {
         x.load(this.point.datas);
       });
       this.controller.marker.get().then((x) => {
-        x.load(datas).then((markers) => {
+        x.load(this.point.datas).then((markers) => {
           this.amap.get().then((map) => {
             map.setFitView(markers, true);
           });
@@ -213,9 +214,14 @@ export class SystemModuleShopRegistrationMapAMapController {
       if (index >= 0) {
         datas[index] = changed;
       }
-      let controller = await this.controller.point.get();
-      controller.clear();
-      controller.load(datas);
+      let point = await this.controller.point.get();
+      point.clear();
+      point.load(datas);
+    },
+    revoke: async (changed: ShopRegistration) => {
+      this.point.reload(changed);
+      let marker = await this.controller.marker.get();
+      marker.set.position(changed);
     },
     clear: async () => {
       this.point.datas = [];

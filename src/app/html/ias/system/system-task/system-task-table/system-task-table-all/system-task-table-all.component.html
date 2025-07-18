@@ -80,7 +80,7 @@
           <td class="center">
             @if(item.hasdata){
             <div class="operation">
-              @if(item.State === State.uploading){
+              @if(item.State === State.Uploading){
               <div
                 class="button"
                 title="任务信息"
@@ -88,7 +88,7 @@
               >
                 <i class="howell-icon-details"></i>
               </div>
-              } @if(item.State != State.uploading){
+              } @if(item.State != State.Uploading){
               <div
                 class="button"
                 title="分析任务详情"
@@ -96,7 +96,7 @@
               >
                 <i class="howell-icon-route"></i>
               </div>
-              }@if(item.State === State.completed){
+              }@if(item.State === State.Finished){
               <div
                 class="button"
                 title="分析结果"
@@ -104,9 +104,9 @@
               >
                 <i class="howell-icon-task_misson"></i>
               </div>
-              } @if(item.State === State.notstarted || item.State ===
-              State.inprogress ||item.State === State.completed || item.State
-              === State.failed){
+              } @if(item.State === State.NotStarted || item.State ===
+              State.OnGoing ||item.State === State.Finished || item.State ===
+              State.Failed){
               <div
                 class="button"
                 title="视频文件"
@@ -114,10 +114,17 @@
               >
                 <i class="mdi mdi-file-video"></i>
               </div>
-              } @if(item.State === State.uploading || item.State ===
-              State.notstarted || item.State === State.inprogress || item.State
-              === State.failed){
-
+              } @if(item.State === State.Paused){
+              <div
+                class="button"
+                title="开始分析"
+                (click)="onanalysis(item, $event)"
+              >
+                <i class="mdi mdi-file-video"></i>
+              </div>
+              } @if(item.State === State.Uploading || item.State ===
+              State.NotStarted || item.State === State.OnGoing || item.State ===
+              State.Failed){
               <div
                 class="button"
                 title="删除任务"

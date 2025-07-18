@@ -51,7 +51,9 @@
         [type]="file.upload.type"
         (upload)="file.upload.do($event)"
       >
-        <button class="button-clip-gradient">文件上传</button>
+        <button class="button-clip-gradient" [disabled]="file.upload.loading">
+          {{ file.upload.name }}
+        </button>
       </upload-control>
     </div>
   </div>

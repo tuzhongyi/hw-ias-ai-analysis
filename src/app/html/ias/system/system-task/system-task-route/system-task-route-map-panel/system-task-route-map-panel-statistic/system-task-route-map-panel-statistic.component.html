@@ -1,0 +1,28 @@
+<div class="system-task-route-map-panel-statistic">
+  <ias-system-map-statistic
+    [title]="'新发现商铺'"
+    [shop]="statistic?.NewShopCount ?? 0"
+    [color]="'green'"
+    (click)="on.analysis(Status.discover)"
+  ></ias-system-map-statistic>
+  <ias-system-map-statistic
+    [title]="'全部注册商铺'"
+    [shop]="statistic?.ShopRegistrationCount ?? 0"
+    (click)="on.registration()"
+  ></ias-system-map-statistic>
+  <ias-system-map-statistic
+    [title]="'已检测到注册商铺'"
+    [shop]="
+      (statistic?.ShopRegistrationCount ?? 0) -
+      (statistic?.UndetectedShopRegistrationCount ?? 0)
+    "
+    [color]="'blue'"
+    (click)="on.registration(true)"
+  ></ias-system-map-statistic>
+  <ias-system-map-statistic
+    [title]="'未检测到注册商铺'"
+    [shop]="statistic?.UndetectedShopRegistrationCount ?? 0"
+    [color]="'orange'"
+    (click)="on.registration(false)"
+  ></ias-system-map-statistic>
+</div>

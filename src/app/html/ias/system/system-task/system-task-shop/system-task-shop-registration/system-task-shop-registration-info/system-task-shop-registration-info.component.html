@@ -4,12 +4,19 @@
     <div class="form-item-value">{{ data.Name }}</div>
   </div>
   <div class="form-item">
-    <div class="form-item-text">商铺子名称:</div>
-    <div class="form-item-value">
+    <div class="form-item-text baseline">商铺子名称:</div>
+    <div
+      class="form-item-value"
+      [title]="
+        data.Subnames && data.Subnames.length > 0
+          ? data.Subnames.join('\n')
+          : ''
+      "
+    >
       @if(data.Subnames && data.Subnames.length > 0){
-      <span *ngFor="let item of data.Subnames">{{ item }}</span>
+      {{ data.Subnames.join(", ") }}
       } @else{
-      <span>-</span>
+      <div>-</div>
       }
     </div>
   </div>

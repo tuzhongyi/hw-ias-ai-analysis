@@ -123,9 +123,15 @@ export class SystemModuleShopRegistrationManagerComponent {
     upload: {
       accept: '*.*',
       type: FileReadType.ArrayBuffer,
+      name: '文件上传',
+      loading: false,
       do: (file: UploadControlFile) => {
+        this.toastr.success('开始上传文件，请稍候...');
+        this.file.upload.loading = true;
         this.business
-          .upload(file.data as ArrayBuffer)
+          .upload(file.data as ArrayBuffer, (value: number) => {
+            this.file.upload.name = `${value.toFixed(0)}%`;
+          })
           .then((x) => {
             this.toastr.success('上传成功');
             this.table.selecteds = [];
@@ -133,6 +139,10 @@ export class SystemModuleShopRegistrationManagerComponent {
           })
           .catch((e) => {
             this.toastr.error('上传失败');
+          })
+          .finally(() => {
+            this.file.upload.loading = false;
+            this.file.upload.name = '文件上传';
           });
       },
     },

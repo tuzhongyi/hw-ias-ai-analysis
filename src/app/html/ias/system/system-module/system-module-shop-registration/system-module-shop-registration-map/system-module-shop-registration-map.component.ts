@@ -40,6 +40,7 @@ export class SystemModuleShopRegistrationMapComponent
   @Input() focus?: EventEmitter<ShopRegistration>;
   @Input() over?: EventEmitter<ShopRegistration>;
   @Input() out?: EventEmitter<ShopRegistration>;
+  @Input() revoke?: EventEmitter<ShopRegistration>;
 
   constructor(
     private business: SystemModuleShopRegistrationMapBusiness,
@@ -119,6 +120,15 @@ export class SystemModuleShopRegistrationMapComponent
       if (this.out) {
         let sub = this.out.subscribe((x) => {
           this.controller.amap.point.out(x);
+        });
+        this.subscription.add(sub);
+      }
+      if (this.revoke) {
+        let sub = this.revoke.subscribe((changed) => {
+          let data = this.datas.find((x) => x.Id === changed.Id);
+          if (data) {
+            this.controller.amap.point.revoke(data);
+          }
         });
         this.subscription.add(sub);
       }

@@ -6,9 +6,57 @@
       display: hasdata ? '' : 'none'
     }"
   ></div>
-  <div class="panel-map speed" *ngIf="speed != undefined">
-    {{ speed.toFixed(0) }} <span>km/h</span>
+  <div class="system-task-file-details-map-speed" *ngIf="speed != undefined">
+    <ias-system-task-file-details-map-panel-speed
+      [speed]="speed"
+    ></ias-system-task-file-details-map-panel-speed>
   </div>
   <div class="loading" *ngIf="loading"></div>
   <div class="nodata" *ngIf="!loading && !hasdata">无数据</div>
+  <div class="system-task-file-details-map-settings panel-map">
+    <ias-map-panel-settings
+      [rectified]="rectified"
+      (rectifiedChange)="on.rectified($event)"
+    ></ias-map-panel-settings>
+  </div>
+  <div
+    class="system-task-file-details-map-position-current"
+    *ngIf="position.current"
+    [ngClass]="{
+      fixed: position.current.fixed
+    }"
+  >
+    <ias-system-task-file-details-map-panel-position
+      [icon]="'howell-icon-arrow'"
+      [title]="'当前位置'"
+      [position]="position.current.data"
+      [(fixed)]="position.current.fixed"
+    ></ias-system-task-file-details-map-panel-position>
+  </div>
+  <div
+    class="system-task-file-details-map-position-point"
+    *ngIf="position.point.data"
+    [ngClass]="{
+      fixed: position.point.fixed
+    }"
+  >
+    <ias-system-task-file-details-map-panel-position
+      [icon]="'howell-icon-garbage2'"
+      [title]="'商铺位置'"
+      [position]="position.point.data"
+      [(fixed)]="position.point.fixed"
+    ></ias-system-task-file-details-map-panel-position>
+  </div>
+
+  <!-- <div class="system-task-file-details-map-controls panel-map">
+    <button>
+      <i class="mdi mdi-play"></i>
+    </button>
+    <button>
+      <i class="mdi mdi-pause"></i>
+    </button>
+    <button>
+      <i class="mdi mdi-image-area"></i>
+    </button>
+  </div> -->
 </div>

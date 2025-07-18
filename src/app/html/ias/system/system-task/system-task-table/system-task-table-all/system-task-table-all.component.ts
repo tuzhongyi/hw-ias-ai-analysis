@@ -41,6 +41,7 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   @Output() details = new EventEmitter<AnalysisTaskModel>();
   @Output() error = new EventEmitter<Error>();
   @Output() route = new EventEmitter<AnalysisTaskModel>();
+  @Output() analysis = new EventEmitter<AnalysisTaskModel>();
 
   constructor(
     private business: SystemTaskTableAllBusiness,
@@ -163,6 +164,13 @@ export class SystemTaskTableAllComponent implements OnInit, OnDestroy {
   }
   onfiles(item: AnalysisTaskModel, e: Event) {
     this.files.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
+  }
+
+  onanalysis(item: AnalysisTaskModel, e: Event) {
+    this.analysis.emit(item);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }

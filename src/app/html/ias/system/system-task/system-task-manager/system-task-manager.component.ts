@@ -60,10 +60,6 @@ export class SystemTaskManagerComponent implements OnInit {
 
   window = new SystemTaskManagerWindow();
 
-  table = {
-    args: new SystemTaskTableArgs(),
-    load: new EventEmitter<SystemTaskTableArgs>(),
-  };
   Language = Language;
 
   ngOnInit(): void {
@@ -92,43 +88,58 @@ export class SystemTaskManagerComponent implements OnInit {
     },
   };
 
+  table = {
+    args: new SystemTaskTableArgs(),
+    load: new EventEmitter<SystemTaskTableArgs>(),
+    on: {
+      result: async (data: AnalysisTaskModel) => {
+        this.window.result.title = `${
+          data.Name
+        } ${await this.language.analysis.server.TaskType(data.TaskType)}`;
+        this.window.result.data = data;
+        this.window.result.show = true;
+      },
+      route: (data: AnalysisTaskModel) => {
+        this.window.route.title = data.Name ?? '';
+        this.window.route.data = data;
+        this.window.route.show = true;
+      },
+      details: (data: AnalysisTaskModel) => {
+        this.window.details.data = data;
+        let files = this.controller.file.get(data.Id);
+        if (files) {
+          this.window.details.files = files;
+        } else {
+          this.window.details.files = (data.Files ?? []).map((x) => {
+            return { filename: x };
+          });
+        }
+
+        this.window.details.show = true;
+      },
+      files: (data: AnalysisTaskModel) => {
+        this.local.system.task.info.set({ Id: data.Id, Name: data.Name ?? '' });
+        this.router.navigateByUrl(`${SystemPath.task_file}`);
+      },
+
+      analysis: (data: AnalysisTaskModel) => {
+        let args: TaskCompletedArgs = {
+          task: data,
+          files: data.Files ?? [],
+          start: true,
+        };
+        this.on.completed(args);
+      },
+      error: (e: Error) => {
+        this.toastr.error(e.message);
+      },
+    },
+  };
+
   onstate(finished?: boolean) {
     this.table.args.finished = finished;
     this.local.system.task.index.set(finished);
     this.table.load.emit(this.table.args);
-  }
-
-  async onresult(data: AnalysisTaskModel) {
-    this.window.result.title = `${
-      data.Name
-    } ${await this.language.analysis.server.TaskType(data.TaskType)}`;
-    this.window.result.data = data;
-    this.window.result.show = true;
-  }
-  onroute(data: AnalysisTaskModel) {
-    this.window.route.title = data.Name ?? '';
-    this.window.route.data = data;
-    this.window.route.show = true;
-  }
-  ondetails(data: AnalysisTaskModel) {
-    this.window.details.data = data;
-    let files = this.controller.file.get(data.Id);
-    if (files) {
-      this.window.details.files = files;
-    } else {
-      this.window.details.files = (data.Files ?? []).map((x) => {
-        return { filename: x };
-      });
-    }
-
-    this.window.details.show = true;
-  }
-  onfiles(data: AnalysisTaskModel) {
-    this.local.system.task.info.set({ Id: data.Id, Name: data.Name ?? '' });
-    this.router.navigateByUrl(`${SystemPath.task_file}`);
-  }
-  onerror(e: Error) {
-    this.toastr.error(e.message);
   }
 
   picture = {
@@ -193,7 +204,7 @@ export class SystemTaskManagerComponent implements OnInit {
   on = {
     completed: (args: TaskCompletedArgs) => {
       this.business.task
-        .source(args.task, args.files)
+        .source(args.task, args.files, args.start)
         .then((x) => {
           this.table.load.emit(this.table.args);
           this.window.details.show = false;

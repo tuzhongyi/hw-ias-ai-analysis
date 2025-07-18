@@ -3,14 +3,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'ias-system-task-route-map-panel-settings',
+  selector: 'ias-map-panel-settings',
   imports: [CommonModule, FormsModule],
-  templateUrl: './system-task-route-map-panel-settings.component.html',
-  styleUrl: './system-task-route-map-panel-settings.component.less',
+  templateUrl: './ias-map-panel-settings.component.html',
+  styleUrl: './ias-map-panel-settings.component.less',
 })
-export class SystemTaskRouteMapPanelSettingsComponent {
+export class IASMapPanelSettingsComponent {
   @Input() rectified: boolean = false;
   @Output() rectifiedChange = new EventEmitter<boolean>();
+  @Input() top = true;
+  @Input() left = false;
 
   on = {
     rectified: () => {

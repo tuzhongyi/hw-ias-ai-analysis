@@ -29,11 +29,12 @@ export class SystemModuleShopRegistrationMapManagerComponent extends WindowCompo
   panel = new SystemModuleShopRegistrationMapManagerPanel();
   map = {
     args: new SystemModuleShopRegistrationMapArgs(),
-    rectified: true,
+    rectified: false,
     load: new EventEmitter<SystemModuleShopRegistrationMapArgs>(),
     focus: new EventEmitter<ShopRegistration>(),
     over: new EventEmitter<ShopRegistration>(),
     out: new EventEmitter<ShopRegistration>(),
+    revoke: new EventEmitter<ShopRegistration>(),
   };
 
   data = {
@@ -50,8 +51,11 @@ export class SystemModuleShopRegistrationMapManagerComponent extends WindowCompo
       },
       revoke: () => {
         let datas = [...this.data.changed];
-        datas.pop();
-        this.data.changed = datas;
+        let data = datas.pop();
+        if (data) {
+          this.map.revoke.emit(data);
+          this.data.changed = datas;
+        }
       },
       loaded: (datas: ShopRegistration[]) => {
         this.data.source = datas;

@@ -26,7 +26,7 @@ export class IASMapAMapController {
 
   private _load(data: GisPoint, args: IIASMapArgs, center: boolean) {
     this.map.get().then((x) => {
-      let marker = this.marker.set(data, args);
+      let marker = this.marker.set([data.Longitude, data.Latitude], args);
       this.marker.select();
       x.add(marker);
       if (center) {

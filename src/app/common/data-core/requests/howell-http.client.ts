@@ -75,9 +75,9 @@ export class HowellHttpClient {
     this.local.auth.clear();
   }
 
-  upload<R>(
+  upload<T, R>(
     path: string,
-    data: FormData,
+    data: T,
     event?: { process?: (x: number) => void; completed?: () => void }
   ) {
     let options = this.getAuth();

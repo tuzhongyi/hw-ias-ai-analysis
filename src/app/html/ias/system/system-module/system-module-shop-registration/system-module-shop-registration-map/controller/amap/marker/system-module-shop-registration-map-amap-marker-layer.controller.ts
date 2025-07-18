@@ -108,5 +108,17 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
       this.zoom = zoom;
       this.info.set.offset(zoom);
     },
+    position: (data: IShop) => {
+      let point = this.points.find((x) => x.data.Id === data.Id);
+      if (point && data.Location) {
+        let position: [number, number] = [
+          data.Location.Longitude,
+          data.Location.Latitude,
+        ];
+
+        point.move(position);
+        this.info.set.position(position);
+      }
+    },
   };
 }

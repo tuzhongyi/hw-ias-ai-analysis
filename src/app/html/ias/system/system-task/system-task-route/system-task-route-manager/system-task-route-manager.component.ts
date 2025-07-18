@@ -7,16 +7,11 @@ import { NameValue } from '../../../../../../common/data-core/models/capabilitie
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemTaskRouteMapManagerComponent } from '../system-task-route-map-manager/system-task-route-map-manager.component';
-import { SystemTaskRouteStatisticComponent } from '../system-task-route-statistic/system-task-route-statistic.component';
 import { ShopStatisticStatus } from '../system-task-route-statistic/system-task-route-statistic.model';
 
 @Component({
   selector: 'ias-system-task-route-manager',
-  imports: [
-    CommonModule,
-    SystemTaskRouteStatisticComponent,
-    SystemTaskRouteMapManagerComponent,
-  ],
+  imports: [CommonModule, SystemTaskRouteMapManagerComponent],
   templateUrl: './system-task-route-manager.component.html',
   styleUrl: './system-task-route-manager.component.less',
 })

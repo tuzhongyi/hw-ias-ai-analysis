@@ -9,6 +9,7 @@
   (files)="onfiles($event)"
   (error)="onerror($event)"
   (route)="onroute($event)"
+  (analysis)="onanalysis($event)"
 ></ias-system-task-table-all>
 } @else if(args.finished){
 <ias-system-task-table-finished
@@ -29,5 +30,6 @@
   (error)="onerror($event)"
   (files)="onfiles($event)"
   (route)="onroute($event)"
+  (analysis)="onanalysis($event)"
 ></ias-system-task-table-runing>
 }

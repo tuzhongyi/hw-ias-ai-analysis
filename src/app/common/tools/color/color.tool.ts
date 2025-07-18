@@ -43,15 +43,15 @@ export class ColorTool {
   }
   static TaskState(value?: ShopState) {
     switch (value) {
-      case ShopState.uploading:
+      case ShopState.Uploading:
         return '#69adff';
-      case ShopState.notstarted:
+      case ShopState.NotStarted:
         return '#ca98f7';
-      case ShopState.inprogress:
+      case ShopState.OnGoing:
         return '#01edf5';
-      case ShopState.completed:
+      case ShopState.Finished:
         return '#23e353';
-      case ShopState.failed:
+      case ShopState.Failed:
         return '#ff5151';
       default:
         return '';

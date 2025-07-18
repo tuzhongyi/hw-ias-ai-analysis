@@ -79,8 +79,11 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
   }
 
   excel = {
-    upload: (data: ArrayBuffer) => {
+    upload: async (data: ArrayBuffer, progress?: (x: number) => void) => {
       let url = ArmGeographicUrl.shop.excel.upload();
+      this.http.upload<ArrayBuffer, HowellResponse<string>>(url, data, {
+        process: progress,
+      });
       return this.http
         .post<HowellResponse<string>, any>(url, data)
         .then((x) => {

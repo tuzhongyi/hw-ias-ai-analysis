@@ -1,9 +1,12 @@
-import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
+import { EventEmitter } from '@angular/core';
 import { PromiseValue } from '../../../../../../common/view-models/value.promise';
 import { IIASMapArgs } from '../../ias-map.model';
 import { IASMapAMapIconController } from './ias-map-amap-icon.controller';
 
 export class IASMapAMapMarkerController {
+  event = {
+    dragend: new EventEmitter<[number, number]>(),
+  };
   private icon = new IASMapAMapIconController();
 
   private marker = new PromiseValue<AMap.Marker>();
@@ -14,16 +17,16 @@ export class IASMapAMapMarkerController {
     }
     return undefined;
   }
-  set(data: GisPoint, args: IIASMapArgs) {
-    this.position = [data.Longitude, data.Latitude];
+  set(position: [number, number], args: IIASMapArgs, draggable = false) {
+    this.position = [...position];
     let icon = this.icon.get(args.type, args.color);
     let marker = new AMap.Marker({
       position: this.position,
-      draggable: false,
+      draggable: draggable,
       icon: icon,
       offset: this.icon.offset,
     });
-    // this.regist(marker);
+    this.regist(marker);
 
     this.marker.set(marker);
 
@@ -36,6 +39,10 @@ export class IASMapAMapMarkerController {
     });
     marker.on('mouseout', () => {
       this.mouse.out();
+    });
+    marker.on('dragend', (e) => {
+      let position: [number, number] = [e.lnglat.lng, e.lnglat.lat];
+      this.event.dragend.emit(position);
     });
   }
 

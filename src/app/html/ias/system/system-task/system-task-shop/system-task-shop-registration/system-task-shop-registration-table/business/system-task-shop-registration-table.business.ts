@@ -45,21 +45,28 @@ export class SystemTaskShopRegistrationTableBusiness {
     item: ShopRegistrationTaskDetectedResult,
     args: SystemTaskShopRegistrationTableArgs
   ) {
-    let result = true;
+    let result = {
+      name: true,
+      road: {
+        on: true,
+        ori: true,
+      },
+      detected: true,
+    };
     if (args.name) {
-      result = item.Name.toLowerCase().includes(args.name.toLowerCase());
+      result.name = item.Name.toLowerCase().includes(args.name.toLowerCase());
     }
     if (args.road.on) {
-      result = item.RoadId === args.road.on;
+      result.road.on = item.RoadId === args.road.on;
     }
     if (args.road.ori) {
-      result = item.OriRoadId === args.road.ori;
+      result.road.ori = item.OriRoadId === args.road.ori;
     }
     if (args.detected != undefined) {
-      result = item.Detected == args.detected;
+      result.detected = item.Detected == args.detected;
     }
 
-    return result;
+    return result.name && result.road.on && result.road.ori && result.detected;
   }
 
   private data = {

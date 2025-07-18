@@ -4,6 +4,7 @@ import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemTaskFileManagerWindow {
   details = new DetailsWindow();
+  multiple = new MultipleWindow();
 }
 
 class DetailsWindow extends WindowViewModel {
@@ -14,4 +15,10 @@ class DetailsWindow extends WindowViewModel {
     ...SizeTool.window.video.path,
   };
   data?: FileInfo;
+}
+class MultipleWindow extends WindowViewModel {
+  style = {
+    ...SizeTool.window.full,
+  };
+  title = '';
 }
