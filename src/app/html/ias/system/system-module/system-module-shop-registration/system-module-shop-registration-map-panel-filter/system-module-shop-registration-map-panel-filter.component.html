@@ -1,0 +1,63 @@
+<div class="system-module-shop-registration-map-panel-filter panel-map">
+  <div class="system-module-shop-registration-map-panel-filter-head">
+    <div class="panel-title">筛选</div>
+    <div>
+      <button (click)="on.cancel()">
+        <i class="howell-icon-Close"></i>
+      </button>
+    </div>
+  </div>
+  <div
+    class="system-module-shop-registration-map-panel-filter-body"
+    *ngIf="args"
+  >
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">商铺名称</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="args.name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">所在道路</div>
+        <div class="form-item-value">
+          <ias-input-select-road
+            [(selected)]="args.road.on"
+            [auto]="true"
+          ></ias-input-select-road>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">门面道路</div>
+        <div class="form-item-value">
+          <ias-input-select-road
+            [(selected)]="args.road.ori"
+            [auto]="true"
+          ></ias-input-select-road>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">相对位置</div>
+        <div class="form-item-value">
+          <select
+            [(ngModel)]="args.side"
+            [disabled]="!(args.road.on || args.road.ori)"
+          >
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="1">东面</option>
+            <option [ngValue]="2">南面</option>
+            <option [ngValue]="3">西面</option>
+            <option [ngValue]="4">北面</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-shop-registration-map-panel-filter-foot">
+    <button (click)="on.reset()">重置</button>
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+      <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+    </div>
+  </div>
+</div>

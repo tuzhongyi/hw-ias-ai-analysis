@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { GisPoint } from '../../../../../../../../common/data-core/models/arm/gis-point.model';
+import { GeoPoint } from '../../../../../../../../common/tools/geo-tool/geo.model';
 
 export class SystemAMapShopMarkerEvent {
   mouseover = new EventEmitter<IShop>();
@@ -28,5 +28,5 @@ export interface ISystemAMapShopLabelMarkerController {
 }
 export interface ISystemAMapShopMarkerInfo {
   Name: string;
-  Location?: GisPoint;
+  Location?: GeoPoint;
 }

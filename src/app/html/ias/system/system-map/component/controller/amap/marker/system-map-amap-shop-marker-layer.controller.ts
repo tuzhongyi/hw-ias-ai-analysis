@@ -4,6 +4,7 @@ import { SystemAMapShopInfoController } from './system-map-amap-shop-info.contro
 import { SystemAMapShopLabelMarkerController } from './system-map-amap-shop-marker.controller';
 import {
   ISystemAMapShopLabelMarkerController,
+  ISystemAMapShopMarkerInfo,
   SystemAMapShopMarkerEvent,
 } from './system-map-amap-shop-marker.model';
 
@@ -33,7 +34,13 @@ export class SystemAMapShopMarkerLayerController {
 
   private regist(point: SystemAMapShopLabelMarkerController) {
     point.event.mouseover.subscribe((data) => {
-      this.info.add(data, this.zoom);
+      let info: ISystemAMapShopMarkerInfo = {
+        Name: data.Name,
+      };
+      if (data.Location) {
+        info.Location = [data.Location.Longitude, data.Location.Latitude];
+      }
+      this.info.add(info, this.zoom);
       this.event.mouseover.emit(data);
     });
     point.event.mouseout.subscribe((data) => {
@@ -67,7 +74,13 @@ export class SystemAMapShopMarkerLayerController {
   }
 
   mouseover(data: IShop) {
-    this.info.add(data, this.zoom);
+    let info: ISystemAMapShopMarkerInfo = {
+      Name: data.Name,
+    };
+    if (data.Location) {
+      info.Location = [data.Location.Longitude, data.Location.Latitude];
+    }
+    this.info.add(info, this.zoom);
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {
       point.hover();

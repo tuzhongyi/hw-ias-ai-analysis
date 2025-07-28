@@ -11,6 +11,10 @@ export class VideoDirective {
     this.nativeElement.play();
   }
 
+  get currentTime() {
+    return this.nativeElement.currentTime;
+  }
+
   get nativeElement() {
     return this.e.nativeElement;
   }

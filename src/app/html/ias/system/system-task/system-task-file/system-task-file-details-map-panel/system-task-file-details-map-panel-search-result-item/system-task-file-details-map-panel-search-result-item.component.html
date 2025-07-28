@@ -1,0 +1,44 @@
+<div
+  class="system-task-file-details-map-panel-search-result-item"
+  *ngIf="data"
+  [ngClass]="{
+    selected: selected
+  }"
+>
+  <div class="system-task-file-details-map-panel-search-result-item-info">
+    <div
+      class="system-task-file-details-map-panel-search-result-item-info-name"
+    >
+      {{ data.name }}
+    </div>
+    <div
+      class="system-task-file-details-map-panel-search-result-item-info-address"
+      *ngIf="data.address"
+    >
+      {{ data.address }}
+    </div>
+    <div
+      class="system-task-file-details-map-panel-search-result-item-info-distance"
+      *ngIf="distance"
+    >
+      @if(distance < 1000){
+      <div
+        class="system-task-file-details-map-panel-search-result-item-info-distance-value"
+      >
+        {{ distance.toFixed(0) }}
+      </div>
+      米 } @else {
+      <div
+        class="system-task-file-details-map-panel-search-result-item-info-distance-value"
+      >
+        {{ distance / 1000 | number : "1.0-2" }}
+      </div>
+      公里 }
+    </div>
+  </div>
+  <div class="system-task-file-details-map-panel-search-result-item-operation">
+    <button *ngIf="data.location" (click)="on.copy()">
+      <i class="mdi mdi-content-copy"></i>
+    </button>
+  </div>
+</div>

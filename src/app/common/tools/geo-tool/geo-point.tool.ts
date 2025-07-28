@@ -6,6 +6,11 @@ export class GeoPointTool {
   sort = new GeoPointSortTool();
   convert = new GeoPointConvertTool();
 
+  offset = {
+    longitude: -0.000016186056,
+    latitude: -0.00001413124316,
+  };
+
   /** 角度 */
   private radians(degrees: number): number {
     return degrees * (Math.PI / 180);
@@ -29,10 +34,28 @@ export class GeoPointTool {
     return (θ + 360) % 360; // 确保结果在 0 到 360 度之间
   }
   /** 距离 */
-  distance(point1: GeoPoint, point2: GeoPoint): number {
+  private math_distance(point1: GeoPoint, point2: GeoPoint): number {
     const [x1, y1] = point1;
     const [x2, y2] = point2;
     return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+  }
+
+  distance(point1: GeoPoint, point2: GeoPoint) {
+    var rad1 = (point1[1] * Math.PI) / 180.0;
+    var rad2 = (point2[1] * Math.PI) / 180.0;
+    var a = rad1 - rad2;
+    var b = (point1[0] * Math.PI) / 180.0 - (point2[0] * Math.PI) / 180.0;
+    var r = 6378137; // 地球半径，单位为米
+    var distance =
+      r *
+      2 *
+      Math.asin(
+        Math.sqrt(
+          Math.pow(Math.sin(a / 2), 2) +
+            Math.cos(rad1) * Math.cos(rad2) * Math.pow(Math.sin(b / 2), 2)
+        )
+      );
+    return distance;
   }
 
   /** 最近点 */
@@ -40,10 +63,10 @@ export class GeoPointTool {
     if (points.length === 0) return null;
 
     let closestPoint = points[0];
-    let minDistance = this.distance(points[0], target);
+    let minDistance = this.math_distance(points[0], target);
 
     for (let i = 1; i < points.length; i++) {
-      const distance = this.distance(points[i], target);
+      const distance = this.math_distance(points[i], target);
       if (distance < minDistance) {
         closestPoint = points[i];
         minDistance = distance;

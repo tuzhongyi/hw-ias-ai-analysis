@@ -24,7 +24,7 @@ export class SystemEventManagerShopProcessSignDisappearController {
       if (data.Resources && data.Resources.length > 0) {
         let resource = data.Resources[0];
         let type = await this.language.event.EventType(data.EventType);
-        this.window.confirm.message = `是否标记 ${type} ${resource.ResourceName} 为误报？`;
+        this.window.confirm.message = `是否标记 <span class="disappear">${type}</span> <span class="name">${resource.ResourceName}</span> 为<span class="misinfo">误报</span>？`;
         this.window.confirm.show = true;
 
         wait(
@@ -43,7 +43,7 @@ export class SystemEventManagerShopProcessSignDisappearController {
       this.window.confirm.clear();
       if (data.Resources && data.Resources.length > 0) {
         let resource = data.Resources[0];
-        this.window.confirm.message = `是否删除商铺 ${resource.ResourceName} ？`;
+        this.window.confirm.message = `是否<span class="disappear">删除商铺</span> <span class="name">${resource.ResourceName}</span> ？`;
         this.window.confirm.show = true;
 
         wait(

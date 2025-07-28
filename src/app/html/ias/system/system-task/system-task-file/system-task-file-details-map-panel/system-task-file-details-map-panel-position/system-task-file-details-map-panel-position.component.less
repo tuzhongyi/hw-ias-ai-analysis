@@ -6,14 +6,13 @@
   padding: 15px;
   gap: 15px;
   transition: all .3s;
-  clip-path: polygon(0 0,
-      58px 0,
-      58px 50px,
-      0 58px);
+
+  @clip-size: 58px;
+
 
   &:hover,
   &.fixed {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
 
     .panel-title {
       .title {
@@ -25,6 +24,50 @@
       display: flex;
     }
 
+    .system-task-file-details-map-panel-position-body {
+      display: block;
+    }
+
+  }
+
+  &.top-left {
+    clip-path: polygon(0 0,
+        @clip-size 0,
+        @clip-size @clip-size,
+        0 @clip-size);
+
+    &:hover {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+
+  &.top-right {
+    clip-path: polygon(calc(100% - @clip-size) 0,
+        100% 0, 100% @clip-size, calc(100% - @clip-size) @clip-size);
+
+    &:hover {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+
+  &.bottom-left {
+    clip-path: polygon(0 calc(100% - @clip-size),
+        @clip-size calc(100% - @clip-size),
+        @clip-size 100%,
+        0 100%);
+
+    &:hover {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+
+  &.bottom-right {
+    clip-path: polygon(calc(100% - @clip-size) calc(100% - @clip-size),
+        100% calc(100% - @clip-size), 100% 100%, calc(100% - @clip-size) 100%);
+
+    &:hover {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
   }
 
 
@@ -66,17 +109,19 @@
   }
 
   &-body {
+    display: none;
+
     .forms {
       flex-direction: column;
 
       .form-item {
         &-text {
-          width: 60px;
+          width: 100px;
         }
 
         &-value {
           user-select: text;
-          width: calc(100% - 60px - 22px - 15px * 2);
+          width: calc(100% - 100px - 22px - 15px * 2);
         }
 
         &-suffix {

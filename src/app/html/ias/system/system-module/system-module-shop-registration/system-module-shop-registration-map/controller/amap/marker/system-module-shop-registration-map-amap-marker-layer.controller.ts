@@ -1,5 +1,6 @@
 import { IShop } from '../../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemAMapShopInfoController } from '../../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-info.controller';
+import { ISystemAMapShopMarkerInfo } from '../../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-marker.model';
 import {
   SystemModuleShopRegistrationMapAMapMarkerController,
   SystemModuleShopRegistrationMapAMapMarkerEvent,
@@ -18,7 +19,13 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
 
   private regist(point: SystemModuleShopRegistrationMapAMapMarkerController) {
     point.event.mouseover.subscribe((data) => {
-      this.info.add(data, this.zoom);
+      let info: ISystemAMapShopMarkerInfo = {
+        Name: data.Name,
+      };
+      if (data.Location) {
+        info.Location = [data.Location.Longitude, data.Location.Latitude];
+      }
+      this.info.add(info, this.zoom);
       this.event.mouseover.emit(data);
     });
     point.event.mouseout.subscribe((data) => {
@@ -73,7 +80,13 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
   }
 
   mouseover(data: IShop) {
-    this.info.add(data, this.zoom);
+    let info: ISystemAMapShopMarkerInfo = {
+      Name: data.Name,
+    };
+    if (data.Location) {
+      info.Location = [data.Location.Longitude, data.Location.Latitude];
+    }
+    this.info.add(info, this.zoom);
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {
       point.hover();

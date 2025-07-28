@@ -47,7 +47,7 @@ export class SystemEventManagerShopProcessSignDiscoverController {
       data: MobileEventRecord;
     }) => {
       this.window.confirm.clear();
-      this.window.confirm.message = `是否与商铺 ${data.detected.Name} 关联？`;
+      this.window.confirm.message = `是否与商铺 <span class="name">${data.detected.Name}</span> <span class="discover">关联</span>？`;
       this.window.confirm.show = true;
 
       wait(
@@ -70,7 +70,7 @@ export class SystemEventManagerShopProcessSignDiscoverController {
       this.window.confirm.clear();
       if (data.Resources && data.Resources.length > 0) {
         let resource = data.Resources[0];
-        this.window.confirm.message = `是否屏蔽 ${resource.ResourceName} ？`;
+        this.window.confirm.message = `是否<span class="misinfo">屏蔽</span> <span class="name">${resource.ResourceName}</span> ？`;
         this.window.confirm.show = true;
 
         wait(

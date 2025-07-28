@@ -9,33 +9,76 @@
   height: 100%;
   position: relative;
 
+  @padding: 15px;
+  @gap: 10px;
+  @search-height: 66px;
+  @search-width: 400px;
+  @control-height: 50px;
+
+
+
   &-search {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    width: 400px;
+    top: @padding;
+    left: @padding;
+    width: @search-width;
   }
 
   &-list {
     position: absolute;
-    top: calc(15px + 66px + 10px);
-    left: 15px;
-    width: 400px;
-    height: calc(100% - 15px - 66px - 10px - 15px);
+    top: calc(@padding + @search-height + @gap);
+    left: @padding;
+    width: @search-width;
+    height: calc(100% - @padding - @search-height - @gap - @gap - @control-height - @padding);
+  }
+
+  &-details {
+    position: absolute;
+    top: calc(@padding + @search-height + @gap);
+    left: calc(@padding + @search-width + @gap);
+    width: @search-width;
+    height: calc(100% - @padding - @search-height - @gap - @gap - @control-height - @padding);
+  }
+
+
+  &-controls {
+    position: absolute;
+    bottom: @padding;
+    left: @padding;
+    height: @control-height;
+
+    &>* {
+      height: 100%;
+      aspect-ratio: 1;
+      box-sizing: border-box;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
   }
 
   &-buttons {
     position: absolute;
-    bottom: 15px;
-    right: 15px;
+    bottom: @padding;
+    right: @padding;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 15px;
+    gap: @gap;
 
     &>* {
       padding: 10px 15px;
       font-size: 18px;
     }
+  }
+
+  &-filter {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
   }
 }

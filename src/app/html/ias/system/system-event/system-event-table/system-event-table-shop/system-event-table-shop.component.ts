@@ -37,9 +37,8 @@ export class SystemEventTableShopComponent implements OnInit, OnDestroy {
   @Output() position = new EventEmitter<MobileEventRecord>();
 
   @Output('picture') output_picture = new EventEmitter<MobileEventRecord>();
-  @Input() get?: EventEmitter<number>;
-  @Output() got = new EventEmitter<Paged<Paged<MobileEventRecord>>>();
-  @Output() process = new EventEmitter<MobileEventRecord>();
+  @Output() process = new EventEmitter<Paged<MobileEventRecord>>();
+  @Input() processget?: EventEmitter<number>;
   @Output() video = new EventEmitter<MobileEventRecord>();
   @Output() details = new EventEmitter<MobileEventRecord>();
   @Output() task = new EventEmitter<MobileEventRecord>();
@@ -69,16 +68,15 @@ export class SystemEventTableShopComponent implements OnInit, OnDestroy {
       });
       this.subscription.add(sub);
     }
-    if (this.get) {
-      let sub = this.get.subscribe((index) => {
+    if (this.processget) {
+      let sub = this.processget.subscribe((index) => {
         this.business.load(index, 1, this.filter).then((x) => {
-          let paged = new Paged<Paged<MobileEventRecord>>();
-          paged.Page = x.Page;
-          let data = new Paged<MobileEventRecord>();
-          data.Page = Page.create(1, 1, x.Data[0].Resources?.length ?? 0);
-          data.Data = x.Data[0];
-          paged.Data = data;
-          this.got.emit(paged);
+          if (x.Page.RecordCount > 0) {
+            let paged = new Paged<MobileEventRecord>();
+            paged.Page = x.Page;
+            paged.Data = x.Data[0];
+            this.process.emit(paged);
+          }
         });
       });
       this.subscription.add(sub);
@@ -175,8 +173,17 @@ export class SystemEventTableShopComponent implements OnInit, OnDestroy {
     }
   }
 
-  onprocess(e: Event, item: MobileEventRecord) {
-    this.process.emit(item);
+  onprocess(e: Event, item: MobileEventRecord, index: number) {
+    let page = Page.create(
+      this.page.PageSize * (this.page.PageIndex - 1) + index + 1,
+      1,
+      this.page.TotalRecordCount
+    );
+    let paged = new Paged<MobileEventRecord>();
+    paged.Page = page;
+    paged.Data = item;
+
+    this.process.emit(paged);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }

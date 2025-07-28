@@ -3,7 +3,6 @@ import { IShop } from '../../../../../../../../common/data-core/models/arm/analy
 import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ShopRegistration } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
-import { ClassTool } from '../../../../../../../../common/tools/class-tool/class.tool';
 import { ObjectTool } from '../../../../../../../../common/tools/object-tool/object.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { SystemModuleShopRegistrationMapAMapLabelController } from './label/system-module-shop-registration-map-amap-label.controller';
@@ -94,8 +93,8 @@ export class SystemModuleShopRegistrationMapAMapController {
         let controller = new SystemModuleShopRegistrationMapAMapPointController(
           loca
         );
-        controller.event.move.subscribe((position) => {
-          this.regist.point.over(position);
+        controller.event.move.subscribe((data) => {
+          this.regist.point.over(data as IShop);
         });
         this.controller.point.set(controller);
       } catch (error) {
@@ -136,7 +135,7 @@ export class SystemModuleShopRegistrationMapAMapController {
   private regist = {
     map: (map: AMap.Map) => {
       map.on('mousemove', (e: any) => {
-        let position: [number, number] = [e.lnglat.lng, e.lnglat.lat];
+        let position: [number, number] = [e.pixel.x, e.pixel.y];
         this.controller.point.get().then((x) => {
           x.moving(position);
         });
@@ -150,26 +149,19 @@ export class SystemModuleShopRegistrationMapAMapController {
       });
     },
     point: {
-      over: async (position: [number, number]) => {
-        let item = this.point.datas.find((x) => {
-          if (x.Location) {
-            return ClassTool.equals.array(
-              [x.Location.Longitude, x.Location.Latitude],
-              position
-            );
-          }
-          return false;
-        });
-        if (item && item.Location) {
-          let text = item.Name;
+      over: async (data: IShop) => {
+        let label = await this.controller.label.get();
+        if (data && data.Location) {
+          let text = data.Name;
 
           let _point: [number, number] = [
-            item.Location.Longitude,
-            item.Location.Latitude,
+            data.Location.Longitude,
+            data.Location.Latitude,
           ];
-          let label = await this.controller.label.get();
 
           label.show(_point, text);
+        } else {
+          label.hide();
         }
       },
     },

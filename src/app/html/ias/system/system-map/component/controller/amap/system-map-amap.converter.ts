@@ -1,5 +1,5 @@
-import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
+import { IGisPointModel } from '../../../../../../../common/data-core/models/model.interface';
 
 export class SystemMapAMapConverter {
   geo = {
@@ -20,7 +20,7 @@ export class SystemMapAMapConverter {
       };
       return new Loca.GeoJSONSource({ data: geo });
     },
-    point: (datas: IShop[]) => {
+    point: (datas: IGisPointModel[]) => {
       let geo: any = {
         type: 'FeatureCollection',
         features: datas

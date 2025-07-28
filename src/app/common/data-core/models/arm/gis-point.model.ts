@@ -1,10 +1,10 @@
 import { Transform } from 'class-transformer';
 import { GisType } from '../../enums/gis-type.enum';
-import { IModel } from '../model.interface';
+import { IGisModel } from '../model.interface';
 import { transformLatitude, transformLongitude } from '../transformer';
 
 /**	GisPoint (地理信息坐标点)	*/
-export class GisPoint implements IModel {
+export class GisPoint implements IGisModel {
   /**	Double	经度	M	*/
   @Transform(transformLongitude)
   Longitude!: number;
@@ -22,11 +22,12 @@ export class GisPoint implements IModel {
   /**	Double	偏北角方向，0-360	O */
   Course?: number;
 
-  static create(longitude: number, latitude: number): GisPoint {
+  static create(longitude: number, latitude: number, type?: GisType): GisPoint {
     let point = new GisPoint();
     point.Longitude = longitude;
     point.Latitude = latitude;
     point.Altitude = 0;
+    point.GisType = type;
     return point;
   }
   static equals(a: GisPoint, b: GisPoint): boolean {

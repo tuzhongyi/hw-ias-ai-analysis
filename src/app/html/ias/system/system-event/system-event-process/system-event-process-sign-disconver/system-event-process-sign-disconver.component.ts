@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContainerPageComponent } from '../../../../../../common/components/container-page/container-page.component';
 import { ContainerZoomComponent } from '../../../../../../common/components/container-zoom/container-zoom.component';
@@ -48,7 +57,9 @@ import { SystemEventProcessSignDisconverBusiness } from './business/system-event
     SystemEventProcessSignDisconverShopSignBusiness,
   ],
 })
-export class SystemEventProcessSignDisconverComponent implements OnInit {
+export class SystemEventProcessSignDisconverComponent
+  implements OnInit, OnChanges
+{
   @Input() data?: MobileEventRecord;
   @Input('load') _load?: EventEmitter<void>;
   @Output() merge = new EventEmitter<{
@@ -76,6 +87,20 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
       this.load.map(this.data);
     }
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.data(changes['data']);
+  }
+  private change = {
+    data: (simple: SimpleChange) => {
+      if (simple && !simple.firstChange) {
+        if (this.data) {
+          this.shop.reset();
+          this.load.picture(this.data);
+          this.load.map(this.data);
+        }
+      }
+    },
+  };
 
   load = {
     picture: async (data: MobileEventRecord) => {
@@ -100,6 +125,7 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
             this.record.picture.polygon = resource.Objects[0].Polygon ?? [];
           }
         }
+      } else {
       }
     },
     map: (data: MobileEventRecord) => {
@@ -163,6 +189,12 @@ export class SystemEventProcessSignDisconverComponent implements OnInit {
     },
   };
   shop = {
+    reset: () => {
+      this.shop.picture.src = '';
+      this.shop.picture.polygon = [];
+      this.shop.selected = undefined;
+      this.shop.args = new SystemEventProcessShopTableArgs();
+    },
     picture: {
       src: '',
       polygon: [] as HowellPoint[],

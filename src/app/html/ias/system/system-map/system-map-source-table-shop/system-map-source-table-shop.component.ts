@@ -9,21 +9,22 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PaginatorComponent } from '../../../../../common/components/paginator/paginator.component';
 import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Page } from '../../../../../common/data-core/models/page-list.model';
-import { ColorTool } from '../../../../../common/tools/color/color.tool';
 import {
   GeoDirection,
   GeoDirectionSort,
 } from '../../../../../common/tools/geo-tool/geo.model';
+import { RoadType } from '../system-map-search-shop-road/system-map-search-shop-road.model';
 import { SystemMapSourceTableShopBusiness } from './business/system-map-source-table-shop.business';
 import { SystemMapSourceTableShopConverter } from './business/system-map-source-table-shop.converter';
 import { SystemMapSourceTableShopItem } from './system-map-source-table-shop.model';
 
 @Component({
   selector: 'ias-system-map-source-table-shop',
-  imports: [CommonModule, PaginatorComponent],
+  imports: [CommonModule, FormsModule, PaginatorComponent],
   templateUrl: './system-map-source-table-shop.component.html',
   styleUrl: './system-map-source-table-shop.component.less',
   providers: [
@@ -49,8 +50,8 @@ export class SystemMapSourceTableShopComponent implements OnInit, OnChanges {
   private sort = new GeoDirectionSort();
   private direction = GeoDirection.ew;
 
-  Color = ColorTool;
-
+  type = RoadType.Ori;
+  RoadType = RoadType;
   ngOnChanges(changes: SimpleChanges): void {
     this.changeshops(changes['shops']);
   }

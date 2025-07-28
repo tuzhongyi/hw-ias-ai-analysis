@@ -68,7 +68,9 @@ export class VideoPathComponent implements OnChanges {
 
         if (error) {
           let message = '视频加载失败';
-          this.toastr.error(message);
+
+          console.error(target.src, error);
+          this.toastr.error(error.message, message);
         }
       },
     },

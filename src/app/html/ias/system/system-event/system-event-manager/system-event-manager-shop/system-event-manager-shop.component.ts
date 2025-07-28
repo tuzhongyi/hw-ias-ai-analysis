@@ -11,6 +11,7 @@ import { MobileEventRecord } from '../../../../../../common/data-core/models/arm
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import {
   Page,
+  Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
@@ -92,10 +93,7 @@ export class SystemEventManagerShopComponent implements OnInit {
   ngOnInit(): void {
     // this.init.task();
     this.init.table();
-    this.regist.process.marking();
-    this.regist.process.merge();
-    this.regist.process.misinfo();
-    this.regist.process.delete();
+    this.regist.do();
   }
 
   private init = {
@@ -110,6 +108,12 @@ export class SystemEventManagerShopComponent implements OnInit {
   };
 
   private regist = {
+    do: () => {
+      this.regist.process.marking();
+      this.regist.process.merge();
+      this.regist.process.misinfo();
+      this.regist.process.delete();
+    },
     process: {
       marking: () => {
         this.controller.process.sign.discover.event.marking.subscribe((id) => {
@@ -124,7 +128,11 @@ export class SystemEventManagerShopComponent implements OnInit {
               this.toastr.error('操作失败');
             })
             .finally(() => {
-              this.controller.process.sign.discover.close();
+              if (this.controller.process.auto) {
+                this.controller.process.next();
+              } else {
+                this.controller.process.sign.discover.close();
+              }
             });
         });
       },
@@ -141,7 +149,11 @@ export class SystemEventManagerShopComponent implements OnInit {
               this.toastr.error('操作失败');
             })
             .finally(() => {
-              this.controller.process.sign.discover.close();
+              if (this.controller.process.auto) {
+                this.controller.process.next();
+              } else {
+                this.controller.process.sign.discover.close();
+              }
             });
         });
       },
@@ -158,7 +170,11 @@ export class SystemEventManagerShopComponent implements OnInit {
               this.toastr.error('操作失败');
             })
             .finally(() => {
-              this.controller.process.sign.disappear.close();
+              if (this.controller.process.auto) {
+                this.controller.process.next();
+              } else {
+                this.controller.process.sign.disappear.close();
+              }
             });
         });
       },
@@ -175,7 +191,11 @@ export class SystemEventManagerShopComponent implements OnInit {
               this.toastr.error('操作失败');
             })
             .finally(() => {
-              this.controller.process.sign.disappear.close();
+              if (this.controller.process.auto) {
+                this.controller.process.next();
+              } else {
+                this.controller.process.sign.disappear.close();
+              }
             });
         });
       },
@@ -223,8 +243,8 @@ export class SystemEventManagerShopComponent implements OnInit {
         paged.Data = datas;
         this.picture.open(paged, this.window.picture.show);
       },
-      process: (data: MobileEventRecord) => {
-        this.controller.process.open(data);
+      process: (paged: Paged<MobileEventRecord>) => {
+        this.controller.process.open(paged);
       },
       task: (data: MobileEventRecord) => {
         this.window.task.data = data;

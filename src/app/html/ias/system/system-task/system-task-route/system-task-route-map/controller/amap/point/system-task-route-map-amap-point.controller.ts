@@ -7,7 +7,7 @@ import { SystemAMapShopPointExistedController } from '../../../../../../system-m
 
 export class SystemTaskRouteMapAMapPointController {
   event = {
-    move: new EventEmitter<[number, number]>(),
+    move: new EventEmitter<IShop>(),
   };
 
   constructor(private container: Loca.Container) {
@@ -22,14 +22,14 @@ export class SystemTaskRouteMapAMapPointController {
   private existed: SystemAMapShopPointExistedController;
 
   private regist() {
-    this.created.event.move.subscribe((position) => {
-      this.event.move.emit(position);
+    this.created.event.move.subscribe((data) => {
+      this.event.move.emit(data as IShop);
     });
-    this.disappeared.event.move.subscribe((position) => {
-      this.event.move.emit(position);
+    this.disappeared.event.move.subscribe((data) => {
+      this.event.move.emit(data as IShop);
     });
-    this.existed.event.move.subscribe((position) => {
-      this.event.move.emit(position);
+    this.existed.event.move.subscribe((data) => {
+      this.event.move.emit(data as IShop);
     });
   }
 

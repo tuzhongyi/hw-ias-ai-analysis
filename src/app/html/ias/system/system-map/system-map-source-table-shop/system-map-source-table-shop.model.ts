@@ -42,6 +42,8 @@ export class SystemMapSourceTableShopItem implements IShop {
   RoadName?: string;
   RoadOrderNo?: number;
 
+  OriRoadName?: string;
+
   index = 0;
   Road?: RoadViewModel;
   from = SystemMapSourceTableShopFrom.none;

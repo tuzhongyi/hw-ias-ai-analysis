@@ -74,6 +74,7 @@
     <ias-system-event-table-shop
       [args]="table.args"
       [load]="table.load"
+      [processget]="controller.process.get"
       (picture)="table.on.picture($event)"
       (process)="table.on.process($event)"
       (task)="table.on.task($event)"
@@ -87,7 +88,21 @@
     *ngIf="window.process.sign.discover.show"
     [style]="window.process.sign.discover.style"
     [title]="window.process.sign.discover.title"
+    [CloseButton]="false"
   >
+    <div ngProjectAs="window-head-operation" class="window-head-operation">
+      <label for="system-event-handle-auto">
+        <input
+          type="checkbox"
+          id="system-event-handle-auto"
+          [(ngModel)]="controller.process.auto"
+        />
+        自动下一条
+      </label>
+      <button (click)="window.process.sign.discover.show = false">
+        <i class="howell-icon-Close"></i>
+      </button>
+    </div>
     <ias-system-event-process-sign-disconver
       [data]="window.process.sign.discover.data"
       [load]="controller.process.sign.discover.load"
@@ -163,10 +178,10 @@
   <confirm-window
     *ngIf="window.confirm.show"
     [model]="window.confirm"
-    [content]="window.confirm.message"
     (ok)="confirm.ok()"
     (cancel)="confirm.close()"
   >
+    <div class="confirm-window" [innerHTML]="window.confirm.message"></div>
   </confirm-window>
 
   <ias-window

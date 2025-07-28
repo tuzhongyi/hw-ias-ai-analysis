@@ -22,8 +22,20 @@ export class SystemModuleShopRegistrationManagerBusiness {
   }
 
   upload(data: ArrayBuffer, progress: (value: number) => void) {
-    return this.service.shop.excel.upload(data, (value: number) => {
-      progress(value);
+    return new Promise<void>((resolve, reject) => {
+      this.service.shop.excel
+        .upload(
+          data,
+          (value: number) => {
+            progress(value);
+          },
+          () => {
+            resolve();
+          }
+        )
+        .catch((e) => {
+          reject(e);
+        });
     });
   }
 }

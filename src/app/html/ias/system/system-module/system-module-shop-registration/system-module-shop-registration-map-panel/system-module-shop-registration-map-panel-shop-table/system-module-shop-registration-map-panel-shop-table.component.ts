@@ -8,6 +8,7 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PaginatorComponent } from '../../../../../../../common/components/paginator/paginator.component';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../../common/data-core/models/page-list.model';
@@ -16,7 +17,7 @@ import { SystemModuleShopRegistrationMapPanelShopTableBusiness } from './system-
 
 @Component({
   selector: 'ias-system-module-shop-registration-map-panel-shop-table',
-  imports: [CommonModule, PaginatorComponent],
+  imports: [CommonModule, FormsModule, PaginatorComponent],
   templateUrl:
     './system-module-shop-registration-map-panel-shop-table.component.html',
   styleUrl:
@@ -39,10 +40,11 @@ export class SystemModuleShopRegistrationMapPanelShopTableComponent
     private business: SystemModuleShopRegistrationMapPanelShopTableBusiness
   ) {}
 
-  widths = ['60px', 'auto', '85px', '80px'];
+  widths = ['60px', 'auto', '100px', '80px'];
   datas: Array<ShopRegistration | undefined> = [];
   page = new Page();
   Color = ColorTool;
+  road = 'on';
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.datas(changes['shops']);

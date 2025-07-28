@@ -10,15 +10,20 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
+import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../../../common/data-core/models/arm/file/file-info.model';
 import { VideoDirective } from '../../../../../../common/directives/video/video.directive';
-import { SystemTaskFileDetailsMapComponent } from '../system-task-file-details-map/system-task-file-details-map.component';
+import { SystemTaskFileDetailsMapManagerComponent } from '../system-task-file-details-map-manager/system-task-file-details-map-manager.component';
 import { SystemTaskFileDetailsBusiness } from '../system-task-file-details/system-task-file-details.business';
 
 @Component({
   selector: 'ias-system-task-file-details-multiple',
-  imports: [CommonModule, SystemTaskFileDetailsMapComponent, VideoDirective],
+  imports: [
+    CommonModule,
+    SystemTaskFileDetailsMapManagerComponent,
+    VideoDirective,
+  ],
   templateUrl: './system-task-file-details-multiple.component.html',
   styleUrl: './system-task-file-details-multiple.component.less',
   providers: [SystemTaskFileDetailsBusiness],
@@ -27,6 +32,7 @@ export class SystemTaskFileDetailsMultipleComponent
   implements OnInit, OnDestroy
 {
   @Input() datas: FileInfo[] = [];
+  @Input() task?: AnalysisTask;
   constructor(
     private business: SystemTaskFileDetailsBusiness,
     private sanitizer: DomSanitizer,
@@ -51,14 +57,14 @@ export class SystemTaskFileDetailsMultipleComponent
   }
   ngOnDestroy(): void {
     if (this.handle.keypress) {
-      window.removeEventListener('keypress', this.handle.keypress);
+      window.removeEventListener('keydown', this.handle.keypress);
       this.handle.keypress = undefined;
     }
   }
 
   private regist() {
     this.handle.keypress = this.on.key.press;
-    window.addEventListener('keypress', this.handle.keypress);
+    window.addEventListener('keydown', this.handle.keypress);
   }
 
   private load(data: FileInfo) {
@@ -70,12 +76,37 @@ export class SystemTaskFileDetailsMultipleComponent
   on = {
     key: {
       press: (e: KeyboardEvent) => {
+        if (e.target instanceof HTMLInputElement) {
+          return;
+        }
+
+        let time = this.videos?.first.currentTime;
         switch (e.code) {
           case 'Space':
             if (this.video.playing) {
               this.video.on.pause();
             } else {
               this.video.on.play();
+            }
+            break;
+          case 'ArrowLeft':
+            if (this.video.playing) {
+              this.video.on.pause();
+            }
+
+            if (time != undefined) {
+              time -= 1 / 3;
+              this.video.time = time;
+            }
+
+            break;
+          case 'ArrowRight':
+            if (this.video.playing) {
+              this.video.on.pause();
+            }
+            if (time != undefined) {
+              time += 1 / 3;
+              this.video.time = time;
             }
             break;
 
@@ -113,6 +144,7 @@ export class SystemTaskFileDetailsMultipleComponent
     src: [] as SafeResourceUrl[],
     time: 0,
     playing: true,
+    sync: true,
     on: {
       pause: (e?: Event) => {
         if (this.videos) {
@@ -139,10 +171,11 @@ export class SystemTaskFileDetailsMultipleComponent
       seek: {
         changed: false,
         seeked: (e: Event) => {
+          if (!this.video.sync) return;
           if (this.video.on.seek.changed) return;
           setTimeout(() => {
             this.video.on.seek.changed = false;
-          }, 500);
+          }, 1000);
           this.video.on.seek.changed = true;
           let target = e.currentTarget as HTMLVideoElement;
           this.video.time = target.currentTime;
@@ -156,23 +189,9 @@ export class SystemTaskFileDetailsMultipleComponent
 
         if (error) {
           let message = '视频加载失败';
-          // switch (error.code) {
-          //   case error.MEDIA_ERR_ABORTED:
-          //     message = '视频加载被中止！';
-          //     break;
-          //   case error.MEDIA_ERR_NETWORK:
-          //     message = '网络错误导致视频加载失败！';
-          //     break;
-          //   case error.MEDIA_ERR_DECODE:
-          //     message = '视频解码失败！';
-          //     break;
-          //   case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-          //     message = '不支持的视频格式！';
-          //     break;
-          //   default:
-          //     break;
-          // }
-          this.toastr.error(message);
+
+          console.error(target.src, error);
+          this.toastr.error(error.message, message);
         }
       },
     },

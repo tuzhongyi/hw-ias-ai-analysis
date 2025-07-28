@@ -6,7 +6,7 @@ import {
   MapMarkerType,
 } from '../../../../../../share/map/ias-map.model';
 
-export class SystemTaskFileDetailsAMapPointController {
+export class SystemTaskFileDetailsAMapPickupController {
   event = {
     dragend: new EventEmitter<[number, number]>(),
   };

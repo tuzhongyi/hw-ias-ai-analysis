@@ -70,10 +70,11 @@ export class SystemMapAMapController {
   private regist = {
     map: (map: AMap.Map) => {
       map.on('mousemove', (e: any) => {
-        let position: [number, number] = [e.lnglat.lng, e.lnglat.lat];
-        this.event.map.mousemmove.emit(position);
+        let position_ll: [number, number] = [e.lnglat.lng, e.lnglat.lat];
+        this.event.map.mousemmove.emit(position_ll);
+        let position_pixel: [number, number] = [e.pixel.x, e.pixel.y];
         this.layer.point.get().then((x) => {
-          x.moving(position);
+          x.moving(position_pixel);
         });
       });
       map.on('zoomchange', (e: any) => {
@@ -104,6 +105,9 @@ export class SystemMapAMapController {
       },
       point: (container: Loca.Container) => {
         let point = new SystemAMapShopPointLayerController(container);
+        point.event.move.subscribe((x) => {
+          console.log(x);
+        });
         this.layer.point.set(point);
       },
     },

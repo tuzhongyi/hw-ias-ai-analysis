@@ -3,8 +3,20 @@
     <div class="form-item">
       <div class="form-item-text">所在道路</div>
       <div class="form-item-value">
-        <hw-select [nullable]="true" [selected]="road.selected">
-          <select #select [(ngModel)]="road.selected">
+        <hw-select [nullable]="true" [selected]="road.selected.on">
+          <select #select [(ngModel)]="road.selected.on">
+            <option [ngValue]="item" *ngFor="let item of road.datas">
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">门面道路</div>
+      <div class="form-item-value">
+        <hw-select [nullable]="true" [selected]="road.selected.ori">
+          <select #select [(ngModel)]="road.selected.ori">
             <option [ngValue]="item" *ngFor="let item of road.datas">
               {{ item.Name }}
             </option>

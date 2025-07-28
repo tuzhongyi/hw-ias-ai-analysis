@@ -259,7 +259,7 @@ export class Language {
     _time -= hour * 60 * 60;
     let minute = Math.floor(_time / 60);
     _time -= minute * 60;
-    let second = Math.ceil(_time);
+    let second = Math.floor(_time);
     if (time < 60) {
       return second.toString().padStart(2, '0') + '秒';
     }

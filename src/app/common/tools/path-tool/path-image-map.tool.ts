@@ -26,4 +26,8 @@ export class PathImageMapTool {
       selected: '/assets/image/map/marker/marker-shop-red-selected.png',
     },
   };
+  point = {
+    blue: '/assets/image/map/point-blue.png',
+    red: '/assets/image/map/point-red.png',
+  };
 }

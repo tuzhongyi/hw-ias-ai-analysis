@@ -7,7 +7,9 @@ export class SystemTaskFileDetailsAMapLabelController {
   show(position: [number, number], text: string) {
     this.marker.setContent(
       '<div class="amap-info-window">' +
+        '<div class="amap-info-window-content">' +
         text +
+        '</div>' +
         '<div class="amap-info-sharp"></div>' +
         '</div>'
     );

@@ -3,12 +3,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../../../common/data-core/models/arm/file/file-info.model';
-import { SystemTaskFileDetailsMapComponent } from '../system-task-file-details-map/system-task-file-details-map.component';
+import { SystemTaskFileDetailsMapManagerComponent } from '../system-task-file-details-map-manager/system-task-file-details-map-manager.component';
 import { SystemTaskFileDetailsBusiness } from './system-task-file-details.business';
 
 @Component({
   selector: 'ias-system-task-file-details',
-  imports: [SystemTaskFileDetailsMapComponent],
+  imports: [SystemTaskFileDetailsMapManagerComponent],
   templateUrl: './system-task-file-details.component.html',
   styleUrl: './system-task-file-details.component.less',
   providers: [SystemTaskFileDetailsBusiness],
@@ -59,9 +59,8 @@ export class SystemTaskFileDetailsComponent implements OnInit {
   onvideoerror(e: Event) {
     if (!this.src) return;
     let target = e.currentTarget as HTMLVideoElement;
-
     let error = target.error;
-
+    console.error(target.src, error);
     if (error) {
       let message = '视频加载失败';
       // switch (error.code) {
@@ -80,7 +79,7 @@ export class SystemTaskFileDetailsComponent implements OnInit {
       //   default:
       //     break;
       // }
-      this.toastr.error(message);
+      this.toastr.error(error.message, message);
     }
   }
   onerror(e: Error) {

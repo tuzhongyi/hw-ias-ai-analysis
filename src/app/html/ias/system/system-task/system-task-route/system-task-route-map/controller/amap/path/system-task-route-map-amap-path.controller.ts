@@ -62,7 +62,7 @@ export class SystemTaskRouteMapAMapPathController {
     ) as [number, number];
     return GeoTool.point.closest(this.points, point);
   }
-  load(positions: [number, number][]) {
+  async load(positions: [number, number][]) {
     if (positions.length === 0) return;
     this.points = positions;
     this.positions = new AMap.Polyline({
@@ -94,6 +94,7 @@ export class SystemTaskRouteMapAMapPathController {
     if (positions.length > 1) {
       this.terminal.load(positions[0], positions[positions.length - 1]);
     }
+    return this.positions;
   }
 
   clear() {

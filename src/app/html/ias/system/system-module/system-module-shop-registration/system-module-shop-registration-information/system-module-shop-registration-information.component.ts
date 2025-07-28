@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ToastrService } from 'ngx-toastr';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { UploadControlComponent } from '../../../../../../common/components/upload-control/upload-control.component';
@@ -81,8 +80,12 @@ export class SystemModuleShopRegistrationInformationComponent
   ngOnInit(): void {
     this.init.road();
     if (this.data) {
-      let plain = instanceToPlain(this.data);
-      this.shop = plainToInstance(ShopRegistration, plain);
+      let data = this.data as any;
+      let keys = Object.keys(this.shop);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        (this.shop as any)[key] = data[key];
+      }
       if (this.shop.Location) {
         this.location.load(this.shop.Location);
       }
@@ -150,38 +153,72 @@ export class SystemModuleShopRegistrationInformationComponent
           this.location.load(this.shop.Location);
         }
       },
+
+      to: (position: [number, number]) => {
+        let _position = [...position];
+        _position[0] -= GeoTool.point.offset.longitude;
+        _position[1] -= GeoTool.point.offset.latitude;
+        switch (this.location.type.value) {
+          case GisType.WGS84:
+            return GeoTool.point.convert.gcj02.to.wgs84(
+              _position[0],
+              _position[1]
+            );
+          case GisType.BD09:
+            return GeoTool.point.convert.gcj02.to.bd09(
+              _position[0],
+              _position[1]
+            );
+          case GisType.GCJ02:
+            return position;
+          default:
+            return undefined;
+        }
+      },
+      from: (position: [number, number]) => {
+        switch (this.location.type.value) {
+          case GisType.WGS84:
+            return GeoTool.point.convert.wgs84.to.gcj02(
+              position[0],
+              position[1]
+            );
+          case GisType.BD09:
+            return GeoTool.point.convert.bd09.to.gcj02(
+              position[0],
+              position[1]
+            );
+          case GisType.GCJ02:
+            return position;
+          default:
+            return undefined;
+        }
+      },
     },
     value: '',
+
     load: (data: GisPoint) => {
-      let position: number[] = [];
-      switch (this.location.type.value) {
-        case GisType.WGS84:
-          position = GeoTool.point.convert.gcj02.to.wgs84(
-            data.Longitude,
-            data.Latitude
-          );
-          break;
-        case GisType.BD09:
-          position = GeoTool.point.convert.bd09.to.gcj02(
-            data.Longitude,
-            data.Latitude
-          );
-          break;
-        case GisType.GCJ02:
-          position = [data.Longitude, data.Latitude];
-          break;
-        default:
-          break;
-      }
-      if (position.length > 0) {
-        this.location.value = position.join(',');
+      let position: [number, number] = [data.Longitude, data.Latitude];
+      let _position = this.location.type.to(position);
+      if (_position) {
+        this.location.value = _position.join(',');
       }
     },
     set: () => {
-      let position = this.location.value.split(',').map((x) => parseFloat(x));
+      let position = this.location.value
+        .split(',')
+        .map((x) => parseFloat(x)) as [number, number];
       if (position.length === 2) {
-        this.shop.Location = GisPoint.create(position[0], position[1]);
-        this.location.change.emit(this.shop.Location);
+        let _position = this.location.type.from(position);
+        if (_position) {
+          _position[0] += GeoTool.point.offset.longitude;
+          _position[1] += GeoTool.point.offset.latitude;
+          this.shop.Location = GisPoint.create(
+            _position[0],
+            _position[1],
+            GisType.GCJ02
+          );
+          this.location.change.emit(this.shop.Location);
+        }
       } else {
         this.toastr.warning('请输入正确的坐标格式');
       }

@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemAMapShopPointCreatedController } from './system-map-amap-shop-point-created.controller';
@@ -5,15 +6,31 @@ import { SystemAMapShopPointDisappearedController } from './system-map-amap-shop
 import { SystemAMapShopPointExistedController } from './system-map-amap-shop-point-existed.controller';
 
 export class SystemAMapShopPointLayerController {
+  event = {
+    move: new EventEmitter<IShop>(),
+  };
   constructor(private container: Loca.Container) {
     this.created = new SystemAMapShopPointCreatedController(container);
     this.disappeared = new SystemAMapShopPointDisappearedController(container);
     this.existed = new SystemAMapShopPointExistedController(container);
+    this.regist();
   }
 
   private created: SystemAMapShopPointCreatedController;
   private disappeared: SystemAMapShopPointDisappearedController;
   private existed: SystemAMapShopPointExistedController;
+
+  private regist() {
+    this.created.event.move.subscribe((x) => {
+      this.event.move.emit(x as IShop);
+    });
+    this.disappeared.event.move.subscribe((x) => {
+      this.event.move.emit(x as IShop);
+    });
+    this.existed.event.move.subscribe((x) => {
+      this.event.move.emit(x as IShop);
+    });
+  }
 
   async load(datas: IShop[]) {
     let point = {

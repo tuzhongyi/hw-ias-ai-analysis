@@ -87,6 +87,7 @@ export class SystemModuleShopRegistrationManagerComponent {
     },
     ok: () => {
       this.window.information.show = false;
+      this.table.search();
     },
   };
   info = {
@@ -152,6 +153,10 @@ export class SystemModuleShopRegistrationManagerComponent {
     points: [] as GisPoint[],
     load: (datas: ShopRegistration[]) => {
       this.map.points = datas.filter((x) => x.Location).map((x) => x.Location!);
+    },
+    picture: (data: ShopRegistration) => {
+      let paged = Paged.create(data, 1, 1);
+      this.table.picture.on(paged);
     },
   };
 

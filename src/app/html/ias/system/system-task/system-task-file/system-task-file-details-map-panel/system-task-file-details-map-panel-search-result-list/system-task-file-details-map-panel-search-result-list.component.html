@@ -1,0 +1,12 @@
+<div class="system-task-file-details-map-panel-search-result-list">
+  <ias-system-task-file-details-map-panel-search-result-item
+    *ngFor="let item of datas"
+    [data]="item"
+    [position]="args.position"
+    [selected]="item === selected"
+    (mouseover)="on.mouse.over(item)"
+    (mouseout)="on.mouse.out(item)"
+    (click)="on.mouse.click(item)"
+    (copied)="on.copied($event)"
+  ></ias-system-task-file-details-map-panel-search-result-item>
+</div>

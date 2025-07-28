@@ -18,6 +18,7 @@
       [revoke]="map.revoke"
       [(changed)]="data.changed"
       (loaded)="on.map.loaded($event)"
+      (selected)="on.map.selected($event)"
     ></ias-system-module-shop-registration-map>
     <div class="system-module-shop-registration-map-manager-search">
       <ias-system-map-search-shop-road
@@ -38,6 +39,40 @@
         (close)="panel.list.show = false"
       ></ias-system-module-shop-registration-map-panel-shop-list>
     </div>
+    <div
+      class="system-module-shop-registration-map-manager-details"
+      *ngIf="panel.details.show && data.selected"
+    >
+      <ias-system-map-panel-details-shop-registration
+        [data]="data.selected"
+        [locationable]="true"
+        (close)="panel.details.show = false"
+        (picture)="on.picture($event)"
+      ></ias-system-map-panel-details-shop-registration>
+    </div>
+
+    <div
+      class="system-module-shop-registration-map-manager-controls button-group"
+    >
+      <div class="panel-map button">
+        <i class="mdi mdi-format-list-bulleted-type"></i>
+      </div>
+      <div
+        class="panel-map button"
+        title="筛选"
+        (click)="panel.filter.show = true"
+      >
+        <i class="mdi mdi-filter-outline"></i>
+      </div>
+      <div
+        class="panel-map button"
+        title="商铺沿道路对齐"
+        (click)="panel.filter.show = true"
+      >
+        <i class="mdi mdi-format-horizontal-align-center"></i>
+      </div>
+    </div>
+
     <div class="system-module-shop-registration-map-manager-buttons">
       <div
         class="panel-map button"
@@ -46,7 +81,23 @@
       >
         撤销
       </div>
-      <div class="panel-map button" *ngIf="data.changed.length > 0">保存</div>
+      <div
+        class="panel-map button"
+        *ngIf="data.changed.length > 0"
+        (click)="on.save()"
+      >
+        保存
+      </div>
+    </div>
+    <div
+      class="system-module-shop-registration-map-manager-filter"
+      *ngIf="panel.filter.show"
+    >
+      <ias-system-module-shop-registration-map-panel-filter
+        [data]="map.args"
+        (close)="panel.filter.show = false"
+        (ok)="on.filter($event)"
+      ></ias-system-module-shop-registration-map-panel-filter>
     </div>
   </div>
 

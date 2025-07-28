@@ -11,13 +11,13 @@
       ></video>
     </div>
     <div class="panel map">
-      <ias-system-task-file-details-map
+      <ias-system-task-file-details-map-manager
         [data]="data"
         [to]="video.event.time"
         (trigger)="onseek($event)"
         (loaded)="onmaploaded()"
         (error)="onerror($event)"
-      ></ias-system-task-file-details-map>
+      ></ias-system-task-file-details-map-manager>
     </div>
   </div>
 </div>

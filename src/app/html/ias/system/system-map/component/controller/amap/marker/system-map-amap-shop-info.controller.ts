@@ -14,7 +14,11 @@ export class SystemAMapShopInfoController {
     });
   }
 
-  add(data: ISystemAMapShopMarkerInfo, zoom: number) {
+  add(
+    data: ISystemAMapShopMarkerInfo,
+    zoom: number,
+    offset?: [number, number]
+  ) {
     if (data && data.Location) {
       let content = `<div class="amap-info-window">
                         <div class="amap-info-window-content">${data.Name}</div>                      
@@ -22,12 +26,11 @@ export class SystemAMapShopInfoController {
                     </div>`;
       this.marker.setContent(content);
 
-      let position: [number, number] = [
-        data.Location.Longitude,
-        data.Location.Latitude,
-      ];
       this.set.offset(zoom);
-      this.marker.setPosition(position);
+      if (offset) {
+        this.marker.setOffset(new AMap.Pixel(...offset));
+      }
+      this.marker.setPosition(data.Location);
       this.map.add(this.marker);
     }
     return undefined;

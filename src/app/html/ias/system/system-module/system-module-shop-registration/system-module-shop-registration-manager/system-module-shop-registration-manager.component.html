@@ -93,6 +93,7 @@
     [style]="window.map.style"
     [title]="window.map.title"
     (close)="window.map.show = false"
+    (picture)="map.picture($event)"
   ></ias-system-module-shop-registration-map-manager>
   <ias-window
     *ngIf="window.download.show"

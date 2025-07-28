@@ -8,9 +8,13 @@
         <tr>
           <th class="center">#</th>
           <th>名称</th>
-          <th>状态</th>
+          <th class="select">
+            <select class="noborder" [(ngModel)]="type">
+              <option [ngValue]="RoadType.On">所在道路</option>
+              <option [ngValue]="RoadType.Ori">门面道路</option>
+            </select>
+          </th>
           <th class="center">操作</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -28,12 +32,12 @@
           <td [title]="item.Name">
             {{ item.Name }}
           </td>
-          <td
-            [ngStyle]="{
-            color: Color.ShopObjectState(item.ObjectState),
-          }"
-          >
-            {{ item.ObjectStateName }}
+          <td>
+            @if(type === RoadType.On){
+            {{ item.RoadName }}
+            }@else{
+            {{ item.OriRoadName }}
+            }
           </td>
           <td class="center">
             <div class="operation" *ngIf="item.index > 0">

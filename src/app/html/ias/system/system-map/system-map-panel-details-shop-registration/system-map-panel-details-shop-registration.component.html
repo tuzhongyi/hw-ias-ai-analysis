@@ -12,11 +12,8 @@
     </div>
   </div>
   <div class="system-map-panel-details-shop-registration-body">
-    <div
-      class="system-map-panel-details-shop-registration-body-image"
-      (click)="onpicture()"
-    >
-      <howell-container-zoom>
+    <div class="system-map-panel-details-shop-registration-body-image">
+      <howell-container-zoom [fullable]="picturefullable" (full)="onpicture()">
         <ias-picture [id]="data.ImageUrl"></ias-picture>
       </howell-container-zoom>
     </div>
@@ -46,21 +43,31 @@
         <div class="form-item-value">{{ data.RoadName || "-" }}</div>
       </div>
       <div class="form-item">
-        <div class="form-item-text baseline">商铺地址</div>
+        <div class="form-item-text">门面道路:</div>
+        <div class="form-item-value">{{ data.OriRoadName }}</div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text baseline">商铺地址:</div>
         <div class="form-item-value">
           {{ data.Address ?? "-" }}
         </div>
       </div>
       <div class="form-item">
-        <div class="form-item-text">联系方式</div>
+        <div class="form-item-text">联系方式:</div>
         <div class="form-item-value">
           {{ data.Telphone ?? "-" }}
         </div>
       </div>
       <div class="form-item">
-        <div class="form-item-text">创建时间</div>
+        <div class="form-item-text">创建时间:</div>
         <div class="form-item-value">
           {{ data.CreationTime | date : Language.yyyyMMddHHmmss }}
+        </div>
+      </div>
+      <div class="form-item" *ngIf="locationable">
+        <div class="form-item-text">坐标:</div>
+        <div class="form-item-value location">
+          {{ location }}
         </div>
       </div>
     </div>

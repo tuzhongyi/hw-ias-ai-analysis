@@ -1,4 +1,5 @@
 import { PathTool } from '../../../../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemModuleShopRegistrationMapAMapMarkerIconController {
   icon: AMap.Icon;
@@ -16,7 +17,10 @@ export class SystemModuleShopRegistrationMapAMapMarkerIconController {
     return icon;
   }
 
-  size: [number, number] = [76 * 0.7, 86 * 0.7];
+  size: [number, number] = [
+    SizeTool.map.shop.width * 0.7,
+    SizeTool.map.shop.height * 0.7,
+  ];
 
   get over() {
     this.icon.setImage(PathTool.image.map.shop.blue.hover);

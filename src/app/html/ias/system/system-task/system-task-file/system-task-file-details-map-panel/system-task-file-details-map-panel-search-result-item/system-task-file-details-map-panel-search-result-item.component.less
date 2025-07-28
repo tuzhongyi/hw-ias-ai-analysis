@@ -1,0 +1,45 @@
+.system-task-file-details-map-panel-search-result-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: rgba(19, 34, 77, 0.6);
+
+  &.selected {
+    background-color: rgba(30, 144, 255, 0.4);
+  }
+
+  &:hover {
+    background-color: rgba(30, 144, 255, 0.3);
+    border: 1px solid #2d76ce;
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1;
+
+
+
+    &-distance {
+      display: flex;
+      align-items: center;
+
+      &-value {
+        color: white;
+      }
+
+    }
+  }
+
+  &-operation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

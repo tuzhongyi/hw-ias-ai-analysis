@@ -1,11 +1,11 @@
 import { EventEmitter } from '@angular/core';
-import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { IGisPointModel } from '../../../../../../../../common/data-core/models/model.interface';
 import { SystemMapAMapConfig } from '../system-map-amap.config';
 import { SystemMapAMapConverter } from '../system-map-amap.converter';
 
 export abstract class SystemAMapShopPointAbstract {
   event = {
-    move: new EventEmitter<[number, number]>(),
+    move: new EventEmitter<IGisPointModel | undefined>(),
   };
   protected abstract style: {
     radius: number;
@@ -19,6 +19,7 @@ export abstract class SystemAMapShopPointAbstract {
   }
   private converter = new SystemMapAMapConverter();
   private layer: Loca.PointLayer;
+  private over?: IGisPointModel;
 
   private init() {
     let layer = new Loca.PointLayer({
@@ -28,7 +29,12 @@ export abstract class SystemAMapShopPointAbstract {
     return layer;
   }
 
-  load(datas: IShop[]) {
+  load(datas: IGisPointModel[], opts?: { zooms?: [number, number] }) {
+    if (opts) {
+      if (opts.zooms) {
+        this.layer.setZooms(opts.zooms);
+      }
+    }
     let geo = this.converter.geo.point(datas);
     this.layer.setSource(geo);
     this.layer.setStyle(this.style);
@@ -42,8 +48,13 @@ export abstract class SystemAMapShopPointAbstract {
   moving(position: [number, number]) {
     let point = this.layer.queryFeature(position);
     if (point) {
-      console.log(point);
-      this.event.move.emit(position);
+      this.over = point.properties as IGisPointModel;
+      this.event.move.emit(this.over);
+    } else {
+      if (this.over) {
+        this.over = undefined;
+        this.event.move.emit();
+      }
     }
   }
 }

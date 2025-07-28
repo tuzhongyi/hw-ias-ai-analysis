@@ -26,7 +26,10 @@ export class SystemModuleShopRegistrationDownloadManagerComponent
 
   road = {
     datas: [] as Road[],
-    selected: undefined as Road | undefined,
+    selected: {
+      on: undefined as Road | undefined,
+      ori: undefined as Road | undefined,
+    },
   };
 
   ngOnInit(): void {
@@ -43,8 +46,8 @@ export class SystemModuleShopRegistrationDownloadManagerComponent
 
   on = {
     download: () => {
-      if (!this.road.selected) {
-        this.toastr.warning('请选择所在道路');
+      if (!this.road.selected.on && !this.road.selected.ori) {
+        this.toastr.warning('请选择所在道路或门面道路');
         return;
       }
 

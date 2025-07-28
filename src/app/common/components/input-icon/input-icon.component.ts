@@ -18,6 +18,7 @@ export class InputIconComponent {
     let target = e.target as HTMLInputElement;
     this.value = target.value;
     this.valueChange.emit(this.value);
+    e.stopImmediatePropagation();
   }
   onclear() {
     this.value = '';

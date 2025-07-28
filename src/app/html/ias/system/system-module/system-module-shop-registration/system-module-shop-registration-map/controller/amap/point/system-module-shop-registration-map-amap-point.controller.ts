@@ -1,10 +1,11 @@
 import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { IGisPointModel } from '../../../../../../../../../common/data-core/models/model.interface';
 import { SystemAMapShopPointExistedController } from '../../../../../../system-map/component/controller/amap/point/system-map-amap-shop-point-existed.controller';
 
 export class SystemModuleShopRegistrationMapAMapPointController {
   event = {
-    move: new EventEmitter<[number, number]>(),
+    move: new EventEmitter<IGisPointModel>(),
   };
 
   constructor(private container: Loca.Container) {
@@ -15,8 +16,8 @@ export class SystemModuleShopRegistrationMapAMapPointController {
   private existed: SystemAMapShopPointExistedController;
 
   private regist() {
-    this.existed.event.move.subscribe((position) => {
-      this.event.move.emit(position);
+    this.existed.event.move.subscribe((data) => {
+      this.event.move.emit(data);
     });
   }
 

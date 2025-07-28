@@ -1,0 +1,86 @@
+<div class="system-task-file-details-map-manager">
+  <ias-system-task-file-details-map
+    [data]="data"
+    [task]="task"
+    [to]="to"
+    [tips]="search.datas"
+    [tipover]="search.trigger.over"
+    [tipout]="search.trigger.out"
+    [tipclick]="search.trigger.click"
+    [pickupable]="pickupable"
+    [copied]="position.copied.data"
+    [(speed)]="speed"
+    [(location)]="position.current.data"
+    [(rectified)]="rectified"
+    [(pickup)]="position.pickup.data"
+    (loaded)="on.loaded($event)"
+    (trigger)="on.trigger($event)"
+    (error)="on.error($event)"
+  ></ias-system-task-file-details-map>
+  <div class="system-task-file-details-map-manager-speed">
+    <ias-system-task-file-details-map-panel-speed
+      [speed]="speed"
+    ></ias-system-task-file-details-map-panel-speed>
+  </div>
+  <div class="system-task-file-details-map-manager-settings panel-map">
+    <ias-system-task-file-details-map-panel-settings
+      [videomultiple]="videomultiple"
+      [pickupvisible]="videomultiple"
+      [(rectified)]="rectified"
+      [videosync]="videosync"
+      (videosyncChange)="on.video.sync($event)"
+      [(pickupable)]="pickupable"
+    ></ias-system-task-file-details-map-panel-settings>
+  </div>
+  <div
+    class="system-task-file-details-map-manager-position-current"
+    *ngIf="position.current && locationable"
+    [ngClass]="{
+      fixed: position.current.fixed
+    }"
+  >
+    <ias-system-task-file-details-map-panel-position
+      [icon]="'howell-icon-arrow'"
+      [title]="'当前位置'"
+      [position]="position.current.data"
+      [(fixed)]="position.current.fixed"
+      [left]="true"
+      [top]="false"
+      [offset]="true"
+    ></ias-system-task-file-details-map-panel-position>
+  </div>
+  <div
+    class="system-task-file-details-map-manager-position-point"
+    *ngIf="position.pickup.data && pickupable"
+    [ngClass]="{
+      fixed: position.pickup.fixed
+    }"
+  >
+    <ias-system-task-file-details-map-panel-position
+      [icon]="'howell-icon-garbage2'"
+      [title]="'商铺位置'"
+      [position]="position.pickup.data"
+      [(fixed)]="position.pickup.fixed"
+      [left]="true"
+      [top]="false"
+      (copied)="position.copied.on($event)"
+    ></ias-system-task-file-details-map-panel-position>
+  </div>
+  <div class="system-task-file-details-map-manager-search" *ngIf="searchable">
+    <ias-system-map-search (search)="on.search($event)"></ias-system-map-search>
+  </div>
+  <div
+    class="system-task-file-details-map-manager-list panel-map"
+    *ngIf="search.show"
+  >
+    <ias-system-task-file-details-map-panel-search-result-list
+      [args]="search.args"
+      [load]="search.load"
+      (loaded)="search.loaded($event)"
+      (itemover)="search.on.over($event)"
+      (itemout)="search.on.out($event)"
+      (itemclick)="search.on.click($event)"
+      (copied)="position.copied.on($event)"
+    ></ias-system-task-file-details-map-panel-search-result-list>
+  </div>
+</div>

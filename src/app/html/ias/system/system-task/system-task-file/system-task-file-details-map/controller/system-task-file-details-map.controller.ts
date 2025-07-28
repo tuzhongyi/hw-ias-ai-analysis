@@ -1,6 +1,12 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import '../../../../../../../../assets/js/map/CoordinateTransform.js';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model.js';
+import { ShopRegistrationTaskDetectedResult } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model.js';
+import {
+  IGisModel,
+  IGisPointModel,
+} from '../../../../../../../common/data-core/models/model.interface.js';
+import { AMapInputTipItem } from '../../../../../../../common/helper/map/amap.model.js';
 import { ArrayTool } from '../../../../../../../common/tools/array-tool/array.tool.js';
 import { ClassTool } from '../../../../../../../common/tools/class-tool/class.tool.js';
 import { SystemTaskFileDetailsAMapController } from './system-task-file-details-amap.controller';
@@ -14,78 +20,143 @@ export class SystemTaskFileDetailsMapController {
     point: new EventEmitter<[number, number]>(),
   };
 
-  constructor(private map: SystemTaskFileDetailsAMapController) {
+  constructor(private amap: SystemTaskFileDetailsAMapController) {
     this.regist();
   }
 
-  private datas: FileGpsItem[] = [];
+  map = {
+    center: (position: [number, number]) => {
+      this.amap.center(position);
+    },
+  };
+  pickup = {
+    can: (enabled: boolean) => {
+      this.amap.pickupable = enabled;
+    },
+    clear: () => {
+      this.amap.pickup.get().then((x) => {
+        x.remove();
+      });
+    },
+  };
+  copied = {
+    load: async (datas: [number, number][]) => {
+      this.amap.copied.get().then((copied) => {
+        let items = datas.map<IGisPointModel>((x) => {
+          return {
+            Location: { Longitude: x[0], Latitude: x[1] } as IGisModel,
+          } as IGisPointModel;
+        });
+        copied.load(items, { zooms: [0, 50] });
+      });
+    },
+  };
 
-  async load(datas: FileGpsItem[]) {
-    this.datas = datas;
-    let ll = this.datas.map<[number, number]>((x) => {
-      return [x.Longitude, x.Latitude];
-    });
-    let path = await this.map.path.get();
-    path.load(ll);
-  }
+  path = {
+    datas: [] as FileGpsItem[],
+    load: async (datas: FileGpsItem[]) => {
+      this.path.datas = datas;
+      let ll = this.path.datas.map<[number, number]>((x) => {
+        return [x.Longitude, x.Latitude];
+      });
+      let path = await this.amap.path.get();
+      path.load(ll);
+    },
 
-  async clear() {
-    let path = await this.map.path.get();
-    path.clear();
-  }
+    clear: async () => {
+      let path = await this.amap.path.get();
+      path.clear();
+      this.event.point.emit(undefined);
+    },
+  };
+
+  tips = {
+    load: async (datas: AMapInputTipItem[]) => {
+      let tips = await this.amap.tip.get();
+      tips.load(datas);
+    },
+    clear: async () => {
+      let tips = await this.amap.tip.get();
+      tips.clear();
+    },
+    trigger: {
+      over: (data: AMapInputTipItem) => {
+        this.amap.tip.get().then((x) => {
+          x.mouseover(data);
+        });
+      },
+      out: (data: AMapInputTipItem) => {
+        this.amap.tip.get().then((x) => {
+          x.mouseout(data);
+        });
+      },
+      select: (data: AMapInputTipItem) => {
+        this.amap.tip.get().then((x) => {
+          x.select(data);
+        });
+      },
+    },
+  };
+  detect = {
+    load: (datas: ShopRegistrationTaskDetectedResult[]) => {
+      this.amap.detect.get().then((x) => {
+        x.load(datas);
+      });
+    },
+  };
 
   private regist() {
-    this.map.path.get().then((path) => {
+    this.amap.path.get().then((path) => {
       path.mouseover.subscribe((point) => {
         this.onmouseover(point);
       });
       path.mouseout.subscribe(() => {
-        this.map.label.get().then((label) => {
+        this.amap.label.get().then((label) => {
           label.hide();
         });
       });
       path.click.subscribe((point) => {
-        this.map.label.get().then((label) => {
+        this.amap.label.get().then((label) => {
           label.hide();
           this.onclick(point);
         });
       });
     });
 
-    this.map.way.get().then((way) => {
+    this.amap.way.get().then((way) => {
       way.mouseover.subscribe((point) => {
         this.onmouseover(point);
       });
       way.mouseout.subscribe(() => {
-        this.map.label.get().then((label) => {
+        this.amap.label.get().then((label) => {
           label.hide();
         });
       });
       way.click.subscribe((point) => {
-        this.map.label.get().then((label) => {
+        this.amap.label.get().then((label) => {
           label.hide();
           this.onclick(point);
         });
       });
     });
-    this.map.event.point.subscribe((x) => {
+    this.amap.event.point.subscribe((x) => {
       this.event.point.emit(x);
     });
   }
 
   private async onmouseover(point: [number, number]) {
-    let item = this.datas.find((x) => {
+    let item = this.path.datas.find((x) => {
       return ClassTool.equals.array([x.Longitude, x.Latitude], point);
     });
     if (item) {
       let _point: [number, number] = [item.Longitude, item.Latitude];
-      let label = await this.map.label.get();
+      let label = await this.amap.label.get();
       label.show(_point, item.OffsetTime.toString());
     }
   }
 
   private onclick(point: [number, number]) {
-    let item = this.datas.find((x) => {
+    let item = this.path.datas.find((x) => {
       return ClassTool.equals.array([x.Longitude, x.Latitude], point);
     });
     if (item) {
@@ -94,30 +165,32 @@ export class SystemTaskFileDetailsMapController {
   }
 
   async to(stamp: number) {
-    let times = this.datas.map((x) => {
+    let times = this.path.datas.map((x) => {
       let time = x.OffsetTime.toDate();
       return time.getTime();
     });
 
     let finded = ArrayTool.closest(times, stamp);
     if (finded) {
-      let item = this.datas[finded.index];
+      let item = this.path.datas[finded.index];
       this.event.speed.emit(item.Speed);
       this.event.position.emit([item.Longitude, item.Latitude]);
 
-      let way = this.datas.slice(0, finded.index).map<[number, number]>((x) => {
-        return [x.Longitude, x.Latitude];
-      });
-      (await this.map.way.get()).load(way);
+      let way = this.path.datas
+        .slice(0, finded.index)
+        .map<[number, number]>((x) => {
+          return [x.Longitude, x.Latitude];
+        });
+      (await this.amap.way.get()).load(way);
 
       let position: [number, number] = [item.Longitude, item.Latitude];
-      (await this.map.arrow.get()).set(position);
+      (await this.amap.arrow.get()).set(position);
       if (finded.index > 0) {
-        let arrow = await this.map.arrow.get();
+        let arrow = await this.amap.arrow.get();
         if (Number.isFinite(item.Course)) {
           arrow.direction(item.Course!);
         } else {
-          let last = this.datas[finded.index - 1];
+          let last = this.path.datas[finded.index - 1];
           arrow.direction1([[last.Longitude, last.Latitude], position]);
         }
       }
@@ -125,6 +198,6 @@ export class SystemTaskFileDetailsMapController {
   }
 
   destroy() {
-    this.map.destroy();
+    this.amap.destroy();
   }
 }

@@ -12,10 +12,23 @@ export class SystemModuleShopRegistrationDownloadManagerBusiness {
     return this.service.road.cache.array(params);
   }
 
-  download(road: Road) {
+  download(road: { on?: Road; ori?: Road }) {
+    if (!road.on && !road.ori) return;
+    let query = {
+      roadId: road.on?.Id,
+      oriRoadId: road.ori?.Id,
+    };
+    let names: string[] = [];
+    if (road.on) {
+      names.push(road.on.Name);
+    }
+    if (road.ori) {
+      names.push(road.ori.Name);
+    }
+
     let link = document.createElement('a');
-    link.href = this.service.shop.excel.download(road.Id);
-    link.download = `${road.Name}.xlsx`;
+    link.href = this.service.shop.excel.download(query);
+    link.download = `${names.join('_')}.xlsx`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

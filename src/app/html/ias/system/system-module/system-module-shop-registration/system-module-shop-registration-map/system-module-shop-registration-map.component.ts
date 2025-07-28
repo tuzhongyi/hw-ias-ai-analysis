@@ -33,9 +33,11 @@ export class SystemModuleShopRegistrationMapComponent
   implements OnInit, OnDestroy
 {
   @Input('load') input_load?: EventEmitter<SystemModuleShopRegistrationMapArgs>;
+  @Input() args = new SystemModuleShopRegistrationMapArgs();
   @Output() loaded = new EventEmitter<ShopRegistration[]>();
   @Input() changed: ShopRegistration[] = [];
   @Output() changedChange = new EventEmitter<ShopRegistration[]>();
+  @Output() selected = new EventEmitter<ShopRegistration>();
 
   @Input() focus?: EventEmitter<ShopRegistration>;
   @Input() over?: EventEmitter<ShopRegistration>;
@@ -52,7 +54,7 @@ export class SystemModuleShopRegistrationMapComponent
 
   ngOnInit(): void {
     this.load.road();
-    this.load.shop.load();
+    this.load.shop.load(this.args);
     this.regist.map();
     this.regist.input();
   }
@@ -69,10 +71,9 @@ export class SystemModuleShopRegistrationMapComponent
       });
     },
     shop: {
-      load: async () => {
+      load: async (args: SystemModuleShopRegistrationMapArgs) => {
         this.datas = await this.business.registration.load();
-        this.controller.amap.point.load(this.datas);
-        this.loaded.emit(this.datas);
+        this.load.shop.filter(args);
       },
       filter: (args: SystemModuleShopRegistrationMapArgs) => {
         let datas = [...this.datas];
@@ -89,7 +90,11 @@ export class SystemModuleShopRegistrationMapComponent
           if (args.road.ori) {
             datas = datas.filter((x) => x.OriRoadId === args.road?.ori?.Id);
           }
+          if (args.side) {
+            datas = datas.filter((x) => x.ShopSide === args.side);
+          }
         }
+
         this.controller.amap.point.clear().then(() => {
           this.controller.amap.point.load(datas);
           this.loaded.emit(datas);
@@ -101,7 +106,12 @@ export class SystemModuleShopRegistrationMapComponent
     input: () => {
       if (this.input_load) {
         let sub = this.input_load.subscribe((x) => {
-          this.load.shop.filter(x);
+          this.args = x;
+          if (this.args.reload) {
+            this.load.shop.load(this.args);
+          } else {
+            this.load.shop.filter(this.args);
+          }
         });
         this.subscription.add(sub);
       }
@@ -142,6 +152,9 @@ export class SystemModuleShopRegistrationMapComponent
           this.changed[index] = data;
         }
         this.changedChange.emit(this.changed);
+      });
+      this.controller.amap.event.point.click.subscribe((data) => {
+        this.selected.emit(data);
       });
     },
   };

@@ -19,7 +19,7 @@ export function transformLatitude(params: TransformFnParams) {
 
   if (params.type === TransformationType.PLAIN_TO_CLASS) {
     let position = GeoTool.point.convert.wgs84.to.gcj02(longitude, value);
-    return position[1];
+    return position[1] + GeoTool.point.offset.latitude;
   } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
     let position = GeoTool.point.convert.gcj02.to.wgs84(longitude, value);
     return position[1];
@@ -43,7 +43,7 @@ export function transformLongitude(params: TransformFnParams) {
 
   if (params.type === TransformationType.PLAIN_TO_CLASS) {
     let position = GeoTool.point.convert.wgs84.to.gcj02(value, latitude);
-    return position[0];
+    return position[0] + GeoTool.point.offset.longitude;
   } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
     let position = GeoTool.point.convert.gcj02.to.wgs84(value, latitude);
     return position[0];

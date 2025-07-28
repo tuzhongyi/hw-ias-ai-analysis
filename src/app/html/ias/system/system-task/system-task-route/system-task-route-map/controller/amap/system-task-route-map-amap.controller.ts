@@ -107,8 +107,8 @@ export class SystemTaskRouteMapAMapController {
     point: (loca: Loca.Container) => {
       try {
         let controller = new SystemTaskRouteMapAMapPointController(loca);
-        controller.event.move.subscribe((position) => {
-          this.regist.point.over(position);
+        controller.event.move.subscribe((data) => {
+          this.regist.point.over(data);
         });
         this.controller.point.set(controller);
       } catch (error) {
@@ -168,7 +168,7 @@ export class SystemTaskRouteMapAMapController {
   private regist = {
     map: (map: AMap.Map) => {
       map.on('mousemove', (e: any) => {
-        let position: [number, number] = [e.lnglat.lng, e.lnglat.lat];
+        let position: [number, number] = [e.pixel.x, e.pixel.y];
         this.controller.point.get().then((x) => {
           x.moving(position);
         });
@@ -218,31 +218,19 @@ export class SystemTaskRouteMapAMapController {
       },
     },
     point: {
-      over: async (position: [number, number]) => {
-        let datas = [
-          this.point.datas.created,
-          ...this.point.datas.existed,
-          ...this.point.datas.disappeared,
-        ].flat();
-        let item = datas.find((x) => {
-          if (x.Location) {
-            return ClassTool.equals.array(
-              [x.Location.Longitude, x.Location.Latitude],
-              position
-            );
-          }
-          return false;
-        });
-        if (item && item.Location) {
-          let text = item.Name;
+      over: async (data: IShop) => {
+        let label = await this.controller.label.get();
+        if (data && data.Location) {
+          let text = data.Name;
 
           let _point: [number, number] = [
-            item.Location.Longitude,
-            item.Location.Latitude,
+            data.Location.Longitude,
+            data.Location.Latitude,
           ];
-          let label = await this.controller.label.get();
 
           label.show(_point, text);
+        } else {
+          label.hide();
         }
       },
     },
@@ -275,7 +263,11 @@ export class SystemTaskRouteMapAMapController {
         x.Longitude,
         x.Latitude,
       ]);
-      controller.load(positions);
+      controller.load(positions).then((x) => {
+        this.amap.get().then((map) => {
+          map.setFitView(x, false);
+        });
+      });
     },
     clear: async () => {
       let controller = await this.controller.path.get();
@@ -313,11 +305,7 @@ export class SystemTaskRouteMapAMapController {
           ...this.point.datas.existed,
           ...this.point.datas.disappeared,
         ].flat();
-        x.load(datas).then((markers) => {
-          this.amap.get().then((map) => {
-            map.setFitView(markers, false);
-          });
-        });
+        x.load(datas);
       });
     },
     clear: async () => {
