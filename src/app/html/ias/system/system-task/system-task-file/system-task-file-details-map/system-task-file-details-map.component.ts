@@ -65,6 +65,8 @@ export class SystemTaskFileDetailsMapComponent
 
   @Input() copied: [number, number][] = [];
 
+  @Output() current = new EventEmitter<FileGpsItem>();
+
   constructor(
     private business: SystemTaskFileDetailsMapBusiness,
     private controller: SystemTaskFileDetailsMapController
@@ -79,9 +81,11 @@ export class SystemTaskFileDetailsMapComponent
 
   ngOnInit(): void {
     if (this._to) {
-      this._to.subscribe((x) => {
-        this.time.current = x;
-        this.controller.to(x);
+      this._to.subscribe((time) => {
+        this.time.current = time;
+        this.controller.to(time).then((x) => {
+          this.current.emit(x);
+        });
       });
     }
     this.controller.event.trigger.subscribe((x) => {

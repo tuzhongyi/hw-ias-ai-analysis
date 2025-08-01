@@ -38,7 +38,10 @@ export class SystemAMapShopMarkerLayerController {
         Name: data.Name,
       };
       if (data.Location) {
-        info.Location = [data.Location.Longitude, data.Location.Latitude];
+        info.Location = [
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
+        ];
       }
       this.info.add(info, this.zoom);
       this.event.mouseover.emit(data);
@@ -78,7 +81,10 @@ export class SystemAMapShopMarkerLayerController {
       Name: data.Name,
     };
     if (data.Location) {
-      info.Location = [data.Location.Longitude, data.Location.Latitude];
+      info.Location = [
+        data.Location.GCJ02.Longitude,
+        data.Location.GCJ02.Latitude,
+      ];
     }
     this.info.add(info, this.zoom);
     let point = this.points.find((x) => x.data.Id === data.Id);

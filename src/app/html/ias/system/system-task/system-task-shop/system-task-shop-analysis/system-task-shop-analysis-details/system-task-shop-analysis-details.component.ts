@@ -69,7 +69,7 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
           let item = this.sign.datas[index];
           this.picture.src = item.ImageUrl ?? '';
           this.picture.polygon = item.Polygon ?? [];
-          this.map.points = item.Location ? [item.Location] : [];
+          this.map.points = item.Location ? [item.Location.GCJ02] : [];
         }
       },
     },
@@ -116,7 +116,7 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
     shop: (data: SimpleChange) => {
       if (data && !data.firstChange) {
         if (this.task && this.shop) {
-          this.map.location = this.shop.Location;
+          this.map.location = this.shop.Location?.GCJ02;
           this.load(this.task.Id, this.shop.Id);
         }
       }
@@ -137,7 +137,7 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
         this.picture.polygon = first.Polygon ?? [];
         this.picture.page.data = Page.create(1, 1, this.sign.datas.length);
 
-        this.map.points = first.Location ? [first.Location] : [];
+        this.map.points = first.Location ? [first.Location.GCJ02] : [];
       }
     });
   }

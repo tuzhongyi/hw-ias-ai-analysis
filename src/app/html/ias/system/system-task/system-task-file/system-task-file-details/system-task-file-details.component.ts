@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
@@ -20,6 +27,18 @@ export class SystemTaskFileDetailsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private toastr: ToastrService
   ) {}
+
+  @ViewChild('video_element') set element(v: ElementRef) {
+    if (v) {
+      let video = v.nativeElement as HTMLVideoElement;
+      let context = new AudioContext();
+      let source = context.createMediaElementSource(video);
+      let node = context.createGain();
+      node.gain.value = 10;
+      source.connect(node);
+      node.connect(context.destination);
+    }
+  }
 
   src?: SafeResourceUrl;
 

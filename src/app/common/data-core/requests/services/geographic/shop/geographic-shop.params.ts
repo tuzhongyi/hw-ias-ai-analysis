@@ -69,3 +69,21 @@ export class GetShopRegistrationTaskDetectedResultParams extends PagedParams {
   /**	String	降序属性，不区分大小写	O	*/
   Desc?: string;
 }
+export class SetShopLocationsParams implements IParams {
+  /**	String	朝向的道路ID	M */
+  OriRoadId!: string;
+  /**
+   * 	Int32
+   * 	商铺相对道路的位置，默认全部
+   *  1：东面
+   *  2：南面
+   *  3：西面
+   *  4：北面
+   * 	O
+   */
+  ShopSide?: number;
+  /**	Double	离中心道路距离，单位：米	M */
+  Distance!: number;
+  /**	Boolean	是否为预览，true：只预览不设置，默认false。	O */
+  Previewed?: boolean;
+}

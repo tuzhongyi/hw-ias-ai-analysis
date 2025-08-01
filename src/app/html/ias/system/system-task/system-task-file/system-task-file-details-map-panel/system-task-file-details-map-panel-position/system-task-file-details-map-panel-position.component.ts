@@ -71,6 +71,29 @@ export class SystemTaskFileDetailsMapPanelPositionComponent
       this.fixed = !this.fixed;
       this.fixedChange.emit(this.fixed);
     },
+    _copy: {
+      clipboard: (text: string) => {
+        navigator.clipboard
+          .writeText(text)
+          .then((res) => {
+            this.toastr.success('复制成功');
+            this.copied.emit(this.position.gcj02 as [number, number]);
+          })
+          .catch((x) => {
+            this.on._copy.input(text);
+          });
+      },
+      input: (text: string) => {
+        let input = document.createElement('input');
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        this.toastr.success('复制成功');
+        document.body.removeChild(input);
+        this.copied.emit(this.position.gcj02 as [number, number]);
+      },
+    },
     copy: () => {
       let position: number[] = [];
       switch (this.position.type) {
@@ -89,20 +112,10 @@ export class SystemTaskFileDetailsMapPanelPositionComponent
       }
       if (position.length != 2) return;
       let text = position.join(',');
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then((res) => {
-          this.toastr.success('复制成功');
-          this.copied.emit(this.position.gcj02 as [number, number]);
-        });
+      if (navigator.clipboard && navigator.clipboard) {
+        this.on._copy.clipboard(text);
       } else {
-        let input = document.createElement('input');
-        input.value = text;
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand('copy');
-        this.toastr.success('复制成功');
-        document.body.removeChild(input);
-        this.copied.emit(this.position.gcj02 as [number, number]);
+        this.on._copy.input(text);
       }
     },
   };

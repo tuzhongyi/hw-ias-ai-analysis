@@ -41,8 +41,8 @@ export class SystemMapPanelTrigger {
           if (this.panel.editor.circle.show) {
             if (shop.Location) {
               this.amap.distance.center([
-                shop.Location.Longitude,
-                shop.Location.Latitude,
+                shop.Location.GCJ02.Longitude,
+                shop.Location.GCJ02.Latitude,
               ]);
             }
           }
@@ -56,7 +56,7 @@ export class SystemMapPanelTrigger {
         });
         this.panel.source.shop.position.subscribe((shop) => {
           if (shop.Location) {
-            this.amap.map.center(shop.Location);
+            this.amap.map.center(shop.Location.GCJ02);
           }
         });
       },

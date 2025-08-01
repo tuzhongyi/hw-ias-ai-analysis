@@ -8,8 +8,12 @@ import { UploadControlComponent } from '../../../../../../common/components/uplo
 import { UploadControlFile } from '../../../../../../common/components/upload-control/upload-control.model';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { SignType } from '../../../../../../common/data-core/enums/analysis/sign-type.enum';
+import { GisType } from '../../../../../../common/data-core/enums/gis-type.enum';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
-import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
+import {
+  GisPoint,
+  GisPoints,
+} from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 import { SystemModuleShopDetailsMapComponent } from '../system-module-shop-details-map/system-module-shop-details-map.component';
@@ -53,17 +57,9 @@ export class SystemModuleShopInformationComponent implements OnInit {
       let plain = instanceToPlain(this.data);
       this.shop = plainToInstance(Shop, plain);
     } else {
-      this.business
-        .one()
-        .then((x) => {
-          this.shop.Location = x.Location;
-        })
-        .catch((x) => {
-          this.shop.Location = new GisPoint();
-          this.shop.Location.Longitude = 121.498586;
-          this.shop.Location.Latitude = 31.239637;
-          this.shop.Location.Altitude = 0;
-        });
+      this.business.one().then((x) => {
+        this.shop.Location = x.Location;
+      });
     }
   }
 
@@ -84,11 +80,11 @@ export class SystemModuleShopInformationComponent implements OnInit {
       this.toastr.warning('请选择商铺位置');
       return false;
     }
-    if (!this.shop.Location.Longitude) {
+    if (!this.shop.Location.GCJ02.Longitude) {
       this.toastr.warning('商铺坐标经度不能为空');
       return false;
     }
-    if (!this.shop.Location.Latitude) {
+    if (!this.shop.Location.GCJ02.Latitude) {
       this.toastr.warning('商铺坐标纬度不能为空');
       return false;
     }
@@ -99,12 +95,15 @@ export class SystemModuleShopInformationComponent implements OnInit {
   location = {
     change: new EventEmitter<GisPoint>(),
     on: () => {
-      this.location.change.emit(this.shop.Location);
+      this.location.change.emit(this.shop.Location?.GCJ02);
     },
   };
 
   onposition(data: GisPoint) {
-    this.shop.Location = data;
+    if (!this.shop.Location) {
+      this.shop.Location = new GisPoints();
+    }
+    this.shop.Location.set(data, GisType.GCJ02);
   }
 
   onimage(data: UploadControlFile) {

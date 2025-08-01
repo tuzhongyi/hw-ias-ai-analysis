@@ -18,6 +18,7 @@ import {
 export class ContainerZoomComponent implements OnChanges {
   @Input() reset = false;
   @Input() fullable = false;
+  @Input() resetable = false;
   @Output() resetChange = new EventEmitter<boolean>();
   @Output() full = new EventEmitter<void>();
   ngOnChanges(changes: SimpleChanges): void {
@@ -71,7 +72,7 @@ export class ContainerZoomComponent implements OnChanges {
     this.translateY = this.lastY + dy;
   }
 
-  onMouseUp() {
+  onMouseUp(event: MouseEvent) {
     this.reset = false;
     this.resetChange.emit(this.reset);
     this.isDragging = false;
@@ -87,7 +88,12 @@ export class ContainerZoomComponent implements OnChanges {
     this.lastY = 0;
   }
 
-  onfull() {
+  onfull(e: Event) {
     this.full.emit();
+    e.stopImmediatePropagation();
+  }
+  onreset(e: Event) {
+    this.onReset();
+    e.stopImmediatePropagation();
   }
 }

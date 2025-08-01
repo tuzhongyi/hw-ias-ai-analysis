@@ -152,11 +152,17 @@ export class SystemModuleShopRegistrationManagerComponent {
   map = {
     points: [] as GisPoint[],
     load: (datas: ShopRegistration[]) => {
-      this.map.points = datas.filter((x) => x.Location).map((x) => x.Location!);
+      this.map.points = datas
+        .filter((x) => x.Location)
+        .map((x) => x.Location!.GCJ02);
     },
     picture: (data: ShopRegistration) => {
       let paged = Paged.create(data, 1, 1);
       this.table.picture.on(paged);
+    },
+    information: (data: ShopRegistration) => {
+      this.window.information.data = data;
+      this.window.information.show = true;
     },
   };
 

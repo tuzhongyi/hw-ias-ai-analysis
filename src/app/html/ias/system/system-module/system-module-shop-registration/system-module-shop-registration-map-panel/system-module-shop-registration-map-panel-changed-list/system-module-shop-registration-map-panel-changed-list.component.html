@@ -1,0 +1,29 @@
+<div
+  class="system-module-shop-registration-map-panel-changed-list panel-map-border root-router"
+>
+  <div class="system-module-shop-registration-map-panel-changed-list-head">
+    <div class="panel-map-title">坐标调整记录</div>
+    <div>
+      <div class="button" (click)="on.cancel()">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-shop-registration-map-panel-changed-list-body">
+    <ias-system-module-shop-registration-map-panel-changed-table
+      [datas]="datas"
+      (revoke)="on.table.revoke($event)"
+      [selected]="selected"
+      (selectedChange)="on.table.selected.change($event)"
+      (position)="on.table.position($event)"
+      (itemhover)="on.table.item.hover($event)"
+      (itemblur)="on.table.item.blur($event)"
+    ></ias-system-module-shop-registration-map-panel-changed-table>
+  </div>
+  <div class="system-module-shop-registration-map-panel-changed-list-foot">
+    <div class="count">
+      记录数量：<span>{{ datas.length }}</span>
+    </div>
+    <button class="button-clip-gradient" (click)="on.save()">保存</button>
+  </div>
+</div>

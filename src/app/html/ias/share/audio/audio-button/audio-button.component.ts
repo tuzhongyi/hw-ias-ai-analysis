@@ -66,6 +66,13 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
       this.audio.data.addEventListener('ended', () => {
         this.audio.stop();
       });
+
+      let context = new AudioContext();
+      let source = context.createMediaElementSource(this.audio.data);
+      let node = context.createGain();
+      node.gain.value = 10;
+      source.connect(node);
+      node.connect(context.destination);
     },
     clear: () => {
       if (this.audio.data) {
@@ -77,7 +84,6 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
     },
     play: () => {
       if (!this.audio.data) return;
-
       this.audio.playing = true;
       this.audio.data.play();
       this.animation.run();

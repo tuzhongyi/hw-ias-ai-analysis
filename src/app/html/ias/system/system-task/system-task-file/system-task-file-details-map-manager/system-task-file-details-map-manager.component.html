@@ -16,11 +16,18 @@
     (loaded)="on.loaded($event)"
     (trigger)="on.trigger($event)"
     (error)="on.error($event)"
+    (current)="on.current($event)"
   ></ias-system-task-file-details-map>
   <div class="system-task-file-details-map-manager-speed">
     <ias-system-task-file-details-map-panel-speed
       [speed]="speed"
     ></ias-system-task-file-details-map-panel-speed>
+  </div>
+  <div
+    class="system-task-file-details-map-manager-road panel-map"
+    *ngIf="roadable"
+  >
+    {{ current?.RoadName }}
   </div>
   <div class="system-task-file-details-map-manager-settings panel-map">
     <ias-system-task-file-details-map-panel-settings

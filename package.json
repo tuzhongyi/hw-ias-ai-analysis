@@ -24,6 +24,8 @@
     "@angular/router": "^19.0.0",
     "@types/sm-crypto": "^0.3.4",
     "class-transformer": "^0.5.1",
+    "coordtransform": "^2.1.2",
+    "decimal.js": "^10.6.0",
     "echarts": "^5.6.0",
     "file-saver": "^2.0.5",
     "ngx-toastr": "^19.0.0",

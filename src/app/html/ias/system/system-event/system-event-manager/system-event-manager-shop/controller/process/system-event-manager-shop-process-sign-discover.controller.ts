@@ -24,6 +24,7 @@ export class SystemEventManagerShopProcessSignDiscoverController {
   };
 
   load = new EventEmitter<void>();
+  points: ShopRegistration[] = [];
 
   constructor(
     private window: SystemEventManagerShopWindow,
@@ -31,6 +32,9 @@ export class SystemEventManagerShopProcessSignDiscoverController {
   ) {}
 
   on = {
+    loaded: (datas: ShopRegistration[]) => {
+      this.points = datas;
+    },
     create: (data: MobileEventRecord) => {
       let shop = ConvertTool.event.record.registration(data);
       this.window.shop.data = shop;

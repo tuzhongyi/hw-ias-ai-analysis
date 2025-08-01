@@ -49,7 +49,7 @@ class ResultWindow extends WindowViewModel {
     this.title = '';
   }
   style = {
-    ...SizeTool.window.large,
+    ...SizeTool.window.full,
   };
   data?: AnalysisTask;
   title = '';
@@ -59,7 +59,7 @@ class DetailsWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    width: '55%',
+    width: '56%',
     height: '50%',
     paddingTop: 0,
   };

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
+import { ArmEventType } from '../../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import {
   Page,
@@ -47,13 +48,14 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
 
   constructor(private business: SystemEventTableBusiness) {}
 
-  widths = ['5%', '10%', '15%', '8%', '12%', '8%', '10%', '12%', '10%', '10%'];
+  widths = ['5%', '10%', '8%', '8%', '12%', '8%', '10%', '12%', '17%', '10%'];
   datas: (SystemEventTableItem | undefined)[] = [];
   page = Page.create(1, 10);
   selected?: SystemEventTableItem;
 
   Language = Language;
   Color = ColorTool;
+  EventType = ArmEventType;
 
   private filter = new SystemEventTableFilter();
   private subscription = new Subscription();

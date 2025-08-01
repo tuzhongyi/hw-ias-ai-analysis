@@ -27,9 +27,9 @@ export class SystemMapPanelDetailsShopRegistrationComponent {
     if (this.data) {
       if (this.data.Location) {
         let longitude =
-          this.data.Location.Longitude - GeoTool.point.offset.longitude;
+          this.data.Location.GCJ02.Longitude - GeoTool.point.offset.longitude;
         let latitude =
-          this.data.Location.Latitude - GeoTool.point.offset.latitude;
+          this.data.Location.GCJ02.Latitude - GeoTool.point.offset.latitude;
         let wgs84 = GeoTool.point.convert.gcj02.to.wgs84(longitude, latitude);
         return wgs84.join(',');
       }

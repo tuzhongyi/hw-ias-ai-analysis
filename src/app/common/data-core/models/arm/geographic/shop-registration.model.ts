@@ -1,9 +1,9 @@
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import 'reflect-metadata';
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
 import { transformDateTime } from '../../transformer';
 import { IShop } from '../analysis/shop.interface';
-import { GisPoint } from '../gis-point.model';
+import { GisPoints, transformGisPoint } from '../gis-point.model';
 
 /**	ShopRegistration (商铺注册信息)	*/
 export class ShopRegistration implements IShop {
@@ -24,8 +24,8 @@ export class ShopRegistration implements IShop {
   /**	Int32	商铺类型，1-店铺招牌，2-指示牌，3-路牌，4-广告牌，5-宣传标语，10-其他	O */
   ShopType?: number;
   /**	GisPoint	商铺Gis坐标	O	*/
-  @Type(() => GisPoint)
-  Location?: GisPoint;
+  @Transform(transformGisPoint)
+  Location?: GisPoints;
   /**	String	商铺照片	O	*/
   ImageUrl?: string;
   /**	DateTime	创建时间	M	*/

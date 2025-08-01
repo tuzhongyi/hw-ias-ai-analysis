@@ -4,11 +4,11 @@ import { SystemMapSearchShopRoadArgs } from '../../../system-map/system-map-sear
 export class SystemModuleShopRegistrationMapArgs
   implements SystemMapSearchShopRoadArgs
 {
-  reload?: boolean;
   name?: string;
   road: {
     on?: Road;
     ori?: Road;
   } = {};
   side?: number;
+  ids?: string[];
 }

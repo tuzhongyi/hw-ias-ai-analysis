@@ -11,13 +11,14 @@ import {
 } from '@angular/core';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
+import { IASMapPanelSettingsComponent } from '../../map-panel/ias-map-panel-settings/ias-map-panel-settings.component';
 import { IIASMapArgs, MapMarker } from '../../map/ias-map.model';
 import { VideoPathMapAMapController } from './controller/amap/video-path-map-amap.controller';
 import { VideoPathMapController } from './controller/video-path-map.controller';
 
 @Component({
   selector: 'howell-video-path-map',
-  imports: [CommonModule],
+  imports: [CommonModule, IASMapPanelSettingsComponent],
   templateUrl: './video-path-map.component.html',
   styleUrl: './video-path-map.component.less',
   providers: [VideoPathMapAMapController, VideoPathMapController],
@@ -31,10 +32,13 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
   @Output() loaded = new EventEmitter<void>();
   @Output() error = new EventEmitter<Error>();
   @Input() loading = false;
+  @Input() rectified = false;
+  @Output() rectifiedChange = new EventEmitter<boolean>();
 
   constructor(private controller: VideoPathMapController) {}
 
   speed = 0;
+  current?: FileGpsItem;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['datas'] && !changes['datas'].firstChange) {
@@ -62,8 +66,10 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this._to) {
-      this._to.subscribe((x) => {
-        this.controller.to(x);
+      this._to.subscribe((time) => {
+        this.controller.to(time).then((x) => {
+          this.current = x;
+        });
       });
     }
     this.controller.trigger.subscribe((x) => {
@@ -97,6 +103,12 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
       } catch (e: any) {
         this.error.emit(e);
       }
+    },
+  };
+
+  on = {
+    rectified: () => {
+      this.rectifiedChange.emit(this.rectified);
     },
   };
 

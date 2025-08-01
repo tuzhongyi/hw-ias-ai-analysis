@@ -2,9 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
+import { GisType } from '../../../../../../common/data-core/enums/gis-type.enum';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
-import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
+import {
+  GisPoint,
+  GisPoints,
+} from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
 import { PicturePolygonZoomComponent } from '../../../../share/picture/picture-polygon-zoom/picture-polygon-zoom.component';
 import { WindowComponent } from '../../../../share/window/window.component';
@@ -51,7 +55,10 @@ export class SystemModuleShopDetailsComponent implements OnInit {
 
   onposition(data: GisPoint) {
     if (this.shop) {
-      this.shop.Location = data;
+      if (!this.shop.Location) {
+        this.shop.Location = new GisPoints();
+      }
+      this.shop.Location.set(data, GisType.GCJ02);
     }
   }
 

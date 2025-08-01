@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import { GisPoint } from './arm/gis-point.model';
 export interface IModel {}
 export interface IIdModel<T = string> extends IModel {
   Id: T;
@@ -14,6 +13,12 @@ export interface IGisModel extends IModel {
   Longitude: number;
   Latitude: number;
 }
-export interface IGisPointModel<T extends IGisModel = GisPoint> extends IModel {
+export interface IGisPointsModel extends IModel {
+  WGS84: IGisModel;
+  GCJ02: IGisModel;
+  BD09: IGisModel;
+}
+export interface IGisPointModel<T extends IGisPointsModel = IGisPointsModel>
+  extends IModel {
   Location?: T;
 }

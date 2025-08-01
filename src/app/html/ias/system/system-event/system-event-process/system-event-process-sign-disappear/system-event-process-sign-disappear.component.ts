@@ -111,7 +111,7 @@ export class SystemEventProcessSignDisappearComponent implements OnInit {
           this.shop.data = await this.business.from.shop(resource.ResourceId);
         }
         this.shop.picture.src = this.shop.data?.ImageUrl ?? '';
-        this.map.point = this.shop.data?.Location;
+        this.map.point = this.shop.data?.Location?.GCJ02;
       }
     },
   };
@@ -141,7 +141,7 @@ export class SystemEventProcessSignDisappearComponent implements OnInit {
           this.record.picture.src = this.record.sign.selected.ImageUrl ?? '';
           this.record.picture.polygon = this.record.sign.selected.Polygon ?? [];
           this.record.picture.zoom.reset.set();
-          this.map.location = this.record.sign.selected.Location;
+          this.map.location = this.record.sign.selected.Location?.GCJ02;
         },
       },
       zoom: {

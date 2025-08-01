@@ -101,8 +101,8 @@ export class SystemMapComponent implements OnInit, OnDestroy {
       });
       this.panel.source.shop.select.subscribe((x) => {
         if (x.Location) {
-          this.args.distance.center.X = x.Location.Longitude;
-          this.args.distance.center.Y = x.Location.Latitude;
+          this.args.distance.center.X = x.Location.GCJ02.Longitude;
+          this.args.distance.center.Y = x.Location.GCJ02.Latitude;
         }
       });
       this.panel.editor.circle.load.subscribe((x) => {

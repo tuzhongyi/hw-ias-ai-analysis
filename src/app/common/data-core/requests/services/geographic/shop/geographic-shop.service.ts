@@ -12,6 +12,7 @@ import { HowellResponseProcess } from '../../../service-process';
 import {
   GetShopRegistrationTaskDetectedResultParams,
   GetShopRegistrationsParams,
+  SetShopLocationsParams,
   ShopTaskCompareParams,
 } from './geographic-shop.params';
 
@@ -19,6 +20,16 @@ import {
 export class ArmGeographicShopRequestService extends AbstractService<ShopRegistration> {
   constructor(private http: HowellHttpClient) {
     super();
+  }
+
+  async location(params: SetShopLocationsParams) {
+    let url = ArmGeographicUrl.shop.location();
+    let plain = instanceToPlain(params);
+    return this.http
+      .post<HowellResponse<ShopRegistration[]>, any>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.array(x, ShopRegistration);
+      });
   }
 
   async get(id: string) {

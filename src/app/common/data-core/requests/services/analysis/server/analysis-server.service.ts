@@ -193,8 +193,6 @@ class ArmAnalysisServerTaskRequestService extends AbstractService<AnalysisTask> 
           let plain = instanceToPlain(
             params
           ) as GetTaskRecordFileGpsItemsParams;
-          console.log(params);
-          console.log(plain);
           let url = ArmAnalysisUrl.server.task.record
             .file(id)
             .gps.items(

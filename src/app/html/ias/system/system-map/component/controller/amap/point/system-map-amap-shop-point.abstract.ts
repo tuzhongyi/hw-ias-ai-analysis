@@ -14,17 +14,20 @@ export abstract class SystemAMapShopPointAbstract {
     borderWidth: number;
     blurWidth: number;
   };
-  constructor(private container: Loca.Container) {
-    this.layer = this.init();
+  constructor(
+    private container: Loca.Container,
+    zooms: [number, number] = SystemMapAMapConfig.point.zooms
+  ) {
+    this.layer = this.init(zooms);
   }
   private converter = new SystemMapAMapConverter();
   private layer: Loca.PointLayer;
   private over?: IGisPointModel;
 
-  private init() {
+  private init(zooms?: [number, number]) {
     let layer = new Loca.PointLayer({
       blend: 'normal',
-      zooms: SystemMapAMapConfig.point.zooms,
+      zooms: zooms,
     });
     return layer;
   }

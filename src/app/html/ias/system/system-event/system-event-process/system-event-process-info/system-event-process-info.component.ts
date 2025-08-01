@@ -47,7 +47,7 @@ export class SystemEventProcessInfoComponent implements OnInit {
       this.load.map(this.data);
     }
     if (this.registration) {
-      this.map.point = this.registration.Location;
+      this.map.point = this.registration.Location?.GCJ02;
     }
   }
   load = {

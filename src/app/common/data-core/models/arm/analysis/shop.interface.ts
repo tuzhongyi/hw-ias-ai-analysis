@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
-import { IGisPointModel } from '../../model.interface';
-import { GisPoint } from '../gis-point.model';
+import { IIdNameModel } from '../../model.interface';
+import { GisPoints } from '../gis-point.model';
 
-export interface IShop extends IGisPointModel<GisPoint> {
+export interface IShop extends IIdNameModel {
   /**	String	商铺ID	M	*/
   Id: string;
   /**	String	商铺名称	M	*/
@@ -19,7 +19,7 @@ export interface IShop extends IGisPointModel<GisPoint> {
   /**	Int32	商铺类型，1-店铺招牌，2-指示牌，3-路牌，4-广告牌，5-宣传标语，10-其他	O */
   ShopType?: number;
   /**	GisPoint	商铺Gis坐标	O	*/
-  Location?: GisPoint;
+  Location?: GisPoints;
   /**	String	商铺照片	O	*/
   ImageUrl?: string;
   /**	DateTime	创建时间	M	*/

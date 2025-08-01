@@ -76,8 +76,8 @@ export class SystemEventRequestService {
     },
   };
   gps = {
-    items: (id: string) => {
-      let url = ArmSystemUrl.event.gps.items(id);
+    items: (id: string, rectified?: boolean) => {
+      let url = ArmSystemUrl.event.gps.items(id, rectified);
       return this.http.get<HowellResponse<FileGpsItem[]>>(url).then((x) => {
         return HowellResponseProcess.array(x, FileGpsItem);
       });

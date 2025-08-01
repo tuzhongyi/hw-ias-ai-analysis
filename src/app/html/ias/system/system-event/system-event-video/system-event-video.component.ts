@@ -29,6 +29,15 @@ export class SystemEventVideoComponent implements OnInit {
     loading: false,
     points: [] as GisPoint[],
     args: new MapMarker(),
+    rectified: {
+      value: false,
+      change: (value: boolean) => {
+        this.map.rectified.value = value;
+        if (this.data) {
+          this.load.path(this.data.Id, value);
+        }
+      },
+    },
   };
   count = 5;
 
@@ -60,14 +69,14 @@ export class SystemEventVideoComponent implements OnInit {
       if (data.Resources && data.Resources.length > 0) {
         let resource = data.Resources[0];
         if (resource.Location) {
-          this.map.points = [resource.Location];
+          this.map.points = [resource.Location.GCJ02];
         }
       }
     },
-    path: (id: string) => {
+    path: (id: string, rectified?: boolean) => {
       this.map.loading = true;
       this.business
-        .load(id)
+        .load(id, rectified)
         .then((items) => {
           this.map.items = items;
           this.map.loading = false;

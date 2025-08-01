@@ -2,13 +2,11 @@ import { EventEmitter, Injectable } from '@angular/core';
 import '../../../../../../../../assets/js/map/CoordinateTransform.js';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model.js';
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model.js';
-import {
-  IGisModel,
-  IGisPointModel,
-} from '../../../../../../../common/data-core/models/model.interface.js';
+import { IGisPointModel } from '../../../../../../../common/data-core/models/model.interface.js';
 import { AMapInputTipItem } from '../../../../../../../common/helper/map/amap.model.js';
 import { ArrayTool } from '../../../../../../../common/tools/array-tool/array.tool.js';
 import { ClassTool } from '../../../../../../../common/tools/class-tool/class.tool.js';
+import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool.js';
 import { SystemTaskFileDetailsAMapController } from './system-task-file-details-amap.controller';
 
 @Injectable()
@@ -43,9 +41,12 @@ export class SystemTaskFileDetailsMapController {
     load: async (datas: [number, number][]) => {
       this.amap.copied.get().then((copied) => {
         let items = datas.map<IGisPointModel>((x) => {
-          return {
-            Location: { Longitude: x[0], Latitude: x[1] } as IGisModel,
-          } as IGisPointModel;
+          let gis = {
+            WGS84: GeoTool.point.convert.gcj02.to.wgs84(x[0], x[1]),
+            GCJ02: x,
+            BD09: GeoTool.point.convert.gcj02.to.bd09(x[0], x[1]),
+          };
+          return gis as IGisPointModel;
         });
         copied.load(items, { zooms: [0, 50] });
       });
@@ -165,36 +166,44 @@ export class SystemTaskFileDetailsMapController {
   }
 
   async to(stamp: number) {
-    let times = this.path.datas.map((x) => {
-      let time = x.OffsetTime.toDate();
-      return time.getTime();
-    });
+    return new Promise<FileGpsItem>((resolve) => {
+      let times = this.path.datas.map((x) => {
+        let time = x.OffsetTime.toDate();
+        return time.getTime();
+      });
 
-    let finded = ArrayTool.closest(times, stamp);
-    if (finded) {
-      let item = this.path.datas[finded.index];
-      this.event.speed.emit(item.Speed);
-      this.event.position.emit([item.Longitude, item.Latitude]);
+      let finded = ArrayTool.closest(times, stamp);
+      if (finded) {
+        let item = this.path.datas[finded.index];
+        resolve(item);
+        this.event.speed.emit(item.Speed);
+        this.event.position.emit([item.Longitude, item.Latitude]);
 
-      let way = this.path.datas
-        .slice(0, finded.index)
-        .map<[number, number]>((x) => {
-          return [x.Longitude, x.Latitude];
+        let way = this.path.datas
+          .slice(0, finded.index)
+          .map<[number, number]>((x) => {
+            return [x.Longitude, x.Latitude];
+          });
+        this.amap.way.get().then((x) => {
+          x.load(way);
         });
-      (await this.amap.way.get()).load(way);
 
-      let position: [number, number] = [item.Longitude, item.Latitude];
-      (await this.amap.arrow.get()).set(position);
-      if (finded.index > 0) {
-        let arrow = await this.amap.arrow.get();
-        if (Number.isFinite(item.Course)) {
-          arrow.direction(item.Course!);
-        } else {
-          let last = this.path.datas[finded.index - 1];
-          arrow.direction1([[last.Longitude, last.Latitude], position]);
+        let position: [number, number] = [item.Longitude, item.Latitude];
+        this.amap.arrow.get().then((x) => {
+          x.set(position);
+        });
+        if (finded.index > 0) {
+          this.amap.arrow.get().then((arrow) => {
+            if (Number.isFinite(item.Course)) {
+              arrow.direction(item.Course!);
+            } else {
+              let last = this.path.datas[finded.index - 1];
+              arrow.direction1([[last.Longitude, last.Latitude], position]);
+            }
+          });
         }
       }
-    }
+    });
   }
 
   destroy() {

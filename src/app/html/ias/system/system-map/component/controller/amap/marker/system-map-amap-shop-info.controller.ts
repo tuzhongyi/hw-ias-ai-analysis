@@ -16,7 +16,7 @@ export class SystemAMapShopInfoController {
 
   add(
     data: ISystemAMapShopMarkerInfo,
-    zoom: number,
+    zoom?: number,
     offset?: [number, number]
   ) {
     if (data && data.Location) {
@@ -26,10 +26,12 @@ export class SystemAMapShopInfoController {
                     </div>`;
       this.marker.setContent(content);
 
-      this.set.offset(zoom);
+      this.set.offset(zoom ?? 50);
       if (offset) {
-        this.marker.setOffset(new AMap.Pixel(...offset));
+        let pixel = new AMap.Pixel(...offset);
+        this.marker.setOffset(pixel);
       }
+
       this.marker.setPosition(data.Location);
       this.map.add(this.marker);
     }

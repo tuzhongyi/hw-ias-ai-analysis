@@ -30,6 +30,16 @@ export class FileGpsItem implements IModel {
   Speed?: number;
   /**	Double	偏北角，顺时针0-360度	O	R */
   Course?: number;
+  /**	String	机位编号	O	R */
+  CameraNo?: string;
+  /**	Double	加速度计X轴加速度，单位为m/s2	O	R */
+  AccX?: number;
+  /**	Double	加速度计Y轴加速度，单位为m/s2	O	R */
+  AccY?: number;
+  /**	String	道路ID	O	R */
+  RoadId?: string;
+  /**	String	道路名称	O	R */
+  RoadName?: string;
 
   static position(a: FileGpsItem): number[] {
     return [a.Longitude, a.Latitude];

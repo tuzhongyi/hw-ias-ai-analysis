@@ -5,7 +5,9 @@ import { ShopRegistration } from '../../../../../../../../common/data-core/model
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { ObjectTool } from '../../../../../../../../common/tools/object-tool/object.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
-import { SystemModuleShopRegistrationMapAMapLabelController } from './label/system-module-shop-registration-map-amap-label.controller';
+import { SystemAMapShopInfoController } from '../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-info.controller';
+import { ISystemAMapShopMarkerInfo } from '../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-marker.model';
+import { SystemModuleShopRegistrationMapAMapChangedLayerController } from './changed/system-module-shop-registration-map-amap-changed-layer.controller';
 import { SystemModuleShopRegistrationMapAMapMarkerLayerController } from './marker/system-module-shop-registration-map-amap-marker-layer.controller';
 import { SystemModuleShopRegistrationMapAMapPointController } from './point/system-module-shop-registration-map-amap-point.controller';
 import { SystemModuleShopRegistrationMapAMapRoadLabelController } from './road/system-module-shop-registration-map-amap-road-label.controller';
@@ -51,12 +53,13 @@ export class SystemModuleShopRegistrationMapAMapController {
       label:
         new PromiseValue<SystemModuleShopRegistrationMapAMapRoadLabelController>(),
     },
-    label:
-      new PromiseValue<SystemModuleShopRegistrationMapAMapLabelController>(),
     point:
       new PromiseValue<SystemModuleShopRegistrationMapAMapPointController>(),
     marker:
       new PromiseValue<SystemModuleShopRegistrationMapAMapMarkerLayerController>(),
+    changed:
+      new PromiseValue<SystemModuleShopRegistrationMapAMapChangedLayerController>(),
+    info: new PromiseValue<SystemAMapShopInfoController>(),
   };
 
   private init = {
@@ -65,25 +68,56 @@ export class SystemModuleShopRegistrationMapAMapController {
       let center = map.getCenter();
       this.init.road.polyline(map);
       this.init.road.label(map);
-      this.init.label(map);
       if (container) {
         this.init.point(container);
       }
-      this.init.marker(map);
+      let info = new SystemAMapShopInfoController(map);
+      this.controller.info.set(info);
+      this.init.marker(map, info);
+      this.init.changed(map, info);
     },
-    marker: (map: AMap.Map) => {
+    marker: (map: AMap.Map, info: SystemAMapShopInfoController) => {
       try {
         let controller =
-          new SystemModuleShopRegistrationMapAMapMarkerLayerController(map);
-        controller.event.dragend.subscribe((x) => {
-          this.point.reload(x);
-          this.event.point.dragend.emit(x);
+          new SystemModuleShopRegistrationMapAMapMarkerLayerController(
+            map,
+            info
+          );
+        controller.event.dragend.subscribe((data) => {
+          // this.point.reload(x);
+          this.event.point.dragend.emit(data);
+          this.controller.marker.get().then((x) => {
+            x.remove(data);
+          });
+          this.controller.changed.get().then((x) => {
+            x.add(data);
+          });
         });
 
         controller.event.click.subscribe((x) => {
           this.event.point.click.emit(x);
         });
         this.controller.marker.set(controller);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    changed: (map: AMap.Map, info: SystemAMapShopInfoController) => {
+      try {
+        let controller =
+          new SystemModuleShopRegistrationMapAMapChangedLayerController(
+            map,
+            info
+          );
+        controller.event.dragend.subscribe((x) => {
+          // this.point.reload(x);
+          this.event.point.dragend.emit(x);
+        });
+
+        controller.event.click.subscribe((x) => {
+          this.event.point.click.emit(x);
+        });
+        this.controller.changed.set(controller);
       } catch (error) {
         console.error(error);
       }
@@ -97,16 +131,6 @@ export class SystemModuleShopRegistrationMapAMapController {
           this.regist.point.over(data as IShop);
         });
         this.controller.point.set(controller);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    label: (map: AMap.Map) => {
-      try {
-        let controller = new SystemModuleShopRegistrationMapAMapLabelController(
-          map
-        );
-        this.controller.label.set(controller);
       } catch (error) {
         console.error(error);
       }
@@ -149,20 +173,23 @@ export class SystemModuleShopRegistrationMapAMapController {
       });
     },
     point: {
-      over: async (data: IShop) => {
-        let label = await this.controller.label.get();
-        if (data && data.Location) {
-          let text = data.Name;
-
-          let _point: [number, number] = [
-            data.Location.Longitude,
-            data.Location.Latitude,
-          ];
-
-          label.show(_point, text);
-        } else {
-          label.hide();
-        }
+      over: async (data?: IShop) => {
+        this.controller.info.get().then((ctr) => {
+          if (data && data.Location) {
+            let info: ISystemAMapShopMarkerInfo = {
+              Name: data.Name,
+            };
+            if (data.Location) {
+              info.Location = [
+                data.Location.GCJ02.Longitude,
+                data.Location.GCJ02.Latitude,
+              ];
+            }
+            ctr.add(info);
+          } else {
+            ctr.remove();
+          }
+        });
       },
     },
   };
@@ -187,17 +214,18 @@ export class SystemModuleShopRegistrationMapAMapController {
   };
   point = {
     datas: [] as IShop[],
+    draggable: (enabled: boolean) => {
+      this.controller.marker.get().then((x) => {
+        x.set.draggable(enabled);
+      });
+    },
     load: (datas: ShopRegistration[]) => {
       this.point.datas = datas.map((x) => ObjectTool.copy(x, ShopRegistration));
       this.controller.point.get().then((x) => {
         x.load(this.point.datas);
       });
       this.controller.marker.get().then((x) => {
-        x.load(this.point.datas).then((markers) => {
-          this.amap.get().then((map) => {
-            map.setFitView(markers, true);
-          });
-        });
+        x.load(this.point.datas);
       });
     },
     reload: async (changed: ShopRegistration) => {
@@ -210,10 +238,26 @@ export class SystemModuleShopRegistrationMapAMapController {
       point.clear();
       point.load(datas);
     },
-    revoke: async (changed: ShopRegistration) => {
-      this.point.reload(changed);
-      let marker = await this.controller.marker.get();
-      marker.set.position(changed);
+    // revoke: async (changed: ShopRegistration) => {
+    //   this.point.reload(changed);
+    //   let index = this.point.datas.findIndex((x) => x.Id === changed.Id);
+    //   if (index >= 0) {
+    //     let data = ObjectTool.copy(changed, ShopRegistration);
+    //     this.point.datas[index] = data;
+    //     let marker = await this.controller.marker.get();
+    //     marker.set.position(data);
+    //   }
+    // },
+    revoke: async (data: ShopRegistration) => {
+      let index = this.point.datas.findIndex((x) => x.Id === data.Id);
+      if (index >= 0) {
+        let _data = ObjectTool.copy(data, ShopRegistration);
+        this.point.datas[index] = _data;
+        let changed = await this.controller.changed.get();
+        changed.remove(_data);
+        let marker = await this.controller.marker.get();
+        marker.add(_data);
+      }
     },
     clear: async () => {
       this.point.datas = [];
@@ -221,12 +265,14 @@ export class SystemModuleShopRegistrationMapAMapController {
       point.clear();
       let marker = await this.controller.marker.get();
       marker.clear();
+      let changed = await this.controller.changed.get();
+      changed.clear();
     },
     focus: async (data: ShopRegistration) => {
       if (data.Location) {
         let position: [number, number] = [
-          data.Location.Longitude,
-          data.Location.Latitude,
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
         ];
         this.amap.get().then((x) => {
           x.setCenter(position);
@@ -244,9 +290,24 @@ export class SystemModuleShopRegistrationMapAMapController {
       let marker = await this.controller.marker.get();
       marker.mouseout(data);
     },
+    location: (datas: ShopRegistration[]) => {
+      this.controller.marker.get().then((marker) => {
+        datas.forEach((x) => {
+          marker.remove(x);
+        });
+      });
+      this.controller.changed.get().then((x) => {
+        x.set.location(datas);
+      });
+    },
   };
 
   map = {
+    view: () => {
+      this.amap.get().then((map) => {
+        map.setFitView(undefined, true);
+      });
+    },
     destory: () => {
       this.loca.get().then((loca) => {
         loca.destroy();
@@ -260,8 +321,8 @@ export class SystemModuleShopRegistrationMapAMapController {
     move: (data: ShopRegistration) => {
       if (data.Location) {
         let position: [number, number] = [
-          data.Location.Longitude,
-          data.Location.Latitude,
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
         ];
         this.amap.get().then((x) => {
           x.setCenter(position);

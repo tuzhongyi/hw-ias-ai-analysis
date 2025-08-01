@@ -5,8 +5,8 @@ import { ArmSystemRequestService } from '../../../../../../common/data-core/requ
 export class SystemEventVideoBusiness {
   constructor(private service: ArmSystemRequestService) {}
 
-  load(eventId: string) {
-    return this.service.event.gps.items(eventId);
+  load(eventId: string, rectified?: boolean) {
+    return this.service.event.gps.items(eventId, rectified);
   }
 
   file(id: string) {

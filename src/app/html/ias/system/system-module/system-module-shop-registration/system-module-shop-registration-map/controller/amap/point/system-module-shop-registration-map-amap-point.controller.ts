@@ -23,7 +23,7 @@ export class SystemModuleShopRegistrationMapAMapPointController {
 
   load(datas: IShop[]) {
     if (datas.length > 0) {
-      this.existed.load(datas);
+      this.existed.load(datas, { zooms: [0, 50] });
     }
   }
 

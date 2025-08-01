@@ -10,14 +10,15 @@ import { SystemTaskVideoArgs } from './system-task-video.model';
 export class SystemTaskVideoBusiness {
   constructor(private service: ArmAnalysisRequestService) {}
 
-  load(args: SystemTaskVideoArgs) {
-    let params = new GetTaskRecordFileParams();
+  load(args: SystemTaskVideoArgs, rectified?: boolean) {
+    let params = new GetTaskRecordFileGpsItemsParams();
     params = Object.assign(params, args);
+    params.Rectified = rectified;
     return this.service.server.task.record.file.gps.items(args.TaskId, params);
   }
 
   file(args: SystemTaskVideoArgs) {
-    let params = new GetTaskRecordFileGpsItemsParams();
+    let params = new GetTaskRecordFileParams();
     params = Object.assign(params, args);
     return this.service.server.task.record.file.mkv(args.TaskId, params);
   }

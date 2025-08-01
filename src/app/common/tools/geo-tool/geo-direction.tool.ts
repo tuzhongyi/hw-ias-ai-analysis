@@ -1,4 +1,4 @@
-import { GisPoint } from '../../data-core/models/arm/gis-point.model';
+import { GisPoints } from '../../data-core/models/arm/gis-point.model';
 import { IIdModel } from '../../data-core/models/model.interface';
 import { ArrayTool } from '../array-tool/array.tool';
 import { LocaleCompare } from '../compare-tool/compare.tool';
@@ -9,7 +9,7 @@ export interface IRoad extends IIdModel {
   Direction?: GeoDirection;
 }
 interface ILocation {
-  Location?: GisPoint;
+  Location?: GisPoints;
   Road?: IRoad;
 }
 
@@ -20,8 +20,14 @@ export class GeoDirectionTool {
     sort: GeoDirectionSort
   ) {
     if (a.Location && a.Road && b.Location && b.Road) {
-      let _a: [number, number] = [a.Location.Longitude, a.Location.Latitude];
-      let _b: [number, number] = [b.Location.Longitude, b.Location.Latitude];
+      let _a: [number, number] = [
+        a.Location.GCJ02.Longitude,
+        a.Location.GCJ02.Latitude,
+      ];
+      let _b: [number, number] = [
+        b.Location.GCJ02.Longitude,
+        b.Location.GCJ02.Latitude,
+      ];
 
       switch (a.Road.Direction) {
         case GeoDirection.ew:

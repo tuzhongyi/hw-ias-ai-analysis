@@ -24,6 +24,7 @@ import {
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
 
+import { WheelHorizontalScrollDirective } from '../../../../../../common/directives/wheel-horizontal-scroll/wheel-horizontal-scroll.directive';
 import {
   MapMarkerShopColor,
   MapMarkerType,
@@ -48,6 +49,7 @@ import { SystemEventProcessSignDisconverBusiness } from './business/system-event
     IASMapComponent,
     SystemEventProcessShopComponent,
     SystemEventProcessShopFilterComponent,
+    WheelHorizontalScrollDirective,
   ],
   templateUrl: './system-event-process-sign-disconver.component.html',
   styleUrl: './system-event-process-sign-disconver.component.less',
@@ -76,6 +78,7 @@ export class SystemEventProcessSignDisconverComponent
   >();
   @Output() cancel = new EventEmitter<void>();
   @Output() shopedit = new EventEmitter<ShopRegistration>();
+  @Output() loaded = new EventEmitter<ShopRegistration[]>();
 
   constructor(private business: SystemEventProcessSignDisconverBusiness) {}
 
@@ -129,7 +132,7 @@ export class SystemEventProcessSignDisconverComponent
       }
     },
     map: (data: MobileEventRecord) => {
-      this.map.location = data.Location;
+      this.map.location = data.Location?.GCJ02;
       switch (data.EventType) {
         case 8:
           this.map.marker.color = MapMarkerShopColor.orange;
@@ -169,7 +172,7 @@ export class SystemEventProcessSignDisconverComponent
           this.record.picture.src = this.record.sign.selected.ImageUrl ?? '';
           this.record.picture.polygon = this.record.sign.selected.Polygon ?? [];
           this.record.picture.zoom.reset.set();
-          this.map.location = this.record.sign.selected.Location;
+          this.map.location = this.record.sign.selected.Location?.GCJ02;
         },
       },
       zoom: {
@@ -221,7 +224,7 @@ export class SystemEventProcessSignDisconverComponent
         this.shop.selected = item;
         if (item) {
           this.shop.picture.src = item.ImageUrl ?? '';
-          this.map.point = item.Location;
+          this.map.point = item.Location?.GCJ02;
         } else {
           this.shop.picture.src = '';
           this.map.point = undefined;
@@ -236,6 +239,9 @@ export class SystemEventProcessSignDisconverComponent
       },
       edit: (shop: ShopRegistration) => {
         this.shopedit.emit(shop);
+      },
+      loaded: (datas: ShopRegistration[]) => {
+        this.loaded.emit(datas);
       },
     },
     filter: {

@@ -1,0 +1,59 @@
+<div class="system-module-shop-registration-map-panel-location panel-map">
+  <div class="system-module-shop-registration-map-panel-location-head">
+    <div class="panel-title">批量修改商铺坐标</div>
+    <div>
+      <button (click)="on.cancel()">
+        <i class="howell-icon-Close"></i>
+      </button>
+    </div>
+  </div>
+  <div class="system-module-shop-registration-map-panel-location-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>门面道路</div>
+        <div class="form-item-value">
+          <hw-select [selected]="road.selected" [nullable]="false">
+            <select [(ngModel)]="road.selected">
+              <option [ngValue]="item" *ngFor="let item of road.datas">
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>相对位置</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="side" [disabled]="!road">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="1">东面</option>
+            <option [ngValue]="2">南面</option>
+            <option [ngValue]="3">西面</option>
+            <option [ngValue]="4">北面</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>距离</div>
+        <div class="form-item-value">
+          <input
+            type="number"
+            wheel-input-number
+            min="0"
+            max="50"
+            [(value)]="distance"
+          />
+          <span>米</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-shop-registration-map-panel-location-foot">
+    <button (click)="on.reset()">重置</button>
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+      <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+    </div>
+  </div>
+</div>

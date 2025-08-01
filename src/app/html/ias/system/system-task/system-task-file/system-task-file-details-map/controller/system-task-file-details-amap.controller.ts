@@ -91,8 +91,8 @@ export class SystemTaskFileDetailsAMapController {
         this.label.get().then((x) => {
           if (data && data.Location) {
             let position: [number, number] = [
-              data.Location.Longitude,
-              data.Location.Latitude,
+              data.Location.GCJ02.Longitude,
+              data.Location.GCJ02.Latitude,
             ];
             x.show(position, data.Name);
           } else {

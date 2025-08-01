@@ -44,7 +44,7 @@
           >
             <div
               class="button"
-              title="窗口查看大图"
+              title="预览大图"
               (click)="record.picture.full()"
             >
               <i class="mdi mdi-fullscreen"></i>
@@ -96,7 +96,7 @@
           </howell-container-zoom>
         </div>
         <div class="system-event-process-sign-disconver-body-shop-picture-foot">
-          <div class="subname">
+          <div class="subname" wheel-horizontal-scroll>
             <div
               class="subname-item"
               *ngFor="let subname of shop.selected?.Subnames"
@@ -132,6 +132,7 @@
           [load]="_load"
           (filter)="shop.on.filter()"
           (create)="shop.on.create()"
+          (loaded)="shop.on.loaded($event)"
           (edit)="shop.on.edit($event)"
         ></ias-system-event-process-shop>
       </div>

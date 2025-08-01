@@ -27,6 +27,15 @@ export class SystemTaskVideoComponent implements OnChanges {
     items: [] as FileGpsItem[],
     loading: false,
     points: [] as GisPoint[],
+    rectified: {
+      value: false,
+      change: (value: boolean) => {
+        this.map.rectified.value = value;
+        if (this.args) {
+          this.load.gps(this.args, value);
+        }
+      },
+    },
     args: {
       type: MapMarkerType.shop,
       color: MapMarkerShopColor.green,
@@ -37,7 +46,7 @@ export class SystemTaskVideoComponent implements OnChanges {
     if (changes['args'] && !changes['args'].firstChange) {
       if (this.args) {
         this.load.video(this.args);
-        this.load.gps(this.args);
+        this.load.gps(this.args, this.map.rectified.value);
         this.load.point(this.args);
       }
     }
@@ -46,7 +55,7 @@ export class SystemTaskVideoComponent implements OnChanges {
   ngOnInit(): void {
     if (this.args) {
       this.load.video(this.args);
-      this.load.gps(this.args);
+      this.load.gps(this.args, this.map.rectified.value);
       this.load.point(this.args);
     }
   }
@@ -55,10 +64,10 @@ export class SystemTaskVideoComponent implements OnChanges {
     video: (args: SystemTaskVideoArgs) => {
       this.src = this.business.file(args);
     },
-    gps: (args: SystemTaskVideoArgs) => {
+    gps: (args: SystemTaskVideoArgs, rectified?: boolean) => {
       this.map.loading = true;
       this.business
-        .load(args)
+        .load(args, rectified)
         .then((items) => {
           this.map.items = items;
           this.map.loading = false;
@@ -68,7 +77,7 @@ export class SystemTaskVideoComponent implements OnChanges {
             if (this.count > 0) {
               this.count--;
               setTimeout(() => {
-                this.load.gps(args);
+                this.load.gps(args, rectified);
               }, 1000);
             } else {
               this.map.loading = false;

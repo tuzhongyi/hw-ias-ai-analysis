@@ -6,7 +6,7 @@ import { Shop } from '../../../../../../common/data-core/models/arm/analysis/sho
 import { EventDataObject } from '../../../../../../common/data-core/models/arm/event/event-data-object.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
+import { GisPoints } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
 import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import {
@@ -143,9 +143,9 @@ export class SystemEventTableService {
       record.Id = '1';
       record.BeginTime = new Date();
       record.EndTime = new Date();
-      record.Location = new GisPoint();
-      record.Location.Longitude = 121.31;
-      record.Location.Latitude = 31.23;
+      record.Location = new GisPoints();
+      record.Location.GCJ02.Longitude = 121.31;
+      record.Location.GCJ02.Latitude = 31.23;
       record.Resources = [this.create.resource()];
       return record;
     },

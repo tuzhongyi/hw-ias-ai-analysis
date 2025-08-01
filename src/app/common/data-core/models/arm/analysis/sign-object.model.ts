@@ -2,7 +2,7 @@ import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
 import { IModel } from '../../model.interface';
 import { transformDateTime } from '../../transformer';
-import { GisPoint } from '../gis-point.model';
+import { GisPoints, transformGisPoint } from '../gis-point.model';
 import { HowellPoint } from '../point.model';
 
 /**	SignObject (店招对象)	*/
@@ -20,6 +20,6 @@ export class SignObject implements IModel {
   @Type(() => HowellPoint)
   Polygon?: HowellPoint[];
   /**	GisPoint	照片Gis坐标	O	*/
-  @Type(() => GisPoint)
-  Location?: GisPoint;
+  @Transform(transformGisPoint)
+  Location?: GisPoints;
 }

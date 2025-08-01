@@ -41,6 +41,9 @@ export class SystemTaskFileDetailsMapManagerComponent {
   @Input() locationable = false;
   @Input() pickupable = false;
   @Input() videomultiple = false;
+  @Input() roadable = false;
+
+  @Output() _current = new EventEmitter<FileGpsItem>();
 
   speed = 0;
   rectified = false;
@@ -61,6 +64,7 @@ export class SystemTaskFileDetailsMapManagerComponent {
       },
     },
   };
+  current?: FileGpsItem;
 
   on = {
     search: (text: string) => {
@@ -84,6 +88,11 @@ export class SystemTaskFileDetailsMapManagerComponent {
     },
     error: (e: Error) => {
       this.error.emit(e);
+    },
+
+    current: (item: FileGpsItem) => {
+      this.current = item;
+      this._current.emit(item);
     },
   };
   search = {

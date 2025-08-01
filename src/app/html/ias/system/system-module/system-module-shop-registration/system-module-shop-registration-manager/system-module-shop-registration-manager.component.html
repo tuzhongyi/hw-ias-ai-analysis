@@ -74,6 +74,16 @@
     </div>
   </div>
 
+  <ias-system-module-shop-registration-map-manager
+    [Model]="window.map"
+    *ngIf="window.map.show"
+    [style]="window.map.style"
+    [title]="window.map.title"
+    (close)="window.map.show = false"
+    (picture)="map.picture($event)"
+    (information)="map.information($event)"
+  ></ias-system-module-shop-registration-map-manager>
+
   <ias-window
     [Model]="window.information"
     *ngIf="window.information.show"
@@ -84,17 +94,9 @@
       [data]="window.information.data"
       (close)="window.information.show = false"
       (ok)="create.ok()"
+      (picture)="map.picture($event)"
     ></ias-system-module-shop-registration-information>
   </ias-window>
-
-  <ias-system-module-shop-registration-map-manager
-    [Model]="window.map"
-    *ngIf="window.map.show"
-    [style]="window.map.style"
-    [title]="window.map.title"
-    (close)="window.map.show = false"
-    (picture)="map.picture($event)"
-  ></ias-system-module-shop-registration-map-manager>
   <ias-window
     *ngIf="window.download.show"
     [Model]="window.download"

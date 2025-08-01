@@ -13,6 +13,7 @@ import { PaginatorComponent } from '../../../../../../../common/components/pagin
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../../common/data-core/models/page-list.model';
 import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
+import { RoadType } from '../../../../system-map/system-map-search-shop-road/system-map-search-shop-road.model';
 import { SystemModuleShopRegistrationMapPanelShopTableBusiness } from './system-module-shop-registration-map-panel-shop-table.business';
 
 @Component({
@@ -44,10 +45,14 @@ export class SystemModuleShopRegistrationMapPanelShopTableComponent
   datas: Array<ShopRegistration | undefined> = [];
   page = new Page();
   Color = ColorTool;
-  road = 'on';
+  road = {
+    type: RoadType.Ori,
+    Type: RoadType,
+  };
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.datas(changes['shops']);
+    this.change.selected(changes['selected']);
   }
 
   change = {
@@ -55,6 +60,21 @@ export class SystemModuleShopRegistrationMapPanelShopTableComponent
       if (change) {
         if (this.shops) {
           this.load(1, 10, this.shops);
+        }
+      }
+    },
+    selected: (change: SimpleChange) => {
+      if (change && !change.firstChange) {
+        if (this.selected) {
+          let index = this.shops.findIndex((x) => x.Id === this.selected?.Id);
+          if (index >= 0) {
+            let pageindex = Math.floor(index / this.page.PageSize) + 1;
+            if (pageindex != this.page.PageIndex) {
+              this.load(pageindex, this.page.PageSize, this.shops);
+            }
+            this.selected = this.shops[index];
+            this.selectedChange.emit(this.selected);
+          }
         }
       }
     },

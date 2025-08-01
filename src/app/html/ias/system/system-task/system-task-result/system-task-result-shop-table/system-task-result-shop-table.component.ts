@@ -143,8 +143,14 @@ export class SystemTaskResultShopTableComponent implements OnInit, OnDestroy {
     sort: GeoDirectionSort
   ) {
     if (a.Location && a.Road && b.Location && b.Road) {
-      let _a: [number, number] = [a.Location.Longitude, a.Location.Latitude];
-      let _b: [number, number] = [b.Location.Longitude, b.Location.Latitude];
+      let _a: [number, number] = [
+        a.Location.GCJ02.Longitude,
+        a.Location.GCJ02.Latitude,
+      ];
+      let _b: [number, number] = [
+        b.Location.GCJ02.Longitude,
+        b.Location.GCJ02.Latitude,
+      ];
 
       switch (a.Road.Direction) {
         case GeoDirection.ew:

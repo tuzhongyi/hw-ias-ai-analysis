@@ -6,5 +6,7 @@
     [loading]="map.loading"
     [points]="map.points"
     [args]="map.args"
+    [(rectified)]="map.rectified.value"
+    (rectifiedChange)="map.rectified.change($event)"
   ></howell-video-path>
 </div>

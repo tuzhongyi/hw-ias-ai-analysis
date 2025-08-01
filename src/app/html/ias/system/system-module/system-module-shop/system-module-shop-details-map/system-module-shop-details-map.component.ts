@@ -7,10 +7,12 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  SimpleChange,
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { SystemModuleShopDetailsAMapController } from './controller/system-module-shop-details-amap.controller';
 
@@ -28,18 +30,31 @@ export class SystemModuleShopDetailsMapComponent
   @Output() dataChange = new EventEmitter<GisPoint>();
 
   @Input() load?: EventEmitter<GisPoint>;
+  @Input() points: IShop[] = [];
 
   constructor(private controller: SystemModuleShopDetailsAMapController) {}
 
   private subscription = new Subscription();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']) {
-      if (this.data) {
-        this.controller.load(this.data);
-      }
-    }
+    this.change.data(changes['data']);
+    this.change.points(changes['points']);
   }
+
+  private change = {
+    data: (simple: SimpleChange) => {
+      if (simple) {
+        if (this.data) {
+          this.controller.load(this.data);
+        }
+      }
+    },
+    points: (simple: SimpleChange) => {
+      if (simple) {
+        this.controller.point.load(this.points);
+      }
+    },
+  };
 
   ngOnInit(): void {
     if (this.load) {

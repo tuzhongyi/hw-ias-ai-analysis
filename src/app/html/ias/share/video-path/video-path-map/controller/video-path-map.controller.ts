@@ -109,35 +109,41 @@ export class VideoPathMapController {
   };
 
   async to(stamp: number) {
-    let times = this.data.path.map((x) => {
-      let time = x.OffsetTime.toDate();
-      return time.getTime();
-    });
+    return new Promise<FileGpsItem>((resolve) => {
+      let times = this.data.path.map((x) => {
+        let time = x.OffsetTime.toDate();
+        return time.getTime();
+      });
 
-    let finded = ArrayTool.closest(times, stamp);
-    if (finded) {
-      let item = this.data.path[finded.index];
-      this.speed.emit(item.Speed);
+      let finded = ArrayTool.closest(times, stamp);
+      if (finded) {
+        let item = this.data.path[finded.index];
+        resolve(item);
+        this.speed.emit(item.Speed);
 
-      let way = this.data.path
-        .slice(0, finded.index)
-        .map<[number, number]>((x) => {
-          return [x.Longitude, x.Latitude];
+        let way = this.data.path
+          .slice(0, finded.index)
+          .map<[number, number]>((x) => {
+            return [x.Longitude, x.Latitude];
+          });
+        this.amap.way.get().then((x) => {
+          x.load(way);
         });
-      (await this.amap.way.get()).load(way);
+        let position: [number, number] = [item.Longitude, item.Latitude];
 
-      let position: [number, number] = [item.Longitude, item.Latitude];
-      (await this.amap.arrow.get()).set(position);
-      if (finded.index > 0) {
-        let arrow = await this.amap.arrow.get();
-        if (Number.isFinite(item.Course)) {
-          arrow.direction(item.Course!);
-        } else {
-          let last = this.data.path[finded.index - 1];
-          arrow.direction1([[last.Longitude, last.Latitude], position]);
-        }
+        this.amap.arrow.get().then((arrow) => {
+          arrow.set(position);
+          if (finded.index > 0) {
+            if (Number.isFinite(item.Course)) {
+              arrow.direction(item.Course!);
+            } else {
+              let last = this.data.path[finded.index - 1];
+              arrow.direction1([[last.Longitude, last.Latitude], position]);
+            }
+          }
+        });
       }
-    }
+    });
   }
 
   destroy() {

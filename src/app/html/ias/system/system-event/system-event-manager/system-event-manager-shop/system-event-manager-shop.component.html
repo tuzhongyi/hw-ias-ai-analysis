@@ -112,6 +112,7 @@
       (merge)="controller.process.sign.discover.on.merge($event)"
       (create)="controller.process.sign.discover.on.create($event)"
       (shopedit)="controller.process.sign.discover.on.edit($event)"
+      (loaded)="controller.process.sign.discover.on.loaded($event)"
     ></ias-system-event-process-sign-disconver>
   </ias-window>
   <ias-window
@@ -149,6 +150,7 @@
     <ias-system-module-shop-registration-information
       [data]="window.shop.data"
       [input]="true"
+      [around]="controller.process.sign.discover.points"
       (close)="window.shop.show = false"
       (ok)="controller.process.sign.discover.on.shop.create()"
     ></ias-system-module-shop-registration-information>

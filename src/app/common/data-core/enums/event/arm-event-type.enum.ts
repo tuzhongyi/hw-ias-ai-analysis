@@ -18,4 +18,5 @@ export enum ArmEventType {
   ShopSignDisappeared = 8,
   /** 店招新增 */
   ShopSignCreated = 9,
+  EmergencyEvent = 10,
 }

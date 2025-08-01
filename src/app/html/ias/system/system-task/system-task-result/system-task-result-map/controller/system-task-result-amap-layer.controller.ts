@@ -36,7 +36,7 @@ export class SystemTaskResultAMapLayerController {
 
   private create(data: ShopSign) {
     if (data.Location) {
-      let point = new Point(data, data.Location);
+      let point = new Point(data, data.Location.GCJ02);
       this.points.push(point);
       return point.marker;
     }

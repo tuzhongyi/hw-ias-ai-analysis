@@ -20,8 +20,12 @@ export class SystemEventUrl extends AbstractUrl {
     },
   };
   gps = {
-    items: (id: string) => {
-      return `${this.item(id)}/GpsItems`;
+    items: (id: string, rectified?: boolean) => {
+      let query = '';
+      if (rectified) {
+        query = `?rectified=${rectified}`;
+      }
+      return `${this.item(id)}/GpsItems${query}`;
     },
   };
 

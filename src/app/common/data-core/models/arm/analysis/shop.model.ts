@@ -1,8 +1,8 @@
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import 'reflect-metadata';
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
 import { transformDateTime } from '../../transformer';
-import { GisPoint } from '../gis-point.model';
+import { GisPoints, transformGisPoint } from '../gis-point.model';
 import { HowellPoint } from '../point.model';
 import { IShop } from './shop.interface';
 
@@ -35,8 +35,8 @@ export class Shop implements IShop {
   /**	Double	置信度，0-1	O	*/
   Confidence?: number;
   /**	GisPoint	商铺Gis坐标	O	*/
-  @Type(() => GisPoint)
-  Location?: GisPoint;
+  @Transform(transformGisPoint)
+  Location?: GisPoints;
   /**	String	商铺照片	O	*/
   ImageUrl?: string;
   /**	DateTime	第一次出现的时间	M	*/

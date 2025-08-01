@@ -9,4 +9,7 @@ export abstract class AbstractUrl {
   list() {
     return `${this.basic()}/List`;
   }
+  location() {
+    return `${this.basic()}/Locations`;
+  }
 }

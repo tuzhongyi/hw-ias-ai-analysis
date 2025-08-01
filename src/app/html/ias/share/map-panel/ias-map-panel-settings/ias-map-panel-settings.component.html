@@ -1,19 +1,10 @@
-<div
-  class="map-panel-settings panel-map"
-  [ngClass]="{
-    'top-left': top && left,
-    'top-right': top && !left,
-    'bottom-left': !top && left,
-    'bottom-right': !top && !left
-  }"
->
-  <div class="map-panel-settings-button">
-    <div class="button">
-      <i class="howell-icon-settingoutline"></i>
-    </div>
-  </div>
-  <div class="map-panel-settings-content">
-    <div class="map-panel-settings-content-body forms">
+<div class="map-panel-settings panel-map">
+  <ias-container-expand-corner
+    [icon]="'howell-icon-settingoutline'"
+    [top]="top"
+    [left]="left"
+  >
+    <div class="map-panel-settings-body forms">
       <div class="form-item">
         <div class="form-item-text">
           <label for="map-panel-settings-rectified">轨迹纠偏</label>
@@ -28,5 +19,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </ias-container-expand-corner>
 </div>

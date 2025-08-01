@@ -2,7 +2,7 @@ import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
 import { IIdModel } from '../../model.interface';
 import { transformDateTime } from '../../transformer';
-import { GisPoint } from '../gis-point.model';
+import { GisPoints, transformGisPoint } from '../gis-point.model';
 import { Assignment } from './assignment.model';
 import { EventResourceContent } from './event-resource-content.model';
 
@@ -38,8 +38,8 @@ export class MobileEventRecord implements IIdModel {
   @Type(() => Assignment)
   Assignment?: Assignment;
   /**	GisPoint	Gis坐标	O */
-  @Type(() => GisPoint)
-  Location?: GisPoint;
+  @Transform(transformGisPoint)
+  Location?: GisPoints;
   /**	Int32	用户分组ID 	O */
   GroupId?: number;
   /**	String	任务ID（店招新增，店招消失事件）	O */

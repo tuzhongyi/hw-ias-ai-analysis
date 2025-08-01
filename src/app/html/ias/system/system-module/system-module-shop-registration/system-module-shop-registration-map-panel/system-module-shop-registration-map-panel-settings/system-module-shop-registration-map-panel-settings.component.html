@@ -1,0 +1,42 @@
+<div class="system-module-shop-registration-map-panel-settings panel-map">
+  <ias-container-expand-corner
+    [icon]="'howell-icon-settingoutline'"
+    [top]="top"
+    [left]="left"
+  >
+    <div class="system-module-shop-registration-map-panel-settings-body forms">
+      <div class="form-item">
+        <div class="form-item-text">
+          <label
+            for="system-module-shop-registration-map-panel-settings-draggable"
+            >调整坐标</label
+          >
+        </div>
+        <div class="form-item-value">
+          <input
+            type="checkbox"
+            id="system-module-shop-registration-map-panel-settings-draggable"
+            [(ngModel)]="draggable"
+            (change)="on.draggable()"
+          />
+        </div>
+      </div>
+      <!-- <div class="form-item">
+        <div class="form-item-text">
+          <label
+            for="system-module-shop-registration-map-panel-settings-removable"
+            >商铺可删除</label
+          >
+        </div>
+        <div class="form-item-value">
+          <input
+            type="checkbox"
+            id="system-module-shop-registration-map-panel-settings-removable"
+            [(ngModel)]="removable"
+            (change)="on.removable()"
+          />
+        </div>
+      </div> -->
+    </div>
+  </ias-container-expand-corner>
+</div>

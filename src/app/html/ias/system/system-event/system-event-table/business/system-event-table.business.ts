@@ -3,6 +3,7 @@ import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
 import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
+import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import {
   SystemEventTableFilter,
@@ -36,8 +37,14 @@ export class SystemEventTableBusiness {
     let plain = instanceToPlain(source);
     let data = plainToInstance(SystemEventTableItem, plain);
     data.EventTypeName = this.language.event.EventType(data.EventType, '');
+    if (data.Resources) {
+      data.Resources = data.Resources.sort((a, b) => {
+        return LocaleCompare.compare(a.Value, b.Value);
+      });
+    }
     data.ResourceName =
       source.Resources?.map((x) => x.ResourceName).join('\n') ?? '';
+
     return data;
   }
 }

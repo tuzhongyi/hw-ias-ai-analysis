@@ -3,29 +3,37 @@ import { ShopRegistration } from '../../../../../../../common/data-core/models/a
 import { ArmGeographicRequestService } from '../../../../../../../common/data-core/requests/services/geographic/geographic.service';
 
 @Injectable()
-export class SystemModuleShopRegistrationMapManagerBusiness {
+export class SystemModuleShopRegistrationMapPanelChangedListBusiness {
   constructor(private service: ArmGeographicRequestService) {}
 
-  update(data: ShopRegistration) {
+  private update(data: ShopRegistration) {
     return this.service.shop.update(data);
   }
 
   save(datas: ShopRegistration[]) {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<ShopRegistration[]>((resolve, reject) => {
       let count = 0;
+      let result = {
+        seccess: [] as ShopRegistration[],
+        error: [] as ShopRegistration[],
+      };
       for (let i = 0; i < datas.length; i++) {
         const data = datas[i];
         this.update(data)
-          .then(() => {
-            count++;
-            if (count === datas.length) {
-              resolve();
-            }
+          .then((x) => {
+            result.seccess.push(x);
           })
           .catch((error) => {
+            result.error.push(data);
             console.error(error);
-            reject(error);
           });
+      }
+
+      if (result.error.length > 0) {
+        reject(result.error);
+      }
+      if (result.seccess.length > 0) {
+        resolve(result.seccess);
       }
     });
   }

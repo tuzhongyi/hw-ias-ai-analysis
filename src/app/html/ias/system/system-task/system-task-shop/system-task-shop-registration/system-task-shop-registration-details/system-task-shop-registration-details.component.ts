@@ -48,7 +48,7 @@ export class SystemTaskShopRegistrationDetailsComponent implements OnChanges {
     data: (data: SimpleChange) => {
       if (data) {
         if (this.data) {
-          this.map.location = this.data.Location;
+          this.map.location = this.data.Location?.GCJ02;
           let marker = Object.assign({}, this.map.marker);
           marker.color = this.data.Detected
             ? MapMarkerShopColor.blue

@@ -12,15 +12,21 @@
   <div class="system-module-shop-registration-map-manager">
     <ias-system-module-shop-registration-map
       [load]="map.load"
+      [filter]="map.filter"
+      [clean]="map.clean"
       [focus]="map.focus"
       [over]="map.over"
       [out]="map.out"
       [revoke]="map.revoke"
+      [draggable]="map.draggable"
       [(changed)]="data.changed"
       (loaded)="on.map.loaded($event)"
       (selected)="on.map.selected($event)"
     ></ias-system-module-shop-registration-map>
-    <div class="system-module-shop-registration-map-manager-search">
+    <div
+      class="system-module-shop-registration-map-manager-search"
+      *ngIf="panel.search.show"
+    >
       <ias-system-map-search-shop-road
         (search)="on.map.search($event)"
       ></ias-system-map-search-shop-road>
@@ -31,11 +37,13 @@
     >
       <ias-system-module-shop-registration-map-panel-shop-list
         [datas]="data.source"
-        (selectedChange)="on.table.select($event)"
-        (position)="on.table.position($event)"
-        (details)="on.table.details($event)"
-        (itemhover)="on.table.item.over($event)"
-        (itemblur)="on.table.item.out($event)"
+        [selected]="data.selected"
+        (selectedChange)="panel.list.select($event)"
+        (position)="panel.list.position($event)"
+        (details)="panel.list.details($event)"
+        (itemhover)="panel.list.item.over($event)"
+        (itemblur)="panel.list.item.out($event)"
+        (edit)="on.information($event)"
         (close)="panel.list.show = false"
       ></ias-system-module-shop-registration-map-panel-shop-list>
     </div>
@@ -67,13 +75,16 @@
       <div
         class="panel-map button"
         title="商铺沿道路对齐"
-        (click)="panel.filter.show = true"
+        (click)="panel.location.trigger()"
       >
         <i class="mdi mdi-format-horizontal-align-center"></i>
       </div>
     </div>
 
-    <div class="system-module-shop-registration-map-manager-buttons">
+    <!-- <div
+      class="system-module-shop-registration-map-manager-buttons"
+      *ngIf="false"
+    >
       <div
         class="panel-map button"
         *ngIf="data.changed.length > 0"
@@ -88,6 +99,22 @@
       >
         保存
       </div>
+    </div> -->
+    <div
+      class="system-module-shop-registration-map-manager-history"
+      *ngIf="map.draggable"
+    >
+      <ias-system-module-shop-registration-map-panel-changed-list
+        [datas]="data.changed"
+        [selected]="data.selected"
+        (selectedChange)="panel.list.select($event)"
+        (revoke)="panel.history.changed.revoke($event)"
+        (position)="panel.list.position($event)"
+        (itemhover)="panel.list.item.over($event)"
+        (itemblur)="panel.list.item.out($event)"
+        (cancel)="panel.history.changed.close()"
+        (saved)="panel.history.changed.saved()"
+      ></ias-system-module-shop-registration-map-panel-changed-list>
     </div>
     <div
       class="system-module-shop-registration-map-manager-filter"
@@ -98,6 +125,24 @@
         (close)="panel.filter.show = false"
         (ok)="on.filter($event)"
       ></ias-system-module-shop-registration-map-panel-filter>
+    </div>
+
+    <div
+      class="system-module-shop-registration-map-manager-settings"
+      *ngIf="panel.settings.show"
+    >
+      <ias-system-module-shop-registration-map-panel-settings
+        [(draggable)]="map.draggable"
+      ></ias-system-module-shop-registration-map-panel-settings>
+    </div>
+    <div
+      class="system-module-shop-registration-map-manager-location"
+      *ngIf="panel.location.show"
+    >
+      <ias-system-module-shop-registration-map-panel-location
+        (ok)="panel.location.ok($event)"
+        (close)="panel.location.close()"
+      ></ias-system-module-shop-registration-map-panel-location>
     </div>
   </div>
 

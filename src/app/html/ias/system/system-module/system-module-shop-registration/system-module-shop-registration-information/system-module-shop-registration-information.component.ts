@@ -6,15 +6,18 @@ import { HowellSelectComponent } from '../../../../../../common/components/hw-se
 import { UploadControlComponent } from '../../../../../../common/components/upload-control/upload-control.component';
 import { UploadControlFile } from '../../../../../../common/components/upload-control/upload-control.model';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
+import {
+  GisPoint,
+  GisPoints,
+} from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { TextSpaceBetweenDirective } from '../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 
 import '../../../../../../../assets/js/map/CoordinateTransform.js';
+import { ContainerZoomComponent } from '../../../../../../common/components/container-zoom/container-zoom.component';
 import { GisType } from '../../../../../../common/data-core/enums/gis-type.enum';
 import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { GeoTool } from '../../../../../../common/tools/geo-tool/geo.tool';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopDetailsMapComponent } from '../../system-module-shop/system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopRegistrationInformationBusinessInfoComponent } from '../system-module-shop-registration-information-business-info/system-module-shop-registration-information-business-info.component';
@@ -38,6 +41,7 @@ import { SystemModuleShopRegistrationInformationWindow } from './system-module-s
     SystemModuleShopRegistrationInformationSubnameInputComponent,
     SystemModuleShopRegistrationInformationBusinessInfoComponent,
     WindowComponent,
+    ContainerZoomComponent,
   ],
   templateUrl: './system-module-shop-registration-information.component.html',
   styleUrl: './system-module-shop-registration-information.component.less',
@@ -54,6 +58,8 @@ export class SystemModuleShopRegistrationInformationComponent
   @Output() close = new EventEmitter<void>();
   @Input() input = false;
   @Output() create = new EventEmitter<ShopRegistration>();
+  @Input() around: ShopRegistration[] = [];
+  @Output() picture = new EventEmitter<ShopRegistration>();
 
   constructor(
     public source: SystemModuleShopRegistrationInformationSourceController,
@@ -99,17 +105,9 @@ export class SystemModuleShopRegistrationInformationComponent
         }
       }
     } else {
-      this.business
-        .one()
-        .then((x) => {
-          this.shop.Location = x.Location;
-        })
-        .catch((x) => {
-          this.shop.Location = new GisPoint();
-          this.shop.Location.Longitude = 121.498586;
-          this.shop.Location.Latitude = 31.239637;
-          this.shop.Location.Altitude = 0;
-        });
+      this.business.one().then((x) => {
+        this.shop.Location = x.Location;
+      });
     }
   }
 
@@ -122,11 +120,11 @@ export class SystemModuleShopRegistrationInformationComponent
       this.toastr.warning('请选择商铺位置');
       return false;
     }
-    if (!this.shop.Location.Longitude) {
+    if (!this.shop.Location.GCJ02.Longitude) {
       this.toastr.warning('商铺坐标经度不能为空');
       return false;
     }
-    if (!this.shop.Location.Latitude) {
+    if (!this.shop.Location.GCJ02.Latitude) {
       this.toastr.warning('商铺坐标纬度不能为空');
       return false;
     }
@@ -153,54 +151,22 @@ export class SystemModuleShopRegistrationInformationComponent
           this.location.load(this.shop.Location);
         }
       },
-
-      to: (position: [number, number]) => {
-        let _position = [...position];
-        _position[0] -= GeoTool.point.offset.longitude;
-        _position[1] -= GeoTool.point.offset.latitude;
-        switch (this.location.type.value) {
-          case GisType.WGS84:
-            return GeoTool.point.convert.gcj02.to.wgs84(
-              _position[0],
-              _position[1]
-            );
-          case GisType.BD09:
-            return GeoTool.point.convert.gcj02.to.bd09(
-              _position[0],
-              _position[1]
-            );
-          case GisType.GCJ02:
-            return position;
-          default:
-            return undefined;
-        }
-      },
-      from: (position: [number, number]) => {
-        switch (this.location.type.value) {
-          case GisType.WGS84:
-            return GeoTool.point.convert.wgs84.to.gcj02(
-              position[0],
-              position[1]
-            );
-          case GisType.BD09:
-            return GeoTool.point.convert.bd09.to.gcj02(
-              position[0],
-              position[1]
-            );
-          case GisType.GCJ02:
-            return position;
-          default:
-            return undefined;
-        }
-      },
     },
     value: '',
 
-    load: (data: GisPoint) => {
-      let position: [number, number] = [data.Longitude, data.Latitude];
-      let _position = this.location.type.to(position);
-      if (_position) {
-        this.location.value = _position.join(',');
+    load: (data: GisPoints) => {
+      switch (this.location.type.value) {
+        case GisType.WGS84:
+          this.location.value = `${data.WGS84.Longitude},${data.WGS84.Latitude}`;
+          break;
+        case GisType.GCJ02:
+          this.location.value = `${data.GCJ02.Longitude},${data.GCJ02.Latitude}`;
+          break;
+        case GisType.BD09:
+          this.location.value = `${data.BD09.Longitude},${data.BD09.Latitude}`;
+          break;
+        default:
+          break;
       }
     },
     set: () => {
@@ -208,17 +174,16 @@ export class SystemModuleShopRegistrationInformationComponent
         .split(',')
         .map((x) => parseFloat(x)) as [number, number];
       if (position.length === 2) {
-        let _position = this.location.type.from(position);
-        if (_position) {
-          _position[0] += GeoTool.point.offset.longitude;
-          _position[1] += GeoTool.point.offset.latitude;
-          this.shop.Location = GisPoint.create(
-            _position[0],
-            _position[1],
-            GisType.GCJ02
-          );
-          this.location.change.emit(this.shop.Location);
+        if (!this.shop.Location) {
+          this.shop.Location = new GisPoints();
         }
+        let point = GisPoint.create(
+          position[0],
+          position[1],
+          this.location.type.value
+        );
+        this.shop.Location.set(point, this.location.type.value);
+        this.location.change.emit(this.shop.Location.GCJ02);
       } else {
         this.toastr.warning('请输入正确的坐标格式');
       }
@@ -233,6 +198,9 @@ export class SystemModuleShopRegistrationInformationComponent
       // this.business.picture.upload(data.data as ArrayBuffer).then((x) => {
       //   this.shop.ImageUrl = x;
       // });
+    },
+    full: () => {
+      this.picture.emit(this.shop);
     },
   };
   subname = {
@@ -268,7 +236,10 @@ export class SystemModuleShopRegistrationInformationComponent
   };
 
   onposition(data: GisPoint) {
-    this.shop.Location = data;
+    if (!this.shop.Location) {
+      this.shop.Location = new GisPoints();
+    }
+    this.shop.Location.set(data, GisType.GCJ02);
     this.location.load(this.shop.Location);
   }
 

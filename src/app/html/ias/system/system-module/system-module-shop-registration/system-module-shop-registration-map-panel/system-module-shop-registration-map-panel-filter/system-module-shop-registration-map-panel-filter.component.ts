@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
-import { SystemMapSearchShopRoadArgs } from '../../../system-map/system-map-search-shop-road/system-map-search-shop-road.model';
+import { InputSelectRoadComponent } from '../../../../../share/input-select-road/input-select-road.component';
+import { SystemMapSearchShopRoadArgs } from '../../../../system-map/system-map-search-shop-road/system-map-search-shop-road.model';
 
 @Component({
   selector: 'ias-system-module-shop-registration-map-panel-filter',

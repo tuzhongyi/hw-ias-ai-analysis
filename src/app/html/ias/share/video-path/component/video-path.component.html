@@ -8,6 +8,7 @@
         (timeupdate)="video.on.time.update($event)"
         (error)="video.on.error($event)"
         [src]="video.src"
+        #video_element
       ></video>
     </div>
     <div class="panel map">
@@ -17,6 +18,8 @@
         [args]="args"
         [loading]="loading"
         [to]="video.event.time"
+        [(rectified)]="rectified"
+        (rectifiedChange)="map.on.rectified()"
         (trigger)="video.on.seek($event)"
         (loaded)="map.on.loaded()"
         (error)="map.on.error($event)"

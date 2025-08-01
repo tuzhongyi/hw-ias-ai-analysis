@@ -39,6 +39,7 @@ export class SystemEventProcessShopComponent
   @Output() filter = new EventEmitter<void>();
   @Output() create = new EventEmitter<MobileEventRecord>();
   @Output() edit = new EventEmitter<ShopRegistration>();
+  @Output() loaded = new EventEmitter<ShopRegistration[]>();
 
   constructor() {}
 
@@ -64,7 +65,7 @@ export class SystemEventProcessShopComponent
     data: (change: SimpleChange) => {
       if (change && this.data) {
         if (this.data.Location) {
-          this.args.location = this.data.Location;
+          this.args.location = this.data.Location.GCJ02;
           this.argsChange.emit(this.args);
         }
       }
@@ -77,6 +78,7 @@ export class SystemEventProcessShopComponent
       this.selectedChange.emit(this.selected);
     },
     loaded: (items: ShopRegistration[]) => {
+      this.loaded.emit(items);
       if (
         items.length > 0 &&
         this.data &&

@@ -32,7 +32,7 @@ export class SystemMapAMapConverter {
               properties: x,
               geometry: {
                 type: 'Point',
-                coordinates: [point.Longitude, point.Latitude],
+                coordinates: [point.GCJ02.Longitude, point.GCJ02.Latitude],
               },
             };
             return data;

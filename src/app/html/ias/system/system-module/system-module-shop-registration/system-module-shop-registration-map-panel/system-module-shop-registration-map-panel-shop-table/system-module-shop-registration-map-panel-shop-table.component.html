@@ -11,9 +11,9 @@
           <th class="center">#</th>
           <th>名称</th>
           <th>
-            <select class="noborder" [(ngModel)]="road">
-              <option [ngValue]="'on'">所在道路</option>
-              <option [ngValue]="'ori'">门面道路</option>
+            <select class="noborder" [(ngModel)]="road.type">
+              <option [ngValue]="road.Type.On">所在道路</option>
+              <option [ngValue]="road.Type.Ori">门面道路</option>
             </select>
           </th>
           <th class="center">操作</th>
@@ -37,7 +37,7 @@
             {{ item?.Name }}
           </td>
           <td>
-            @if(road == 'on'){
+            @if(road.type == road.Type.On){
             {{ item?.RoadName }}
             } @else{
             {{ item?.OriRoadName }}

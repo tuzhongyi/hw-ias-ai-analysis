@@ -8,12 +8,31 @@
           [accept]="'image/*'"
           [type]="0"
           (upload)="image.upload($event)"
+          *ngIf="!shop.ImageUrl"
         >
-          <ias-picture [src]="image.src" *ngIf="image.src"></ias-picture>
-          <div class="upload-image" *ngIf="!shop.ImageUrl">
+          <div class="upload-image">
             <i class="howell-icon-plus"></i>
           </div>
         </upload-control>
+        <howell-container-zoom
+          *ngIf="image.src"
+          [fullable]="true"
+          (full)="image.full()"
+        >
+          <ias-picture [src]="image.src"></ias-picture>
+          <div ngProjectAs="container-zoom-button-content" class="button-group">
+            <upload-control
+              [accept]="'image/*'"
+              [type]="0"
+              (upload)="image.upload($event)"
+            >
+              <div class="button" title="更换图片" style="font-size: 18px">
+                <i class="mdi mdi-file-image"></i>
+              </div>
+            </upload-control>
+          </div>
+        </howell-container-zoom>
+
         <!-- <div class="image-zoom">
           <i class="mdi mdi-magnify-plus-outline"></i>
         </div> -->
@@ -23,8 +42,9 @@
       >
         <ias-system-module-shop-details-map
           *ngIf="shop.Location"
-          [data]="shop.Location"
+          [data]="shop.Location.GCJ02"
           [load]="location.change"
+          [points]="around"
           (dataChange)="onposition($event)"
         ></ias-system-module-shop-details-map>
       </div>

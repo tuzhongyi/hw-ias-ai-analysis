@@ -8,14 +8,16 @@ import {
 
 export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
   event = new SystemModuleShopRegistrationMapAMapMarkerEvent();
-  constructor(private map: AMap.Map) {
+  constructor(
+    private map: AMap.Map,
+    private info: SystemAMapShopInfoController
+  ) {
     this.zoom = map.getZoom();
-    this.info = new SystemAMapShopInfoController(map);
   }
 
-  private info: SystemAMapShopInfoController;
   private points: SystemModuleShopRegistrationMapAMapMarkerController[] = [];
   private zoom: number;
+  private draggable = false;
 
   private regist(point: SystemModuleShopRegistrationMapAMapMarkerController) {
     point.event.mouseover.subscribe((data) => {
@@ -23,7 +25,10 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
         Name: data.Name,
       };
       if (data.Location) {
-        info.Location = [data.Location.Longitude, data.Location.Latitude];
+        info.Location = [
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
+        ];
       }
       this.info.add(info, this.zoom);
       this.event.mouseover.emit(data);
@@ -39,8 +44,8 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
     point.event.dragging.subscribe((data) => {
       if (data.Location) {
         let position: [number, number] = [
-          data.Location.Longitude,
-          data.Location.Latitude,
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
         ];
         this.info.set.position(position);
       }
@@ -48,8 +53,8 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
     point.event.dragend.subscribe((data) => {
       if (data.Location) {
         let position: [number, number] = [
-          data.Location.Longitude,
-          data.Location.Latitude,
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
         ];
         this.info.set.position(position);
         this.event.dragend.emit(data);
@@ -78,13 +83,33 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
     this.map.remove(markers);
     this.points = [];
   }
+  add(data: IShop) {
+    if (data.Location) {
+      let point = new SystemModuleShopRegistrationMapAMapMarkerController(data);
+      point.draggable = this.draggable;
+      this.regist(point);
+      this.points.push(point);
+      this.map.add([point.marker]);
+    }
+  }
+  remove(data: IShop) {
+    let point = this.points.find((x) => x.data.Id === data.Id);
+    if (point) {
+      this.map.remove([point.marker]);
+      this.points = this.points.filter((x) => x.data.Id !== data.Id);
+      this.info.remove();
+    }
+  }
 
   mouseover(data: IShop) {
     let info: ISystemAMapShopMarkerInfo = {
       Name: data.Name,
     };
     if (data.Location) {
-      info.Location = [data.Location.Longitude, data.Location.Latitude];
+      info.Location = [
+        data.Location.GCJ02.Longitude,
+        data.Location.GCJ02.Latitude,
+      ];
     }
     this.info.add(info, this.zoom);
     let point = this.points.find((x) => x.data.Id === data.Id);
@@ -125,13 +150,19 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
       let point = this.points.find((x) => x.data.Id === data.Id);
       if (point && data.Location) {
         let position: [number, number] = [
-          data.Location.Longitude,
-          data.Location.Latitude,
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
         ];
-
+        point.data = data;
         point.move(position);
         this.info.set.position(position);
       }
+    },
+    draggable: (draggable: boolean) => {
+      this.draggable = draggable;
+      this.points.forEach((x) => {
+        x.draggable = draggable;
+      });
     },
   };
 }

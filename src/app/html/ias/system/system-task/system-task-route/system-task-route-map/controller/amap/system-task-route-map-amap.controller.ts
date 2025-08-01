@@ -81,8 +81,8 @@ export class SystemTaskRouteMapAMapController {
         // controller.event.mouseover.subscribe((x) => {
         //   if (x.Location) {
         //     let position: [number, number] = [
-        //       x.Location.Longitude,
-        //       x.Location.Latitude,
+        //       x.Location.GCJ02.Longitude,
+        //       x.Location.GCJ02.Latitude,
         //     ];
         //     this.controller.label.get().then((label) => {
         //       if (x.Name) {
@@ -224,8 +224,8 @@ export class SystemTaskRouteMapAMapController {
           let text = data.Name;
 
           let _point: [number, number] = [
-            data.Location.Longitude,
-            data.Location.Latitude,
+            data.Location.GCJ02.Longitude,
+            data.Location.GCJ02.Latitude,
           ];
 
           label.show(_point, text);
@@ -321,8 +321,8 @@ export class SystemTaskRouteMapAMapController {
     focus: async (data: ShopRegistration) => {
       if (data.Location) {
         let position: [number, number] = [
-          data.Location.Longitude,
-          data.Location.Latitude,
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
         ];
         this.amap.get().then((x) => {
           x.setCenter(position);
@@ -356,8 +356,8 @@ export class SystemTaskRouteMapAMapController {
     move: (data: ShopRegistration) => {
       if (data.Location) {
         let position: [number, number] = [
-          data.Location.Longitude,
-          data.Location.Latitude,
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
         ];
         this.amap.get().then((x) => {
           x.setCenter(position);

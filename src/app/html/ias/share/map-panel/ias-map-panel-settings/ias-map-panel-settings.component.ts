@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ContainerExpandCornerComponent } from '../../../../../common/components/container-expand-corner/container-expand-corner.component';
 
 @Component({
   selector: 'ias-map-panel-settings',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ContainerExpandCornerComponent],
   templateUrl: './ias-map-panel-settings.component.html',
   styleUrl: './ias-map-panel-settings.component.less',
 })

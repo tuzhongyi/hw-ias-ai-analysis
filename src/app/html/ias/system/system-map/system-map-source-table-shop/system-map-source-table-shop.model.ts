@@ -1,6 +1,6 @@
 import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
+import { GisPoints } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { RoadViewModel } from '../../../../../common/view-models/road/road.view-model';
 
 export class SystemMapSourceTableShopItem implements IShop {
@@ -11,7 +11,7 @@ export class SystemMapSourceTableShopItem implements IShop {
   ObjectState!: ShopObjectState;
   Telphone?: string;
   ShopType?: number;
-  Location?: GisPoint;
+  Location?: GisPoints;
   ImageUrl?: string;
   CreationTime!: Date;
   UpdateTime!: Date;

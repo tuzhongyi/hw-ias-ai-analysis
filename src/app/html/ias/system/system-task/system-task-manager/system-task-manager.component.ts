@@ -219,11 +219,12 @@ export class SystemTaskManagerComponent implements OnInit {
       current: (data: FileGpsItem) => {
         if (this.window.route.data) {
           this.window.video.title = `${this.window.route.data.Name}`;
-          let args = new SystemTaskVideoArgs();
-          args.TaskId = this.window.route.data.Id;
-          args.Longitude = data.Longitude;
-          args.Latitude = data.Latitude;
-          this.window.video.args = args;
+          if (!this.window.video.args) {
+            this.window.video.args = new SystemTaskVideoArgs();
+          }
+          this.window.video.args.TaskId = this.window.route.data.Id;
+          this.window.video.args.Longitude = data.Longitude;
+          this.window.video.args.Latitude = data.Latitude;
           this.window.video.show = true;
         }
       },
@@ -240,20 +241,21 @@ export class SystemTaskManagerComponent implements OnInit {
       video: (data: IShop) => {
         if (this.window.route.data && data.Location) {
           this.window.video.title = `${data.Name}`;
-          let args = new SystemTaskVideoArgs();
-          if (data instanceof ShopRegistrationTaskDetectedResult) {
-            args.Detected = data.Detected;
-          } else if (data.ObjectState === ShopObjectState.Existed) {
-            args.Detected = true;
-          } else if (data.ObjectState == ShopObjectState.Disappeared) {
-            args.Detected = false;
+          if (!this.window.video.args) {
+            this.window.video.args = new SystemTaskVideoArgs();
           }
-          args.TaskId = this.window.route.data.Id;
-          args.Longitude = data.Location.Longitude;
-          args.Latitude = data.Location.Latitude;
-          args.Rectified = true;
-          args.Point = data.Location;
-          this.window.video.args = args;
+          if (data instanceof ShopRegistrationTaskDetectedResult) {
+            this.window.video.args.Detected = data.Detected;
+          } else if (data.ObjectState === ShopObjectState.Existed) {
+            this.window.video.args.Detected = true;
+          } else if (data.ObjectState == ShopObjectState.Disappeared) {
+            this.window.video.args.Detected = false;
+          }
+          this.window.video.args.TaskId = this.window.route.data.Id;
+          this.window.video.args.Longitude = data.Location.GCJ02.Longitude;
+          this.window.video.args.Latitude = data.Location.GCJ02.Latitude;
+          this.window.video.args.Rectified = true;
+          this.window.video.args.Point = data.Location.GCJ02;
           this.window.video.show = true;
         }
       },

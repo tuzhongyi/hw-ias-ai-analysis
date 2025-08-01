@@ -34,4 +34,9 @@ export class SystemModuleShopRegistrationMapAMapMarkerIconController {
     this.icon.setImage(PathTool.image.map.shop.blue.selected);
     return this.icon;
   }
+
+  get dragged() {
+    this.icon.setImage(PathTool.image.map.shop.green.normal);
+    return this.icon;
+  }
 }

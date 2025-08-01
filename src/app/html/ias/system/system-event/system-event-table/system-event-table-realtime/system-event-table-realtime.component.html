@@ -9,7 +9,7 @@
           <th class="center">序号</th>
           <th>照片</th>
 
-          <th>触发源名称</th>
+          <th>触发方式</th>
           <th>事件类型</th>
           <th>发现时间</th>
           <th>状态</th>
@@ -52,8 +52,9 @@
             </div>
           </td>
 
-          <td [title]="item?.ResourceName">
-            {{ item?.ResourceName }}
+          <td>
+            @if(!!item){ @if(item.EventType=== EventType.EmergencyEvent) {
+            手动触发 } @else{ 分析触发 } }
           </td>
           <td>
             <div
@@ -115,7 +116,7 @@
             {{ item?.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss }}
           </td>
           <td>
-            {{ item?.Description }}
+            {{ item?.AudioContent }}
           </td>
           <td class="center">
             <div class="operation" *ngIf="item">

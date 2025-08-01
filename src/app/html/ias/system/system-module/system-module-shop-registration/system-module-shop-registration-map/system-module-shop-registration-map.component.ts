@@ -2,9 +2,12 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChange,
+  SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
@@ -30,7 +33,7 @@ import { SystemModuleShopRegistrationMapArgs } from './system-module-shop-regist
   ],
 })
 export class SystemModuleShopRegistrationMapComponent
-  implements OnInit, OnDestroy
+  implements OnInit, OnChanges, OnDestroy
 {
   @Input('load') input_load?: EventEmitter<SystemModuleShopRegistrationMapArgs>;
   @Input() args = new SystemModuleShopRegistrationMapArgs();
@@ -43,6 +46,9 @@ export class SystemModuleShopRegistrationMapComponent
   @Input() over?: EventEmitter<ShopRegistration>;
   @Input() out?: EventEmitter<ShopRegistration>;
   @Input() revoke?: EventEmitter<ShopRegistration>;
+  @Input() filter?: EventEmitter<SystemModuleShopRegistrationMapArgs>;
+  @Input() clean?: EventEmitter<void>;
+  @Input() draggable = false;
 
   constructor(
     private business: SystemModuleShopRegistrationMapBusiness,
@@ -51,13 +57,41 @@ export class SystemModuleShopRegistrationMapComponent
 
   private datas: ShopRegistration[] = [];
   private subscription = new Subscription();
+  private changing = {
+    changed: false,
+  };
 
   ngOnInit(): void {
     this.load.road();
-    this.load.shop.load(this.args);
+    this.load.shop.load(this.args).finally(() => {
+      this.controller.amap.map.view();
+    });
     this.regist.map();
     this.regist.input();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.draggable(changes['draggable']);
+    this.change.changed(changes['changed']);
+  }
+  private change = {
+    draggable: (simple: SimpleChange) => {
+      if (simple) {
+        this.controller.amap.point.draggable(this.draggable);
+      }
+    },
+    changed: (simple: SimpleChange) => {
+      if (simple && !simple.firstChange) {
+        if (this.changing.changed) {
+          this.changing.changed = false;
+          return;
+        }
+        if (this.changed && this.changed.length > 0) {
+          this.controller.amap.point.location(this.changed);
+        }
+      }
+    },
+  };
 
   ngOnDestroy(): void {
     this.controller.amap.map.destory();
@@ -67,7 +101,9 @@ export class SystemModuleShopRegistrationMapComponent
   private load = {
     road: () => {
       this.business.road.load().then((x) => {
-        this.controller.amap.road.load(x);
+        this.controller.amap.road.load(x).then((x) => {
+          this.controller.amap.map.view();
+        });
       });
     },
     shop: {
@@ -76,28 +112,34 @@ export class SystemModuleShopRegistrationMapComponent
         this.load.shop.filter(args);
       },
       filter: (args: SystemModuleShopRegistrationMapArgs) => {
-        let datas = [...this.datas];
-        if (args.name) {
-          let name = args.name.toLocaleLowerCase();
-          datas = datas.filter((x) =>
-            x.Name.toLocaleLowerCase().includes(name)
-          );
-        }
-        if (args.road) {
-          if (args.road.on) {
-            datas = datas.filter((x) => x.RoadId === args.road?.on?.Id);
+        return new Promise<ShopRegistration[]>((resolve) => {
+          let datas = [...this.datas];
+          if (args.name) {
+            let name = args.name.toLocaleLowerCase();
+            datas = datas.filter((x) =>
+              x.Name.toLocaleLowerCase().includes(name)
+            );
           }
-          if (args.road.ori) {
-            datas = datas.filter((x) => x.OriRoadId === args.road?.ori?.Id);
+          if (args.road) {
+            if (args.road.on) {
+              datas = datas.filter((x) => x.RoadId === args.road?.on?.Id);
+            }
+            if (args.road.ori) {
+              datas = datas.filter((x) => x.OriRoadId === args.road?.ori?.Id);
+            }
+            if (args.side) {
+              datas = datas.filter((x) => x.ShopSide === args.side);
+            }
           }
-          if (args.side) {
-            datas = datas.filter((x) => x.ShopSide === args.side);
+          if (args.ids && args.ids.length > 0) {
+            datas = datas.filter((x) => (args.ids ?? []).includes(x.Id));
           }
-        }
+          resolve(datas);
 
-        this.controller.amap.point.clear().then(() => {
-          this.controller.amap.point.load(datas);
-          this.loaded.emit(datas);
+          this.controller.amap.point.clear().then(() => {
+            this.controller.amap.point.load(datas);
+            this.loaded.emit(datas);
+          });
         });
       },
     },
@@ -107,11 +149,8 @@ export class SystemModuleShopRegistrationMapComponent
       if (this.input_load) {
         let sub = this.input_load.subscribe((x) => {
           this.args = x;
-          if (this.args.reload) {
-            this.load.shop.load(this.args);
-          } else {
-            this.load.shop.filter(this.args);
-          }
+
+          this.load.shop.load(this.args);
         });
         this.subscription.add(sub);
       }
@@ -142,15 +181,30 @@ export class SystemModuleShopRegistrationMapComponent
         });
         this.subscription.add(sub);
       }
+      if (this.filter) {
+        let sub = this.filter.subscribe((x) => {
+          this.load.shop.filter(x);
+        });
+        this.subscription.add(sub);
+      }
+      if (this.clean) {
+        let sub = this.clean.subscribe(() => {
+          this.controller.amap.point.clear().then(() => {
+            this.loaded.emit([]);
+          });
+        });
+        this.subscription.add(sub);
+      }
     },
     map: () => {
       this.controller.amap.event.point.dragend.subscribe((data) => {
         let index = this.changed.findIndex((x) => x.Id === data.Id);
         if (index < 0) {
-          this.changed.push(data);
+          this.changed.unshift(data);
         } else {
           this.changed[index] = data;
         }
+        this.changing.changed = true;
         this.changedChange.emit(this.changed);
       });
       this.controller.amap.event.point.click.subscribe((data) => {

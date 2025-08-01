@@ -1,10 +1,10 @@
 /**	ShopSign (商铺招牌信息)	*/
 
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import 'reflect-metadata';
 import { IIdModel } from '../../model.interface';
 import { transformDateTime } from '../../transformer';
-import { GisPoint } from '../gis-point.model';
+import { GisPoints, transformGisPoint } from '../gis-point.model';
 import { HowellPoint } from '../point.model';
 
 export class ShopSign implements IIdModel {
@@ -27,8 +27,8 @@ export class ShopSign implements IIdModel {
   /**	Point[]	招牌多边形在图片上的归一化坐标	O	*/
   Polygon?: HowellPoint[];
   /**	GisPoint	照片Gis坐标	O	*/
-  @Type(() => GisPoint)
-  Location?: GisPoint;
+  @Transform(transformGisPoint)
+  Location?: GisPoints;
   /**	Int32	用户分组ID	O	*/
   GroupId?: number;
   /**	Int32	状态，保留	O	*/

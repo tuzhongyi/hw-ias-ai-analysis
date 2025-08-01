@@ -1,10 +1,13 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChange,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
@@ -27,7 +30,22 @@ export class VideoPathComponent implements OnChanges {
   @Input() args: IIASMapArgs = new MapMarker();
   @Input() loading = false;
   @Input() points: GisPoint[] = [];
+  @Input() rectified = false;
+  @Output() rectifiedChange = new EventEmitter<boolean>();
+
   constructor(private toastr: ToastrService) {}
+
+  @ViewChild('video_element') set element(v: ElementRef) {
+    if (v) {
+      let video = v.nativeElement as HTMLVideoElement;
+      let context = new AudioContext();
+      let source = context.createMediaElementSource(video);
+      let node = context.createGain();
+      node.gain.value = 10;
+      source.connect(node);
+      node.connect(context.destination);
+    }
+  }
 
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,6 +68,7 @@ export class VideoPathComponent implements OnChanges {
     event: {
       time: new EventEmitter<number>(),
     },
+    init: () => {},
     on: {
       time: {
         update: (e: Event) => {
@@ -82,6 +101,9 @@ export class VideoPathComponent implements OnChanges {
       error: (e: Error) => {
         this.toastr.error('地图加载失败');
         console.error(e);
+      },
+      rectified: () => {
+        this.rectifiedChange.emit(this.rectified);
       },
     },
   };

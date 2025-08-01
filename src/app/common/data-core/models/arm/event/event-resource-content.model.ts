@@ -1,9 +1,9 @@
 /**	EventResourceContent (AI事件资源内容)	*/
 
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
 import { IModel } from '../../model.interface';
-import { GisPoint } from '../gis-point.model';
+import { GisPoints, transformGisPoint } from '../gis-point.model';
 import { EventDataObject } from './event-data-object.model';
 
 export class EventResourceContent implements IModel {
@@ -33,6 +33,6 @@ export class EventResourceContent implements IModel {
   @Type(() => EventDataObject)
   Objects?: EventDataObject[];
   /**	GisPoint	Gis坐标	O */
-  @Type(() => GisPoint)
-  Location?: GisPoint;
+  @Transform(transformGisPoint)
+  Location?: GisPoints;
 }

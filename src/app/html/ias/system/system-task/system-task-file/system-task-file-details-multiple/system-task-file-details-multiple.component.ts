@@ -41,7 +41,6 @@ export class SystemTaskFileDetailsMultipleComponent
 
   private _videos?: QueryList<VideoDirective>;
   @ViewChildren(VideoDirective) set videos(list: QueryList<VideoDirective>) {
-    console.log(list);
     this._videos = list;
   }
   get videos(): QueryList<VideoDirective> | undefined {
