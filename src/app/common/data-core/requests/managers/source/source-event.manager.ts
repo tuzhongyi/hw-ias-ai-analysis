@@ -6,6 +6,7 @@ export class SourceEventManager {
   ResourceTypes = new PromiseValue<EnumNameValue<number>[]>();
   EventTypes = new PromiseValue<EnumNameValue<number>[]>();
   TriggerTypes = new PromiseValue<EnumNameValue<number>[]>();
+  EmergencyTypes = new PromiseValue<EnumNameValue<number>[]>();
 
   constructor(private capability: CapabilityManager) {
     this.init();
@@ -21,6 +22,9 @@ export class SourceEventManager {
       }
       if (x.TriggerTypes) {
         this.TriggerTypes.set(x.TriggerTypes);
+      }
+      if (x.EmergencyTypes) {
+        this.TriggerTypes.set(x.EmergencyTypes);
       }
     });
   }

@@ -23,7 +23,10 @@
           <div class="form-item-value">
             <select [(ngModel)]="table.args.type">
               <option [ngValue]="undefined">全部</option>
-              <option [ngValue]="item.Value" *ngFor="let item of source.type">
+              <option
+                [ngValue]="item.Value"
+                *ngFor="let item of source.emergency | async"
+              >
                 {{ item.Name }}
               </option>
             </select>

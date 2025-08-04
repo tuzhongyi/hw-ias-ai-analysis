@@ -37,6 +37,10 @@ export class SystemEventTableBusiness {
     let plain = instanceToPlain(source);
     let data = plainToInstance(SystemEventTableItem, plain);
     data.EventTypeName = this.language.event.EventType(data.EventType, '');
+    data.EmergencyTypeName = this.language.event.EmergencyType(
+      data.EmergencyType,
+      ''
+    );
     if (data.Resources) {
       data.Resources = data.Resources.sort((a, b) => {
         return LocaleCompare.compare(a.Value, b.Value);

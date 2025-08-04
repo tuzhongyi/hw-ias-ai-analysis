@@ -45,8 +45,8 @@ export class SystemModuleShopRegistrationMapManagerLocationPanel {
     this.map.filter.emit(this.map.args);
     this.data.changed = [...datas];
     this.panel.search.show = true;
-    this.panel.settings.show = true;
     this.panel.location.show = false;
+    this.panel.settings.show = true;
     this.map.draggable = true;
   }
   close() {

@@ -3,20 +3,32 @@ import {
   SystemModuleShopRegistrationMapManagerMap,
 } from '../system-module-shop-registration-map-manager.model';
 import { SystemModuleShopRegistrationMapManagerWindow } from '../system-module-shop-registration-map-manager.window';
-import { SystemModuleShopRegistrationMapManagerHistoryChangedPanel } from './system-module-shop-registration-map-manager-history-changed.panel';
+import { SystemModuleShopRegistrationMapManagerHistoryLocationPanel } from './system-module-shop-registration-map-manager-history-location.panel';
+import { SystemModuleShopRegistrationMapManagerHistoryRemovedPanel } from './system-module-shop-registration-map-manager-history-removed.panel';
+import { SystemModuleShopRegistrationMapManagerPanel } from './system-module-shop-registration-map-manager.panel';
 
 export class SystemModuleShopRegistrationMapManagerHistoryPanel {
-  changed: SystemModuleShopRegistrationMapManagerHistoryChangedPanel;
+  location: SystemModuleShopRegistrationMapManagerHistoryLocationPanel;
+  removed: SystemModuleShopRegistrationMapManagerHistoryRemovedPanel;
   constructor(
     map: SystemModuleShopRegistrationMapManagerMap,
     data: SystemModuleShopRegistrationMapManagerData,
-    window: SystemModuleShopRegistrationMapManagerWindow
+    window: SystemModuleShopRegistrationMapManagerWindow,
+    panel: SystemModuleShopRegistrationMapManagerPanel
   ) {
-    this.changed =
-      new SystemModuleShopRegistrationMapManagerHistoryChangedPanel(
+    this.location =
+      new SystemModuleShopRegistrationMapManagerHistoryLocationPanel(
         map,
         data,
-        window
+        window,
+        panel
+      );
+    this.removed =
+      new SystemModuleShopRegistrationMapManagerHistoryRemovedPanel(
+        map,
+        data,
+        window,
+        panel
       );
   }
 }

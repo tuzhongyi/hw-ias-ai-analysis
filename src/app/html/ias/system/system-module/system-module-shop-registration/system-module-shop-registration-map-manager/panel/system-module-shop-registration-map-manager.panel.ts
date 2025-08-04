@@ -29,7 +29,8 @@ export class SystemModuleShopRegistrationMapManagerPanel {
     this.history = new SystemModuleShopRegistrationMapManagerHistoryPanel(
       args.map,
       args.data,
-      args.window
+      args.window,
+      this
     );
     this.location = new SystemModuleShopRegistrationMapManagerLocationPanel(
       args.map,

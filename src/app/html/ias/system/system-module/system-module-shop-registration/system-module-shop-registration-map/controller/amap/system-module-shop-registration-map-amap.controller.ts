@@ -21,6 +21,7 @@ export class SystemModuleShopRegistrationMapAMapController {
       mouseout: new EventEmitter<IShop>(),
       click: new EventEmitter<IShop>(),
       dragend: new EventEmitter<IShop>(),
+      remove: new EventEmitter<IShop>(),
     },
   };
   constructor() {
@@ -92,6 +93,9 @@ export class SystemModuleShopRegistrationMapAMapController {
           this.controller.changed.get().then((x) => {
             x.add(data);
           });
+        });
+        controller.event.remove.subscribe((data) => {
+          this.event.point.remove.emit(data);
         });
 
         controller.event.click.subscribe((x) => {
@@ -217,6 +221,11 @@ export class SystemModuleShopRegistrationMapAMapController {
     draggable: (enabled: boolean) => {
       this.controller.marker.get().then((x) => {
         x.set.draggable(enabled);
+      });
+    },
+    removable: (enabled: boolean) => {
+      this.controller.marker.get().then((x) => {
+        x.set.removable(enabled);
       });
     },
     load: (datas: ShopRegistration[]) => {

@@ -4,8 +4,9 @@ import { SystemModuleShopRegistrationMapArgs } from '../system-module-shop-regis
 import { SystemModuleShopRegistrationMapManagerWindow } from './system-module-shop-registration-map-manager.window';
 
 export class SystemModuleShopRegistrationMapManagerData {
-  changed: ShopRegistration[] = [];
   source: ShopRegistration[] = [];
+  changed: ShopRegistration[] = [];
+  removed: ShopRegistration[] = [];
   selected?: ShopRegistration;
 }
 export class SystemModuleShopRegistrationMapManagerMap {
@@ -20,6 +21,7 @@ export class SystemModuleShopRegistrationMapManagerMap {
   revoke = new EventEmitter<ShopRegistration>();
   clean = new EventEmitter<void>();
   draggable = false;
+  removable = false;
   clear() {
     this.args.name = undefined;
     this.args.road.on = undefined;

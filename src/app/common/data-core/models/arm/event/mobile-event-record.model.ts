@@ -54,4 +54,8 @@ export class MobileEventRecord implements IIdModel {
   AudioUrl?: string;
   /**	String	音频文件语音内容，一般情况下5分钟内会完成音频文件内容的解析	O */
   AudioContent?: string;
+  /**	Int32	突发情况分类	O */
+  EmergencyType?: number;
+  /**	String	突发情况描述	O */
+  EmergencyDescription?: string;
 }

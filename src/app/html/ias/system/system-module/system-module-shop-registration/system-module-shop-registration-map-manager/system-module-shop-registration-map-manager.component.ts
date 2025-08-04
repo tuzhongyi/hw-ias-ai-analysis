@@ -7,8 +7,8 @@ import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
 import { SystemMapSearchShopRoadComponent } from '../../../system-map/system-map-search-shop-road/system-map-search-shop-road.component';
 import { SystemMapSearchShopRoadArgs } from '../../../system-map/system-map-search-shop-road/system-map-search-shop-road.model';
-import { SystemModuleShopRegistrationMapPanelChangedListComponent } from '../system-module-shop-registration-map-panel/system-module-shop-registration-map-panel-changed-list/system-module-shop-registration-map-panel-changed-list.component';
 import { SystemModuleShopRegistrationMapPanelFilterComponent } from '../system-module-shop-registration-map-panel/system-module-shop-registration-map-panel-filter/system-module-shop-registration-map-panel-filter.component';
+import { SystemModuleShopRegistrationMapPanelHistoryListComponent } from '../system-module-shop-registration-map-panel/system-module-shop-registration-map-panel-history-list/system-module-shop-registration-map-panel-history-list.component';
 import { SystemModuleShopRegistrationMapPanelLocationComponent } from '../system-module-shop-registration-map-panel/system-module-shop-registration-map-panel-location/system-module-shop-registration-map-panel-location.component';
 import { SystemModuleShopRegistrationMapPanelSettingsComponent } from '../system-module-shop-registration-map-panel/system-module-shop-registration-map-panel-settings/system-module-shop-registration-map-panel-settings.component';
 import { SystemModuleShopRegistrationMapPanelShopListComponent } from '../system-module-shop-registration-map-panel/system-module-shop-registration-map-panel-shop-list/system-module-shop-registration-map-panel-shop-list.component';
@@ -34,7 +34,7 @@ import { SystemModuleShopRegistrationMapManagerWindow } from './system-module-sh
     SystemModuleShopRegistrationMapPanelFilterComponent,
     SystemModuleShopRegistrationMapPanelSettingsComponent,
     SystemModuleShopRegistrationMapPanelLocationComponent,
-    SystemModuleShopRegistrationMapPanelChangedListComponent,
+    SystemModuleShopRegistrationMapPanelHistoryListComponent,
   ],
   templateUrl: './system-module-shop-registration-map-manager.component.html',
   styleUrl: './system-module-shop-registration-map-manager.component.less',
@@ -71,6 +71,13 @@ export class SystemModuleShopRegistrationMapManagerComponent extends WindowCompo
       selected: (data: ShopRegistration) => {
         this.data.selected = data;
         this.panel.list.details(data);
+      },
+      draggable: (enabled: boolean) => {
+        if (enabled) {
+          this.map.removable = false;
+        } else {
+          this.panel.history.location.close();
+        }
       },
     },
     picture: (data: ShopRegistration) => {

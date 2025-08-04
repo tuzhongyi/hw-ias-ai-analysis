@@ -1,26 +1,30 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { SystemModuleShopRegistrationMapPanelChangedTableComponent } from '../system-module-shop-registration-map-panel-changed-table/system-module-shop-registration-map-panel-changed-table.component';
-import { SystemModuleShopRegistrationMapPanelChangedListBusiness } from './system-module-shop-registration-map-panel-changed-list.business';
+import { SystemModuleShopRegistrationMapPanelHistoryTableComponent } from '../system-module-shop-registration-map-panel-history-table/system-module-shop-registration-map-panel-history-table.component';
+import { SystemModuleShopRegistrationMapPanelHistoryListBusiness } from './system-module-shop-registration-map-panel-history-list.business';
 
 @Component({
-  selector: 'ias-system-module-shop-registration-map-panel-changed-list',
-  imports: [SystemModuleShopRegistrationMapPanelChangedTableComponent],
+  selector: 'ias-system-module-shop-registration-map-panel-history-list',
+  imports: [SystemModuleShopRegistrationMapPanelHistoryTableComponent],
   templateUrl:
-    './system-module-shop-registration-map-panel-changed-list.component.html',
+    './system-module-shop-registration-map-panel-history-list.component.html',
   styleUrl:
-    './system-module-shop-registration-map-panel-changed-list.component.less',
-  providers: [SystemModuleShopRegistrationMapPanelChangedListBusiness],
+    './system-module-shop-registration-map-panel-history-list.component.less',
+  providers: [SystemModuleShopRegistrationMapPanelHistoryListBusiness],
 })
-export class SystemModuleShopRegistrationMapPanelChangedListComponent {
+export class SystemModuleShopRegistrationMapPanelHistoryListComponent {
+  @Input() title = '历史记录';
   @Input() datas: ShopRegistration[] = [];
   @Output() datasChange = new EventEmitter<ShopRegistration[]>();
 
   @Input() selected?: ShopRegistration;
   @Output() selectedChange = new EventEmitter<ShopRegistration>();
 
-  @Output() revoke = new EventEmitter<ShopRegistration>();
+  @Input() draggable?: boolean;
+  @Input() removable?: boolean;
+
+  @Output() remove = new EventEmitter<ShopRegistration>();
   @Output() position = new EventEmitter<ShopRegistration>();
   @Output() itemhover = new EventEmitter<ShopRegistration>();
   @Output() itemblur = new EventEmitter<ShopRegistration>();
@@ -28,7 +32,7 @@ export class SystemModuleShopRegistrationMapPanelChangedListComponent {
   @Output() cancel = new EventEmitter<void>();
 
   constructor(
-    private business: SystemModuleShopRegistrationMapPanelChangedListBusiness,
+    private business: SystemModuleShopRegistrationMapPanelHistoryListBusiness,
     private toastr: ToastrService
   ) {}
 
@@ -38,24 +42,26 @@ export class SystemModuleShopRegistrationMapPanelChangedListComponent {
     },
     save: () => {
       this.business
-        .save(this.datas)
+        .save(this.datas, {
+          draggable: this.draggable,
+          removable: this.removable,
+        })
         .then((result) => {
-          this.toastr.success(`已成功保存${result.length}个商铺坐标`);
+          this.toastr.success(`保存成功`);
           if (result.length === this.datas.length) {
             this.saved.emit(this.datas);
           }
         })
-        .catch((result) => {
-          this.toastr.error(`保存失败，${result.length}个商铺坐标未保存`);
-          console.error(result);
+        .catch((error) => {
+          console.error(error.message, '保存失败');
         });
     },
     table: {
       position: (item: ShopRegistration) => {
         this.position.emit(item);
       },
-      revoke: (item: ShopRegistration) => {
-        this.revoke.emit(item);
+      remove: (item: ShopRegistration) => {
+        this.remove.emit(item);
       },
       selected: {
         change: (item: ShopRegistration) => {

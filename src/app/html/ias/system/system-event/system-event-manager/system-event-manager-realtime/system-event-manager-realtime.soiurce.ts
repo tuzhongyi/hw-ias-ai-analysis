@@ -6,10 +6,12 @@ import { SourceManager } from '../../../../../../common/data-core/requests/manag
 export class SystemEventManagerRealtimeSource {
   type: EnumNameValue<number>[];
   state: EnumNameValue<number>[];
+  emergency: Promise<EnumNameValue<number>[]>;
 
   constructor(source: SourceManager) {
     this.state = this.init.state();
     this.type = this.init.type();
+    this.emergency = source.event.EmergencyTypes.get();
   }
 
   private init = {

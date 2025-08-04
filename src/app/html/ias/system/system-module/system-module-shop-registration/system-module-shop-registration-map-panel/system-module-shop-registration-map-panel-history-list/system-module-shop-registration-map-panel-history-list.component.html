@@ -1,26 +1,26 @@
 <div
-  class="system-module-shop-registration-map-panel-changed-list panel-map-border root-router"
+  class="system-module-shop-registration-map-panel-history-list panel-map-border root-router"
 >
-  <div class="system-module-shop-registration-map-panel-changed-list-head">
-    <div class="panel-map-title">坐标调整记录</div>
+  <div class="system-module-shop-registration-map-panel-history-list-head">
+    <div class="panel-map-title">{{ title }}</div>
     <div>
       <div class="button" (click)="on.cancel()">
         <i class="howell-icon-Close"></i>
       </div>
     </div>
   </div>
-  <div class="system-module-shop-registration-map-panel-changed-list-body">
-    <ias-system-module-shop-registration-map-panel-changed-table
+  <div class="system-module-shop-registration-map-panel-history-list-body">
+    <ias-system-module-shop-registration-map-panel-history-table
       [datas]="datas"
-      (revoke)="on.table.revoke($event)"
+      (remove)="on.table.remove($event)"
       [selected]="selected"
       (selectedChange)="on.table.selected.change($event)"
       (position)="on.table.position($event)"
       (itemhover)="on.table.item.hover($event)"
       (itemblur)="on.table.item.blur($event)"
-    ></ias-system-module-shop-registration-map-panel-changed-table>
+    ></ias-system-module-shop-registration-map-panel-history-table>
   </div>
-  <div class="system-module-shop-registration-map-panel-changed-list-foot">
+  <div class="system-module-shop-registration-map-panel-history-list-foot">
     <div class="count">
       记录数量：<span>{{ datas.length }}</span>
     </div>

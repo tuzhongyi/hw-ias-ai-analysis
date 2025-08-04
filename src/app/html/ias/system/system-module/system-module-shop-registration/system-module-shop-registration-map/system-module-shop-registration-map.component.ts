@@ -40,6 +40,9 @@ export class SystemModuleShopRegistrationMapComponent
   @Output() loaded = new EventEmitter<ShopRegistration[]>();
   @Input() changed: ShopRegistration[] = [];
   @Output() changedChange = new EventEmitter<ShopRegistration[]>();
+  @Input() removed: ShopRegistration[] = [];
+  @Output() removedChange = new EventEmitter<ShopRegistration[]>();
+
   @Output() selected = new EventEmitter<ShopRegistration>();
 
   @Input() focus?: EventEmitter<ShopRegistration>;
@@ -49,6 +52,7 @@ export class SystemModuleShopRegistrationMapComponent
   @Input() filter?: EventEmitter<SystemModuleShopRegistrationMapArgs>;
   @Input() clean?: EventEmitter<void>;
   @Input() draggable = false;
+  @Input() removable = false;
 
   constructor(
     private business: SystemModuleShopRegistrationMapBusiness,
@@ -59,6 +63,7 @@ export class SystemModuleShopRegistrationMapComponent
   private subscription = new Subscription();
   private changing = {
     changed: false,
+    removed: false,
   };
 
   ngOnInit(): void {
@@ -72,12 +77,18 @@ export class SystemModuleShopRegistrationMapComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.draggable(changes['draggable']);
+    this.change.removable(changes['removable']);
     this.change.changed(changes['changed']);
   }
   private change = {
     draggable: (simple: SimpleChange) => {
       if (simple) {
         this.controller.amap.point.draggable(this.draggable);
+      }
+    },
+    removable: (simple: SimpleChange) => {
+      if (simple) {
+        this.controller.amap.point.removable(this.removable);
       }
     },
     changed: (simple: SimpleChange) => {
@@ -206,6 +217,16 @@ export class SystemModuleShopRegistrationMapComponent
         }
         this.changing.changed = true;
         this.changedChange.emit(this.changed);
+      });
+      this.controller.amap.event.point.remove.subscribe((data) => {
+        let index = this.removed.findIndex((x) => x.Id === data.Id);
+        if (index < 0) {
+          this.removed.unshift(data);
+        } else {
+          this.removed[index] = data;
+        }
+        this.changing.changed = true;
+        this.removedChange.emit(this.removed);
       });
       this.controller.amap.event.point.click.subscribe((data) => {
         this.selected.emit(data);

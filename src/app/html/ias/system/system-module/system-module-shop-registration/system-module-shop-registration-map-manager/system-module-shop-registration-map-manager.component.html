@@ -19,7 +19,9 @@
       [out]="map.out"
       [revoke]="map.revoke"
       [draggable]="map.draggable"
+      [removable]="map.removable"
       [(changed)]="data.changed"
+      [(removed)]="data.removed"
       (loaded)="on.map.loaded($event)"
       (selected)="on.map.selected($event)"
     ></ias-system-module-shop-registration-map>
@@ -104,17 +106,37 @@
       class="system-module-shop-registration-map-manager-history"
       *ngIf="map.draggable"
     >
-      <ias-system-module-shop-registration-map-panel-changed-list
+      <ias-system-module-shop-registration-map-panel-history-list
+        [title]="panel.history.location.title"
         [datas]="data.changed"
+        [draggable]="map.draggable"
         [selected]="data.selected"
         (selectedChange)="panel.list.select($event)"
-        (revoke)="panel.history.changed.revoke($event)"
+        (remove)="panel.history.location.revoke($event)"
         (position)="panel.list.position($event)"
         (itemhover)="panel.list.item.over($event)"
         (itemblur)="panel.list.item.out($event)"
-        (cancel)="panel.history.changed.close()"
-        (saved)="panel.history.changed.saved()"
-      ></ias-system-module-shop-registration-map-panel-changed-list>
+        (cancel)="panel.history.location.close()"
+        (saved)="panel.history.location.saved()"
+      ></ias-system-module-shop-registration-map-panel-history-list>
+    </div>
+    <div
+      class="system-module-shop-registration-map-manager-history"
+      *ngIf="map.removable"
+    >
+      <ias-system-module-shop-registration-map-panel-history-list
+        [title]="panel.history.removed.title"
+        [datas]="data.removed"
+        [removable]="map.removable"
+        [selected]="data.selected"
+        (selectedChange)="panel.list.select($event)"
+        (remove)="panel.history.removed.revoke($event)"
+        (position)="panel.list.position($event)"
+        (itemhover)="panel.list.item.over($event)"
+        (itemblur)="panel.list.item.out($event)"
+        (cancel)="panel.history.removed.close()"
+        (saved)="panel.history.removed.saved()"
+      ></ias-system-module-shop-registration-map-panel-history-list>
     </div>
     <div
       class="system-module-shop-registration-map-manager-filter"
@@ -133,6 +155,8 @@
     >
       <ias-system-module-shop-registration-map-panel-settings
         [(draggable)]="map.draggable"
+        (draggableChange)="on.map.draggable($event)"
+        [(removable)]="map.removable"
       ></ias-system-module-shop-registration-map-panel-settings>
     </div>
     <div

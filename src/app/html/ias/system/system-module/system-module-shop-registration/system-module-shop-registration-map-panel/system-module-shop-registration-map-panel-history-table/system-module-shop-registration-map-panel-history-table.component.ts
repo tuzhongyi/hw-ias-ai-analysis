@@ -12,14 +12,14 @@ import {
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 
 @Component({
-  selector: 'ias-system-module-shop-registration-map-panel-changed-table',
+  selector: 'ias-system-module-shop-registration-map-panel-history-table',
   imports: [CommonModule],
   templateUrl:
-    './system-module-shop-registration-map-panel-changed-table.component.html',
+    './system-module-shop-registration-map-panel-history-table.component.html',
   styleUrl:
-    './system-module-shop-registration-map-panel-changed-table.component.less',
+    './system-module-shop-registration-map-panel-history-table.component.less',
 })
-export class SystemModuleShopRegistrationMapPanelChangedTableComponent
+export class SystemModuleShopRegistrationMapPanelHistoryTableComponent
   implements AfterViewChecked
 {
   @Input() datas: ShopRegistration[] = [];
@@ -27,7 +27,7 @@ export class SystemModuleShopRegistrationMapPanelChangedTableComponent
   @Input() selected?: ShopRegistration;
   @Output() selectedChange = new EventEmitter<ShopRegistration>();
 
-  @Output() revoke = new EventEmitter<ShopRegistration>();
+  @Output() remove = new EventEmitter<ShopRegistration>();
   @Output() position = new EventEmitter<ShopRegistration>();
   @Output() itemhover = new EventEmitter<ShopRegistration>();
   @Output() itemblur = new EventEmitter<ShopRegistration>();
@@ -58,8 +58,8 @@ export class SystemModuleShopRegistrationMapPanelChangedTableComponent
       this.selected = item;
       this.selectedChange.emit(this.selected);
     },
-    revoke: (item: ShopRegistration) => {
-      this.revoke.emit(item);
+    remove: (item: ShopRegistration) => {
+      this.remove.emit(item);
     },
 
     position: (e: Event, item?: ShopRegistration) => {

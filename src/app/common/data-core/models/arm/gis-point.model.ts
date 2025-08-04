@@ -160,6 +160,8 @@ export function transformGisPoint(params: TransformFnParams) {
       wgs84.Longitude,
       wgs84.Latitude
     );
+    gcj02[0] += GeoTool.point.offset.longitude;
+    gcj02[1] += GeoTool.point.offset.latitude;
     let bd09 = GeoTool.point.convert.gcj02.to.bd09(gcj02[0], gcj02[1]);
     return {
       WGS84: wgs84,

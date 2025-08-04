@@ -65,7 +65,6 @@ export class SystemEventProcessRealtimeComponent implements OnInit {
   map = {
     load: (data: MobileEventRecord) => {
       this.map.location = data.Location?.GCJ02;
-      this.map.points = data.Location ? [data.Location.GCJ02] : [];
     },
     location: undefined as GisPoint | undefined,
     points: [] as GisPoint[],

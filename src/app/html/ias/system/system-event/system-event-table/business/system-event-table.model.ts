@@ -17,6 +17,7 @@ export class SystemEventTableArgs implements ISystemEventTableArgs {
   duration = DateTimeTool.last.month(new Date());
   types: ArmEventType[] = [];
   type?: ArmEventType;
+  emergency?: number;
   state?: number;
   resource?: string;
   taskId?: string;
@@ -44,6 +45,7 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
 
 export class SystemEventTableItem extends MobileEventRecord {
   EventTypeName!: Promise<string>;
+  EmergencyTypeName!: Promise<string>;
   ResourceName?: string;
 }
 

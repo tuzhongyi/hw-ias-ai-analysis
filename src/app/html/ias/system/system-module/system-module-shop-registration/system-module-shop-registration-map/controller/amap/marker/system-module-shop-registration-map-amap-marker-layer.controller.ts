@@ -18,6 +18,7 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
   private points: SystemModuleShopRegistrationMapAMapMarkerController[] = [];
   private zoom: number;
   private draggable = false;
+  private removable = false;
 
   private regist(point: SystemModuleShopRegistrationMapAMapMarkerController) {
     point.event.mouseover.subscribe((data) => {
@@ -60,6 +61,10 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
         this.event.dragend.emit(data);
       }
     });
+    point.event.remove.subscribe((data) => {
+      this.remove(data);
+      this.event.remove.emit(data);
+    });
   }
   async load(datas: IShop[]) {
     let markers = [];
@@ -87,6 +92,7 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
     if (data.Location) {
       let point = new SystemModuleShopRegistrationMapAMapMarkerController(data);
       point.draggable = this.draggable;
+      point.removable = this.removable;
       this.regist(point);
       this.points.push(point);
       this.map.add([point.marker]);
@@ -158,10 +164,16 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
         this.info.set.position(position);
       }
     },
-    draggable: (draggable: boolean) => {
-      this.draggable = draggable;
+    draggable: (enabled: boolean) => {
+      this.draggable = enabled;
       this.points.forEach((x) => {
-        x.draggable = draggable;
+        x.draggable = enabled;
+      });
+    },
+    removable: (enabled: boolean) => {
+      this.removable = enabled;
+      this.points.forEach((x) => {
+        x.removable = enabled;
       });
     },
   };

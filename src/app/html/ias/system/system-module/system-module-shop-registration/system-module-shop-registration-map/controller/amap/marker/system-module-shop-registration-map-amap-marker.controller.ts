@@ -8,6 +8,7 @@ import { SystemModuleShopRegistrationMapAMapMarkerIconController } from './syste
 export class SystemModuleShopRegistrationMapAMapMarkerEvent extends SystemAMapShopMarkerEvent {
   dragging = new EventEmitter<IShop>();
   dragend = new EventEmitter<IShop>();
+  remove = new EventEmitter<IShop>();
 }
 
 export class SystemModuleShopRegistrationMapAMapMarkerController {
@@ -15,23 +16,14 @@ export class SystemModuleShopRegistrationMapAMapMarkerController {
   marker: AMap.Marker;
   selected = false;
   data: IShop;
-  get draggable() {
-    return this._draggable;
-  }
-  set draggable(value: boolean) {
-    this._draggable = value;
-    if (this._draggable) {
-      this.marker.setCursor('move');
-    } else {
-      this.marker.setCursor('default');
-    }
-  }
+
+  draggable = false;
+  removable = false;
 
   constructor(data: IShop) {
     this.marker = this.create(data);
     this.data = data;
   }
-  private _draggable = false;
   private dragging = false;
   protected icon =
     new SystemModuleShopRegistrationMapAMapMarkerIconController();
@@ -57,6 +49,13 @@ export class SystemModuleShopRegistrationMapAMapMarkerController {
 
   private regist(marker: AMap.Marker) {
     marker.on('mouseover', (e: any) => {
+      if (this.draggable) {
+        this.marker.setCursor('move');
+      } else if (this.removable) {
+        this.marker.setCursor('help');
+      } else {
+        this.marker.setCursor('default');
+      }
       this.hover();
       this.event.mouseover.emit(this.data);
     });
@@ -66,6 +65,11 @@ export class SystemModuleShopRegistrationMapAMapMarkerController {
     });
     marker.on('click', (e: any) => {
       this.event.click.emit(this.data);
+    });
+    marker.on('rightclick', (e) => {
+      if (this.removable) {
+        this.event.remove.emit(this.data);
+      }
     });
     marker.on('mousedown', (e) => {
       let draggable = e.originEvent.buttons == 2 && this.draggable;

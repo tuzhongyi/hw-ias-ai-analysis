@@ -1,4 +1,5 @@
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { MapMarkerShopColor, MapMarkerType } from '../../ias-map.model';
 
 export class IASMapAMapIconController {
@@ -10,7 +11,7 @@ export class IASMapAMapIconController {
   };
 
   private get icon() {
-    let _default = PathTool.image.map.shop.red.normal;
+    let _default = PathTool.image.map.point.red;
 
     switch (this.type) {
       case MapMarkerType.shop:
@@ -31,10 +32,13 @@ export class IASMapAMapIconController {
     }
   }
   private get size(): [number, number] {
-    let _default: [number, number] = [51 * 0.7, 70 * 0.7];
+    let _default: [number, number] = [
+      SizeTool.map.point.width * 0.7,
+      SizeTool.map.point.height * 0.7,
+    ];
     switch (this.type) {
       case MapMarkerType.shop:
-        return [76 * 0.7, 86 * 0.7];
+        return [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.height * 0.7];
       default:
         return _default;
     }
