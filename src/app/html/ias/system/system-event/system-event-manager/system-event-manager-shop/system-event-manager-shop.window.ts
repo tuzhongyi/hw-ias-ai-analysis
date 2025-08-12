@@ -5,8 +5,12 @@ import { EventResourceContent } from '../../../../../../common/data-core/models/
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { ObjectTool } from '../../../../../../common/tools/object-tool/object.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';
+import { SystemTaskVideoArgs } from '../../../system-task/system-task-video/system-task-video.model';
+import { SystemEventMapArgs } from '../../system-event-map/system-event-map-manager/system-event-map-manager.model';
+import { MobileEventRecordMode } from '../../system-event-map/system-event-map-panel/system-event-map-panel-record/system-event-map-panel-record-table/system-event-map-panel-record-table.model';
 
 @Injectable()
 export class SystemEventManagerShopWindow {
@@ -25,6 +29,7 @@ export class SystemEventManagerShopWindow {
   };
   shop = new ShopWindow();
   details = new DetailsWindow();
+  map = new MapWindow();
 }
 
 class PictureWindow extends WindowViewModel {
@@ -92,6 +97,13 @@ class VideoWindow extends WindowViewModel {
   };
   data?: MobileEventRecord;
   title = '';
+  args = new SystemTaskVideoArgs();
+
+  change() {
+    if (this.args) {
+      this.args = Object.assign({}, this.args);
+    }
+  }
 }
 class TaskWindow extends WindowViewModel {
   style = {
@@ -144,4 +156,14 @@ class DetailsWindow extends WindowViewModel {
   };
   data?: MobileEventRecord;
   title = 'AI分析事件信息';
+}
+class MapWindow extends WindowViewModel {
+  style = {
+    ...SizeTool.window.full,
+  };
+  title = '商铺更变';
+  args = new SystemEventMapArgs(
+    ObjectTool.model.MobileEventRecord.get.type.shop
+  );
+  mode = MobileEventRecordMode.shop;
 }

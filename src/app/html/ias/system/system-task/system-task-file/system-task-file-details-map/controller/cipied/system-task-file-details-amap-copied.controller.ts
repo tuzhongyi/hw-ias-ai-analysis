@@ -1,6 +1,6 @@
-import { SystemAMapShopPointCreatedController } from '../../../../../system-map/component/controller/amap/point/system-map-amap-shop-point-created.controller';
+import { IASMapAMapPointCreatedController } from '../../../../../../share/map/controller/amap/point/ias-map-amap-point-created.controller';
 
-export class SystemTaskFileDetailsAMapCopiedController extends SystemAMapShopPointCreatedController {
+export class SystemTaskFileDetailsAMapCopiedController extends IASMapAMapPointCreatedController {
   constructor(container: Loca.Container) {
     super(container);
   }

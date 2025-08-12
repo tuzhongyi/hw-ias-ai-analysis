@@ -1,6 +1,6 @@
 import { IShop } from '../../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { SystemAMapShopInfoController } from '../../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-info.controller';
-import { ISystemAMapShopMarkerInfo } from '../../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-marker.model';
+import { IASMapAMapInfoController } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
+import { IIASMapAMapInfo } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import {
   SystemModuleShopRegistrationMapAMapMarkerController,
   SystemModuleShopRegistrationMapAMapMarkerEvent,
@@ -8,10 +8,7 @@ import {
 
 export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
   event = new SystemModuleShopRegistrationMapAMapMarkerEvent();
-  constructor(
-    private map: AMap.Map,
-    private info: SystemAMapShopInfoController
-  ) {
+  constructor(private map: AMap.Map, private info: IASMapAMapInfoController) {
     this.zoom = map.getZoom();
   }
 
@@ -22,7 +19,7 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
 
   private regist(point: SystemModuleShopRegistrationMapAMapMarkerController) {
     point.event.mouseover.subscribe((data) => {
-      let info: ISystemAMapShopMarkerInfo = {
+      let info: IIASMapAMapInfo = {
         Name: data.Name,
       };
       if (data.Location) {
@@ -108,7 +105,7 @@ export class SystemModuleShopRegistrationMapAMapMarkerLayerController {
   }
 
   mouseover(data: IShop) {
-    let info: ISystemAMapShopMarkerInfo = {
+    let info: IIASMapAMapInfo = {
       Name: data.Name,
     };
     if (data.Location) {

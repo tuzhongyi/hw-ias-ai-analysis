@@ -1,6 +1,6 @@
 import { AMapInputTipItem } from '../../../../../../../../common/helper/map/amap.model';
-import { SystemAMapShopInfoController } from '../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-info.controller';
-import { ISystemAMapShopMarkerInfo } from '../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-marker.model';
+import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
+import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import {
   SystemTaskFileDetailsAMapSearchPointController,
   SystemTaskFileDetailsAMapTipEvent,
@@ -12,11 +12,11 @@ export class SystemTaskFileDetailsAMapTipLayerController {
   constructor(map: AMap.Map) {
     this.zoom = map.getZoom();
     this.layer = this.init(map);
-    this.info = new SystemAMapShopInfoController(map);
+    this.info = new IASMapAMapInfoController(map);
   }
 
   private layer: AMap.LabelsLayer;
-  private info: SystemAMapShopInfoController;
+  private info: IASMapAMapInfoController;
   private points: SystemTaskFileDetailsAMapSearchPointController[] = [];
   private zoom: number;
 
@@ -31,7 +31,7 @@ export class SystemTaskFileDetailsAMapTipLayerController {
 
   private regist(point: SystemTaskFileDetailsAMapSearchPointController) {
     point.event.mouseover.subscribe((data) => {
-      let info: ISystemAMapShopMarkerInfo = {
+      let info: IIASMapAMapInfo = {
         Name: data.name,
         Location: data.location,
       };
@@ -70,7 +70,7 @@ export class SystemTaskFileDetailsAMapTipLayerController {
   }
 
   mouseover(data: AMapInputTipItem) {
-    let info: ISystemAMapShopMarkerInfo = {
+    let info: IIASMapAMapInfo = {
       Name: data.name,
       Location: data.location,
     };

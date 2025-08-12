@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IModel } from '../../../model.interface';
 import { EnumNameValue } from '../../enum-name-value.model';
 
@@ -10,5 +11,6 @@ export class EventCapability implements IModel {
   /**	EnumNameValue[]	触发类型	O	*/
   TriggerTypes?: EnumNameValue<number>[];
   /**	EnumNameValue[]	突发情况分类	O	*/
+  @Type(() => EnumNameValue)
   EmergencyTypes?: EnumNameValue<number>[];
 }

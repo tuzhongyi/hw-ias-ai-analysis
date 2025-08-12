@@ -1,4 +1,7 @@
-import { PagedDurationParams } from '../../../../models/params.interface';
+import {
+  IParams,
+  PagedDurationParams,
+} from '../../../../models/params.interface';
 
 export class GetMobileEventsParams extends PagedDurationParams {
   /**	Int32	事件类型	O	*/
@@ -23,4 +26,44 @@ export class GetMobileEventsParams extends PagedDurationParams {
   Desc?: string;
   /**	Int32[]	事件类型	O */
   EventTypes?: number[];
+  /**	Int32	突发情况分类	O */
+  EmergencyType?: number;
+}
+export class GetMobileEventFileParams implements IParams {
+  Channel?: number;
+  Duration?: number;
+
+  to = {
+    query: () => {
+      let params: string[] = [];
+      if (this.Channel !== undefined) {
+        params.push(`Channel=${this.Channel}`);
+      }
+      if (this.Duration !== undefined) {
+        params.push(`Duration=${this.Duration}`);
+      }
+      return params.join('&');
+    },
+  };
+}
+export class GetMobileEventFileGpsItemsParams implements IParams {
+  Rectified?: boolean;
+  Channel?: number;
+  Duration?: number;
+
+  to = {
+    query: () => {
+      let params: string[] = [];
+      if (this.Rectified !== undefined) {
+        params.push(`Rectified=${this.Rectified}`);
+      }
+      if (this.Channel !== undefined) {
+        params.push(`Channel=${this.Channel}`);
+      }
+      if (this.Duration !== undefined) {
+        params.push(`Duration=${this.Duration}`);
+      }
+      return params.join('&');
+    },
+  };
 }

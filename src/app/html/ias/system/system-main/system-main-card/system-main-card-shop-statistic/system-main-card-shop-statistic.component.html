@@ -1,0 +1,33 @@
+<ias-system-main-card-container [title]="title">
+  <div class="system-main-card-shop-statistic">
+    <div class="system-main-card-shop-statistic-content">
+      <div class="system-main-card-shop-statistic-item cyan">
+        <div class="system-main-card-shop-statistic-item-value">
+          {{ data?.ShopRegistrationCount ?? 0 }}
+        </div>
+        <div class="system-main-card-shop-statistic-item-name">全部商铺</div>
+      </div>
+      <div class="system-main-card-shop-statistic-item blue">
+        <div class="system-main-card-shop-statistic-item-value">
+          {{
+            (data?.ShopRegistrationCount ?? 0) -
+              (data?.UndetectedShopRegistrationCount ?? 0)
+          }}
+        </div>
+        <div class="system-main-card-shop-statistic-item-name">已检测到</div>
+      </div>
+      <div class="system-main-card-shop-statistic-item orange">
+        <div class="system-main-card-shop-statistic-item-value">
+          {{ data?.UndetectedShopRegistrationCount ?? 0 }}
+        </div>
+        <div class="system-main-card-shop-statistic-item-name">未检测到</div>
+      </div>
+      <div class="system-main-card-shop-statistic-item green">
+        <div class="system-main-card-shop-statistic-item-value">
+          {{ data?.NewShopCount ?? 0 }}
+        </div>
+        <div class="system-main-card-shop-statistic-item-name">新发现</div>
+      </div>
+    </div>
+  </div>
+</ias-system-main-card-container>

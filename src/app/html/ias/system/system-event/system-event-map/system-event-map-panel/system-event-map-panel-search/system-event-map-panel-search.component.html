@@ -1,0 +1,24 @@
+<div class="system-event-map-panel-search panel-map" *ngIf="args">
+  <div class="forms">
+    <div class="form-item date">
+      <div class="form-item-text">日期:</div>
+      <div class="form-item-value">
+        <date-time-control [(date)]="args.date"></date-time-control>
+      </div>
+    </div>
+    <div class="form-item type">
+      <div class="form-item-text">类型:</div>
+      <div class="form-item-value">
+        <select [(ngModel)]="args.type" *ngIf="type.names.size > 0">
+          <option [ngValue]="undefined">全部</option>
+          <option [ngValue]="item" *ngFor="let item of args.types">
+            {{ type.names.get(item) }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-item submit">
+      <button class="button-clip-gradient" (click)="on.search()">查找</button>
+    </div>
+  </div>
+</div>

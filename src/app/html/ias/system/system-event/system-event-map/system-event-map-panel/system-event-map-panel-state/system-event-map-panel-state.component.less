@@ -1,0 +1,74 @@
+.system-event-map-panel-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+
+
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    opacity: 0.2;
+
+    &:hover {
+      opacity: 0.3;
+    }
+
+    &.active {
+      opacity: 0.9;
+
+      &:hover {
+        opacity: 1;
+      }
+
+    }
+
+    &-icon {
+      height: 20px;
+      width: 20px;
+
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+
+      &.blue {
+        background-image: url(../../../../../../../../assets/image/map/states/state-blue.png);
+      }
+
+      &.green {
+        background-image: url('../../../../../../../../assets/image/map/states/state-green.png');
+      }
+
+      &.red {
+        background-image: url('../../../../../../../../assets/image/map/states/state-orange.png');
+      }
+
+      &.yellow {
+        background-image: url('../../../../../../../../assets/image/map/states/state-yellow.png');
+      }
+
+      &.gray {
+        background-image: url('../../../../../../../../assets/image/map/states/state-gray.png');
+      }
+
+      &.cyan {
+        background-image: url('../../../../../../../../assets/image/map/states/state-cyan.png');
+      }
+    }
+
+    &-name {
+      width: 80px;
+    }
+
+    &-value {
+      width: 38px;
+      color: white;
+      text-align: right;
+    }
+  }
+}

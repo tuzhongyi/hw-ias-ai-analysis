@@ -1,20 +1,16 @@
-import {
-  Transform,
-  TransformFnParams,
-  TransformationType,
-} from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { GeoTool } from '../../../tools/geo-tool/geo.tool';
 import { GisType } from '../../enums/gis-type.enum';
-import { IGisModel } from '../model.interface';
-import { transformLatitude, transformLongitude } from '../transformer';
+import { IGisPoint } from '../model.interface';
+import { Transformer } from '../transformer';
 
 /**	GisPoint (地理信息坐标点)	*/
-export class GisPoint implements IGisModel {
+export class GisPoint implements IGisPoint {
   /**	Double	经度	M	*/
-  @Transform(transformLongitude)
+  @Transform(Transformer.Longitude)
   Longitude!: number;
   /**	Double	纬度	M	*/
-  @Transform(transformLatitude)
+  @Transform(Transformer.Latitude)
   Latitude!: number;
   /**	Double	高度	M	*/
   Altitude!: number;
@@ -148,31 +144,4 @@ export class GisPoints {
       },
     },
   };
-}
-
-export function transformGisPoint(params: TransformFnParams) {
-  if (params.value === undefined || params.value === null) {
-    return params.value;
-  }
-  if (params.type === TransformationType.PLAIN_TO_CLASS) {
-    let wgs84 = params.value;
-    let gcj02 = GeoTool.point.convert.wgs84.to.gcj02(
-      wgs84.Longitude,
-      wgs84.Latitude
-    );
-    gcj02[0] += GeoTool.point.offset.longitude;
-    gcj02[1] += GeoTool.point.offset.latitude;
-    let bd09 = GeoTool.point.convert.gcj02.to.bd09(gcj02[0], gcj02[1]);
-    return {
-      WGS84: wgs84,
-      GCJ02: GisPoint.create(gcj02[0], gcj02[1], GisType.GCJ02),
-      BD09: GisPoint.create(bd09[0], bd09[1], GisType.BD09),
-    };
-  } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
-    return params.value.WGS84;
-  } else if (params.type === TransformationType.CLASS_TO_CLASS) {
-    return params.value;
-  } else {
-    return params.value;
-  }
 }

@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import '../../../../../../../../assets/js/map/CoordinateTransform.js';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model.js';
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model.js';
-import { IGisPointModel } from '../../../../../../../common/data-core/models/model.interface.js';
+import { ILocation } from '../../../../../../../common/data-core/models/model.interface.js';
 import { AMapInputTipItem } from '../../../../../../../common/helper/map/amap.model.js';
 import { ArrayTool } from '../../../../../../../common/tools/array-tool/array.tool.js';
 import { ClassTool } from '../../../../../../../common/tools/class-tool/class.tool.js';
@@ -40,13 +40,13 @@ export class SystemTaskFileDetailsMapController {
   copied = {
     load: async (datas: [number, number][]) => {
       this.amap.copied.get().then((copied) => {
-        let items = datas.map<IGisPointModel>((x) => {
+        let items = datas.map<ILocation>((x) => {
           let gis = {
             WGS84: GeoTool.point.convert.gcj02.to.wgs84(x[0], x[1]),
             GCJ02: x,
             BD09: GeoTool.point.convert.gcj02.to.bd09(x[0], x[1]),
           };
-          return gis as IGisPointModel;
+          return gis as ILocation;
         });
         copied.load(items, { zooms: [0, 50] });
       });

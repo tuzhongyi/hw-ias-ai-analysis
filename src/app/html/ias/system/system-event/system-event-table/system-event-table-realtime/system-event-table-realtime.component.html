@@ -57,13 +57,11 @@
             手动触发 } @else{ 分析触发 } }
           </td>
           <td>
-            <div
-              [ngStyle]="{
-              color: Color.EventType(item?.EventType),
-            }"
-            >
-              {{ item?.EmergencyTypeName | async }}
-            </div>
+            @if(item?.EmergencyDescription){
+            {{ item?.EmergencyDescription }}
+            } @else{
+            {{ item?.EmergencyTypeName | async }}
+            }
           </td>
           <td>
             <div>{{ item?.EventTime | date : Language.yyyyMMddHHmmss }}</div>

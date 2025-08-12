@@ -1,15 +1,27 @@
 import { Injectable } from '@angular/core';
+import {
+  GetMobileEventFileGpsItemsParams,
+  GetMobileEventFileParams,
+} from '../../../../../../common/data-core/requests/services/system/event/system-event.params';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
+import { SystemEventVideoArgs } from '../system-event-video.model';
 
 @Injectable()
 export class SystemEventVideoBusiness {
   constructor(private service: ArmSystemRequestService) {}
 
-  load(eventId: string, rectified?: boolean) {
-    return this.service.event.gps.items(eventId, rectified);
+  load(eventId: string, args: SystemEventVideoArgs) {
+    let params = new GetMobileEventFileGpsItemsParams();
+    params.Channel = args.channel;
+    params.Duration = args.duration;
+    params.Rectified = args.rectified;
+    return this.service.event.gps.items(eventId, params);
   }
 
-  file(id: string) {
-    return this.service.event.record.file(id);
+  file(eventId: string, args: SystemEventVideoArgs) {
+    let params = new GetMobileEventFileParams();
+    params.Channel = args.channel;
+    params.Duration = args.duration;
+    return this.service.event.record.file(eventId, params);
   }
 }

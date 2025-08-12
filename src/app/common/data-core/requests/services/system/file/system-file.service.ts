@@ -1,4 +1,5 @@
 import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { UploadControlFile } from '../../../../../components/upload-control/upload-control.model';
 import { FileGpsItem } from '../../../../models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../models/arm/file/file-info.model';
 import { HowellResponse } from '../../../../models/response';
@@ -17,7 +18,8 @@ export class SystemFileRequestService {
     }
     throw new Error(response.FaultReason);
   }
-  async upload(data: FormData, progress: (x: number) => void) {
+  async upload(file: UploadControlFile, progress: (x: number) => void) {
+    let data = this.uploadconvert(file);
     let url = ArmSystemUrl.file.basic();
     return this.http
       .upload<FormData, HowellResponse<FileInfo>>(url, data, {
@@ -26,6 +28,16 @@ export class SystemFileRequestService {
       .then((x) => {
         return HowellResponseProcess.item(x, FileInfo);
       });
+  }
+  private uploadconvert(file: UploadControlFile): FormData {
+    let form = document.createElement('form') as HTMLFormElement;
+    form.name = file.filename;
+    let data = new FormData(form);
+    let blob = new Blob([file.data as ArrayBuffer], {
+      type: 'video/x-matroska',
+    });
+    data.append('file', blob, file.filename);
+    return data;
   }
 
   async folder(path: string) {

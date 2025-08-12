@@ -1,11 +1,11 @@
 import { Transform } from 'class-transformer';
 import { IModel } from '../../model.interface';
-import { transformDateTime } from '../../transformer';
+import { Transformer } from '../../transformer';
 
 /**	Assignment (事件派单信息)	*/
 export class Assignment implements IModel {
   /**	DateTime	派单时间	O	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   AssignmentTime?: Date;
   /**	Boolean	是否已派单，true：已派单	M	*/
   Assigned!: boolean;
@@ -14,7 +14,7 @@ export class Assignment implements IModel {
   /**	String	处置人员名称	O	*/
   Handler?: string;
   /**	DateTime	处置时间	O	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   HandledTime?: Date;
   /**	String[]	处置图片地址	O	*/
   HandledImageUrls?: string[];

@@ -1,14 +1,14 @@
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
 import { IModel } from '../../model.interface';
-import { transformDateTime } from '../../transformer';
-import { GisPoints, transformGisPoint } from '../gis-point.model';
+import { Transformer } from '../../transformer';
+import { GisPoints } from '../gis-point.model';
 import { HowellPoint } from '../point.model';
 
 /**	SignObject (店招对象)	*/
 export class SignObject implements IModel {
   /**	DateTime	发现时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   Time!: Date;
   /**	String	图片地址	O	*/
   ImageUrl?: string;
@@ -20,6 +20,6 @@ export class SignObject implements IModel {
   @Type(() => HowellPoint)
   Polygon?: HowellPoint[];
   /**	GisPoint	照片Gis坐标	O	*/
-  @Transform(transformGisPoint)
+  @Transform(Transformer.GisPoint)
   Location?: GisPoints;
 }

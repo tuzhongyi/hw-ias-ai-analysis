@@ -27,6 +27,11 @@ class TrashCanColor {
 }
 
 export class ColorTool {
+  static green = '#21e452';
+  static red = '#ff762c';
+  static orange = '#ff762c';
+  static cyan = '#00f5ff';
+
   static canvas = new CanvasDrawColor();
   static trashcan = new TrashCanColor();
   static ShopObjectState(value: ShopObjectState) {

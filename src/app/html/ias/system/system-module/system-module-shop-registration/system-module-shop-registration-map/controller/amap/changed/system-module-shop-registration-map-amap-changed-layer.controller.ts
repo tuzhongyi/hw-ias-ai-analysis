@@ -1,20 +1,17 @@
 import { IShop } from '../../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { SystemAMapShopInfoController } from '../../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-info.controller';
-import { ISystemAMapShopMarkerInfo } from '../../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-marker.model';
+import { IASMapAMapInfoController } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
+import { IIASMapAMapInfo } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { SystemModuleShopRegistrationMapAMapMarkerEvent } from '../marker/system-module-shop-registration-map-amap-marker.controller';
 import { SystemModuleShopRegistrationMapAMapChangedController } from './system-module-shop-registration-map-amap-changed.controller';
 
 export class SystemModuleShopRegistrationMapAMapChangedLayerController {
   event = new SystemModuleShopRegistrationMapAMapMarkerEvent();
-  constructor(
-    private map: AMap.Map,
-    private info: SystemAMapShopInfoController
-  ) {}
+  constructor(private map: AMap.Map, private info: IASMapAMapInfoController) {}
   private points: SystemModuleShopRegistrationMapAMapChangedController[] = [];
 
   private regist(point: SystemModuleShopRegistrationMapAMapChangedController) {
     point.event.mouseover.subscribe((data) => {
-      let info: ISystemAMapShopMarkerInfo = {
+      let info: IIASMapAMapInfo = {
         Name: data.Name,
       };
       if (data.Location) {
@@ -96,7 +93,7 @@ export class SystemModuleShopRegistrationMapAMapChangedLayerController {
   }
 
   mouseover(data: IShop) {
-    let info: ISystemAMapShopMarkerInfo = {
+    let info: IIASMapAMapInfo = {
       Name: data.Name,
     };
     if (data.Location) {

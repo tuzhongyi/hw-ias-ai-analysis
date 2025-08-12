@@ -1,0 +1,38 @@
+<ias-system-main-card-container [title]="title">
+  <div class="system-main-card-device-state">
+    <div class="system-main-card-device-state-item online">
+      <div class="system-main-card-device-state-item-info">
+        <div class="system-main-card-device-state-item-info-name">在线</div>
+        <div class="system-main-card-device-state-item-info-value">
+          {{ value.online }}
+        </div>
+      </div>
+      <div class="system-main-card-device-state-item-progress">
+        <div
+          class="system-main-card-device-state-item-progress-value"
+          [ngStyle]="{
+            width: (value.online / value.count) * 100 + '%',
+            right: 0
+          }"
+        ></div>
+      </div>
+    </div>
+    <div class="system-main-card-device-state-item offline">
+      <div class="system-main-card-device-state-item-info">
+        <div class="system-main-card-device-state-item-info-value">
+          {{ value.offline }}
+        </div>
+        <div class="system-main-card-device-state-item-info-name">离线</div>
+      </div>
+      <div class="system-main-card-device-state-item-progress">
+        <div
+          class="system-main-card-device-state-item-progress-value"
+          [ngStyle]="{
+            width: (value.offline / value.count) * 100 + '%',
+            left: 0
+          }"
+        ></div>
+      </div>
+    </div>
+  </div>
+</ias-system-main-card-container>

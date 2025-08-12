@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
+import { ArmEventType } from '../../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
@@ -20,6 +21,8 @@ import { InputSelectTaskComponent } from '../../../../share/input-select-task/in
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../../../system-module/system-module-shop-registration/system-module-shop-registration-information/system-module-shop-registration-information.component';
+import { SystemTaskVideoComponent } from '../../../system-task/system-task-video/system-task-video.component';
+import { SystemEventMapManagerComponent } from '../../system-event-map/system-event-map-manager/system-event-map-manager.component';
 import { SystemEventProcessDetailsComponent } from '../../system-event-process/system-event-process-details/system-event-process-details.component';
 import { SystemEventProcessShopNameComponent } from '../../system-event-process/system-event-process-shop/system-event-process-shop-name/system-event-process-shop-name.component';
 import { SystemEventProcessSignDisappearComponent } from '../../system-event-process/system-event-process-sign-disappear/system-event-process-sign-disappear.component';
@@ -27,7 +30,6 @@ import { SystemEventProcessSignDisconverComponent } from '../../system-event-pro
 import { SystemEventTableArgs } from '../../system-event-table/business/system-event-table.model';
 import { SystemEventTableShopComponent } from '../../system-event-table/system-event-table-shop/system-event-table-shop.component';
 import { SystemEventTaskComponent } from '../../system-event-task/component/system-event-task.component';
-import { SystemEventVideoComponent } from '../../system-event-video/system-event-video.component';
 import { SystemEventManagerShopAnalysisBusiness } from './business/system-event-manager-shop-analysis.business';
 import { SystemEventManagerShopHandleBusiness } from './business/system-event-manager-shop-handle.business';
 import { SystemEventManagerShopRegistrationBusiness } from './business/system-event-manager-shop-registration.business';
@@ -49,7 +51,7 @@ import { SystemEventManagerShopWindow } from './system-event-manager-shop.window
     DateTimeControlComponent,
     SystemEventTableShopComponent,
     SystemEventTaskComponent,
-    SystemEventVideoComponent,
+    SystemTaskVideoComponent,
     WindowComponent,
     WindowConfirmComponent,
     PictureListComponent,
@@ -59,6 +61,7 @@ import { SystemEventManagerShopWindow } from './system-event-manager-shop.window
     SystemEventProcessShopNameComponent,
     SystemEventProcessDetailsComponent,
     InputSelectTaskComponent,
+    SystemEventMapManagerComponent,
   ],
   templateUrl: './system-event-manager-shop.component.html',
   styleUrl: './system-event-manager-shop.component.less',
@@ -221,6 +224,26 @@ export class SystemEventManagerShopComponent implements OnInit {
         if (data.Resources && data.Resources.length > 0) {
           let resource = data.Resources[0];
           this.window.video.title = `${resource.ResourceName} ${name}`;
+          this.window.video.args.Channel = resource.PositionNo ?? 1;
+        }
+        if (data.Location) {
+          this.window.video.args.Longitude = data.Location.GCJ02.Longitude;
+          this.window.video.args.Latitude = data.Location.GCJ02.Latitude;
+          this.window.video.args.Point = data.Location.GCJ02;
+        }
+        switch (data.EventType) {
+          case ArmEventType.ShopSignDisappeared:
+            this.window.video.args.Detected = false;
+            break;
+          case ArmEventType.ShopSignCreated:
+            this.window.video.args.Detected = undefined;
+            break;
+          default:
+            break;
+        }
+
+        if (data.TaskId) {
+          this.window.video.args.TaskId = data.TaskId;
         }
         this.window.video.data = data;
         this.window.video.show = true;

@@ -3,8 +3,10 @@ import {
   instanceToPlain,
   plainToInstance,
 } from 'class-transformer';
+import { ModelTool } from './models/model.tool';
 
 export class ObjectTool {
+  static model = new ModelTool();
   static keys(obj: Object, opts: 'porperty' | 'value' | 'all' = 'all') {
     let keys: string[];
     if (opts === 'porperty') {

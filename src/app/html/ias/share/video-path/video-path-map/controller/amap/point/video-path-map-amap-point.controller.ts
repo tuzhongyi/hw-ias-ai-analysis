@@ -1,5 +1,5 @@
 import { GisPoint } from '../../../../../../../../common/data-core/models/arm/gis-point.model';
-import { IASMapAMapPointController } from '../../../../../map/controller/amap/ias-map-amap-point.controller';
+import { IASMapAMapPointController } from '../../../../../map/controller/amap/marker/ias-map-amap-point.controller';
 import { IIASMapArgs } from '../../../../../map/ias-map.model';
 
 export class VideoPathMapAMapPointController {

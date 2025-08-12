@@ -7,8 +7,8 @@ import {
   MapMarkerShopColor,
   MapMarkerType,
 } from '../../ias-map.model';
-import { IASMapAMapMarkerController } from './ias-map-amap-marker.controller';
-import { IASMapAMapPointController } from './ias-map-amap-point.controller';
+import { IASMapAMapMarkerController } from './marker/ias-map-amap-marker.controller';
+import { IASMapAMapPointController } from './marker/ias-map-amap-point.controller';
 
 @Injectable()
 export class IASMapAMapController {

@@ -1,10 +1,10 @@
 import { EventEmitter } from '@angular/core';
-import { IASMapAMapIconController } from '../../../../../../share/map/controller/amap/ias-map-amap-icon.controller';
-import { IASMapAMapMarkerController } from '../../../../../../share/map/controller/amap/ias-map-amap-marker.controller';
+import { IASMapAMapIconController } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-icon.controller';
 import {
   MapMarkerShopColor,
   MapMarkerType,
 } from '../../../../../../share/map/ias-map.model';
+import { SystemTaskFileDetailsAMapPickupMarkerController } from './system-task-file-details-amap-pickup-marker.controller';
 
 export class SystemTaskFileDetailsAMapPickupController {
   event = {
@@ -16,7 +16,7 @@ export class SystemTaskFileDetailsAMapPickupController {
   }
 
   icon = new IASMapAMapIconController();
-  marker = new IASMapAMapMarkerController();
+  marker = new SystemTaskFileDetailsAMapPickupMarkerController();
 
   create(position: [number, number]) {
     let args = {

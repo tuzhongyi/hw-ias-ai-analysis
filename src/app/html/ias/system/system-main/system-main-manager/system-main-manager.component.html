@@ -1,0 +1,44 @@
+<div class="system-main-manager">
+  <ias-system-main-map></ias-system-main-map>
+
+  <div class="system-main-manager-card-list left">
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-event-statistic
+        [load]="load"
+      ></ias-system-main-card-event-statistic>
+    </div>
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-shop-statistic
+        [load]="load"
+      ></ias-system-main-card-shop-statistic>
+    </div>
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-event-realtime-statistic
+        [load]="load"
+      ></ias-system-main-card-event-realtime-statistic>
+    </div>
+  </div>
+  <div class="system-main-manager-card-list right">
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-device-state
+        [load]="load"
+      ></ias-system-main-card-device-state>
+    </div>
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-task-statistic
+        [load]="load"
+      ></ias-system-main-card-task-statistic>
+    </div>
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-event-realtime-table-manager
+        [load]="load"
+      ></ias-system-main-card-event-realtime-table-manager>
+    </div>
+  </div>
+  <div class="system-main-manager-controls">
+    <ias-system-main-panel-controls></ias-system-main-panel-controls>
+  </div>
+  <div class="system-main-manager-panel-list" *ngIf="false">
+    <ias-system-main-panel-shop-registration-table-manager></ias-system-main-panel-shop-registration-table-manager>
+  </div>
+</div>

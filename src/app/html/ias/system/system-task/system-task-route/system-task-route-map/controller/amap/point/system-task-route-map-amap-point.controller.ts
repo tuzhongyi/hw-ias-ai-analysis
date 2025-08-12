@@ -1,9 +1,9 @@
 import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { ShopRegistration } from '../../../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { SystemAMapShopPointCreatedController } from '../../../../../../system-map/component/controller/amap/point/system-map-amap-shop-point-created.controller';
-import { SystemAMapShopPointDisappearedController } from '../../../../../../system-map/component/controller/amap/point/system-map-amap-shop-point-disappeared.controller';
-import { SystemAMapShopPointExistedController } from '../../../../../../system-map/component/controller/amap/point/system-map-amap-shop-point-existed.controller';
+import { IASMapAMapPointCreatedController } from '../../../../../../../share/map/controller/amap/point/ias-map-amap-point-created.controller';
+import { IASMapAMapPointDisappearedController } from '../../../../../../../share/map/controller/amap/point/ias-map-amap-point-disappeared.controller';
+import { IASMapAMapPointExistedController } from '../../../../../../../share/map/controller/amap/point/ias-map-amap-point-existed.controller';
 
 export class SystemTaskRouteMapAMapPointController {
   event = {
@@ -11,15 +11,15 @@ export class SystemTaskRouteMapAMapPointController {
   };
 
   constructor(private container: Loca.Container) {
-    this.created = new SystemAMapShopPointCreatedController(container);
-    this.disappeared = new SystemAMapShopPointDisappearedController(container);
-    this.existed = new SystemAMapShopPointExistedController(container);
+    this.created = new IASMapAMapPointCreatedController(container);
+    this.disappeared = new IASMapAMapPointDisappearedController(container);
+    this.existed = new IASMapAMapPointExistedController(container);
     this.regist();
   }
 
-  private created: SystemAMapShopPointCreatedController;
-  private disappeared: SystemAMapShopPointDisappearedController;
-  private existed: SystemAMapShopPointExistedController;
+  private created: IASMapAMapPointCreatedController;
+  private disappeared: IASMapAMapPointDisappearedController;
+  private existed: IASMapAMapPointExistedController;
 
   private regist() {
     this.created.event.move.subscribe((data) => {

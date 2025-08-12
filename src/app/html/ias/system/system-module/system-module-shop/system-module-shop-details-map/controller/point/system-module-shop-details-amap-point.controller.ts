@@ -1,19 +1,19 @@
 import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { IGisPointModel } from '../../../../../../../../common/data-core/models/model.interface';
-import { SystemAMapShopPointExistedController } from '../../../../../system-map/component/controller/amap/point/system-map-amap-shop-point-existed.controller';
+import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
+import { IASMapAMapPointExistedController } from '../../../../../../share/map/controller/amap/point/ias-map-amap-point-existed.controller';
 
 export class SystemModuleShopDetailsAMapPointController {
   event = {
-    move: new EventEmitter<IGisPointModel>(),
+    move: new EventEmitter<ILocation>(),
   };
 
   constructor(private container: Loca.Container) {
-    this.existed = new SystemAMapShopPointExistedController(container);
+    this.existed = new IASMapAMapPointExistedController(container);
     this.regist();
   }
 
-  private existed: SystemAMapShopPointExistedController;
+  private existed: IASMapAMapPointExistedController;
 
   private regist() {
     this.existed.event.move.subscribe((data) => {

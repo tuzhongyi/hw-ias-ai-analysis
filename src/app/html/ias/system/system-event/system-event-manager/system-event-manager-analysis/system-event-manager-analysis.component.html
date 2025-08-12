@@ -54,6 +54,11 @@
         </div>
       </div>
     </div>
+    <div class="system-event-manager-analysis-head-operation">
+      <button class="button-clip-gradient" (click)="window.map.show = true">
+        地图
+      </button>
+    </div>
   </div>
   <div class="system-event-manager-analysis-body">
     <ias-system-event-table-analysis
@@ -67,6 +72,19 @@
     ></ias-system-event-table-analysis>
   </div>
 
+  <ias-window
+    [Model]="window.map"
+    *ngIf="window.map.show"
+    [style]="window.map.style"
+    [title]="window.map.title"
+  >
+    <ias-system-event-map-manager
+      [args]="window.map.args"
+      [mode]="window.map.mode"
+      (video)="table.on.video($event)"
+      (details)="table.on.details($event)"
+    ></ias-system-event-map-manager>
+  </ias-window>
   <ias-window
     [Model]="window.details"
     *ngIf="window.details.show"
@@ -117,7 +135,52 @@
     *ngIf="window.video.show"
     [style]="window.video.style"
     [title]="window.video.title"
+    [CloseButton]="false"
   >
-    <ias-system-event-video [data]="window.video.data"></ias-system-event-video>
+    <div ngProjectAs="window-head-operation" class="window-video-operation">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">前后时长</div>
+          <div class="form-item-value">
+            <select
+              [(ngModel)]="window.video.args.duration"
+              (change)="window.video.change()"
+            >
+              <!-- <option [ngValue]="undefined">全部</option> -->
+              <option [ngValue]="5">5秒</option>
+              <option [ngValue]="10">10秒</option>
+              <option [ngValue]="15">15秒</option>
+              <option [ngValue]="30">30秒</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">摄像机:</div>
+          <div class="form-item-value">
+            <select
+              [(ngModel)]="window.video.args.channel"
+              (change)="window.video.change()"
+            >
+              <!-- <option [ngValue]="undefined">全部</option> -->
+              <option
+                *ngFor="let item of controller.channels | async"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="button" (click)="window.video.show = false">
+            <i class="howell-icon-Close"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ias-system-event-video
+      [data]="window.video.data"
+      [args]="window.video.args"
+    ></ias-system-event-video>
   </ias-window>
 </div>

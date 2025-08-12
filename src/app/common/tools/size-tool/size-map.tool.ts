@@ -7,4 +7,8 @@ export class SizeMapTool {
     width: 48,
     height: 48,
   };
+  alarm = {
+    width: 60,
+    height: 60,
+  };
 }

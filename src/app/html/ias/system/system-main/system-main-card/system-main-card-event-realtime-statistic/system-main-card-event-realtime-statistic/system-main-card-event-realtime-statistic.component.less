@@ -1,0 +1,44 @@
+.system-main-card-event-realtime-statistic {
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  @gap: 20px;
+  gap: @gap;
+
+
+  &-chart {
+    width: calc((100% - @gap) * 0.5);
+    height: 100%;
+  }
+
+  &-info {
+
+    width: calc((100% - @gap) * 0.5);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    &-item {
+      padding-right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+
+      &-color {
+        width: 10px;
+        height: 10px;
+      }
+
+      &-name {
+        flex-grow: 1;
+      }
+
+      &-value {
+        flex-grow: 0;
+      }
+    }
+  }
+}

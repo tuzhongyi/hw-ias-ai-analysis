@@ -1,0 +1,68 @@
+<div class="system-module-shop-registration-map-panel-shop-table">
+  <div
+    class="system-module-shop-registration-map-panel-shop-table-body table-page-list"
+  >
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">#</th>
+          <th>名称</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          [ngClass]="{ selected: item === selected, nodata: !item }"
+          (click)="on.select(item)"
+          (dblclick)="on.position($event, item)"
+          (mouseover)="on.mouse.over(item)"
+          (mouseout)="on.mouse.out(item)"
+        >
+          <td class="center">
+            <span *ngIf="item">{{
+              page.PageSize * (page.PageIndex - 1) + index + 1
+            }}</span>
+          </td>
+          <td [title]="item?.Name ?? ''">
+            {{ item?.Name }}
+          </td>
+          <td class="center">
+            <div class="operation" *ngIf="!!item">
+              <div
+                class="button"
+                title="定位"
+                (click)="on.position($event, item)"
+              >
+                <i class="mdi mdi-map-marker"></i>
+              </div>
+              <div
+                class="button"
+                title="商铺详情"
+                (click)="on.details($event, item)"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    class="system-module-shop-registration-map-panel-shop-table-foot"
+    *ngIf="page.TotalRecordCount"
+  >
+    <paginator
+      [page]="page"
+      [jump]="false"
+      [total]="false"
+      [ungap]="page.PageCount > 6"
+      (change)="on.page($event)"
+    >
+    </paginator>
+  </div>
+</div>

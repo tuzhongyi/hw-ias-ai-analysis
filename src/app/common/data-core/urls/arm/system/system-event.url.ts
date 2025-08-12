@@ -1,3 +1,7 @@
+import {
+  GetMobileEventFileGpsItemsParams,
+  GetMobileEventFileParams,
+} from '../../../requests/services/system/event/system-event.params';
 import { AbstractUrl } from '../../abstract.url';
 import { SystemEventHandleUrl } from './system-event-handle.url';
 
@@ -15,15 +19,19 @@ export class SystemEventUrl extends AbstractUrl {
     return `${this.basic()}/Capability`;
   }
   record = {
-    file: (id: string) => {
-      return `${this.item(id)}/RecordFile.mkv`;
+    file: (id: string, params: GetMobileEventFileParams) => {
+      let query = params.to.query();
+      if (query) {
+        query = `?${query}`;
+      }
+      return `${this.item(id)}/RecordFile.mkv${query}`;
     },
   };
   gps = {
-    items: (id: string, rectified?: boolean) => {
-      let query = '';
-      if (rectified) {
-        query = `?rectified=${rectified}`;
+    items: (id: string, params: GetMobileEventFileGpsItemsParams) => {
+      let query = params.to.query();
+      if (query) {
+        query = `?${query}`;
       }
       return `${this.item(id)}/GpsItems${query}`;
     },

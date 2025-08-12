@@ -1,18 +1,14 @@
 import { Transform } from 'class-transformer';
 import { IModel } from '../../model.interface';
-import {
-  transformDateTime,
-  transformLatitude,
-  transformLongitude,
-} from '../../transformer';
+import { Transformer } from '../../transformer';
 
 /**	GpsInfo (GPS信息)	*/
 export class GpsInfo implements IModel {
   /**	Double	经度，东经正数，西经负数	O	*/
-  @Transform(transformLongitude)
+  @Transform(Transformer.Longitude)
   Longitude?: number;
   /**	Double	纬度，北纬正数，南纬负数	O	*/
-  @Transform(transformLatitude)
+  @Transform(Transformer.Latitude)
   Latitude?: number;
   /**	String	目前只有WGS84一种情况	O	*/
   GisType?: string;
@@ -25,6 +21,6 @@ export class GpsInfo implements IModel {
   /**	Int32	卫星数量，0表示没有卫星	O	*/
   SatelliteNumber?: number;
   /**	DateTime	数据更新时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   UpdateTime!: Date;
 }

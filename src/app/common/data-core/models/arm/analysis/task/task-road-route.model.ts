@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IModel } from '../../../model.interface';
-import { transformDateTime } from '../../../transformer';
+import { Transformer } from '../../../transformer';
 
 /**	TaskRoadRoute (任务的道路线路)	*/
 export class TaskRoadRoute implements IModel {
@@ -13,10 +13,10 @@ export class TaskRoadRoute implements IModel {
   /**	Int64	商铺在上道路序号	M	*/
   EndRoadOrderNo!: number;
   /**	DateTime	开始时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   BeginTime!: Date;
   /**	DateTime	结束时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   EndTime!: Date;
   /**	Int64	商铺在上道路序号	M	*/
   MinRoadOrderNo!: number;

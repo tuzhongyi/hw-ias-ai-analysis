@@ -12,4 +12,6 @@ export class EventDataObject implements IIdModel {
   Polygon!: HowellPoint[];
   /**	Double	置信度：0-100	M	*/
   Confidence!: number;
+  /**	String	招牌名称	O */
+  Description?: string;
 }

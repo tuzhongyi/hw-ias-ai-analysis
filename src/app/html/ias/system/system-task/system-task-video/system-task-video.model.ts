@@ -6,4 +6,5 @@ export class SystemTaskVideoArgs extends GetTaskRecordFileGpsItemsParams {
   Detected?: boolean;
   Point?: GisPoint;
   override Channel = 1;
+  override Duration = 5;
 }

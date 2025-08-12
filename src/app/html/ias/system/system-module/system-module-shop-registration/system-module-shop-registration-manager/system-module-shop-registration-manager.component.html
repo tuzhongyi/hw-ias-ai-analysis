@@ -58,20 +58,15 @@
     </div>
   </div>
   <div class="system-module-shop-registration-manager-body">
-    <div class="system-module-shop-registration-manager-table">
-      <ias-system-module-shop-registration-table
-        [args]="table.args"
-        [load]="table.load"
-        [page]="table.picture.page"
-        [(selecteds)]="table.selecteds"
-        (picture)="table.picture.on($event)"
-        (info)="info.open($event)"
-        (loaded)="table.loaded($event)"
-      ></ias-system-module-shop-registration-table>
-    </div>
-    <div class="system-module-shop-registration-manager-map panel">
-      <ias-map [points]="map.points" [move]="true"></ias-map>
-    </div>
+    <ias-system-module-shop-registration-table
+      [args]="table.args"
+      [load]="table.load"
+      [page]="table.picture.page"
+      [(selecteds)]="table.selecteds"
+      (picture)="table.picture.on($event)"
+      (info)="info.open($event)"
+      (loaded)="table.loaded($event)"
+    ></ias-system-module-shop-registration-table>
   </div>
 
   <ias-system-module-shop-registration-map-manager

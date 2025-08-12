@@ -19,7 +19,10 @@ export class ArrayTool {
     };
   }
   /** 分组 */
-  static groupBy<T>(array: T[], fn: (item: T) => string): Record<string, T[]> {
+  static groupBy<TData, TKey extends keyof any = string>(
+    array: TData[],
+    fn: (item: TData) => TKey
+  ): Record<TKey, TData[]> {
     let result = array.reduce((data: any, item) => {
       const key = fn(item);
       if (!data[key]) {

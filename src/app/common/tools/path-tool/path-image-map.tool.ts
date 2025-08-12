@@ -30,4 +30,11 @@ export class PathImageMapTool {
     blue: '/assets/image/map/point-blue.png',
     red: '/assets/image/map/point-red.png',
   };
+  alarm = {
+    blue: '/assets/image/map/marker/marker-alarm-blue.png',
+    cyan: '/assets/image/map/marker/marker-alarm-cyan.png',
+    green: '/assets/image/map/marker/marker-alarm-green.png',
+    orange: '/assets/image/map/marker/marker-alarm-orange.png',
+    red: '/assets/image/map/marker/marker-alarm-red.png',
+  };
 }

@@ -16,6 +16,7 @@ import { Language } from '../../../../../../common/tools/language-tool/language'
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
+import { SystemEventMapManagerComponent } from '../../system-event-map/system-event-map-manager/system-event-map-manager.component';
 import { SystemEventProcessDetailsComponent } from '../../system-event-process/system-event-process-details/system-event-process-details.component';
 import { SystemEventTableArgs } from '../../system-event-table/business/system-event-table.model';
 import { SystemEventTableAnalysisComponent } from '../../system-event-table/system-event-table-analysis/system-event-table-analysis.component';
@@ -38,6 +39,7 @@ import { SystemEventManagerAnalysisWindow } from './system-event-manager-analysi
     WindowConfirmComponent,
     PictureListComponent,
     SystemEventProcessDetailsComponent,
+    SystemEventMapManagerComponent,
   ],
   templateUrl: './system-event-manager-analysis.component.html',
   styleUrl: './system-event-manager-analysis.component.less',
@@ -87,6 +89,7 @@ export class SystemEventManagerAnalysisComponent implements OnInit {
         if (data.Resources && data.Resources.length > 0) {
           let resource = data.Resources[0];
           this.window.video.title = `${resource.ResourceName} ${name}`;
+          this.window.video.args.channel = resource.PositionNo;
         }
         this.window.video.data = data;
         this.window.video.show = true;

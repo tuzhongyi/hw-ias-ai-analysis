@@ -1,0 +1,35 @@
+<div class="panel-map-corner system-event-map-panel-state">
+  <div
+    class="system-event-map-panel-state-item"
+    [class.active]="selecteds.includes(1)"
+    (click)="onselect(1)"
+  >
+    <div class="system-event-map-panel-state-item-icon red"></div>
+    <div class="system-event-map-panel-state-item-name">未处置</div>
+    <div class="system-event-map-panel-state-item-value">
+      {{ data.unhandle }}
+    </div>
+  </div>
+  <div
+    class="system-event-map-panel-state-item"
+    [class.active]="selecteds.includes(2)"
+    (click)="onselect(2)"
+  >
+    <div class="system-event-map-panel-state-item-icon green"></div>
+    <div class="system-event-map-panel-state-item-name">已处置</div>
+    <div class="system-event-map-panel-state-item-value">
+      {{ data.handled }}
+    </div>
+  </div>
+  <div
+    class="system-event-map-panel-state-item"
+    [class.active]="selecteds.includes(3)"
+    (click)="onselect(3)"
+  >
+    <div class="system-event-map-panel-state-item-icon cyan"></div>
+    <div class="system-event-map-panel-state-item-name">误报</div>
+    <div class="system-event-map-panel-state-item-value">
+      {{ data.misinform }}
+    </div>
+  </div>
+</div>

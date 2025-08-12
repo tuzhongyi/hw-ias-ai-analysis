@@ -1,8 +1,8 @@
 import { Transform } from 'class-transformer';
 import 'reflect-metadata';
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
-import { transformDateTime } from '../../transformer';
-import { GisPoints, transformGisPoint } from '../gis-point.model';
+import { Transformer } from '../../transformer';
+import { GisPoints } from '../gis-point.model';
 import { HowellPoint } from '../point.model';
 import { IShop } from './shop.interface';
 
@@ -35,21 +35,21 @@ export class Shop implements IShop {
   /**	Double	置信度，0-1	O	*/
   Confidence?: number;
   /**	GisPoint	商铺Gis坐标	O	*/
-  @Transform(transformGisPoint)
+  @Transform(Transformer.GisPoint)
   Location?: GisPoints;
   /**	String	商铺照片	O	*/
   ImageUrl?: string;
   /**	DateTime	第一次出现的时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   BeginTime!: Date;
   /**	DateTime	最后一次出现的时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   EndTime!: Date;
   /**	DateTime	创建时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   CreationTime!: Date;
   /**	DateTime	更新时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   UpdateTime!: Date;
   /**	Boolean	是否手动标注的，锁定内容	O	*/
   Locked?: boolean;

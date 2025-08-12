@@ -45,6 +45,9 @@ export class SystemEventTableService {
     if (filter.types && filter.types.length > 0) {
       params.EventTypes = filter.types;
     }
+    if (filter.emergency != undefined) {
+      params.EmergencyType = filter.emergency;
+    }
     switch (filter.state) {
       case 1:
         params.Handled = false;

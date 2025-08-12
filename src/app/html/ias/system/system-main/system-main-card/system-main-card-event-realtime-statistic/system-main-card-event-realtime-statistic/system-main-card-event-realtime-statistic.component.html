@@ -1,0 +1,28 @@
+<ias-system-main-card-container [title]="title">
+  <div class="system-main-card-event-realtime-statistic">
+    <div class="system-main-card-event-realtime-statistic-chart">
+      <ias-system-main-card-event-realtime-statistic-chart
+        [datas]="datas"
+      ></ias-system-main-card-event-realtime-statistic-chart>
+    </div>
+    <div class="system-main-card-event-realtime-statistic-info">
+      <div
+        class="system-main-card-event-realtime-statistic-info-item"
+        *ngFor="let item of datas; let index = index"
+      >
+        <div
+          class="system-main-card-event-realtime-statistic-info-item-color"
+          [ngStyle]="{
+            backgroundColor: color[item.id],
+          }"
+        ></div>
+        <div class="system-main-card-event-realtime-statistic-info-item-name">
+          {{ item.name }}
+        </div>
+        <div class="system-main-card-event-realtime-statistic-info-item-value">
+          {{ item.value }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ias-system-main-card-container>

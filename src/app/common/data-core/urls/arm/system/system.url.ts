@@ -2,6 +2,7 @@ import { FactoryResetMode } from '../../../enums/factory-reset-mode.enum';
 import { BaseUrl } from '../../base.url';
 import { SystemEventUrl } from './system-event.url';
 import { SystemInputProxyUrl } from './system-input-proxy.url';
+import { SystemMobileUrl } from './system-mobile.url';
 import { SystemNetworkUrl } from './system-network.url';
 import { SystemSecurityUrl } from './system-security.url';
 import { SystemDataUrl } from './system_data.url';
@@ -64,5 +65,8 @@ export class ArmSystemUrl {
   }
   static get event() {
     return new SystemEventUrl(this.basic());
+  }
+  static get mobile() {
+    return new SystemMobileUrl(this.basic());
   }
 }

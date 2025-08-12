@@ -1,0 +1,45 @@
+<div class="system-event-map-panel-record-table-manager panel-map">
+  <!-- <div class="system-event-map-panel-record-table-manager-head panel-head">
+    <div class="panel-title">事件列表</div>
+    <div class="panel-operation">
+      <div class="button">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+  </div> -->
+  <div class="system-event-map-panel-record-table-manager-body">
+    <ias-system-event-map-panel-record-table-shop
+      *ngIf="mode === Mode.shop"
+      [datas]="datas"
+      [selected]="selected"
+      (selectedChange)="on.select($event)"
+      (details)="on.details($event)"
+      (position)="on.position($event)"
+      (video)="on.video($event)"
+      (itemhover)="on.item.over($event)"
+      (itemblur)="on.item.out($event)"
+    ></ias-system-event-map-panel-record-table-shop>
+    <ias-system-event-map-panel-record-table-realtime
+      *ngIf="mode === Mode.realtime"
+      [datas]="datas"
+      [selected]="selected"
+      (selectedChange)="on.select($event)"
+      (details)="on.details($event)"
+      (position)="on.position($event)"
+      (video)="on.video($event)"
+      (itemhover)="on.item.over($event)"
+      (itemblur)="on.item.out($event)"
+    ></ias-system-event-map-panel-record-table-realtime>
+    <ias-system-event-map-panel-record-table-analysis
+      *ngIf="mode === Mode.analysis"
+      [datas]="datas"
+      [selected]="selected"
+      (selectedChange)="on.select($event)"
+      (details)="on.details($event)"
+      (position)="on.position($event)"
+      (video)="on.video($event)"
+      (itemhover)="on.item.over($event)"
+      (itemblur)="on.item.out($event)"
+    ></ias-system-event-map-panel-record-table-analysis>
+  </div>
+</div>

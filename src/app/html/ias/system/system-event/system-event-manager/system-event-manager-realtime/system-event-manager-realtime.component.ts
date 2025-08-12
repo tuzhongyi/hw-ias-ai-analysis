@@ -8,6 +8,7 @@ import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
+import { EnumNameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import {
   Page,
   PagedList,
@@ -16,6 +17,7 @@ import { Language } from '../../../../../../common/tools/language-tool/language'
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
+import { SystemEventMapManagerComponent } from '../../system-event-map/system-event-map-manager/system-event-map-manager.component';
 import { SystemEventProcessDetailsComponent } from '../../system-event-process/system-event-process-details/system-event-process-details.component';
 import { SystemEventProcessRealtimeComponent } from '../../system-event-process/system-event-process-realtime/system-event-process-realtime.component';
 import { SystemEventTableArgs } from '../../system-event-table/business/system-event-table.model';
@@ -40,6 +42,7 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
     PictureListComponent,
     SystemEventProcessDetailsComponent,
     SystemEventProcessRealtimeComponent,
+    SystemEventMapManagerComponent,
   ],
   templateUrl: './system-event-manager-realtime.component.html',
   styleUrl: './system-event-manager-realtime.component.less',
@@ -78,6 +81,9 @@ export class SystemEventManagerRealtimeComponent implements OnInit {
   table = {
     args: new SystemEventTableArgs(),
     load: new EventEmitter<SystemEventTableArgs>(),
+    selected: {
+      channels: [] as EnumNameValue<number>[],
+    },
     search: () => {
       this.table.args.first = true;
       this.table.load.emit(this.table.args);
@@ -86,9 +92,17 @@ export class SystemEventManagerRealtimeComponent implements OnInit {
       video: async (data: MobileEventRecord) => {
         let name = await this.language.event.EventType(data.EventType);
         this.window.video.title = `${name}`;
+        this.table.selected.channels =
+          data.Resources?.map((x) => {
+            let channel = new EnumNameValue<number>();
+            channel.Name = x.ResourceName;
+            channel.Value = x.PositionNo ?? 0;
+            return channel;
+          }) ?? [];
         if (data.Resources && data.Resources.length > 0) {
           let resource = data.Resources[0];
           this.window.video.title = `${resource.ResourceName} ${name}`;
+          this.window.video.args.channel = resource.PositionNo;
         }
         this.window.video.data = data;
         this.window.video.show = true;

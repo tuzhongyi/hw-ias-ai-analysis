@@ -1,16 +1,9 @@
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { IASMapAMapMarkerEvent } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
 import { SystemAMapShopIconController } from './system-map-amap-shop-icon.controller';
 
-import {
-  ISystemAMapShopIconController,
-  ISystemAMapShopLabelMarkerController,
-  SystemAMapShopMarkerEvent,
-} from './system-map-amap-shop-marker.model';
-
-export class SystemAMapShopLabelMarkerController
-  implements ISystemAMapShopLabelMarkerController
-{
-  event = new SystemAMapShopMarkerEvent();
+export class SystemAMapShopLabelMarkerController {
+  event = new IASMapAMapMarkerEvent();
   marker: AMap.LabelMarker;
   selected = false;
   data: IShop;
@@ -20,8 +13,7 @@ export class SystemAMapShopLabelMarkerController
     this.data = data;
   }
 
-  protected icon: ISystemAMapShopIconController =
-    new SystemAMapShopIconController();
+  protected icon = new SystemAMapShopIconController();
 
   private create(data: IShop) {
     if (data.Location) {

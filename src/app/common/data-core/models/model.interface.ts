@@ -9,16 +9,21 @@ export interface INameModel<T = string> extends IModel {
 export interface IIdNameModel<TId = string, TName = string>
   extends IIdModel<TId>,
     INameModel<TName> {}
-export interface IGisModel extends IModel {
+export interface IGisPoint extends IModel {
   Longitude: number;
   Latitude: number;
 }
-export interface IGisPointsModel extends IModel {
-  WGS84: IGisModel;
-  GCJ02: IGisModel;
-  BD09: IGisModel;
+export interface IGisPoints extends IModel {
+  WGS84: IGisPoint;
+  GCJ02: IGisPoint;
+  BD09: IGisPoint;
 }
-export interface IGisPointModel<T extends IGisPointsModel = IGisPointsModel>
-  extends IModel {
+export interface ILocation<T extends IGisPoints = IGisPoints> extends IModel {
   Location?: T;
 }
+export interface IIdNameLocationModel<
+  TId = string,
+  TName = string,
+  TLocation extends IGisPoints = IGisPoints
+> extends IIdNameModel<TId, TName>,
+    ILocation<TLocation> {}

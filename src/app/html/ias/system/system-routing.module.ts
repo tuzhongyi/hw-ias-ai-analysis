@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SystemComponent } from './component/system.component';
 import { SystemIndexComponent } from './system-index/system-index.component';
-import { SystemMapComponent } from './system-map/component/system-map.component';
 import { SystemModuleComponent } from './system-module/component/system-module.component';
 import { SystemModuleIndexComponent } from './system-module/system-module-index/system-module-index.component';
 import { SystemModuleRoadManagerComponent } from './system-module/system-module-road/system-module-road-manager/system-module-road-manager.component';
@@ -13,6 +12,7 @@ import { SystemEventIndexComponent } from './system-event/system-event-index/sys
 import { SystemEventManagerAnalysisComponent } from './system-event/system-event-manager/system-event-manager-analysis/system-event-manager-analysis.component';
 import { SystemEventManagerRealtimeComponent } from './system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
 import { SystemEventManagerShopComponent } from './system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
+import { SystemMainManagerComponent } from './system-main/system-main-manager/system-main-manager.component';
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
@@ -94,7 +94,7 @@ const routes: Routes = [
           },
           {
             path: 'index',
-            component: SystemMapComponent,
+            component: SystemMainManagerComponent,
           },
         ],
       },

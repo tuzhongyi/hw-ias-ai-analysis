@@ -3,7 +3,8 @@
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
 import { IModel } from '../../model.interface';
-import { GisPoints, transformGisPoint } from '../gis-point.model';
+import { Transformer } from '../../transformer';
+import { GisPoints } from '../gis-point.model';
 import { EventDataObject } from './event-data-object.model';
 
 export class EventResourceContent implements IModel {
@@ -33,6 +34,6 @@ export class EventResourceContent implements IModel {
   @Type(() => EventDataObject)
   Objects?: EventDataObject[];
   /**	GisPoint	Gis坐标	O */
-  @Transform(transformGisPoint)
+  @Transform(Transformer.GisPoint)
   Location?: GisPoints;
 }

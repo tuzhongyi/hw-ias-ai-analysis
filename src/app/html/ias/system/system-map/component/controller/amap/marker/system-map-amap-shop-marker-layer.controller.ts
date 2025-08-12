@@ -1,32 +1,29 @@
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { SystemMapAMapConfig } from '../system-map-amap.config';
-import { SystemAMapShopInfoController } from './system-map-amap-shop-info.controller';
+import { IASMapAMapConfig } from '../../../../../../share/map/controller/amap/ias-map-amap.config';
+import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
+import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
+import { IASMapAMapMarkerEvent } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
 import { SystemAMapShopLabelMarkerController } from './system-map-amap-shop-marker.controller';
-import {
-  ISystemAMapShopLabelMarkerController,
-  ISystemAMapShopMarkerInfo,
-  SystemAMapShopMarkerEvent,
-} from './system-map-amap-shop-marker.model';
 
 export class SystemAMapShopMarkerLayerController {
-  event = new SystemAMapShopMarkerEvent();
+  event = new IASMapAMapMarkerEvent();
 
   constructor(map: AMap.Map) {
     this.zoom = map.getZoom();
     this.layer = this.init(map);
-    this.info = new SystemAMapShopInfoController(map);
+    this.info = new IASMapAMapInfoController(map);
   }
 
   private layer: AMap.LabelsLayer;
-  private info: SystemAMapShopInfoController;
-  private points: ISystemAMapShopLabelMarkerController[] = [];
+  private info: IASMapAMapInfoController;
+  private points: SystemAMapShopLabelMarkerController[] = [];
   private zoom: number;
 
   private init(map: AMap.Map) {
     let layer = new AMap.LabelsLayer({
       collision: false,
       allowCollision: false,
-      zooms: SystemMapAMapConfig.icon.zooms,
+      zooms: IASMapAMapConfig.icon.zooms,
     });
     map.add(layer);
     return layer;
@@ -34,7 +31,7 @@ export class SystemAMapShopMarkerLayerController {
 
   private regist(point: SystemAMapShopLabelMarkerController) {
     point.event.mouseover.subscribe((data) => {
-      let info: ISystemAMapShopMarkerInfo = {
+      let info: IIASMapAMapInfo = {
         Name: data.Name,
       };
       if (data.Location) {
@@ -77,7 +74,7 @@ export class SystemAMapShopMarkerLayerController {
   }
 
   mouseover(data: IShop) {
-    let info: ISystemAMapShopMarkerInfo = {
+    let info: IIASMapAMapInfo = {
       Name: data.Name,
     };
     if (data.Location) {

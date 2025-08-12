@@ -1,0 +1,35 @@
+<div class="system-event-map-manager">
+  <ias-system-event-map-container
+    [records]="datas"
+    [over]="map.over"
+    [out]="map.out"
+    [focus]="map.focus"
+    (selected)="map.on.select($event)"
+  ></ias-system-event-map-container>
+
+  <div class="system-event-map-manager-filter panel-map">
+    <ias-system-event-map-panel-search
+      [args]="args"
+      (search)="on.search($event)"
+    ></ias-system-event-map-panel-search>
+  </div>
+  <div class="system-event-map-manager-list">
+    <ias-system-event-map-panel-record-table-manager
+      [datas]="datas"
+      [mode]="mode"
+      [selected]="table.selected"
+      (details)="table.on.details($event)"
+      (position)="table.on.position($event)"
+      (video)="table.on.video($event)"
+      (itemhover)="table.on.item.over($event)"
+      (itemblur)="table.on.item.out($event)"
+    ></ias-system-event-map-panel-record-table-manager>
+  </div>
+  <div class="system-event-map-manager-state">
+    <ias-system-event-map-panel-state
+      [datas]="datas"
+      [selecteds]="args.state"
+      (selectedsChange)="on.state($event)"
+    ></ias-system-event-map-panel-state>
+  </div>
+</div>

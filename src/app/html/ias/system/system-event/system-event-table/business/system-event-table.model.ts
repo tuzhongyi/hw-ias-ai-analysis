@@ -11,17 +11,18 @@ export interface ISystemEventTableArgs {
   state?: number;
   resource?: string;
   taskId?: string;
+  emergency?: number;
 }
 
 export class SystemEventTableArgs implements ISystemEventTableArgs {
   duration = DateTimeTool.last.month(new Date());
   types: ArmEventType[] = [];
   type?: ArmEventType;
-  emergency?: number;
   state?: number;
   resource?: string;
   taskId?: string;
   first = false;
+  emergency?: number;
 }
 
 export class SystemEventTableFilter implements ISystemEventTableArgs {
@@ -31,6 +32,7 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
   state?: number;
   resource?: string;
   taskId?: string;
+  emergency?: number;
   static from(args: ISystemEventTableArgs) {
     let filter = new SystemEventTableFilter();
     filter.duration = args.duration;
@@ -39,6 +41,7 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
     filter.resource = args.resource;
     filter.taskId = args.taskId;
     filter.types = args.types;
+    filter.emergency = args.emergency;
     return filter;
   }
 }

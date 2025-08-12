@@ -8,7 +8,11 @@ import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
 import { SystemEventHandleRequestService } from './handle/system-event-handle.service';
-import { GetMobileEventsParams } from './system-event.params';
+import {
+  GetMobileEventFileGpsItemsParams,
+  GetMobileEventFileParams,
+  GetMobileEventsParams,
+} from './system-event.params';
 
 export class SystemEventRequestService {
   constructor(private http: HowellHttpClient) {}
@@ -71,13 +75,13 @@ export class SystemEventRequestService {
   }
 
   record = {
-    file: (id: string) => {
-      return ArmSystemUrl.event.record.file(id);
+    file: (id: string, params: GetMobileEventFileParams) => {
+      return ArmSystemUrl.event.record.file(id, params);
     },
   };
   gps = {
-    items: (id: string, rectified?: boolean) => {
-      let url = ArmSystemUrl.event.gps.items(id, rectified);
+    items: (id: string, params: GetMobileEventFileGpsItemsParams) => {
+      let url = ArmSystemUrl.event.gps.items(id, params);
       return this.http.get<HowellResponse<FileGpsItem[]>>(url).then((x) => {
         return HowellResponseProcess.array(x, FileGpsItem);
       });

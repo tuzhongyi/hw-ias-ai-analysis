@@ -1,0 +1,71 @@
+.system-main-card-device-state {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: url(../../../../../../../assets/image/main/card/system-main-card-device-state.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 0 10%;
+  box-sizing: border-box;
+
+  &-item {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+    --color: white;
+    --color-background: white;
+    --color-begin: white;
+    --color-end: black;
+    --gradient-direction: left;
+
+    .online& {
+      --color: #23e353;
+
+      --color-background: #0e2519;
+      --color-begin: #23e353;
+      --color-end: #007e3a;
+    }
+
+    .offline& {
+      --color: #ff762c;
+      --color-background: #29180f;
+      --color-begin: #ff762c;
+      --color-end: #7d350f;
+      --gradient-direction: right;
+    }
+
+    &-info {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+
+      &-value {
+        font-size: 30px;
+        color: var(--color);
+      }
+    }
+
+    &-progress {
+      background-color: var(--color-background);
+      border-radius: 5px;
+      height: 10px;
+      width: 100%;
+      position: relative;
+
+      &-value {
+        position: absolute;
+        height: 100%;
+        border-radius: 5px;
+        background: linear-gradient(to var(--gradient-direction), var(--color-begin) 20%, var(--color-end) 80%);
+      }
+    }
+  }
+}

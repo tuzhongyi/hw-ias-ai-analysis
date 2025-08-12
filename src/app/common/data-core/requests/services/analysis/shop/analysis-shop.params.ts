@@ -1,14 +1,12 @@
 import { Transform } from 'class-transformer';
 import { ResultLabelType } from '../../../../enums/analysis/result-label-type.enum';
 import { ShopObjectState } from '../../../../enums/analysis/shop-object-state.enum';
-import {
-  GisPoints,
-  transformGisPoint,
-} from '../../../../models/arm/gis-point.model';
+import { GisPoints } from '../../../../models/arm/gis-point.model';
 import {
   IParams,
   PagedDurationParams,
 } from '../../../../models/params.interface';
+import { Transformer } from '../../../../models/transformer';
 
 export class GetShopsParams extends PagedDurationParams {
   /**	String[]	商铺ID列表	O	*/
@@ -24,7 +22,7 @@ export class GetShopsParams extends PagedDurationParams {
   /**	Double	置信度，0-1	O	*/
   Confidence?: number;
   /**	GisPoint	照片Gis坐标	D	*/
-  @Transform(transformGisPoint)
+  @Transform(Transformer.GisPoint)
   Location?: GisPoints;
   /**	Double	单位：米，必须与Location一起出现	D	*/
   LocationDistance?: number;

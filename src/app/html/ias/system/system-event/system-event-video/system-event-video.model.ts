@@ -1,3 +1,5 @@
 export interface SystemEventVideoArgs {
-  eventId: string;
+  channel?: number;
+  duration?: number;
+  rectified?: boolean;
 }

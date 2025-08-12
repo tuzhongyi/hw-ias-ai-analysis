@@ -1,0 +1,52 @@
+.system-main-card-event-statistic-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &-icon {
+    height: 100%;
+    aspect-ratio: 1;
+    background-image: url(../../../../../../../../assets/image/main/card/system-main-card-statistic-item-bg.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    &-content {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 66% 66%;
+
+      &.analysis {
+        background-image: url(../../../../../../../../assets/image/main/card/system-main-card-statistic-item-analysis.png);
+      }
+
+      &.shop {
+        background-image: url(../../../../../../../../assets/image/main/card/system-main-card-statistic-item-shop.png);
+      }
+
+      &.task {
+        background-image: url(../../../../../../../../assets/image/main/card/system-main-card-statistic-item-task.png);
+      }
+
+      &.realtime {
+        background-image: url(../../../../../../../../assets/image/main/card/system-main-card-statistic-item-realtime.png);
+      }
+    }
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: calc(100% - 40px - 10px);
+
+    &-value {
+      font-size: 24px;
+      color: #fff;
+    }
+  }
+}

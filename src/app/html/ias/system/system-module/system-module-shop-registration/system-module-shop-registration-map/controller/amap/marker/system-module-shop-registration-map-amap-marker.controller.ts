@@ -1,11 +1,11 @@
 import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { wait } from '../../../../../../../../../common/tools/wait';
-import { SystemAMapShopMarkerEvent } from '../../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-marker.model';
-import { SystemMapAMapConfig } from '../../../../../../system-map/component/controller/amap/system-map-amap.config';
+import { IASMapAMapConfig } from '../../../../../../../share/map/controller/amap/ias-map-amap.config';
+import { IASMapAMapMarkerEvent } from '../../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
 import { SystemModuleShopRegistrationMapAMapMarkerIconController } from './system-module-shop-registration-map-amap-marker-icon.controller';
 
-export class SystemModuleShopRegistrationMapAMapMarkerEvent extends SystemAMapShopMarkerEvent {
+export class SystemModuleShopRegistrationMapAMapMarkerEvent extends IASMapAMapMarkerEvent {
   dragging = new EventEmitter<IShop>();
   dragend = new EventEmitter<IShop>();
   remove = new EventEmitter<IShop>();
@@ -38,7 +38,7 @@ export class SystemModuleShopRegistrationMapAMapMarkerController {
         icon: this.icon.icon,
         position: [...position],
         title: data.Name,
-        zooms: SystemMapAMapConfig.icon.zooms,
+        zooms: IASMapAMapConfig.icon.zooms,
         offset: [-(this.icon.size[0] / 2), -this.icon.size[1]],
       });
       this.regist(marker);

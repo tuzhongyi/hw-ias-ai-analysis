@@ -5,13 +5,13 @@ import { ShopRegistration } from '../../../../../../../../common/data-core/model
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { ObjectTool } from '../../../../../../../../common/tools/object-tool/object.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
-import { SystemAMapShopInfoController } from '../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-info.controller';
-import { ISystemAMapShopMarkerInfo } from '../../../../../system-map/component/controller/amap/marker/system-map-amap-shop-marker.model';
+import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
+import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
+import { IASMapAMapRoadLabelController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road-label.controller';
+import { IASMapAMapRoadPolylineController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road-polyline.controller';
 import { SystemModuleShopRegistrationMapAMapChangedLayerController } from './changed/system-module-shop-registration-map-amap-changed-layer.controller';
 import { SystemModuleShopRegistrationMapAMapMarkerLayerController } from './marker/system-module-shop-registration-map-amap-marker-layer.controller';
 import { SystemModuleShopRegistrationMapAMapPointController } from './point/system-module-shop-registration-map-amap-point.controller';
-import { SystemModuleShopRegistrationMapAMapRoadLabelController } from './road/system-module-shop-registration-map-amap-road-label.controller';
-import { SystemModuleShopRegistrationMapAMapRoadPolylineController } from './road/system-module-shop-registration-map-amap-road-polyline.controller';
 
 @Injectable()
 export class SystemModuleShopRegistrationMapAMapController {
@@ -49,10 +49,8 @@ export class SystemModuleShopRegistrationMapAMapController {
   private loca = new PromiseValue<Loca.Container>();
   private controller = {
     road: {
-      polyline:
-        new PromiseValue<SystemModuleShopRegistrationMapAMapRoadPolylineController>(),
-      label:
-        new PromiseValue<SystemModuleShopRegistrationMapAMapRoadLabelController>(),
+      polyline: new PromiseValue<IASMapAMapRoadPolylineController>(),
+      label: new PromiseValue<IASMapAMapRoadLabelController>(),
     },
     point:
       new PromiseValue<SystemModuleShopRegistrationMapAMapPointController>(),
@@ -60,7 +58,7 @@ export class SystemModuleShopRegistrationMapAMapController {
       new PromiseValue<SystemModuleShopRegistrationMapAMapMarkerLayerController>(),
     changed:
       new PromiseValue<SystemModuleShopRegistrationMapAMapChangedLayerController>(),
-    info: new PromiseValue<SystemAMapShopInfoController>(),
+    info: new PromiseValue<IASMapAMapInfoController>(),
   };
 
   private init = {
@@ -72,12 +70,12 @@ export class SystemModuleShopRegistrationMapAMapController {
       if (container) {
         this.init.point(container);
       }
-      let info = new SystemAMapShopInfoController(map);
+      let info = new IASMapAMapInfoController(map);
       this.controller.info.set(info);
       this.init.marker(map, info);
       this.init.changed(map, info);
     },
-    marker: (map: AMap.Map, info: SystemAMapShopInfoController) => {
+    marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
       try {
         let controller =
           new SystemModuleShopRegistrationMapAMapMarkerLayerController(
@@ -106,7 +104,7 @@ export class SystemModuleShopRegistrationMapAMapController {
         console.error(error);
       }
     },
-    changed: (map: AMap.Map, info: SystemAMapShopInfoController) => {
+    changed: (map: AMap.Map, info: IASMapAMapInfoController) => {
       try {
         let controller =
           new SystemModuleShopRegistrationMapAMapChangedLayerController(
@@ -142,8 +140,7 @@ export class SystemModuleShopRegistrationMapAMapController {
     road: {
       polyline: (map: AMap.Map) => {
         try {
-          let controller =
-            new SystemModuleShopRegistrationMapAMapRoadPolylineController(map);
+          let controller = new IASMapAMapRoadPolylineController(map);
           this.controller.road.polyline.set(controller);
         } catch (error) {
           console.error(error);
@@ -151,8 +148,7 @@ export class SystemModuleShopRegistrationMapAMapController {
       },
       label: (map: AMap.Map) => {
         try {
-          let controller =
-            new SystemModuleShopRegistrationMapAMapRoadLabelController(map);
+          let controller = new IASMapAMapRoadLabelController(map);
           this.controller.road.label.set(controller);
         } catch (error) {
           console.error(error);
@@ -180,7 +176,7 @@ export class SystemModuleShopRegistrationMapAMapController {
       over: async (data?: IShop) => {
         this.controller.info.get().then((ctr) => {
           if (data && data.Location) {
-            let info: ISystemAMapShopMarkerInfo = {
+            let info: IIASMapAMapInfo = {
               Name: data.Name,
             };
             if (data.Location) {

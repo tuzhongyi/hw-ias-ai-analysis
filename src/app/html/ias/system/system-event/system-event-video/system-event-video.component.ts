@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ArmEventType } from '../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
@@ -11,6 +17,7 @@ import {
 } from '../../../share/map/ias-map.model';
 import { VideoPathComponent } from '../../../share/video-path/component/video-path.component';
 import { SystemEventVideoBusiness } from './business/system-event-video.business';
+import { SystemEventVideoArgs } from './system-event-video.model';
 
 @Component({
   selector: 'ias-system-event-video',
@@ -19,8 +26,9 @@ import { SystemEventVideoBusiness } from './business/system-event-video.business
   styleUrl: './system-event-video.component.less',
   providers: [SystemEventVideoBusiness],
 })
-export class SystemEventVideoComponent implements OnInit {
+export class SystemEventVideoComponent implements OnInit, OnChanges {
   @Input() data?: MobileEventRecord;
+  @Input() args: SystemEventVideoArgs = {};
   constructor(private business: SystemEventVideoBusiness) {}
 
   src?: string;
@@ -33,18 +41,27 @@ export class SystemEventVideoComponent implements OnInit {
       value: false,
       change: (value: boolean) => {
         this.map.rectified.value = value;
+        this.args.rectified = value;
         if (this.data) {
-          this.load.path(this.data.Id, value);
+          this.load.path(this.data.Id, this.args);
         }
       },
     },
   };
   count = 5;
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['args'] && !changes['args'].firstChange) {
+      if (this.data) {
+        this.src = this.business.file(this.data.Id, this.args);
+      }
+    }
+  }
+
   ngOnInit(): void {
     if (this.data) {
-      this.src = this.business.file(this.data.Id);
-      this.load.path(this.data.Id);
+      this.src = this.business.file(this.data.Id, this.args);
+      this.load.path(this.data.Id, this.args);
       this.load.point(this.data);
     }
   }
@@ -73,10 +90,10 @@ export class SystemEventVideoComponent implements OnInit {
         }
       }
     },
-    path: (id: string, rectified?: boolean) => {
+    path: (id: string, args: SystemEventVideoArgs) => {
       this.map.loading = true;
       this.business
-        .load(id, rectified)
+        .load(id, args)
         .then((items) => {
           this.map.items = items;
           this.map.loading = false;
@@ -86,7 +103,7 @@ export class SystemEventVideoComponent implements OnInit {
             if (this.count > 0) {
               this.count--;
               setTimeout(() => {
-                this.load.path(id);
+                this.load.path(id, args);
               }, 1000);
             } else {
               this.map.loading = false;

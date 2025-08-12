@@ -24,7 +24,7 @@ export class SourceEventManager {
         this.TriggerTypes.set(x.TriggerTypes);
       }
       if (x.EmergencyTypes) {
-        this.TriggerTypes.set(x.EmergencyTypes);
+        this.EmergencyTypes.set(x.EmergencyTypes);
       }
     });
   }

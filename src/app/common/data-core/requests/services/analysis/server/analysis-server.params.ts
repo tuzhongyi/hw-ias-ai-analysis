@@ -3,10 +3,7 @@ import {
   IParams,
   PagedDurationParams,
 } from '../../../../models/params.interface';
-import {
-  transformLatitude,
-  transformLongitude,
-} from '../../../../models/transformer';
+import { Transformer } from '../../../../models/transformer';
 
 export class GetAnalysisTaskListParams extends PagedDurationParams {
   /**	String	任务名称	O	*/
@@ -50,10 +47,10 @@ export class GetShopTaskStatisticParams implements IParams {
 }
 export class GetTaskRecordFileParams implements IParams {
   /**	Double	经度	M */
-  @Transform(transformLongitude)
+  @Transform(Transformer.Longitude)
   Longitude!: number;
   /**	Double	纬度	M */
-  @Transform(transformLatitude)
+  @Transform(Transformer.Latitude)
   Latitude!: number;
   /**	Int32	通道编号，从1开始1-5	O */
   Channel?: number;

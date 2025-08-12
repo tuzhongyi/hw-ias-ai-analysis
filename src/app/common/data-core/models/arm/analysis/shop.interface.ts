@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
-import { IIdNameModel } from '../../model.interface';
+import { IIdNameLocationModel } from '../../model.interface';
 import { GisPoints } from '../gis-point.model';
 
-export interface IShop extends IIdNameModel {
+export interface IShop extends IIdNameLocationModel {
   /**	String	商铺ID	M	*/
   Id: string;
   /**	String	商铺名称	M	*/

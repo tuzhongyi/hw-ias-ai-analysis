@@ -1,11 +1,8 @@
 import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
-import { ISystemAMapShopIconController } from './system-map-amap-shop-marker.model';
 
-export class SystemAMapShopIconController
-  implements ISystemAMapShopIconController
-{
+export class SystemAMapShopIconController {
   private size(selected = false): [number, number] {
     if (selected) {
       return [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.width * 0.7];

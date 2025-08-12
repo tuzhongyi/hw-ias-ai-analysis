@@ -1,7 +1,7 @@
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
 import { IIdNameModel } from '../../model.interface';
-import { transformDateTime } from '../../transformer';
+import { Transformer } from '../../transformer';
 import { GisPoint } from '../gis-point.model';
 
 /**	Road (道路信息)	*/
@@ -20,10 +20,10 @@ export class Road implements IIdNameModel {
   @Type(() => GisPoint)
   GeoLine?: GisPoint[];
   /**	DateTime	创建时间	M */
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   CreationTime!: Date;
   /**	DateTime	更新时间	M */
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   UpdateTime!: Date;
 
   /**	String	省、直辖市	O */

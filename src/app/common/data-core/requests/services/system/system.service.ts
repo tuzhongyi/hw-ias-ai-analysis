@@ -13,6 +13,7 @@ import { SystemDeviceRequestService } from './device/system-device.service';
 import { SystemEventRequestService } from './event/system-event.service';
 import { SystemFileRequestService } from './file/system-file.service';
 import { SystemInputProxyRequestService } from './input-proxy/system-input-proxy.service';
+import { SystemMobileDeviceRequestService } from './mobile/system-mobile-device.service';
 import { SystemNetworkRequestService } from './network/system-network.service';
 import { SystemSecurityRequestService } from './security/system-security.service';
 import { SystemTimeRequestService } from './time/system-time.service';
@@ -126,5 +127,15 @@ export class ArmSystemRequestService {
       this._event = new SystemEventRequestService(this.http);
     }
     return this._event;
+  }
+
+  private _mobile?: { device: SystemMobileDeviceRequestService };
+  public get mobile(): { device: SystemMobileDeviceRequestService } {
+    if (!this._mobile) {
+      this._mobile = {
+        device: new SystemMobileDeviceRequestService(this.http),
+      };
+    }
+    return this._mobile;
   }
 }

@@ -1,0 +1,68 @@
+.system-module-shop-registration-map-panel-shop-table {
+  height: 100%;
+  width: 100%;
+
+  transition: all 0.5s;
+
+  @foot-height: 40px;
+
+  &-body {
+    height: calc(100% - @foot-height);
+
+    table {
+      border: none;
+
+      thead {
+        tr {
+          th {
+            height: 40px;
+
+            select {
+              padding-left: 2px;
+              background-position: right 0px center;
+            }
+
+            &:first-child {
+              padding-left: 10px;
+            }
+          }
+        }
+      }
+
+      tbody {
+        border: none;
+
+        tr {
+          td {
+            &:first-child {
+              padding-left: 10px;
+            }
+
+            .operation {
+              gap: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    width: 100%;
+
+    &>* {
+      width: 100%;
+    }
+
+    ::ng-deep {
+      .paginator {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}

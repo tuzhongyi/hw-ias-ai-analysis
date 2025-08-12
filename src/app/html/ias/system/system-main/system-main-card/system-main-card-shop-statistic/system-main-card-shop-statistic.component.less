@@ -1,0 +1,70 @@
+.system-main-card-shop-statistic {
+  width: 100%;
+  height: 100%;
+  background-image: url(../../../../../../../assets/image/main/card/system-main-card-shop-statistic.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-content {
+    height: 100%;
+    aspect-ratio: 395/263;
+    position: relative;
+
+  }
+
+  &-item {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &-value {
+      font-size: 20px;
+      height: 24px;
+    }
+
+    &-name {
+      white-space: nowrap;
+      font-size: 12px;
+
+    }
+
+
+    &.cyan {
+      top: 50%;
+      left: 50%;
+      transform: translate(-40%, -50%);
+      width: calc(100% * (100 / 395));
+      aspect-ratio: 1;
+
+    }
+
+    &.blue {
+      width: calc(100% * (80 / 395));
+      aspect-ratio: 1;
+      top: 18%;
+      left: 7%;
+    }
+
+    &.orange {
+      width: calc(100% * (70 / 395));
+      aspect-ratio: 1;
+      bottom: 10%;
+      right: 15%;
+    }
+
+    &.green {
+      width: calc(100% * (80 / 395));
+      aspect-ratio: 1;
+      top: 10%;
+      right: 6%;
+    }
+  }
+
+
+}

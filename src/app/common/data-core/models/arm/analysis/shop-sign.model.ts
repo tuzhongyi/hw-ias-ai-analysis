@@ -3,8 +3,8 @@
 import { Transform } from 'class-transformer';
 import 'reflect-metadata';
 import { IIdModel } from '../../model.interface';
-import { transformDateTime } from '../../transformer';
-import { GisPoints, transformGisPoint } from '../gis-point.model';
+import { Transformer } from '../../transformer';
+import { GisPoints } from '../gis-point.model';
 import { HowellPoint } from '../point.model';
 
 export class ShopSign implements IIdModel {
@@ -20,14 +20,14 @@ export class ShopSign implements IIdModel {
 
   Confidence?: number;
   /**	DateTime	发现时间	M	*/
-  @Transform(transformDateTime)
+  @Transform(Transformer.DateTime)
   Time!: Date;
   /**	String	图片地址	O	*/
   ImageUrl?: string;
   /**	Point[]	招牌多边形在图片上的归一化坐标	O	*/
   Polygon?: HowellPoint[];
   /**	GisPoint	照片Gis坐标	O	*/
-  @Transform(transformGisPoint)
+  @Transform(Transformer.GisPoint)
   Location?: GisPoints;
   /**	Int32	用户分组ID	O	*/
   GroupId?: number;

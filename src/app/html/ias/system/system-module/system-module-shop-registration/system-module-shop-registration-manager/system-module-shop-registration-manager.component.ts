@@ -9,7 +9,6 @@ import {
 } from '../../../../../../common/components/upload-control/upload-control.model';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import {
   Page,
   Paged,
@@ -76,7 +75,6 @@ export class SystemModuleShopRegistrationManagerComponent {
     },
     loaded: (datas: ShopRegistration[]) => {
       this.datas = datas;
-      this.map.load(datas);
     },
   };
 
@@ -150,12 +148,6 @@ export class SystemModuleShopRegistrationManagerComponent {
   };
 
   map = {
-    points: [] as GisPoint[],
-    load: (datas: ShopRegistration[]) => {
-      this.map.points = datas
-        .filter((x) => x.Location)
-        .map((x) => x.Location!.GCJ02);
-    },
     picture: (data: ShopRegistration) => {
       let paged = Paged.create(data, 1, 1);
       this.table.picture.on(paged);

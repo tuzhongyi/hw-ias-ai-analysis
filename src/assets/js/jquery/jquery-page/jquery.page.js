@@ -20,13 +20,13 @@ import "./jquery.page.css";
     };
     if (options.display) {
       if (options.display.totalNum === false) {
-        this.options.display = options.display.totalNum;
+        this.options.display.totalNum = options.display.totalNum;
       }
       if (options.display.totalList === false) {
-        this.options.display = options.display.totalNum;
+        this.options.display.totalList = options.display.totalList;
       }
       if (options.display.jump === false) {
-        this.options.display = options.display.totalNum;
+        this.options.display.jump = options.display.jump;
       }
     }
     this.init();

@@ -8,21 +8,9 @@ export class SystemTaskManagerFileBusiness {
   constructor(private service: ArmSystemRequestService) {}
 
   async upload(file: UploadControlFile, progress: EventEmitter<FileProgress>) {
-    let data = this.convert(file);
-    return this.service.file.upload(data, (value: number) => {
+    return this.service.file.upload(file, (value: number) => {
       let args = { filename: file.filename, progress: value };
       progress.emit(args);
     });
-  }
-
-  private convert(file: UploadControlFile): FormData {
-    let form = document.createElement('form') as HTMLFormElement;
-    form.name = file.filename;
-    let data = new FormData(form);
-    let blob = new Blob([file.data as ArrayBuffer], {
-      type: 'video/x-matroska',
-    });
-    data.append('file', blob, file.filename);
-    return data;
   }
 }
