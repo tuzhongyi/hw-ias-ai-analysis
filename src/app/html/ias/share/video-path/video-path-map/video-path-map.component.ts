@@ -82,7 +82,7 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
       this.load.path(this.datas);
     }
     if (this.points.length > 0) {
-      this.load.point(this.points, this.args);
+      this.load.point(this.points, this.args, this.datas.length == 0);
     }
   }
 
@@ -97,9 +97,16 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
           this.error.emit(e);
         });
     },
-    point: (datas: GisPoint[], args: MapMarker) => {
+    point: async (
+      datas: GisPoint[],
+      args: MapMarker,
+      fitview: boolean = false
+    ) => {
       try {
-        this.controller.point.load(datas, args);
+        let points = await this.controller.point.load(datas, args);
+        if (fitview) {
+          this.controller.fit.view();
+        }
       } catch (e: any) {
         this.error.emit(e);
       }

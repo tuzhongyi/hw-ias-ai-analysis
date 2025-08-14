@@ -40,4 +40,6 @@ export class MobileDevice implements IIdNameModel {
   GroupGuid?: string;
   /**	String	分组名称	O	*/
   GroupName?: string;
+  /**	String	区划ID，（街道、网格）	O */
+  DivisionId?: string;
 }

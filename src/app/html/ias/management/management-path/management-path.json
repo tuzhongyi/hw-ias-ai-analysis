@@ -83,6 +83,22 @@
       }
     ]
   },
+  "device": {
+    "path": "management/device",
+    "name": "设备",
+    "children": [
+      {
+        "path": "management/device/mobile",
+        "name": "前端设备",
+        "children": [
+          {
+            "path": "management/device/mobile/manager",
+            "name": "前端设备列表"
+          }
+        ]
+      }
+    ]
+  },
   "user": {
     "path": "management/user",
     "name": "用户",

@@ -1,0 +1,30 @@
+.management-device-mobile-table {
+  height: 100%;
+  width: 100%;
+  transition: all 0.5s;
+
+  @foot-height: 60px;
+
+  &-body {
+    height: calc(100% - @foot-height);
+
+    .image {
+      height: 80%;
+    }
+
+    .noimage {
+      height: 100%;
+    }
+
+    .lock {
+      color: #2ac2e1;
+    }
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

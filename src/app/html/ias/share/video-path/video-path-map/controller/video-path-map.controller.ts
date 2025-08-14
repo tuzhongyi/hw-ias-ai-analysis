@@ -21,10 +21,9 @@ export class VideoPathMapController {
   };
 
   point = {
-    load: (datas: GisPoint[], args: IIASMapArgs) => {
-      this.amap.point.get().then((x) => {
-        x.load(datas, args);
-      });
+    load: async (datas: GisPoint[], args: IIASMapArgs) => {
+      let ctr = await this.amap.point.get();
+      return ctr.load(datas, args);
     },
     clear: async () => {
       let point = await this.amap.point.get();
@@ -145,6 +144,14 @@ export class VideoPathMapController {
       }
     });
   }
+
+  fit = {
+    view: () => {
+      setTimeout(() => {
+        this.amap.fit.view(true);
+      }, 2 * 1000);
+    },
+  };
 
   destroy() {
     this.amap.destroy();

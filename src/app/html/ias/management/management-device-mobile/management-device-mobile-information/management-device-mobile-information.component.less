@@ -1,0 +1,99 @@
+.system-module-mobile-data-information {
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+
+  @foot-height: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @foot-height - 15px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    @content-height: 383px; //calc(1px * 2 + 15px * 2 + 28px + 15px + 308px);
+
+    &-content {
+      width: 100%;
+      height: @content-height;
+
+      .form {
+        &s {
+          flex-wrap: wrap;
+        }
+
+        &-item {
+          width: calc((100% - 20px) * 0.5);
+
+          &.right {
+            .form-item-text {
+              width: 95px;
+            }
+          }
+
+          &-value {
+            hw-select {
+              width: 100%;
+              height: 36px;
+            }
+          }
+
+
+        }
+      }
+    }
+
+    &-token {
+      width: calc((100% - 10px) * 0.5);
+      height: calc(100% - @content-height - 10px);
+
+      .form {
+        &s {
+          flex-direction: column;
+        }
+      }
+    }
+
+    &-map {
+      width: calc((100% - 10px) * 0.5);
+      height: calc(100% - @content-height - 10px);
+      padding: 0;
+      display: block !important;
+    }
+
+    .form {
+      &-item {
+        &-text {
+          width: 80px;
+
+          &>.name {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+  }
+
+
+
+  &-foot {
+    width: 100%;
+    height: @foot-height;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+  }
+}

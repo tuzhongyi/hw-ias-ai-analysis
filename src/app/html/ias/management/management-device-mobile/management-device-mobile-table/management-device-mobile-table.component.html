@@ -1,0 +1,102 @@
+<div class="management-device-mobile-table">
+  <div class="management-device-mobile-table-body table-page">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="on.sort($event)"
+    >
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">
+            <input
+              type="checkbox"
+              [checked]="
+                selecteds.length > 0 && selecteds.length === page.RecordCount
+              "
+              (click)="select.all()"
+            />
+          </th>
+          <th class="center">序号</th>
+          <th sort="Name">名称</th>
+          <th sort="SerialNumber">序列号</th>
+          <th sort="GroupName">用户分组</th>
+          <th sort="OnlineStatus">在线状态</th>
+          <th sort="LastOnlineTime">最后在线时间</th>
+          <th sort="Description">描述</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="select.on(item)"
+          [ngClass]="{
+            selected: item && selecteds.includes(item),
+            nodata: !item
+          }"
+          [ngStyle]="{
+            height: item ? 100 / page.PageSize + '%' : 0
+          }"
+        >
+          <td class="center">
+            <input
+              type="checkbox"
+              *ngIf="item"
+              [checked]="selecteds.includes(item)"
+            />
+          </td>
+          <td class="center">
+            <div *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </div>
+          </td>
+
+          <td [title]="item?.Name">
+            {{ item?.Name }}
+          </td>
+          <td [title]="item?.SerialNumber ?? ''">
+            {{ item?.SerialNumber }}
+          </td>
+          <td [title]="item?.GroupName ?? ''">
+            {{ item?.GroupName }}
+          </td>
+          <td>
+            @if(item){ @if(item.OnlineStatus == 0){
+            <span [style.color]="Color.green">在线</span>
+            } @else{
+            <span [style.color]="Color.red">离线</span>
+            } }
+          </td>
+          <td>
+            {{ item?.LastOnlineTime | date : "yyyy-MM-dd HH:mm:ss" }}
+          </td>
+          <td [title]="item?.Description ?? ''">
+            {{ item?.Description }}
+          </td>
+
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="商铺详细信息"
+                (click)="on.info(item, $event)"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  @if(page.TotalRecordCount){
+  <div class="management-device-mobile-table-foot">
+    <paginator [page]="page" (change)="on.page($event)"> </paginator>
+  </div>
+  }
+</div>

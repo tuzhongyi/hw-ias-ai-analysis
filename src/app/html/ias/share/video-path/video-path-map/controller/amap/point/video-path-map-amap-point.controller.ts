@@ -8,12 +8,12 @@ export class VideoPathMapAMapPointController {
   private points: IASMapAMapPointController[] = [];
 
   load(datas: GisPoint[], args: IIASMapArgs) {
-    this.points = datas.map((x) => {
+    return (this.points = datas.map((x) => {
       let point = new IASMapAMapPointController();
       let marker = point.set(x, args);
       this.map.add(marker);
       return point;
-    });
+    }));
   }
   async clear() {
     for (let i = 0; i < this.points.length; i++) {

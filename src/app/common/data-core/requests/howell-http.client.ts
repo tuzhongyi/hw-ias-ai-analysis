@@ -133,20 +133,24 @@ export class HowellHttpClient {
   }
 
   private async result<R>(result: Observable<R>) {
-    return firstValueFrom(result)
-      .then((x) => {
-        return x;
-      })
-      .catch((e) => {
-        if (e.status == 401) {
-          this.router.navigateByUrl(RoutePath.login);
-        }
-        if (e.status == 200) {
-          if (e.error && e.error.text) {
-            return e.error.text as R;
+    return new Promise<R>((resolve, reject) => {
+      firstValueFrom(result)
+        .then((x) => {
+          resolve(x);
+        })
+        .catch((e) => {
+          if (e.status == 401) {
+            this.router.navigateByUrl(RoutePath.login);
+            let error = new Error('未授权，请重新登录');
+            reject(error);
+          } else if (e.status == 200) {
+            if (e.error && e.error.text) {
+              resolve(e.error.text as R);
+            }
+          } else {
+            reject(e);
           }
-        }
-        throw e;
-      });
+        });
+    });
   }
 }

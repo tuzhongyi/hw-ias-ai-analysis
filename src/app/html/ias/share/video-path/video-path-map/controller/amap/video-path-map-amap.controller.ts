@@ -34,4 +34,12 @@ export class VideoPathMapAMapController {
       this.map.clear();
     });
   }
+
+  fit = {
+    view: (immediately?: boolean) => {
+      this.map.get().then((x) => {
+        x.setFitView(undefined, immediately);
+      });
+    },
+  };
 }

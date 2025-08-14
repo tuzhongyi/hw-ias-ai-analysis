@@ -26,7 +26,7 @@ class SystemMobileDeviceUrl extends AbstractUrl {
   alive(key: string) {
     return `${this.item(key)}/Alive`;
   }
-  excel(key: string) {
+  excel() {
     return `${this.basic()}/Excels`;
   }
   file = {

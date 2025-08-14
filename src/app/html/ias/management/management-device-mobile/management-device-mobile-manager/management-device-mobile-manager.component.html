@@ -1,0 +1,90 @@
+<div class="management-device-mobile-manager root-router">
+  <div class="management-device-mobile-manager-head">
+    <div class="management-device-mobile-manager-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">用户分组</div>
+          <div class="form-item-value text">
+            <select [(ngModel)]="table.args.group">
+              <option [ngValue]="undefined">全部</option>
+              <option
+                *ngFor="let item of group.source"
+                [ngValue]="item.GroupId"
+              >
+                {{ item.GroupName }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">在线状态</div>
+          <div class="form-item-value text">
+            <select [(ngModel)]="table.args.online">
+              <option [ngValue]="undefined">全部</option>
+              <option [ngValue]="0">在线</option>
+              <option [ngValue]="1">离线</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">商铺名称</div>
+          <div class="form-item-value text">
+            <input type="text" [(ngModel)]="table.args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient" (click)="table.search()">
+            查找
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="button-group">
+      <button
+        class="button-clip-gradient"
+        [disabled]="table.selecteds.length == 0"
+        (click)="delete.on()"
+      >
+        删除
+      </button>
+      <button class="button-clip-gradient" (click)="create.open()">添加</button>
+      <upload-control
+        [accept]="file.upload.accept"
+        [type]="file.upload.type"
+        (upload)="file.upload.do($event)"
+      >
+        <button class="button-clip-gradient" [disabled]="file.upload.loading">
+          {{ file.upload.name }}
+        </button>
+      </upload-control>
+    </div>
+  </div>
+  <div class="management-device-mobile-manager-body">
+    <ias-management-device-mobile-table
+      [args]="table.args"
+      [load]="table.load"
+      [(selecteds)]="table.selecteds"
+      (info)="table.on.info($event)"
+    ></ias-management-device-mobile-table>
+  </div>
+  <ias-window
+    [Model]="window.information"
+    *ngIf="window.information.show"
+    [style]="window.information.style"
+    [title]="window.information.title"
+  >
+    <ias-management-device-mobile-information
+      [data]="window.information.data"
+      (close)="window.information.show = false"
+      (ok)="create.ok()"
+    ></ias-management-device-mobile-information>
+  </ias-window>
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="delete.to()"
+    (cancel)="window.confirm.show = false"
+  >
+  </confirm-window>
+</div>

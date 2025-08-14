@@ -42,11 +42,16 @@ export class SystemMobileDeviceRequestService {
       return HowellResponseProcess.item(x, MobileDevice);
     });
   }
+  async delete(id: string) {
+    let url = ArmSystemUrl.mobile.device.item(id);
+    return this.http.delete<HowellResponse<MobileDevice>>(url).then((x) => {
+      return HowellResponseProcess.item(x, MobileDevice);
+    });
+  }
 
   async update(data: MobileDevice) {
     let url = ArmSystemUrl.mobile.device.item(data.Id);
     let plain = instanceToPlain(data);
-    console.log('update:', plain);
     return this.http
       .put<any, HowellResponse<MobileDevice>>(url, plain)
       .then((x) => {
@@ -75,4 +80,25 @@ export class SystemMobileDeviceRequestService {
     } while (index <= paged.Page.PageCount);
     return data;
   }
+
+  excel = {
+    upload: async (
+      data: ArrayBuffer,
+      progress?: (x: number) => void,
+      completed?: () => void
+    ) => {
+      let url = ArmSystemUrl.mobile.device.excel();
+      this.http
+        .upload<ArrayBuffer, HowellResponse<string>>(url, data, {
+          process: progress,
+          completed: completed,
+        })
+        .then((x) => {
+          if (x.FaultCode === 0) {
+            return x.Data;
+          }
+          throw new Error(`${x.FaultCode}:${x.FaultReason}`);
+        });
+    },
+  };
 }

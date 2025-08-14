@@ -69,13 +69,15 @@ export class SystemEventVideoComponent implements OnInit, OnChanges {
   load = {
     point: (data: MobileEventRecord) => {
       let args = new MapMarker();
-      args.type = MapMarkerType.shop;
+
       switch (data.EventType) {
         case ArmEventType.ShopSignDisappeared:
           args.color = MapMarkerShopColor.orange;
+          args.type = MapMarkerType.shop;
           break;
         case ArmEventType.ShopSignCreated:
           args.color = MapMarkerShopColor.green;
+          args.type = MapMarkerType.shop;
           break;
 
         default:
@@ -83,11 +85,8 @@ export class SystemEventVideoComponent implements OnInit, OnChanges {
       }
       this.map.args = args;
 
-      if (data.Resources && data.Resources.length > 0) {
-        let resource = data.Resources[0];
-        if (resource.Location) {
-          this.map.points = [resource.Location.GCJ02];
-        }
+      if (data.Location) {
+        this.map.points = [data.Location.GCJ02];
       }
     },
     path: (id: string, args: SystemEventVideoArgs) => {

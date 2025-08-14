@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
+import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
@@ -39,6 +40,7 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
     SystemEventVideoComponent,
     WindowComponent,
     WindowConfirmComponent,
+    HowellSelectComponent,
     PictureListComponent,
     SystemEventProcessDetailsComponent,
     SystemEventProcessRealtimeComponent,
@@ -102,7 +104,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit {
         if (data.Resources && data.Resources.length > 0) {
           let resource = data.Resources[0];
           this.window.video.title = `${resource.ResourceName} ${name}`;
-          this.window.video.args.channel = resource.PositionNo;
+          // this.window.video.args.channel = resource.PositionNo;
         }
         this.window.video.data = data;
         this.window.video.show = true;

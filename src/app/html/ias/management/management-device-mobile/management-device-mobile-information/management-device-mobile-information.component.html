@@ -1,0 +1,148 @@
+<div class="system-module-mobile-data-information">
+  <div class="system-module-mobile-data-information-body">
+    <div class="system-module-mobile-data-information-body-content panel">
+      <div class="panel-head">
+        <div class="panel-title">基本信息</div>
+      </div>
+      <div class="forms">
+        <div class="form-item full">
+          <div class="form-item-text">
+            <div class="name" text-space-between>设备名称</div>
+            <div class="must">*</div>
+          </div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="data.Name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">
+            <div class="name" text-space-between>设备序列号</div>
+            <div class="must">*</div>
+          </div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="data.SerialNumber" />
+          </div>
+        </div>
+        <div class="form-item right">
+          <div class="form-item-text">
+            <div class="name" text-space-between>设备类型</div>
+          </div>
+          <div class="form-item-value">
+            <select [(ngModel)]="data.DeviceType">
+              <option [ngValue]="1">巡逻车辆</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">
+            <div class="name" text-space-between>用户分组</div>
+            <div class="must">*</div>
+          </div>
+          <div class="form-item-value">
+            <hw-select [nullable]="false" [selected]="group.selected">
+              <select [(ngModel)]="group.selected" (change)="group.change()">
+                <option *ngFor="let item of group.source" [ngValue]="item">
+                  {{ item.GroupName }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item right">
+          <div class="form-item-text">
+            <div class="name" text-space-between>区划编号</div>
+          </div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="data.DivisionId" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">
+            <div class="name" text-space-between>在线状态</div>
+          </div>
+          <div class="form-item-value">
+            <input
+              disabled
+              type="text"
+              [value]="data.OnlineStatus == 0 ? '在线' : '离线'"
+            />
+          </div>
+        </div>
+        <div class="form-item right">
+          <div class="form-item-text">
+            <div class="name" text-space-between>最后在线时间</div>
+          </div>
+          <div class="form-item-value">
+            <input
+              disabled
+              type="text"
+              [value]="data.LastOnlineTime | date : Language.yyyyMMddHHmmss"
+            />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">
+            <div class="name" text-space-between>创建时间</div>
+          </div>
+          <div class="form-item-value">
+            <input
+              disabled
+              type="text"
+              [value]="data.CreationTime | date : Language.yyyyMMddHHmmss"
+            />
+          </div>
+        </div>
+        <div class="form-item right">
+          <div class="form-item-text">
+            <div class="name" text-space-between>修改时间</div>
+          </div>
+          <div class="form-item-value">
+            <input
+              disabled
+              type="text"
+              [value]="data.UpdateTime | date : Language.yyyyMMddHHmmss"
+            />
+          </div>
+        </div>
+        <div class="form-item full">
+          <div class="form-item-text baseline">
+            <div class="name" text-space-between>描述信息</div>
+          </div>
+          <div class="form-item-value">
+            <textarea [(ngModel)]="data.Description"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="system-module-mobile-data-information-body-token panel">
+      <div class="panel-head">
+        <div class="panel-title">接入Token</div>
+      </div>
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text" text-space-between>数值</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="data.AccessToken" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text" text-space-between>创建时间</div>
+          <div class="form-item-value">
+            <input
+              disabled
+              type="text"
+              [value]="data.AccessTokenTime | date : Language.yyyyMMddHHmmss"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="system-module-mobile-data-information-body-map panel">
+      <ias-map [location]="data.Location?.GCJ02"></ias-map>
+    </div>
+  </div>
+  <div class="system-module-mobile-data-information-foot">
+    <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+    <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+  </div>
+</div>

@@ -3,6 +3,7 @@ export class ManagementPathRoot {
   system!: ManagementPathNode;
   network!: ManagementPathNode;
   record!: ManagementPathNode;
+  device!: ManagementPathNode;
   user!: ManagementPathNode;
 }
 

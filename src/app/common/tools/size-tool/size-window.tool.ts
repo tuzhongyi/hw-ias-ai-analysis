@@ -18,6 +18,10 @@ export class SizeWindowTool {
     width: '56%',
     height: '80%',
   };
+  simple = {
+    width: '500px',
+    height: 'auto',
+  };
 
   video = {
     path: {

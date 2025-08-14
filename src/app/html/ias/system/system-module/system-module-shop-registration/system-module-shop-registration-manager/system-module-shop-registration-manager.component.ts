@@ -14,7 +14,6 @@ import {
   Paged,
 } from '../../../../../../common/data-core/models/page-list.model';
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
-import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopRegistrationDownloadManagerComponent } from '../system-module-shop-registration-download-manager/system-module-shop-registration-download-manager.component';
@@ -37,7 +36,6 @@ import { SystemModuleShopRegistrationManagerWindow } from './system-module-shop-
     WindowConfirmComponent,
     WindowComponent,
     PictureListComponent,
-    IASMapComponent,
     SystemModuleShopRegistrationMapManagerComponent,
     SystemModuleShopRegistrationDownloadManagerComponent,
   ],

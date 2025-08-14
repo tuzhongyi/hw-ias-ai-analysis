@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { plainToInstance } from 'class-transformer';
 import json from '../management/management-path/management-path.json';
 import { ManagementComponent } from './component/management.component';
+import { ManagementDeviceMobileManagerComponent } from './management-device-mobile/management-device-mobile-manager/management-device-mobile-manager.component';
 import { ManagementNetworkLocationSSHComponent } from './management-network-location-ssh/management-network-location-ssh.component';
 import { ManagementNetworkLocationTcpIpComponent } from './management-network-location-tcpip/management-network-location-tcpip.component';
 import { ManagementPathRoot } from './management-path/management.path';
@@ -142,6 +143,31 @@ const routes: Routes = [
               {
                 path: 'manager',
                 component: ManagementRecordFileManagerComponent,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: 'device',
+        component: ManagementTabIndexComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'mobile',
+            pathMatch: 'full',
+          },
+          {
+            path: 'mobile',
+            children: [
+              {
+                path: '',
+                redirectTo: 'manager',
+                pathMatch: 'full',
+              },
+              {
+                path: 'manager',
+                component: ManagementDeviceMobileManagerComponent,
               },
             ],
           },
