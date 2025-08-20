@@ -31,10 +31,25 @@ export class PathImageMapTool {
     red: '/assets/image/map/point-red.png',
   };
   alarm = {
-    blue: '/assets/image/map/marker/marker-alarm-blue.png',
-    cyan: '/assets/image/map/marker/marker-alarm-cyan.png',
-    green: '/assets/image/map/marker/marker-alarm-green.png',
-    orange: '/assets/image/map/marker/marker-alarm-orange.png',
-    red: '/assets/image/map/marker/marker-alarm-red.png',
+    icon: {
+      blue: '/assets/image/map/marker/marker-alarm-blue.png',
+      cyan: '/assets/image/map/marker/marker-alarm-cyan.png',
+      green: '/assets/image/map/marker/marker-alarm-green.png',
+      orange: '/assets/image/map/marker/marker-alarm-orange.png',
+      red: '/assets/image/map/marker/marker-alarm-red.png',
+    },
+
+    breath: {
+      red: '/assets/image/map/breath_red.png',
+    },
+    info: {
+      red: '/assets/image/map/map-alarm-info.png',
+    },
+  };
+  device = {
+    mobile: {
+      online: '/assets/image/map/marker/marker-device-mobile-online.png',
+      offline: '/assets/image/map/marker/marker-device-mobile-offline.png',
+    },
   };
 }

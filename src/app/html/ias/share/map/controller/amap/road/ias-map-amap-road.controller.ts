@@ -39,16 +39,19 @@ export class IASMapAMapRoadController {
   async load(datas: Road[]) {
     let polyline = await this.controller.polyline.get();
     let label = await this.controller.label.get();
+    let polylines: AMap.Polyline[] = [];
     datas.forEach((data) => {
       if (data.GeoLine) {
         let points = data.GeoLine.map<[number, number]>((x) => [
           x.Longitude,
           x.Latitude,
         ]);
-        polyline.add(data.Id, points);
+        let item = polyline.add(data.Id, points);
+        polylines.push(...item);
         label.add(data);
       }
     });
+    return polylines;
   }
   select(road: Road) {
     this.controller.polyline.get().then((x) => {

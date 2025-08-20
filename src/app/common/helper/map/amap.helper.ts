@@ -31,7 +31,8 @@ export class AMapHelper {
   async get(
     id: string,
     plugins = this.plugins,
-    loca = false
+    loca = false,
+    opts: any = {}
   ): Promise<AMap.Map> {
     return this.init(plugins, loca).then((AMap) => {
       return new AMap.Map(id, {
@@ -40,6 +41,7 @@ export class AMapHelper {
         showIndoorMap: false,
         zooms: [3, 26],
         zoom: 17,
+        ...opts,
       });
     });
   }

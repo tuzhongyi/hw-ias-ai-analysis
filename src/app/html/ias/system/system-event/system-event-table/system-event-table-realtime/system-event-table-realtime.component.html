@@ -47,7 +47,7 @@
                     ? 'url(' + picture.get(resource.ImageUrl) + ')'
                     : 'none'
                 }"
-                (click)="picture.on($event, item)"
+                (click)="picture.on($event, item, i)"
               ></div>
             </div>
           </td>

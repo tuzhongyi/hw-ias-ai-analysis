@@ -1,10 +1,10 @@
 import { Transform } from 'class-transformer';
-import { IIdNameModel } from '../../model.interface';
+import { IIdNameLocationModel } from '../../model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoints } from '../gis-point.model';
 
 /**	MobileDevice (移动设备信息)	*/
-export class MobileDevice implements IIdNameModel {
+export class MobileDevice implements IIdNameLocationModel {
   /**	String	设备唯一标识符	M	*/
   Id!: string;
   /**	String	设备名称	M	*/

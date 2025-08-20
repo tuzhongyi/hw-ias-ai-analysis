@@ -4,8 +4,12 @@ import { ContainerPageComponent } from '../../../../../../common/components/cont
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
-import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import {
+  Page,
+  Paged,
+} from '../../../../../../common/data-core/models/page-list.model';
 import { AudioButtonComponent } from '../../../../share/audio/audio-button/audio-button.component';
+import { AudioSubtitleComponent } from '../../../../share/audio/audio-subtitle/audio-subtitle.component';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
@@ -19,6 +23,7 @@ import { SystemEventRecordDetailsComponent } from '../../system-event-record/sys
     IASMapComponent,
     SystemEventRecordDetailsComponent,
     AudioButtonComponent,
+    AudioSubtitleComponent,
   ],
   templateUrl: './system-event-process-realtime.component.html',
   styleUrl: './system-event-process-realtime.component.less',
@@ -26,6 +31,9 @@ import { SystemEventRecordDetailsComponent } from '../../system-event-record/sys
 export class SystemEventProcessRealtimeComponent implements OnInit {
   @Input() data?: MobileEventRecord;
   @Output() close = new EventEmitter<void>();
+  @Output('picture') _picture = new EventEmitter<Paged<MobileEventRecord>>();
+
+  constructor() {}
 
   ngOnInit(): void {
     if (this.data) {
@@ -61,6 +69,14 @@ export class SystemEventProcessRealtimeComponent implements OnInit {
         }
       },
     },
+    full: () => {
+      if (this.data) {
+        let paged = new Paged<MobileEventRecord>();
+        paged.Data = this.data;
+        paged.Page = Object.assign(new Page(), this.picture.page.data);
+        this._picture.emit(paged);
+      }
+    },
   };
   map = {
     load: (data: MobileEventRecord) => {
@@ -68,6 +84,20 @@ export class SystemEventProcessRealtimeComponent implements OnInit {
     },
     location: undefined as GisPoint | undefined,
     points: [] as GisPoint[],
+  };
+
+  audio = {
+    play: new EventEmitter<void>(),
+    progress: 0,
+    inited: () => {
+      this.audio.play.emit();
+    },
+    playing: (progress: number) => {
+      this.audio.progress = progress * 100;
+    },
+    stoped: () => {
+      this.audio.progress = 0;
+    },
   };
 
   on = {

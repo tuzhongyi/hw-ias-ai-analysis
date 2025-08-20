@@ -1,5 +1,6 @@
 <button class="button" (click)="on.play()">
   <i
+    [class.playing]="audio.playing"
     class="mdi"
     [ngClass]="{
       'mdi-volume-high': animation.index == 0,
@@ -7,4 +8,5 @@
       'mdi-volume-medium': animation.index == 2
     }"
   ></i>
+  <i *ngIf="audio.playing" class="stop mdi mdi-volume-off"></i>
 </button>

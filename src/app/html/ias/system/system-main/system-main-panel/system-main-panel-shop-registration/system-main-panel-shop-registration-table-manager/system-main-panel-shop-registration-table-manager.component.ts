@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { SystemMapSearchShopRoadArgs } from '../../../../system-map/system-map-search-shop-road/system-map-search-shop-road.model';
+import { SystemMainManagerShopArgs } from '../../../system-main-manager/business/system-main-manager.model';
 import { SystemMainPanelShopRegistrationSearchComponent } from '../system-main-panel-shop-registration-search/system-main-panel-shop-registration-search.component';
 import { SystemMainPanelShopRegistrationTableComponent } from '../system-main-panel-shop-registration-table/system-main-panel-shop-registration-table.component';
 
@@ -25,7 +26,7 @@ export class SystemMainPanelShopRegistrationTableManagerComponent {
   @Output() itemblur = new EventEmitter<IShop>();
   @Output() position = new EventEmitter<IShop>();
   @Output() close = new EventEmitter<void>();
-  @Output() filter = new EventEmitter<SystemMapSearchShopRoadArgs>();
+  @Output() filter = new EventEmitter<SystemMainManagerShopArgs>();
 
   on = {
     close: () => {

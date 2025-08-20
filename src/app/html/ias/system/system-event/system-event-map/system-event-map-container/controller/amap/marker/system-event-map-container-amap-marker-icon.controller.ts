@@ -6,9 +6,9 @@ export class SystemEventMapContainerAMapMarkerIconController {
   constructor() {}
 
   private icon = {
-    handled: this.create(PathTool.image.map.alarm.green),
-    unhandle: this.create(PathTool.image.map.alarm.orange),
-    misinform: this.create(PathTool.image.map.alarm.cyan),
+    handled: this.create(PathTool.image.map.alarm.icon.green),
+    unhandle: this.create(PathTool.image.map.alarm.icon.orange),
+    misinform: this.create(PathTool.image.map.alarm.icon.cyan),
   };
   size: [number, number] = [
     SizeTool.map.alarm.width * 0.1,

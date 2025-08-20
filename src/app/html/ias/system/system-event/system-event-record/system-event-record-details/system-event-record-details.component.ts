@@ -24,6 +24,7 @@ import { SystemEventRecordDetailsSource } from './system-event-record-details.so
 })
 export class SystemEventRecordDetailsComponent implements OnChanges {
   @Input() data?: MobileEventRecord;
+  @Input() resourceindex = 1;
 
   constructor(private _language: LanguageTool) {}
 
@@ -38,6 +39,7 @@ export class SystemEventRecordDetailsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.data(changes['data']);
+    this.change.resource.index(changes['resourceindex']);
   }
 
   private change = {
@@ -45,11 +47,24 @@ export class SystemEventRecordDetailsComponent implements OnChanges {
       if (change) {
         if (this.data) {
           if (this.data.Resources && this.data.Resources.length > 0) {
-            this.resource = this.data.Resources[0];
+            this.resource = this.data.Resources[this.resourceindex - 1];
           }
           this.init(this.data);
         }
       }
+    },
+    resource: {
+      index: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (
+            this.data &&
+            this.data.Resources &&
+            this.data.Resources.length > 0
+          ) {
+            this.resource = this.data.Resources[simple.currentValue - 1];
+          }
+        }
+      },
     },
   };
 

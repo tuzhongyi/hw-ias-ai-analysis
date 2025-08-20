@@ -38,7 +38,9 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
   @Input('load') input_load?: EventEmitter<SystemEventTableArgs>;
   @Output() position = new EventEmitter<MobileEventRecord>();
 
-  @Output('picture') output_picture = new EventEmitter<MobileEventRecord>();
+  @Output('picture') output_picture = new EventEmitter<
+    Paged<MobileEventRecord>
+  >();
   @Input() get?: EventEmitter<number>;
   @Output() got = new EventEmitter<Paged<Paged<MobileEventRecord>>>();
   @Output() process = new EventEmitter<MobileEventRecord>();
@@ -120,12 +122,16 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
     get: (url: string) => {
       return this.business.medium.picture(url);
     },
-    on: (e: Event, item: MobileEventRecord) => {
+    on: (e: Event, item: MobileEventRecord, index: number) => {
       if (this.selected === item) {
         e.stopImmediatePropagation();
       }
 
-      this.output_picture.emit(item);
+      let count = item.Resources?.length ?? 0;
+
+      let paged = Paged.create(item, index + 1, count, count);
+
+      this.output_picture.emit(paged);
     },
   };
   audio = {

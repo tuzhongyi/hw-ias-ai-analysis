@@ -1,5 +1,17 @@
 <div class="system-main-manager">
-  <ias-system-main-map></ias-system-main-map>
+  <ias-system-main-map
+    [over]="map.over"
+    [out]="map.out"
+    [select]="map.select"
+    [moveto]="map.moveto"
+    (itemclick)="map.on.select($event)"
+    (itemdblclick)="map.on.details($event)"
+    [shops]="shop.datas"
+    [devices]="device.datas"
+    [alarms]="realtime.datas"
+    (alarmvideo)="alarm.on.video($event)"
+    (alarmpicture)="picture.open($event)"
+  ></ias-system-main-map>
 
   <div class="system-main-manager-card-list left">
     <div class="system-main-manager-card-item">
@@ -32,13 +44,173 @@
     <div class="system-main-manager-card-item">
       <ias-system-main-card-event-realtime-table-manager
         [load]="load"
+        (loaded)="realtime.on.loaded($event)"
+        (position)="realtime.on.position($event)"
+        (details)="realtime.on.details($event)"
       ></ias-system-main-card-event-realtime-table-manager>
     </div>
   </div>
   <div class="system-main-manager-controls">
-    <ias-system-main-panel-controls></ias-system-main-panel-controls>
+    <ias-system-main-panel-controls
+      [(listclicked)]="panel.button.list.clicked"
+    ></ias-system-main-panel-controls>
   </div>
-  <div class="system-main-manager-panel-list" *ngIf="false">
-    <ias-system-main-panel-shop-registration-table-manager></ias-system-main-panel-shop-registration-table-manager>
+  <div class="system-main-manager-panel-list" *ngIf="panel.list.show">
+    <ias-system-main-panel-shop-registration-table-manager
+      [datas]="shop.datas"
+      [(selected)]="shop.selected"
+      (details)="table.on.details($event)"
+      (position)="table.on.position($event)"
+      (itemhover)="table.on.item.over($event)"
+      (itemblur)="table.on.item.out($event)"
+      (filter)="shop.search($event)"
+      (close)="panel.button.list.clicked = false"
+    ></ias-system-main-panel-shop-registration-table-manager>
+  </div>
+  <div
+    class="system-main-manager-panel-details"
+    [class.list]="panel.list.show"
+    *ngIf="panel.details.show"
+  >
+    <ias-system-map-panel-details-shop-registration
+      [data]="shop.selected"
+      (picture)="panel.details.on.picture($event)"
+      (close)="panel.details.show = false"
+    ></ias-system-map-panel-details-shop-registration>
   </div>
 </div>
+
+<ias-window
+  [Model]="window.details"
+  *ngIf="window.details.show"
+  [style]="window.details.style"
+  [title]="window.details.title"
+>
+  <ias-system-event-process-realtime
+    [data]="window.details.data"
+    (close)="window.details.show = false"
+    (picture)="picture.open($event)"
+  ></ias-system-event-process-realtime>
+</ias-window>
+
+<ias-window
+  *ngIf="window.picture.show"
+  [Model]="window.picture"
+  [style]="window.picture.style"
+  [title]="window.picture.title"
+>
+  <ias-picture-list
+    [id]="window.picture.id"
+    [polygon]="window.picture.polygon"
+    [zoom]="window.picture.polygon.length > 0"
+    [page]="window.picture.page"
+    (pageChange)="window.picture.change($event)"
+  ></ias-picture-list>
+</ias-window>
+<ias-window
+  [Model]="window.video.record"
+  *ngIf="window.video.record.show"
+  [style]="window.video.record.style"
+  [title]="window.video.record.title"
+  [CloseButton]="false"
+>
+  <div ngProjectAs="window-head-operation" class="window-video-operation">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">前后时长</div>
+        <div class="form-item-value">
+          <select
+            [(ngModel)]="window.video.record.args.duration"
+            (change)="window.video.record.change()"
+          >
+            <!-- <option [ngValue]="undefined">全部</option> -->
+            <option [ngValue]="5">5秒</option>
+            <option [ngValue]="10">10秒</option>
+            <option [ngValue]="15">15秒</option>
+            <option [ngValue]="30">30秒</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">摄像机:</div>
+        <div class="form-item-value">
+          <hw-select
+            [nullable]="true"
+            [(selected)]="window.video.record.args.channel"
+            (selectedChange)="window.video.record.change()"
+          >
+            <select [(ngModel)]="window.video.record.args.channel">
+              <option
+                *ngFor="let item of window.video.record.channels"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="button" (click)="window.video.record.show = false">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ias-system-event-video
+    [data]="window.video.record.data"
+    [args]="window.video.record.args"
+  ></ias-system-event-video>
+</ias-window>
+<ias-window
+  *ngIf="window.video.shop.show && window.video.shop.args"
+  [Model]="window.video.shop"
+  [style]="window.video.shop.style"
+  [title]="window.video.shop.title"
+  [CloseButton]="false"
+>
+  <div ngProjectAs="window-head-operation" class="window-video-operation">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">前后时长</div>
+        <div class="form-item-value">
+          <select
+            [(ngModel)]="window.video.shop.args.Duration"
+            (change)="window.video.shop.change()"
+          >
+            <!-- <option [ngValue]="undefined">全部</option> -->
+            <option [ngValue]="5">5秒</option>
+            <option [ngValue]="10">10秒</option>
+            <option [ngValue]="15">15秒</option>
+            <option [ngValue]="30">30秒</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">摄像机:</div>
+        <div class="form-item-value">
+          <select
+            [(ngModel)]="window.video.shop.args.Channel"
+            (change)="window.video.shop.change()"
+          >
+            <!-- <option [ngValue]="undefined">全部</option> -->
+            <option
+              *ngFor="let item of source.channels | async"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="button" (click)="window.video.shop.show = false">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ias-system-task-video
+    [args]="window.video.shop.args"
+  ></ias-system-task-video>
+</ias-window>

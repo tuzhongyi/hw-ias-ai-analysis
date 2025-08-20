@@ -45,7 +45,7 @@ export abstract class IASMapAMapPointAbstract {
   }
 
   clear() {
-    this.container.clear();
+    this.layer.remove();
   }
 
   moving(position: [number, number]) {

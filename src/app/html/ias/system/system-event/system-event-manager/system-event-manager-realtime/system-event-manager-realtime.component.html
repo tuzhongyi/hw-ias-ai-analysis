@@ -118,6 +118,7 @@
     <ias-system-event-process-realtime
       [data]="window.process.data"
       (close)="window.process.show = false"
+      (picture)="table.on.picture($event)"
     ></ias-system-event-process-realtime>
   </ias-window>
 
@@ -142,6 +143,7 @@
       [zoom]="window.picture.args.polygon.length > 0"
       [page]="window.picture.page"
       (pageChange)="picture.change($event)"
+      [loop]="true"
     ></ias-picture-list>
   </ias-window>
   <ias-window

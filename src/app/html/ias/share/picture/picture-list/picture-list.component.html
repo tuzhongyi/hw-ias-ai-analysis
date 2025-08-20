@@ -1,4 +1,9 @@
-<howell-container-page [page]="page" (pageChange)="on.page($event)">
+<howell-container-page
+  [loop]="loop"
+  [page]="page"
+  [small]="small"
+  (pageChange)="on.page($event)"
+>
   <ias-picture-polygon-zoom
     [id]="id"
     [src]="src"

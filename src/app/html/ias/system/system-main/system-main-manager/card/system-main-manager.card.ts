@@ -1,26 +1,26 @@
-import { SystemMainManagerDeviceStateCard } from './system-main-manager-device-state.card';
-import { SystemMainManagerEventRealtimeStatisticCard } from './system-main-manager-event-realtime-statistic.card';
-import { SystemMainManagerEventRealtimeTableCard } from './system-main-manager-event-realtime-table.card';
-import { SystemMainManagerEventStatisticCard } from './system-main-manager-event-statistic.card';
-import { SystemMainManagerShopStatisticCard } from './system-main-manager-shop-statistic.card';
-import { SystemMainManagerTaskStatisticCard } from './system-main-manager-task-statistic.card';
+import { SystemMainManagerCardDeviceState } from './system-main-manager-device-state.card';
+import { SystemMainManagerCardEventRealtimeStatistic } from './system-main-manager-event-realtime-statistic.card';
+import { SystemMainManagerCardEventRealtimeTable } from './system-main-manager-event-realtime-table.card';
+import { SystemMainManagerCardEventStatistic } from './system-main-manager-event-statistic.card';
+import { SystemMainManagerCardShopStatistic } from './system-main-manager-shop-statistic.card';
+import { SystemMainManagerCardTaskStatistic } from './system-main-manager-task-statistic.card';
 
 export class SystemMainManagerCard {
   device = {
-    state: new SystemMainManagerDeviceStateCard(),
+    state: new SystemMainManagerCardDeviceState(),
   };
   event = {
     realtime: {
-      statistic: new SystemMainManagerEventRealtimeStatisticCard(),
-      table: new SystemMainManagerEventRealtimeTableCard(),
+      statistic: new SystemMainManagerCardEventRealtimeStatistic(),
+      table: new SystemMainManagerCardEventRealtimeTable(),
     },
-    statistic: new SystemMainManagerEventStatisticCard(),
+    statistic: new SystemMainManagerCardEventStatistic(),
   };
 
   shop = {
-    statistic: new SystemMainManagerShopStatisticCard(),
+    statistic: new SystemMainManagerCardShopStatistic(),
   };
   task = {
-    statistic: new SystemMainManagerTaskStatisticCard(),
+    statistic: new SystemMainManagerCardTaskStatistic(),
   };
 }

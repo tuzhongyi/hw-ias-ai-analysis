@@ -73,7 +73,7 @@
       [page]="page"
       [jump]="false"
       [total]="false"
-      [ungap]="page.PageCount > 6"
+      [gapable]="page.PageCount > 6"
       (change)="on.page($event)"
     >
     </paginator>

@@ -12,11 +12,15 @@ export class ContainerPageComponent {
   @Input() page?: Page;
   @Input() small: boolean = false;
   @Output() pageChange = new EventEmitter<Page>();
+  @Input() loop = false;
   onprov(): void {
     if (this.page) {
       let page = new Page();
       page = Object.assign(page, this.page);
       page.PageIndex--;
+      if (page.PageIndex === 0) {
+        page.PageIndex = page.PageCount;
+      }
       this.pageChange.emit(page);
     }
   }
@@ -25,6 +29,9 @@ export class ContainerPageComponent {
       let page = new Page();
       page = Object.assign(page, this.page);
       page.PageIndex++;
+      if (page.PageIndex > page.PageCount) {
+        page.PageIndex = 1;
+      }
       this.pageChange.emit(page);
     }
   }

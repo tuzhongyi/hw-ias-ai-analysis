@@ -16,6 +16,14 @@ import "./jquery.page.css";
         totalNum: true,
         totalList: true,
         jump: true,
+        first: true,
+        last: true
+      },
+      text: {
+        first: "首页",
+        last: "尾页",
+        prev: "上一页",
+        next: "下一页"
       }
     };
     if (options.display) {
@@ -27,6 +35,26 @@ import "./jquery.page.css";
       }
       if (options.display.jump === false) {
         this.options.display.jump = options.display.jump;
+      }
+      if (options.display.first === false) {
+        this.options.display.first = options.display.first;
+      }
+      if (options.display.last === false) {
+        this.options.display.last = options.display.last;
+      }
+    }
+    if (options.text) {
+      if (options.text.first) {
+        this.options.text.first = options.text.first;
+      }
+      if (options.text.last) {
+        this.options.text.last = options.text.last;
+      }
+      if (options.text.prev) {
+        this.options.text.prev = options.text.prev;
+      }
+      if (options.text.next) {
+        this.options.text.next = options.text.next;
       }
     }
     this.init();
@@ -43,8 +71,10 @@ import "./jquery.page.css";
       var pageNum = me.options.pageNum;
       var totalNum = me.options.totalNum;
       var totalList = me.options.totalList;
-
-      content.push(`<button type='button' id='firstPage' ${pageNum === 1 ? "disabled" : ""}>首页</button><button type='button' id='prePage' ${pageNum === 1 ? "disabled" : ""}>上一页</button>`);
+      if (me.options.display.first) {
+        content.push(`<button type='button' id='firstPage' ${pageNum === 1 ? "disabled" : ""}>${me.options.text.first}</button>`);
+      }
+      content.push(`<button type='button' id='prePage' ${pageNum === 1 ? "disabled" : ""}>${me.options.text.prev}</button>`);
       // 总页数大于6必显示省略号
       if (totalNum > 6) {
         // 1、当前页码小于5且总页码大于6 省略号显示后面+总页码
@@ -94,7 +124,10 @@ import "./jquery.page.css";
           }
         }
       }
-      content.push(`<button type='button' id='nextPage' ${pageNum >= totalNum ? "disabled" : ""}>下一页</button><button type='button' id='lastPage' ${pageNum >= totalNum ? "disabled" : ""}>尾页</button>`);
+      content.push(`<button type='button' id='nextPage' ${pageNum >= totalNum ? "disabled" : ""}>${me.options.text.next}</button>`);
+      if (me.options.display.last) {
+        content.push(`<button type='button' id='lastPage' ${pageNum >= totalNum ? "disabled" : ""}>${me.options.text.last}</button>`);
+      }
       if (me.options.display.jump) {
         content.push("<span name='jump'>跳至</span><input  name='jump' type='text' id='jumpText' class='jumpText'><span name='jump'>页</span><button  name='jump' type='button' id='jumpButton'>确定</button>");
       }

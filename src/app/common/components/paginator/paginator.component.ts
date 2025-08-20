@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import '../../../../assets/js/jquery/jquery-page/jquery.page.js';
 import { Page } from '../../data-core/models/page-list.model';
+import { PaginatorText } from './paginator.model.js';
 
 declare var $: any;
 
@@ -25,7 +26,19 @@ export class PaginatorComponent implements AfterViewInit, OnChanges {
   @Input() page = Page.create(1, 50, 50);
   @Input() jump = true;
   @Input() total = true;
-  @Input() ungap = false;
+  @Input() gapable = false;
+  @Input() first = true;
+  @Input() last = true;
+
+  @Input('text') set _text(text: PaginatorText) {
+    this.text = { ...this.text, ...text };
+  }
+  private text: PaginatorText = {
+    first: '首页',
+    last: '尾页',
+    prev: '上一页',
+    next: '下一页',
+  };
   @Output() change = new EventEmitter<number>();
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -42,7 +55,10 @@ export class PaginatorComponent implements AfterViewInit, OnChanges {
             totalNum: this.total,
             totalList: this.total,
             jump: this.jump,
+            first: this.first,
+            last: this.last,
           },
+          text: this.text,
         });
       }
     }
@@ -61,7 +77,10 @@ export class PaginatorComponent implements AfterViewInit, OnChanges {
           totalNum: this.total,
           totalList: this.total,
           jump: this.jump,
+          first: this.first,
+          last: this.last,
         },
+        text: this.text,
       });
     }
   }

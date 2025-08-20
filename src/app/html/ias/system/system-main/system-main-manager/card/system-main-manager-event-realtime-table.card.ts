@@ -1,3 +1,1 @@
-export class SystemMainManagerEventRealtimeTableCard {
-  title = '实时事件';
-}
+export class SystemMainManagerCardEventRealtimeTable {}

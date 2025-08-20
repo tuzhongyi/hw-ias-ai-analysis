@@ -1,37 +1,39 @@
 import { Injectable } from '@angular/core';
-import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
+import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
+import { SystemMainMapAlarmController } from './system-main-map-alarm.controller';
+import { SystemMainMapDeviceController } from './system-main-map-device.controller';
+import { SystemMainMapRoadController } from './system-main-map-road.controller';
+import { SystemMainMapShopController } from './system-main-map-shop.controller';
 
 @Injectable()
 export class SystemMainMapController {
-  constructor() {}
+  road: SystemMainMapRoadController;
+  shop: SystemMainMapShopController;
+  device: SystemMainMapDeviceController;
+  alarm: SystemMainMapAlarmController;
+  constructor(tool: ComponentTool) {
+    this.amap = new SystemMainMapAMapController(tool);
+    this.road = new SystemMainMapRoadController(this.amap);
+    this.shop = new SystemMainMapShopController(this.amap);
+    this.device = new SystemMainMapDeviceController(this.amap);
+    this.alarm = new SystemMainMapAlarmController(this.amap);
+  }
 
-  private amap = new SystemMainMapAMapController();
+  private amap: SystemMainMapAMapController;
 
-  point = {
-    load: (datas: IShop[]) => {
-      this.amap.point.get().then((x) => {
-        x.load(datas);
-      });
-      this.amap.marker.get().then((ctr) => {
-        ctr.load(datas);
-      });
-    },
-    clear: async () => {
-      return this.amap.point.clear();
-    },
-  };
-  road = {
-    load: (datas: Road[]) => {
-      this.amap.road.get().then((x) => {
-        x.load(datas);
-      });
-    },
-  };
   map = {
-    focus: () => {
-      this.amap.focus();
+    moveto: (center: [number, number]) => {
+      this.amap.map.get().then((x) => {
+        x.setCenter(center);
+        x.setZoom(20);
+      });
+    },
+    focus: (datas?: any) => {
+      this.amap.focus(datas);
+    },
+    destory: () => {
+      this.amap.destory();
     },
   };
 }

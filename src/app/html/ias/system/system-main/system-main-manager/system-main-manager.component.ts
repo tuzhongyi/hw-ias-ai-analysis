@@ -1,6 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HowellSelectComponent } from '../../../../../common/components/hw-select/select-control.component';
+import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
+import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
+import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import { ILocation } from '../../../../../common/data-core/models/model.interface';
+import { Paged } from '../../../../../common/data-core/models/page-list.model';
+import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
+import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
+import { WindowComponent } from '../../../share/window/window.component';
+import { SystemEventProcessRealtimeComponent } from '../../system-event/system-event-process/system-event-process-realtime/system-event-process-realtime.component';
+import { SystemEventVideoComponent } from '../../system-event/system-event-video/system-event-video.component';
+import { SystemMapPanelDetailsShopRegistrationComponent } from '../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
+import { SystemTaskVideoComponent } from '../../system-task/system-task-video/system-task-video.component';
 import { SystemMainCardDeviceStateComponent } from '../system-main-card/system-main-card-device-state/system-main-card-device-state.component';
 import { SystemMainCardEventRealtimeStatisticComponent } from '../system-main-card/system-main-card-event-realtime-statistic/system-main-card-event-realtime-statistic/system-main-card-event-realtime-statistic.component';
 import { SystemMainCardEventRealtimeTableManagerComponent } from '../system-main-card/system-main-card-event-realtime-table/system-main-card-event-realtime-table-manager/system-main-card-event-realtime-table-manager.component';
@@ -10,12 +24,19 @@ import { SystemMainCardTaskStatisticComponent } from '../system-main-card/system
 import { SystemMainMapComponent } from '../system-main-map/system-main-map.component';
 import { SystemMainPanelControlsComponent } from '../system-main-panel/system-main-panel-controls/system-main-panel-controls.component';
 import { SystemMainPanelShopRegistrationTableManagerComponent } from '../system-main-panel/system-main-panel-shop-registration/system-main-panel-shop-registration-table-manager/system-main-panel-shop-registration-table-manager.component';
+import { SystemMainManagerBusiness } from './business/system-main-manager.business';
+import { SystemMainManagerShopArgs } from './business/system-main-manager.model';
 import { SystemMainManagerCard } from './card/system-main-manager.card';
+import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
+import { SystemMainManagerSource } from './source/system-main-manager.source';
+import { SystemMainManagerWindow } from './window/system-main-manager.window';
 
 @Component({
   selector: 'ias-system-main-manager',
   imports: [
     CommonModule,
+    FormsModule,
+    HowellSelectComponent,
     SystemMainCardEventStatisticComponent,
     SystemMainCardDeviceStateComponent,
     SystemMainCardShopStatisticComponent,
@@ -25,20 +46,140 @@ import { SystemMainManagerCard } from './card/system-main-manager.card';
     SystemMainPanelControlsComponent,
     SystemMainPanelShopRegistrationTableManagerComponent,
     SystemMainMapComponent,
+    SystemMapPanelDetailsShopRegistrationComponent,
+    WindowComponent,
+    PictureListComponent,
+    SystemEventVideoComponent,
+    SystemTaskVideoComponent,
+    SystemEventProcessRealtimeComponent,
   ],
   templateUrl: './system-main-manager.component.html',
   styleUrl: './system-main-manager.component.less',
-  providers: [],
+  providers: [SystemMainManagerBusiness, SystemMainManagerSource],
 })
 export class SystemMainManagerComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private business: SystemMainManagerBusiness,
+    public source: SystemMainManagerSource
+  ) {}
 
   load = new EventEmitter<void>();
   card = new SystemMainManagerCard();
+  window = new SystemMainManagerWindow();
+  panel = new SystemMainManagerPanel(this.window);
 
-  data = {
-    shops: [] as ShopRegistration[],
+  ngOnInit(): void {
+    this.init.shop();
+    this.init.device();
+  }
+
+  private init = {
+    shop: () => {
+      this.shop.load();
+    },
+    device: () => {
+      this.device.load();
+    },
   };
 
-  ngOnInit(): void {}
+  realtime = {
+    datas: [] as MobileEventRecord[],
+    on: {
+      loaded: (datas: MobileEventRecord[]) => {
+        this.realtime.datas = datas.filter((x) => !x.Assignment?.Handled);
+      },
+      position: (data: MobileEventRecord) => {
+        this.map.moveto.emit(data);
+      },
+      details: (data: MobileEventRecord) => {
+        this.window.details.data = data;
+        this.window.details.show = true;
+      },
+    },
+  };
+
+  device = {
+    datas: [] as MobileDevice[],
+    load: () => {
+      this.business.device.load().then((x) => {
+        this.device.datas = x;
+      });
+    },
+  };
+
+  shop = {
+    datas: [] as ShopRegistration[],
+    selected: undefined as ShopRegistration | undefined,
+    args: new SystemMainManagerShopArgs(),
+
+    load: () => {
+      this.business.shop.load(this.shop.args).then((x) => {
+        this.shop.datas = x;
+      });
+    },
+    search: (args: SystemMainManagerShopArgs) => {
+      this.shop.args = args;
+      this.shop.load();
+    },
+  };
+
+  map = {
+    over: new EventEmitter<ShopRegistration>(),
+    out: new EventEmitter<ShopRegistration>(),
+    select: new EventEmitter<ShopRegistration>(),
+    moveto: new EventEmitter<ILocation>(),
+    on: {
+      select: (data: ShopRegistration) => {
+        this.shop.selected = data;
+      },
+      details: (data: ShopRegistration) => {
+        this.shop.selected = data;
+        this.panel.details.show = true;
+      },
+    },
+  };
+
+  table = {
+    on: {
+      details: (item: ShopRegistration) => {
+        this.map.on.details(item);
+      },
+      position: (item: ShopRegistration) => {
+        this.map.select.emit(item);
+      },
+      item: {
+        over: (item: ShopRegistration) => {
+          this.map.over.emit(item);
+        },
+        out: (item: ShopRegistration) => {
+          this.map.out.emit(item);
+        },
+      },
+    },
+  };
+
+  picture = {
+    open: <T>(paged: Paged<T>) => {
+      this.window.picture.open(paged);
+    },
+  };
+
+  alarm = {
+    on: {
+      video: async (data: MobileEventRecord) => {
+        this.window.video.record.title =
+          ObjectTool.model.MobileEventRecord.get.name(data);
+        this.window.video.record.channels =
+          data.Resources?.map((x) => {
+            let channel = new EnumNameValue<number>();
+            channel.Name = x.ResourceName;
+            channel.Value = x.PositionNo ?? 0;
+            return channel;
+          }) ?? [];
+
+        this.window.video.record.data = data;
+        this.window.video.record.show = true;
+      },
+    },
+  };
 }

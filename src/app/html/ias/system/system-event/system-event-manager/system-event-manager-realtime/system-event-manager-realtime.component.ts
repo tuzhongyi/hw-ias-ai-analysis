@@ -12,6 +12,7 @@ import { ShopRegistration } from '../../../../../../common/data-core/models/arm/
 import { EnumNameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import {
   Page,
+  Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
@@ -113,12 +114,12 @@ export class SystemEventManagerRealtimeComponent implements OnInit {
         this.window.details.data = data;
         this.window.details.show = true;
       },
-      picture: (data: MobileEventRecord) => {
-        let datas = data.Resources?.filter((x) => x.ImageUrl) ?? [];
+      picture: (data: Paged<MobileEventRecord>) => {
+        let datas = data.Data.Resources?.filter((x) => x.ImageUrl) ?? [];
         let page = new Page();
         page.PageCount = datas.length;
         page.TotalRecordCount = datas.length;
-        page.PageIndex = 1;
+        page.PageIndex = data.Page.PageIndex;
         page.PageSize = 1;
         page.RecordCount = 1;
 

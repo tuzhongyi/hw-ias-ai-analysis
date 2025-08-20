@@ -1,34 +1,31 @@
-import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { MobileDevice } from '../../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
-import { IASMapAMapConfig } from '../../../../../../share/map/controller/amap/ias-map-amap.config';
 import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
-import { IASMapAMapMarkerLabelController } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker-label.controller';
 import { IASMapAMapMarkerEvent } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
+import { SystemMainMapAMapDeviceMarkerController } from './system-main-map-amap-device-marker.controller';
 
-export class SystemMainMapAMapMarkerLayerController {
-  event = new IASMapAMapMarkerEvent();
+export class SystemMainMapAMapDeviceMarkerLayerController {
+  event = new IASMapAMapMarkerEvent<MobileDevice>();
 
-  constructor(map: AMap.Map) {
+  constructor(map: AMap.Map, private info: IASMapAMapInfoController) {
     this.layer = this.init(map);
-    this.info = new IASMapAMapInfoController(map);
   }
 
   private layer: AMap.LabelsLayer;
-  private info: IASMapAMapInfoController;
-  private points: IASMapAMapMarkerLabelController[] = [];
+  private points: SystemMainMapAMapDeviceMarkerController[] = [];
 
   private init(map: AMap.Map) {
     let layer = new AMap.LabelsLayer({
       collision: false,
       allowCollision: false,
-      zooms: IASMapAMapConfig.icon.zooms,
+      zooms: [0, 50],
     });
     map.add(layer);
     return layer;
   }
 
-  private regist(point: IASMapAMapMarkerLabelController) {
+  private regist(point: SystemMainMapAMapDeviceMarkerController) {
     point.event.mouseover.subscribe((data) => {
       let info: IIASMapAMapInfo = {
         Name: data.Name,
@@ -50,14 +47,18 @@ export class SystemMainMapAMapMarkerLayerController {
       this.select(data);
       this.event.click.emit(data);
     });
+    point.event.dblclick.subscribe((data) => {
+      this.select(data);
+      this.event.dblclick.emit(data);
+    });
   }
 
-  async load(datas: IShop[]) {
+  async load(datas: MobileDevice[]) {
     let markers = [];
     for (let i = 0; i < datas.length; i++) {
       const data = datas[i];
       if (data.Location) {
-        let point = new IASMapAMapMarkerLabelController(data);
+        let point = new SystemMainMapAMapDeviceMarkerController(data);
         this.regist(point);
         markers.push(point.marker);
         this.points.push(point);
@@ -72,7 +73,7 @@ export class SystemMainMapAMapMarkerLayerController {
     this.points = [];
   }
 
-  mouseover(data: IShop) {
+  mouseover(data: MobileDevice) {
     let info: IIASMapAMapInfo = {
       Name: data.Name,
     };
@@ -88,7 +89,7 @@ export class SystemMainMapAMapMarkerLayerController {
       point.hover();
     }
   }
-  mouseout(data: IShop) {
+  mouseout(data: MobileDevice) {
     this.info.remove();
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {
@@ -96,7 +97,7 @@ export class SystemMainMapAMapMarkerLayerController {
     }
   }
 
-  select(data: IShop) {
+  select(data: MobileDevice) {
     this.blur();
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {

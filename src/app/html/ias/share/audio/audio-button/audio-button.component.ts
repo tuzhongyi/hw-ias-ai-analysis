@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MediumRequestService } from '../../../../../common/data-core/requests/services/medium/medium.service';
 import { AudioButtonService } from './audio-button.service';
 
@@ -20,11 +23,17 @@ import { AudioButtonService } from './audio-button.service';
 export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
   @Input() id?: string;
   @Input() src?: string;
+  @Input() play?: EventEmitter<void>;
+  @Output() playing = new EventEmitter<number>();
+  @Output() stoped = new EventEmitter<void>();
+  @Output() inited = new EventEmitter<void>();
 
   constructor(
     private medium: MediumRequestService,
     private service: AudioButtonService
   ) {}
+
+  private subscription = new Subscription();
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.id(changes['id']);
@@ -40,8 +49,19 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    this.regist();
     if (this.src) {
       this.audio.init();
+      this.inited.emit();
+    }
+  }
+
+  private regist() {
+    if (this.play) {
+      let sub = this.play.subscribe((x) => {
+        this.on.play();
+      });
+      this.subscription.add(sub);
     }
   }
 
@@ -53,11 +73,19 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
       this.animation.handle = setInterval(() => {
         this.animation.index =
           (this.animation.index + 1) % this.animation.icons.length;
+
+        if (this.audio.data) {
+          let ratio =
+            this.audio.data.duration > 0
+              ? this.audio.data.currentTime / this.audio.data.duration
+              : 0;
+          this.playing.emit(ratio);
+        }
       }, 200);
     },
   };
 
-  private audio = {
+  audio = {
     data: undefined as HTMLAudioElement | undefined,
     playing: false,
     init: () => {
@@ -102,6 +130,7 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
       this.animation.index = 0;
 
       this.service.stop(this); // 通知服务我停了
+      this.stoped.emit(); // 通知外部我停了
     },
   };
 
@@ -130,5 +159,6 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.audio.stop();
     this.audio.clear();
+    this.subscription.unsubscribe();
   }
 }

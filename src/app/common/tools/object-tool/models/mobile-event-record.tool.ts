@@ -4,9 +4,6 @@ import { MobileEventRecord } from '../../../data-core/models/arm/event/mobile-ev
 export class MobileEventRecordTool {
   get = {
     name: (data: MobileEventRecord) => {
-      if (data.AudioContent) {
-        return data.AudioContent;
-      }
       if (data.EmergencyDescription) {
         return data.EmergencyDescription;
       }

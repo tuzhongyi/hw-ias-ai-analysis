@@ -5,5 +5,38 @@
   &-container {
     width: 100%;
     height: 100%;
+
+    ::ng-deep {
+      .amap-info {
+
+        clip-path: polygon(0 calc(100% - 76px), // 点上方
+            99px calc(100% - 178px), // 折线上方
+            178px calc(100% - 178px), // 连接点上方
+            178px 0, // 面左上
+            100% 0, // 面右上
+            100% 100%, // 面右下
+            178px 100%, // 面左下
+            178px calc(100% - 176px), // 连接点下方
+            102px calc(100% - 176px), // 转折点下方
+            0 calc(100% - 74px));
+
+        &-contentContainer {
+          padding: 0;
+        }
+
+        &-content {
+          padding: 0;
+          background-color: transparent;
+        }
+
+        &-sharp {
+          display: none;
+        }
+
+        &-close {
+          display: none;
+        }
+      }
+    }
   }
 }

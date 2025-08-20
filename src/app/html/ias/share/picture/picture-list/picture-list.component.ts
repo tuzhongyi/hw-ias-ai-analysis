@@ -19,6 +19,8 @@ export class PictureListComponent {
   @Input() zoom = true;
   @Input() page?: Page;
   @Output() pageChange = new EventEmitter<Page>();
+  @Input() loop = false;
+  @Input() small: boolean = false;
 
   on = {
     page: (page: Page) => {

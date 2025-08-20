@@ -4,8 +4,9 @@
   position: relative;
 
   @padding: 20px;
-  @gap: 20px;
+  @gap: 15px;
   @card-width: 400px;
+  @control-height: 50px;
 
   &-card {
     @card-margin: @padding;
@@ -37,16 +38,42 @@
   &-controls {
     position: absolute;
     bottom: @padding;
-    left: calc(@padding + @card-width + @gap)
+    left: calc(@padding + @card-width + @gap);
+    height: @control-height;
   }
 
   &-panel {
     &-list {
       position: absolute;
-      bottom: calc(@padding + 50px + @gap);
+      bottom: calc(@padding + @control-height + @gap);
       left: calc(@padding + @card-width + @gap);
       height: 600px;
       width: 300px;
     }
+
+    &-details {
+      position: absolute;
+      bottom: calc(@padding + @control-height + @gap);
+      left: calc(@padding + @card-width + @gap);
+      height: 600px;
+      width: 300px;
+      animation: all 0.5;
+
+      &.list {
+        left: calc(@padding + @card-width + @gap + 300px + @gap);
+      }
+    }
+  }
+}
+
+.window-video-operation {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+
+  select {
+    height: 28px;
   }
 }

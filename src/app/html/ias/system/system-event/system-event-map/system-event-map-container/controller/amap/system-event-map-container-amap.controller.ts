@@ -119,7 +119,9 @@ export class SystemEventMapContainerAMapController {
         this.controller.info.get().then((ctr) => {
           if (data && data.Location) {
             let info: IIASMapAMapInfo = {
-              Name: ObjectTool.model.MobileEventRecord.get.name(data),
+              Name:
+                data.AudioContent ??
+                ObjectTool.model.MobileEventRecord.get.name(data),
             };
             if (data.Location) {
               info.Location = [

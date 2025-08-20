@@ -31,7 +31,9 @@ export class SystemEventMapContainerAMapMarkerController {
       let marker = new AMap.LabelMarker({
         icon: this.icon.get(data),
         position: [...position],
-        title: ObjectTool.model.MobileEventRecord.get.name(data),
+        title:
+          data.AudioContent ??
+          ObjectTool.model.MobileEventRecord.get.name(data),
         zooms: IASMapAMapConfig.icon.zooms,
       });
       this.regist(marker);

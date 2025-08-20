@@ -30,7 +30,9 @@ export class SystemEventMapContainerAMapMarkerLayerController {
   private regist(point: SystemEventMapContainerAMapMarkerController) {
     point.event.mouseover.subscribe((data) => {
       let info: IIASMapAMapInfo = {
-        Name: ObjectTool.model.MobileEventRecord.get.name(data),
+        Name:
+          data.AudioContent ??
+          ObjectTool.model.MobileEventRecord.get.name(data),
       };
       if (data.Location) {
         info.Location = [
@@ -68,7 +70,8 @@ export class SystemEventMapContainerAMapMarkerLayerController {
   }
   mouseover(data: MobileEventRecord) {
     let info: IIASMapAMapInfo = {
-      Name: ObjectTool.model.MobileEventRecord.get.name(data),
+      Name:
+        data.AudioContent ?? ObjectTool.model.MobileEventRecord.get.name(data),
     };
     if (data.Location) {
       info.Location = [

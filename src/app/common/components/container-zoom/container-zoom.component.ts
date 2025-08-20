@@ -16,6 +16,7 @@ import {
   styleUrl: './container-zoom.component.less',
 })
 export class ContainerZoomComponent implements OnChanges {
+  @Input() enabled = true;
   @Input() reset = false;
   @Input() fullable = false;
   @Input() resetable = false;
@@ -39,6 +40,7 @@ export class ContainerZoomComponent implements OnChanges {
   // 鼠标滚轮缩放
   @HostListener('wheel', ['$event'])
   onWheel(event: WheelEvent) {
+    if (!this.enabled) return;
     this.reset = false;
     this.resetChange.emit(this.reset);
     event.preventDefault();
@@ -51,10 +53,12 @@ export class ContainerZoomComponent implements OnChanges {
   }
 
   onDoubleClick(event: MouseEvent) {
+    if (!this.enabled) return;
     this.onReset();
   }
 
   onMouseDown(event: MouseEvent) {
+    if (!this.enabled) return;
     this.reset = false;
     this.resetChange.emit(this.reset);
     this.isDragging = true;
@@ -63,6 +67,7 @@ export class ContainerZoomComponent implements OnChanges {
   }
 
   onMouseMove(event: MouseEvent) {
+    if (!this.enabled) return;
     this.reset = false;
     this.resetChange.emit(this.reset);
     if (!this.isDragging) return;
@@ -73,6 +78,7 @@ export class ContainerZoomComponent implements OnChanges {
   }
 
   onMouseUp(event: MouseEvent) {
+    if (!this.enabled) return;
     this.reset = false;
     this.resetChange.emit(this.reset);
     this.isDragging = false;
@@ -81,6 +87,7 @@ export class ContainerZoomComponent implements OnChanges {
   }
 
   onReset() {
+    if (!this.enabled) return;
     this.scale = 1;
     this.translateX = 0;
     this.translateY = 0;
@@ -93,6 +100,7 @@ export class ContainerZoomComponent implements OnChanges {
     e.stopImmediatePropagation();
   }
   onreset(e: Event) {
+    if (!this.enabled) return;
     this.onReset();
     e.stopImmediatePropagation();
   }

@@ -26,6 +26,8 @@ export class PicturePolygonMultipleComponent implements OnChanges {
   @Input() polygon: HowellPoint[][] = [];
   @Output() image = new EventEmitter<HTMLImageElement>();
   @Input() draw = true;
+  @Input() fullable = false;
+  @Output() full = new EventEmitter<void>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['polygon']) {
@@ -51,5 +53,8 @@ export class PicturePolygonMultipleComponent implements OnChanges {
   }
   onerror(e: Event) {
     this.error.emit(e);
+  }
+  onfull() {
+    this.full.emit();
   }
 }

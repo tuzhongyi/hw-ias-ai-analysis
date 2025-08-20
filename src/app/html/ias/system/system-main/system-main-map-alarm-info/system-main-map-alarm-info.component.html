@@ -1,0 +1,42 @@
+<div class="system-main-map-alarm-info">
+  <div class="system-main-map-alarm-info-content">
+    <div class="system-main-map-alarm-info-head">
+      <div class="system-main-map-alarm-info-head-title">{{ name }}</div>
+      <div>
+        <div class="button" (click)="on.close()">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+    <div class="system-main-map-alarm-info-body">
+      <howell-container-page
+        [small]="true"
+        [loop]="true"
+        [page]="picture.page.data"
+        (pageChange)="picture.page.change($event)"
+      >
+        <howell-container-zoom
+          [enabled]="false"
+          [fullable]="true"
+          (full)="on.image()"
+        >
+          <ias-picture [id]="picture.id"></ias-picture>
+        </howell-container-zoom>
+      </howell-container-page>
+    </div>
+    <div class="system-main-map-alarm-info-foot">
+      <div class="system-main-map-alarm-info-foot-audio">
+        {{ data?.AudioContent }}
+      </div>
+      <div class="system-main-map-alarm-info-foot-time">
+        {{ data?.EventTime | date : "yyyy-MM-dd HH:mm:ss" }}
+      </div>
+      <div class="system-main-map-alarm-info-foot-operation button-group">
+        <ias-audio-button [id]="data?.AudioUrl"></ias-audio-button>
+        <div class="button" (click)="on.video()">
+          <i class="howell-icon-video"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

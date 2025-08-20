@@ -35,9 +35,15 @@ export class SystemMainPanelShopRegistrationTableComponent
 
   constructor(private business: SystemMainPanelShopRegistrationTableBusiness) {}
 
-  widths = ['60px', 'auto', '80px'];
+  widths = ['auto', '80px'];
   datas: Array<ShopRegistration | undefined> = [];
   page = new Page();
+  text = {
+    prev: `<i class="mdi mdi-chevron-left"></i>`,
+    next: `<i class="mdi mdi-chevron-right"></i>`,
+    first: `<i class="mdi mdi-page-first"></i>`,
+    last: `<i class="mdi mdi-page-last"></i>`,
+  };
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.datas(changes['shops']);

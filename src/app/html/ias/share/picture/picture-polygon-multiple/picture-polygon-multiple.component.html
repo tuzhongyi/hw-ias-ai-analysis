@@ -1,5 +1,5 @@
 <div class="picture-polygon-multiple">
-  <howell-container-zoom>
+  <howell-container-zoom [fullable]="fullable" (full)="onfull()">
     <ias-picture-canvas
       [src]="src"
       [id]="id"

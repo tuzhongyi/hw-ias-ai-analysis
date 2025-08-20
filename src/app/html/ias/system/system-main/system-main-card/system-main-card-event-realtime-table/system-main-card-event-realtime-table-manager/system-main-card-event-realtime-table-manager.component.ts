@@ -31,6 +31,7 @@ export class SystemMainCardEventRealtimeTableManagerComponent
   @Input('load') _load?: EventEmitter<void>;
   @Output() details = new EventEmitter<MobileEventRecord>();
   @Output() position = new EventEmitter<MobileEventRecord>();
+  @Output() loaded = new EventEmitter<MobileEventRecord[]>();
 
   constructor(
     private business: SystemMainCardEventRealtimeTableManagerBusiness
@@ -60,6 +61,7 @@ export class SystemMainCardEventRealtimeTableManagerComponent
   private load() {
     this.business.load(this.duration).then((datas) => {
       this.datas = datas;
+      this.loaded.emit(this.datas);
     });
   }
 

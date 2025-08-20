@@ -13,7 +13,8 @@ export class SystemEventMapPanelRecordTableAnalysisConverter
   convert(data: MobileEventRecord) {
     let model = new MobileEventRecordModel();
     model = Object.assign(model, data);
-    model.Name = ObjectTool.model.MobileEventRecord.get.name(data);
+    model.Name =
+      data.AudioContent ?? ObjectTool.model.MobileEventRecord.get.name(data);
     model.EventTypeName = this.language.event.EventType(model.EventType);
     return model;
   }

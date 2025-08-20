@@ -11,4 +11,10 @@ export class SizeMapTool {
     width: 60,
     height: 60,
   };
+  device = {
+    mobile: {
+      width: 60,
+      height: 60,
+    },
+  };
 }
