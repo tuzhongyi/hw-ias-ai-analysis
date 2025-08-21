@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ArmEventType } from '../../../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { ArmAnalysisRequestService } from '../../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisTaskListParams } from '../../../../../../../common/data-core/requests/services/analysis/server/analysis-server.params';
 import { GetMobileEventsParams } from '../../../../../../../common/data-core/requests/services/system/event/system-event.params';
 import { ArmSystemRequestService } from '../../../../../../../common/data-core/requests/services/system/system.service';
 import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
+import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
 import { SystemMainCardEventStatisticItem } from '../system-main-card-event-statistic-item/system-main-card-event-statistic-item.model';
 
 @Injectable()
@@ -21,11 +21,8 @@ export class SystemMainCardEventStatisticBusiness {
   };
 
   async shop(duration: Duration) {
-    let types = [
-      ArmEventType.ShopRenovation,
-      ArmEventType.ShopSignDisappeared,
-      ArmEventType.ShopSignCreated,
-    ];
+    let types = ObjectTool.model.MobileEventRecord.get.type.shop;
+    ObjectTool.model.MobileEventRecord.get.type.shop;
     let page = await this.data.event(duration, types);
     let item = new SystemMainCardEventStatisticItem();
     item.icon = 'shop';
@@ -35,12 +32,7 @@ export class SystemMainCardEventStatisticBusiness {
   }
 
   async realtime(duration: Duration) {
-    let types = [
-      ArmEventType.VehicleIllegalParking,
-      ArmEventType.BicycleIllegalParking,
-      ArmEventType.GarbageExposure,
-      ArmEventType.EmergencyEvent,
-    ];
+    let types = ObjectTool.model.MobileEventRecord.get.type.realtime;
     let page = await this.data.event(duration, types);
     let item = new SystemMainCardEventStatisticItem();
     item.icon = 'realtime';
@@ -49,11 +41,7 @@ export class SystemMainCardEventStatisticBusiness {
     return item;
   }
   async analysis(duration: Duration) {
-    let types = [
-      ArmEventType.RoadDeviceBroken,
-      ArmEventType.ShopSignBroken,
-      ArmEventType.RoadWork,
-    ];
+    let types = ObjectTool.model.MobileEventRecord.get.type.analysis;
     let page = await this.data.event(duration, types);
     let item = new SystemMainCardEventStatisticItem();
     item.icon = 'analysis';

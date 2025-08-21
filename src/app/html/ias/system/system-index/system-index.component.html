@@ -1,12 +1,30 @@
 <div class="system-index root-router">
-  <div class="system-index-button task" (click)="onpath(Path.task)">
+  <div
+    class="system-index-button task"
+    *ngIf="display.task"
+    (click)="onpath(Path.task)"
+  >
     AI分析任务
   </div>
-  <div class="system-index-button module" (click)="onpath(Path.module)">
+  <div
+    class="system-index-button module"
+    *ngIf="display.module"
+    (click)="onpath(Path.module)"
+  >
     AI功能模块
   </div>
-  <div class="system-index-button map" (click)="onpath(Path.map)">地图</div>
-  <div class="system-index-button event" (click)="onpath(Path.event)">
+  <div
+    class="system-index-button map"
+    *ngIf="display.map"
+    (click)="onpath(Path.map)"
+  >
+    地图
+  </div>
+  <div
+    class="system-index-button event"
+    *ngIf="display.record"
+    (click)="onpath(Path.event)"
+  >
     AI分析事件
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
@@ -15,6 +15,7 @@ import {
   Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
+import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { InputSelectTaskComponent } from '../../../../share/input-select-task/input-select-task.component';
@@ -82,6 +83,10 @@ import { SystemEventManagerShopWindow } from './system-event-manager-shop.window
   ],
 })
 export class SystemEventManagerShopComponent implements OnInit {
+  @Input('duration') input_duration?: Duration;
+  @Input() mapable = true;
+  @Input() iswindow = false;
+
   constructor(
     public source: SystemEventManagerShopSource,
     private language: LanguageTool,
@@ -95,6 +100,10 @@ export class SystemEventManagerShopComponent implements OnInit {
 
   ngOnInit(): void {
     // this.init.task();
+
+    if (this.input_duration) {
+      this.table.args.duration = this.input_duration;
+    }
     this.init.table();
     this.regist.do();
   }

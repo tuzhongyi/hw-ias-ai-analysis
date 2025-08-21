@@ -35,10 +35,7 @@ export class ComponentTool {
     // 返回字符串
     return domElem.outerHTML;
   }
-  public createComponent<T>(
-    component: any,
-    inputs: Partial<T>
-  ): ComponentRef<T> {
+  public create<T>(component: any, inputs: Partial<T>): ComponentRef<T> {
     // 创建组件
     const factory = this.cfr.resolveComponentFactory(component);
     const componentRef: ComponentRef<T> = factory.create(
@@ -62,8 +59,14 @@ export class ComponentTool {
     return componentRef;
   }
 
-  getHTML<T>(component: ComponentRef<T>) {
-    const domElem = (component.hostView as any).rootNodes[0] as HTMLElement;
-    return domElem;
-  }
+  get = {
+    html: <T>(component: ComponentRef<T>) => {
+      const element = (component.hostView as any).rootNodes[0] as HTMLElement;
+      return element;
+    },
+    string: <T>(component: ComponentRef<T>) => {
+      let element = this.get.html(component);
+      return element.outerHTML;
+    },
+  };
 }

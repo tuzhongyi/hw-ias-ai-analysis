@@ -17,6 +17,8 @@
     <div class="system-main-manager-card-item">
       <ias-system-main-card-event-statistic
         [load]="load"
+        [(duration)]="card.event.statistic.duration"
+        (itemclick)="card.event.statistic.on.item($event)"
       ></ias-system-main-card-event-statistic>
     </div>
     <div class="system-main-manager-card-item">
@@ -27,6 +29,8 @@
     <div class="system-main-manager-card-item">
       <ias-system-main-card-event-realtime-statistic
         [load]="load"
+        (type)="card.event.realtime.statistic.on.type($event)"
+        [(duration)]="card.event.realtime.statistic.duration"
       ></ias-system-main-card-event-realtime-statistic>
     </div>
   </div>
@@ -79,7 +83,7 @@
     ></ias-system-map-panel-details-shop-registration>
   </div>
 </div>
-
+<!--  ias-system-event-process-realtime  -->
 <ias-window
   [Model]="window.details"
   *ngIf="window.details.show"
@@ -92,7 +96,67 @@
     (picture)="picture.open($event)"
   ></ias-system-event-process-realtime>
 </ias-window>
+<!--  ias-system-event-process-realtime  -->
 
+<!--  ias-system-event-manager-realtime  -->
+<ias-window
+  [Model]="window.record.realtime"
+  *ngIf="window.record.realtime.show"
+  [style]="window.record.realtime.style"
+  [title]="window.record.realtime.title"
+>
+  <ias-system-event-manager-realtime
+    [iswindow]="true"
+    [mapable]="false"
+    [emergency]="window.record.realtime.emergency"
+    [duration]="window.record.realtime.duration"
+  ></ias-system-event-manager-realtime>
+</ias-window>
+<!--  ias-system-event-manager-realtime  -->
+<!--  ias-system-event-manager-shop  -->
+<ias-window
+  [Model]="window.record.shop"
+  *ngIf="window.record.shop.show"
+  [style]="window.record.shop.style"
+  [title]="window.record.shop.title"
+>
+  <ias-system-event-manager-shop
+    [iswindow]="true"
+    [mapable]="false"
+    [duration]="window.record.shop.duration"
+  ></ias-system-event-manager-shop>
+</ias-window>
+<!--  ias-system-event-manager-shop  -->
+<!--  ias-system-event-manager-analysis  -->
+<ias-window
+  [Model]="window.record.analysis"
+  *ngIf="window.record.analysis.show"
+  [style]="window.record.analysis.style"
+  [title]="window.record.analysis.title"
+>
+  <ias-system-event-manager-analysis
+    [iswindow]="true"
+    [mapable]="false"
+    [duration]="window.record.analysis.duration"
+  ></ias-system-event-manager-analysis>
+</ias-window>
+<!--  ias-system-event-manager-analysis  -->
+<!--  ias-system-task-manager  -->
+<ias-window
+  [Model]="window.task"
+  *ngIf="window.task.show"
+  [style]="window.task.style"
+  [title]="window.task.title"
+>
+  <ias-system-task-manager
+    [iswindow]="true"
+    [tabable]="false"
+    [finished]="true"
+    [operable]="false"
+    [duration]="window.task.duration"
+  ></ias-system-task-manager>
+</ias-window>
+<!--  ias-system-task-manager  -->
 <ias-window
   *ngIf="window.picture.show"
   [Model]="window.picture"

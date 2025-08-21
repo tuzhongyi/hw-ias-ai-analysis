@@ -1,4 +1,12 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import {
   SystemTaskModel,
@@ -9,7 +17,6 @@ import { Router } from '@angular/router';
 import { LocalStorage } from '../../../../../common/storage/local.storage';
 import { TaskDuration } from '../../../../../common/storage/system-compare-storage/system-compare.storage';
 import { Language } from '../../../../../common/tools/language-tool/language';
-import { SystemPath } from '../../system.model';
 import {
   AnalysisTaskModel,
   SystemTaskTableArgs,
@@ -26,6 +33,7 @@ import {
   Page,
   PagedList,
 } from '../../../../../common/data-core/models/page-list.model';
+import { Duration } from '../../../../../common/tools/date-time-tool/duration.model';
 import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import { PicturePolygonArgs } from '../../../share/picture/picture-polygon/picture-polygon.model';
 import { ShopStatisticStatus } from '../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
@@ -43,7 +51,13 @@ import { SystemTaskManagerWindow } from './system-task-manager.window';
   imports: [...SystemTaskManagerImports],
   providers: [...SystemTaskManagerProviders],
 })
-export class SystemTaskManagerComponent implements OnInit {
+export class SystemTaskManagerComponent implements OnInit, OnChanges {
+  @Input() iswindow = false;
+  @Input() tabable = true;
+  @Input() operable = true;
+  @Input() finished?: boolean;
+  @Input() duration?: Duration;
+
   constructor(
     private business: SystemTaskManagerBusiness,
     public controller: SystemTaskManagerController,
@@ -66,8 +80,33 @@ export class SystemTaskManagerComponent implements OnInit {
     this.controller.file.complete.subscribe((data) => {
       this.on.completed(data);
     });
-    this.table.args.finished = this.local.system.task.index.get();
+    if (this.change.d.finished == false) {
+      this.table.args.finished = this.local.system.task.index.get();
+    }
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.finished(changes['finished']);
+    this.change.duration(changes['duration']);
+  }
+  private change = {
+    d: {
+      finished: false,
+    },
+    finished: (simple: SimpleChange) => {
+      if (simple) {
+        this.change.d.finished = true;
+        this.table.args.finished = simple.currentValue;
+      }
+    },
+    duration: (simple: SimpleChange) => {
+      if (simple) {
+        if (this.duration) {
+          this.table.args.duration.begin = this.duration.begin;
+          this.table.args.duration.end = this.duration.end;
+        }
+      }
+    },
+  };
 
   filter = {
     duration: {
@@ -118,8 +157,10 @@ export class SystemTaskManagerComponent implements OnInit {
         this.window.details.show = true;
       },
       files: (data: AnalysisTaskModel) => {
-        this.local.system.task.info.set({ Id: data.Id, Name: data.Name ?? '' });
-        this.router.navigateByUrl(`${SystemPath.task_file}`);
+        // this.local.system.task.info.set({ Id: data.Id, Name: data.Name ?? '' });
+        // this.router.navigateByUrl(`${SystemPath.task_file}`);
+        this.window.file.data = data;
+        this.window.file.show = true;
       },
 
       analysis: (data: AnalysisTaskModel) => {

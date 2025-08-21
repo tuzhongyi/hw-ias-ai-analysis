@@ -98,6 +98,7 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
     if (args) {
       this.filter = SystemEventTableFilter.from(args);
     }
+    console.log(this.filter);
     this.business.load(index, size, this.filter).then((x) => {
       this.page = x.Page;
       this.datas = x.Data;

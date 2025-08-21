@@ -4,7 +4,7 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapMarkerEvent } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
-import { SystemMainMapAMapAlarmMarkerController } from './system-main-map-amap-event-realtime-marker.controller';
+import { SystemMainMapAMapAlarmMarkerController } from './system-main-map-amap-alarm-marker.controller';
 
 export class SystemMainMapAMapAlarmMarkerLayerController {
   event = new IASMapAMapMarkerEvent<MobileEventRecord>();

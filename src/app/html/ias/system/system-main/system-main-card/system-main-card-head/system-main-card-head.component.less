@@ -5,25 +5,28 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding-bottom: 6px;
-  box-sizing: border-box;
 
-  &-icon {
-    height: 30px;
-    width: 30px;
-    background-image: url(../../../../../../../assets/image/main/card/system-main-card-head-icon.png);
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
+
 
   &-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: calc(100% - 30px);
+    padding-bottom: 6px;
+    box-sizing: border-box;
+
+
+    &-icon {
+      height: 30px;
+      width: 30px;
+      background-image: url(../../../../../../../assets/image/main/card/system-main-card-head-icon.png);
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
 
     &-title {
+      width: calc(100% - 30px);
       font-size: 24px;
       font-weight: bold;
       font-style: italic;
@@ -34,5 +37,9 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+  }
+
+  &-operation {
+    padding-top: 6px;
   }
 }

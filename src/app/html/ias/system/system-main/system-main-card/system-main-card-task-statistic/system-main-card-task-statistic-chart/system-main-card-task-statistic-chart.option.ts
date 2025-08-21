@@ -6,6 +6,12 @@ export const SystemMainCardTaskStatisticChartOption: any = {
     right: '0%',
     bottom: '10%',
   },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow',
+    },
+  },
   xAxis: {
     data: [],
     type: 'category',

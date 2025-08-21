@@ -1,4 +1,5 @@
 import { formatDate } from '@angular/common';
+import { ArmEventType } from '../../../data-core/enums/event/arm-event-type.enum';
 import { MobileEventRecord } from '../../../data-core/models/arm/event/mobile-event-record.model';
 
 export class MobileEventRecordTool {
@@ -13,9 +14,22 @@ export class MobileEventRecordTool {
       return formatDate(data.EventTime, 'yyyy-MM-dd HH:mm:ss', 'en');
     },
     type: {
-      shop: [7, 8, 9],
-      realtime: [1, 2, 3, 10],
-      analysis: [4, 5, 6],
+      shop: [
+        ArmEventType.ShopRenovation,
+        ArmEventType.ShopSignDisappeared,
+        ArmEventType.ShopSignCreated,
+      ],
+      realtime: [
+        ArmEventType.VehicleIllegalParking,
+        ArmEventType.BicycleIllegalParking,
+        ArmEventType.GarbageExposure,
+        ArmEventType.EmergencyEvent,
+      ],
+      analysis: [
+        ArmEventType.RoadDeviceBroken,
+        ArmEventType.ShopSignBroken,
+        ArmEventType.RoadWork,
+      ],
     },
   };
 }

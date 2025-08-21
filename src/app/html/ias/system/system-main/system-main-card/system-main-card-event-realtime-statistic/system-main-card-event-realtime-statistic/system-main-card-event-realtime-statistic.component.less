@@ -7,6 +7,8 @@
   gap: @gap;
 
 
+
+
   &-chart {
     width: calc((100% - @gap) * 0.5);
     height: 100%;
@@ -25,7 +27,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      cursor: pointer;
       gap: 10px;
+
+      &:hover {
+        color: #fff;
+        text-shadow: #fff 0px 0 10px;
+      }
 
       &-color {
         width: 10px;
@@ -40,5 +48,16 @@
         flex-grow: 0;
       }
     }
+  }
+
+
+}
+
+.system-main-card-container-operation {
+  padding-right: 20px;
+
+  select {
+    padding-left: 2px;
+    background-position: right 0px center;
   }
 }

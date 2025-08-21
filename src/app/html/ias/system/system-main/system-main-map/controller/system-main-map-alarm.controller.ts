@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { Paged } from '../../../../../../common/data-core/models/page-list.model';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapAlarmController {
@@ -16,7 +17,7 @@ export class SystemMainMapAlarmController {
   }
   event = {
     video: new EventEmitter<MobileEventRecord>(),
-    picture: new EventEmitter<MobileEventRecord>(),
+    picture: new EventEmitter<Paged<MobileEventRecord>>(),
   };
   load(datas: MobileEventRecord[]) {
     this.amap.alarm.scatter.get().then((x) => {

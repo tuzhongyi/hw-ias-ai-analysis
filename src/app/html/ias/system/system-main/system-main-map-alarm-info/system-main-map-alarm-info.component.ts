@@ -3,7 +3,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ContainerPageComponent } from '../../../../../common/components/container-page/container-page.component';
 import { ContainerZoomComponent } from '../../../../../common/components/container-zoom/container-zoom.component';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { Page } from '../../../../../common/data-core/models/page-list.model';
+import {
+  Page,
+  Paged,
+} from '../../../../../common/data-core/models/page-list.model';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
 import { AudioButtonComponent } from '../../../share/audio/audio-button/audio-button.component';
 import { PictureComponent } from '../../../share/picture/component/picture.component';
@@ -31,7 +34,7 @@ export class SystemMainMapAlarmInfoComponent
 
   @Output() close = new EventEmitter<void>();
   @Output() video = new EventEmitter<MobileEventRecord>();
-  @Output() image = new EventEmitter<MobileEventRecord>();
+  @Output() image = new EventEmitter<Paged<MobileEventRecord>>();
 
   constructor() {}
 
@@ -82,7 +85,14 @@ export class SystemMainMapAlarmInfoComponent
     },
     image: () => {
       if (this.data) {
-        this.image.emit(this.data);
+        let count = this.picture.page.data.TotalRecordCount;
+        let paged = Paged.create(
+          this.data,
+          this.picture.page.data.PageIndex,
+          count,
+          count
+        );
+        this.image.emit(paged);
       }
     },
   };

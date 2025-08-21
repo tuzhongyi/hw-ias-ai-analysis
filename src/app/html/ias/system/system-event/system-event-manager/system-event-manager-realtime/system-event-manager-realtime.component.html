@@ -1,4 +1,7 @@
-<div class="system-event-manager-realtime">
+<div
+  class="system-event-manager-realtime"
+  [style.padding]="iswindow ? 0 : undefined"
+>
   <div class="system-event-manager-realtime-head">
     <div class="system-event-manager-realtime-head-filter">
       <div class="forms">
@@ -58,7 +61,11 @@
       </div>
     </div>
     <div class="system-event-manager-shop-realtime-operation">
-      <button class="button-clip-gradient" (click)="window.map.show = true">
+      <button
+        class="button-clip-gradient"
+        (click)="window.map.show = true"
+        *ngIf="mapable"
+      >
         地图
       </button>
     </div>

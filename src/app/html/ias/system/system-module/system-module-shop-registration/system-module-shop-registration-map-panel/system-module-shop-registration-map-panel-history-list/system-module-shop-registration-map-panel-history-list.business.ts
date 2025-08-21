@@ -21,27 +21,15 @@ export class SystemModuleShopRegistrationMapPanelHistoryListBusiness {
     }
   ) {
     return new Promise<ShopRegistration[]>((resolve, reject) => {
-      let result = {
-        seccess: [] as ShopRegistration[],
-        error: [] as ShopRegistration[],
-      };
-      let promise:
-        | ((data: ShopRegistration) => Promise<ShopRegistration>)
-        | undefined = undefined;
-      if (opts.draggable) {
-        promise = this.update;
-      }
-      if (opts.removable) {
-        promise = this.delete;
-      }
-      if (!promise) {
-        reject(new Error('No operation specified for saving data.'));
-        return;
-      }
       let all: Promise<ShopRegistration>[] = [];
       for (let i = 0; i < datas.length; i++) {
         const data = datas[i];
-        all.push(promise(data));
+        if (opts.draggable) {
+          all.push(this.update(data));
+        }
+        if (opts.removable) {
+          all.push(this.delete(data));
+        }
       }
 
       Promise.all(all)

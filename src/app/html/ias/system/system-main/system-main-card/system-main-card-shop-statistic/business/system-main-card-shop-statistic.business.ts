@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ShopTaskStatistic } from '../../../../../../../common/data-core/models/arm/analysis/task/shop-task-statistic.model';
 import { ArmAnalysisRequestService } from '../../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { ArmGeographicRequestService } from '../../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { ArrayTool } from '../../../../../../../common/tools/array-tool/array.tool';
@@ -27,15 +28,23 @@ export class SystemMainCardShopStatisticBusiness {
     let road = await this.service.road.load();
     let task = await this.service.task.load(duration);
 
+    if (task.length == 0) {
+      return new ShopTaskStatistic();
+    }
+
     let roadnames = road.map((item) => item.Name);
 
     let group = ArrayTool.groupBy(task, (item) => {
       let roadname = roadnames.find((name) => (item.Name ?? '').includes(name));
-      return roadname || '';
+      if (roadname) {
+        return roadname;
+      }
+      return item.Name ?? '';
     });
     let taskIds = [];
     for (let key in group) {
       let items = group[key];
+
       if (items.length > 0) {
         taskIds.push(items[0].Id);
       }

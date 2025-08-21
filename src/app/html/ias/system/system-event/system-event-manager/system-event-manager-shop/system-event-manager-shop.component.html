@@ -1,4 +1,7 @@
-<div class="system-event-manager-shop">
+<div
+  class="system-event-manager-shop"
+  [style.padding]="iswindow ? 0 : undefined"
+>
   <div class="system-event-manager-shop-head">
     <div class="system-event-manager-shop-head-filter">
       <div class="forms">
@@ -70,7 +73,11 @@
       </div>
     </div>
     <div class="system-event-manager-shop-head-operation">
-      <button class="button-clip-gradient" (click)="window.map.show = true">
+      <button
+        class="button-clip-gradient"
+        (click)="window.map.show = true"
+        *ngIf="mapable"
+      >
         地图
       </button>
     </div>

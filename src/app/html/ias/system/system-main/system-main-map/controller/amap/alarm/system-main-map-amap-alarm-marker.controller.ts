@@ -2,7 +2,7 @@ import { MobileEventRecord } from '../../../../../../../../common/data-core/mode
 import { IIdNameLocationModel } from '../../../../../../../../common/data-core/models/model.interface';
 import { ObjectTool } from '../../../../../../../../common/tools/object-tool/object.tool';
 import { IASMapAMapMarkerLabelAbstract } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker-label.abstract';
-import { SystemMainMapAMapAlarmMarkerIconController } from './system-main-map-amap-event-realtime-marker-icon.controller';
+import { SystemMainMapAMapAlarmMarkerIconController } from './system-main-map-amap-alarm-marker-icon.controller';
 
 export class SystemMainMapAMapAlarmMarkerController extends IASMapAMapMarkerLabelAbstract<SystemMainMapAMapAlarmMarkerItem> {
   constructor(data: MobileEventRecord) {

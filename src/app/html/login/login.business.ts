@@ -4,6 +4,7 @@ import { AuthorizationService } from '../../common/data-core/requests/auth/autho
 import { HowellSM4 } from '../../common/data-core/requests/auth/howell-sm4';
 import { ArmAnalysisRequestService } from '../../common/data-core/requests/services/analysis/analysis.service';
 import { ArmGeographicRequestService } from '../../common/data-core/requests/services/geographic/geographic.service';
+import { ArmSystemRequestService } from '../../common/data-core/requests/services/system/system.service';
 import { LocalStorage } from '../../common/storage/local.storage';
 import { RoutePath } from '../app.route.path';
 
@@ -14,7 +15,8 @@ export class LoginBusiness {
     private router: Router,
     private local: LocalStorage,
     private analysis: ArmAnalysisRequestService,
-    private geo: ArmGeographicRequestService
+    private geo: ArmGeographicRequestService,
+    private system: ArmSystemRequestService
   ) {}
 
   init() {
@@ -35,7 +37,24 @@ export class LoginBusiness {
       if (username === 'root') {
         this.router.navigateByUrl(`${RoutePath.management}`);
       } else {
-        this.router.navigateByUrl(`${RoutePath.system}`);
+        this.system.security.user
+          .get(username)
+          .then((user) => {
+            let path = `${RoutePath.system}`;
+            if (
+              user.Priorities &&
+              user.Priorities.length > 0 &&
+              user.Priorities.includes('1')
+            ) {
+              path = `${RoutePath.system}`;
+            } else {
+              path = `${RoutePath.system}/map`;
+            }
+            this.router.navigateByUrl(`${path}`);
+          })
+          .catch((e) => {
+            this.router.navigateByUrl(`${RoutePath.system}`);
+          });
       }
     });
   }

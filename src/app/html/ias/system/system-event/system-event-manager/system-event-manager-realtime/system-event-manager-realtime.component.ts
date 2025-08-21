@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
@@ -15,6 +15,7 @@ import {
   Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
+import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
@@ -57,6 +58,11 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
   ],
 })
 export class SystemEventManagerRealtimeComponent implements OnInit {
+  @Input('emergency') input_emergency?: number;
+  @Input('duration') input_duration?: Duration;
+  @Input() mapable = true;
+  @Input() iswindow = false;
+
   constructor(
     public source: SystemEventManagerRealtimeSource,
     private language: LanguageTool,
@@ -68,6 +74,12 @@ export class SystemEventManagerRealtimeComponent implements OnInit {
   Language = Language;
 
   ngOnInit(): void {
+    if (this.input_emergency !== undefined) {
+      this.table.args.emergency = this.input_emergency;
+    }
+    if (this.input_duration) {
+      this.table.args.duration = this.input_duration;
+    }
     this.init.table();
   }
 

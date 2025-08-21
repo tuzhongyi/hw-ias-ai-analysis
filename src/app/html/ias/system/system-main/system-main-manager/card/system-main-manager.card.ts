@@ -1,3 +1,4 @@
+import { SystemMainManagerWindow } from '../window/system-main-manager.window';
 import { SystemMainManagerCardDeviceState } from './system-main-manager-device-state.card';
 import { SystemMainManagerCardEventRealtimeStatistic } from './system-main-manager-event-realtime-statistic.card';
 import { SystemMainManagerCardEventRealtimeTable } from './system-main-manager-event-realtime-table.card';
@@ -6,21 +7,35 @@ import { SystemMainManagerCardShopStatistic } from './system-main-manager-shop-s
 import { SystemMainManagerCardTaskStatistic } from './system-main-manager-task-statistic.card';
 
 export class SystemMainManagerCard {
+  task: {
+    statistic: SystemMainManagerCardTaskStatistic;
+  };
+
+  event: {
+    realtime: {
+      statistic: SystemMainManagerCardEventRealtimeStatistic;
+      table: SystemMainManagerCardEventRealtimeTable;
+    };
+    statistic: SystemMainManagerCardEventStatistic;
+  };
+  constructor(private window: SystemMainManagerWindow) {
+    this.task = {
+      statistic: new SystemMainManagerCardTaskStatistic(),
+    };
+    this.event = {
+      realtime: {
+        statistic: new SystemMainManagerCardEventRealtimeStatistic(this.window),
+        table: new SystemMainManagerCardEventRealtimeTable(),
+      },
+      statistic: new SystemMainManagerCardEventStatistic(this.window),
+    };
+  }
+
   device = {
     state: new SystemMainManagerCardDeviceState(),
-  };
-  event = {
-    realtime: {
-      statistic: new SystemMainManagerCardEventRealtimeStatistic(),
-      table: new SystemMainManagerCardEventRealtimeTable(),
-    },
-    statistic: new SystemMainManagerCardEventStatistic(),
   };
 
   shop = {
     statistic: new SystemMainManagerCardShopStatistic(),
-  };
-  task = {
-    statistic: new SystemMainManagerCardTaskStatistic(),
   };
 }

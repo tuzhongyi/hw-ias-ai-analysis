@@ -4,7 +4,7 @@ import { ILocation } from '../../../../../../../../common/data-core/models/model
 import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { IASMapAMapConverter } from '../../../../../../share/map/controller/amap/ias-map-amap.converter';
 
-export class SystemMainMapAMapEventScatterController {
+export class SystemMainMapAMapAlarmScatterController {
   event = {
     move: new EventEmitter<ILocation | undefined>(),
     click: new EventEmitter<MobileEventRecord>(),

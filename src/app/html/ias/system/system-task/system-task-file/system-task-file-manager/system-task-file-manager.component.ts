@@ -1,7 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
+import { Subscription } from 'rxjs';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { FileInfo } from '../../../../../../common/data-core/models/arm/file/file-info.model';
 import { WindowComponent } from '../../../../share/window/window.component';
@@ -23,18 +31,34 @@ import { SystemTaskFileManagerWindow } from './system-task-file-manager.window';
   styleUrl: './system-task-file-manager.component.less',
   providers: [SystemTaskFileManagerBusiness],
 })
-export class SystemTaskFileManagerComponent implements OnInit {
+export class SystemTaskFileManagerComponent implements OnInit, OnDestroy {
+  @Input() iswindow = false;
+  @Input() task?: AnalysisTask;
+  @Input() selecteds: FileInfo[] = [];
+  @Output() selectedsChange = new EventEmitter<FileInfo[]>();
+  @Input() multiple?: EventEmitter<void>;
   constructor(
     private business: SystemTaskFileManagerBusiness,
     private toastr: ToastrService
   ) {}
 
-  task?: AnalysisTask;
   window = new SystemTaskFileManagerWindow();
-  selecteds: FileInfo[] = [];
+  private subscription = new Subscription();
 
   ngOnInit(): void {
-    this.load();
+    if (!this.task) {
+      this.load();
+    }
+    if (this.multiple) {
+      let sub = this.multiple.subscribe((x) => {
+        this.on.multiple();
+      });
+      this.subscription.add(sub);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   load() {
@@ -49,6 +73,10 @@ export class SystemTaskFileManagerComponent implements OnInit {
   }
 
   on = {
+    select: (datas: FileInfo[]) => {
+      this.selecteds = datas;
+      this.selectedsChange.emit(this.selecteds);
+    },
     video: (data: FileInfo) => {
       this.window.details.data = data;
       this.window.details.show = true;

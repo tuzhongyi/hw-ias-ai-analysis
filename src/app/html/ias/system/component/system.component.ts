@@ -35,10 +35,9 @@ export class SystemComponent implements OnInit, OnDestroy {
   private load() {
     let now = new Date();
     let unload = this.local.unload.get();
-    console.log('unload:', unload);
+
     if (unload) {
       let time = now.getTime() - unload.getTime();
-      console.log('time:', time);
       if (time > 1000 * 60 * 1) {
         this.local.clear();
         this.router.navigateByUrl(`${RoutePath.login}`);

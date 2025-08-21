@@ -42,15 +42,13 @@ export class SystemMainManagerPictureWindow extends WindowViewModel {
       1,
       paged.Page.TotalRecordCount
     );
+    this.change(this.page);
     this.show = true;
   }
 
   private from = {
     record: (data: MobileEventRecord) => {
       if (data.Resources && data.Resources.length > 0) {
-        let resource = data.Resources[0];
-        this.id = resource.ImageUrl;
-        this.title = resource.ResourceName;
         this.datas = data.Resources.map((r) => {
           let item = new NameValue();
           item.Name = r.ResourceName;

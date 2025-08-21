@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { HowellSelectComponent } from '../../../../../common/components/hw-select/select-control.component';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
@@ -11,9 +12,13 @@ import { Paged } from '../../../../../common/data-core/models/page-list.model';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
 import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../share/window/window.component';
+import { SystemEventManagerAnalysisComponent } from '../../system-event/system-event-manager/system-event-manager-analysis/system-event-manager-analysis.component';
+import { SystemEventManagerRealtimeComponent } from '../../system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
+import { SystemEventManagerShopComponent } from '../../system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
 import { SystemEventProcessRealtimeComponent } from '../../system-event/system-event-process/system-event-process-realtime/system-event-process-realtime.component';
 import { SystemEventVideoComponent } from '../../system-event/system-event-video/system-event-video.component';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
+import { SystemTaskManagerComponent } from '../../system-task/system-task-manager/system-task-manager.component';
 import { SystemTaskVideoComponent } from '../../system-task/system-task-video/system-task-video.component';
 import { SystemMainCardDeviceStateComponent } from '../system-main-card/system-main-card-device-state/system-main-card-device-state.component';
 import { SystemMainCardEventRealtimeStatisticComponent } from '../system-main-card/system-main-card-event-realtime-statistic/system-main-card-event-realtime-statistic/system-main-card-event-realtime-statistic.component';
@@ -52,6 +57,10 @@ import { SystemMainManagerWindow } from './window/system-main-manager.window';
     SystemEventVideoComponent,
     SystemTaskVideoComponent,
     SystemEventProcessRealtimeComponent,
+    SystemEventManagerRealtimeComponent,
+    SystemEventManagerShopComponent,
+    SystemEventManagerAnalysisComponent,
+    SystemTaskManagerComponent,
   ],
   templateUrl: './system-main-manager.component.html',
   styleUrl: './system-main-manager.component.less',
@@ -60,12 +69,14 @@ import { SystemMainManagerWindow } from './window/system-main-manager.window';
 export class SystemMainManagerComponent implements OnInit {
   constructor(
     private business: SystemMainManagerBusiness,
-    public source: SystemMainManagerSource
+    public source: SystemMainManagerSource,
+    private toastr: ToastrService
   ) {}
 
-  load = new EventEmitter<void>();
-  card = new SystemMainManagerCard();
   window = new SystemMainManagerWindow();
+  load = new EventEmitter<void>();
+  card = new SystemMainManagerCard(this.window);
+
   panel = new SystemMainManagerPanel(this.window);
 
   ngOnInit(): void {
@@ -89,6 +100,10 @@ export class SystemMainManagerComponent implements OnInit {
         this.realtime.datas = datas.filter((x) => !x.Assignment?.Handled);
       },
       position: (data: MobileEventRecord) => {
+        if (!data.Location) {
+          this.toastr.warning('位置为空，无法定位');
+          return;
+        }
         this.map.moveto.emit(data);
       },
       details: (data: MobileEventRecord) => {
@@ -145,6 +160,10 @@ export class SystemMainManagerComponent implements OnInit {
         this.map.on.details(item);
       },
       position: (item: ShopRegistration) => {
+        if (!item.Location) {
+          this.toastr.warning('位置为空，无法定位');
+          return;
+        }
         this.map.select.emit(item);
       },
       item: {

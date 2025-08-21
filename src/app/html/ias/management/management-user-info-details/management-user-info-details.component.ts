@@ -50,10 +50,6 @@ export class ManagementUserInfoDetailsComponent implements OnInit {
       this.toastr.warning('请输入密码');
       return false;
     }
-    if (!this.data.Priorities || this.data.Priorities.length == 0) {
-      this.toastr.warning('请选择用户权限');
-      return false;
-    }
     if (!isFinite(this.data.GroupId)) {
       this.toastr.warning('请选择用户组');
       return false;

@@ -233,8 +233,13 @@ export class Transformer {
     if (params.value === undefined || params.value === null) {
       return params.value;
     }
+
     if (params.type === TransformationType.PLAIN_TO_CLASS) {
+      if (!params.value.Longitude || !params.value.Latitude) {
+        return undefined;
+      }
       let wgs84 = params.value;
+
       let gcj02 = GeoTool.point.convert.wgs84.to.gcj02(
         wgs84.Longitude,
         wgs84.Latitude

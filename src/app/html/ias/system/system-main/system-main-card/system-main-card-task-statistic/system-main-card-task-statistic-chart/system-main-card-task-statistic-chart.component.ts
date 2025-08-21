@@ -76,7 +76,6 @@ export class SystemMainCardTaskStatisticChartComponent
       let xAxis = datas.map((x) => x.name);
       let values = datas.map((x) => x.value);
       this.set(xAxis, values);
-      console.log(this.option);
       chart.setOption(this.option);
     });
   }

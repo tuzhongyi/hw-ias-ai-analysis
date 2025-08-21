@@ -110,8 +110,7 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         this.alarmvideo.emit(data);
       });
       this.controller.alarm.event.picture.subscribe((data) => {
-        let paged = Paged.create(data, 1, 1, data.Resources?.length ?? 1);
-        this.alarmpicture.emit(paged);
+        this.alarmpicture.emit(data);
       });
     },
     map: () => {

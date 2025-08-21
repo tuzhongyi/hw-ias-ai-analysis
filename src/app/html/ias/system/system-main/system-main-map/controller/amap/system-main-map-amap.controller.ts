@@ -9,9 +9,11 @@ import { IIASMapAMapInfo } from '../../../../../share/map/controller/amap/info/i
 import { IASMapAMapPointLayerController } from '../../../../../share/map/controller/amap/point/ias-map-amap-point-layer.controller';
 import { IASMapAMapRoadController } from '../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 import { SystemMainMapAMapDeviceMarkerLayerController } from './device/system-main-map-amap-device-marker-layer.controller';
-import { SystemMainMapAMapEventRealtimeInfoController } from './event/system-main-map-amap-event-realtime-info.controller';
-import { SystemMainMapAMapAlarmMarkerLayerController } from './event/system-main-map-amap-event-realtime-marker-layer.controller';
-import { SystemMainMapAMapEventScatterController } from './event/system-main-map-amap-event-realtime-scatter.controller';
+
+import { Paged } from '../../../../../../../common/data-core/models/page-list.model';
+import { SystemMainMapAMapAlarmInfoController } from './alarm/system-main-map-amap-alarm-info.controller';
+import { SystemMainMapAMapAlarmMarkerLayerController } from './alarm/system-main-map-amap-alarm-marker-layer.controller';
+import { SystemMainMapAMapAlarmScatterController } from './alarm/system-main-map-amap-alarm-scatter.controller';
 import { SystemMainMapAMapShopMarkerLayerController } from './shop/system-main-map-amap-shop-marker-layer.controller';
 
 export class SystemMainMapAMapController {
@@ -35,7 +37,7 @@ export class SystemMainMapAMapController {
     },
     alarm: {
       video: new EventEmitter<MobileEventRecord>(),
-      picture: new EventEmitter<MobileEventRecord>(),
+      picture: new EventEmitter<Paged<MobileEventRecord>>(),
     },
   };
 
@@ -50,20 +52,18 @@ export class SystemMainMapAMapController {
         let container = new Loca.Container({ map: map });
         this.loca.set(container);
 
-        setTimeout(() => {
-          this.init.road(map);
+        this.init.road(map);
 
-          let info = this.init.info(map);
+        let info = this.init.info(map);
 
-          this.init.shop.point(container);
-          this.init.shop.marker(map, info);
+        this.init.shop.point(container);
+        this.init.shop.marker(map, info);
 
-          this.init.device.marker(map, info);
+        this.init.device.marker(map, info);
 
-          this.init.alarm.scatter(container);
-          this.init.alarm.info(map);
-          this.init.alarm.marker(map, info);
-        }, 500);
+        this.init.alarm.scatter(container);
+        this.init.alarm.info(map);
+        this.init.alarm.marker(map, info);
       });
   }
 
@@ -77,8 +77,8 @@ export class SystemMainMapAMapController {
       marker: new PromiseValue<SystemMainMapAMapDeviceMarkerLayerController>(),
     },
     alarm: {
-      info: new PromiseValue<SystemMainMapAMapEventRealtimeInfoController>(),
-      scatter: new PromiseValue<SystemMainMapAMapEventScatterController>(),
+      info: new PromiseValue<SystemMainMapAMapAlarmInfoController>(),
+      scatter: new PromiseValue<SystemMainMapAMapAlarmScatterController>(),
       marker: new PromiseValue<SystemMainMapAMapAlarmMarkerLayerController>(),
     },
 
@@ -119,14 +119,11 @@ export class SystemMainMapAMapController {
     },
     alarm: {
       scatter: (loca: Loca.Container) => {
-        let ctr = new SystemMainMapAMapEventScatterController(loca);
+        let ctr = new SystemMainMapAMapAlarmScatterController(loca);
         this.controller.alarm.scatter.set(ctr);
       },
       info: (map: AMap.Map) => {
-        let ctr = new SystemMainMapAMapEventRealtimeInfoController(
-          map,
-          this.tool
-        );
+        let ctr = new SystemMainMapAMapAlarmInfoController(map, this.tool);
         ctr.event.video.subscribe((data) => {
           this.event.alarm.video.emit(data);
         });

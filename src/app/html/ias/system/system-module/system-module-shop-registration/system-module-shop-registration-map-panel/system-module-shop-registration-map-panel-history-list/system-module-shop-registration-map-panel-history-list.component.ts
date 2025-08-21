@@ -53,7 +53,8 @@ export class SystemModuleShopRegistrationMapPanelHistoryListComponent {
           }
         })
         .catch((error) => {
-          console.error(error.message, '保存失败');
+          this.toastr.error(error.message, '保存失败');
+          console.error(error);
         });
     },
     table: {

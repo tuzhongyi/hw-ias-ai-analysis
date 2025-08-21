@@ -46,7 +46,6 @@ export class SystemMainCardTaskStatisticComponent {
   private load() {
     this.business.load(this.duration).then((datas) => {
       this.datas = datas;
-      console.log('任务统计数据', this.datas);
     });
   }
 }

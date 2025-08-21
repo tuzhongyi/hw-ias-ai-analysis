@@ -1,5 +1,9 @@
-<div class="system-task-file-manager" *ngIf="task">
-  <div class="system-task-file-manager-operation">
+<div
+  class="system-task-file-manager"
+  *ngIf="task"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-task-file-manager-operation" *ngIf="!multiple">
     <button
       class="button-clip-gradient"
       [disabled]="selecteds.length < 2"
@@ -12,7 +16,8 @@
     [data]="task"
     (video)="on.video($event)"
     (error)="on.error($event)"
-    [(selecteds)]="selecteds"
+    [selecteds]="selecteds"
+    (selectedsChange)="on.select($event)"
   ></ias-system-task-file-table>
 
   <ias-window

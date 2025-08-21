@@ -1,6 +1,9 @@
-<div class="system-task-manager root-router">
+<div
+  class="system-task-manager root-router"
+  [style.padding]="iswindow ? 0 : undefined"
+>
   <div class="system-task-manager-head">
-    <div class="system-task-manager-head-tabs tab-group">
+    <div class="system-task-manager-head-tabs tab-group" *ngIf="tabable">
       <div
         class="tab-item"
         [ngClass]="{
@@ -29,7 +32,7 @@
         <div class="tab-item-inner">已完成</div>
       </div>
     </div>
-    <div></div>
+    <div *ngIf="tabable"></div>
     <div class="system-task-manager-head-operation">
       <div class="system-task-manager-head-operation-filter forms">
         <div class="form-item date">
@@ -50,7 +53,7 @@
             ></date-time-control>
           </div>
         </div>
-        <div class="form-item duration">
+        <div class="form-item duration" *ngIf="!duration">
           <div class="form-item-text">时间范围</div>
           <div class="form-item-value">
             <select
@@ -78,7 +81,7 @@
           </button>
         </div>
       </div>
-      <div class="system-task-manager-head-operation-buttons">
+      <div class="system-task-manager-head-operation-buttons" *ngIf="operable">
         <button class="button-clip-gradient" (click)="create.open()">
           新建
         </button>
@@ -260,5 +263,34 @@
         </ias-picture-polygon>
       </howell-container-zoom>
     </howell-container-page>
+  </ias-window>
+  <ias-window
+    *ngIf="window.file.show"
+    [Model]="window.file"
+    [style]="window.file.style"
+    [title]="window.file.title"
+    [CloseButton]="false"
+  >
+    <div
+      ngProjectAs="window-head-operation"
+      class="window-file-operation button-group"
+    >
+      <button
+        class="button-clip-gradient"
+        [disabled]="window.file.selecteds.length < 2"
+        (click)="window.file.on.multiple()"
+      >
+        多视频播放
+      </button>
+      <button (click)="window.file.on.close()">
+        <i class="howell-icon-Close"></i>
+      </button>
+    </div>
+    <ias-system-task-file-manager
+      [iswindow]="true"
+      [task]="window.file.data"
+      [multiple]="window.file.multiple"
+      [(selecteds)]="window.file.selecteds"
+    ></ias-system-task-file-manager>
   </ias-window>
 </div>

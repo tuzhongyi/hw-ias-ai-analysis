@@ -1,6 +1,8 @@
+import { EventEmitter } from '@angular/core';
 import { UploadControlFileInfo } from '../../../../../common/components/upload-control/upload-control.model';
 import { WindowViewModel } from '../../../../../common/components/window-control/window.model';
 import { AnalysisTask } from '../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
+import { FileInfo } from '../../../../../common/data-core/models/arm/file/file-info.model';
 import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
 import { Page } from '../../../../../common/data-core/models/page-list.model';
 import { SizeTool } from '../../../../../common/tools/size-tool/size.tool';
@@ -20,6 +22,7 @@ export class SystemTaskManagerWindow {
     registration: new ShopRegistrationWindow(),
   };
   picture = new PictureWindow();
+  file = new FileWindow();
 }
 
 class CreationWindow extends WindowViewModel {
@@ -122,4 +125,32 @@ class ShopRegistrationWindow extends WindowViewModel {
   state?: boolean;
   data?: AnalysisTask;
   title = '注册商铺信息';
+}
+class FileWindow extends WindowViewModel {
+  clear() {
+    this.data = undefined;
+    this.selecteds = [];
+  }
+  style = {
+    ...SizeTool.window.full,
+  };
+  data?: AnalysisTask;
+  get title() {
+    if (this.data) {
+      return this.data.Name;
+    }
+    return '';
+  }
+  multiple = new EventEmitter<void>();
+  selecteds: FileInfo[] = [];
+
+  on = {
+    multiple: () => {
+      this.multiple.emit();
+    },
+    close: () => {
+      this.clear();
+      this.show = false;
+    },
+  };
 }

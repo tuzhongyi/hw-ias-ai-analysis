@@ -16,9 +16,11 @@ export class SystemMainCardTaskStatisticChartBusiness {
       let month = item.CreationTime!.getMonth();
       return month + 1;
     });
-
+    console.log(group);
     let items: ChartItem<string>[] = [];
-    for (let month = 1; month <= 12; month++) {
+    for (let i = 0; i < 12; i++) {
+      let month = ((duration.begin.getMonth() + i + 1) % 12) + 1;
+
       let item: ChartItem<string> = {
         id: month.toString(),
         name: `${month}月`,
