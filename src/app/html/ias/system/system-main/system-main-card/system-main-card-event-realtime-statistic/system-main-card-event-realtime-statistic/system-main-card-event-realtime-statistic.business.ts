@@ -13,13 +13,13 @@ export class SystemMainCardEventRealtimeStatisticBusiness {
   ) {}
 
   async load(duration: Duration) {
-    let types = await this.manager.source.event.EmergencyTypes.get();
+    let types = await this.manager.source.event.LiveEventTypes.get();
     let datas: ChartItem[] = [];
     for (let i = 0; i < types.length; i++) {
       const type = types[i];
       let page = await this.data.load(duration, type.Value);
       datas.push({
-        id: type.Value,
+        id: i,
         name: type.Name,
         value: page.TotalRecordCount,
       });

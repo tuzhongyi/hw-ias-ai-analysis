@@ -15,6 +15,8 @@ import {
   Page,
   Paged,
 } from '../../../../../../common/data-core/models/page-list.model';
+import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
+import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { AudioButtonComponent } from '../../../../share/audio/audio-button/audio-button.component';
@@ -28,7 +30,12 @@ import { SystemEventTableService } from '../business/system-event-table.service'
 
 @Component({
   selector: 'ias-system-event-table-realtime',
-  imports: [CommonModule, PaginatorComponent, AudioButtonComponent],
+  imports: [
+    CommonModule,
+    PaginatorComponent,
+    AudioButtonComponent,
+    TableSorterDirective,
+  ],
   templateUrl: './system-event-table-realtime.component.html',
   styleUrl: './system-event-table-realtime.component.less',
   providers: [SystemEventTableService, SystemEventTableBusiness],
@@ -50,7 +57,20 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
 
   constructor(private business: SystemEventTableBusiness) {}
 
-  widths = ['5%', '10%', '8%', '8%', '12%', '8%', '10%', '12%', '17%', '10%'];
+  widths = [
+    '5%',
+    '10%',
+    '7%',
+    '7%',
+    '10%',
+    '7%',
+    '10%',
+    '7%',
+    '10%',
+    '10%',
+    'auto',
+    '10%',
+  ];
   datas: (SystemEventTableItem | undefined)[] = [];
   page = Page.create(1, 10);
   selected?: SystemEventTableItem;
@@ -66,10 +86,11 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
     if (this.input_load) {
       let sub = this.input_load.subscribe((x) => {
         this.args = x;
+        this.filter = SystemEventTableFilter.from(this.args);
         this.load(
           this.args.first ? 1 : this.page.PageIndex,
           this.page.PageSize,
-          this.args
+          this.filter
         );
       });
       this.subscription.add(sub);
@@ -88,18 +109,15 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
       });
       this.subscription.add(sub);
     }
-    this.load(1, this.page.PageSize, this.args);
+    this.filter = SystemEventTableFilter.from(this.args);
+    this.load(1, this.page.PageSize, this.filter);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  private load(index: number, size: number, args?: SystemEventTableArgs) {
-    if (args) {
-      this.filter = SystemEventTableFilter.from(args);
-    }
-    console.log(this.filter);
-    this.business.load(index, size, this.filter).then((x) => {
+  private load(index: number, size: number, filter: SystemEventTableFilter) {
+    this.business.load(index, size, filter).then((x) => {
       this.page = x.Page;
       this.datas = x.Data;
 
@@ -158,7 +176,7 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
   };
 
   onpage(index: number) {
-    this.load(index, this.page.PageSize);
+    this.load(index, this.page.PageSize, this.filter);
   }
 
   onposition(e: Event, item: MobileEventRecord) {
@@ -196,5 +214,15 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }
+  }
+  onsort(sort: Sort) {
+    this.filter.asc = undefined;
+    this.filter.desc = undefined;
+    if (sort.direction === 'asc') {
+      this.filter.asc = sort.active;
+    } else {
+      this.filter.desc = sort.active;
+    }
+    this.load(this.page.PageIndex, this.page.PageSize, this.filter);
   }
 }

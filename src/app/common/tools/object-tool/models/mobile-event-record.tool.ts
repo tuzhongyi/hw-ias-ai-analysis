@@ -19,12 +19,6 @@ export class MobileEventRecordTool {
         ArmEventType.ShopSignDisappeared,
         ArmEventType.ShopSignCreated,
       ],
-      realtime: [
-        ArmEventType.VehicleIllegalParking,
-        ArmEventType.BicycleIllegalParking,
-        ArmEventType.GarbageExposure,
-        ArmEventType.EmergencyEvent,
-      ],
       analysis: [
         ArmEventType.RoadDeviceBroken,
         ArmEventType.ShopSignBroken,

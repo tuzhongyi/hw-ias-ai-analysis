@@ -23,12 +23,23 @@ export class GisPoint implements IGisPoint {
   /**	Double	偏北角方向，0-360	O */
   Course?: number;
 
-  static create(longitude: number, latitude: number, type?: GisType): GisPoint {
+  static create(
+    longitude: number,
+    latitude: number,
+    type?: GisType,
+    source?: GisPoint
+  ): GisPoint {
     let point = new GisPoint();
     point.Longitude = longitude;
     point.Latitude = latitude;
     point.Altitude = 0;
     point.GisType = type;
+    if (source) {
+      point.Altitude = source.Altitude;
+      point.Floor = source.Floor;
+      point.Speed = source.Speed;
+      point.Course = source.Course;
+    }
     return point;
   }
   static equals(a: GisPoint, b: GisPoint): boolean {

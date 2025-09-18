@@ -58,7 +58,7 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
   ],
 })
 export class SystemEventManagerRealtimeComponent implements OnInit {
-  @Input('emergency') input_emergency?: number;
+  @Input('type') input_type?: number;
   @Input('duration') input_duration?: Duration;
   @Input() mapable = true;
   @Input() iswindow = false;
@@ -74,18 +74,22 @@ export class SystemEventManagerRealtimeComponent implements OnInit {
   Language = Language;
 
   ngOnInit(): void {
-    if (this.input_emergency !== undefined) {
-      this.table.args.emergency = this.input_emergency;
+    if (this.input_type !== undefined) {
+      this.table.args.type = this.input_type;
     }
     if (this.input_duration) {
       this.table.args.duration = this.input_duration;
     }
     this.init.table();
+    this.init.window();
   }
 
   private init = {
-    table: () => {
-      this.table.args.types = this.source.type.map((x) => x.Value);
+    table: async () => {
+      this.table.args.types = (await this.source.type).map((x) => x.Value);
+    },
+    window: async () => {
+      this.window.map.args.types = (await this.source.type).map((x) => x.Value);
     },
   };
 

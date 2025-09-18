@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SourceManager } from '../../../../../../../common/data-core/requests/managers/source/source.manager';
 import { ArmAnalysisRequestService } from '../../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisTaskListParams } from '../../../../../../../common/data-core/requests/services/analysis/server/analysis-server.params';
 import { GetMobileEventsParams } from '../../../../../../../common/data-core/requests/services/system/event/system-event.params';
@@ -11,7 +12,8 @@ import { SystemMainCardEventStatisticItem } from '../system-main-card-event-stat
 export class SystemMainCardEventStatisticBusiness {
   constructor(
     system: ArmSystemRequestService,
-    analysis: ArmAnalysisRequestService
+    analysis: ArmAnalysisRequestService,
+    private source: SourceManager
   ) {
     this.service = { system, analysis };
   }
@@ -32,7 +34,8 @@ export class SystemMainCardEventStatisticBusiness {
   }
 
   async realtime(duration: Duration) {
-    let types = ObjectTool.model.MobileEventRecord.get.type.realtime;
+    let _types = await this.source.event.LiveEventTypes.get();
+    let types = _types.map((x) => x.Value);
     let page = await this.data.event(duration, types);
     let item = new SystemMainCardEventStatisticItem();
     item.icon = 'realtime';

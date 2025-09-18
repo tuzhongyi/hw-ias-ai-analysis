@@ -5,7 +5,6 @@ import { EventResourceContent } from '../../../../../../common/data-core/models/
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
-import { ObjectTool } from '../../../../../../common/tools/object-tool/object.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemEventMapArgs } from '../../system-event-map/system-event-map-manager/system-event-map-manager.model';
@@ -125,9 +124,7 @@ class MapWindow extends WindowViewModel {
   style = {
     ...SizeTool.window.full,
   };
-  title = '商铺更变';
-  args = new SystemEventMapArgs(
-    ObjectTool.model.MobileEventRecord.get.type.realtime
-  );
+  title = '实时事件';
+  args = new SystemEventMapArgs();
   mode = MobileEventRecordMode.realtime;
 }

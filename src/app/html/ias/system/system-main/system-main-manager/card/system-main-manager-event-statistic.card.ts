@@ -13,7 +13,7 @@ export class SystemMainManagerCardEventStatistic {
           break;
         case 'realtime':
           this.window.record.realtime.duration = this.duration;
-          this.window.record.realtime.emergency = undefined;
+          this.window.record.realtime.type = undefined;
           this.window.record.realtime.show = true;
           break;
         case 'analysis':

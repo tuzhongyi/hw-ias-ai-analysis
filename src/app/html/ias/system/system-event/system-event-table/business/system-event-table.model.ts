@@ -8,40 +8,51 @@ export interface ISystemEventTableArgs {
   duration: Duration;
   type?: ArmEventType;
   types: ArmEventType[];
-  state?: number;
   resource?: string;
   taskId?: string;
-  emergency?: number;
+  confirmed?: boolean;
+  state?: number;
+  handle?: boolean;
+  misinform?: boolean;
 }
 
 export class SystemEventTableArgs implements ISystemEventTableArgs {
   duration = DateTimeTool.last.month(new Date());
   types: ArmEventType[] = [];
   type?: ArmEventType;
-  state?: number;
   resource?: string;
   taskId?: string;
   first = false;
-  emergency?: number;
+  confirmed?: boolean;
+  state?: number;
+  handle?: boolean;
+  misinform?: boolean;
 }
 
 export class SystemEventTableFilter implements ISystemEventTableArgs {
   duration = DateTimeTool.last.month(new Date());
   type?: ArmEventType;
   types: ArmEventType[] = [];
-  state?: number;
+
   resource?: string;
   taskId?: string;
-  emergency?: number;
+  confirmed?: boolean;
+  state?: number;
+  handle?: boolean;
+  misinform?: boolean;
+  asc?: string;
+  desc?: string = 'EventTime';
   static from(args: ISystemEventTableArgs) {
     let filter = new SystemEventTableFilter();
     filter.duration = args.duration;
     filter.type = args.type;
-    filter.state = args.state;
     filter.resource = args.resource;
     filter.taskId = args.taskId;
     filter.types = args.types;
-    filter.emergency = args.emergency;
+    filter.confirmed = args.confirmed;
+    filter.state = args.state;
+    filter.handle = args.handle;
+    filter.misinform = args.misinform;
     return filter;
   }
 }

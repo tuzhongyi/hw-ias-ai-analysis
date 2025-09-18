@@ -7,6 +7,6 @@ export class SystemMainManagerRecordRealtimeWindow extends WindowViewModel {
     ...SizeTool.window.full,
   };
   title = '实时事件';
-  emergency?: number;
+  type?: number;
   duration?: Duration;
 }

@@ -9,7 +9,7 @@ export class SystemMainManagerCardEventRealtimeStatistic {
   on = {
     type: (type: number) => {
       this.window.record.realtime.duration = this.duration;
-      this.window.record.realtime.emergency = type;
+      this.window.record.realtime.type = type;
       this.window.record.realtime.show = true;
     },
   };

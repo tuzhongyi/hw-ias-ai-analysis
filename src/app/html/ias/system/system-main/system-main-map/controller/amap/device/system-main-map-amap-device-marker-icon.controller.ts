@@ -3,7 +3,10 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 
 export class SystemMainMapAMapDeviceMarkerIconController {
   private size(): [number, number] {
-    return [SizeTool.map.shop.width * 0.5, SizeTool.map.shop.width * 0.5];
+    return [
+      SizeTool.map.device.mobile.width * 0.5,
+      SizeTool.map.device.mobile.width * 0.5,
+    ];
   }
 
   private get opts(): AMap.LabelMarkerIconOptions {

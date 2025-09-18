@@ -4,30 +4,27 @@ import { SourceManager } from '../../../../../../common/data-core/requests/manag
 
 @Injectable()
 export class SystemEventManagerRealtimeSource {
-  type: EnumNameValue<number>[];
-  state: EnumNameValue<number>[];
-  emergency: Promise<EnumNameValue<number>[]>;
+  type: Promise<EnumNameValue<number>[]>;
+  handle: EnumNameValue<boolean>[];
+  misinform: EnumNameValue<boolean>[];
 
   constructor(source: SourceManager) {
-    this.state = this.init.state();
-    this.type = this.init.type();
-    this.emergency = source.event.EmergencyTypes.get();
+    this.handle = this.init.handle();
+    this.misinform = this.init.misinform();
+    this.type = source.event.LiveEventTypes.get();
   }
 
   private init = {
-    state: () => {
+    handle: () => {
       return [
-        { Name: '待处置', Value: 1 },
-        { Name: '已处置', Value: 2 },
-        { Name: '屏蔽或误报', Value: 3 },
+        { Name: '待处置', Value: false },
+        { Name: '已处置', Value: true },
       ];
     },
-    type: () => {
+    misinform: () => {
       return [
-        { Name: '机动车乱停', Value: 1 },
-        { Name: '非机动车乱停', Value: 2 },
-        { Name: '暴露垃圾', Value: 3 },
-        { Name: '突发情况', Value: 10 },
+        { Name: '误报', Value: true },
+        { Name: '非误报', Value: false },
       ];
     },
   };

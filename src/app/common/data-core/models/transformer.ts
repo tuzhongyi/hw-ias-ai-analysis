@@ -249,8 +249,8 @@ export class Transformer {
       let bd09 = GeoTool.point.convert.gcj02.to.bd09(gcj02[0], gcj02[1]);
       return {
         WGS84: wgs84,
-        GCJ02: GisPoint.create(gcj02[0], gcj02[1], GisType.GCJ02),
-        BD09: GisPoint.create(bd09[0], bd09[1], GisType.BD09),
+        GCJ02: GisPoint.create(gcj02[0], gcj02[1], GisType.GCJ02, params.value),
+        BD09: GisPoint.create(bd09[0], bd09[1], GisType.BD09, params.value),
       };
     } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
       return params.value.WGS84;

@@ -45,29 +45,40 @@ export class SystemEventTableService {
     if (filter.types && filter.types.length > 0) {
       params.EventTypes = filter.types;
     }
-    if (filter.emergency != undefined) {
-      params.EmergencyType = filter.emergency;
+
+    if (filter.confirmed != undefined) {
+      params.Confirmed = filter.confirmed;
     }
-    switch (filter.state) {
-      case 1:
-        params.Handled = false;
-        break;
-      case 2:
-        params.Handled = true;
-        params.IsMisInfo = false;
-        break;
-      case 3:
-        params.IsMisInfo = true;
-        break;
-      default:
-        break;
+
+    params.Asc = filter.asc;
+    params.Desc = filter.desc;
+
+    if (filter.handle != undefined) {
+      params.Handled = filter.handle;
+    }
+    if (filter.misinform != undefined) {
+      params.IsMisInfo = filter.misinform;
+    }
+    if (filter.handle == undefined && filter.misinform == undefined) {
+      switch (filter.state) {
+        case 1:
+          params.Handled = false;
+          break;
+        case 2:
+          params.Handled = true;
+          params.IsMisInfo = false;
+          break;
+        case 3:
+          params.IsMisInfo = true;
+          break;
+        default:
+          break;
+      }
     }
 
     if (filter.taskId) {
       params.TaskId = filter.taskId;
     }
-
-    params.Desc = 'EventTime';
 
     return this.service.event.list(params);
   }

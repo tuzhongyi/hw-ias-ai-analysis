@@ -13,4 +13,7 @@ export class EventCapability implements IModel {
   /**	EnumNameValue[]	突发情况分类	O	*/
   @Type(() => EnumNameValue)
   EmergencyTypes?: EnumNameValue<number>[];
+  /**	EnumNameValue[]	实时事件类型	O	R	*/
+  @Type(() => EnumNameValue)
+  LiveEventTypes?: EnumNameValue<number>[];
 }

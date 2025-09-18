@@ -7,6 +7,7 @@ export class SourceEventManager {
   EventTypes = new PromiseValue<EnumNameValue<number>[]>();
   TriggerTypes = new PromiseValue<EnumNameValue<number>[]>();
   EmergencyTypes = new PromiseValue<EnumNameValue<number>[]>();
+  LiveEventTypes = new PromiseValue<EnumNameValue<number>[]>();
 
   constructor(private capability: CapabilityManager) {
     this.init();
@@ -25,6 +26,9 @@ export class SourceEventManager {
       }
       if (x.EmergencyTypes) {
         this.EmergencyTypes.set(x.EmergencyTypes);
+      }
+      if (x.LiveEventTypes) {
+        this.LiveEventTypes.set(x.LiveEventTypes);
       }
     });
   }

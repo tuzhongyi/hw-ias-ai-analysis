@@ -1,6 +1,12 @@
 <div class="system-event-table-realtime">
   <div class="system-event-table-realtime-body table-page">
-    <table border="0" cellpadding="0" cellspacing="0">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="onsort($event)"
+    >
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
       </colgroup>
@@ -10,8 +16,10 @@
           <th>照片</th>
 
           <th>触发方式</th>
-          <th>事件类型</th>
-          <th>发现时间</th>
+          <th sort="EmergencyType">事件类型</th>
+          <th sort="EventTime">发现时间</th>
+          <th sort="Confirmed">确认状态</th>
+          <th sort="ConfirmedTime">确认时间</th>
           <th>状态</th>
 
           <th>处置员</th>
@@ -65,6 +73,22 @@
           </td>
           <td>
             <div>{{ item?.EventTime | date : Language.yyyyMMddHHmmss }}</div>
+          </td>
+          <td>
+            <div
+              [ngClass]="{
+                unhandle: item && !item.Confirmed,
+                handled: item && item.Confirmed
+              }"
+              *ngIf="item"
+            >
+              {{ item.Confirmed ? "已确认" : "未确认" }}
+            </div>
+          </td>
+          <td>
+            <div>
+              {{ item?.ConfirmedTime | date : Language.yyyyMMddHHmmss }}
+            </div>
           </td>
           <td
             [ngClass]="{

@@ -59,4 +59,15 @@ export class MobileEventRecord implements IIdModel, ILocation {
   EmergencyType?: number;
   /**	String	突发情况描述	O */
   EmergencyDescription?: string;
+  /**	String	区划ID	O */
+  DivisionId?: string;
+  /**	String	地址	O */
+  Address?: string;
+  /**	Boolean	是否已确认	O */
+  Confirmed?: boolean;
+  /**	DateTime	确认时间	O */
+  @Transform(Transformer.DateTime)
+  ConfirmedTime?: Date;
+  /**	Double	置信度，0-100	O */
+  Confidence?: number;
 }
