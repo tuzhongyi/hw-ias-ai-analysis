@@ -11,8 +11,8 @@ export class SystemEventMapContainerAMapMarkerIconController {
     misinform: this.create(PathTool.image.map.alarm.icon.cyan),
   };
   size: [number, number] = [
-    SizeTool.map.alarm.width * 0.1,
-    SizeTool.map.alarm.height * 0.1,
+    SizeTool.map.alarm.small.width,
+    SizeTool.map.alarm.small.height,
   ];
   offset: [number, number] = [-this.size[0] / 2, -this.size[1] / 2];
 

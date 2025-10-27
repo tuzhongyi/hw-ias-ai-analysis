@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
-import { Time } from '../common/time.model';
-import { IModel } from '../model.interface';
-import { Transformer } from '../transformer';
+import { Time } from '../../../common/time.model';
+import { IModel } from '../../../model.interface';
+import { Transformer } from '../../../transformer';
 
 /**	TimeSegment (时间段)	*/
 export class TimeSegment implements IModel {

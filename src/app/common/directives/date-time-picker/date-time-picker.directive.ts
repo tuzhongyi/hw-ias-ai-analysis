@@ -32,6 +32,7 @@ export class DateTimePickerDirective
   @Input('startView') startView: DateTimePickerView = DateTimePickerView.month;
   @Input('minView') minView: DateTimePickerView = DateTimePickerView.month;
   @Input('week') week: boolean = false;
+  @Input() zindex: number = 10;
 
   private _date: Date = new Date();
   public get date(): Date {
@@ -52,6 +53,9 @@ export class DateTimePickerDirective
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(changes);
     // this.reInit(this.startView, this.minView, this.format, this.value);
+    if (changes['zindex']) {
+      this.ele.style.zIndex = this.zindex.toString();
+    }
     if (this.changing == false) {
       this.reInit(
         this.startView,
@@ -133,6 +137,7 @@ export class DateTimePickerDirective
         language: 'zh-CN',
         forceParse: false,
         initialDate: value,
+        zIndex: this.zindex,
       })
       .on('changeDate', (ev: { date: Date }) => {
         this.date = ev.date;
@@ -180,6 +185,7 @@ export class DateTimePickerDirective
         language: 'zh-CN',
         forceParse: false,
         initialDate: value,
+        zIndex: this.zindex,
       })
       .on('changeDate', (ev: { date: Date | undefined }) => {
         this.changing = true;

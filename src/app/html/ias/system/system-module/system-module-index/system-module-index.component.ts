@@ -22,4 +22,7 @@ export class SystemModuleIndexComponent {
   oncompare() {
     this.router.navigateByUrl(SystemPath.module_shop_compare);
   }
+  ongpstask() {
+    this.router.navigateByUrl(SystemPath.module_gps_task);
+  }
 }

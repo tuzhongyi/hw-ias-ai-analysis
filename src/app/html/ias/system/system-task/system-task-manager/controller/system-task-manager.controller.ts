@@ -11,7 +11,7 @@ export class SystemTaskManagerController {
     public duration: SystemTaskManagerDurationController,
     manager: Manager
   ) {
-    this.channels = manager.source.shop.CameraNos.get();
+    this.channels = manager.source.analysis.shop.CameraNos.get();
   }
 
   channels: Promise<EnumNameValue[]>;

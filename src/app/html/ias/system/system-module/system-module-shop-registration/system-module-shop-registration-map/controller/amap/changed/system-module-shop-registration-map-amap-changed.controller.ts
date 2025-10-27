@@ -54,14 +54,11 @@ export class SystemModuleShopRegistrationMapAMapChangedController {
       this.marker.setDraggable(draggable);
     });
     marker.on('mouseup', (e) => {
-      wait(
-        () => {
-          return !this.dragging;
-        },
-        () => {
-          this.marker.setDraggable(false);
-        }
-      );
+      wait(() => {
+        return !this.dragging;
+      }).then(() => {
+        this.marker.setDraggable(false);
+      });
     });
     marker.on('dragstart', (e: any) => {
       this.dragging = true;

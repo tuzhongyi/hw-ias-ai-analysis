@@ -49,18 +49,15 @@ export class SystemMainCardEventRealtimeStatisticChartComponent
   };
 
   ngAfterViewInit(): void {
-    wait(
-      () => {
-        if (this.element) {
-          let div = this.element.nativeElement as HTMLDivElement;
-          return div.offsetHeight > 0;
-        }
-        return false;
-      },
-      () => {
-        this.view();
+    wait(() => {
+      if (this.element) {
+        let div = this.element.nativeElement as HTMLDivElement;
+        return div.offsetHeight > 0;
       }
-    );
+      return false;
+    }).then(() => {
+      this.view();
+    });
   }
   ngOnDestroy(): void {
     this.destroy();

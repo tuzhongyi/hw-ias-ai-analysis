@@ -9,9 +9,9 @@ export class SystemTaskResultInfoSourceController {
   labels: Promise<EnumNameValue<ResultLabelType>[]>;
 
   constructor(source: SourceManager) {
-    this.labels = source.shop.ResultLabelTypes.get().then((x) => {
+    this.labels = source.analysis.shop.ResultLabelTypes.get().then((x) => {
       return x.filter((y) => y.Value != ResultLabelType.Unlabeled);
     });
-    this.channels = source.shop.CameraNos.get();
+    this.channels = source.analysis.shop.CameraNos.get();
   }
 }

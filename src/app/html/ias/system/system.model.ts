@@ -7,6 +7,7 @@ export enum SystemPath {
   module_shop_registration = 'system/module/shop-registration',
   module_shop_compare = 'system/module/shop-compare',
   module_road = 'system/module/road',
+  module_gps_task = 'system/module/gps-task',
   map = 'system/map',
   event = 'system/event',
   event_index = 'system/event/index',

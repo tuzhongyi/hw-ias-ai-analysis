@@ -1,0 +1,66 @@
+.system-module-gps-task-details-information {
+  width: 100%;
+  height: 100%;
+
+  .form {
+    &s {
+      width: 100%;
+      height: 100%;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    &-item {
+      width: calc((100% - 20px) * 0.5);
+
+      &-text {
+        width: 95px;
+
+        &>.name {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+
+      &-value {
+        &.expired-time {
+          position: relative;
+
+          .forever {
+            position: absolute;
+            left: 10px;
+            width: calc(100% - 20px);
+            background-color: #060f2b;
+            pointer-events: none;
+            color: #ddf4ff;
+          }
+
+          .button-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+      }
+
+      &.textarea {
+        height: calc((100% - 36px * 7 - 10px * 9) / 3);
+        min-height: 36px;
+
+
+        .form-item-value {
+          height: 100%;
+
+          textarea {
+            height: 100%;
+            resize: none;
+          }
+        }
+
+      }
+
+    }
+  }
+}

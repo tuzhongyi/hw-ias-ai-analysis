@@ -6,6 +6,7 @@ import { SecurityCapability } from '../../models/capabilities/arm/security-capab
 
 import { PromiseValue } from '../../../view-models/value.promise';
 import { AnalysisShopCapability } from '../../models/arm/analysis/analysis-shop-capability.model';
+import { AnalysisLLMCapability } from '../../models/arm/analysis/llm/analysis-llm-capability.model';
 import { EventCapability } from '../../models/capabilities/arm/event/event-capability.model';
 import { ArmAnalysisRequestService } from '../services/analysis/analysis.service';
 import { ArmSystemRequestService } from '../services/system/system.service';
@@ -17,11 +18,13 @@ export class CapabilityManager {
   analysis = {
     server: new PromiseValue<AnalysisServerCapability>(),
     shop: new PromiseValue<AnalysisShopCapability>(),
+    llm: new PromiseValue<AnalysisLLMCapability>(),
   };
   device = new PromiseValue<DeviceCapability>();
   security = new PromiseValue<SecurityCapability>();
   network = new PromiseValue<NetworkCapability>();
   event = new PromiseValue<EventCapability>();
+
   // inputproxy = new PromiseValue<InputProxyCapability>();
 
   constructor(
@@ -61,6 +64,9 @@ export class CapabilityManager {
     });
     this.service.analysis.shop.capability().then((x) => {
       this.analysis.shop.set(x);
+    });
+    this.service.analysis.llm.capability().then((x) => {
+      this.analysis.llm.set(x);
     });
   }
 }

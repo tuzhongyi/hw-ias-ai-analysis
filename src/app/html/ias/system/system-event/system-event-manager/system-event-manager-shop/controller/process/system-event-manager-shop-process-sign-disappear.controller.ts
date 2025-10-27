@@ -27,16 +27,13 @@ export class SystemEventManagerShopProcessSignDisappearController {
         this.window.confirm.message = `是否标记 <span class="disappear">${type}</span> <span class="name">${resource.ResourceName}</span> 为<span class="misinfo">误报</span>？`;
         this.window.confirm.show = true;
 
-        wait(
-          () => {
-            return !(this.window.confirm.result === undefined);
-          },
-          () => {
-            if (this.window.confirm.result) {
-              this.event.misinfo.emit(data.Id);
-            }
+        wait(() => {
+          return !(this.window.confirm.result === undefined);
+        }).then(() => {
+          if (this.window.confirm.result) {
+            this.event.misinfo.emit(data.Id);
           }
-        );
+        });
       }
     },
     delete: async (data: MobileEventRecord) => {
@@ -46,16 +43,13 @@ export class SystemEventManagerShopProcessSignDisappearController {
         this.window.confirm.message = `是否<span class="disappear">删除商铺</span> <span class="name">${resource.ResourceName}</span> ？`;
         this.window.confirm.show = true;
 
-        wait(
-          () => {
-            return !(this.window.confirm.result === undefined);
-          },
-          () => {
-            if (this.window.confirm.result) {
-              this.event.delete.emit(data.Id);
-            }
+        wait(() => {
+          return !(this.window.confirm.result === undefined);
+        }).then(() => {
+          if (this.window.confirm.result) {
+            this.event.delete.emit(data.Id);
           }
-        );
+        });
       }
     },
   };

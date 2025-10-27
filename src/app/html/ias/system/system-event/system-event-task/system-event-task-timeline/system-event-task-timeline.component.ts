@@ -31,14 +31,11 @@ export class SystemEventTaskTimelineComponent implements OnInit, AfterViewInit {
   private _element?: ElementRef<HTMLDivElement>;
   private get element() {
     return new Promise<ElementRef<HTMLDivElement>>((resolve) => {
-      wait(
-        () => {
-          return !!this._element;
-        },
-        () => {
-          resolve(this._element!);
-        }
-      );
+      wait(() => {
+        return !!this._element;
+      }).then(() => {
+        resolve(this._element!);
+      });
     });
   }
 

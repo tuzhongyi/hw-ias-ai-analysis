@@ -200,7 +200,9 @@ export class SystemModuleShopRegistrationInformationComponent
       // });
     },
     full: () => {
-      this.picture.emit(this.shop);
+      if (this.shop.ImageUrl) {
+        this.picture.emit(this.shop);
+      }
     },
   };
   subname = {

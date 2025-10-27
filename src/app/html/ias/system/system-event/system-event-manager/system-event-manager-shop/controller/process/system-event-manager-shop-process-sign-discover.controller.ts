@@ -54,21 +54,18 @@ export class SystemEventManagerShopProcessSignDiscoverController {
       this.window.confirm.message = `是否与商铺 <span class="name">${data.detected.Name}</span> <span class="discover">关联</span>？`;
       this.window.confirm.show = true;
 
-      wait(
-        () => {
-          return !(this.window.confirm.result === undefined);
-        },
-        () => {
-          if (this.window.confirm.result) {
-            this.event.merge.emit({
-              eventId: data.data.Id,
-              shopId: data.detected.Id,
-              subname: data.subname,
-              name: data.name,
-            });
-          }
+      wait(() => {
+        return !(this.window.confirm.result === undefined);
+      }).then(() => {
+        if (this.window.confirm.result) {
+          this.event.merge.emit({
+            eventId: data.data.Id,
+            shopId: data.detected.Id,
+            subname: data.subname,
+            name: data.name,
+          });
         }
-      );
+      });
     },
     marking: (data: MobileEventRecord) => {
       this.window.confirm.clear();
@@ -77,16 +74,13 @@ export class SystemEventManagerShopProcessSignDiscoverController {
         this.window.confirm.message = `是否<span class="misinfo">屏蔽</span> <span class="name">${resource.ResourceName}</span> ？`;
         this.window.confirm.show = true;
 
-        wait(
-          () => {
-            return !(this.window.confirm.result === undefined);
-          },
-          () => {
-            if (this.window.confirm.result) {
-              this.event.marking.emit(data.Id);
-            }
+        wait(() => {
+          return !(this.window.confirm.result === undefined);
+        }).then(() => {
+          if (this.window.confirm.result) {
+            this.event.marking.emit(data.Id);
           }
-        );
+        });
       }
     },
 

@@ -24,7 +24,7 @@ export abstract class IASMapAMapMarkerLabelAbstract<
     normal: {
       type: 'image',
       image: PathTool.image.map.shop.white.normal,
-      size: [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.width * 0.7],
+      size: [SizeTool.map.shop.width, SizeTool.map.shop.width],
       anchor: 'bottom-center',
     } as AMap.LabelMarkerIconOptions,
   };

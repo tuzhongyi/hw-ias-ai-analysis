@@ -9,7 +9,7 @@ export class SystemEventManagerShopController {
     public process: SystemEventManagerShopProcessController,
     manager: Manager
   ) {
-    this.channels = manager.source.shop.CameraNos.get();
+    this.channels = manager.source.analysis.shop.CameraNos.get();
   }
 
   channels: Promise<EnumNameValue[]>;

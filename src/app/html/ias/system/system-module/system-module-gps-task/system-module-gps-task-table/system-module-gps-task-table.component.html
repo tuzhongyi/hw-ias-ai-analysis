@@ -1,0 +1,108 @@
+<div class="system-module-gps-task-table">
+  <div class="system-module-gps-task-table-body table-page">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="on.sort($event)"
+    >
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">
+            <input
+              type="checkbox"
+              [checked]="
+                selecteds.length > 0 && selecteds.length === page.RecordCount
+              "
+              (click)="select.all()"
+            />
+          </th>
+          <th class="center">序号</th>
+          <th>图片</th>
+          <th sort="Name">任务名称</th>
+          <th sort="TaskType">任务类型</th>
+          <th sort="SceneName">场景名称</th>
+          <th sort="Prompt">提示词</th>
+          <th sort="CreationTime">创建时间</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="select.on(item)"
+          [ngClass]="{
+            selected: item && selecteds.includes(item),
+            nodata: !item
+          }"
+          [ngStyle]="{
+            height: item ? 100 / page.PageSize + '%' : 0
+          }"
+        >
+          <td class="center">
+            <input
+              type="checkbox"
+              *ngIf="item"
+              [checked]="selecteds.includes(item)"
+            />
+          </td>
+          <td class="center">
+            <div *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </div>
+          </td>
+          <td>
+            <div [ngClass]="{ noimage: !item?.Images }" *ngIf="item">
+              <div
+                *ngFor="let img of item.Images"
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: img.ImageUrl
+                    ? 'url(' + picture.get(img.ImageUrl) + ')'
+                    : 'none'
+                }"
+                (click)="picture.on($event, index, item)"
+              ></div>
+            </div>
+          </td>
+          <td [title]="item?.Name">
+            {{ item?.Name }}
+          </td>
+          <td>
+            {{ item?.TaskTypeName }}
+          </td>
+          <td [title]="item?.SceneName ?? ''">
+            {{ item?.SceneName }}
+          </td>
+          <td [title]="item?.Prompt ?? ''">
+            {{ item?.Prompt }}
+          </td>
+          <td>
+            {{ item?.CreationTime | date : "yyyy-MM-dd HH:mm:ss" }}
+          </td>
+
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="任务详情"
+                (click)="on.details(item, $event)"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  @if(page.TotalRecordCount){
+  <div class="system-module-gps-task-table-foot">
+    <paginator [page]="page" (change)="on.page($event)"> </paginator>
+  </div>
+  }
+</div>

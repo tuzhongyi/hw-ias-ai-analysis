@@ -33,12 +33,12 @@ export class IASMapAMapIconController {
   }
   private get size(): [number, number] {
     let _default: [number, number] = [
-      SizeTool.map.point.width * 0.7,
-      SizeTool.map.point.height * 0.7,
+      SizeTool.map.point.normal.width,
+      SizeTool.map.point.normal.height,
     ];
     switch (this.type) {
       case MapMarkerType.shop:
-        return [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.height * 0.7];
+        return [SizeTool.map.shop.width, SizeTool.map.shop.height];
       default:
         return _default;
     }

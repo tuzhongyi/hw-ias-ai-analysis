@@ -7,6 +7,6 @@ import { SourceManager } from '../../../../../../common/data-core/requests/manag
 export class SystemMapStateSourceController {
   states: Promise<EnumNameValue<ShopObjectState>[]>;
   constructor(source: SourceManager) {
-    this.states = source.shop.ShopObjectStates.get();
+    this.states = source.analysis.shop.ShopObjectStates.get();
   }
 }

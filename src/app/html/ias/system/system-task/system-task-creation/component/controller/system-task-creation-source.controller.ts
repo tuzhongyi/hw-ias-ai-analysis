@@ -7,7 +7,7 @@ export class SystemTaskCreationSourceController {
   types: Promise<EnumNameValue<number>[]>;
   sources: Promise<EnumNameValue<number>[]>;
   constructor(source: SourceManager) {
-    this.types = source.server.TaskTypes.get();
-    this.sources = source.server.SourceTypes.get();
+    this.types = source.analysis.server.TaskTypes.get();
+    this.sources = source.analysis.server.SourceTypes.get();
   }
 }

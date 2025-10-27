@@ -2,7 +2,7 @@ import { PromiseValue } from '../../../../view-models/value.promise';
 import { EnumNameValue } from '../../../models/capabilities/enum-name-value.model';
 import { CapabilityManager } from '../capability.manager';
 
-export class SourceServerManager {
+export class SourceAnalysisServerManager {
   TaskTypes = new PromiseValue<EnumNameValue<number>[]>();
   TaskStates = new PromiseValue<EnumNameValue<number>[]>();
   VideoSourceProtocolTypes = new PromiseValue<EnumNameValue[]>();

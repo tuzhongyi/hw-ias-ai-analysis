@@ -5,7 +5,7 @@ import { Manager } from '../../../../../../common/data-core/requests/managers/ma
 @Injectable()
 export class SystemMainManagerSource {
   constructor(manager: Manager) {
-    this.channels = manager.source.shop.CameraNos.get();
+    this.channels = manager.source.analysis.shop.CameraNos.get();
   }
 
   channels: Promise<EnumNameValue[]>;

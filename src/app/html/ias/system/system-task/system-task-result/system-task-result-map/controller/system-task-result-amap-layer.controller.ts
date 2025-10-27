@@ -11,14 +11,11 @@ export class SystemTaskResultAMapLayerController {
 
   loading() {
     return new Promise<void>((resolve) => {
-      wait(
-        () => {
-          return this.loaded;
-        },
-        () => {
-          resolve();
-        }
-      );
+      wait(() => {
+        return this.loaded;
+      }).then(() => {
+        resolve();
+      });
     });
   }
 

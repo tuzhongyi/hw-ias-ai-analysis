@@ -12,16 +12,13 @@ export class PictureElement<T> {
       if (this._element) {
         resolve(this._element);
       } else {
-        wait(
-          () => {
-            return !!this._element;
-          },
-          () => {
-            if (this._element) {
-              resolve(this._element);
-            }
+        wait(() => {
+          return !!this._element;
+        }).then(() => {
+          if (this._element) {
+            resolve(this._element);
           }
-        );
+        });
       }
     });
   }

@@ -5,10 +5,10 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 export class SystemAMapShopIconController {
   private size(selected = false): [number, number] {
     if (selected) {
-      return [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.width * 0.7];
+      return [SizeTool.map.shop.width, SizeTool.map.shop.width];
     }
 
-    return [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.width * 0.7];
+    return [SizeTool.map.shop.width, SizeTool.map.shop.width];
   }
 
   private get opts(): AMap.LabelMarkerIconOptions {

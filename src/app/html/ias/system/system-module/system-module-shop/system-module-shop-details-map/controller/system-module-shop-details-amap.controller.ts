@@ -34,8 +34,8 @@ export class SystemModuleShopDetailsAMapController {
   private _load(data: GisPoint) {
     let position: [number, number] = [data.Longitude, data.Latitude];
     let size: [number, number] = [
-      SizeTool.map.shop.width * 0.7,
-      SizeTool.map.shop.height * 0.7,
+      SizeTool.map.shop.width,
+      SizeTool.map.shop.height,
     ];
     let icon = new AMap.Icon({
       imageSize: size,

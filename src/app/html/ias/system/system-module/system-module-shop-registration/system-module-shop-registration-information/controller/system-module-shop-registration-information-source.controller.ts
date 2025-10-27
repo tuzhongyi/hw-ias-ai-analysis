@@ -7,6 +7,6 @@ export class SystemModuleShopRegistrationInformationSourceController {
   states: Promise<EnumNameValue<number>[]>;
 
   constructor(source: SourceManager) {
-    this.states = source.shop.BusinessStates.get();
+    this.states = source.analysis.shop.BusinessStates.get();
   }
 }

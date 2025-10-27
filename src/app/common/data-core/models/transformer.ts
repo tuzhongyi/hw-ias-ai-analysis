@@ -3,7 +3,7 @@ import '../../../../assets/js/map/CoordinateTransform.js';
 import { Base64 } from '../../tools/base64/base64.tool.js';
 import { GeoTool } from '../../tools/geo-tool/geo.tool.js';
 import { GisType } from '../enums/gis-type.enum.js';
-import { GisPoint } from './arm/gis-point.model.js';
+import { GisPoint, GisPoints } from './arm/gis-point.model.js';
 import { Time } from './common/time.model';
 
 export class Transformer {
@@ -238,22 +238,28 @@ export class Transformer {
       if (!params.value.Longitude || !params.value.Latitude) {
         return undefined;
       }
-      let wgs84 = params.value;
+      let wgs84 = params.value as GisPoint;
+      wgs84.GisType = GisType.WGS84;
 
-      let gcj02 = GeoTool.point.convert.wgs84.to.gcj02(
-        wgs84.Longitude,
-        wgs84.Latitude
-      );
-      gcj02[0] += GeoTool.point.offset.longitude;
-      gcj02[1] += GeoTool.point.offset.latitude;
-      let bd09 = GeoTool.point.convert.gcj02.to.bd09(gcj02[0], gcj02[1]);
-      return {
-        WGS84: wgs84,
-        GCJ02: GisPoint.create(gcj02[0], gcj02[1], GisType.GCJ02, params.value),
-        BD09: GisPoint.create(bd09[0], bd09[1], GisType.BD09, params.value),
-      };
+      let points = new GisPoints();
+      points.set(wgs84, GisType.WGS84);
+      return points;
+
+      // let gcj02 = GeoTool.point.convert.wgs84.to.gcj02(
+      //   wgs84.Longitude,
+      //   wgs84.Latitude
+      // );
+      // gcj02[0] += GeoTool.point.offset.longitude;
+      // gcj02[1] += GeoTool.point.offset.latitude;
+      // let bd09 = GeoTool.point.convert.gcj02.to.bd09(gcj02[0], gcj02[1]);
+      // return {
+      //   WGS84: wgs84,
+      //   GCJ02: GisPoint.create(gcj02[0], gcj02[1], GisType.GCJ02, params.value),
+      //   BD09: GisPoint.create(bd09[0], bd09[1], GisType.BD09, params.value),
+      // };
     } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
-      return params.value.WGS84;
+      let obj = { ...params.value.WGS84 };
+      return obj;
     } else if (params.type === TransformationType.CLASS_TO_CLASS) {
       return params.value;
     } else {

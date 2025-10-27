@@ -3,7 +3,7 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 
 export class SystemTaskFileDetailsAMapTipIconController {
   private size(): [number, number] {
-    return [SizeTool.map.point.width * 0.5, SizeTool.map.point.height * 0.5];
+    return [SizeTool.map.point.small.width, SizeTool.map.point.small.height];
   }
 
   private get opts(): AMap.LabelMarkerIconOptions {

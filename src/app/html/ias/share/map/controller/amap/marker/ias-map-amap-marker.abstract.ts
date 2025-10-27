@@ -25,9 +25,9 @@ export abstract class IASMapAMapMarkerAbstract<T extends IIdNameLocationModel> {
 
   private get defaulticon() {
     let icon = new AMap.Icon({
-      size: [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.width * 0.7],
+      size: [SizeTool.map.shop.width, SizeTool.map.shop.width],
       image: PathTool.image.map.shop.white.normal,
-      imageSize: [SizeTool.map.shop.width * 0.7, SizeTool.map.shop.width * 0.7],
+      imageSize: [SizeTool.map.shop.width, SizeTool.map.shop.width],
     });
     return icon;
   }

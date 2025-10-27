@@ -1,8 +1,8 @@
-import { SourceShopManager } from '../../data-core/requests/managers/source/source-shop.manager';
+import { SourceAnalysisShopManager } from '../../data-core/requests/managers/source/source-analysis-shop.manager';
 import { LanguageAbstract } from './language.abstract';
 
 export class LanguageAnalysisShopTool extends LanguageAbstract {
-  constructor(private manager: SourceShopManager) {
+  constructor(private manager: SourceAnalysisShopManager) {
     super();
   }
 

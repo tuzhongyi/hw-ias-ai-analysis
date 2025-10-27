@@ -37,7 +37,7 @@ export class SystemMainMapAMapShopMarkerLayerController {
           data.Location.GCJ02.Latitude,
         ];
       }
-      this.info.add(info, undefined, [0, -SizeTool.map.shop.height * 0.7]);
+      this.info.add(info, undefined, [0, -SizeTool.map.shop.height]);
       this.event.mouseover.emit(data);
     });
     point.event.mouseout.subscribe((data) => {

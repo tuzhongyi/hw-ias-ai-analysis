@@ -7,16 +7,13 @@ export class PromiseValue<T> {
       if (this._value) {
         resolve(this._value);
       } else {
-        wait(
-          () => {
-            return !!this._value;
-          },
-          () => {
-            if (this._value) {
-              resolve(this._value);
-            }
+        wait(() => {
+          return !!this._value;
+        }).then(() => {
+          if (this._value) {
+            resolve(this._value);
           }
-        );
+        });
       }
     });
   }

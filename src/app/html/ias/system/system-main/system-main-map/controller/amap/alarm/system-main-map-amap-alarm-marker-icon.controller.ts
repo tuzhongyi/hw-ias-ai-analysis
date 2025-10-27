@@ -3,7 +3,7 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 
 export class SystemMainMapAMapAlarmMarkerIconController {
   private size(): [number, number] {
-    return [SizeTool.map.alarm.width * 0.5, SizeTool.map.alarm.width * 0.5];
+    return [SizeTool.map.alarm.normal.width, SizeTool.map.alarm.normal.height];
   }
 
   get icon(): AMap.LabelMarkerIconOptions {

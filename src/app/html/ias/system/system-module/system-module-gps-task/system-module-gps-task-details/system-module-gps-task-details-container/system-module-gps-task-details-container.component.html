@@ -1,0 +1,38 @@
+<div class="system-module-gps-task-details-container">
+  <div class="system-module-gps-task-details-container-body">
+    <div class="system-module-gps-task-details-picture">
+      <div
+        class="system-module-gps-task-details-picture-item panel"
+        [class.one]="picture.datas.length === 1"
+        *ngFor="let item of picture.datas; let index = index"
+      >
+        <ias-system-module-gps-task-details-picture
+          [data]="item"
+          [index]="index"
+          (change)="picture.change($event)"
+          (remove)="picture.remove($event)"
+        ></ias-system-module-gps-task-details-picture>
+      </div>
+    </div>
+    <div class="system-module-gps-task-details-map panel">
+      <ias-system-module-gps-task-details-map
+        *ngIf="model.Location"
+        [data]="model.Location.GCJ02"
+        [load]="location.map.change"
+        (dataChange)="location.map.changing($event)"
+      ></ias-system-module-gps-task-details-map>
+    </div>
+    <div class="system-module-gps-task-details-info panel">
+      <ias-system-module-gps-task-details-information
+        *ngIf="model.Location"
+        [(data)]="model"
+        [moving]="location.info.change"
+        (gispoint)="location.info.changing($event)"
+      ></ias-system-module-gps-task-details-information>
+    </div>
+  </div>
+  <div class="system-module-gps-task-details-container-foot button-group">
+    <button class="button-clip-gradient" (click)="on.save()">确定</button>
+    <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+  </div>
+</div>

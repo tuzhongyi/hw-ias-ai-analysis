@@ -4,8 +4,8 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 export class SystemMainMapAMapDeviceMarkerIconController {
   private size(): [number, number] {
     return [
-      SizeTool.map.device.mobile.width * 0.5,
-      SizeTool.map.device.mobile.width * 0.5,
+      SizeTool.map.device.mobile.width,
+      SizeTool.map.device.mobile.height,
     ];
   }
 

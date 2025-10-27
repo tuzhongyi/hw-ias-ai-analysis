@@ -85,22 +85,19 @@ export class SystemMapTaskTableComponent
   change = {
     selecteds: (data: SimpleChange) => {
       if (data) {
-        wait(
-          () => {
-            return this.datas.length > 0;
-          },
-          () => {
-            this.selecteds = this.selectedIds.map((x) => {
-              return this.datas.find((y) => y.Id === x)!;
-            });
-          }
-        );
+        wait(() => {
+          return this.datas.length > 0;
+        }).then(() => {
+          this.selecteds = this.selectedIds.map((x) => {
+            return this.datas.find((y) => y.Id === x)!;
+          });
+        });
       }
     },
   };
 
   private async init() {
-    let types = await this.manager.source.server.TaskTypes.get();
+    let types = await this.manager.source.analysis.server.TaskTypes.get();
     types.forEach((x) => {
       this.language.types.set(x.Value, x.Name);
     });

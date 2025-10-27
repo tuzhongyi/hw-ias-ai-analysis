@@ -1,0 +1,186 @@
+<div class="system-module-gps-task-details-information">
+  <div class="forms">
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>任务名称</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Name" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>任务类型</div>
+      </div>
+      <div class="form-item-value">
+        <select [(ngModel)]="data.TaskType">
+          <option [ngValue]="item.Value" *ngFor="let item of source.type.task">
+            {{ item.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>最大视频时长</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="number"
+          min="1"
+          wheel-input-number
+          [(ngModel)]="data.MaxTimeSpan"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>数据来源类型</div>
+      </div>
+      <div class="form-item-value">
+        <select [(ngModel)]="data.SourceType">
+          <option
+            [ngValue]="item.Value"
+            *ngFor="let item of source.type.source"
+          >
+            {{ item.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>抓图距离半径</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="number"
+          min="1"
+          wheel-input-number
+          [(ngModel)]="data.CaptureRadius"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>抓图间隔</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="number"
+          min="1"
+          wheel-input-number
+          [(ngModel)]="data.CaptureInterval"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>抓图次数</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="number"
+          min="1"
+          wheel-input-number
+          [(ngModel)]="data.CaptureTimes"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>有效时间</div>
+      </div>
+      <div class="form-item-value expired-time">
+        <div class="forever" *ngIf="!data.ExpiredTime">永久有效</div>
+        <div
+          class="button-clear button"
+          *ngIf="data.ExpiredTime"
+          (click)="time.expired.clear()"
+        >
+          <i class="howell-icon-Close"></i>
+        </div>
+        <div>
+          <date-time-control
+            [format]="Language.yyyyMMdd"
+            [zindex]="9001"
+            [(date)]="time.expired.value"
+            (dateChange)="time.expired.change($event)"
+          ></date-time-control>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>坐标系</div>
+      </div>
+      <div class="form-item-value">
+        <select
+          [(ngModel)]="location.type.value"
+          (change)="location.type.change()"
+        >
+          <option [ngValue]="GisType.WGS84">WGS84</option>
+          <option [ngValue]="GisType.GCJ02">GCJ02</option>
+          <option [ngValue]="GisType.BD09">BD09</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>场景名称</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.SceneName" />
+      </div>
+    </div>
+
+    <div class="form-item full">
+      <div class="form-item-text">
+        <div class="name" text-space-between>坐标</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="text"
+          [(ngModel)]="location.value"
+          (input)="location.set()"
+        />
+      </div>
+    </div>
+    <div class="form-item full">
+      <div class="form-item-text">
+        <div class="name" text-space-between>场景地址</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Address" />
+      </div>
+    </div>
+    <div class="form-item full textarea">
+      <div class="form-item-text baseline">
+        <div class="name" text-space-between>关注场景描述</div>
+      </div>
+      <div class="form-item-value">
+        <textarea [(ngModel)]="data.Prompt"></textarea>
+      </div>
+    </div>
+    <div class="form-item full textarea">
+      <div class="form-item-text baseline">
+        <div class="name" text-space-between>输出结构</div>
+      </div>
+      <div class="form-item-value">
+        <textarea [(ngModel)]="data.OutputFormat"></textarea>
+      </div>
+    </div>
+    <div class="form-item full textarea">
+      <div class="form-item-text baseline">
+        <div class="name" text-space-between>描述</div>
+      </div>
+      <div class="form-item-value">
+        <textarea [(ngModel)]="data.Description"></textarea>
+      </div>
+    </div>
+  </div>
+</div>

@@ -15,6 +15,8 @@ export class SystemModuleBusiness {
       title = '分析商铺';
     } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
       title = '道路管理';
+    } else if (location.pathname.indexOf(SystemPath.module_gps_task) >= 0) {
+      title = '定制场景';
     } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
       title = 'AI功能模块';
     }

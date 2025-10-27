@@ -1,13 +1,51 @@
-export function wait(
-  whether: () => boolean,
-  reject: () => void,
-  timepoll = 100
-) {
+function waiting(whether: () => boolean, resolve: () => void, interval = 100) {
   setTimeout(() => {
     if (whether()) {
-      reject()
+      resolve();
     } else {
-      wait(whether, reject, timepoll)
+      waiting(whether, resolve, interval);
     }
-  }, timepoll)
+  }, interval);
+}
+export function wait(
+  this: any,
+  whether: () => boolean,
+  args?: {
+    interval?: number;
+    timeout?: number;
+    timeoutable?: boolean;
+  }
+) {
+  let opts = {
+    interval: 10,
+    timeout: 1000 * 1 * 60,
+    timeoutable: false,
+  };
+  opts = {
+    ...opts,
+    ...args,
+  };
+
+  return new Promise<void>((resolve, reject) => {
+    let stop = false;
+    waiting(
+      () => {
+        return whether() || stop;
+      },
+      () => {
+        if (stop) {
+          console.warn('wait2 timeout', this);
+          reject();
+        } else {
+          resolve();
+        }
+      },
+      opts.interval
+    );
+    if (opts.timeoutable && opts.timeout) {
+      setTimeout(() => {
+        stop = true;
+      }, opts.timeout);
+    }
+  });
 }

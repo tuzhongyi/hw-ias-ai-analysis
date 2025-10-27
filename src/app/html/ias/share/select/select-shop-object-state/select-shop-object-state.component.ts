@@ -31,7 +31,7 @@ export class SelectShopObjectStateComponent
   @Output() loaded = new EventEmitter<EnumNameValue<ShopObjectState>[]>();
 
   constructor(source: SourceManager) {
-    this.datas = source.shop.ShopObjectStates.get();
+    this.datas = source.analysis.shop.ShopObjectStates.get();
   }
 
   datas: Promise<EnumNameValue<ShopObjectState>[]>;

@@ -80,14 +80,11 @@ export class SystemModuleShopRegistrationMapAMapMarkerController {
         this.marker.setDraggable(false);
         return;
       }
-      wait(
-        () => {
-          return !this.dragging;
-        },
-        () => {
-          this.marker.setDraggable(false);
-        }
-      );
+      wait(() => {
+        return !this.dragging;
+      }).then(() => {
+        this.marker.setDraggable(false);
+      });
     });
     marker.on('dragstart', (e: any) => {
       if (!this.draggable) return;

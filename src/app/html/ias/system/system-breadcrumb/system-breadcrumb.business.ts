@@ -65,6 +65,8 @@ export class SystemBreadcrumbBusiness {
         ];
       } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
         return [this.home.index(), this.module.index(), this.module.road()];
+      } else if (location.pathname.indexOf(SystemPath.module_gps_task) >= 0) {
+        return [this.home.index(), this.module.index(), this.module.gps.task()];
       } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
         return [this.home.index(), this.module.index()];
       } else {
@@ -102,6 +104,14 @@ export class SystemBreadcrumbBusiness {
       item.path = SystemPath.module_road;
       item.text = '道路';
       return item;
+    },
+    gps: {
+      task: () => {
+        let item = new SystemBreadcrumbItem();
+        item.path = SystemPath.module_gps_task;
+        item.text = '定制场景';
+        return item;
+      },
     },
   };
 

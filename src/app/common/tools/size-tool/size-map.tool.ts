@@ -1,20 +1,32 @@
 export class SizeMapTool {
   shop = {
-    width: 76,
-    height: 86,
+    width: 76 * 0.7,
+    height: 86 * 0.5,
   };
   point = {
-    width: 48,
-    height: 48,
+    normal: {
+      width: 48 * 0.7,
+      height: 48 * 0.7,
+    },
+    small: {
+      width: 48 * 0.5,
+      height: 48 * 0.5,
+    },
   };
   alarm = {
-    width: 60,
-    height: 60,
+    small: {
+      width: 60 * 0.1,
+      height: 60 * 0.1,
+    },
+    normal: {
+      width: 60 * 0.5,
+      height: 60 * 0.5,
+    },
   };
   device = {
     mobile: {
-      width: 60,
-      height: 60,
+      width: 60 * 0.5,
+      height: 60 * 0.5,
     },
   };
 }

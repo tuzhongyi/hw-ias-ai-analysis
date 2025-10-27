@@ -1,0 +1,56 @@
+<div class="system-module-gps-task-details-picture">
+  <div class="system-module-gps-task-details-picture-body">
+    <ng-container *ngIf="!image.src">
+      <upload-control
+        [accept]="'image/*'"
+        [type]="0"
+        (upload)="on.upload($event)"
+      >
+        <div class="upload-image">
+          <i class="howell-icon-plus"></i>
+        </div>
+      </upload-control>
+    </ng-container>
+    <ng-container *ngIf="image.src">
+      <howell-container-zoom [fullable]="false">
+        <ias-picture [src]="image.src"></ias-picture>
+      </howell-container-zoom>
+    </ng-container>
+  </div>
+  <div class="system-module-gps-task-details-picture-foot">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">机位</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="data.PositionNo" class="noborder min">
+            <option
+              [ngValue]="item.Value"
+              *ngFor="let item of source.channels | async"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="button-group">
+      <button (click)="on.draw()" title="绘制关注区域" *ngIf="image.src">
+        <i class="mdi mdi-pentagon-outline"></i>
+      </button>
+      <upload-control
+        *ngIf="image.src"
+        [accept]="'image/*'"
+        [type]="0"
+        (upload)="on.upload($event)"
+      >
+        <button title="换一张图片">
+          <i class="howell-icon-modification"></i>
+        </button>
+      </upload-control>
+
+      <button (click)="on.delete()" title="删除图片" *ngIf="image.src">
+        <i class="howell-icon-delete2"></i>
+      </button>
+    </div>
+  </div>
+</div>

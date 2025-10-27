@@ -2,7 +2,7 @@ import { PromiseValue } from '../../../../view-models/value.promise';
 import { EnumNameValue } from '../../../models/capabilities/enum-name-value.model';
 import { CapabilityManager } from '../capability.manager';
 
-export class SourceShopManager {
+export class SourceAnalysisShopManager {
   ShopTypes = new PromiseValue<EnumNameValue<number>[]>();
   SignTypes = new PromiseValue<EnumNameValue<number>[]>();
   ResultLabelTypes = new PromiseValue<EnumNameValue<number>[]>();

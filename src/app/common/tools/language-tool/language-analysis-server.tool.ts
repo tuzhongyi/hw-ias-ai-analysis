@@ -1,8 +1,8 @@
-import { SourceServerManager } from '../../data-core/requests/managers/source/source-server.manager';
+import { SourceAnalysisServerManager } from '../../data-core/requests/managers/source/source-analysis-server.manager';
 import { LanguageAbstract } from './language.abstract';
 
 export class LanguageAnalysisServerTool extends LanguageAbstract {
-  constructor(private manager: SourceServerManager) {
+  constructor(private manager: SourceAnalysisServerManager) {
     super();
   }
 
