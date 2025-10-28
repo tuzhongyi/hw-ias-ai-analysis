@@ -28,6 +28,7 @@ export class PictureComponent implements OnChanges {
 
   private _default =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAANSURBVBhXY2BgYPgPAAEEAQBwIGULAAAAAElFTkSuQmCC';
+  private nodata = '/assets/image/no-image.png';
   public get default(): string {
     return this._default;
   }
@@ -66,7 +67,7 @@ export class PictureComponent implements OnChanges {
 
   onerror(e: Event) {
     let trigger = e.currentTarget as HTMLImageElement;
-    let src = this._default;
+    let src = this.nodata;
     trigger.src = src;
 
     this.error.emit(e);

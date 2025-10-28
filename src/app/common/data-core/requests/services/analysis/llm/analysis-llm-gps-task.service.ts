@@ -25,6 +25,16 @@ export class ArmAnalysisLLMGpsTaskRequestService extends AbstractService<Analysi
       });
   }
 
+  update(data: AnalysisGpsTask): Promise<AnalysisGpsTask> {
+    let url = ArmAnalysisUrl.llm.gps().task().item(data.Id);
+    let plain = instanceToPlain(data);
+    return this.http
+      .put<any, HowellResponse<AnalysisGpsTask>>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, AnalysisGpsTask);
+      });
+  }
+
   override async list(
     params: GetAnalysisGpsTaskListParams
   ): Promise<PagedList<AnalysisGpsTask>> {

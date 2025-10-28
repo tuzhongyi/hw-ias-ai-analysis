@@ -1,13 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContainerZoomComponent } from '../../../../../../../common/components/container-zoom/container-zoom.component';
+import { HowellSelectComponent } from '../../../../../../../common/components/hw-select/select-control.component';
 import { UploadControlComponent } from '../../../../../../../common/components/upload-control/upload-control.component';
 import { UploadControlFile } from '../../../../../../../common/components/upload-control/upload-control.model';
 import { SceneImage } from '../../../../../../../common/data-core/models/arm/analysis/llm/scene-Image.model';
 import { PictureBusiness } from '../../../../../share/picture/component/picture.business';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
-import { SystemModuleGpsTaskDetailsPictureArgs } from './system-module-gps-task-details-picture.model';
+import { PictureCanvasComponent } from '../../../../../share/picture/picture-canvas/picture-canvas.component';
 import { SystemModuleGpsTaskDetailsPictureSource } from './system-module-gps-task-details-picture.source';
 
 @Component({
@@ -18,16 +27,20 @@ import { SystemModuleGpsTaskDetailsPictureSource } from './system-module-gps-tas
     ContainerZoomComponent,
     UploadControlComponent,
     PictureComponent,
+    PictureCanvasComponent,
+    HowellSelectComponent,
   ],
   templateUrl: './system-module-gps-task-details-picture.component.html',
   styleUrl: './system-module-gps-task-details-picture.component.less',
   providers: [SystemModuleGpsTaskDetailsPictureSource, PictureBusiness],
 })
-export class SystemModuleGpsTaskDetailsPictureComponent implements OnInit {
-  @Input() index = 0;
-  @Input() data = new SceneImage();
-  @Output() change = new EventEmitter<SystemModuleGpsTaskDetailsPictureArgs>();
-  @Output() remove = new EventEmitter<number>();
+export class SystemModuleGpsTaskDetailsPictureComponent implements OnChanges {
+  @Input() url = '';
+  @Input() position?: number;
+  @Output() positionChange = new EventEmitter<number>();
+  @Output() dataChange = new EventEmitter<SceneImage>();
+  @Output() file = new EventEmitter<ArrayBuffer>();
+  @Output() remove = new EventEmitter<void>();
 
   constructor(
     public source: SystemModuleGpsTaskDetailsPictureSource,
@@ -36,9 +49,9 @@ export class SystemModuleGpsTaskDetailsPictureComponent implements OnInit {
 
   image = {
     src: '',
-    load: (data: SceneImage) => {
-      if (data.ImageUrl) {
-        this.image.src = this.business.load(data.ImageUrl);
+    load: (url: string) => {
+      if (url) {
+        this.image.src = this.business.load(url);
       }
     },
     convert: (data: ArrayBuffer) => {
@@ -52,24 +65,34 @@ export class SystemModuleGpsTaskDetailsPictureComponent implements OnInit {
     },
   };
 
-  ngOnInit(): void {
-    this.image.load(this.data);
+  private _change = {
+    data: (simple: SimpleChange) => {
+      if (simple) {
+        this.image.load(this.url);
+      }
+    },
+  };
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this._change.data(changes['url']);
   }
 
   on = {
     upload: (data: UploadControlFile) => {
       this.image.src = this.image.convert(data.data as ArrayBuffer);
-      let args: SystemModuleGpsTaskDetailsPictureArgs = {
-        index: this.index,
-        data: data.data as ArrayBuffer,
-        position: this.data.PositionNo,
-      };
-      this.change.emit(args);
+      this.file.emit(data.data as ArrayBuffer);
+    },
+    position: () => {
+      this.positionChange.emit(this.position);
     },
     delete: () => {
       this.image.src = '';
-      this.remove.emit(this.index);
+      this.remove.emit();
     },
     draw: () => {},
+  };
+
+  draw = {
+    doing: false,
   };
 }

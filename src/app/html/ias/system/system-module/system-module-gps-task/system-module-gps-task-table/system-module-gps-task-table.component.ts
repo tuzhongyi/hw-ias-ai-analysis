@@ -111,12 +111,12 @@ export class SystemModuleGpsTaskTableComponent implements OnInit, OnDestroy {
         let paged = new Paged<AnalysisGpsTask>();
         paged.Data = item;
         paged.Page = new Page();
-        paged.Page.PageCount = this.page.TotalRecordCount;
-        paged.Page.PageIndex =
-          this.page.PageSize * (this.page.PageIndex - 1) + index + 1;
-        paged.Page.PageSize = 1;
-        paged.Page.RecordCount = 1;
-        paged.Page.TotalRecordCount = this.page.TotalRecordCount;
+        let count = item.Images?.length ?? 0;
+        paged.Page.PageCount = 1;
+        paged.Page.PageIndex = index + 1;
+        paged.Page.PageSize = count;
+        paged.Page.RecordCount = count;
+        paged.Page.TotalRecordCount = count;
         this.image.emit(paged);
       }
     },

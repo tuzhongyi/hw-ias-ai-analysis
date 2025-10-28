@@ -1,0 +1,136 @@
+<div class="system-event-gsp-task-table">
+  <div class="system-event-gsp-task-table-body table-page">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="on.sort($event)"
+    >
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>照片</th>
+          <th sort="SceneName">场景名称</th>
+          <th sort="Comfirmed">场景识别结果</th>
+          <th sort="SceneMatchPercent">匹配度</th>
+          <th sort="Distance">点位偏差(米)</th>
+          <th sort="Time">时间</th>
+          <th sort="Attempts">次数</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="onselect(item)"
+          [ngClass]="{
+            nohover: !item,
+            nodata: !item,
+            selected: item === selected,
+          }"
+          [ngStyle]="{
+            height: item ? (page.RecordCount / page.PageSize) * 100 + '%' : 0
+          }"
+        >
+          <td class="center">
+            <ng-container *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </ng-container>
+          </td>
+
+          <td>
+            <div [ngClass]="{ noimage: !item.Resources }" *ngIf="item">
+              <div
+                *ngFor="let resource of item.Resources; let i = index"
+                class="video"
+                (click)="on.video($event, item)"
+              >
+                <!-- (click)="record.on($event, item, i)" -->
+                <video
+                  *ngIf="resource.RecordUrl"
+                  [src]="record.get(resource.RecordUrl)"
+                ></video>
+              </div>
+            </div>
+          </td>
+
+          <td [title]="item?.SceneName ?? ''">
+            @if(item){
+            {{ item.SceneName }}
+            }
+          </td>
+          <td>
+            @if(item){
+            {{ item.Comfirmed }}
+            }
+          </td>
+          <td>
+            @if(item){
+            {{ item.SceneMatchPercent }}
+            }
+          </td>
+          <td>
+            @if(item){
+            {{ item.Distance }}
+            }
+          </td>
+          <td>
+            @if(item){
+            {{ item.Time | date : Language.yyyyMMddHHmmss }}
+            }
+          </td>
+          <td>
+            @if(item){
+            {{ item.Attempts }}
+            }
+          </td>
+
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="事件处置"
+                (click)="on.process($event, item)"
+              >
+                <i class="mdi mdi-wrench"></i>
+              </div>
+
+              <!-- <div
+                class="button"
+                [ngClass]="{
+                  disabled: disabled.position(item)
+                }"
+                title="事件发生位置"
+                (click)="onposition($event, item)"
+              >
+                <i class="mdi mdi-map-marker"></i>
+              </div> -->
+              <div
+                class="button"
+                title="事件视频"
+                (click)="on.video($event, item)"
+              >
+                <i class="mdi mdi-youtube-play"></i>
+              </div>
+
+              <div
+                class="button"
+                title="事件详情"
+                (click)="on.details($event, item)"
+              >
+                <i class="mdi mdi-clipboard-text"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="system-event-gsp-task-table-foot" *ngIf="page.TotalRecordCount">
+    <paginator [page]="page" (change)="on.page($event)"> </paginator>
+  </div>
+</div>

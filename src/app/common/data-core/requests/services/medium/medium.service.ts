@@ -16,6 +16,9 @@ export class MediumRequestService {
   audio(id: string) {
     return ArmMediumUrl.auiio.get(id);
   }
+  record(url: string) {
+    return ArmMediumUrl.arm(url);
+  }
 
   async upload(data: BinaryData) {
     let url = ArmMediumUrl.picture.upload();

@@ -20,6 +20,10 @@ export class SystemEventBusiness {
       location.pathname.indexOf(SystemPath.event_analysis_manager) >= 0
     ) {
       title = '分析事件';
+    } else if (
+      location.pathname.indexOf(SystemPath.event_gps_task_manager) >= 0
+    ) {
+      title = '定制场景事件';
     } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
       title = 'AI分析事件';
     }

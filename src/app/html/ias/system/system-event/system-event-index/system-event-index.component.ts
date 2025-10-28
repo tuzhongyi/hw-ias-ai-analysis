@@ -21,5 +21,8 @@ export class SystemEventIndexComponent {
     analysis: () => {
       this.router.navigateByUrl(SystemPath.event_analysis_manager);
     },
+    task: () => {
+      this.router.navigateByUrl(SystemPath.event_gps_task_manager);
+    },
   };
 }

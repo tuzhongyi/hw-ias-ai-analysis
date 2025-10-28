@@ -12,7 +12,6 @@ import { ObjectTool } from '../../../../../../../common/tools/object-tool/object
 import { SystemModuleGpsTaskDetailsInformationComponent } from '../system-module-gps-task-details-information/system-module-gps-task-details-information.component';
 import { SystemModuleGpsTaskDetailsMapComponent } from '../system-module-gps-task-details-map/system-module-gps-task-details-map.component';
 import { SystemModuleGpsTaskDetailsPictureComponent } from '../system-module-gps-task-details-picture/system-module-gps-task-details-picture.component';
-import { SystemModuleGpsTaskDetailsPictureArgs } from '../system-module-gps-task-details-picture/system-module-gps-task-details-picture.model';
 import { SystemModuleGpsTaskDetailsContainerBusiness } from './system-module-gps-task-details-container.business';
 import { SystemModuleGpsTaskDetailsCreater } from './system-module-gps-task-details-container.creater';
 
@@ -49,47 +48,38 @@ export class SystemModuleGpsTaskDetailsContainerComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.model = ObjectTool.copy(this.data, AnalysisGpsTask);
-    }
-    this.creater.images().then((datas) => {
-      if (this.model.Images) {
-        this.model.Images.forEach((img) => {
-          const index = datas.findIndex((x) => x.PositionNo == img.PositionNo);
-          if (index > -1) {
-            datas[index] = img;
-          }
-        });
+      if (this.model.Images && this.model.Images.length > 0) {
+        this.picture.data = this.model.Images[0];
       }
-      this.picture.datas = datas;
-    });
+    }
   }
   picture = {
-    datas: [] as SceneImage[],
-    changed: new Map<number, ArrayBuffer>(),
-    change: (args: SystemModuleGpsTaskDetailsPictureArgs) => {
-      this.picture.changed.set(args.index, args.data);
-      if (this.model.Images && this.model.Images.length > args.index) {
-        this.model.Images[args.index].PositionNo = args.position;
-      }
+    data: new SceneImage(),
+    changed: {
+      buffer: undefined as ArrayBuffer | undefined,
+      position: undefined as number | undefined,
     },
-    remove: (index: number) => {
-      if (this.picture.changed.has(index)) {
-        this.picture.changed.delete(index);
-      }
-      if (this.model.Images && this.model.Images.length > index) {
-        this.model.Images[index].ImageUrl = '';
-      }
+    file: (buffer: ArrayBuffer) => {
+      this.picture.changed.buffer = buffer;
     },
-    upload: async (data: AnalysisGpsTask) => {
-      if (data.Images) {
-        for (let i = 0; i < data.Images.length; i++) {
-          if (this.picture.changed.has(i)) {
-            let buffer = this.picture.changed.get(i) as ArrayBuffer;
-            let id = await this.business.picture.upload(buffer);
-            data.Images[i].ImageUrl = id;
-          }
-        }
+    position: (data: number) => {
+      this.picture.changed.position = data;
+      // this.picture.data.PositionNo = data;
+    },
+    remove: () => {
+      this.picture.changed.buffer = undefined;
+    },
+    upload: async () => {
+      if (this.picture.changed.buffer) {
+        this.picture.data.PositionNo = this.picture.changed.position;
+        this.picture.data.ImageUrl = await this.business.picture.upload(
+          this.picture.changed.buffer
+        );
       }
-      return data;
+      if (this.picture.changed.position) {
+        this.picture.data.PositionNo = this.picture.changed.position;
+      }
+      return this.picture.data;
     },
   };
 
@@ -133,21 +123,47 @@ export class SystemModuleGpsTaskDetailsContainerComponent implements OnInit {
       this.toastr.warning('请添加任务图片');
       return false;
     }
+    let image = data.Images[0];
+    if (!image.ImageUrl) {
+      this.toastr.warning('请添加任务图片');
+      return false;
+    }
+    if (!image.PositionNo) {
+      this.toastr.warning('请选择机位');
+      return false;
+    }
     return true;
   }
 
   on = {
-    save: async () => {
-      this.picture.upload(this.model).then((model) => {
-        if (model.Images) {
-          model.Images = model.Images.filter((x) => x.ImageUrl);
-          model.CapturePositions = model.CapturePositions.filter((x) =>
-            model.Images?.some((i) => i.PositionNo == x)
-          );
-        }
-        if (this.check(model)) {
+    create: async () => {
+      this.picture.upload().then((image) => {
+        this.model.Images = [image];
+        this.model.CapturePositions = this.model.Images.map(
+          (x) => x.PositionNo!
+        );
+        if (this.check(this.model)) {
           this.business
-            .create(model)
+            .create(this.model)
+            .then((x) => {
+              this.toastr.success('保存成功');
+              this.save.emit(x);
+            })
+            .catch((e) => {
+              this.toastr.error('保存失败');
+            });
+        }
+      });
+    },
+    update: () => {
+      this.picture.upload().then((image) => {
+        this.model.Images = [image];
+        this.model.CapturePositions = this.model.Images.map(
+          (x) => x.PositionNo!
+        );
+        if (this.check(this.model)) {
+          this.business
+            .update(this.model)
             .then((x) => {
               this.toastr.success('保存成功');
               this.save.emit(x);

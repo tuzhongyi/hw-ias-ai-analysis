@@ -1,0 +1,56 @@
+<div class="system-event-gsp-task-details-information">
+  <div class="forms">
+    <div class="form-item">
+      <div class="form-item-text">匹配度</div>
+      <div class="form-item-value">{{ data.SceneMatchPercent ?? 0 }}%</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">置信度</div>
+      <div class="form-item-value">{{ data.SceneResultConfidence ?? 0 }}%</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">场景名称</div>
+      <div class="form-item-value">{{ data.SceneName ?? "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">场景识别结果</div>
+      <div class="form-item-value">{{ data.SceneLLMResult ?? "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">场景地址</div>
+      <div class="form-item-value">{{ data.Address ?? "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">关注场景描述</div>
+      <div class="form-item-value">{{ data.Prompt ?? "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">时间</div>
+      <div class="form-item-value">
+        {{ (data.Time | date : Language.YearMonthDayHHmmss) ?? "-" }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">确认时间</div>
+      <div class="form-item-value">
+        {{ (data.ConfirmedTime | date : Language.YearMonthDayHHmmss) ?? "-" }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">点位偏差</div>
+      <div class="form-item-value">{{ data.Distance }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">次数</div>
+      <div class="form-item-value">{{ data.Attempts }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">关注场景描述</div>
+      <div class="form-item-value">{{ data.Prompt ?? "-" }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">分析用输出结构</div>
+      <div class="form-item-value">{{ data.OutputFormat ?? "-" }}</div>
+    </div>
+  </div>
+</div>

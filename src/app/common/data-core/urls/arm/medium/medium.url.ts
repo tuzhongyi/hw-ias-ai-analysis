@@ -17,4 +17,8 @@ export class ArmMediumUrl {
       return `${this.basic}/Audios/${id}`;
     },
   };
+
+  static arm(url: string) {
+    return `${BaseUrl.arm}/${url}`;
+  }
 }

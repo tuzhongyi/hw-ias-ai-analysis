@@ -1,0 +1,65 @@
+.system-event-gsp-task-details {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: all 0.5s;
+
+  &-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - 36px - 10px);
+
+    display: grid;
+    grid-template-areas: "image video""map info";
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+
+  &-foot {
+    height: 36px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  &-image {
+    grid-area: image;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+
+  &-video {
+    grid-area: video;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 0;
+
+    video {
+      position: absolute;
+    }
+  }
+
+  &-map {
+    grid-area: map;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+
+  &-info {
+    grid-area: info;
+    width: 100%;
+    height: 100%;
+
+    justify-content: flex-end;
+  }
+}

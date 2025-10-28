@@ -10,10 +10,11 @@ export class SizeWindowTool {
     width: HtmlTool.screen.has.head.from.height(
       screen.availHeight * 0.85,
       16 / 9,
-      60
+      60 + 12
     ),
     height: '85%',
   };
+
   middle = {
     width: '56%',
     height: '80%',

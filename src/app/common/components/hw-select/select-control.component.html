@@ -1,4 +1,9 @@
-<div class="select-control" [ngStyle]="style" #current>
+<div
+  class="select-control"
+  [class.border]="borderable"
+  [ngStyle]="style"
+  #current
+>
   <ng-content></ng-content>
   <div
     class="clear"
@@ -10,6 +15,7 @@
   <div
     class="default"
     [class.disabled]="disabled"
+    [style.left]="left + 'px'"
     *ngIf="selected === undefined"
   >
     {{ nulltext }}

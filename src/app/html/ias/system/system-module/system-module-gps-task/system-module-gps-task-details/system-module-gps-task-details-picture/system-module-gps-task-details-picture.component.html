@@ -22,14 +22,22 @@
       <div class="form-item">
         <div class="form-item-text">机位</div>
         <div class="form-item-value">
-          <select [(ngModel)]="data.PositionNo" class="noborder min">
-            <option
-              [ngValue]="item.Value"
-              *ngFor="let item of source.channels | async"
-            >
-              {{ item.Name }}
-            </option>
-          </select>
+          <hw-select
+            [(selected)]="position"
+            [nullable]="false"
+            [borderable]="false"
+            [left]="5"
+            (selectedChange)="on.position()"
+          >
+            <select [(ngModel)]="position" class="noborder min">
+              <option
+                [ngValue]="item.Value"
+                *ngFor="let item of source.channels | async"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
         </div>
       </div>
     </div>

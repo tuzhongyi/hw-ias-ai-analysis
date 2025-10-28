@@ -22,6 +22,8 @@ import { SelectDirective } from './select.directive';
 export class HowellSelectComponent implements OnInit, AfterViewChecked {
   @Input() nullable: boolean = false;
   @Input() nulltext = '请选择';
+  @Input() borderable: boolean = true;
+  @Input() left = 10;
 
   @Input() public set style(v: any) {
     if (this._style === undefined) {

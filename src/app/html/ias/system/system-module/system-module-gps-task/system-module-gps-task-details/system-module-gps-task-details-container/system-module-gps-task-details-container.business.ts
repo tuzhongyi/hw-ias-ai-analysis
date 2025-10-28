@@ -19,6 +19,11 @@ export class SystemModuleGpsTaskDetailsContainerBusiness {
     return this.analysis.llm.gps.task.create(data);
   }
 
+  update(data: AnalysisGpsTask) {
+    data.UpdateTime = new Date();
+    return this.analysis.llm.gps.task.update(data);
+  }
+
   picture = {
     upload: async (data: ArrayBuffer) => {
       return this.medium.upload(data);

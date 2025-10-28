@@ -179,6 +179,14 @@ export class SystemBreadcrumbBusiness {
           this.event.index(),
           this.event.manager.analysis(),
         ];
+      } else if (
+        location.pathname.indexOf(SystemPath.event_gps_task_manager) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.event.index(),
+          this.event.manager.gpstask(),
+        ];
       } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
         return [this.home.index(), this.event.index()];
       } else {
@@ -208,6 +216,12 @@ export class SystemBreadcrumbBusiness {
         let item = new SystemBreadcrumbItem();
         item.text = '分析事件';
         item.path = SystemPath.event_analysis_manager;
+        return item;
+      },
+      gpstask: () => {
+        let item = new SystemBreadcrumbItem();
+        item.text = '定制场景事件';
+        item.path = SystemPath.event_gps_task_manager;
         return item;
       },
     },

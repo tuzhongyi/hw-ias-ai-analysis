@@ -26,7 +26,7 @@
           <th sort="Name">任务名称</th>
           <th sort="TaskType">任务类型</th>
           <th sort="SceneName">场景名称</th>
-          <th sort="Prompt">提示词</th>
+          <th sort="Prompt">关注场景描述</th>
           <th sort="CreationTime">创建时间</th>
           <th class="center">操作</th>
         </tr>
@@ -58,14 +58,14 @@
           <td>
             <div [ngClass]="{ noimage: !item?.Images }" *ngIf="item">
               <div
-                *ngFor="let img of item.Images"
+                *ngFor="let img of item.Images; let i = index"
                 class="image"
                 [ngStyle]="{
                   backgroundImage: img.ImageUrl
                     ? 'url(' + picture.get(img.ImageUrl) + ')'
                     : 'none'
                 }"
-                (click)="picture.on($event, index, item)"
+                (click)="picture.on($event, i, item)"
               ></div>
             </div>
           </td>
