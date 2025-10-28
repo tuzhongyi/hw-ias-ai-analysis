@@ -14,7 +14,7 @@ export class LanguageAnalysisLLMTool extends LanguageAbstract {
     let values = await this.manager.SceneLabelTypes.get();
     return this.get(values, value, def);
   }
-  async SceneTypes(value?: string, def: string = ''): Promise<string> {
+  async SceneTypes(value?: number, def: string = ''): Promise<string> {
     let values = await this.manager.SceneTypes.get();
     return this.get(values, value, def);
   }

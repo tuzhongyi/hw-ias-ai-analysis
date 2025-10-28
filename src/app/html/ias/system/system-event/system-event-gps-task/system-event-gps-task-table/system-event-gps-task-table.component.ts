@@ -44,12 +44,25 @@ export class SystemEventGpsTaskTableComponent implements OnInit, OnDestroy {
 
   constructor(private business: SystemEventTaskTableBusiness) {}
 
-  widths = [];
+  widths = ['10%', '10%', 'auto', '6%', '10%', '5%', '5%', '10%', '5%', '10%'];
+  minwidth = [
+    undefined,
+    undefined,
+    undefined,
+    '76px',
+    '200px',
+    undefined,
+    '70px',
+    '200px',
+    undefined,
+    undefined,
+  ];
   datas: (SystemEventGpsTaskTableItem | undefined)[] = [];
   page = Page.create(1, 10);
   selected?: SystemEventGpsTaskTableItem;
 
   Language = Language;
+  Math = Math;
 
   private filter = new SystemEventGpsTaskTableFilter();
   private subscription = new Subscription();

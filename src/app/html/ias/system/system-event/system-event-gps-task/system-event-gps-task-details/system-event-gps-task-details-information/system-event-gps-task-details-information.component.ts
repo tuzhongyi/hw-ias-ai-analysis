@@ -14,8 +14,7 @@ export class SystemEventGpsTaskDetailsInformationComponent implements OnInit {
   @Input() data = new GpsTaskSampleRecord();
 
   Language = Language;
+  Math = Math;
 
-  ngOnInit(): void {
-    console.log(this.data);
-  }
+  ngOnInit(): void {}
 }

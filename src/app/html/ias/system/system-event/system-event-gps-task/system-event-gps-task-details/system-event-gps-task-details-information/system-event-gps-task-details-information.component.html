@@ -1,56 +1,66 @@
 <div class="system-event-gps-task-details-information">
   <div class="forms">
-    <div class="form-item">
-      <div class="form-item-text">匹配度</div>
-      <div class="form-item-value">{{ data.SceneMatchPercent ?? 0 }}%</div>
-    </div>
-    <div class="form-item">
-      <div class="form-item-text">置信度</div>
-      <div class="form-item-value">{{ data.SceneResultConfidence ?? 0 }}%</div>
-    </div>
-    <div class="form-item">
-      <div class="form-item-text">场景名称</div>
-      <div class="form-item-value">{{ data.SceneName ?? "-" }}</div>
-    </div>
-    <div class="form-item">
-      <div class="form-item-text">场景识别结果</div>
+    <div class="form-item odd full">
+      <div class="form-item-text baseline">场景识别结果：</div>
       <div class="form-item-value">{{ data.SceneLLMResult ?? "-" }}</div>
     </div>
-    <div class="form-item">
-      <div class="form-item-text">场景地址</div>
-      <div class="form-item-value">{{ data.Address ?? "-" }}</div>
-    </div>
-    <div class="form-item">
-      <div class="form-item-text">关注场景描述</div>
+    <div class="form-item odd full">
+      <div class="form-item-text baseline">关注场景描述：</div>
       <div class="form-item-value">{{ data.Prompt ?? "-" }}</div>
     </div>
-    <div class="form-item">
-      <div class="form-item-text">时间</div>
+    <div class="form-item odd">
+      <div class="form-item-text">状态：</div>
       <div class="form-item-value">
-        {{ (data.Time | date : Language.YearMonthDayHHmmss) ?? "-" }}
+        {{ data.Comfirmed ? "已确认" : "未确认" }}
       </div>
     </div>
-    <div class="form-item">
-      <div class="form-item-text">确认时间</div>
+    <div class="form-item even">
+      <div class="form-item-text">确认时间：</div>
       <div class="form-item-value">
         {{ (data.ConfirmedTime | date : Language.YearMonthDayHHmmss) ?? "-" }}
       </div>
     </div>
-    <div class="form-item">
-      <div class="form-item-text">点位偏差</div>
-      <div class="form-item-value">{{ data.Distance }}</div>
+    <div class="form-item odd">
+      <div class="form-item-text">采样设备编号：</div>
+      <div class="form-item-value">{{ data.DeviceId }}</div>
     </div>
-    <div class="form-item">
-      <div class="form-item-text">次数</div>
-      <div class="form-item-value">{{ data.Attempts }}</div>
+    <div class="form-item even">
+      <div class="form-item-text">采样时间：</div>
+      <div class="form-item-value">
+        {{ (data.Time | date : Language.YearMonthDayHHmmss) ?? "-" }}
+      </div>
     </div>
-    <div class="form-item">
-      <div class="form-item-text">关注场景描述</div>
-      <div class="form-item-value">{{ data.Prompt ?? "-" }}</div>
+    <div class="form-item odd">
+      <div class="form-item-text">点位偏差（米）：</div>
+      <div class="form-item-value">
+        {{ Math.round(data.Distance * 100) / 100 }}
+      </div>
     </div>
-    <div class="form-item">
-      <div class="form-item-text">分析用输出结构</div>
-      <div class="form-item-value">{{ data.OutputFormat ?? "-" }}</div>
+    <div class="form-item even">
+      <div class="form-item-text">机位号：</div>
+      <div class="form-item-value">
+        @if(data.Images && data.Images.length > 0) {
+        {{ data.Images[0].PositionNo }}
+        } @else{-}
+      </div>
+    </div>
+    <div class="form-item odd">
+      <div class="form-item-text">场景匹配度：</div>
+      <div class="form-item-value">{{ data.SceneMatchPercent || 0 }}%</div>
+    </div>
+    <div class="form-item even">
+      <div class="form-item-text">结果置信度：</div>
+      <div class="form-item-value">{{ data.SceneResultConfidence || 0 }}%</div>
+    </div>
+    <div class="form-item odd">
+      <div class="form-item-text baseline">场景名称：</div>
+      <div class="form-item-value">
+        {{ data.SceneName ?? "-" }}
+      </div>
+    </div>
+    <div class="form-item even">
+      <div class="form-item-text baseline">场景地址：</div>
+      <div class="form-item-value">{{ data.Address ?? "-" }}</div>
     </div>
   </div>
 </div>

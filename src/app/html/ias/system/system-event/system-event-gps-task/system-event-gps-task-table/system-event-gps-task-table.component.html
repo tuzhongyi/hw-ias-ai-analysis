@@ -8,18 +8,22 @@
       (sort)="on.sort($event)"
     >
       <colgroup>
-        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        <col
+          [ngStyle]="{ width: width, 'min-width': minwidth[i] }"
+          *ngFor="let width of widths; let i = index"
+        />
       </colgroup>
       <thead>
         <tr>
           <th class="center">序号</th>
           <th>照片</th>
-          <th sort="SceneName">场景名称</th>
-          <th sort="Comfirmed">场景识别结果</th>
-          <th sort="SceneMatchPercent">匹配度</th>
+          <th sort="SceneLLMResult">场景识别结果</th>
           <th sort="Distance">点位偏差(米)</th>
-          <th sort="Time">时间</th>
-          <th sort="Attempts">次数</th>
+          <th sort="Time">采样时间</th>
+          <th sort="Attempts">采样次数</th>
+          <th sort="Comfirmed">状态</th>
+          <th sort="ConfirmedTime">确认时间</th>
+          <th sort="IsAlarmRecord">是否报警</th>
           <th class="center">操作</th>
         </tr>
       </thead>
@@ -58,24 +62,14 @@
             </div>
           </td>
 
-          <td [title]="item?.SceneName ?? ''">
+          <td [title]="item?.SceneLLMResult ?? ''">
             @if(item){
-            {{ item.SceneName }}
+            {{ item.SceneLLMResult ?? "-" }}
             }
           </td>
-          <td>
+          <td [title]="item?.Distance ?? ''">
             @if(item){
-            {{ item.Comfirmed }}
-            }
-          </td>
-          <td>
-            @if(item){
-            {{ item.SceneMatchPercent }}
-            }
-          </td>
-          <td>
-            @if(item){
-            {{ item.Distance }}
+            {{ Math.round(item.Distance * 100) / 100 }}
             }
           </td>
           <td>
@@ -88,16 +82,36 @@
             {{ item.Attempts }}
             }
           </td>
+          <td
+            [ngClass]="{
+            'text-green': !!(item?.Comfirmed),
+            'text-orange-state': !(item?.Comfirmed),
+          }"
+          >
+            @if(item){
+            {{ item.Comfirmed ? "已确认" : "未确认" }}
+            }
+          </td>
+          <td>
+            @if(item){
+            {{ (item.ConfirmedTime | date : Language.yyyyMMddHHmmss) ?? "-" }}
+            }
+          </td>
+          <td>
+            @if(item){
+            {{ item.IsAlarmRecord ? "是" : "否" }}
+            }
+          </td>
 
           <td class="center">
             <div class="operation" *ngIf="item">
-              <div
+              <!-- <div
                 class="button"
                 title="事件处置"
                 (click)="on.process($event, item)"
               >
                 <i class="mdi mdi-wrench"></i>
-              </div>
+              </div> -->
 
               <!-- <div
                 class="button"

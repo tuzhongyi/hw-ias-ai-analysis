@@ -5,7 +5,7 @@ import { CapabilityManager } from '../capability.manager';
 export class SourceAnalysisLLMManager {
   CameraSides = new PromiseValue<EnumNameValue[]>();
   SceneLabelTypes = new PromiseValue<EnumNameValue[]>();
-  SceneTypes = new PromiseValue<EnumNameValue[]>();
+  SceneTypes = new PromiseValue<EnumNameValue<number>[]>();
 
   constructor(private capability: CapabilityManager) {
     this.init();

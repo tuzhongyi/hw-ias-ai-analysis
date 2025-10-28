@@ -18,7 +18,7 @@
             ></date-time-control>
           </div>
         </div>
-        <div class="form-item">
+        <!-- <div class="form-item">
           <div class="form-item-text">任务类型</div>
           <div class="form-item-value">
             <select [(ngModel)]="table.args.type">
@@ -26,6 +26,26 @@
               <option [ngValue]="item.Value" *ngFor="let item of source.types">
                 {{ item.Name }}
               </option>
+            </select>
+          </div>
+        </div> -->
+        <div class="form-item">
+          <div class="form-item-text">状态</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="table.args.confirmed">
+              <option [ngValue]="undefined">全部</option>
+              <option [ngValue]="false">未确认</option>
+              <option [ngValue]="true">已确认</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">是否报警</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="table.args.alarm">
+              <option [ngValue]="undefined">全部</option>
+              <option [ngValue]="false">否</option>
+              <option [ngValue]="true">是</option>
             </select>
           </div>
         </div>

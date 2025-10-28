@@ -1,6 +1,6 @@
 <div class="system-module-gps-task-details-information">
   <div class="forms">
-    <div class="form-item">
+    <div class="form-item full">
       <div class="form-item-text">
         <div class="name" text-space-between>任务名称</div>
         <div class="must">*</div>
@@ -89,6 +89,22 @@
         />
       </div>
     </div>
+
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>坐标系</div>
+      </div>
+      <div class="form-item-value">
+        <select
+          [(ngModel)]="location.type.value"
+          (change)="location.type.change()"
+        >
+          <option [ngValue]="GisType.WGS84">WGS84</option>
+          <option [ngValue]="GisType.GCJ02">GCJ02</option>
+          <option [ngValue]="GisType.BD09">BD09</option>
+        </select>
+      </div>
+    </div>
     <div class="form-item">
       <div class="form-item-text">
         <div class="name" text-space-between>有效时间</div>
@@ -113,30 +129,6 @@
       </div>
     </div>
 
-    <div class="form-item">
-      <div class="form-item-text">
-        <div class="name" text-space-between>坐标系</div>
-      </div>
-      <div class="form-item-value">
-        <select
-          [(ngModel)]="location.type.value"
-          (change)="location.type.change()"
-        >
-          <option [ngValue]="GisType.WGS84">WGS84</option>
-          <option [ngValue]="GisType.GCJ02">GCJ02</option>
-          <option [ngValue]="GisType.BD09">BD09</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-item">
-      <div class="form-item-text">
-        <div class="name" text-space-between>场景名称</div>
-      </div>
-      <div class="form-item-value">
-        <input type="text" [(ngModel)]="data.SceneName" />
-      </div>
-    </div>
-
     <div class="form-item full">
       <div class="form-item-text">
         <div class="name" text-space-between>坐标</div>
@@ -148,6 +140,14 @@
           [(ngModel)]="location.value"
           (input)="location.set()"
         />
+      </div>
+    </div>
+    <div class="form-item full">
+      <div class="form-item-text">
+        <div class="name" text-space-between>场景名称</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.SceneName" />
       </div>
     </div>
     <div class="form-item full">
@@ -175,13 +175,13 @@
         <textarea [(ngModel)]="data.OutputFormat"></textarea>
       </div>
     </div>
-    <div class="form-item full textarea">
+    <!-- <div class="form-item full textarea">
       <div class="form-item-text baseline">
         <div class="name" text-space-between>描述</div>
       </div>
       <div class="form-item-value">
         <textarea [(ngModel)]="data.Description"></textarea>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

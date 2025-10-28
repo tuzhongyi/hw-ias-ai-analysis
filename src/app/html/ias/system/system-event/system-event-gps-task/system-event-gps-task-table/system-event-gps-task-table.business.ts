@@ -37,6 +37,12 @@ export class SystemEventTaskTableBusiness {
       if (filter.type != undefined) {
         params.TaskType = filter.type;
       }
+      if (filter.confirmed != undefined) {
+        params.Confirmed = filter.confirmed;
+      }
+      if (filter.alarm != undefined) {
+        params.IsAlarmRecord = filter.alarm;
+      }
 
       params.Asc = filter.asc;
       params.Desc = filter.desc;

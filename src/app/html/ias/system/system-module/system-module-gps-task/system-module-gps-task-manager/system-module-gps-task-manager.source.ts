@@ -7,12 +7,13 @@ import { ArmSystemRequestService } from '../../../../../../common/data-core/requ
 @Injectable()
 export class SystemModuleGpsTaskManagerSource {
   groups: UserGroup[] = [];
-  types: EnumNameValue[] = [];
+  types: EnumNameValue<number>[] = [];
   constructor(
     private service: ArmSystemRequestService,
     private manager: Manager
   ) {
     this.init.groups();
+    this.init.types();
   }
 
   private init = {
@@ -22,9 +23,7 @@ export class SystemModuleGpsTaskManagerSource {
       });
     },
     types: () => {
-      this.manager.source.analysis.llm.SceneTypes.get().then((x) => {
-        this.types = x;
-      });
+      this.types = this.manager.source.local.TaskTypes;
     },
   };
 }

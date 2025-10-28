@@ -1,6 +1,9 @@
 .system-event-gps-task-details-information {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
 
   .form {
     &s {
@@ -9,10 +12,21 @@
     }
 
     &-item {
-      width: calc((100% - 20px) * 0.5);
+      &.odd {
+        width: calc((100% - 20px) * 0.45);
 
-      &-text {
-        width: 111px;
+        .form-item-text {
+          width: 126px;
+        }
+
+      }
+
+      &.even {
+        width: calc((100% - 20px) * 0.55);
+
+        .form-item-text {
+          width: 95px;
+        }
       }
     }
 

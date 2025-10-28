@@ -1,11 +1,10 @@
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
-import { Language } from '../../../../../../common/tools/language-tool/language';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemEventGpsTaskDetailsContainerComponent } from '../system-event-gps-task-details/system-event-gps-task-details-container/system-event-gps-task-details-container.component';
@@ -49,15 +48,11 @@ export class SystemEventGpsTaskManagerComponent {
     details: {
       open: (data: GpsTaskSampleRecord) => {
         this.window.details.data = data;
-        let name = '定制场景事件';
+        let name = '定制场景事件详情';
         if (data.SceneName) {
           name = data.SceneName;
         }
-        this.window.details.title = `${name}-${formatDate(
-          data.Time,
-          Language.YearMonthDayHHmmss,
-          'en'
-        )}`;
+        this.window.details.title = `${name}`;
         this.window.details.show = true;
       },
     },

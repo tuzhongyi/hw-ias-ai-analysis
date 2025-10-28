@@ -11,5 +11,5 @@ export class AnalysisLLMCapability implements IModel {
   SceneLabelTypes?: EnumNameValue[];
   /**	EnumNameValue[]	场景类型	O	*/
   @Type(() => EnumNameValue)
-  SceneTypes?: EnumNameValue[];
+  SceneTypes?: EnumNameValue<number>[];
 }

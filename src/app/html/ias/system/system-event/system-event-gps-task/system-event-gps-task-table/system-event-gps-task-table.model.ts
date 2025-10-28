@@ -5,7 +5,8 @@ import { Duration } from '../../../../../../common/tools/date-time-tool/duration
 export interface ISystemEventGpsTaskTableArgs {
   duration: Duration;
   type?: number;
-  confirmed?: number;
+  confirmed?: boolean;
+  alarm?: boolean;
 }
 
 export class SystemEventGpsTaskTableArgs
@@ -13,6 +14,8 @@ export class SystemEventGpsTaskTableArgs
 {
   duration = DateTimeTool.last.week(new Date(), 8);
   type?: number;
+  confirmed?: boolean;
+  alarm?: boolean;
   first = false;
 }
 export class SystemEventGpsTaskTableFilter
@@ -20,6 +23,8 @@ export class SystemEventGpsTaskTableFilter
 {
   duration = DateTimeTool.last.week(new Date(), 8);
   type?: number;
+  confirmed?: boolean;
+  alarm?: boolean;
   desc?: string;
   asc?: string;
 
@@ -29,6 +34,8 @@ export class SystemEventGpsTaskTableFilter
     let filter = new SystemEventGpsTaskTableFilter();
     filter.duration = args.duration;
     filter.type = args.type;
+    filter.confirmed = args.confirmed;
+    filter.alarm = args.alarm;
     return filter;
   }
 }

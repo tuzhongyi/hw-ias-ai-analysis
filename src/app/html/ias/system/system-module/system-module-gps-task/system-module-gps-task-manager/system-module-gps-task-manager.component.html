@@ -2,7 +2,7 @@
   <div class="system-module-gps-task-manager-head">
     <div class="system-module-gps-task-manager-head-filter">
       <div class="forms">
-        <div class="form-item">
+        <!-- <div class="form-item">
           <div class="form-item-text">用户分组</div>
           <div class="form-item-value text">
             <select [(ngModel)]="table.args.group">
@@ -15,11 +15,11 @@
               </option>
             </select>
           </div>
-        </div>
+        </div> -->
         <div class="form-item">
           <div class="form-item-text">场景类型</div>
           <div class="form-item-value text">
-            <select [(ngModel)]="table.args.group">
+            <select [(ngModel)]="table.args.type">
               <option [ngValue]="undefined">全部</option>
               <option *ngFor="let item of source.types" [ngValue]="item.Value">
                 {{ item.Name }}
