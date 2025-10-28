@@ -4,7 +4,7 @@ import { Manager } from '../../../../../../common/data-core/requests/managers/ma
 import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
 
 @Injectable()
-export class SystemEventGspTaskManagerSource {
+export class SystemEventGpsTaskManagerSource {
   types: EnumNameValue<number>[] = [];
   constructor(private manager: Manager, private medium: MediumRequestService) {
     this.init.types();

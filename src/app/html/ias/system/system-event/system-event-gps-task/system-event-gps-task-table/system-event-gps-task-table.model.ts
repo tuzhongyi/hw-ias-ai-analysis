@@ -2,21 +2,21 @@ import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/a
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 
-export interface ISystemEventGspTaskTableArgs {
+export interface ISystemEventGpsTaskTableArgs {
   duration: Duration;
   type?: number;
   confirmed?: number;
 }
 
-export class SystemEventGspTaskTableArgs
-  implements ISystemEventGspTaskTableArgs
+export class SystemEventGpsTaskTableArgs
+  implements ISystemEventGpsTaskTableArgs
 {
   duration = DateTimeTool.last.week(new Date(), 8);
   type?: number;
   first = false;
 }
-export class SystemEventGspTaskTableFilter
-  implements ISystemEventGspTaskTableArgs
+export class SystemEventGpsTaskTableFilter
+  implements ISystemEventGpsTaskTableArgs
 {
   duration = DateTimeTool.last.week(new Date(), 8);
   type?: number;
@@ -24,12 +24,12 @@ export class SystemEventGspTaskTableFilter
   asc?: string;
 
   static from(
-    args: SystemEventGspTaskTableArgs
-  ): SystemEventGspTaskTableFilter {
-    let filter = new SystemEventGspTaskTableFilter();
+    args: SystemEventGpsTaskTableArgs
+  ): SystemEventGpsTaskTableFilter {
+    let filter = new SystemEventGpsTaskTableFilter();
     filter.duration = args.duration;
     filter.type = args.type;
     return filter;
   }
 }
-export class SystemEventGspTaskTableItem extends GpsTaskSampleRecord {}
+export class SystemEventGpsTaskTableItem extends GpsTaskSampleRecord {}

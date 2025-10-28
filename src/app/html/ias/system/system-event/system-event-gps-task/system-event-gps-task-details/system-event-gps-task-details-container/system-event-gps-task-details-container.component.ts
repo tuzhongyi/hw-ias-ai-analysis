@@ -4,27 +4,27 @@ import { ContainerZoomComponent } from '../../../../../../../common/components/c
 import { GpsTaskSampleRecord } from '../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
-import { SystemEventGspTaskDetailsInformationComponent } from '../system-event-gsp-task-details-information/system-event-gsp-task-details-information.component';
-import { SystemEventGspTaskDetailsContainerBusiness } from './system-event-gsp-task-details-container.business';
+import { SystemEventGpsTaskDetailsInformationComponent } from '../system-event-gps-task-details-information/system-event-gps-task-details-information.component';
+import { SystemEventGpsTaskDetailsContainerBusiness } from './system-event-gps-task-details-container.business';
 
 @Component({
-  selector: 'ias-system-event-gsp-task-details-container',
+  selector: 'ias-system-event-gps-task-details-container',
   imports: [
     CommonModule,
     ContainerZoomComponent,
     PictureComponent,
     IASMapComponent,
-    SystemEventGspTaskDetailsInformationComponent,
+    SystemEventGpsTaskDetailsInformationComponent,
   ],
-  templateUrl: './system-event-gsp-task-details-container.component.html',
-  styleUrl: './system-event-gsp-task-details-container.component.less',
-  providers: [SystemEventGspTaskDetailsContainerBusiness],
+  templateUrl: './system-event-gps-task-details-container.component.html',
+  styleUrl: './system-event-gps-task-details-container.component.less',
+  providers: [SystemEventGpsTaskDetailsContainerBusiness],
 })
-export class SystemEventGspTaskDetailsContainerComponent implements OnInit {
+export class SystemEventGpsTaskDetailsContainerComponent implements OnInit {
   @Input() data?: GpsTaskSampleRecord;
   @Output() close = new EventEmitter<void>();
 
-  constructor(private business: SystemEventGspTaskDetailsContainerBusiness) {}
+  constructor(private business: SystemEventGpsTaskDetailsContainerBusiness) {}
   ngOnInit(): void {
     if (this.data) {
       this.video.load(this.data);

@@ -1,6 +1,6 @@
-<div class="system-event-gsp-task-manager">
-  <div class="system-event-gsp-task-manager-head">
-    <div class="system-event-gsp-task-manager-head-filter">
+<div class="system-event-gps-task-manager">
+  <div class="system-event-gps-task-manager-head">
+    <div class="system-event-gps-task-manager-head-filter">
       <div class="forms">
         <div class="form-item">
           <div class="form-item-text">开始时间</div>
@@ -38,13 +38,13 @@
       </div>
     </div>
   </div>
-  <div class="system-event-gsp-task-manager-body">
-    <ias-system-event-gsp-task-table
+  <div class="system-event-gps-task-manager-body">
+    <ias-system-event-gps-task-table
       [args]="table.args"
       [load]="table.load"
       (video)="on.video.open($event)"
       (details)="on.details.open($event)"
-    ></ias-system-event-gsp-task-table>
+    ></ias-system-event-gps-task-table>
   </div>
   <ias-window
     [Model]="window.video"
@@ -65,8 +65,8 @@
     [style]="window.details.style"
     [title]="window.details.title"
   >
-    <ias-system-event-gsp-task-details-container
+    <ias-system-event-gps-task-details-container
       [data]="window.details.data"
-    ></ias-system-event-gsp-task-details-container>
+    ></ias-system-event-gps-task-details-container>
   </ias-window>
 </div>

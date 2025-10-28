@@ -8,7 +8,7 @@ import { SystemModuleRoadManagerComponent } from './system-module/system-module-
 import { SystemModuleShopManagerComponent } from './system-module/system-module-shop/system-module-shop-manager/system-module-shop-manager.component';
 
 import { SystemEventComponent } from './system-event/component/system-event.component';
-import { SystemEventGspTaskManagerComponent } from './system-event/system-event-gsp-task/system-event-gsp-task-manager/system-event-gsp-task-manager.component';
+import { SystemEventGpsTaskManagerComponent } from './system-event/system-event-gps-task/system-event-gps-task-manager/system-event-gps-task-manager.component';
 import { SystemEventIndexComponent } from './system-event/system-event-index/system-event-index.component';
 import { SystemEventManagerAnalysisComponent } from './system-event/system-event-manager/system-event-manager-analysis/system-event-manager-analysis.component';
 import { SystemEventManagerRealtimeComponent } from './system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
@@ -139,7 +139,7 @@ const routes: Routes = [
               },
               {
                 path: 'gps-task',
-                component: SystemEventGspTaskManagerComponent,
+                component: SystemEventGpsTaskManagerComponent,
               },
             ],
           },

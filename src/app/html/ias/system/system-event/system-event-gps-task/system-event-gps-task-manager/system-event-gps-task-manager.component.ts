@@ -8,38 +8,38 @@ import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/a
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
-import { SystemEventGspTaskDetailsContainerComponent } from '../system-event-gsp-task-details/system-event-gsp-task-details-container/system-event-gsp-task-details-container.component';
-import { SystemEventGspTaskTableComponent } from '../system-event-gsp-task-table/system-event-gsp-task-table.component';
-import { SystemEventGspTaskTableArgs } from '../system-event-gsp-task-table/system-event-gsp-task-table.model';
-import { SystemEventGspTaskManagerSource } from './system-event-gsp-task-manager.source';
-import { SystemEventGspTaskManagerWindow } from './system-event-gsp-task-manager.window';
+import { SystemEventGpsTaskDetailsContainerComponent } from '../system-event-gps-task-details/system-event-gps-task-details-container/system-event-gps-task-details-container.component';
+import { SystemEventGpsTaskTableComponent } from '../system-event-gps-task-table/system-event-gps-task-table.component';
+import { SystemEventGpsTaskTableArgs } from '../system-event-gps-task-table/system-event-gps-task-table.model';
+import { SystemEventGpsTaskManagerSource } from './system-event-gps-task-manager.source';
+import { SystemEventGpsTaskManagerWindow } from './system-event-gps-task-manager.window';
 
 @Component({
-  selector: 'ias-system-event-gsp-task-manager',
+  selector: 'ias-system-event-gps-task-manager',
   imports: [
     CommonModule,
     FormsModule,
     DateTimeControlComponent,
-    SystemEventGspTaskTableComponent,
+    SystemEventGpsTaskTableComponent,
     WindowComponent,
     WindowConfirmComponent,
     PictureListComponent,
-    SystemEventGspTaskDetailsContainerComponent,
+    SystemEventGpsTaskDetailsContainerComponent,
   ],
-  templateUrl: './system-event-gsp-task-manager.component.html',
-  styleUrl: './system-event-gsp-task-manager.component.less',
-  providers: [SystemEventGspTaskManagerSource],
+  templateUrl: './system-event-gps-task-manager.component.html',
+  styleUrl: './system-event-gps-task-manager.component.less',
+  providers: [SystemEventGpsTaskManagerSource],
 })
-export class SystemEventGspTaskManagerComponent {
+export class SystemEventGpsTaskManagerComponent {
   constructor(
-    public source: SystemEventGspTaskManagerSource,
+    public source: SystemEventGpsTaskManagerSource,
     private toastr: ToastrService
   ) {}
 
-  window = new SystemEventGspTaskManagerWindow();
+  window = new SystemEventGpsTaskManagerWindow();
   table = {
-    args: new SystemEventGspTaskTableArgs(),
-    load: new EventEmitter<SystemEventGspTaskTableArgs>(),
+    args: new SystemEventGpsTaskTableArgs(),
+    load: new EventEmitter<SystemEventGpsTaskTableArgs>(),
   };
 
   on = {

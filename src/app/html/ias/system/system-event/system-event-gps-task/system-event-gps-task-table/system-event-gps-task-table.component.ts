@@ -17,23 +17,23 @@ import {
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
-import { SystemEventGspTaskTableBusiness } from './system-event-gsp-task-table.business';
+import { SystemEventTaskTableBusiness } from './system-event-gps-task-table.business';
 import {
-  SystemEventGspTaskTableArgs,
-  SystemEventGspTaskTableFilter,
-  SystemEventGspTaskTableItem,
-} from './system-event-gsp-task-table.model';
+  SystemEventGpsTaskTableArgs,
+  SystemEventGpsTaskTableFilter,
+  SystemEventGpsTaskTableItem,
+} from './system-event-gps-task-table.model';
 
 @Component({
-  selector: 'ias-system-event-gsp-task-table',
+  selector: 'ias-system-event-gps-task-table',
   imports: [CommonModule, PaginatorComponent, TableSorterDirective],
-  templateUrl: './system-event-gsp-task-table.component.html',
-  styleUrl: './system-event-gsp-task-table.component.less',
-  providers: [SystemEventGspTaskTableBusiness],
+  templateUrl: './system-event-gps-task-table.component.html',
+  styleUrl: './system-event-gps-task-table.component.less',
+  providers: [SystemEventTaskTableBusiness],
 })
-export class SystemEventGspTaskTableComponent implements OnInit, OnDestroy {
-  @Input() args = new SystemEventGspTaskTableArgs();
-  @Input('load') input_load?: EventEmitter<SystemEventGspTaskTableArgs>;
+export class SystemEventGpsTaskTableComponent implements OnInit, OnDestroy {
+  @Input() args = new SystemEventGpsTaskTableArgs();
+  @Input('load') input_load?: EventEmitter<SystemEventGpsTaskTableArgs>;
 
   @Output('picture') output_picture = new EventEmitter<
     Paged<GpsTaskSampleRecord>
@@ -42,23 +42,23 @@ export class SystemEventGspTaskTableComponent implements OnInit, OnDestroy {
   @Output() video = new EventEmitter<GpsTaskSampleRecord>();
   @Output() details = new EventEmitter<GpsTaskSampleRecord>();
 
-  constructor(private business: SystemEventGspTaskTableBusiness) {}
+  constructor(private business: SystemEventTaskTableBusiness) {}
 
   widths = [];
-  datas: (SystemEventGspTaskTableItem | undefined)[] = [];
+  datas: (SystemEventGpsTaskTableItem | undefined)[] = [];
   page = Page.create(1, 10);
-  selected?: SystemEventGspTaskTableItem;
+  selected?: SystemEventGpsTaskTableItem;
 
   Language = Language;
 
-  private filter = new SystemEventGspTaskTableFilter();
+  private filter = new SystemEventGpsTaskTableFilter();
   private subscription = new Subscription();
 
   ngOnInit(): void {
     if (this.input_load) {
       let sub = this.input_load.subscribe((x) => {
         this.args = x;
-        this.filter = SystemEventGspTaskTableFilter.from(this.args);
+        this.filter = SystemEventGpsTaskTableFilter.from(this.args);
         this.load(
           this.args.first ? 1 : this.page.PageIndex,
           this.page.PageSize,
@@ -67,7 +67,7 @@ export class SystemEventGspTaskTableComponent implements OnInit, OnDestroy {
       });
       this.subscription.add(sub);
     }
-    this.filter = SystemEventGspTaskTableFilter.from(this.args);
+    this.filter = SystemEventGpsTaskTableFilter.from(this.args);
     this.load(1, this.page.PageSize, this.filter);
   }
   ngOnDestroy(): void {
@@ -77,7 +77,7 @@ export class SystemEventGspTaskTableComponent implements OnInit, OnDestroy {
   private load(
     index: number,
     size: number,
-    filter: SystemEventGspTaskTableFilter
+    filter: SystemEventGpsTaskTableFilter
   ) {
     this.business.load(index, size, filter).then((x) => {
       this.page = x.Page;
@@ -89,7 +89,7 @@ export class SystemEventGspTaskTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  onselect(item?: SystemEventGspTaskTableItem) {
+  onselect(item?: SystemEventGpsTaskTableItem) {
     if (item) {
       if (this.selected === item) {
         this.selected = undefined;

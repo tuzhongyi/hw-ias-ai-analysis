@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisGpsTaskSampleListParams } from '../../../../../../common/data-core/requests/services/analysis/llm/analysis-llm.params';
 import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
-import { SystemEventGspTaskTableFilter } from './system-event-gsp-task-table.model';
+import { SystemEventGpsTaskTableFilter } from './system-event-gps-task-table.model';
 
 @Injectable()
-export class SystemEventGspTaskTableBusiness {
+export class SystemEventTaskTableBusiness {
   constructor(
     public medium: MediumRequestService,
     private service: ArmAnalysisRequestService
@@ -14,7 +14,7 @@ export class SystemEventGspTaskTableBusiness {
   async load(
     index: number,
     size: number,
-    filter: SystemEventGspTaskTableFilter
+    filter: SystemEventGpsTaskTableFilter
   ) {
     let data = await this.data.load(index, size, filter);
     if (data.Page.RecordCount == 0 && data.Page.PageIndex > 1) {
@@ -27,7 +27,7 @@ export class SystemEventGspTaskTableBusiness {
     load: (
       index: number,
       size: number,
-      filter: SystemEventGspTaskTableFilter
+      filter: SystemEventGpsTaskTableFilter
     ) => {
       let params = new GetAnalysisGpsTaskSampleListParams();
       params.PageIndex = index;

@@ -3,7 +3,7 @@ import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/a
 import { HtmlTool } from '../../../../../../common/tools/html-tool/html.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 
-export class SystemEventGspTaskManagerWindow {
+export class SystemEventGpsTaskManagerWindow {
   video = new VideoWindow();
   details = new DetailsWindow();
 }

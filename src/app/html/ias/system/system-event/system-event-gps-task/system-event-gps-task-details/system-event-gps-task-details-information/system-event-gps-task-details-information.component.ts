@@ -5,12 +5,12 @@ import { GpsTaskSampleRecord } from '../../../../../../../common/data-core/model
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 
 @Component({
-  selector: 'ias-system-event-gsp-task-details-information',
+  selector: 'ias-system-event-gps-task-details-information',
   imports: [CommonModule, FormsModule],
-  templateUrl: './system-event-gsp-task-details-information.component.html',
-  styleUrl: './system-event-gsp-task-details-information.component.less',
+  templateUrl: './system-event-gps-task-details-information.component.html',
+  styleUrl: './system-event-gps-task-details-information.component.less',
 })
-export class SystemEventGspTaskDetailsInformationComponent implements OnInit {
+export class SystemEventGpsTaskDetailsInformationComponent implements OnInit {
   @Input() data = new GpsTaskSampleRecord();
 
   Language = Language;
