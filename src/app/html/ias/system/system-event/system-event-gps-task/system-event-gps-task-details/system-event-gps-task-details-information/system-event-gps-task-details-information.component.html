@@ -11,7 +11,11 @@
     <div class="form-item odd">
       <div class="form-item-text">状态：</div>
       <div class="form-item-value">
-        {{ data.Comfirmed ? "已确认" : "未确认" }}
+        @if(data.Comfirmed){
+        <span class="text-green">已确认</span>
+        } @else{
+        <span class="text-orange-state">未确认</span>
+        }
       </div>
     </div>
     <div class="form-item even">
@@ -46,11 +50,17 @@
     </div>
     <div class="form-item odd">
       <div class="form-item-text">场景匹配度：</div>
-      <div class="form-item-value">{{ data.SceneMatchPercent || 0 }}%</div>
+      <div class="form-item-value">
+        @if(data.SceneMatchPercent){
+        {{ data.SceneMatchPercent || 0 }}% }@else{ - }
+      </div>
     </div>
     <div class="form-item even">
       <div class="form-item-text">结果置信度：</div>
-      <div class="form-item-value">{{ data.SceneResultConfidence || 0 }}%</div>
+      <div class="form-item-value">
+        @if(data.SceneResultConfidence){
+        {{ data.SceneResultConfidence || 0 }}% }@else{ - }
+      </div>
     </div>
     <div class="form-item odd">
       <div class="form-item-text baseline">场景名称：</div>

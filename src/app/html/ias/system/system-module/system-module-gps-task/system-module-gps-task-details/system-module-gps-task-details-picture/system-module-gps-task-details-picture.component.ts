@@ -16,7 +16,7 @@ import { UploadControlFile } from '../../../../../../../common/components/upload
 import { SceneImage } from '../../../../../../../common/data-core/models/arm/analysis/llm/scene-Image.model';
 import { PictureBusiness } from '../../../../../share/picture/component/picture.business';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
-import { PictureCanvasComponent } from '../../../../../share/picture/picture-canvas/picture-canvas.component';
+import { PictureCanvasDrawComponent } from '../../../../../share/picture/picture-canvas-draw/picture-canvas-draw.component';
 import { SystemModuleGpsTaskDetailsPictureSource } from './system-module-gps-task-details-picture.source';
 
 @Component({
@@ -27,7 +27,7 @@ import { SystemModuleGpsTaskDetailsPictureSource } from './system-module-gps-tas
     ContainerZoomComponent,
     UploadControlComponent,
     PictureComponent,
-    PictureCanvasComponent,
+    PictureCanvasDrawComponent,
     HowellSelectComponent,
   ],
   templateUrl: './system-module-gps-task-details-picture.component.html',
@@ -89,10 +89,15 @@ export class SystemModuleGpsTaskDetailsPictureComponent implements OnChanges {
       this.image.src = '';
       this.remove.emit();
     },
-    draw: () => {},
+    draw: () => {
+      this.draw.doing = !this.draw.doing;
+    },
   };
 
   draw = {
     doing: false,
+    do: () => {
+      this.draw.doing = !this.draw.doing;
+    },
   };
 }

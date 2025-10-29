@@ -2,7 +2,10 @@ import { HowellPoint } from '../../../../../common/data-core/models/arm/point.mo
 import { Polygon } from '../../../../../common/data-core/models/arm/polygon.model';
 
 export class PictureCanvasDrawController {
-  constructor(private ctx: CanvasRenderingContext2D) {}
+  constructor(
+    private ctx: CanvasRenderingContext2D,
+    private size: { width: number; height: number }
+  ) {}
   private color = {
     stroke: {
       normal: '#0f0',
@@ -69,5 +72,9 @@ export class PictureCanvasDrawController {
     return a.Coordinates.every(
       (v, i) => v.X === b.Coordinates[i].X && v.Y === b.Coordinates[i].Y
     );
+  }
+
+  clear() {
+    this.ctx.clearRect(0, 0, this.size.width, this.size.height);
   }
 }

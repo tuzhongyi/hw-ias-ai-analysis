@@ -11,10 +11,13 @@
         </div>
       </upload-control>
     </ng-container>
-    <ng-container *ngIf="image.src">
+    <ng-container *ngIf="image.src && !draw.doing">
       <howell-container-zoom [fullable]="false">
         <ias-picture [src]="image.src"></ias-picture>
       </howell-container-zoom>
+    </ng-container>
+    <ng-container *ngIf="image.src && draw.doing">
+      <ias-picture-canvas-draw [src]="image.src"></ias-picture-canvas-draw>
     </ng-container>
   </div>
   <div class="system-module-gps-task-details-picture-foot">

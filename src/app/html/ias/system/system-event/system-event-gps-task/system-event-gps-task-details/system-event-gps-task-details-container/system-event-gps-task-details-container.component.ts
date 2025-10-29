@@ -54,6 +54,8 @@ export class SystemEventGpsTaskDetailsContainerComponent implements OnInit {
   };
 
   on = {
-    close: () => {},
+    close: () => {
+      this.close.emit();
+    },
   };
 }
