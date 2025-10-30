@@ -8,10 +8,20 @@
       <div class="form-item-text baseline">关注场景描述：</div>
       <div class="form-item-value">{{ data.Prompt ?? "-" }}</div>
     </div>
+    <div class="form-item odd full">
+      <div class="form-item-text baseline">场景名称：</div>
+      <div class="form-item-value">
+        {{ data.SceneName ?? "-" }}
+      </div>
+    </div>
+    <div class="form-item odd full">
+      <div class="form-item-text baseline">场景地址：</div>
+      <div class="form-item-value">{{ data.Address ?? "-" }}</div>
+    </div>
     <div class="form-item odd">
       <div class="form-item-text">状态：</div>
       <div class="form-item-value">
-        @if(data.Comfirmed){
+        @if(data.Confirmed){
         <span class="text-green">已确认</span>
         } @else{
         <span class="text-orange-state">未确认</span>
@@ -61,16 +71,6 @@
         @if(data.SceneResultConfidence){
         {{ data.SceneResultConfidence || 0 }}% }@else{ - }
       </div>
-    </div>
-    <div class="form-item odd">
-      <div class="form-item-text baseline">场景名称：</div>
-      <div class="form-item-value">
-        {{ data.SceneName ?? "-" }}
-      </div>
-    </div>
-    <div class="form-item even">
-      <div class="form-item-text baseline">场景地址：</div>
-      <div class="form-item-value">{{ data.Address ?? "-" }}</div>
     </div>
   </div>
 </div>

@@ -44,7 +44,7 @@ export class SystemEventGpsTaskTableComponent implements OnInit, OnDestroy {
 
   constructor(private business: SystemEventTaskTableBusiness) {}
 
-  widths = ['10%', '10%', 'auto', '6%', '10%', '5%', '5%', '10%', '5%', '10%'];
+  widths = ['5%', '13%', '12%', 'auto', '6%', '10%', '5%', '10%', '5%', '10%'];
   minwidth = [
     undefined,
     undefined,
@@ -112,18 +112,20 @@ export class SystemEventGpsTaskTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  record = {
-    get: (url: string) => {
-      return this.business.medium.record(url);
+  picture = {
+    get: (id: string) => {
+      return this.business.medium.picture(id);
     },
     on: (e: Event, item: GpsTaskSampleRecord, index: number) => {
       if (this.selected === item) {
         e.stopImmediatePropagation();
       }
 
-      let count = item.Resources?.length ?? 0;
+      let imagecount = item.Images?.length ?? 0;
+      let scenecount = item.SceneMatchImages?.length ?? 0;
+      let count = imagecount + scenecount;
 
-      let paged = Paged.create(item, index + 1, count, count);
+      let paged = Paged.create(item, index + 1, 1, count);
 
       this.output_picture.emit(paged);
     },

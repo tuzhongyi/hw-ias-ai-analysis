@@ -8,7 +8,7 @@ export class SystemModuleGpsTaskTableArgs {
 }
 export class SystemModuleGpsTaskTableFilter extends SystemModuleGpsTaskTableArgs {
   asc?: string;
-  desc?: string;
+  desc?: string = 'CreationTime';
 
   load(args: SystemModuleGpsTaskTableArgs) {
     return Object.assign(this, args);

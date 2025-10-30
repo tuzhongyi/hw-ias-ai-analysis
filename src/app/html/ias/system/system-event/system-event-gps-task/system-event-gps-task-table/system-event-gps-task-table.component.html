@@ -17,11 +17,11 @@
         <tr>
           <th class="center">序号</th>
           <th>照片</th>
+          <th sort="SceneName">场景名称</th>
           <th sort="SceneLLMResult">场景识别结果</th>
           <th sort="Distance">点位偏差(米)</th>
           <th sort="Time">采样时间</th>
-          <th sort="Attempts">采样次数</th>
-          <th sort="Comfirmed">状态</th>
+          <th sort="Confirmed">状态</th>
           <th sort="ConfirmedTime">确认时间</th>
           <th sort="IsAlarmRecord">是否报警</th>
           <th class="center">操作</th>
@@ -37,7 +37,7 @@
             selected: item === selected,
           }"
           [ngStyle]="{
-            height: item ? (page.RecordCount / page.PageSize) * 100 + '%' : 0
+            height: item ? (1 / page.PageSize) * 100 + '%' : 0
           }"
         >
           <td class="center">
@@ -47,21 +47,40 @@
           </td>
 
           <td>
-            <div [ngClass]="{ noimage: !item.Resources }" *ngIf="item">
+            <div
+              [ngClass]="{ noimage: !item.Images && !item.SceneMatchImages }"
+              *ngIf="item"
+            >
               <div
-                *ngFor="let resource of item.Resources; let i = index"
-                class="video"
-                (click)="on.video($event, item)"
-              >
-                <!-- (click)="record.on($event, item, i)" -->
-                <video
-                  *ngIf="resource.RecordUrl"
-                  [src]="record.get(resource.RecordUrl)"
-                ></video>
-              </div>
+                *ngFor="let image of item.Images; let i = index"
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: image.ImageUrl
+                    ? 'url(' + picture.get(image.ImageUrl) + ')'
+                    : 'none'
+                }"
+                (click)="picture.on($event, item, i)"
+              ></div>
+              <div
+                *ngFor="let image of item.SceneMatchImages; let i = index"
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: image.ImageUrl
+                    ? 'url(' + picture.get(image.ImageUrl) + ')'
+                    : 'none'
+                }"
+                (click)="
+                  picture.on($event, item, (item.Images?.length ?? 0) + i)
+                "
+              ></div>
             </div>
           </td>
 
+          <td>
+            @if(item){
+            {{ item.SceneName ?? "-" }}
+            }
+          </td>
           <td [title]="item?.SceneLLMResult ?? ''">
             @if(item){
             {{ item.SceneLLMResult ?? "-" }}
@@ -69,7 +88,7 @@
           </td>
           <td [title]="item?.Distance ?? ''">
             @if(item){
-            {{ Math.round(item.Distance * 100) / 100 }}
+            {{ (Math.round(item.Distance * 100) / 100).toFixed(2) }}
             }
           </td>
           <td>
@@ -77,19 +96,14 @@
             {{ item.Time | date : Language.yyyyMMddHHmmss }}
             }
           </td>
-          <td>
-            @if(item){
-            {{ item.Attempts }}
-            }
-          </td>
           <td
             [ngClass]="{
-            'text-green': !!(item?.Comfirmed),
-            'text-orange-state': !(item?.Comfirmed),
+            'text-green': !!(item?.Confirmed),
+            'text-orange-state': !(item?.Confirmed),
           }"
           >
             @if(item){
-            {{ item.Comfirmed ? "已确认" : "未确认" }}
+            {{ item.Confirmed ? "已确认" : "未确认" }}
             }
           </td>
           <td>

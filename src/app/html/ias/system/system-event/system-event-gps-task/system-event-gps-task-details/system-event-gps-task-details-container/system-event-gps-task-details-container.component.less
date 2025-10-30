@@ -4,23 +4,24 @@
   display: block;
   transition: all 0.5s;
 
+  @gap: 10px;
+
   &-container {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: @gap;
   }
 
   &-body {
     width: 100%;
-    height: calc(100% - 36px - 10px);
+    display: flex;
+    gap: @gap;
 
-    display: grid;
-    grid-template-areas: "image video""map info";
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-gap: 10px;
+    &.grow {
+      flex-grow: 1;
+    }
   }
 
   &-foot {
@@ -30,36 +31,45 @@
   }
 
   &-image {
-    grid-area: image;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-  }
-
-  &-video {
-    grid-area: video;
-    width: 100%;
-    height: 100%;
-    position: relative;
+    width: calc((100% - @gap) * 0.5);
     padding: 0;
 
-    video {
-      position: absolute;
+    &.panel-flex {
+      gap: 0;
     }
+
+    .panel {
+
+      &-body {
+        aspect-ratio: 16/9;
+      }
+
+      &-foot {
+        padding: 0 10px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-title {
+          color: white;
+          font-weight: bold;
+        }
+      }
+    }
+
   }
+
 
   &-map {
-    grid-area: map;
-    width: 100%;
-    height: 100%;
+
+    width: calc((100% - @gap) * 0.5);
+    flex-grow: 1;
     padding: 0;
   }
 
   &-info {
-    grid-area: info;
-    width: 100%;
-    height: 100%;
-
-    justify-content: flex-end;
+    width: calc((100% - @gap) * 0.5);
+    flex-grow: 1;
   }
 }

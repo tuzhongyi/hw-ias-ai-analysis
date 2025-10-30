@@ -64,8 +64,38 @@
       [load]="table.load"
       (video)="on.video.open($event)"
       (details)="on.details.open($event)"
+      (picture)="on.picture.open($event)"
     ></ias-system-event-gps-task-table>
   </div>
+  <ias-window
+    [Model]="window.details"
+    *ngIf="window.details.show"
+    [style]="window.details.style"
+    [title]="window.details.title"
+  >
+    <ias-system-event-gps-task-details-container
+      [data]="window.details.data"
+      (close)="window.details.show = false"
+      (video)="on.video.open($event)"
+      (picture)="on.picture.open($event)"
+    ></ias-system-event-gps-task-details-container>
+  </ias-window>
+  <ias-window
+    [Model]="window.picture"
+    *ngIf="window.picture.show && window.picture.args"
+    [style]="window.picture.style"
+    [title]="window.picture.title"
+  >
+    <ias-picture-list
+      [id]="window.picture.args.id"
+      [polygon]="window.picture.args.polygon"
+      [zoom]="window.picture.args.polygon.length > 0"
+      [page]="window.picture.page"
+      (pageChange)="on.picture.change($event)"
+      [loop]="true"
+    ></ias-picture-list>
+  </ias-window>
+
   <ias-window
     [Model]="window.video"
     *ngIf="window.video.show"
@@ -78,16 +108,5 @@
       [src]="window.video.src"
       (error)="on.video.error($event)"
     ></video>
-  </ias-window>
-  <ias-window
-    [Model]="window.details"
-    *ngIf="window.details.show"
-    [style]="window.details.style"
-    [title]="window.details.title"
-  >
-    <ias-system-event-gps-task-details-container
-      [data]="window.details.data"
-      (close)="window.details.show = false"
-    ></ias-system-event-gps-task-details-container>
   </ias-window>
 </div>

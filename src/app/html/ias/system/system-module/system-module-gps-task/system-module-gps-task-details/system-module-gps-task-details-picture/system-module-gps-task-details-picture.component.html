@@ -45,21 +45,26 @@
       </div>
     </div>
     <div class="button-group">
-      <button (click)="on.draw()" title="绘制关注区域" *ngIf="image.src">
+      <!-- <button (click)="on.draw()" title="绘制关注区域" *ngIf="image.src">
         <i class="mdi mdi-pentagon-outline"></i>
-      </button>
+      </button> -->
       <upload-control
         *ngIf="image.src"
         [accept]="'image/*'"
         [type]="0"
         (upload)="on.upload($event)"
       >
-        <button title="换一张图片">
+        <button title="换一张图片" [disabled]="draw.doing">
           <i class="howell-icon-modification"></i>
         </button>
       </upload-control>
 
-      <button (click)="on.delete()" title="删除图片" *ngIf="image.src">
+      <button
+        [disabled]="draw.doing"
+        (click)="on.delete()"
+        title="删除图片"
+        *ngIf="image.src"
+      >
         <i class="howell-icon-delete2"></i>
       </button>
     </div>

@@ -71,4 +71,24 @@
       border-image: linear-gradient(to top, #1b4982, transparent) 1;
     }
   }
+
+  &-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .panel {
+      &-head {
+        margin-bottom: 0;
+      }
+
+      &-body {
+        flex-grow: 1;
+      }
+
+      &-foot {
+        height: 30px;
+      }
+    }
+  }
 }

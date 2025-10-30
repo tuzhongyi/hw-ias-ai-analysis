@@ -5,6 +5,10 @@ import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
+import {
+  Page,
+  Paged,
+} from '../../../../../../common/data-core/models/page-list.model';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemEventGpsTaskDetailsContainerComponent } from '../system-event-gps-task-details/system-event-gps-task-details-container/system-event-gps-task-details-container.component';
@@ -56,13 +60,26 @@ export class SystemEventGpsTaskManagerComponent {
         this.window.details.show = true;
       },
     },
+    picture: {
+      data: undefined as GpsTaskSampleRecord | undefined,
+      open: (data: Paged<GpsTaskSampleRecord>) => {
+        this.on.picture.data = data.Data;
+        this.window.picture.set(data.Data, data.Page);
+        this.window.picture.show = true;
+      },
+      change: (page: Page) => {
+        if (this.on.picture.data) {
+          this.window.picture.set(this.on.picture.data, page);
+        }
+      },
+    },
     video: {
       open: (data: GpsTaskSampleRecord) => {
         if (data.Resources && data.Resources.length > 0) {
           let resource = data.Resources[0];
           if (resource.RecordUrl) {
             this.window.video.src = this.source.src(resource.RecordUrl);
-            this.window.video.title = resource.ResourceName;
+            this.window.video.title = `${data.SceneName}-${resource.ResourceName}`;
             this.window.video.show = true;
           }
         }

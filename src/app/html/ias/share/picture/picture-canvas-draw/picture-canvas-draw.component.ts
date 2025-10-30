@@ -20,9 +20,15 @@ export class PictureCanvasDrawComponent {
 
   canvas = new PromiseValue<HTMLCanvasElement>();
   controller = new PromiseValue<PictureCanvasDrawController>();
+  private size = {
+    width: 0,
+    height: 0,
+  };
 
   on = {
     canvas: (e: HTMLCanvasElement) => {
+      this.size.width = e.width;
+      this.size.height = e.height;
       this.canvas.set(e);
       this.regist(e);
       let context = e.getContext('2d') as CanvasRenderingContext2D;

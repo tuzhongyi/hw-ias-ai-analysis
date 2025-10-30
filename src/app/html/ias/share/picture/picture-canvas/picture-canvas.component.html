@@ -6,5 +6,5 @@
     (error)="onerror($event)"
     (image)="onimage($event)"
   ></ias-picture>
-  <canvas #canvas></canvas>
+  <canvas #canvas [style.pointer-events]="drawable ? '' : 'none'"></canvas>
 </div>

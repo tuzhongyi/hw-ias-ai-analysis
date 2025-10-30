@@ -56,7 +56,8 @@ export class GpsTaskSampleRecord implements IIdModel {
   /**	String	分析用输出结构	O	*/
   OutputFormat?: string;
   /**	Boolean	是否LLM确认结果	O	*/
-  Comfirmed?: boolean;
+  Confirmed?: boolean;
+
   /**	DateTime	确认时间	O	*/
   @Transform(Transformer.DateTime)
   ConfirmedTime?: Date;

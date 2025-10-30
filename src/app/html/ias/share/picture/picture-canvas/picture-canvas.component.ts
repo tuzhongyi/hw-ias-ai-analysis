@@ -18,6 +18,7 @@ export class PictureCanvasComponent {
   @Input() src?: string;
   @Input() id?: string;
   @Input() default?: string;
+  @Input() drawable = false;
   @Output() error = new EventEmitter<Event>();
   @Output() canvas = new EventEmitter<HTMLCanvasElement>();
   @Output() image = new EventEmitter<HTMLImageElement>();

@@ -1,14 +1,55 @@
 <div class="system-event-gps-task-details">
   <div class="system-event-gps-task-details-container">
     <div class="system-event-gps-task-details-body">
-      <div class="system-event-gps-task-details-image panel">
-        <howell-container-zoom>
-          <ias-picture [id]="picture.src"></ias-picture>
-        </howell-container-zoom>
+      <div class="system-event-gps-task-details-image panel panel-flex">
+        <div class="panel-body">
+          <howell-container-zoom [(reset)]="picture.data.task.reset">
+            <ias-picture [id]="picture.data.task.src"></ias-picture>
+          </howell-container-zoom>
+        </div>
+        <div class="panel-foot">
+          <div class="panel-foot-title">定制场景</div>
+          <div class="button-group">
+            <div title="预览大图" class="button" (click)="on.picture(0)">
+              <i class="mdi mdi-fullscreen"></i>
+            </div>
+            <div
+              title="重置"
+              class="button"
+              (click)="picture.data.task.reset = true"
+            >
+              <i class="mdi mdi-backup-restore"></i>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="system-event-gps-task-details-video panel">
-        <video controls [src]="video.src"></video>
+      <div class="system-event-gps-task-details-image panel panel-flex">
+        <div class="panel-body">
+          <howell-container-zoom [(reset)]="picture.data.result.reset">
+            <ias-picture [id]="picture.data.result.src"></ias-picture>
+          </howell-container-zoom>
+        </div>
+        <div class="panel-foot">
+          <div class="panel-foot-title">匹配结果</div>
+          <div class="button-group">
+            <div title="播放视频" class="button" (click)="on.video()">
+              <i class="mdi mdi-youtube-play"></i>
+            </div>
+            <div title="预览大图" class="button" (click)="on.picture(1)">
+              <i class="mdi mdi-fullscreen"></i>
+            </div>
+            <div
+              title="重置"
+              class="button"
+              (click)="picture.data.result.reset = true"
+            >
+              <i class="mdi mdi-backup-restore"></i>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="system-event-gps-task-details-body grow">
       <div class="system-event-gps-task-details-map panel">
         <ng-container *ngIf="data">
           <ias-map [location]="data.Location.GCJ02"></ias-map>
