@@ -3,7 +3,6 @@ import { Component, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
-import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import {
   Page,
@@ -25,7 +24,6 @@ import { SystemEventGpsTaskManagerWindow } from './system-event-gps-task-manager
     DateTimeControlComponent,
     SystemEventGpsTaskTableComponent,
     WindowComponent,
-    WindowConfirmComponent,
     PictureListComponent,
     SystemEventGpsTaskDetailsContainerComponent,
   ],

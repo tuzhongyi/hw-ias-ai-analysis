@@ -1,15 +1,18 @@
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
 import { AnalysisGpsTask } from '../../../../../../common/data-core/models/arm/analysis/llm/analysis-gps-task.model';
+import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
 import {
   Page,
   Paged,
 } from '../../../../../../common/data-core/models/page-list.model';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
+import { SystemModuleGpsTaskPictureDrawingArgs } from '../system-module-gps-task-picture/system-module-gps-task-picture-drawing/system-module-gps-task-picture-drawing.model';
 
 export class SystemModuleGpsTaskManagerWindow {
   confirm = new ConfirmWindow();
   details = new DetailsWindow();
   picture = new PictureWindow();
+  draw = new DrawWindow();
 }
 class DetailsWindow extends WindowViewModel {
   clear() {
@@ -49,6 +52,7 @@ class PictureWindow extends WindowViewModel {
   title = '';
   id?: string;
   page?: Page;
+  polygon: HowellPoint[] = [];
   private data?: AnalysisGpsTask;
 
   on = {
@@ -64,7 +68,24 @@ class PictureWindow extends WindowViewModel {
         let image = this.data.Images[index];
         this.id = image.ImageUrl;
         this.title = `${this.data.Name}-${image.PositionNo}`;
+        if (image.Labels && image.Labels.length > 0) {
+          this.polygon = [...image.Labels[0].Polygon];
+        } else {
+          this.polygon = [];
+        }
       }
     },
   };
+}
+class DrawWindow extends WindowViewModel {
+  style = {
+    ...SizeTool.window.large,
+  };
+  title = '';
+  args = new SystemModuleGpsTaskPictureDrawingArgs();
+  open(title: string, args: SystemModuleGpsTaskPictureDrawingArgs) {
+    this.title = title;
+    this.args = args;
+    this.show = true;
+  }
 }

@@ -10,12 +10,18 @@
         <div class="panel-foot">
           <div class="panel-foot-title">定制场景</div>
           <div class="button-group">
-            <div title="预览大图" class="button" (click)="on.picture(0)">
+            <div
+              title="预览大图"
+              class="button"
+              [class.disabled]="disabled.task.full"
+              (click)="on.picture(0)"
+            >
               <i class="mdi mdi-fullscreen"></i>
             </div>
             <div
               title="重置"
               class="button"
+              [class.disabled]="disabled.task.reset"
               (click)="picture.data.task.reset = true"
             >
               <i class="mdi mdi-backup-restore"></i>
@@ -32,15 +38,26 @@
         <div class="panel-foot">
           <div class="panel-foot-title">匹配结果</div>
           <div class="button-group">
-            <div title="播放视频" class="button" (click)="on.video()">
+            <div
+              title="播放视频"
+              class="button"
+              [class.disabled]="disabled.result.video"
+              (click)="on.video()"
+            >
               <i class="mdi mdi-youtube-play"></i>
             </div>
-            <div title="预览大图" class="button" (click)="on.picture(1)">
+            <div
+              title="预览大图"
+              class="button"
+              [class.disabled]="disabled.result.full"
+              (click)="on.picture(1)"
+            >
               <i class="mdi mdi-fullscreen"></i>
             </div>
             <div
               title="重置"
               class="button"
+              [class.disabled]="disabled.result.reset"
               (click)="picture.data.result.reset = true"
             >
               <i class="mdi mdi-backup-restore"></i>

@@ -72,8 +72,21 @@
       [data]="window.details.data"
       (close)="window.details.show = false"
       (save)="on.details.save($event)"
-      (close)="window.details.show = false"
+      (draw)="on.draw.open($event)"
+      [drawn]="on.draw.drawn"
     ></ias-system-module-gps-task-details-container>
+  </ias-window>
+  <ias-window
+    *ngIf="window.draw.show"
+    [Model]="window.draw"
+    [style]="window.draw.style"
+    [title]="window.draw.title"
+  >
+    <ias-system-module-gps-task-picture-drawing
+      [args]="window.draw.args"
+      (save)="on.draw.save($event)"
+      (close)="window.draw.show = false"
+    ></ias-system-module-gps-task-picture-drawing>
   </ias-window>
   <ias-window
     *ngIf="window.picture.show"
@@ -83,6 +96,7 @@
   >
     <ias-picture-list
       [id]="window.picture.id"
+      [polygon]="window.picture.polygon"
       [zoom]="false"
       [page]="window.picture.page"
       (pageChange)="window.picture.on.change($event)"

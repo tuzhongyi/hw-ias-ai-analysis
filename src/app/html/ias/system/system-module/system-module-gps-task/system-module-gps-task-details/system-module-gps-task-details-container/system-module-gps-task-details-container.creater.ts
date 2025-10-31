@@ -18,7 +18,7 @@ export class SystemModuleGpsTaskDetailsCreater {
     model.CaptureInterval = 5;
     model.CaptureTimes = 1;
     model.CaptureRadius = 20;
-    model.MaxTimeSpan = 5;
+    model.MaxTimeSpan = 6;
     model.SourceType = 1;
     model.TaskType = 202;
 

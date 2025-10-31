@@ -13,10 +13,9 @@ import { ContainerZoomComponent } from '../../../../../../../common/components/c
 import { HowellSelectComponent } from '../../../../../../../common/components/hw-select/select-control.component';
 import { UploadControlComponent } from '../../../../../../../common/components/upload-control/upload-control.component';
 import { UploadControlFile } from '../../../../../../../common/components/upload-control/upload-control.model';
-import { SceneImage } from '../../../../../../../common/data-core/models/arm/analysis/llm/scene-Image.model';
+import { HowellPoint } from '../../../../../../../common/data-core/models/arm/point.model';
 import { PictureBusiness } from '../../../../../share/picture/component/picture.business';
-import { PictureComponent } from '../../../../../share/picture/component/picture.component';
-import { PictureCanvasDrawComponent } from '../../../../../share/picture/picture-canvas-draw/picture-canvas-draw.component';
+import { PicturePolygonComponent } from '../../../../../share/picture/picture-polygon/picture-polygon.component';
 import { SystemModuleGpsTaskDetailsPictureSource } from './system-module-gps-task-details-picture.source';
 
 @Component({
@@ -26,8 +25,7 @@ import { SystemModuleGpsTaskDetailsPictureSource } from './system-module-gps-tas
     FormsModule,
     ContainerZoomComponent,
     UploadControlComponent,
-    PictureComponent,
-    PictureCanvasDrawComponent,
+    PicturePolygonComponent,
     HowellSelectComponent,
   ],
   templateUrl: './system-module-gps-task-details-picture.component.html',
@@ -38,9 +36,10 @@ export class SystemModuleGpsTaskDetailsPictureComponent implements OnChanges {
   @Input() url = '';
   @Input() position?: number;
   @Output() positionChange = new EventEmitter<number>();
-  @Output() dataChange = new EventEmitter<SceneImage>();
+  @Input() polygon: HowellPoint[] = [];
   @Output() file = new EventEmitter<ArrayBuffer>();
   @Output() remove = new EventEmitter<void>();
+  @Output() draw = new EventEmitter<string>();
 
   constructor(
     public source: SystemModuleGpsTaskDetailsPictureSource,
@@ -90,14 +89,7 @@ export class SystemModuleGpsTaskDetailsPictureComponent implements OnChanges {
       this.remove.emit();
     },
     draw: () => {
-      this.draw.doing = !this.draw.doing;
-    },
-  };
-
-  draw = {
-    doing: false,
-    do: () => {
-      this.draw.doing = !this.draw.doing;
+      this.draw.emit(this.image.src);
     },
   };
 }

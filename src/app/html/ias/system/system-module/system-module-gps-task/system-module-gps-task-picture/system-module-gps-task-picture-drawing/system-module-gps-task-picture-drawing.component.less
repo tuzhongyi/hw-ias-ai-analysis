@@ -1,0 +1,48 @@
+.system-module-gps-task-picture-drawing {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  &-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &-head {
+    height: 36px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .button-selection {
+      height: 36px;
+      width: 100px;
+    }
+
+    .control {
+      height: 36px;
+      display: block;
+    }
+  }
+
+  &-body {
+    height: calc(100% - 36px - 10px - 36px - 10px);
+    width: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  &-foot {
+    height: 36px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+}

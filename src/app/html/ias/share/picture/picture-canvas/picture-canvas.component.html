@@ -1,10 +1,11 @@
-<div class="picture-canvas">
+<div class="picture-canvas" #element>
   <ias-picture
     [src]="src"
     [id]="id"
     [default]="default"
     (error)="onerror($event)"
     (image)="onimage($event)"
+    [eventable]="!drawable"
   ></ias-picture>
   <canvas #canvas [style.pointer-events]="drawable ? '' : 'none'"></canvas>
 </div>

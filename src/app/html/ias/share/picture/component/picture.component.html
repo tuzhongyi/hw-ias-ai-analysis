@@ -1,3 +1,8 @@
 <div class="ias-picture">
-  <img #image [src]="src" (error)="onerror($event)" />
+  <img
+    #image
+    [src]="src"
+    (error)="onerror($event)"
+    [style.pointer-events]="eventable ? '' : 'none'"
+  />
 </div>

@@ -35,6 +35,7 @@ export class SystemEventGpsTaskDetailsContainerComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.picture.load(this.data);
+      this.disabled.load(this.data);
     }
   }
 
@@ -47,12 +48,16 @@ export class SystemEventGpsTaskDetailsContainerComponent implements OnInit {
       if (data.Images && data.Images.length > 0) {
         let image = data.Images[0];
         let page = Page.create(1, 1, data.Images?.length ?? 0);
-
+        this.disabled.task.full = false;
+        this.disabled.task.reset = false;
         this.picture.data.task = {
           page: page,
           reset: false,
           src: image.ImageUrl,
         };
+      } else {
+        this.disabled.task.full = true;
+        this.disabled.task.reset = true;
       }
       if (data.SceneMatchImages && data.SceneMatchImages.length > 0) {
         let image = data.SceneMatchImages[0];
@@ -63,7 +68,39 @@ export class SystemEventGpsTaskDetailsContainerComponent implements OnInit {
           reset: false,
           src: image.ImageUrl,
         };
+        this.disabled.result.full = false;
+        this.disabled.result.reset = false;
+      } else {
+        this.disabled.result.full = true;
+        this.disabled.result.reset = true;
       }
+    },
+  };
+
+  disabled = {
+    load: (data: GpsTaskSampleRecord) => {
+      let task = data.Images && data.Images.length > 0;
+      this.disabled.task.full = !task;
+      this.disabled.task.reset = !task;
+
+      let result = data.SceneMatchImages && data.SceneMatchImages.length > 0;
+      this.disabled.result.full = !result;
+      this.disabled.result.reset = !result;
+
+      let resource =
+        data.Resources &&
+        data.Resources.length > 0 &&
+        !!data.Resources[0].RecordUrl;
+      this.disabled.result.video = !resource;
+    },
+    task: {
+      full: false,
+      reset: false,
+    },
+    result: {
+      full: false,
+      reset: false,
+      video: false,
     },
   };
 

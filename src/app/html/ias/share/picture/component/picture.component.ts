@@ -22,6 +22,7 @@ import { PictureBusiness } from './picture.business';
 export class PictureComponent implements OnChanges {
   @Input('src') url?: string;
   @Input() id?: string;
+  @Input() eventable = true;
 
   @Output() error = new EventEmitter<Event>();
   @Output('image') image_ = new EventEmitter<HTMLImageElement>();

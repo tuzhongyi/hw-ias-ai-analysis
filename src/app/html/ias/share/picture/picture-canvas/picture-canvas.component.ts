@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { wait } from '../../../../../common/tools/wait';
 import { PictureComponent } from '../component/picture.component';
 
 @Component({
@@ -24,9 +25,21 @@ export class PictureCanvasComponent {
   @Output() image = new EventEmitter<HTMLImageElement>();
 
   @ViewChild('canvas')
-  set element(value: ElementRef<HTMLCanvasElement>) {
-    this.canvas.emit(value.nativeElement);
+  set _canvas(value: ElementRef<HTMLCanvasElement>) {
+    wait(() => {
+      return !!this.element;
+    }).then(() => {
+      if (this.element) {
+        let canvas = value.nativeElement;
+        let element = this.element.nativeElement;
+        canvas.width = element.clientWidth;
+        canvas.height = element.clientHeight;
+        this.canvas.emit(value.nativeElement);
+      }
+    });
   }
+  @ViewChild('element')
+  element?: ElementRef<HTMLDivElement>;
 
   onimage(img: HTMLImageElement) {
     this.image.emit(img);

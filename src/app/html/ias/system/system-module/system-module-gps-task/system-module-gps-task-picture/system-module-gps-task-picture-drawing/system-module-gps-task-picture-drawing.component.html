@@ -1,0 +1,51 @@
+<div class="system-module-gps-task-picture-drawing">
+  <div class="system-module-gps-task-picture-drawing-container">
+    <div class="system-module-gps-task-picture-drawing-head">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="model.Name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">类型</div>
+          <div class="form-item-value control">
+            <select [(ngModel)]="model.LabelType">
+              <option [ngValue]="1">区域</option>
+              <option [ngValue]="2">目标</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button
+          class="button-selection green"
+          [class.selected]="draw.enabled"
+          (click)="draw.start()"
+        >
+          开始绘制
+        </button>
+      </div>
+    </div>
+    <div
+      class="system-module-gps-task-picture-drawing-body"
+      [style.backgroundImage]="'url(' + picture.src + ')'"
+    >
+      <ias-picture-canvas-draw
+        [src]="picture.src"
+        [polygon]="picture.polygon"
+        [drawable]="draw.enabled"
+        [(clear)]="draw.reset"
+        (over)="draw.over($event)"
+      ></ias-picture-canvas-draw>
+    </div>
+    <div class="system-module-gps-task-picture-drawing-foot">
+      <div class="button" (click)="on.reset()">重置</div>
+      <div class="button-group">
+        <button class="button-clip-gradient" (click)="on.save()">确定</button>
+        <button class="button-clip-blue" (click)="on.close()">取消</button>
+      </div>
+    </div>
+  </div>
+</div>

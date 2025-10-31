@@ -4,9 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { AnalysisGpsTask } from '../../../../../../common/data-core/models/arm/analysis/llm/analysis-gps-task.model';
+import { SceneLabel } from '../../../../../../common/data-core/models/arm/analysis/llm/scene-label.model';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleGpsTaskDetailsContainerComponent } from '../system-module-gps-task-details/system-module-gps-task-details-container/system-module-gps-task-details-container.component';
+import { SystemModuleGpsTaskPictureDrawingComponent } from '../system-module-gps-task-picture/system-module-gps-task-picture-drawing/system-module-gps-task-picture-drawing.component';
+import { SystemModuleGpsTaskPictureDrawingArgs } from '../system-module-gps-task-picture/system-module-gps-task-picture-drawing/system-module-gps-task-picture-drawing.model';
 import { SystemModuleGpsTaskTableComponent } from '../system-module-gps-task-table/system-module-gps-task-table.component';
 import { SystemModuleGpsTaskTableArgs } from '../system-module-gps-task-table/system-module-gps-task-table.model';
 import { SystemModuleGpsTaskManagerBusiness } from './system-module-gps-task-manager.business';
@@ -23,6 +26,7 @@ import { SystemModuleGpsTaskManagerWindow } from './system-module-gps-task-manag
     PictureListComponent,
     SystemModuleGpsTaskTableComponent,
     SystemModuleGpsTaskDetailsContainerComponent,
+    SystemModuleGpsTaskPictureDrawingComponent,
   ],
   templateUrl: './system-module-gps-task-manager.component.html',
   styleUrl: './system-module-gps-task-manager.component.less',
@@ -63,6 +67,22 @@ export class SystemModuleGpsTaskManagerComponent implements OnInit {
   };
 
   on = {
+    draw: {
+      drawn: new EventEmitter<SceneLabel>(),
+      open: (args: { title: string; image: string; label?: SceneLabel }) => {
+        let _args = new SystemModuleGpsTaskPictureDrawingArgs();
+        _args.image = args.image;
+        _args.data = args.label;
+        this.window.draw.open(args.title, _args);
+        this.window.draw.show = true;
+      },
+      save: (data: SceneLabel) => {
+        this.window.draw.show = false;
+        setTimeout(() => {
+          this.on.draw.drawn.emit(data);
+        });
+      },
+    },
     details: {
       save: (data: AnalysisGpsTask) => {
         this.window.details.show = false;

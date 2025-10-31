@@ -5,10 +5,12 @@
         <div class="system-module-gps-task-details-picture-item panel one">
           <ias-system-module-gps-task-details-picture
             [url]="picture.data.ImageUrl"
+            [polygon]="picture.polygon"
             [position]="picture.data.PositionNo"
             (positionChange)="picture.position($event)"
             (file)="picture.file($event)"
             (remove)="picture.remove()"
+            (draw)="picture.draw($event)"
           ></ias-system-module-gps-task-details-picture>
         </div>
       </ng-container>

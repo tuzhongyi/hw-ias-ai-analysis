@@ -39,6 +39,12 @@ class PictureWindow extends WindowViewModel {
         let image = images[index];
         this.args = new PicturePolygonArgs();
         this.args.id = image.ImageUrl;
+        if (image.Labels && image.Labels.length > 0) {
+          let label = image.Labels[0];
+          this.args.polygon = label.Polygon;
+        } else {
+          this.args.polygon = [];
+        }
         this.title = data.SceneName || 'GPS任务样本图片';
       }
     },
