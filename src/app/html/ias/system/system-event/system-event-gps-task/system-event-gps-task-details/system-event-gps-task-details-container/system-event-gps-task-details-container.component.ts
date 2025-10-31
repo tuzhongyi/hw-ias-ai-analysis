@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ContainerZoomComponent } from '../../../../../../../common/components/container-zoom/container-zoom.component';
 import { GpsTaskSampleRecord } from '../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
+import { HowellPoint } from '../../../../../../../common/data-core/models/arm/point.model';
 import {
   Page,
   Paged,
 } from '../../../../../../../common/data-core/models/page-list.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
+import { PicturePolygonComponent } from '../../../../../share/picture/picture-polygon/picture-polygon.component';
 import { SystemEventGpsTaskDetailsInformationComponent } from '../system-event-gps-task-details-information/system-event-gps-task-details-information.component';
 import { SystemEventGpsTaskDetailsContainerBusiness } from './system-event-gps-task-details-container.business';
 
@@ -17,6 +19,7 @@ import { SystemEventGpsTaskDetailsContainerBusiness } from './system-event-gps-t
     CommonModule,
     ContainerZoomComponent,
     PictureComponent,
+    PicturePolygonComponent,
     IASMapComponent,
     SystemEventGpsTaskDetailsInformationComponent,
   ],
@@ -41,23 +44,28 @@ export class SystemEventGpsTaskDetailsContainerComponent implements OnInit {
 
   picture = {
     data: {
-      task: { src: '', reset: false, page: undefined as Page | undefined },
+      task: {
+        src: '',
+        reset: false,
+        page: undefined as Page | undefined,
+        polygon: [] as HowellPoint[],
+      },
       result: { src: '', reset: false, page: undefined as Page | undefined },
     },
     load: (data: GpsTaskSampleRecord) => {
       if (data.Images && data.Images.length > 0) {
         let image = data.Images[0];
         let page = Page.create(1, 1, data.Images?.length ?? 0);
-        this.disabled.task.full = false;
-        this.disabled.task.reset = false;
         this.picture.data.task = {
           page: page,
           reset: false,
           src: image.ImageUrl,
+          polygon: [],
         };
-      } else {
-        this.disabled.task.full = true;
-        this.disabled.task.reset = true;
+        if (image.Labels && image.Labels.length > 0) {
+          let label = image.Labels[0];
+          this.picture.data.task.polygon = [...label.Polygon];
+        }
       }
       if (data.SceneMatchImages && data.SceneMatchImages.length > 0) {
         let image = data.SceneMatchImages[0];
@@ -68,11 +76,6 @@ export class SystemEventGpsTaskDetailsContainerComponent implements OnInit {
           reset: false,
           src: image.ImageUrl,
         };
-        this.disabled.result.full = false;
-        this.disabled.result.reset = false;
-      } else {
-        this.disabled.result.full = true;
-        this.disabled.result.reset = true;
       }
     },
   };

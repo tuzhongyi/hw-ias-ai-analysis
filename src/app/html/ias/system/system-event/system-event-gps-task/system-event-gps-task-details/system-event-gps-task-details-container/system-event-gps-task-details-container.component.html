@@ -4,7 +4,10 @@
       <div class="system-event-gps-task-details-image panel panel-flex">
         <div class="panel-body">
           <howell-container-zoom [(reset)]="picture.data.task.reset">
-            <ias-picture [id]="picture.data.task.src"></ias-picture>
+            <ias-picture-polygon
+              [id]="picture.data.task.src"
+              [polygon]="picture.data.task.polygon"
+            ></ias-picture-polygon>
           </howell-container-zoom>
         </div>
         <div class="panel-foot">
