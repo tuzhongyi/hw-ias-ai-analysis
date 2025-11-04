@@ -13,6 +13,9 @@ export class SystemModuleGpsTaskManagerWindow {
   details = new DetailsWindow();
   picture = new PictureWindow();
   draw = new DrawWindow();
+  video = {
+    capture: new VideoCaptureWindow(),
+  };
 }
 class DetailsWindow extends WindowViewModel {
   clear() {
@@ -88,4 +91,12 @@ class DrawWindow extends WindowViewModel {
     this.args = args;
     this.show = true;
   }
+}
+class VideoCaptureWindow extends WindowViewModel {
+  style = {
+    ...SizeTool.window.video.path,
+  };
+  title = '视频截取';
+  filename = '';
+  data?: ArrayBuffer;
 }

@@ -1,0 +1,52 @@
+.system-module-gps-task-video-capture {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  &-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 10px;
+  }
+
+  &-manual {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+  }
+
+  &-video {
+    height: 100%;
+    aspect-ratio: 16/9;
+    padding: 0;
+  }
+
+  &-map {
+    padding: 0;
+    width: 100%;
+    height: calc((100% - 10px) * 0.5);
+    flex-grow: 1;
+  }
+
+  &-picture {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    &-content {
+      width: 100%;
+      aspect-ratio: 16/9;
+    }
+
+  }
+
+
+
+}

@@ -18,7 +18,7 @@
     (error)="on.error($event)"
     (current)="on.current($event)"
   ></ias-system-task-file-details-map>
-  <div class="system-task-file-details-map-manager-speed">
+  <div class="system-task-file-details-map-manager-speed" *ngIf="speedable">
     <ias-system-task-file-details-map-panel-speed
       [speed]="speed"
     ></ias-system-task-file-details-map-panel-speed>

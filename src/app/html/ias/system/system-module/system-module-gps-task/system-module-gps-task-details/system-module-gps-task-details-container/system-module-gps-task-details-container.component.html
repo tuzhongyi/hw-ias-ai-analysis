@@ -8,9 +8,12 @@
             [polygon]="picture.polygon"
             [position]="picture.data.PositionNo"
             (positionChange)="picture.position($event)"
-            (file)="picture.file($event)"
+            (filepicture)="picture.file($event)"
             (remove)="picture.remove()"
             (draw)="picture.draw($event)"
+            (videocaptionopen)="caption.open($event)"
+            (videocaptionupload)="caption.upload($event)"
+            [videocapturecompleted]="videocapturecompleted"
           ></ias-system-module-gps-task-details-picture>
         </div>
       </ng-container>

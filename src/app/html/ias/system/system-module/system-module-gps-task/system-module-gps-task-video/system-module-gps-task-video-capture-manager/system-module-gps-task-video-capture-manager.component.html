@@ -1,0 +1,22 @@
+<div class="system-module-gps-task-video-capture">
+  <div class="system-module-gps-task-video-capture-upload" *ngIf="!file">
+    <ias-system-module-gps-task-video-upload
+      [filename]="filename"
+      [data]="data"
+      (complete)="on.file($event)"
+    ></ias-system-module-gps-task-video-upload>
+  </div>
+  <div class="system-module-gps-task-video-capture-container" *ngIf="file">
+    <div class="system-module-gps-task-video-capture-body">
+      <ias-system-module-gps-task-video-capture-container
+        [data]="file"
+        (capture)="on.capture($event)"
+        (location)="on.location($event)"
+      ></ias-system-module-gps-task-video-capture-container>
+    </div>
+    <div class="system-module-gps-task-video-capture-foot button-group">
+      <button class="button-clip-gradient" (click)="on.save()">确定</button>
+      <button class="button-clip-blue" (click)="on.close()">取消</button>
+    </div>
+  </div>
+</div>

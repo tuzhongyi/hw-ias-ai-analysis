@@ -23,7 +23,7 @@ export class MediumRequestService {
   async upload(data: BinaryData) {
     let url = ArmMediumUrl.picture.upload();
     return this.http
-      .post<HowellResponse<string>, BinaryData>(url, data)
+      .post<HowellResponse<string>, BinaryData | string>(url, data)
       .then((x) => {
         return x.Data;
       });

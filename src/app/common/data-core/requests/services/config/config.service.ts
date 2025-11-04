@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStorage } from '../../../../storage/local.storage';
 import { PathTool } from '../../../../tools/path-tool/path.tool';
+import { VideoConfig } from './video.config';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,17 @@ import { PathTool } from '../../../../tools/path-tool/path.tool';
 export class ConfigRequestService {
   constructor(private local: LocalStorage) {}
 
-  version() {
+  get video() {
+    return new Promise<VideoConfig>((resolve) => {
+      fetch(`${PathTool.config.video}?t=${new Date().getTime()}`)
+        .then((res) => res.json())
+        .then((data) => {
+          resolve(data);
+        });
+    });
+  }
+
+  get version() {
     return new Promise<string>((resolve) => {
       fetch(`${PathTool.config.version}?t=${new Date().getTime()}`)
         .then((res) => res.json())
@@ -18,7 +29,7 @@ export class ConfigRequestService {
     });
   }
 
-  location() {
+  get location() {
     return new Promise<[number, number] | undefined>((resolve) => {
       fetch(`${PathTool.config.location}?t=${new Date().getTime()}`)
         .then((res) => res.json())

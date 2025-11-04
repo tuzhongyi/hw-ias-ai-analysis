@@ -13,6 +13,7 @@ import { GisType } from '../../../../../../../common/data-core/enums/gis-type.en
 import { AnalysisGpsTask } from '../../../../../../../common/data-core/models/arm/analysis/llm/analysis-gps-task.model';
 import { SceneImage } from '../../../../../../../common/data-core/models/arm/analysis/llm/scene-Image.model';
 import { SceneLabel } from '../../../../../../../common/data-core/models/arm/analysis/llm/scene-label.model';
+import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import {
   GisPoint,
   GisPoints,
@@ -53,6 +54,10 @@ export class SystemModuleGpsTaskDetailsContainerComponent
     image: string;
     label?: SceneLabel;
   }>();
+  @Output() videocaptureopen = new EventEmitter<string>();
+  @Output() videocaptureupload = new EventEmitter<ArrayBuffer>();
+  @Input() videocapturecompleted?: EventEmitter<ArrayBuffer>;
+  @Input() locationchanged?: EventEmitter<FileGpsItem>;
 
   constructor(
     private creater: SystemModuleGpsTaskDetailsCreater,
@@ -70,6 +75,18 @@ export class SystemModuleGpsTaskDetailsContainerComponent
       let sub = this.drawn.subscribe((data) => {
         this.picture.polygon = [...data.Polygon];
         this.picture.changed.label = data;
+      });
+      this.subscription.add(sub);
+    }
+    if (this.locationchanged) {
+      let sub = this.locationchanged.subscribe((data) => {
+        let gispoint = new GisPoint();
+        gispoint.Longitude = data.Longitude;
+        gispoint.Latitude = data.Latitude;
+        gispoint.Altitude = 0;
+        gispoint.GisType = GisType.GCJ02;
+        this.location.info.changing(gispoint);
+        this.location.map.changing(gispoint);
       });
       this.subscription.add(sub);
     }
@@ -91,6 +108,16 @@ export class SystemModuleGpsTaskDetailsContainerComponent
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  caption = {
+    open: (filename: string) => {
+      this.videocaptureopen.emit(filename);
+    },
+    upload: (data: ArrayBuffer) => {
+      this.videocaptureupload.emit(data);
+    },
+  };
+
   picture = {
     data: new SceneImage(),
     polygon: [] as HowellPoint[],
@@ -99,8 +126,8 @@ export class SystemModuleGpsTaskDetailsContainerComponent
       position: undefined as number | undefined,
       label: undefined as SceneLabel | undefined,
     },
-    file: (buffer: ArrayBuffer) => {
-      this.picture.changed.buffer = buffer;
+    file: (file: ArrayBuffer) => {
+      this.picture.changed.buffer = file;
     },
     position: (data: number) => {
       this.picture.changed.position = data;
@@ -168,69 +195,85 @@ export class SystemModuleGpsTaskDetailsContainerComponent
     },
   };
 
-  private check(data: AnalysisGpsTask) {
-    if (!data.Name) {
-      this.toastr.warning('请输入任务名称');
-      return false;
-    }
-    if (!data.CaptureRadius) {
-      this.toastr.warning('请输入拍摄半径，并且大于0');
-      return false;
-    }
-    if (!data.Images || data.Images.length == 0) {
-      this.toastr.warning('请添加任务图片');
-      return false;
-    }
-    let image = data.Images[0];
-    if (!image.ImageUrl) {
-      this.toastr.warning('请添加任务图片');
-      return false;
-    }
-    if (!image.PositionNo) {
-      this.toastr.warning('请选择机位');
-      return false;
-    }
-    return true;
-  }
+  private check = {
+    image: () => {
+      if (
+        this.picture.data.PositionNo == undefined &&
+        this.picture.changed.position == undefined
+      ) {
+        this.toastr.warning('请选择机位');
+        return false;
+      }
+      return true;
+    },
+    task: (data: AnalysisGpsTask) => {
+      if (!data.Name) {
+        this.toastr.warning('请输入任务名称');
+        return false;
+      }
+      if (!data.CaptureRadius) {
+        this.toastr.warning('请输入拍摄半径，并且大于0');
+        return false;
+      }
+      if (!data.Images || data.Images.length == 0) {
+        this.toastr.warning('请添加任务图片');
+        return false;
+      }
+      let image = data.Images[0];
+      if (!image.ImageUrl) {
+        this.toastr.warning('请添加任务图片');
+        return false;
+      }
+      if (!image.PositionNo) {
+        this.toastr.warning('请选择机位');
+        return false;
+      }
+      return true;
+    },
+  };
 
   on = {
-    create: async () => {
-      this.picture.upload().then((image) => {
-        this.model.Images = [image];
-        this.model.CapturePositions = this.model.Images.map(
-          (x) => x.PositionNo!
-        );
-        if (this.check(this.model)) {
-          this.business
-            .create(this.model)
-            .then((x) => {
-              this.toastr.success('保存成功');
-              this.save.emit(x);
-            })
-            .catch((e) => {
-              this.toastr.error('保存失败');
-            });
-        }
-      });
+    create: () => {
+      if (this.check.image()) {
+        this.picture.upload().then((image) => {
+          this.model.Images = [image];
+          this.model.CapturePositions = this.model.Images.map(
+            (x) => x.PositionNo!
+          );
+          if (this.check.task(this.model)) {
+            this.business
+              .create(this.model)
+              .then((x) => {
+                this.toastr.success('保存成功');
+                this.save.emit(x);
+              })
+              .catch((e) => {
+                this.toastr.error('保存失败');
+              });
+          }
+        });
+      }
     },
     update: () => {
-      this.picture.upload().then((image) => {
-        this.model.Images = [image];
-        this.model.CapturePositions = this.model.Images.map(
-          (x) => x.PositionNo!
-        );
-        if (this.check(this.model)) {
-          this.business
-            .update(this.model)
-            .then((x) => {
-              this.toastr.success('保存成功');
-              this.save.emit(x);
-            })
-            .catch((e) => {
-              this.toastr.error('保存失败');
-            });
-        }
-      });
+      if (this.check.image()) {
+        this.picture.upload().then((image) => {
+          this.model.Images = [image];
+          this.model.CapturePositions = this.model.Images.map(
+            (x) => x.PositionNo!
+          );
+          if (this.check.task(this.model)) {
+            this.business
+              .update(this.model)
+              .then((x) => {
+                this.toastr.success('保存成功');
+                this.save.emit(x);
+              })
+              .catch((e) => {
+                this.toastr.error('保存失败');
+              });
+          }
+        });
+      }
     },
     cancel: () => {
       this.close.emit();

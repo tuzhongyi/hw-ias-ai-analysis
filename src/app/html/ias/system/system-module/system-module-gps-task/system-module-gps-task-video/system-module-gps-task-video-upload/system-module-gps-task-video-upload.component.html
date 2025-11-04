@@ -1,0 +1,17 @@
+<div class="system-module-gps-task-video-upload">
+  <div class="system-module-gps-task-video-upload-container">
+    <div
+      class="system-module-gps-task-video-upload-progress"
+      [style.width]="progress + '%'"
+    ></div>
+  </div>
+  <div class="system-module-gps-task-video-upload-info">
+    <div class="system-module-gps-task-video-upload-info-filename">
+      {{ filename }}
+    </div>
+    <div class="system-module-gps-task-video-upload-info-progress">
+      @if(data){
+      {{ progress.toFixed(0) }}% } @else{ 加载中 }
+    </div>
+  </div>
+</div>

@@ -37,7 +37,7 @@ export class SystemComponent implements OnInit, OnDestroy {
 
     wait(
       () => {
-        this.config.version().then((version) => {
+        this.config.version.then((version) => {
           if (this.global.version !== version) {
             location.replace(window.location.href);
           }

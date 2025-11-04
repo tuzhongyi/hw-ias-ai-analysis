@@ -74,6 +74,10 @@
       (save)="on.details.save($event)"
       (draw)="on.draw.open($event)"
       [drawn]="on.draw.drawn"
+      (videocaptureopen)="on.video.capture.open($event)"
+      (videocaptureupload)="on.video.capture.upload($event)"
+      [videocapturecompleted]="on.video.capture.completed"
+      [locationchanged]="on.video.capture.location"
     ></ias-system-module-gps-task-details-container>
   </ias-window>
   <ias-window
@@ -87,6 +91,20 @@
       (save)="on.draw.save($event)"
       (close)="window.draw.show = false"
     ></ias-system-module-gps-task-picture-drawing>
+  </ias-window>
+
+  <ias-window
+    *ngIf="window.video.capture.show"
+    [Model]="window.video.capture"
+    [style]="window.video.capture.style"
+    [title]="window.video.capture.title"
+  >
+    <ias-system-module-gps-task-video-capture-manager
+      [filename]="window.video.capture.filename"
+      [data]="window.video.capture.data"
+      (save)="on.video.capture.save($event)"
+      (close)="window.video.capture.show = false"
+    ></ias-system-module-gps-task-video-capture-manager>
   </ias-window>
   <ias-window
     *ngIf="window.picture.show"

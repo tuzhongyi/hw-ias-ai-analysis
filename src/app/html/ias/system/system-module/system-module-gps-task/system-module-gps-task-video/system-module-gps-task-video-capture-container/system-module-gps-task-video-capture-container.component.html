@@ -1,0 +1,37 @@
+<div class="system-module-gps-task-video-capture-container">
+  <div class="system-module-gps-task-video-capture-video panel">
+    <video
+      autoplay="autoplay"
+      controls
+      [currentTime]="video.time"
+      (timeupdate)="video.on.time.update($event)"
+      (error)="video.on.error($event)"
+      [src]="src"
+      #video_element
+    ></video>
+  </div>
+  <div class="system-module-gps-task-video-capture-manual">
+    <div class="system-module-gps-task-video-capture-map panel">
+      <ias-system-task-file-details-map-manager
+        [data]="data"
+        [to]="video.event.time"
+        [roadable]="true"
+        [speedable]="false"
+        (trigger)="map.on.seek($event)"
+        (loaded)="map.on.loaded()"
+        (error)="map.on.error($event)"
+        (current)="map.on.current($event)"
+      ></ias-system-task-file-details-map-manager>
+    </div>
+    <div class="system-module-gps-task-video-capture-picture panel">
+      <div class="system-module-gps-task-video-capture-picture-content">
+        <howell-container-zoom [(reset)]="picture.reset">
+          <ias-picture [src]="picture.src"></ias-picture>
+        </howell-container-zoom>
+      </div>
+      <button class="button-clip-gradient" (click)="video.on.capture()">
+        抓图
+      </button>
+    </div>
+  </div>
+</div>

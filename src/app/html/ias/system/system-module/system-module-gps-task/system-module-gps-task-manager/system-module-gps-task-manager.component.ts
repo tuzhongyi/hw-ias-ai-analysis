@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { AnalysisGpsTask } from '../../../../../../common/data-core/models/arm/analysis/llm/analysis-gps-task.model';
 import { SceneLabel } from '../../../../../../common/data-core/models/arm/analysis/llm/scene-label.model';
+import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleGpsTaskDetailsContainerComponent } from '../system-module-gps-task-details/system-module-gps-task-details-container/system-module-gps-task-details-container.component';
@@ -12,6 +13,7 @@ import { SystemModuleGpsTaskPictureDrawingComponent } from '../system-module-gps
 import { SystemModuleGpsTaskPictureDrawingArgs } from '../system-module-gps-task-picture/system-module-gps-task-picture-drawing/system-module-gps-task-picture-drawing.model';
 import { SystemModuleGpsTaskTableComponent } from '../system-module-gps-task-table/system-module-gps-task-table.component';
 import { SystemModuleGpsTaskTableArgs } from '../system-module-gps-task-table/system-module-gps-task-table.model';
+import { SystemModuleGpsTaskVideoCaptureManagerComponent } from '../system-module-gps-task-video/system-module-gps-task-video-capture-manager/system-module-gps-task-video-capture-manager.component';
 import { SystemModuleGpsTaskManagerBusiness } from './system-module-gps-task-manager.business';
 import { SystemModuleGpsTaskManagerSource } from './system-module-gps-task-manager.source';
 import { SystemModuleGpsTaskManagerWindow } from './system-module-gps-task-manager.window';
@@ -27,6 +29,7 @@ import { SystemModuleGpsTaskManagerWindow } from './system-module-gps-task-manag
     SystemModuleGpsTaskTableComponent,
     SystemModuleGpsTaskDetailsContainerComponent,
     SystemModuleGpsTaskPictureDrawingComponent,
+    SystemModuleGpsTaskVideoCaptureManagerComponent,
   ],
   templateUrl: './system-module-gps-task-manager.component.html',
   styleUrl: './system-module-gps-task-manager.component.less',
@@ -88,6 +91,29 @@ export class SystemModuleGpsTaskManagerComponent implements OnInit {
         this.window.details.show = false;
         this.table.args.reset = false;
         this.table.load.emit(this.table.args);
+      },
+    },
+    video: {
+      capture: {
+        completed: new EventEmitter<ArrayBuffer>(),
+        location: new EventEmitter<FileGpsItem>(),
+        open: (filename: string) => {
+          this.window.video.capture.filename = filename;
+          this.window.video.capture.show = true;
+        },
+        upload: (data: ArrayBuffer) => {
+          this.window.video.capture.data = data;
+        },
+        save: (data: { image: ArrayBuffer; location?: FileGpsItem }) => {
+          this.on.video.capture.completed.emit(data.image);
+          if (data.location) {
+            this.on.video.capture.location.emit(data.location);
+          }
+          this.window.video.capture.show = false;
+        },
+        close: () => {
+          this.window.video.capture.show = false;
+        },
       },
     },
     delete: () => {

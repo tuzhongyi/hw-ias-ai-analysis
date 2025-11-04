@@ -42,8 +42,9 @@ export class SystemTaskFileDetailsMapManagerComponent {
   @Input() pickupable = false;
   @Input() videomultiple = false;
   @Input() roadable = false;
+  @Input() speedable = true;
 
-  @Output() _current = new EventEmitter<FileGpsItem>();
+  @Output('current') _current = new EventEmitter<FileGpsItem>();
 
   speed = 0;
   rectified = false;

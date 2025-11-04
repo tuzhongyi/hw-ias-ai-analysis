@@ -2,9 +2,10 @@
   <div class="system-module-gps-task-details-picture-body">
     <ng-container *ngIf="!image.src">
       <upload-control
-        [accept]="'image/*'"
+        [accept]="upload.accept.value"
         [type]="0"
-        (upload)="on.upload($event)"
+        (loadstart)="on.file.start($event)"
+        (upload)="on.file.upload($event)"
       >
         <div class="upload-image">
           <i class="howell-icon-plus"></i>
@@ -53,9 +54,10 @@
       </button>
       <upload-control
         *ngIf="image.src"
-        [accept]="'image/*'"
+        [accept]="upload.accept.value"
         [type]="0"
-        (upload)="on.upload($event)"
+        (loadstart)="on.file.start($event)"
+        (upload)="on.file.upload($event)"
       >
         <button title="换一张图片">
           <i class="howell-icon-modification"></i>

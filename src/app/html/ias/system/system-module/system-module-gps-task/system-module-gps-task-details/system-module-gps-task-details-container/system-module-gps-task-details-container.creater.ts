@@ -37,7 +37,7 @@ export class SystemModuleGpsTaskDetailsCreater {
   }
 
   private gis() {
-    return this.config.location().then((x) => {
+    return this.config.location.then((x) => {
       let location = new GisPoints();
       let gis = new GisPoint();
       gis.Altitude = 0;
