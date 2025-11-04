@@ -22,7 +22,7 @@ import { InputSelectTaskComponent } from '../../../../share/input-select-task/in
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../../../system-module/system-module-shop-registration/system-module-shop-registration-information/system-module-shop-registration-information.component';
-import { SystemTaskVideoComponent } from '../../../system-task/system-task-video/system-task-video.component';
+import { SystemTaskVideoComponent } from '../../../system-task/system-task-shop/system-task-video/system-task-video.component';
 import { SystemEventMapManagerComponent } from '../../system-event-map/system-event-map-manager/system-event-map-manager.component';
 import { SystemEventProcessDetailsComponent } from '../../system-event-process/system-event-process-details/system-event-process-details.component';
 import { SystemEventProcessShopNameComponent } from '../../system-event-process/system-event-process-shop/system-event-process-shop-name/system-event-process-shop-name.component';

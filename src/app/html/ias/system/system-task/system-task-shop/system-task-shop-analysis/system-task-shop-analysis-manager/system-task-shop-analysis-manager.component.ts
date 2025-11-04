@@ -9,7 +9,7 @@ import { PagedList } from '../../../../../../../common/data-core/models/page-lis
 import { EnumTool } from '../../../../../../../common/tools/enum-tool/enum.tool';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';
-import { ShopStatisticStatus } from '../../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
+import { ShopStatisticStatus } from '../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 import { SystemTaskShopAnalysisDetailsComponent } from '../system-task-shop-analysis-details/system-task-shop-analysis-details.component';
 import { SystemTaskShopAnalysisTableComponent } from '../system-task-shop-analysis-table/system-task-shop-analysis-table.component';
 import {

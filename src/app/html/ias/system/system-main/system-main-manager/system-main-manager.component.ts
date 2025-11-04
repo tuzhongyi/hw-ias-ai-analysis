@@ -18,8 +18,8 @@ import { SystemEventManagerShopComponent } from '../../system-event/system-event
 import { SystemEventProcessRealtimeComponent } from '../../system-event/system-event-process/system-event-process-realtime/system-event-process-realtime.component';
 import { SystemEventVideoComponent } from '../../system-event/system-event-video/system-event-video.component';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
-import { SystemTaskManagerComponent } from '../../system-task/system-task-manager/system-task-manager.component';
-import { SystemTaskVideoComponent } from '../../system-task/system-task-video/system-task-video.component';
+import { SystemTaskManagerComponent } from '../../system-task/system-task-shop/system-task-manager/system-task-manager.component';
+import { SystemTaskVideoComponent } from '../../system-task/system-task-shop/system-task-video/system-task-video.component';
 import { SystemMainCardDeviceStateComponent } from '../system-main-card/system-main-card-device-state/system-main-card-device-state.component';
 import { SystemMainCardEventRealtimeStatisticComponent } from '../system-main-card/system-main-card-event-realtime-statistic/system-main-card-event-realtime-statistic/system-main-card-event-realtime-statistic.component';
 import { SystemMainCardEventRealtimeTableManagerComponent } from '../system-main-card/system-main-card-event-realtime-table/system-main-card-event-realtime-table-manager/system-main-card-event-realtime-table-manager.component';

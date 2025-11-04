@@ -14,12 +14,13 @@ import { SystemEventManagerAnalysisComponent } from './system-event/system-event
 import { SystemEventManagerRealtimeComponent } from './system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
 import { SystemEventManagerShopComponent } from './system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
 import { SystemMainManagerComponent } from './system-main/system-main-manager/system-main-manager.component';
-import { SystemModuleGpsTaskManagerComponent } from './system-module/system-module-gps-task/system-module-gps-task-manager/system-module-gps-task-manager.component';
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
-import { SystemTaskFileManagerComponent } from './system-task/system-task-file/system-task-file-manager/system-task-file-manager.component';
-import { SystemTaskManagerComponent } from './system-task/system-task-manager/system-task-manager.component';
+import { SystemModuleGpsTaskManagerComponent } from './system-task/system-module-gps-task/system-module-gps-task-manager/system-module-gps-task-manager.component';
+import { SystemTaskIndexComponent } from './system-task/system-task-index/system-task-index.component';
+import { SystemTaskFileManagerComponent } from './system-task/system-task-shop/system-task-file/system-task-file-manager/system-task-file-manager.component';
+import { SystemTaskManagerComponent } from './system-task/system-task-shop/system-task-manager/system-task-manager.component';
 
 const routes: Routes = [
   {
@@ -46,12 +47,21 @@ const routes: Routes = [
           },
           {
             path: 'index',
-            component: SystemTaskManagerComponent,
+            component: SystemTaskIndexComponent,
           },
           {
             path: 'file',
             component: SystemTaskFileManagerComponent,
             pathMatch: 'prefix',
+          },
+
+          {
+            path: 'shop',
+            component: SystemTaskManagerComponent,
+          },
+          {
+            path: 'gps-task',
+            component: SystemModuleGpsTaskManagerComponent,
           },
         ],
       },

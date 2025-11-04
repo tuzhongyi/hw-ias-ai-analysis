@@ -118,24 +118,49 @@ export class SystemBreadcrumbBusiness {
   private task = {
     load: () => {
       if (location.pathname.indexOf(SystemPath.task_file) >= 0) {
-        return [this.home.index(), this.task.manager(), this.task.file()];
-      } else if (location.pathname.indexOf(SystemPath.task) >= 0) {
-        return [this.home.index(), this.task.manager()];
+        return [
+          this.home.index(),
+          this.task.index(),
+          this.task.shop.manager(),
+          this.task.shop.file(),
+        ];
+      } else if (location.pathname.indexOf(SystemPath.task_shop) >= 0) {
+        return [this.home.index(), this.task.index(), this.task.shop.manager()];
+      } else if (location.pathname.indexOf(SystemPath.task_gps) >= 0) {
+        return [this.home.index(), this.task.index(), this.task.gps.manager()];
+      } else if (location.pathname.indexOf(SystemPath.task_index) >= 0) {
+        return [this.home.index(), this.task.index()];
       } else {
         return [];
       }
     },
-    manager: () => {
+    index: () => {
       let item = new SystemBreadcrumbItem();
       item.text = 'AI分析任务';
-      item.path = SystemPath.task;
+      item.path = SystemPath.task_index;
       return item;
     },
-    file: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = '录像文件';
-      item.path = SystemPath.task_file;
-      return item;
+    shop: {
+      manager: () => {
+        let item = new SystemBreadcrumbItem();
+        item.text = '商铺分析任务';
+        item.path = SystemPath.task_shop;
+        return item;
+      },
+      file: () => {
+        let item = new SystemBreadcrumbItem();
+        item.text = '录像文件';
+        item.path = SystemPath.task_file;
+        return item;
+      },
+    },
+    gps: {
+      manager: () => {
+        let item = new SystemBreadcrumbItem();
+        item.text = '定制场景任务';
+        item.path = SystemPath.task_shop;
+        return item;
+      },
     },
   };
 

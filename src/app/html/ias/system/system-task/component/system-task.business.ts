@@ -15,7 +15,11 @@ export class SystemTaskBusiness {
       } else {
         title = '任务文件';
       }
-    } else if (location.pathname.indexOf(SystemPath.task) >= 0) {
+    } else if (location.pathname.indexOf(SystemPath.task_shop) >= 0) {
+      title = '商铺分析任务';
+    } else if (location.pathname.indexOf(SystemPath.task_gps) >= 0) {
+      title = '定制场景任务';
+    } else if (location.pathname.indexOf(SystemPath.task_index) >= 0) {
       title = 'AI分析任务';
     }
     return title;

@@ -1,0 +1,80 @@
+.system-task-index {
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+  padding: 12px 25px;
+  box-sizing: border-box;
+
+  &-body {
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    &-list {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      &-item {
+        cursor: pointer;
+        width: calc((100% - 20px * 2) / 3);
+        aspect-ratio: 605/277;
+        background-image: url("../../../../../../assets/image/system/module/system-module-background.png");
+        background-size: 100% 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        padding-left: 20px;
+        box-sizing: border-box;
+        transition: all 0.75s;
+
+        &:hover {
+          background-image: url("../../../../../../assets/image/system/module/system-module-background-hover.png");
+          color: white;
+        }
+
+        &-icon {
+          height: 100%;
+          aspect-ratio: 224/266;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+
+
+          &.shop {
+            background-image: url("../../../../../../assets/image/system/module/system-module-icon-shop.png");
+
+          }
+
+          &.road {
+            background-image: url("../../../../../../assets/image/system/module/system-module-icon-road.png");
+          }
+
+          &.realtime {
+            background-image: url("../../../../../../assets/image/system/module/system-module-icon-realtime.png");
+          }
+
+          &.analysis {
+            background-image: url("../../../../../../assets/image/system/module/system-module-icon-analysis.png");
+          }
+
+          &.gps-task {
+            background-image: url("../../../../../../assets/image/system/module/system-module-icon-gps.png");
+          }
+
+        }
+
+        &-name {
+          font-size: 40px;
+          width: 33.3333333%;
+          min-width: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}

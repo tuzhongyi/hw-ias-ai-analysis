@@ -8,7 +8,7 @@ import { Page } from '../../../../../../common/data-core/models/page-list.model'
 import { ObjectTool } from '../../../../../../common/tools/object-tool/object.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';
-import { SystemTaskVideoArgs } from '../../../system-task/system-task-video/system-task-video.model';
+import { SystemTaskVideoArgs } from '../../../system-task/system-task-shop/system-task-video/system-task-video.model';
 import { SystemEventMapArgs } from '../../system-event-map/system-event-map-manager/system-event-map-manager.model';
 import { MobileEventRecordMode } from '../../system-event-map/system-event-map-panel/system-event-map-panel-record/system-event-map-panel-record-table/system-event-map-panel-record-table.model';
 

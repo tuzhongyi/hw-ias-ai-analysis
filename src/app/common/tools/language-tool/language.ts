@@ -1,4 +1,4 @@
-import { ShopStatisticStatus } from '../../../html/ias/system/system-task/system-task-route/system-task-route-statistic/system-task-route-statistic.model';
+import { ShopStatisticStatus } from '../../../html/ias/system/system-task/system-task-shop/system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 import { ResultLabelType } from '../../data-core/enums/analysis/result-label-type.enum';
 import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum';
 import { DeviceProtocolType } from '../../data-core/enums/device-protocol-type.enum';

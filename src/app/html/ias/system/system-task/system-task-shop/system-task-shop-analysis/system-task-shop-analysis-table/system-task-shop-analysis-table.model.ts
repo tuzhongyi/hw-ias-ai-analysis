@@ -1,6 +1,6 @@
 import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { ShopStatisticStatus } from '../../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
+import { ShopStatisticStatus } from '../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 
 export interface ISystemTaskShopAnalysisTableArgs {
   taskId: string;

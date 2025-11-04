@@ -14,7 +14,7 @@ import { Sort } from '../../../../../../../common/directives/table-sorter/table-
 import { LocaleCompare } from '../../../../../../../common/tools/compare-tool/compare.tool';
 import { GeoDirectionSort } from '../../../../../../../common/tools/geo-tool/geo.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
-import { ShopStatisticStatus } from '../../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
+import { ShopStatisticStatus } from '../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 import { SystemTaskShopAnalysisTableShopAnalysisService } from './business/service/system-task-shop-analysis-table-shop-analysis.service';
 import { SystemTaskShopAnalysisTableShopRegistrationService } from './business/service/system-task-shop-analysis-table-shop-registration.service';
 import { SystemTaskShopAnalysisTableShopService } from './business/service/system-task-shop-analysis-table-shop.service';

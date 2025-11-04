@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { ShopStatisticStatus } from '../../../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
+import { ShopStatisticStatus } from '../../../system-task-route/system-task-route-statistic/system-task-route-statistic.model';
 import {
   ISystemTaskShopAnalysisTableItem,
   SystemTaskShopAnalysisTableArgs,
