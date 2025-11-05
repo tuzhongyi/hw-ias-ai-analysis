@@ -25,7 +25,7 @@ export class SystemMainCardEventRealtimeTableManagerBusiness {
     return paged.Data.map((x) => {
       if (x.Resources && x.Resources.length > 0) {
         x.Resources = x.Resources.sort((a, b) => {
-          return LocaleCompare.compare(a.Value, b.Value);
+          return LocaleCompare.compare(b.PositionNo, a.PositionNo);
         });
       }
       return x;

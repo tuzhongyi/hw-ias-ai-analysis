@@ -45,7 +45,19 @@ class PictureWindow extends WindowViewModel {
         } else {
           this.args.polygon = [];
         }
-        this.title = data.SceneName || 'GPS任务样本图片';
+        let name = '';
+        switch (index) {
+          case 0:
+            name = '场景照片';
+            break;
+          case 1:
+            name = '匹配结果';
+            break;
+
+          default:
+            break;
+        }
+        this.title = `${data.SceneName}-${name}`;
       }
     },
   };

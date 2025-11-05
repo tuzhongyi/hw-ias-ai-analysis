@@ -44,14 +44,14 @@ export class SystemEventGpsTaskTableComponent implements OnInit, OnDestroy {
 
   constructor(private business: SystemEventTaskTableBusiness) {}
 
-  widths = ['5%', '13%', '12%', 'auto', '6%', '10%', '5%', '10%', '5%', '10%'];
+  widths = ['5%', '13%', '12%', 'auto', '5%', '10%', '5%', '10%', '5%', '10%'];
   minwidth = [
     undefined,
     undefined,
     undefined,
     '76px',
+    '150px',
     '200px',
-    undefined,
     '70px',
     '200px',
     undefined,

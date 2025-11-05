@@ -9,4 +9,12 @@
     <div>,</div>
     <div>{{ data.Latitude }}</div>
   </div>
+  <div
+    class="system-module-gps-task-details-map-button button panel-map"
+    title="重置"
+    *ngIf="resetable && !same"
+    (click)="on.reset($event)"
+  >
+    <i class="mdi mdi-backup-restore"></i>
+  </div>
 </div>

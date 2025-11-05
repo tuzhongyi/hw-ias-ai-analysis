@@ -13,6 +13,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
+import { wait } from '../../../../../../../common/tools/wait';
 import { SystemModuleGpsTaskDetailsAMapController } from './controller/system-module-gps-task-details-amap.controller';
 
 @Component({
@@ -30,12 +31,24 @@ export class SystemModuleGpsTaskDetailsMapComponent
 
   @Input() load?: EventEmitter<GisPoint>;
 
+  @Input() resetable: boolean = false;
+
   constructor(private controller: SystemModuleGpsTaskDetailsAMapController) {}
 
+  private original?: GisPoint;
   private subscription = new Subscription();
+
+  get same() {
+    if (!this.data || !this.original) return true;
+    return (
+      this.data.Latitude === this.original.Latitude &&
+      this.data.Longitude === this.original.Longitude
+    );
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.data(changes['data']);
+    this.change.resetable(changes['resetable']);
   }
 
   private change = {
@@ -43,6 +56,17 @@ export class SystemModuleGpsTaskDetailsMapComponent
       if (simple) {
         if (this.data) {
           this.controller.load(this.data);
+        }
+      }
+    },
+    resetable: (simple: SimpleChange) => {
+      if (simple) {
+        if (this.resetable) {
+          wait(() => {
+            return !!this.data;
+          }).then(() => {
+            this.original = Object.assign(new GisPoint(), this.data);
+          });
         }
       }
     },
@@ -75,4 +99,14 @@ export class SystemModuleGpsTaskDetailsMapComponent
     this.controller.destroy();
     this.subscription.unsubscribe();
   }
+
+  on = {
+    reset: (e: Event) => {
+      if (this.original) {
+        this.controller.load(this.original);
+        this.data = Object.assign(new GisPoint(), this.original);
+        this.dataChange.emit(this.data);
+      }
+    },
+  };
 }

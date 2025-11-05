@@ -23,6 +23,7 @@
         *ngIf="model.Location"
         [data]="model.Location.GCJ02"
         [load]="location.map.change"
+        [resetable]="true"
         (dataChange)="location.map.changing($event)"
       ></ias-system-module-gps-task-details-map>
     </div>

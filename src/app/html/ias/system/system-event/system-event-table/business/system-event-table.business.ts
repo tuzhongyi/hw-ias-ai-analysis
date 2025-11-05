@@ -43,7 +43,7 @@ export class SystemEventTableBusiness {
     );
     if (data.Resources) {
       data.Resources = data.Resources.sort((a, b) => {
-        return LocaleCompare.compare(a.Value, b.Value);
+        return LocaleCompare.compare(b.PositionNo, a.PositionNo);
       });
     }
     data.ResourceName =
