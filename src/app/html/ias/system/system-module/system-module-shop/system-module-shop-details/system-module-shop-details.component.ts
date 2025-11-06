@@ -10,13 +10,10 @@ import {
   GisPoints,
 } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
-import { PicturePolygonZoomComponent } from '../../../../share/picture/picture-polygon-zoom/picture-polygon-zoom.component';
-import { WindowComponent } from '../../../../share/window/window.component';
 import { SystemModuleShopDetailsInfoComponent } from '../system-module-shop-details-info/system-module-shop-details-info.component';
 import { SystemModuleShopDetailsMapComponent } from '../system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopSignTableComponent } from '../system-module-shop-sign-table/system-module-shop-sign-table.component';
 import { SystemModuleShopDetailsBusiness } from './system-module-shop-details.business';
-import { SystemModuleShopDetailsWindow } from './system-module-shop-details.window';
 
 @Component({
   selector: 'ias-system-module-shop-details',
@@ -24,8 +21,6 @@ import { SystemModuleShopDetailsWindow } from './system-module-shop-details.wind
   styleUrl: './system-module-shop-details.component.less',
   imports: [
     CommonModule,
-    WindowComponent,
-    PicturePolygonZoomComponent,
     SystemModuleShopDetailsInfoComponent,
     SystemModuleShopSignTableComponent,
     SystemModuleShopDetailsMapComponent,
@@ -37,6 +32,7 @@ export class SystemModuleShopDetailsComponent implements OnInit {
   @Input() change = true;
   @Output() ok = new EventEmitter<Shop>();
   @Output() cancel = new EventEmitter<void>();
+  @Output() picture = new EventEmitter<ShopSign>();
 
   constructor(
     private business: SystemModuleShopDetailsBusiness,
@@ -45,7 +41,6 @@ export class SystemModuleShopDetailsComponent implements OnInit {
 
   shop = new Shop();
   sign?: ShopSign;
-  window = new SystemModuleShopDetailsWindow();
 
   ngOnInit(): void {
     if (this.data) {
@@ -83,9 +78,6 @@ export class SystemModuleShopDetailsComponent implements OnInit {
     this.toastr.error(e.message);
   }
   onpicture(data: ShopSign) {
-    this.window.picture.id = data.ImageUrl;
-    this.window.picture.title = data.Text ?? '';
-    this.window.picture.polygon = data.Polygon ?? [];
-    this.window.picture.show = true;
+    this.picture.emit(data);
   }
 }

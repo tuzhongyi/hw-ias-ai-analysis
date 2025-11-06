@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import {
   Page,
@@ -52,6 +53,7 @@ export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
       this.window.picture.page = paged.Page;
       this.window.picture.id = paged.Data.ImageUrl;
       this.window.picture.title = paged.Data.Name;
+      this.window.picture.polygon = [];
       this.window.picture.show = true;
     },
     change: (page: Page) => {
@@ -120,6 +122,14 @@ export class SystemModuleShopManagerComponent implements OnInit, OnDestroy {
       this.window.details.show = false;
       let args = new SystemModuleShopTableLoadArgs(this.args);
       this.load.emit(args);
+    },
+    picture: (data: ShopSign) => {
+      let paged = Paged.create(data, 1);
+      this.window.picture.page = paged.Page;
+      this.window.picture.id = data.ImageUrl;
+      this.window.picture.title = data.Text ?? '';
+      this.window.picture.polygon = data.Polygon ?? [];
+      this.window.picture.show = true;
     },
   };
   info = {

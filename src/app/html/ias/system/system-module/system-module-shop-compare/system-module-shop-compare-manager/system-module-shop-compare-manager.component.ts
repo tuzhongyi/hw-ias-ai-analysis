@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonLabelSelecComponent } from '../../../../../../common/components/common-label-select/common-label-select.component';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
+import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { ShopTaskCompareResult } from '../../../../../../common/data-core/models/arm/analysis/shop-task-compare-result.model';
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
@@ -131,10 +132,22 @@ export class SystemModuleShopCompareManagerComponent implements OnInit {
   onstate(state: ShopObjectState) {
     this.table.state = state;
   }
-  onsign(data: IShop) {
-    this.window.sign.data = data as Shop;
-    this.window.sign.show = true;
-  }
+  onsign(data: IShop) {}
+  sign = {
+    open: (data: IShop) => {
+      this.window.sign.data = data as Shop;
+      this.window.sign.show = true;
+    },
+    picture: (data: ShopSign) => {
+      let paged = Paged.create(data, 1);
+      this.window.picture.id = data.ImageUrl;
+
+      this.window.picture.title = data.Text ?? '';
+      this.window.picture.page = paged.Page;
+      this.window.picture.polygon = data.Polygon ?? [];
+      this.window.picture.show = true;
+    },
+  };
   setting = {
     open: () => {
       this.window.setting.show = true;
@@ -162,6 +175,10 @@ export class SystemModuleShopCompareManagerComponent implements OnInit {
     ok: () => {
       this.window.information.clear();
       this.window.information.close();
+    },
+    picture: (data: ShopRegistration) => {
+      let paged = Paged.create(data, 1);
+      this.picture.open(paged);
     },
   };
 
@@ -199,6 +216,7 @@ export class SystemModuleShopCompareManagerComponent implements OnInit {
   picture = {
     get: new EventEmitter<number>(),
     open: (paged: Paged<IShop>, indexchange = true) => {
+      this.window.picture.polygon = [];
       this.window.picture.id = paged.Data.ImageUrl;
 
       this.window.picture.title = paged.Data.Name ?? '';

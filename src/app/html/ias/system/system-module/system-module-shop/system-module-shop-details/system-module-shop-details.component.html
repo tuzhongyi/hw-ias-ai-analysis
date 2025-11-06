@@ -36,17 +36,4 @@
     <button class="button-clip-gradient" (click)="onok()">确定</button>
     <button class="button-clip-blue" (click)="oncancel()">取消</button>
   </div>
-
-  <ias-window
-    *ngIf="window.picture.show"
-    [Model]="window.picture"
-    [style]="window.picture.style"
-    [title]="window.picture.title"
-  >
-    <ias-picture-polygon-zoom
-      [id]="window.picture.id"
-      [polygon]="window.picture.polygon"
-      [zoom]="window.picture.polygon.length > 0"
-    ></ias-picture-polygon-zoom>
-  </ias-window>
 </div>

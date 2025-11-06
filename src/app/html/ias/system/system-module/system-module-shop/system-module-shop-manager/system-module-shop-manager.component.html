@@ -128,6 +128,7 @@
       [data]="window.details.data"
       (cancel)="window.details.show = false"
       (ok)="details.ok()"
+      (picture)="details.picture($event)"
     ></ias-system-module-shop-details>
   </ias-window>
   <ias-window
@@ -147,9 +148,11 @@
     [Model]="window.picture"
     [style]="window.picture.style"
     [title]="window.picture.title"
+    [mask]="!window.opened"
   >
     <ias-picture-list
       [id]="window.picture.id"
+      [polygon]="window.picture.polygon"
       [zoom]="false"
       [page]="window.picture.page"
       (pageChange)="picture.change($event)"

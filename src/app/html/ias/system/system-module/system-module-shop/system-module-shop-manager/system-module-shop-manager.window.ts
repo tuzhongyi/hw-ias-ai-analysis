@@ -1,5 +1,6 @@
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
+import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';
@@ -9,6 +10,10 @@ export class SystemModuleShopManagerWindow {
   information = new InformationWindow();
 
   picture = new PictureWindow();
+
+  get opened() {
+    return this.details.show || this.information.show;
+  }
 }
 
 class DetailsWindow extends WindowViewModel {
@@ -40,4 +45,5 @@ class PictureWindow extends WindowViewModel {
   title = '';
   id?: string;
   page?: Page;
+  polygon: HowellPoint[] = [];
 }

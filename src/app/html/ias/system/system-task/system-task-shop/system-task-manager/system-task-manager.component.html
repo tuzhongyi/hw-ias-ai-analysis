@@ -128,6 +128,7 @@
     <ias-system-task-result
       [data]="window.result.data"
       (close)="window.result.show = false"
+      (picture)="picture.on($event)"
     ></ias-system-task-result>
   </ias-window>
   <ias-window

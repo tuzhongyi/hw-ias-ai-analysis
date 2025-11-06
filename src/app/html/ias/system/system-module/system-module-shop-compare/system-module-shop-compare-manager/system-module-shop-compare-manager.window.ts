@@ -2,6 +2,7 @@ import { WindowViewModel } from '../../../../../../common/components/window-cont
 import { ShopTaskCompareResult } from '../../../../../../common/data-core/models/arm/analysis/shop-task-compare-result.model';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
+import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { HtmlTool } from '../../../../../../common/tools/html-tool/html.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
@@ -13,6 +14,18 @@ export class SystemModuleShopCompareManagerWindow {
   picture = new PictureWindow();
   sign = new SignWindow();
   relate = new RelateWindow();
+
+  get opened() {
+    return (
+      this.setting.show ||
+      this.information.shop.show ||
+      this.information.registration.show ||
+      this.compare.info.show ||
+      this.compare.picture.show ||
+      this.sign.show ||
+      this.relate.show
+    );
+  }
 }
 
 class SettingWindow extends WindowViewModel {
@@ -98,6 +111,7 @@ class PictureWindow extends WindowViewModel {
   id?: string;
   index = 0;
   page?: Page;
+  polygon: HowellPoint[] = [];
 }
 
 class SignWindow extends WindowViewModel {

@@ -24,6 +24,7 @@ export class PictureListPageComponent {
   @Output() pageChange = new EventEmitter<Page>();
   @Input() default?: string;
   @Input() zoom = false;
+  @Input() loop = false;
 
   constructor() {}
 

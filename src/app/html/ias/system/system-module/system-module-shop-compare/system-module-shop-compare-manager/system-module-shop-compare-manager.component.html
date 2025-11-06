@@ -64,7 +64,7 @@
       [args]="table.args"
       [load]="table.load"
       (info)="info.open($event)"
-      (sign)="onsign($event)"
+      (sign)="sign.open($event)"
       (compare)="compare.on($event)"
       [compareget]="compare.get"
       (picture)="picture.open($event)"
@@ -129,6 +129,7 @@
       (close)="window.information.registration.show = false"
       (ok)="info.ok()"
       (create)="input.ok($event)"
+      (picture)="info.picture($event)"
     ></ias-system-module-shop-registration-information>
   </ias-window>
   <ias-window
@@ -147,19 +148,6 @@
     ></ias-system-module-shop-compare-details>
   </ias-window>
   <ias-window
-    *ngIf="window.picture.show"
-    [Model]="window.picture"
-    [style]="window.picture.style"
-    [title]="window.picture.title"
-  >
-    <ias-picture-list
-      [id]="window.picture.id"
-      [page]="window.picture.page"
-      [zoom]="false"
-      (pageChange)="picture.change($event)"
-    ></ias-picture-list>
-  </ias-window>
-  <ias-window
     [Model]="window.sign"
     *ngIf="window.sign.show"
     [style]="window.sign.style"
@@ -169,6 +157,7 @@
       [data]="window.sign.data"
       [change]="false"
       (cancel)="window.sign.show = false"
+      (picture)="sign.picture($event)"
     ></ias-system-module-shop-details>
   </ias-window>
   <ias-window
@@ -185,16 +174,33 @@
   </ias-window>
 
   <ias-window
+    *ngIf="window.picture.show"
+    [Model]="window.picture"
+    [style]="window.picture.style"
+    [title]="window.picture.title"
+    [mask]="!window.opened"
+  >
+    <ias-picture-list
+      [id]="window.picture.id"
+      [page]="window.picture.page"
+      [zoom]="false"
+      [polygon]="window.picture.polygon"
+      (pageChange)="picture.change($event)"
+    ></ias-picture-list>
+  </ias-window>
+  <ias-window
     [Model]="window.compare.picture"
     *ngIf="window.compare.picture.show"
     [style]="window.compare.picture.style"
     [title]="window.compare.picture.title"
+    [mask]="!window.opened"
   >
     <ias-picture-list-page
       [datas]="window.compare.picture.datas"
       [(index)]="window.compare.picture.index"
       [page]="window.compare.page"
       (pageChange)="compare.picture.change($event)"
+      [loop]="true"
     ></ias-picture-list-page>
   </ias-window>
 </div>

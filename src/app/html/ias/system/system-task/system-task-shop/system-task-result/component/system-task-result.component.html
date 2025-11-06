@@ -85,7 +85,6 @@
         <ias-system-task-result-table-manager
           [data]="data"
           [(selected)]="selected"
-          (selectedChange)="onselect($event)"
           [index]="indexchange"
           [(type)]="table.type"
           (page)="onpage($event)"
@@ -117,18 +116,4 @@
       </div>
     </div>
   </div>
-
-  <ias-window
-    *ngIf="window.picture.show"
-    [Model]="window.picture"
-    [style]="window.picture.style"
-    [title]="window.picture.title"
-  >
-    <ias-picture-list
-      [id]="window.picture.id"
-      [polygon]="window.picture.polygon"
-      [zoom]="true"
-      [(page)]="page"
-    ></ias-picture-list>
-  </ias-window>
 </div>

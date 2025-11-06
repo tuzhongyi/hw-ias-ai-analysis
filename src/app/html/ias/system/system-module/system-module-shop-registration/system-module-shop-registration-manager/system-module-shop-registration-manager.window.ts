@@ -9,6 +9,10 @@ export class SystemModuleShopRegistrationManagerWindow {
   confirm = new ConfirmWindow();
   map = new MapWindow();
   download = new FileDownloadWindow();
+
+  get opened() {
+    return this.information.show;
+  }
 }
 class InformationWindow extends WindowViewModel {
   clear() {
