@@ -8,6 +8,10 @@ export class SystemEventGpsTaskManagerWindow {
   picture = new PictureWindow();
   video = new VideoWindow();
   details = new DetailsWindow();
+
+  get opened() {
+    return this.details.show;
+  }
 }
 
 class PictureWindow extends WindowViewModel {
@@ -72,8 +76,7 @@ class VideoWindow extends WindowViewModel {
 }
 class DetailsWindow extends WindowViewModel {
   style = {
-    width: '70%',
-    height: '90%',
+    ...SizeTool.window.large,
   };
   title = '';
   data?: GpsTaskSampleRecord;

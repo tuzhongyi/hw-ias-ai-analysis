@@ -14,9 +14,9 @@ export class HtmlScreenTool {
           let height = width / ratio;
           return `${height + head}px`;
         },
-        height: (hegiht: number, ratio: number, head: number) => {
-          let width = (hegiht - head) * ratio;
-          return `${width}px`;
+        height: (hegiht: number, ratio: number, diff: number, gain: number) => {
+          let width = (hegiht - diff) * ratio;
+          return `${width + gain}px`;
         },
       },
     },

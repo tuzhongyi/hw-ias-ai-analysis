@@ -3,6 +3,7 @@ import { ShopTaskCompareResult } from '../../../../../../common/data-core/models
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { HtmlTool } from '../../../../../../common/tools/html-tool/html.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemModuleShopCompareManagerWindow {
@@ -33,7 +34,13 @@ class CompareInfoWindow extends WindowViewModel {
 }
 class ComparePictureWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window,
+    width: HtmlTool.screen.has.head.from.height(
+      screen.availHeight * 0.75,
+      16 / 9,
+      60 + 12 + 20 + 30 + 15,
+      (20 + 2) * 2
+    ),
+    height: `${screen.availHeight * 0.75}px`,
   };
   datas: string[] = [];
   index = 1;
@@ -98,7 +105,7 @@ class SignWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    ...SizeTool.window.large,
+    ...SizeTool.window.video.path,
   };
   data?: Shop;
 }

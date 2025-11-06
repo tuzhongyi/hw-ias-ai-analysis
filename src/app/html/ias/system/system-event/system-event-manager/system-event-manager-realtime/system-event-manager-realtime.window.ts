@@ -23,6 +23,10 @@ export class SystemEventManagerRealtimeWindow {
   details = new DetailsWindow();
   process = new ProcessWindow();
   map = new MapWindow();
+
+  get opened() {
+    return this.task.show || this.details.show || this.process.show;
+  }
 }
 
 class PictureWindow extends WindowViewModel {
@@ -122,7 +126,7 @@ class DetailsWindow extends WindowViewModel {
 }
 class MapWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = '实时事件';
   args = new SystemEventMapArgs();

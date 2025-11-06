@@ -16,7 +16,7 @@ class DetailsWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    ...SizeTool.window.large,
+    ...SizeTool.window.video.path,
   };
   data?: ShopViewModel;
 }

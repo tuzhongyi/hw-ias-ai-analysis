@@ -52,7 +52,7 @@ class ResultWindow extends WindowViewModel {
     this.title = '';
   }
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   data?: AnalysisTask;
   title = '';
@@ -74,7 +74,7 @@ class RouteWindow extends WindowViewModel {
     this.data = undefined;
   }
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = '';
   data?: AnalysisTask;
@@ -132,7 +132,7 @@ class FileWindow extends WindowViewModel {
     this.selecteds = [];
   }
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   data?: AnalysisTask;
   get title() {

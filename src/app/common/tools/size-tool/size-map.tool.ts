@@ -1,7 +1,7 @@
 export class SizeMapTool {
   shop = {
     width: 76 * 0.7,
-    height: 86 * 0.5,
+    height: 86 * 0.7,
   };
   point = {
     normal: {

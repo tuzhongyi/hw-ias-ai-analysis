@@ -131,7 +131,7 @@ class DetailsWindow extends WindowViewModel {
 }
 class MapWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = '商铺更变';
   args = new SystemEventMapArgs(

@@ -87,7 +87,8 @@ class DrawWindow extends WindowViewModel {
   title = '';
   args = new SystemModuleGpsTaskPictureDrawingArgs();
   open(title: string, args: SystemModuleGpsTaskPictureDrawingArgs) {
-    this.title = title;
+    console.log(this.style);
+    this.title = title || '目标绘制';
     this.args = args;
     this.show = true;
   }

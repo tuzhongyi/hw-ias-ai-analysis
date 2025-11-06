@@ -166,6 +166,7 @@
     *ngIf="window.picture.show && window.picture.args"
     [style]="window.picture.style"
     [title]="window.picture.title"
+    [mask]="!window.opened"
   >
     <ias-picture-list
       [id]="window.picture.args.id"
@@ -182,6 +183,7 @@
     [style]="window.video.style"
     [title]="window.video.title"
     [CloseButton]="false"
+    [mask]="!window.opened"
   >
     <div ngProjectAs="window-head-operation" class="window-video-operation">
       <div class="forms">

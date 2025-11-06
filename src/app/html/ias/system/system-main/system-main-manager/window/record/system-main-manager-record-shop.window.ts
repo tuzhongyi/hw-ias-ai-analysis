@@ -4,7 +4,7 @@ import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool'
 
 export class SystemMainManagerRecordShopWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = '商铺更变';
   duration?: Duration;

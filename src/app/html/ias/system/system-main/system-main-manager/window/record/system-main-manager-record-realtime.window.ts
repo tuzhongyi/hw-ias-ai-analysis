@@ -4,7 +4,7 @@ import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool'
 
 export class SystemMainManagerRecordRealtimeWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = '实时事件';
   type?: number;

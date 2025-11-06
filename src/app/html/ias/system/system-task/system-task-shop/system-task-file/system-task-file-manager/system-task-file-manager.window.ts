@@ -18,7 +18,7 @@ class DetailsWindow extends WindowViewModel {
 }
 class MultipleWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = '';
 }

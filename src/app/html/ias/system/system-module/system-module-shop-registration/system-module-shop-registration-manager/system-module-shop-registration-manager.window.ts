@@ -35,7 +35,7 @@ class PictureWindow extends WindowViewModel {
 class MapWindow extends WindowViewModel {
   clear() {}
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = '注册商铺坐标设置';
 }

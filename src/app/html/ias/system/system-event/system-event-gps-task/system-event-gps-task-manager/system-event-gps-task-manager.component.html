@@ -85,6 +85,7 @@
     *ngIf="window.picture.show && window.picture.args"
     [style]="window.picture.style"
     [title]="window.picture.title"
+    [mask]="!window.opened"
   >
     <ias-picture-list
       [id]="window.picture.args.id"
@@ -100,6 +101,7 @@
     *ngIf="window.video.show"
     [style]="window.video.style"
     [title]="window.video.title"
+    [mask]="!window.opened"
   >
     <video
       autoplay="autoplay"

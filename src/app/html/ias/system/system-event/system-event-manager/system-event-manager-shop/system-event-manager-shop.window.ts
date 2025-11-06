@@ -30,6 +30,16 @@ export class SystemEventManagerShopWindow {
   shop = new ShopWindow();
   details = new DetailsWindow();
   map = new MapWindow();
+
+  get opened() {
+    return (
+      this.task.show ||
+      this.details.show ||
+      this.process.sign.discover.show ||
+      this.process.sign.disappear.show ||
+      this.shop.show
+    );
+  }
 }
 
 class PictureWindow extends WindowViewModel {
@@ -159,7 +169,7 @@ class DetailsWindow extends WindowViewModel {
 }
 class MapWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = '商铺更变';
   args = new SystemEventMapArgs(

@@ -4,7 +4,7 @@ import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool'
 
 export class SystemMainManagerTaskWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window.full,
+    ...SizeTool.window.max,
   };
   title = 'AI分析任务';
   duration?: Duration;

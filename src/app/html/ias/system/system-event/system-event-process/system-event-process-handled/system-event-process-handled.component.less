@@ -1,16 +1,17 @@
 .system-event-process-handled {
   width: 100%;
   height: 100%;
-  display: flex;
-  gap: 10px;
+
 
   .form {
     &s {
-      width: calc((100% - 10px) * 0.5);
-      flex-direction: column;
+      flex-wrap: wrap;
     }
 
     &-item {
+      width: calc((100% - 20px) * 0.5);
+      height: min-content;
+
       &-text {
         width: 101px;
       }
