@@ -34,7 +34,10 @@
       </div>
       <div class="system-event-gps-task-details-image panel panel-flex">
         <div class="panel-body">
-          <howell-container-zoom [(reset)]="picture.data.result.reset">
+          <howell-container-zoom
+            [(reset)]="picture.data.result.reset"
+            [enabled]="!!picture.data.result.src"
+          >
             <ias-picture [id]="picture.data.result.src"></ias-picture>
           </howell-container-zoom>
         </div>
