@@ -34,6 +34,7 @@ export class SystemMainCardShopStatisticComponent implements OnInit, OnDestroy {
 
   title = '商铺状态';
   data?: ShopTaskStatistic;
+  count = 0;
 
   private subscription = new Subscription();
 
@@ -56,6 +57,10 @@ export class SystemMainCardShopStatisticComponent implements OnInit, OnDestroy {
   }
   private async load() {
     this.data = await this.business.load(this.duration);
+    if (!this.data) {
+      let shops = await this.business.registration();
+      this.count = shops.length;
+    }
   }
 
   unit = {

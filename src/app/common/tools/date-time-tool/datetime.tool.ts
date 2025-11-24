@@ -1,10 +1,14 @@
+import { DateTimeFullTool } from './date-time-full.tool';
 import { DateTimeAllTool } from './datetime-all.tool';
 import { DateTimeLastTool } from './datetime-last.tool';
+import { DateTimeMathTool } from './datetime-math.tool';
 import { Duration } from './duration.model';
 
 export class DateTimeTool {
   static last = new DateTimeLastTool();
   static all = new DateTimeAllTool();
+  static math = new DateTimeMathTool();
+  static full = new DateTimeFullTool();
 
   static beforeOrAfter(date: Date, seconds: number = 30): Duration {
     let duration = {

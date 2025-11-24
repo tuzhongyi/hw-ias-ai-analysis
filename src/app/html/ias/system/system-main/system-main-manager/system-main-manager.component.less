@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  display: block;
 
   @padding: 20px;
   @gap: 15px;
@@ -40,6 +41,29 @@
     bottom: @padding;
     left: calc(@padding + @card-width + @gap);
     height: @control-height;
+  }
+
+  &-navigation {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 60px;
+    width: calc(100% - 2 * (@padding + @card-width + @gap));
+
+  }
+
+  &-heatmap-filter {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - @padding * 2);
+    padding: 0 20px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 60px;
   }
 
   &-panel {

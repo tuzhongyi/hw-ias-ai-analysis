@@ -10,6 +10,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ChartItem } from '../../../../../../../common/tools/chart-tool/chart.model';
+import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
 import { DateTimeTool } from '../../../../../../../common/tools/date-time-tool/datetime.tool';
 import {
   Duration,
@@ -51,6 +52,7 @@ export class SystemMainCardEventRealtimeStatisticComponent
     '#ff3b30',
     '#ff762c',
     '#ffd700',
+    '#23e353',
   ];
 
   private subscription = new Subscription();
@@ -73,6 +75,7 @@ export class SystemMainCardEventRealtimeStatisticComponent
 
   private load() {
     this.business.load(this.duration).then((datas) => {
+      this.color = datas.map((x) => `${ColorTool.getColorByIndex(x.id, 10)}`);
       this.datas = datas;
     });
   }

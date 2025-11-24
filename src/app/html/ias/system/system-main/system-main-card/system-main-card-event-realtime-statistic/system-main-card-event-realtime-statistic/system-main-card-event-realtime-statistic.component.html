@@ -13,10 +13,18 @@
   <div class="system-main-card-event-realtime-statistic">
     <div class="system-main-card-event-realtime-statistic-chart">
       <ias-system-main-card-event-realtime-statistic-chart
+        *ngIf="datas.length > 0"
         [datas]="datas"
+        [colors]="color"
       ></ias-system-main-card-event-realtime-statistic-chart>
     </div>
-    <div class="system-main-card-event-realtime-statistic-info">
+    <div
+      class="system-main-card-event-realtime-statistic-info"
+      [ngStyle]="{
+        transform: 'scale(' + (datas.length > 8 ? 8 / datas.length : 1) + ')',
+        justifyContent: datas.length > 8 ? 'center' : 'space-around'
+      }"
+    >
       <div
         class="system-main-card-event-realtime-statistic-info-item"
         *ngFor="let item of datas; let index = index"

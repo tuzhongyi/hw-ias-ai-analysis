@@ -34,4 +34,18 @@ class SystemMobileDeviceUrl extends AbstractUrl {
       return `${this.item(key)}/FileUpload`;
     },
   };
+
+  get route() {
+    return new SystemMobileDeviceRouteUrl(this.basic());
+  }
+}
+
+class SystemMobileDeviceRouteUrl extends AbstractUrl {
+  constructor(base: string) {
+    super(`${base}/Routes`);
+  }
+
+  statistic() {
+    return `${this.basic()}/Statistic`;
+  }
 }

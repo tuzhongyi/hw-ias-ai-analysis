@@ -1,6 +1,7 @@
 import { ElementRef } from '@angular/core';
 import * as echarts from 'echarts';
 import { PromiseValue } from '../../../common/view-models/value.promise';
+import { wait } from '../wait';
 
 export abstract class ChartAbstract {
   abstract element?: ElementRef;
@@ -13,10 +14,18 @@ export abstract class ChartAbstract {
   }
 
   protected view() {
-    if (this.element) {
-      let chart = echarts.init(this.element.nativeElement);
-      this.chart.set(chart);
-    }
+    wait(() => {
+      return (
+        !!this.element &&
+        this.element.nativeElement.clientWidth > 0 &&
+        this.element.nativeElement.clientHeight > 0
+      );
+    }).then(() => {
+      if (this.element) {
+        let chart = echarts.init(this.element.nativeElement);
+        this.chart.set(chart);
+      }
+    });
   }
   protected destroy(): void {
     this.chart.get().then((chart) => {
@@ -29,7 +38,6 @@ export abstract class ChartAbstract {
   }
 
   private resize() {
-    console.log('resize');
     this.chart.get().then((chart) => {
       chart.resize();
     });

@@ -1,0 +1,18 @@
+<div class="system-main-map-navigation">
+  <div
+    class="system-main-map-navigation-item"
+    *ngFor="let item of items"
+    [class.selected]="item.key == index"
+    (click)="on.select(item.key)"
+  >
+    <div class="system-main-map-navigation-item-icon-border">
+      <div class="system-main-map-navigation-item-icon-background">
+        <div
+          class="system-main-map-navigation-item-icon"
+          [class]="item.key"
+        ></div>
+      </div>
+    </div>
+    <div class="system-main-map-navigation-item-name">{{ item.value }}</div>
+  </div>
+</div>

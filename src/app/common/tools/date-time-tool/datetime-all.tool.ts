@@ -1,6 +1,20 @@
-import { Duration } from './duration.model';
+import { Duration, DurationUnit } from './duration.model';
 
 export class DateTimeAllTool {
+  unit(date: Date, unit: DurationUnit, opts?: { week?: number }) {
+    switch (unit) {
+      case DurationUnit.day:
+        return this.day(date);
+      case DurationUnit.week:
+        return this.week(date, opts?.week);
+      case DurationUnit.month:
+        return this.month(date);
+      case DurationUnit.year:
+        return this.year(date);
+      default:
+        throw new Error("all unit don't support");
+    }
+  }
   year(date: Date): Duration {
     let duration = {
       begin: new Date(),

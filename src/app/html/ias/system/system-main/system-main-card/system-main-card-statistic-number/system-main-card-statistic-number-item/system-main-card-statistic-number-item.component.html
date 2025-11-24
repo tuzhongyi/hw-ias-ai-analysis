@@ -1,0 +1,18 @@
+<div class="system-main-card-statistic-number-item root-router">
+  <div class="system-main-card-statistic-number-item-icon">
+    <div
+      class="system-main-card-statistic-number-item-icon-content"
+      [class]="data.icon"
+    ></div>
+  </div>
+  <div class="system-main-card-statistic-number-item-info">
+    <div class="system-main-card-statistic-number-item-info-name">
+      {{ data.name }}
+    </div>
+    <div class="system-main-card-statistic-number-item-info-value">
+      <span>{{ data.value }}</span>
+      <span *ngIf="data.unit">{{ data.unit }}</span>
+    </div>
+    <div class="system-main-card-statistic-number-item-info-unit"></div>
+  </div>
+</div>

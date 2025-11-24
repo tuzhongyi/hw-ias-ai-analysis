@@ -10,6 +10,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
@@ -35,8 +36,16 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() shops: ShopRegistration[] = [];
   @Input() devices: MobileDevice[] = [];
   @Input() alarms: MobileEventRecord[] = [];
+  @Input() samples: GpsTaskSampleRecord[] = [];
   @Output() alarmvideo = new EventEmitter<MobileEventRecord>();
   @Output() alarmpicture = new EventEmitter<Paged<MobileEventRecord>>();
+  @Input() heatmapload?: EventEmitter<ILocation[]>;
+  @Input() heatmapdisplay = false;
+  @Input() shopdisplay = true;
+  @Input() devicedisplay = true;
+  @Input() alarmdisplay = true;
+  @Input() sampledisplay = true;
+
   constructor(
     private business: SystemMainMapBusiness,
     private controller: SystemMainMapController
@@ -52,6 +61,16 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
     this.change.shops(changes['shops']);
     this.change.devices(changes['devices']);
     this.change.alarms(changes['alarms']);
+    this.change.samples(changes['samples']);
+    this.change.display.shop(changes['shopdisplay']);
+    this.change.display.device(changes['devicedisplay']);
+    this.change.display.alarm(changes['alarmdisplay']);
+    this.change.display.sample(changes['sampledisplay']);
+    this.change.display.heatmap(changes['heatmapdisplay']);
+  }
+  ngOnDestroy(): void {
+    this.controller.map.destory();
+    this.subscription.unsubscribe();
   }
   private change = {
     shops: (simple: SimpleChange) => {
@@ -69,12 +88,59 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         this.load.alarms(this.alarms);
       }
     },
+    samples: (simple: SimpleChange) => {
+      if (simple && !simple.firstChange) {
+        this.load.samples(this.samples);
+      }
+    },
+    display: {
+      shop: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.shopdisplay) {
+            this.controller.shop.reload();
+          } else {
+            this.controller.shop.clear();
+          }
+        }
+      },
+      device: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.devicedisplay) {
+            this.controller.device.reload();
+          } else {
+            this.controller.device.clear();
+          }
+        }
+      },
+      alarm: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.alarmdisplay) {
+            this.controller.alarm.reload();
+          } else {
+            this.controller.alarm.clear();
+          }
+        }
+      },
+      sample: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.sampledisplay) {
+            this.controller.sample.reload();
+          } else {
+            this.controller.sample.clear();
+          }
+        }
+      },
+      heatmap: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.heatmapdisplay) {
+            this.controller.heatmap.load([]);
+          } else {
+            this.controller.heatmap.clear();
+          }
+        }
+      },
+    },
   };
-  ngOnDestroy(): void {
-    this.controller.map.destory();
-    this.subscription.unsubscribe();
-  }
-
   private load = {
     road: () => {
       this.business.road.load().then((datas) => {
@@ -98,12 +164,26 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         this.controller.alarm.load(datas);
       });
     },
+    samples: (datas: GpsTaskSampleRecord[]) => {
+      this.controller.sample.clear().then((x) => {
+        this.controller.sample.load(datas);
+      });
+    },
   };
   private regist = {
     all: () => {
       this.regist.shop();
       this.regist.map();
       this.regist.alarm();
+      this.regist.heatmap();
+    },
+    heatmap: () => {
+      if (this.heatmapload) {
+        let sub = this.heatmapload.subscribe((data) => {
+          this.controller.heatmap.load(data);
+        });
+        this.subscription.add(sub);
+      }
     },
     alarm: () => {
       this.controller.alarm.event.video.subscribe((data) => {

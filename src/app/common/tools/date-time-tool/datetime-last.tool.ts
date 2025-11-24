@@ -1,6 +1,31 @@
+import { TimeUnit } from './date-time-tool.model';
 import { DateTimeTool } from './datetime.tool';
 
 export class DateTimeLastTool {
+  unit(
+    date: Date,
+    unit: TimeUnit,
+    opts?: {
+      day?: number;
+      week?: number;
+    }
+  ) {
+    switch (unit) {
+      case TimeUnit.day:
+        if (!opts || !opts.day) {
+          throw new Error('last day no options');
+        }
+        return this.day(date, opts.day);
+      case TimeUnit.week:
+        return this.week(date, opts?.week);
+      case TimeUnit.month:
+        return this.month(date);
+      case TimeUnit.year:
+        return this.year(date);
+      default:
+        throw new Error("last unit don't support");
+    }
+  }
   is(date: Date) {
     let next = new Date(
       date.getFullYear(),

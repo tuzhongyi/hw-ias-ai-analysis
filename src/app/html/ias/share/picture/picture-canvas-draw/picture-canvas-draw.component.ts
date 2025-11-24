@@ -164,7 +164,6 @@ export class PictureCanvasDrawComponent implements OnChanges, OnInit {
     canvas: (e: HTMLCanvasElement) => {
       this.size.width = e.width;
       this.size.height = e.height;
-      console.log(this.size);
       this.canvas.set(e);
       this.regist(e);
       let context = e.getContext('2d') as CanvasRenderingContext2D;

@@ -30,11 +30,12 @@ export class AMapHelper {
 
   async get(
     id: string,
-    plugins = this.plugins,
+    plugins: string[] = [],
     loca = false,
     opts: any = {}
   ): Promise<AMap.Map> {
-    return this.init(plugins, loca).then((AMap) => {
+    let plugs = [...this.plugins, ...plugins];
+    return this.init(plugs, loca).then((AMap) => {
       return new AMap.Map(id, {
         mapStyle: this.style,
         resizeEnable: true,

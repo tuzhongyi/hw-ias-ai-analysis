@@ -1,5 +1,7 @@
 import { instanceToPlain } from 'class-transformer';
 import { UploadControlFile } from '../../../../../components/upload-control/upload-control.model';
+import { Cache } from '../../../../cache/cache';
+import { AbstractService } from '../../../../cache/cache.interface';
 import { EventUploadContent } from '../../../../models/arm/event/event-upload-content.model';
 import { MobileDevice } from '../../../../models/arm/mobile-device/mobile-device.model';
 import { PagedList } from '../../../../models/page-list.model';
@@ -7,10 +9,14 @@ import { HowellResponse } from '../../../../models/response';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
+import { SystemMobileDeviceRouteRequestService } from './route/system-mobile-device-route.service';
 import { GetMobileDevicesParams } from './system-mobile-device.params';
 
-export class SystemMobileDeviceRequestService {
-  constructor(private http: HowellHttpClient) {}
+@Cache(ArmSystemUrl.mobile.device.basic(), MobileDevice)
+export class SystemMobileDeviceRequestService extends AbstractService<MobileDevice> {
+  constructor(private http: HowellHttpClient) {
+    super();
+  }
 
   event = {
     upload: (key: string) => {
@@ -101,4 +107,12 @@ export class SystemMobileDeviceRequestService {
         });
     },
   };
+
+  private _route?: SystemMobileDeviceRouteRequestService;
+  public get route(): SystemMobileDeviceRouteRequestService {
+    if (!this._route) {
+      this._route = new SystemMobileDeviceRouteRequestService(this.http);
+    }
+    return this._route;
+  }
 }

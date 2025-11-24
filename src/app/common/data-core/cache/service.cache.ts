@@ -1,5 +1,6 @@
 import { ClassConstructor } from 'class-transformer';
 
+import { wait } from '../../tools/wait';
 import { IIdModel } from '../models/model.interface';
 import { PagedList } from '../models/page-list.model';
 import { IParams, PagedParams } from '../models/params.interface';
@@ -21,7 +22,8 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
     protected key: string,
     protected service: IService<T>,
     protected type?: ClassConstructor<T>,
-    protected timeout = 1000 * 60 * 30
+    protected timeout = 1000 * 60 * 30,
+    private init = true
   ) {
     try {
       // console.log(key);
@@ -36,82 +38,116 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
     }
     this.cache = new AppCache(timeout);
   }
-
   filter(datas: T[], args: IParams): T[] {
     return datas;
   }
 
-  private async load(params = new PagedParams()) {
-    this.loading = true;
-    try {
-      let data: T[] = [];
-      let index = 1;
-      let paged: PagedList<T>;
-      do {
-        params.PageIndex = index;
-        paged = await this.service.list(params);
-        data = data.concat(paged.Data);
-        index++;
-      } while (index <= paged.Page.PageCount);
-
-      return data;
-    } finally {
-      this.loading = false;
-    }
+  load() {
+    return this.cache.get(this.key) as T[] | undefined;
+  }
+  save(data: T[]) {
+    this.cache.set(this.key, data, this.timeout);
+  }
+  clear() {
+    this.loading = false;
+    this.cache.del(this.key);
   }
 
-  protected _cache = {
-    load: () => {
-      return this.cache.get(this.key) as T[] | undefined;
-    },
-    save: (data: T[]) => {
-      this.cache.set(this.key, data, this.timeout);
-    },
-    clear: () => {
-      this.loading = false;
-      this.cache.del(this.key);
-    },
-  };
-
-  wait() {
+  all(...args: any): Promise<T[]> {
     return new Promise<T[]>((resolve) => {
-      let datas = this._cache.load();
-      if (datas) {
-        resolve(datas);
-        return;
-      }
-      this.load(new PagedParams()).then((datas) => {
-        this._cache.save(datas);
+      wait(() => {
+        return this.loading === false;
+      })
+        .then(() => {
+          let datas = this.load();
+          if (datas && datas.length > 0) {
+            resolve(datas);
+          } else {
+            this.loading = true;
+            this.service
+              .all()
+              .then((datas) => {
+                this.save([...datas]);
+                resolve(datas);
+              })
+              .finally(() => {
+                this.loading = false;
+              });
+          }
+        })
+        .catch(() => {
+          console.error('ServiceCache all wait error');
+        });
+    });
+  }
+
+  paged(params: PagedParams): Promise<PagedList<T>> {
+    return new Promise<PagedList<T>>((resolve) => {
+      this.array(params).then((datas) => {
+        let paged = this.getPaged(datas, params);
+        resolve(paged);
+      });
+    });
+  }
+
+  async array(params: IParams): Promise<T[]> {
+    return new Promise<T[]>((resolve) => {
+      this.all().then((datas) => {
+        datas = this.filter(datas, params);
         resolve(datas);
       });
     });
   }
 
-  async list(params: PagedParams = new PagedParams()): Promise<PagedList<T>> {
-    return this.wait().then((datas) => {
-      datas = this.filter(datas, params);
-      return PagedList.create(datas, params.PageIndex, params.PageSize);
-    });
-  }
-
-  async array(params: IParams): Promise<T[]> {
-    return this.wait().then((datas) => {
-      let result = this.filter(datas, params);
-      return result;
-    });
-  }
-
   async get(id: string): Promise<T> {
-    return this.wait().then((x) => {
-      let data = x.find((x) => x.Id == id);
-      if (data) {
-        return data;
-      }
-      throw new Error('not found');
+    return new Promise<T>((resolve) => {
+      this.all().then((datas) => {
+        let index = datas.findIndex((x) => x.Id == id);
+        if (index < 0) {
+          this.loading = true;
+          this.service
+            .get(id)
+            .then((data) => {
+              datas.push(data);
+              this.save(datas);
+              resolve(data);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        } else {
+          resolve(datas[index]);
+        }
+      });
     });
   }
 
-  clear() {
-    this._cache.clear();
+  protected getPaged(datas: T[], params?: PagedParams): PagedList<T> {
+    let index = 1;
+    let size = 999;
+    if (params) {
+      if (params.PageIndex) {
+        index = params.PageIndex;
+      }
+      if (params.PageSize) {
+        size = params.PageSize;
+      }
+    }
+    let count = datas.length;
+
+    let start = (index - 1) * size;
+    let paged = datas.splice(start, size);
+
+    let page = {
+      PageIndex: index,
+      PageSize: size,
+      PageCount: Math.ceil(count / size),
+      RecordCount: paged.length,
+      TotalRecordCount: count,
+    };
+    return {
+      Page: page,
+      Data: paged,
+    };
   }
 }

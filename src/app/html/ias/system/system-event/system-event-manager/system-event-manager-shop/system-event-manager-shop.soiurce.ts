@@ -5,7 +5,7 @@ import { SourceManager } from '../../../../../../common/data-core/requests/manag
 
 @Injectable()
 export class SystemEventManagerShopSource {
-  type: EnumNameValue<number>[];
+  type: Promise<EnumNameValue<number>[]>;
   state: EnumNameValue<number>[];
   task: AnalysisTask[] = [];
 
@@ -22,7 +22,7 @@ export class SystemEventManagerShopSource {
         { Name: '屏蔽或误报', Value: 3 },
       ];
     },
-    type: () => {
+    type: async () => {
       return [
         { Name: '店铺装修', Value: 7 },
         { Name: '店招消失', Value: 8 },

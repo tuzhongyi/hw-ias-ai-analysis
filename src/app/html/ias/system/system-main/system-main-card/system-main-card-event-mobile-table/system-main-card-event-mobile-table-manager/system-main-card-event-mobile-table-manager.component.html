@@ -1,0 +1,15 @@
+<ias-system-main-card-container [title]="title">
+  <!-- <div
+    ngProjectAs="system-main-card-container-operation"
+    class="system-main-card-container-operation"
+  >
+    近20条
+  </div> -->
+  <div class="system-main-card-event-mobile-table-manager">
+    <ias-system-main-card-event-mobile-table
+      [datas]="records"
+      (details)="on.details($event)"
+      (position)="on.position($event)"
+    ></ias-system-main-card-event-mobile-table>
+  </div>
+</ias-system-main-card-container>

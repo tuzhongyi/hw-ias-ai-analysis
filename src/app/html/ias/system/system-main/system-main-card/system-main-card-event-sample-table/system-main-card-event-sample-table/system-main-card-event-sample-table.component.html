@@ -1,0 +1,64 @@
+<div class="system-main-card-event-sample-table">
+  <div class="system-main-card-event-sample-table-body table-split">
+    <div class="table-split-head">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>事件时间</th>
+            <th>事件类型</th>
+            <th>状态</th>
+            <th class="center">操作</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            [ngClass]="{
+              selected: selected == item
+            }"
+            (click)="on.select(item)"
+            (dblclick)="on.position(item)"
+          >
+            <td>
+              {{ item.Time | date : "HH:mm:ss" }}
+            </td>
+            <td [title]="item.Address ?? ''">
+              {{ item.Address }}
+            </td>
+            <td>
+              @if(!item.Confirmed){
+              <span [style.color]="Color.orange">未确认</span>
+              } @else{ @if(item.IsAlarmRecord){
+              <span [style.color]="Color.cyan">报警</span>
+              } @else{ 已确认 } }
+            </td>
+            <td class="center">
+              <div class="operation">
+                <div class="button" title="详细信息" (click)="on.details(item)">
+                  <i class="mdi mdi-file-document"></i>
+                </div>
+                <div
+                  class="button"
+                  title="事件发生位置"
+                  (click)="on.position(item)"
+                >
+                  <i class="mdi mdi-map-marker"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<ias-system-main-card-container [title]="title">
+  <div
+    ngProjectAs="system-main-card-container-operation"
+    class="system-main-card-container-operation"
+  >
+    <select class="noborder" [(ngModel)]="unit.value" (change)="unit.change()">
+      <option [ngValue]="unit.Type.week">本周</option>
+      <option [ngValue]="unit.Type.month">本月</option>
+    </select>
+  </div>
+  <div class="system-main-card-event-chart-line-realtime">
+    <ias-system-main-card-event-chart-line-container
+      [datas]="chart.datas"
+      [xAxis]="chart.axis.x"
+      [interval]="chart.interval"
+    ></ias-system-main-card-event-chart-line-container>
+  </div>
+</ias-system-main-card-container>

@@ -20,7 +20,11 @@ export class SystemMainMapShopController {
     click: new EventEmitter<IShop>(),
     dblclick: new EventEmitter<IShop>(),
   };
+
+  private datas?: IShop[];
+
   load(datas: IShop[]) {
+    this.datas = datas;
     this.amap.shop.point.get().then((x) => {
       x.load(datas);
     });
@@ -34,6 +38,16 @@ export class SystemMainMapShopController {
     let marker = await this.amap.shop.marker.get();
     marker.clear();
   }
+  reload() {
+    if (this.datas) {
+      this.load(this.datas);
+    }
+  }
+  destory() {
+    this.datas = undefined;
+    this.clear();
+  }
+
   async focus(data: IShop) {
     if (data.Location) {
       let position: [number, number] = [

@@ -8,6 +8,7 @@ import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
 import { SystemEventHandleRequestService } from './handle/system-event-handle.service';
+import { SystemEventNumberRequestService } from './number/system-event-number.service';
 import {
   GetMobileEventFileGpsItemsParams,
   GetMobileEventFileParams,
@@ -72,6 +73,13 @@ export class SystemEventRequestService {
       this._handle = new SystemEventHandleRequestService(this.http);
     }
     return this._handle;
+  }
+  private _number?: SystemEventNumberRequestService;
+  public get number(): SystemEventNumberRequestService {
+    if (!this._number) {
+      this._number = new SystemEventNumberRequestService(this.http);
+    }
+    return this._number;
   }
 
   record = {

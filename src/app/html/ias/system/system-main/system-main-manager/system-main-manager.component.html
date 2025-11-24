@@ -1,4 +1,4 @@
-<div class="system-main-manager">
+<div class="system-main-manager root-route">
   <ias-system-main-map
     [over]="map.over"
     [out]="map.out"
@@ -6,62 +6,109 @@
     [moveto]="map.moveto"
     (itemclick)="map.on.select($event)"
     (itemdblclick)="map.on.details($event)"
-    [shops]="shop.datas"
-    [devices]="device.datas"
-    [alarms]="realtime.datas"
+    [shops]="map.data.shop"
+    [devices]="map.data.device"
+    [alarms]="map.data.realtime"
+    [samples]="map.data.sample"
     (alarmvideo)="alarm.on.video($event)"
     (alarmpicture)="picture.open($event)"
+    [heatmapload]="map.heatmap.load"
+    [shopdisplay]="map.display.shop"
+    [devicedisplay]="map.display.device"
+    [alarmdisplay]="map.display.alarm"
+    [sampledisplay]="map.display.sample"
+    [heatmapdisplay]="map.display.heatmap"
   ></ias-system-main-map>
 
-  <div class="system-main-manager-card-list left">
+  <div
+    class="system-main-manager-heatmap-filter panel-map"
+    *ngIf="panel.navigation.index == Navigation.heatmap"
+  >
+    <ias-system-main-map-heatmap-filter
+      (loaded)="map.on.heatmap($event)"
+    ></ias-system-main-map-heatmap-filter>
+  </div>
+
+  <div
+    class="system-main-manager-card-list left"
+    *ngIf="panel.navigation.index != Navigation.heatmap"
+  >
     <div class="system-main-manager-card-item">
-      <ias-system-main-card-event-statistic
+      <ias-system-main-card-statistic-number
+        *ngIf="card.statistic.number.show"
         [load]="load"
-        [(duration)]="card.event.statistic.duration"
-        (itemclick)="card.event.statistic.on.item($event)"
-      ></ias-system-main-card-event-statistic>
+      ></ias-system-main-card-statistic-number>
     </div>
     <div class="system-main-manager-card-item">
       <ias-system-main-card-shop-statistic
+        *ngIf="card.shop.statistic.show"
         [load]="load"
       ></ias-system-main-card-shop-statistic>
-    </div>
-    <div class="system-main-manager-card-item">
-      <ias-system-main-card-event-realtime-statistic
-        [load]="load"
-        (type)="card.event.realtime.statistic.on.type($event)"
-        [(duration)]="card.event.realtime.statistic.duration"
-      ></ias-system-main-card-event-realtime-statistic>
-    </div>
-  </div>
-  <div class="system-main-manager-card-list right">
-    <div class="system-main-manager-card-item">
       <ias-system-main-card-device-state
+        *ngIf="card.device.state.show"
         [load]="load"
       ></ias-system-main-card-device-state>
     </div>
     <div class="system-main-manager-card-item">
-      <ias-system-main-card-task-statistic
+      <ias-system-main-card-statistic-event
+        *ngIf="card.statistic.pie.show"
         [load]="load"
-      ></ias-system-main-card-task-statistic>
-    </div>
-    <div class="system-main-manager-card-item">
-      <ias-system-main-card-event-realtime-table-manager
+      >
+      </ias-system-main-card-statistic-event>
+      <ias-system-main-card-statistic-event-shop
+        *ngIf="card.shop.pie.show"
         [load]="load"
-        (loaded)="realtime.on.loaded($event)"
-        (position)="realtime.on.position($event)"
-        (details)="realtime.on.details($event)"
-      ></ias-system-main-card-event-realtime-table-manager>
+      >
+      </ias-system-main-card-statistic-event-shop>
+      <ias-system-main-card-event-realtime-statistic
+        *ngIf="card.realtime.pie.show"
+        [load]="load"
+      ></ias-system-main-card-event-realtime-statistic>
+      <ias-system-main-card-device-route-statistic
+        *ngIf="card.device.route.show"
+        [load]="load"
+      >
+      </ias-system-main-card-device-route-statistic>
     </div>
   </div>
-  <div class="system-main-manager-controls">
-    <ias-system-main-panel-controls
-      [(listclicked)]="panel.button.list.clicked"
-    ></ias-system-main-panel-controls>
+  <div
+    class="system-main-manager-card-list right"
+    *ngIf="panel.navigation.index != Navigation.heatmap"
+  >
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-statistic-number-division-list [load]="load">
+      </ias-system-main-card-statistic-number-division-list>
+    </div>
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-event-chart-line-realtime
+        *ngIf="card.realtime.line.show"
+        [load]="load"
+      ></ias-system-main-card-event-chart-line-realtime>
+      <ias-system-main-card-event-chart-line-shop
+        *ngIf="card.shop.line.show"
+        [load]="load"
+      ></ias-system-main-card-event-chart-line-shop>
+      <ias-system-main-card-event-chart-line-sample
+        *ngIf="card.gpstask.line.show"
+        [load]="load"
+      >
+      </ias-system-main-card-event-chart-line-sample>
+    </div>
+    <div class="system-main-manager-card-item">
+      <ias-system-main-card-event-table
+        [mode]="card.statistic.table.mode"
+        [modeable]="card.statistic.table.modeable"
+        [shops]="shop.data.record"
+        [realtimes]="realtime.datas"
+        [samples]="gps.task.datas"
+        (position)="card.statistic.table.on.position($event)"
+        (details)="card.statistic.table.on.details($event)"
+      ></ias-system-main-card-event-table>
+    </div>
   </div>
   <div class="system-main-manager-panel-list" *ngIf="panel.list.show">
     <ias-system-main-panel-shop-registration-table-manager
-      [datas]="shop.datas"
+      [datas]="shop.data.registration"
       [(selected)]="shop.selected"
       (details)="table.on.details($event)"
       (position)="table.on.position($event)"
@@ -81,6 +128,12 @@
       (picture)="panel.details.on.picture($event)"
       (close)="panel.details.show = false"
     ></ias-system-map-panel-details-shop-registration>
+  </div>
+  <div class="system-main-manager-navigation">
+    <ias-system-main-map-navigation
+      [index]="panel.navigation.index"
+      (indexChange)="panel.navigation.change($event)"
+    ></ias-system-main-map-navigation>
   </div>
 </div>
 <!--  ias-system-event-process-realtime  -->

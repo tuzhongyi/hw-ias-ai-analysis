@@ -10,10 +10,14 @@ import { IASMapAMapPointLayerController } from '../../../../../share/map/control
 import { IASMapAMapRoadController } from '../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 import { SystemMainMapAMapDeviceMarkerLayerController } from './device/system-main-map-amap-device-marker-layer.controller';
 
+import { GpsTaskSampleRecord } from '../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { Paged } from '../../../../../../../common/data-core/models/page-list.model';
 import { SystemMainMapAMapAlarmInfoController } from './alarm/system-main-map-amap-alarm-info.controller';
 import { SystemMainMapAMapAlarmMarkerLayerController } from './alarm/system-main-map-amap-alarm-marker-layer.controller';
 import { SystemMainMapAMapAlarmScatterController } from './alarm/system-main-map-amap-alarm-scatter.controller';
+import { SystemMainMapAMapHeatmapController } from './heatmap/system-main-map-amap-heatmap.controller';
+import { SystemMainMapAMapSampleInfoController } from './sample/system-main-map-amap-sample-info.controller';
+import { SystemMainMapAMapSampleMarkerLayerController } from './sample/system-main-map-amap-sample-marker-layer.controller';
 import { SystemMainMapAMapShopMarkerLayerController } from './shop/system-main-map-amap-shop-marker-layer.controller';
 
 export class SystemMainMapAMapController {
@@ -29,6 +33,12 @@ export class SystemMainMapAMapController {
   get alarm() {
     return this.controller.alarm;
   }
+  get sample() {
+    return this.controller.sample;
+  }
+  get heatmap() {
+    return this.controller.heatmap;
+  }
   map = new PromiseValue<AMap.Map>();
   event = {
     shop: {
@@ -39,11 +49,15 @@ export class SystemMainMapAMapController {
       video: new EventEmitter<MobileEventRecord>(),
       picture: new EventEmitter<Paged<MobileEventRecord>>(),
     },
+    sample: {
+      video: new EventEmitter<GpsTaskSampleRecord>(),
+      picture: new EventEmitter<Paged<GpsTaskSampleRecord>>(),
+    },
   };
 
   constructor(private tool: ComponentTool) {
     MapHelper.amap
-      .get('system-main-map-container', undefined, true, {
+      .get('system-main-map-container', [], true, {
         viewMode: '3D',
       })
       .then((map) => {
@@ -53,6 +67,7 @@ export class SystemMainMapAMapController {
         this.loca.set(container);
 
         this.init.road(map);
+        this.init.heatmap(container);
 
         let info = this.init.info(map);
 
@@ -81,9 +96,14 @@ export class SystemMainMapAMapController {
       scatter: new PromiseValue<SystemMainMapAMapAlarmScatterController>(),
       marker: new PromiseValue<SystemMainMapAMapAlarmMarkerLayerController>(),
     },
+    sample: {
+      info: new PromiseValue<SystemMainMapAMapSampleInfoController>(),
+      marker: new PromiseValue<SystemMainMapAMapSampleMarkerLayerController>(),
+    },
 
     road: new PromiseValue<IASMapAMapRoadController>(),
     info: new PromiseValue<IASMapAMapInfoController>(),
+    heatmap: new PromiseValue<SystemMainMapAMapHeatmapController>(),
   };
 
   private init = {
@@ -152,6 +172,10 @@ export class SystemMainMapAMapController {
       let ctr = new IASMapAMapInfoController(map);
       this.controller.info.set(ctr);
       return ctr;
+    },
+    heatmap: (loca: Loca.Container) => {
+      let ctr = new SystemMainMapAMapHeatmapController(loca);
+      this.controller.heatmap.set(ctr);
     },
   };
   private regist = {

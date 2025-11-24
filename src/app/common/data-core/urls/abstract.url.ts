@@ -1,7 +1,10 @@
 export abstract class AbstractUrl {
-  constructor(protected base: string) {}
+  constructor(base: string) {
+    this._basic = base;
+  }
+  private _basic: string;
   basic(): string {
-    return this.base;
+    return this._basic;
   }
   item<T = string>(id: T) {
     return `${this.basic()}/${id}`;

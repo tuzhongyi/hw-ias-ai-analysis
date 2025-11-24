@@ -3,8 +3,9 @@ import { SystemMainMapAMapController } from './amap/system-main-map-amap.control
 
 export class SystemMainMapDeviceController {
   constructor(private amap: SystemMainMapAMapController) {}
-
+  private datas?: MobileDevice[];
   load(datas: MobileDevice[]) {
+    this.datas = datas;
     this.amap.device.marker.get().then((ctr) => {
       ctr.load(datas);
     });
@@ -12,6 +13,15 @@ export class SystemMainMapDeviceController {
   async clear() {
     let marker = await this.amap.device.marker.get();
     marker.clear();
+  }
+  reload() {
+    if (this.datas) {
+      this.load(this.datas);
+    }
+  }
+  destory() {
+    this.datas = undefined;
+    this.clear();
   }
   async focus(data: MobileDevice) {
     if (data.Location) {

@@ -11,7 +11,6 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
   constructor(map: AMap.Map, private info: IASMapAMapInfoController) {
     this.layer = this.init(map);
   }
-
   private layer: AMap.LabelsLayer;
   private points: SystemMainMapAMapDeviceMarkerController[] = [];
 

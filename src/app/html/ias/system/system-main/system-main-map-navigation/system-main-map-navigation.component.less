@@ -1,0 +1,97 @@
+.system-main-map-navigation {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: url(../../../../../../assets/image/main/nav/main-nav-bg.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center center;
+  padding: 10px 200px;
+  box-sizing: border-box;
+
+  &-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+    &-icon {
+      height: 100%;
+      width: 100%;
+
+      border: 1px solid #69adff;
+      box-sizing: border-box;
+
+      background-repeat: no-repeat;
+      background-size: 70% 70%;
+      background-position: center center;
+
+
+      &-border {
+        padding: 3px;
+        border: 1px solid rgb(45, 118, 206, 0.2);
+        box-sizing: border-box;
+        height: 100%;
+        aspect-ratio: 1;
+      }
+
+
+      &-background {
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba(45, 118, 206, 0.2), rgba(19, 34, 77, 0.2));
+      }
+
+      &.shop {
+        background-image: url(../../../../../../assets/image/main/nav/main-nav-shop.png);
+      }
+
+      &.realtime {
+        background-image: url(../../../../../../assets/image/main/nav/main-nav-street.png);
+      }
+
+      &.main {
+        background-image: url(../../../../../../assets/image/main/nav/main-nav-home.png);
+      }
+
+      &.heatmap {
+        background-image: url(../../../../../../assets/image/main/nav/main-nav-heatmap.png);
+      }
+
+      &.gpstask {
+        background-image: url(../../../../../../assets/image/main/nav/main-nav-gps.png);
+      }
+    }
+
+    &-name {
+      height: 100%;
+      color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:hover &-icon-background {
+      background: linear-gradient(to bottom, rgba(45, 118, 206, 0.5), rgba(19, 34, 77, 0.5));
+    }
+
+    &:hover &-name {
+      background: linear-gradient(to right, transparent, rgba(45, 118, 206, 0.3), transparent);
+      color: white;
+    }
+
+
+    &.selected &-icon-background {
+      background: linear-gradient(to bottom, rgba(45, 118, 206, 0.8), rgba(19, 34, 77, 0.8));
+    }
+
+    &.selected &-name {
+      background: linear-gradient(to right, transparent, rgba(45, 118, 206, 0.6), transparent);
+      color: white;
+    }
+  }
+}

@@ -33,4 +33,29 @@ export class GeoPointConvertTool {
       },
     },
   };
+
+  json = {
+    points: <T>(datas: [number, number][], source?: T[]) => {
+      let geo: any = {
+        type: 'FeatureCollection',
+        features: datas.map((x, i) =>
+          this.json.point(x, source ? source[i] : undefined)
+        ),
+      };
+
+      return geo;
+    },
+    point: <T>(data: [number, number], source?: T) => {
+      let geo = {
+        type: 'Feature',
+        properties: source,
+        geometry: {
+          type: 'Point',
+          coordinates: [...data],
+        },
+      };
+      return geo;
+    },
+    line: () => {},
+  };
 }

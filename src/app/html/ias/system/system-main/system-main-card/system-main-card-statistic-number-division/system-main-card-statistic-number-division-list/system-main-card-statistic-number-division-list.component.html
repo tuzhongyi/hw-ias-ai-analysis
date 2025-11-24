@@ -1,0 +1,24 @@
+<ias-system-main-card-container [title]="title">
+  <div
+    ngProjectAs="system-main-card-container-operation"
+    class="system-main-card-container-operation"
+  >
+    <select class="noborder" [(ngModel)]="unit.value" (change)="unit.change()">
+      <option [ngValue]="unit.Type.day">今日</option>
+      <option [ngValue]="unit.Type.week">本周</option>
+      <option [ngValue]="unit.Type.month">本月</option>
+      <option [ngValue]="unit.Type.year">今年</option>
+    </select>
+  </div>
+  <div class="system-main-card-statistic-number-division-list">
+    <div
+      class="system-main-card-statistic-number-division-item"
+      *ngFor="let item of datas | keyvalue"
+    >
+      <ias-system-main-card-statistic-number-division-item
+        [title]="item.key.Name"
+        [datas]="item.value"
+      ></ias-system-main-card-statistic-number-division-item>
+    </div>
+  </div>
+</ias-system-main-card-container>

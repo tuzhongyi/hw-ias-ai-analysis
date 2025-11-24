@@ -7,6 +7,20 @@ import { Paged } from '../../../../../common/data-core/models/page-list.model';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
 import { TaskCompareType } from '../system-map-task/system-map-task-manager/system-map-task-manager.model';
 
+import { CommonModule } from '@angular/common';
+import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
+import { WindowComponent } from '../../../share/window/window.component';
+import { SystemMapControlsComponent } from '../system-map-controls/system-map-controls.component';
+import { SystemMapEditorCircleComponent } from '../system-map-editor-circle/system-map-editor-circle.component';
+import { SystemMapFilterComponent } from '../system-map-filter/system-map-filter.component';
+import { SystemMapPanelDetailsShopSignComponent } from '../system-map-panel-details-shop-sign/system-map-panel-details-shop-sign.component';
+import { SystemMapPanelDetailsShopComponent } from '../system-map-panel-details-shop/system-map-panel-details-shop.component';
+import { SystemMapSearchComponent } from '../system-map-search/system-map-search.component';
+import { SystemMapSettingCompareComponent } from '../system-map-settings/system-map-setting-compare/system-map-setting-compare.component';
+import { SystemMapSourceManagerComponent } from '../system-map-source-manager/system-map-source-manager.component';
+import { SystemMapStateComponent } from '../system-map-state/system-map-state.component';
+import { SystemMapStatisticComponent } from '../system-map-statistic/system-map-statistic.component';
+import { SystemMapTaskManagerComponent } from '../system-map-task/system-map-task-manager/system-map-task-manager.component';
 import { SystemMapRoadArgs } from './business/road/system-map-road.model';
 import { SystemMapShopArgs } from './business/shop/system-map-shop.model';
 import { SystemMapBusiness } from './business/system-map.business';
@@ -16,7 +30,6 @@ import {
   SystemMapSource,
 } from './controller/source/system-map.source';
 import { SystemMapController } from './controller/system-map.controller';
-import { SystemMapImports } from './system-map.import';
 import {
   SystemMapArgs,
   SystemMapDistanceArgs,
@@ -28,7 +41,22 @@ import { SystemMapTrigger } from './trigger/system-map.trigger';
 @Component({
   selector: 'ias-system-map',
   imports: [
-    ...SystemMapImports,
+    CommonModule,
+    SystemMapStateComponent,
+    SystemMapSearchComponent,
+    SystemMapFilterComponent,
+    SystemMapControlsComponent,
+    SystemMapEditorCircleComponent,
+    SystemMapStatisticComponent,
+    SystemMapPanelDetailsShopRegistrationComponent,
+    SystemMapPanelDetailsShopComponent,
+    WindowComponent,
+    PictureListComponent,
+    SystemMapSourceManagerComponent,
+    SystemMapTaskManagerComponent,
+    SystemMapPanelDetailsShopSignComponent,
+
+    SystemMapSettingCompareComponent,
     SystemMapPanelDetailsShopRegistrationComponent,
   ],
   templateUrl: './system-map.component.html',
@@ -150,7 +178,6 @@ export class SystemMapComponent implements OnInit, OnDestroy {
         let shops = this.source.shop.filter((shop) => {
           return states.includes(shop.ObjectState);
         });
-        console.log(states);
         this.amap.shop.load(shops);
       });
       this.panel.details.analysis.sign.select.subscribe((x) => {

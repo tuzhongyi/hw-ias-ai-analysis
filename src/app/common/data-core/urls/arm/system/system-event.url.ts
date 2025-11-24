@@ -4,6 +4,7 @@ import {
 } from '../../../requests/services/system/event/system-event.params';
 import { AbstractUrl } from '../../abstract.url';
 import { SystemEventHandleUrl } from './system-event-handle.url';
+import { SystemEventNumberUrl } from './system-event-number.url';
 
 export class SystemEventUrl extends AbstractUrl {
   constructor(base: string) {
@@ -39,5 +40,8 @@ export class SystemEventUrl extends AbstractUrl {
 
   handle(id: string) {
     return new SystemEventHandleUrl(this.item(id));
+  }
+  number() {
+    return new SystemEventNumberUrl(this.basic());
   }
 }

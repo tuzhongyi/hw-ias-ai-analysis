@@ -1,4 +1,8 @@
-import { PagedParams } from '../../../../models/params.interface';
+import {
+  DurationParams,
+  PagedDurationParams,
+  PagedParams,
+} from '../../../../models/params.interface';
 
 export class GetMobileDevicesParams extends PagedParams {
   /**	String[]	设备ID列表	O	*/
@@ -19,4 +23,17 @@ export class GetMobileDevicesParams extends PagedParams {
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/
   Desc?: string;
+}
+
+export class GetMobileDeviceRoutesParams extends PagedDurationParams {
+  /**	String	设备ID	M	*/
+  MobileDeviceId!: string;
+  /**	String[]	道路ID	O	*/
+  RoadIds?: string[];
+}
+export class GetMobileDeviceRoutesStatisticParams extends DurationParams {
+  /**	Double	运动时长最小速度，默认3.6，单位：km/h	O	*/
+  MinSpeed?: number;
+  /**	String	设备ID	M	*/
+  MobileDeviceId!: string;
 }

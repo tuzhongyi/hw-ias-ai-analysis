@@ -18,6 +18,12 @@ export class ShopRegistrationCache extends ServiceCache<ShopRegistration> {
         return params.Ids!.includes(x.Id);
       });
     }
+    if (params.ObjectStates && params.ObjectStates.length > 0) {
+      datas = datas.filter((x) => {
+        if (x.ObjectState === undefined) return false;
+        return params.ObjectStates!.includes(x.ObjectState);
+      });
+    }
     if (params.Name) {
       datas = datas.filter((x) => {
         return (x.Name ?? '')

@@ -14,7 +14,11 @@
     <div class="system-main-card-shop-statistic-content">
       <div class="system-main-card-shop-statistic-item cyan">
         <div class="system-main-card-shop-statistic-item-value">
-          {{ data?.ShopRegistrationCount ?? 0 }}
+          @if(data){
+          {{ data.ShopRegistrationCount }}
+          } @else{
+          {{ count }}
+          }
         </div>
         <div class="system-main-card-shop-statistic-item-name">全部商铺</div>
       </div>

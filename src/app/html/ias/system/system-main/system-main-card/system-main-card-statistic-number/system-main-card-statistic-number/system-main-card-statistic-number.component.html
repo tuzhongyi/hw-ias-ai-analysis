@@ -1,0 +1,9 @@
+<ias-system-main-card-container [title]="title">
+  <div class="system-main-card-statistic-number">
+    <ias-system-main-card-statistic-number-item
+      *ngFor="let item of datas"
+      [data]="item"
+      (click)="on.item(item)"
+    ></ias-system-main-card-statistic-number-item>
+  </div>
+</ias-system-main-card-container>

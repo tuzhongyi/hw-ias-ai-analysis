@@ -21,6 +21,7 @@ export class SystemMainMapAMapAlarmMarkerLayerController {
       collision: false,
       allowCollision: false,
       zooms: [0, 50],
+      zIndex: 115,
     });
     map.add(layer);
     return layer;

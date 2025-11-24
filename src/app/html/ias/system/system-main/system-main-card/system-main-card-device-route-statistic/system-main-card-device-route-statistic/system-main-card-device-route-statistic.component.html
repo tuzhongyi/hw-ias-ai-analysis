@@ -1,0 +1,39 @@
+<ias-system-main-card-container [title]="title">
+  <div
+    ngProjectAs="system-main-card-container-operation"
+    class="system-main-card-container-operation"
+  >
+    <select class="noborder" [(ngModel)]="unit.value" (change)="unit.change()">
+      <option [ngValue]="unit.Type.day">今日</option>
+      <option [ngValue]="unit.Type.week">本周</option>
+      <option [ngValue]="unit.Type.month">本月</option>
+      <option [ngValue]="unit.Type.year">今年</option>
+    </select>
+  </div>
+  <div class="system-main-card-device-route-statistic">
+    <div class="system-main-card-device-route-statistic-chart">
+      <ias-system-main-card-device-route-statistic-chart
+        [datas]="datas"
+      ></ias-system-main-card-device-route-statistic-chart>
+    </div>
+    <div class="system-main-card-device-route-statistic-info">
+      <div
+        class="system-main-card-device-route-statistic-info-item"
+        *ngFor="let item of datas; let index = index"
+      >
+        <div
+          class="system-main-card-device-route-statistic-info-item-color"
+          [ngStyle]="{
+            backgroundColor: color[index],
+          }"
+        ></div>
+        <div class="system-main-card-device-route-statistic-info-item-name">
+          {{ item.name }}
+        </div>
+        <div class="system-main-card-device-route-statistic-info-item-value">
+          {{ Math.round(item.value / 1000) }}公里
+        </div>
+      </div>
+    </div>
+  </div>
+</ias-system-main-card-container>

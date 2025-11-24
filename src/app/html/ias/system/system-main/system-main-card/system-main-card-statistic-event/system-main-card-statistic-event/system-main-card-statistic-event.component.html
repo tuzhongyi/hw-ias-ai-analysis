@@ -1,0 +1,40 @@
+<ias-system-main-card-container [title]="title">
+  <div
+    ngProjectAs="system-main-card-container-operation"
+    class="system-main-card-container-operation"
+  >
+    <select class="noborder" [(ngModel)]="unit.value" (change)="unit.change()">
+      <option [ngValue]="unit.Type.day">今日</option>
+      <option [ngValue]="unit.Type.week">本周</option>
+      <option [ngValue]="unit.Type.month">本月</option>
+      <option [ngValue]="unit.Type.year">今年</option>
+    </select>
+  </div>
+  <div class="system-main-card-statistic-event">
+    <div class="system-main-card-statistic-event-chart">
+      <ias-system-main-card-statistic-event-chart
+        [datas]="datas"
+      ></ias-system-main-card-statistic-event-chart>
+    </div>
+    <div class="system-main-card-statistic-event-info">
+      <div
+        class="system-main-card-statistic-event-info-item"
+        *ngFor="let item of datas; let index = index"
+        (click)="on.click(item)"
+      >
+        <div
+          class="system-main-card-statistic-event-info-item-color"
+          [ngStyle]="{
+            backgroundColor: color[index],
+          }"
+        ></div>
+        <div class="system-main-card-statistic-event-info-item-name">
+          {{ item.name }}
+        </div>
+        <div class="system-main-card-statistic-event-info-item-value">
+          {{ item.value }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ias-system-main-card-container>

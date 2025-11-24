@@ -1,0 +1,23 @@
+<div class="system-main-card-statistic-number-division">
+  <div class="system-main-card-statistic-number-division-title">
+    {{ title }}
+  </div>
+  <div class="system-main-card-statistic-number-division-statistic">
+    <div
+      class="system-main-card-statistic-number-division-statistic-item"
+      *ngFor="let item of datas"
+      [title]="item.value.title"
+    >
+      <div
+        class="system-main-card-statistic-number-division-statistic-item-icon"
+      >
+        <i [class]="item.key"></i>
+      </div>
+      <div
+        class="system-main-card-statistic-number-division-statistic-item-value"
+      >
+        {{ item.value.number }}
+      </div>
+    </div>
+  </div>
+</div>

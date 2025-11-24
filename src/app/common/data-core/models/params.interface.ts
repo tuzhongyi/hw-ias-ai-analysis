@@ -17,3 +17,11 @@ export class PagedDurationParams extends PagedParams {
   @Transform(Transformer.DateTime)
   EndTime!: Date;
 }
+export class DurationParams {
+  /**	DateTime	开始时间	M */
+  @Transform(Transformer.DateTime)
+  BeginTime!: Date;
+  /**	DateTime	结束时间	M */
+  @Transform(Transformer.DateTime)
+  EndTime!: Date;
+}

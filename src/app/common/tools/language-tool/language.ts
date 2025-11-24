@@ -480,4 +480,15 @@ export class Language {
         return def;
     }
   }
+
+  static Meter(value: number = 0) {
+    if (value == 0) {
+      return '0米';
+    }
+    if (value > 1000) {
+      return (Math.round((value / 1000) * 100) / 100).toFixed(2) + '公里';
+    } else {
+      return value.toFixed(2) + '米';
+    }
+  }
 }

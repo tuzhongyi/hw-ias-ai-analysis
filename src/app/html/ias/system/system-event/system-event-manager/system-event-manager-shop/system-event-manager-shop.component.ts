@@ -115,7 +115,9 @@ export class SystemEventManagerShopComponent implements OnInit {
       });
     },
     table: () => {
-      this.table.args.types = this.source.type.map((x) => x.Value);
+      this.source.type.then((x) => {
+        this.table.args.types = x.map((x) => x.Value);
+      });
     },
   };
 

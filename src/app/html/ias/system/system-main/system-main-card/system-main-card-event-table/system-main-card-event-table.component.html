@@ -1,0 +1,33 @@
+<ias-system-main-card-container [title]="title">
+  <div
+    ngProjectAs="system-main-card-container-operation"
+    class="system-main-card-container-operation"
+    *ngIf="modeable"
+  >
+    <select class="noborder" [(ngModel)]="mode">
+      <option [ngValue]="Mode.shop">商铺更变</option>
+      <option [ngValue]="Mode.realtime">实时事件</option>
+      <option [ngValue]="Mode.gpstask">场景事件</option>
+    </select>
+  </div>
+  <div class="system-main-card-event-table">
+    <ias-system-main-card-event-mobile-table
+      *ngIf="mode === Mode.shop"
+      [datas]="shops"
+      (details)="on.details($event)"
+      (position)="on.position($event)"
+    ></ias-system-main-card-event-mobile-table>
+    <ias-system-main-card-event-mobile-table
+      *ngIf="mode === Mode.realtime"
+      [datas]="realtimes"
+      (details)="on.details($event)"
+      (position)="on.position($event)"
+    ></ias-system-main-card-event-mobile-table>
+    <ias-system-main-card-event-sample-table
+      *ngIf="mode === Mode.gpstask"
+      [datas]="samples"
+      (details)="on.details($event)"
+      (position)="on.position($event)"
+    ></ias-system-main-card-event-sample-table>
+  </div>
+</ias-system-main-card-container>

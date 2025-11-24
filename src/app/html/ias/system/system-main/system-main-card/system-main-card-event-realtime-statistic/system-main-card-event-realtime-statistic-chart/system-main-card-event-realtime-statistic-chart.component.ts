@@ -27,6 +27,7 @@ export class SystemMainCardEventRealtimeStatisticChartComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy
 {
   @Input() datas: ChartItem[] = [];
+  @Input() colors?: string[];
   @Input() option = SystemMainCardEventRealtimeStatisticChartOption;
   constructor() {
     super();
@@ -35,15 +36,17 @@ export class SystemMainCardEventRealtimeStatisticChartComponent
   element?: ElementRef;
   ngOnInit(): void {
     this.init();
+    this.load(this.datas, this.colors);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.change.datas(changes['datas']);
+    // this.change.datas(changes['datas']);
+    this.load(this.datas, this.colors);
   }
   private change = {
     datas: (simple: SimpleChange) => {
       if (simple && !simple.firstChange) {
-        this.load(this.datas);
+        this.load(this.datas, this.colors);
       }
     },
   };
@@ -63,23 +66,28 @@ export class SystemMainCardEventRealtimeStatisticChartComponent
     this.destroy();
   }
 
-  private set(datas: ChartItem[]) {
-    for (let i = 0; i < datas.length; i++) {
-      const item = datas[i];
-
-      let index = this.option.series[0].data.findIndex(
-        (x: ChartItem) => x.id === item.id
-      );
-      if (index >= 0) {
-        this.option.series[0].data[index] = item;
-        this.option.series[1].data[index] = item;
-      }
+  private set(datas: ChartItem[], colors?: string[]) {
+    if (colors && colors.length > 0) {
+      this.option.color = [...colors];
     }
+    this.option.series[0].data = [...datas];
+    this.option.series[1].data = [...datas];
+    // for (let i = 0; i < datas.length; i++) {
+    //   const item = datas[i];
+
+    //   let index = this.option.series[0].data.findIndex(
+    //     (x: ChartItem) => x.id === item.id
+    //   );
+    //   if (index >= 0) {
+    //     this.option.series[0].data[index] = item;
+    //     this.option.series[1].data[index] = item;
+    //   }
+    // }
   }
 
-  private load(data: ChartItem[]) {
+  private load(data: ChartItem[], colors?: string[]) {
     this.chart.get().then((chart) => {
-      this.set(data);
+      this.set(data, colors);
       chart.setOption(this.option);
     });
   }
