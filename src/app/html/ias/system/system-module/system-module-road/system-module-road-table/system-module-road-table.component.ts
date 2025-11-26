@@ -3,9 +3,12 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChange,
+  SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
@@ -19,7 +22,10 @@ import { SystemModuleRoadTableArgs } from './system-module-road-table.model';
   styleUrl: './system-module-road-table.component.less',
   providers: [SystemModuleRoadTableBusiness],
 })
-export class SystemModuleRoadTableComponent implements OnInit, OnDestroy {
+export class SystemModuleRoadTableComponent
+  implements OnInit, OnChanges, OnDestroy
+{
+  @Input() operable = true;
   @Input() args = new SystemModuleRoadTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleRoadTableArgs>;
   @Output() modify = new EventEmitter<Road>();
@@ -35,6 +41,19 @@ export class SystemModuleRoadTableComponent implements OnInit, OnDestroy {
 
   widths = ['65px', 'auto', 'auto', '100px'];
   private subscription = new Subscription();
+
+  private change = {
+    operable: (simple: SimpleChange) => {
+      if (simple) {
+        if (!this.operable) {
+          this.widths = ['65px', 'auto', 'auto', '0px'];
+        }
+      }
+    },
+  };
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.operable(changes['operable']);
+  }
 
   ngOnInit(): void {
     if (this._load) {

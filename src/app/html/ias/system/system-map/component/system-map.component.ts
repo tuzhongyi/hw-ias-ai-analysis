@@ -9,7 +9,7 @@ import { TaskCompareType } from '../system-map-task/system-map-task-manager/syst
 
 import { CommonModule } from '@angular/common';
 import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
-import { WindowComponent } from '../../../share/window/window.component';
+import { WindowComponent } from '../../../share/window/component/window.component';
 import { SystemMapControlsComponent } from '../system-map-controls/system-map-controls.component';
 import { SystemMapEditorCircleComponent } from '../system-map-editor-circle/system-map-editor-circle.component';
 import { SystemMapFilterComponent } from '../system-map-filter/system-map-filter.component';

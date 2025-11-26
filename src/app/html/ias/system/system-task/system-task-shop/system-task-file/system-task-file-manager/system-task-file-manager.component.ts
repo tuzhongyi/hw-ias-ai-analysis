@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { FileInfo } from '../../../../../../../common/data-core/models/arm/file/file-info.model';
-import { WindowComponent } from '../../../../../share/window/window.component';
+import { WindowComponent } from '../../../../../share/window/component/window.component';
 import { SystemTaskFileDetailsMultipleComponent } from '../system-task-file-details-multiple/system-task-file-details-multiple.component';
 import { SystemTaskFileDetailsComponent } from '../system-task-file-details/system-task-file-details.component';
 import { SystemTaskFileTableComponent } from '../system-task-file-table/system-task-file-table.component';

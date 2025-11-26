@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
@@ -33,6 +33,8 @@ import { SystemModuleRoadManagerWindow } from './window/system-module-road-manag
   ],
 })
 export class SystemModuleRoadManagerComponent implements OnInit {
+  @Input() iswindow = false;
+  @Input() operable = true;
   constructor(
     public controller: SystemModuleRoadManagerController,
     private business: SystemModuleRoadManagerBusiness,

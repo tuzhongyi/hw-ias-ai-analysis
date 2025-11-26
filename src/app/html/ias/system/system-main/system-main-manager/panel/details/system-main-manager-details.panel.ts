@@ -1,12 +1,15 @@
 import { ShopSign } from '../../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Paged } from '../../../../../../../common/data-core/models/page-list.model';
-import { SystemMainManagerWindow } from '../../window/system-main-manager.window';
+import { SystemMainManagerComponent } from '../../system-main-manager.component';
 
 export class SystemMainManagerPanelDetails {
   show = false;
 
-  constructor(private window: SystemMainManagerWindow) {}
+  constructor(private that: SystemMainManagerComponent) {}
+  private get window() {
+    return this.that.window;
+  }
 
   on = {
     picture: (item: Paged<ShopSign> | IShop) => {

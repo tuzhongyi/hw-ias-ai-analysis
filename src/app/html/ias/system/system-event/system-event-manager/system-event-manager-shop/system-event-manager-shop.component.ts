@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
@@ -15,12 +23,11 @@ import {
   Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
-import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { InputSelectTaskComponent } from '../../../../share/input-select-task/input-select-task.component';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../../../system-module/system-module-shop-registration/system-module-shop-registration-information/system-module-shop-registration-information.component';
 import { SystemTaskVideoComponent } from '../../../system-task/system-task-shop/system-task-video/system-task-video.component';
 import { SystemEventMapManagerComponent } from '../../system-event-map/system-event-map-manager/system-event-map-manager.component';
@@ -82,8 +89,8 @@ import { SystemEventManagerShopWindow } from './system-event-manager-shop.window
     SystemEventManagerShopWindow,
   ],
 })
-export class SystemEventManagerShopComponent implements OnInit {
-  @Input('duration') input_duration?: Duration;
+export class SystemEventManagerShopComponent implements OnInit, OnChanges {
+  @Input() args?: SystemEventTableArgs;
   @Input() mapable = true;
   @Input() iswindow = false;
 
@@ -98,12 +105,22 @@ export class SystemEventManagerShopComponent implements OnInit {
 
   Language = Language;
 
+  private change = {
+    args: (simple: SimpleChange) => {
+      if (simple) {
+        this.table.args = {
+          ...this.table.args,
+          ...this.args,
+        };
+      }
+    },
+  };
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.args(changes['args']);
+  }
+
   ngOnInit(): void {
     // this.init.task();
-
-    if (this.input_duration) {
-      this.table.args.duration = this.input_duration;
-    }
     this.init.table();
     this.regist.do();
   }

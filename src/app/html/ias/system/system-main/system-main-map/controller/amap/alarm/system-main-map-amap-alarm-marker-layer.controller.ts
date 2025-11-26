@@ -72,6 +72,8 @@ export class SystemMainMapAMapAlarmMarkerLayerController {
 
   clear() {
     this.layer.clear();
+    this.info.remove();
+    this.blur();
     this.points = [];
   }
 

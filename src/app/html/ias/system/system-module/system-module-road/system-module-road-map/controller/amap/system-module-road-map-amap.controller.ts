@@ -27,7 +27,6 @@ export class SystemModuleRoadMapAMapController {
       .then((x) => {
         this.map.set(x);
         this.regist(x);
-        this.init(x);
         let polyline = new SystemModuleRoadMapAMapPolylineController(x);
         this.polyline.set(polyline);
         this.label.set(new SystemModuleRoadMapAMapLabelController(x));
@@ -42,10 +41,6 @@ export class SystemModuleRoadMapAMapController {
   private polyline =
     new PromiseValue<SystemModuleRoadMapAMapPolylineController>();
   private label = new PromiseValue<SystemModuleRoadMapAMapLabelController>();
-
-  private init(map: AMap.Map) {
-    console.log(map.getFeatures());
-  }
 
   private regist(map: AMap.Map) {
     map.on('mousemove', (e) => {

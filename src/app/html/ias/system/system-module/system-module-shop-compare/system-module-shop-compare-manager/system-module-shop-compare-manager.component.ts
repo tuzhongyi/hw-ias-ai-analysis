@@ -19,7 +19,7 @@ import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/date
 import { PictureListPageComponent } from '../../../../share/picture/picture-list-page/picture-list-page.component';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { SelectShopObjectStateComponent } from '../../../../share/select/select-shop-object-state/select-shop-object-state.component';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../../system-module-shop-registration/system-module-shop-registration-information/system-module-shop-registration-information.component';
 import { SystemModuleShopDetailsComponent } from '../../system-module-shop/system-module-shop-details/system-module-shop-details.component';
 import { SystemModuleShopInformationComponent } from '../../system-module-shop/system-module-shop-information/system-module-shop-information.component';

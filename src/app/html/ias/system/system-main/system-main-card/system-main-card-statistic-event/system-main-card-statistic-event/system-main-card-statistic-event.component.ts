@@ -15,6 +15,7 @@ import {
   Duration,
   DurationUnit,
 } from '../../../../../../../common/tools/date-time-tool/duration.model';
+import { EventMode } from '../../../system-main-map-navigation/system-main-map-navigation.model';
 import { SystemMainCardContainerComponent } from '../../system-main-card-container/system-main-card-container.component';
 import { SystemMainCardStatisticEventChartComponent } from '../system-main-card-statistic-event-chart/system-main-card-statistic-event-chart.component';
 import { SystemMainCardStatisticEventBusiness } from './system-main-card-statistic-event.business';
@@ -37,7 +38,7 @@ export class SystemMainCardStatisticEventComponent
   @Input('load') _load?: EventEmitter<void>;
   @Input() duration = DateTimeTool.all.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
-  @Output() type = new EventEmitter<number>();
+  @Output() type = new EventEmitter<EventMode>();
   constructor(private business: SystemMainCardStatisticEventBusiness) {}
   title = '本月事件统计';
 

@@ -41,7 +41,6 @@ export class SystemMainMapAMapAlarmScatterController {
     this.layer.setSource(geo);
     this.layer.setStyle(this.style);
     this.container.add(this.layer);
-    this.container.animate.start();
   }
 
   clear() {

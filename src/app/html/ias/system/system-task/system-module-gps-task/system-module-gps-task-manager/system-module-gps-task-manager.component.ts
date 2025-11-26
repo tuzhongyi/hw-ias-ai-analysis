@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
@@ -7,7 +7,7 @@ import { AnalysisGpsTask } from '../../../../../../common/data-core/models/arm/a
 import { SceneLabel } from '../../../../../../common/data-core/models/arm/analysis/llm/scene-label.model';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleGpsTaskDetailsContainerComponent } from '../system-module-gps-task-details/system-module-gps-task-details-container/system-module-gps-task-details-container.component';
 import { SystemModuleGpsTaskPictureDrawingComponent } from '../system-module-gps-task-picture/system-module-gps-task-picture-drawing/system-module-gps-task-picture-drawing.component';
 import { SystemModuleGpsTaskPictureDrawingArgs } from '../system-module-gps-task-picture/system-module-gps-task-picture-drawing/system-module-gps-task-picture-drawing.model';
@@ -39,6 +39,7 @@ import { SystemModuleGpsTaskManagerWindow } from './system-module-gps-task-manag
   ],
 })
 export class SystemModuleGpsTaskManagerComponent implements OnInit {
+  @Input() iswindow = false;
   constructor(
     public source: SystemModuleGpsTaskManagerSource,
     private business: SystemModuleGpsTaskManagerBusiness,

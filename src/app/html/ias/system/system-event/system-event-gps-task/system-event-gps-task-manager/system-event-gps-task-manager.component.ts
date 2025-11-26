@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
@@ -8,8 +15,9 @@ import {
   Page,
   Paged,
 } from '../../../../../../common/data-core/models/page-list.model';
+import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventGpsTaskDetailsContainerComponent } from '../system-event-gps-task-details/system-event-gps-task-details-container/system-event-gps-task-details-container.component';
 import { SystemEventGpsTaskTableComponent } from '../system-event-gps-task-table/system-event-gps-task-table.component';
 import { SystemEventGpsTaskTableArgs } from '../system-event-gps-task-table/system-event-gps-task-table.model';
@@ -31,7 +39,9 @@ import { SystemEventGpsTaskManagerWindow } from './system-event-gps-task-manager
   styleUrl: './system-event-gps-task-manager.component.less',
   providers: [SystemEventGpsTaskManagerSource],
 })
-export class SystemEventGpsTaskManagerComponent {
+export class SystemEventGpsTaskManagerComponent implements OnChanges {
+  @Input() iswindow = false;
+  @Input('duration') input_duration?: Duration;
   constructor(
     public source: SystemEventGpsTaskManagerSource,
     private toastr: ToastrService
@@ -42,6 +52,20 @@ export class SystemEventGpsTaskManagerComponent {
     args: new SystemEventGpsTaskTableArgs(),
     load: new EventEmitter<SystemEventGpsTaskTableArgs>(),
   };
+
+  private change = {
+    duration: (simple: SimpleChange) => {
+      if (simple) {
+        if (this.input_duration) {
+          this.table.args.duration = this.input_duration;
+        }
+      }
+    },
+  };
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.duration(changes['input_duration']);
+  }
 
   on = {
     search: () => {

@@ -8,4 +8,12 @@ export class SystemMainMapRoadController {
       return x.load(datas);
     });
   }
+  clear() {
+    return this.amap.road.get().then((x) => {
+      return x.clear();
+    });
+  }
+  destory() {
+    return this.clear();
+  }
 }

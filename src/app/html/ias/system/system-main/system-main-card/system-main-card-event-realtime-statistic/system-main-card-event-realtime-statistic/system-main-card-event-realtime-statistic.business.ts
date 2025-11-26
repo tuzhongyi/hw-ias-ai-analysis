@@ -19,7 +19,7 @@ export class SystemMainCardEventRealtimeStatisticBusiness {
       const type = types[i];
       let page = await this.data.load(duration, type.Value);
       datas.push({
-        id: i,
+        id: type.Value,
         name: type.Name,
         value: page.TotalRecordCount,
       });

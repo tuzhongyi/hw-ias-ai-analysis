@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ILocation } from '../../../../../../common/data-core/models/model.interface';
 import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 import { SystemMainMapAlarmController } from './system-main-map-alarm.controller';
 import { SystemMainMapDeviceController } from './system-main-map-device.controller';
+import { SystemMainMapHeatmapController } from './system-main-map-heatmap.controller';
 import { SystemMainMapRoadController } from './system-main-map-road.controller';
 import { SystemMainMapSampleController } from './system-main-map-sample.controller';
 import { SystemMainMapShopController } from './system-main-map-shop.controller';
@@ -15,6 +15,7 @@ export class SystemMainMapController {
   device: SystemMainMapDeviceController;
   alarm: SystemMainMapAlarmController;
   sample: SystemMainMapSampleController;
+  heatmap: SystemMainMapHeatmapController;
   constructor(tool: ComponentTool) {
     this.amap = new SystemMainMapAMapController(tool);
     this.road = new SystemMainMapRoadController(this.amap);
@@ -22,6 +23,7 @@ export class SystemMainMapController {
     this.device = new SystemMainMapDeviceController(this.amap);
     this.alarm = new SystemMainMapAlarmController(this.amap);
     this.sample = new SystemMainMapSampleController(this.amap);
+    this.heatmap = new SystemMainMapHeatmapController(this.amap);
   }
 
   private amap: SystemMainMapAMapController;
@@ -37,22 +39,16 @@ export class SystemMainMapController {
       this.amap.focus(datas);
     },
     destory: () => {
-      this.amap.destory();
-      this.device.destory();
-      this.alarm.destory();
-      this.shop.destory();
-    },
-  };
-
-  heatmap = {
-    load: (datas: ILocation[]) => {
-      this.amap.heatmap.get().then((x) => {
-        x.load(datas);
-      });
-    },
-    clear: () => {
-      this.amap.heatmap.get().then((x) => {
-        x.clear();
+      let all = [
+        this.road.destory(),
+        this.shop.destory(),
+        this.device.destory(),
+        this.alarm.destory(),
+        this.sample.destory(),
+        this.heatmap.destory(),
+      ];
+      Promise.all(all).then(() => {
+        this.amap.destory();
       });
     },
   };

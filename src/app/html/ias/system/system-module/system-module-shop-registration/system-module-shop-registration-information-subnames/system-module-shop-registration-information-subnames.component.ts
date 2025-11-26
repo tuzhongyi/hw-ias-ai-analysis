@@ -14,6 +14,7 @@ import { WheelHorizontalScrollDirective } from '../../../../../../common/directi
 export class SystemModuleShopRegistrationInformationSubnamesComponent
   implements OnInit
 {
+  @Input() operable = true;
   @Input('datas') datas?: string[] = [];
   @Output() datasChange = new EventEmitter<string[]>();
   @Output() add = new EventEmitter<void>();

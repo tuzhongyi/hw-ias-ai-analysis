@@ -46,7 +46,7 @@ export class SystemMainCardStatisticEventShopBusiness {
       const type = types[i];
       let item = this.convert(data.mobile, type.Value);
       items.push({
-        id: i,
+        id: type.Value,
         name: type.Name,
         value: item,
       });

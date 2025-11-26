@@ -21,6 +21,7 @@ import { WheelInputNumberDirective } from '../../../../../../common/directives/w
 export class SystemModuleShopRegistrationInformationBusinessInfoComponent
   implements OnInit
 {
+  @Input() operable = true;
   @Input('data') _data?: ShopRegistration;
   @Output() close = new EventEmitter<void>();
   @Output() ok = new EventEmitter<ShopRegistration>();

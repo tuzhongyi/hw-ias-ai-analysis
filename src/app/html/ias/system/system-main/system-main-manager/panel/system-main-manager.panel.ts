@@ -12,7 +12,7 @@ export class SystemMainManagerPanel {
 
   constructor(that: SystemMainManagerComponent) {
     this.button = new SystemMainManagerPanelButton(this);
-    this.details = new SystemMainManagerPanelDetails(that.window);
+    this.details = new SystemMainManagerPanelDetails(that);
     this.navigation = new SystemMainManagerPanelNavigation(that);
   }
 }

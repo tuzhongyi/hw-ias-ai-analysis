@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UploadControlComponent } from '../../../../../../common/components/upload-control/upload-control.component';
@@ -15,7 +15,7 @@ import {
 } from '../../../../../../common/data-core/models/page-list.model';
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleShopRegistrationDownloadManagerComponent } from '../system-module-shop-registration-download-manager/system-module-shop-registration-download-manager.component';
 import { SystemModuleShopRegistrationInformationComponent } from '../system-module-shop-registration-information/system-module-shop-registration-information.component';
 import { SystemModuleShopRegistrationMapManagerComponent } from '../system-module-shop-registration-map-manager/system-module-shop-registration-map-manager.component';
@@ -44,6 +44,8 @@ import { SystemModuleShopRegistrationManagerWindow } from './system-module-shop-
   providers: [SystemModuleShopRegistrationManagerBusiness],
 })
 export class SystemModuleShopRegistrationManagerComponent {
+  @Input() iswindow = false;
+  @Input() operable = true;
   constructor(
     private business: SystemModuleShopRegistrationManagerBusiness,
     private toastr: ToastrService

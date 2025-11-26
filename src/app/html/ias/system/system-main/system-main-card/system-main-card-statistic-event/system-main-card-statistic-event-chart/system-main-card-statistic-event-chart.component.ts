@@ -26,7 +26,12 @@ export class SystemMainCardStatisticEventChartComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy
 {
   @Input() datas: ChartItem<any>[] = [];
-  @Input() option = Object.assign({}, SystemMainCardStatisticEventChartOption);
+  @Input() color: string[] = [];
+  @Input() option = (function (opts) {
+    let json = JSON.stringify(opts);
+    let obj = JSON.parse(json);
+    return obj;
+  })(SystemMainCardStatisticEventChartOption);
   constructor() {
     super();
   }
@@ -63,21 +68,15 @@ export class SystemMainCardStatisticEventChartComponent
   }
 
   protected set(datas: ChartItem[]) {
-    for (let i = 0; i < datas.length; i++) {
-      const item = datas[i];
-
-      let index = this.option.series[0].data.findIndex(
-        (x: ChartItem) => x.id === item.id
-      );
-      if (index >= 0) {
-        this.option.series[0].data[index] = item;
-        this.option.series[1].data[index] = item;
-      }
-    }
+    this.option.series[0].data = [...datas];
+    this.option.series[1].data = [...datas];
   }
 
   private load(data: ChartItem[]) {
     this.chart.get().then((chart) => {
+      if (this.color && this.color.length > 0) {
+        this.option.color = [...this.color];
+      }
       this.set(data);
       chart.setOption(this.option);
     });

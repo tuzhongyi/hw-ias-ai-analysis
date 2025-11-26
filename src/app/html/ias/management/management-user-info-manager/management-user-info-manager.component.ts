@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../common/components/window-confirm/window-confirm.component';
 import { User } from '../../../../common/data-core/models/user/user.model';
-import { WindowComponent } from '../../share/window/window.component';
+import { WindowComponent } from '../../share/window/component/window.component';
 import { ManagementUserInfoDetailsComponent } from '../management-user-info-details/management-user-info-details.component';
 import { ManagementUserInfoTableComponent } from '../management-user-info-table/management-user-info-table.component';
 import { ManagementUserInfoManagerBusiness } from './management-user-info-manager.business';

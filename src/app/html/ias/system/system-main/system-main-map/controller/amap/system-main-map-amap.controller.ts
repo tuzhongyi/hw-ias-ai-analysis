@@ -65,6 +65,7 @@ export class SystemMainMapAMapController {
         this.init.map(map);
         let container = new Loca.Container({ map: map });
         this.loca.set(container);
+        container.animate.start();
 
         this.init.road(map);
         this.init.heatmap(container);
@@ -227,9 +228,13 @@ export class SystemMainMapAMapController {
       x.setFitView(datas, true);
     });
   }
-  destory() {
-    this.map.get().then((x) => {
-      x.destroy();
-    });
+  async destory() {
+    let loca = await this.loca.get();
+    loca.clear();
+    loca.animate.stop();
+    loca.destroy();
+
+    let map = await this.map.get();
+    map.destroy();
   }
 }

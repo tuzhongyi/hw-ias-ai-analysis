@@ -21,7 +21,7 @@ export class SystemMainMapDeviceController {
   }
   destory() {
     this.datas = undefined;
-    this.clear();
+    return this.clear();
   }
   async focus(data: MobileDevice) {
     if (data.Location) {

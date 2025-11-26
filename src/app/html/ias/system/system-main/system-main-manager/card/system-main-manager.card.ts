@@ -1,5 +1,4 @@
 import { SystemMainManagerComponent } from '../system-main-manager.component';
-import { SystemMainManagerWindow } from '../window/system-main-manager.window';
 import { SystemMainManagerCardDeviceRoute } from './device/system-main-manager-device-route.card';
 import { SystemMainManagerCardDeviceState } from './device/system-main-manager-device-state.card';
 import { SystemMainManagerCardSampleLine } from './gpstask/system-main-manager-sample-line.card';
@@ -43,43 +42,43 @@ export class SystemMainManagerCard {
   };
   constructor(that: SystemMainManagerComponent) {
     this.statistic = this.init.statistic(that);
-    this.device = this.init.device(that.window);
-    this.shop = this.init.shop(that.window);
-    this.realtime = this.init.realtime(that.window);
-    this.gpstask = this.init.gpstask(that.window);
+    this.device = this.init.device(that);
+    this.shop = this.init.shop(that);
+    this.realtime = this.init.realtime(that);
+    this.gpstask = this.init.gpstask(that);
   }
 
   private init = {
     statistic: (that: SystemMainManagerComponent) => {
       return {
-        number: new SystemMainManagerCardStatisticNumber(that.window),
+        number: new SystemMainManagerCardStatisticNumber(that),
         table: new SystemMainManagerCardEventTable(that),
-        pie: new SystemMainManagerCardEventStatisticPie(that.window),
+        pie: new SystemMainManagerCardEventStatisticPie(that),
       };
     },
-    device: (window: SystemMainManagerWindow) => {
+    device: (that: SystemMainManagerComponent) => {
       return {
         state: new SystemMainManagerCardDeviceState(),
         route: new SystemMainManagerCardDeviceRoute(),
       };
     },
-    shop: (window: SystemMainManagerWindow) => {
+    shop: (that: SystemMainManagerComponent) => {
       return {
         statistic: new SystemMainManagerCardShopStatistic(),
         task: new SystemMainManagerCardShopTask(),
         table: new SystemMainManagerCardShopTable(),
-        pie: new SystemMainManagerCardShopStatisticPie(),
+        pie: new SystemMainManagerCardShopStatisticPie(that),
         line: new SystemMainManagerCardShopStatisticLine(),
       };
     },
-    realtime: (window: SystemMainManagerWindow) => {
+    realtime: (that: SystemMainManagerComponent) => {
       return {
-        pie: new SystemMainManagerCardRealtimeStatistic(window),
+        pie: new SystemMainManagerCardRealtimeStatistic(that),
         line: new SystemMainManagerCardRealtimeLine(),
         table: new SystemMainManagerCardRealtimeTable(),
       };
     },
-    gpstask: (window: SystemMainManagerWindow) => {
+    gpstask: (that: SystemMainManagerComponent) => {
       return {
         line: new SystemMainManagerCardSampleLine(),
       };

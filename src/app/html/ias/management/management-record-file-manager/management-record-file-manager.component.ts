@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter } from '@angular/core';
 
 import { FileInfo } from '../../../../common/data-core/models/arm/file/file-info.model';
-import { WindowComponent } from '../../share/window/window.component';
+import { WindowComponent } from '../../share/window/component/window.component';
 import { SystemTaskFileDetailsComponent } from '../../system/system-task/system-task-shop/system-task-file/system-task-file-details/system-task-file-details.component';
 import { ManagementRecordFileTableComponent } from '../management-record-file-table/management-record-file-table.component';
 import { ManagementRecordFileManagerWindow } from './management-record-file-manager.window';

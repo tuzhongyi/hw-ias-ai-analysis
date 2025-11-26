@@ -1,17 +1,22 @@
 import { DateTimeTool } from '../../../../../../../common/tools/date-time-tool/datetime.tool';
-import { SystemMainManagerWindow } from '../../window/system-main-manager.window';
+import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
+import { SystemEventTableArgs } from '../../../../system-event/system-event-table/business/system-event-table.model';
+import { SystemMainManagerComponent } from '../../system-main-manager.component';
 
 export class SystemMainManagerCardRealtimeStatistic {
   show = false;
-  constructor(private window: SystemMainManagerWindow) {}
-
   duration = DateTimeTool.all.year(new Date());
+  constructor(private that: SystemMainManagerComponent) {}
 
   on = {
     type: (type: number) => {
-      this.window.record.realtime.duration = this.duration;
-      this.window.record.realtime.type = type;
-      this.window.record.realtime.show = true;
+      let args = new SystemEventTableArgs();
+      args.duration = this.duration;
+      args.type = type;
+      this.that.window.record.realtime.open(args);
+    },
+    duration: (duration: Duration) => {
+      this.duration = duration;
     },
   };
 }

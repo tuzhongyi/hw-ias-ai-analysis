@@ -7,7 +7,7 @@ import { ContainerZoomComponent } from '../../../../../../common/components/cont
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemTaskDetailsComponent } from '../system-task-details/component/system-task-details.component';
 import { SystemTaskFileManagerComponent } from '../system-task-file/system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskResultComponent } from '../system-task-result/component/system-task-result.component';

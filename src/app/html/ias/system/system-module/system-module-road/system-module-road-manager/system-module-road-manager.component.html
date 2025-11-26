@@ -1,4 +1,7 @@
-<div class="system-module-road-manager">
+<div
+  class="system-module-road-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
   <div class="system-module-road-manager-head">
     <div class="system-module-road-manager-head-filter">
       <div class="forms">
@@ -15,13 +18,14 @@
         </div>
       </div>
     </div>
-    <div class="system-module-road-manager-head-operation">
+    <div class="system-module-road-manager-head-operation" *ngIf="operable">
       <button class="button-clip-gradient" (click)="create.open()">添加</button>
     </div>
   </div>
   <div class="system-module-road-manager-body">
     <div class="system-module-road-manager-body-table">
       <ias-system-module-road-table
+        [operable]="operable"
         [args]="table.args"
         [load]="table.load"
         [(selected)]="table.selected"

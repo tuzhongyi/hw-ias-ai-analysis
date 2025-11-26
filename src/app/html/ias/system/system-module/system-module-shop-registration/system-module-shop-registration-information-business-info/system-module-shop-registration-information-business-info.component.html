@@ -7,73 +7,117 @@
       <div class="form-item full">
         <div class="form-item-text" text-space-between>统一社会信用代码</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.UscId" />
+          <input type="text" [(ngModel)]="data.UscId" [readOnly]="!operable" />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>单位名称</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.UnitName" />
+          <input
+            type="text"
+            [(ngModel)]="data.UnitName"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>单位类型</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.UnitType" />
+          <input
+            type="text"
+            [(ngModel)]="data.UnitType"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>载体类型</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.CarrierType" />
+          <input
+            type="text"
+            [(ngModel)]="data.CarrierType"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>入驻载体名称</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.CarrierName" />
+          <input
+            type="text"
+            [(ngModel)]="data.CarrierName"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>经营地址</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.BusinessAddress" />
+          <input
+            type="text"
+            [(ngModel)]="data.BusinessAddress"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>注册地址</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.RegisteredAddress" />
+          <input
+            type="text"
+            [(ngModel)]="data.RegisteredAddress"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>企业负责人</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.PersonInCharge" />
+          <input
+            type="text"
+            [(ngModel)]="data.PersonInCharge"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>所属行业</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.Industry" />
+          <input
+            type="text"
+            [(ngModel)]="data.Industry"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>联系人</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.Contract" />
+          <input
+            type="text"
+            [(ngModel)]="data.Contract"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>联系方式</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.ContractDetails" />
+          <input
+            type="text"
+            [(ngModel)]="data.ContractDetails"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between>经营范围</div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="data.BusinessScope" />
+          <input
+            type="text"
+            [(ngModel)]="data.BusinessScope"
+            [readOnly]="!operable"
+          />
         </div>
       </div>
 
@@ -86,6 +130,7 @@
             [(value)]="data.EmployeeNumber"
             min="0"
             step="1"
+            [readOnly]="!operable"
           />
         </div>
       </div>
@@ -93,6 +138,7 @@
   </div>
   <div
     class="system-module-shop-registration-information-bussiness-info-foot button-group"
+    *ngIf="operable"
   >
     <button class="button-clip-gradient" (click)="on.ok()">确定</button>
     <button class="button-clip-blue" (click)="on.close()">取消</button>

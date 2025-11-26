@@ -50,10 +50,6 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.regist();
-    if (this.src) {
-      this.audio.init();
-      this.inited.emit();
-    }
   }
 
   private regist() {
@@ -88,6 +84,7 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
   audio = {
     data: undefined as HTMLAudioElement | undefined,
     playing: false,
+    inited: false,
     init: () => {
       this.audio.clear();
       this.audio.data = new Audio(this.src);
@@ -101,6 +98,8 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
       node.gain.value = 10;
       source.connect(node);
       node.connect(context.destination);
+      this.audio.inited = true;
+      this.inited.emit();
     },
     clear: () => {
       if (this.audio.data) {
@@ -111,6 +110,9 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
       }
     },
     play: () => {
+      if (!this.audio.inited) {
+        this.audio.init();
+      }
       if (!this.audio.data) return;
       this.audio.playing = true;
       this.audio.data.play();

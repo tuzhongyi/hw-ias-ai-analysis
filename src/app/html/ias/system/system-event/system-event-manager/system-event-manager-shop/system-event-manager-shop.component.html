@@ -87,6 +87,7 @@
   </div>
   <div class="system-event-manager-shop-body">
     <ias-system-event-table-shop
+      *ngIf="table.args.types.length > 0"
       [args]="table.args"
       [load]="table.load"
       [processget]="controller.process.get"

@@ -34,6 +34,8 @@ export class SystemMainMapAlarmController {
     scatter.clear();
     let marker = await this.amap.alarm.marker.get();
     marker.clear();
+    let info = await this.amap.alarm.info.get();
+    info.remove();
   }
   reload() {
     if (this.datas) {

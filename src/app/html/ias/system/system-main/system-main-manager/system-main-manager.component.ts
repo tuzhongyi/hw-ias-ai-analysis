@@ -2,26 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { HowellSelectComponent } from '../../../../../common/components/hw-select/select-control.component';
 import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { ILocation } from '../../../../../common/data-core/models/model.interface';
-import { Paged } from '../../../../../common/data-core/models/page-list.model';
 import { DateTimeTool } from '../../../../../common/tools/date-time-tool/datetime.tool';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
-import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
-import { WindowComponent } from '../../../share/window/window.component';
-import { SystemEventManagerAnalysisComponent } from '../../system-event/system-event-manager/system-event-manager-analysis/system-event-manager-analysis.component';
-import { SystemEventManagerRealtimeComponent } from '../../system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
-import { SystemEventManagerShopComponent } from '../../system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
-import { SystemEventProcessRealtimeComponent } from '../../system-event/system-event-process/system-event-process-realtime/system-event-process-realtime.component';
-import { SystemEventVideoComponent } from '../../system-event/system-event-video/system-event-video.component';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
-import { SystemTaskManagerComponent } from '../../system-task/system-task-shop/system-task-manager/system-task-manager.component';
-import { SystemTaskVideoComponent } from '../../system-task/system-task-shop/system-task-video/system-task-video.component';
 import { SystemMainCardDeviceRouteStatisticComponent } from '../system-main-card/system-main-card-device-route-statistic/system-main-card-device-route-statistic/system-main-card-device-route-statistic.component';
 import { SystemMainCardDeviceStateComponent } from '../system-main-card/system-main-card-device-state/system-main-card-device-state.component';
 import { SystemMainCardEventChartLineRealtimeComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-realtime/system-main-card-event-chart-line-realtime.component';
@@ -33,9 +20,9 @@ import { SystemMainCardShopStatisticComponent } from '../system-main-card/system
 import { SystemMainCardStatisticEventShopComponent } from '../system-main-card/system-main-card-statistic-event-shop/system-main-card-statistic-event-shop/system-main-card-statistic-event-shop.component';
 import { SystemMainCardStatisticEventComponent } from '../system-main-card/system-main-card-statistic-event/system-main-card-statistic-event/system-main-card-statistic-event.component';
 import { SystemMainCardStatisticNumberDivisionListComponent } from '../system-main-card/system-main-card-statistic-number-division/system-main-card-statistic-number-division-list/system-main-card-statistic-number-division-list.component';
-import { SystemMainCardStatisticNumberDeviceComponent } from '../system-main-card/system-main-card-statistic-number/system-main-card-statistic-number-device/system-main-card-statistic-number-device.component';
 import { SystemMainCardStatisticNumberComponent } from '../system-main-card/system-main-card-statistic-number/system-main-card-statistic-number/system-main-card-statistic-number.component';
-import { SystemMainCardTaskStatisticComponent } from '../system-main-card/system-main-card-task-statistic/system-main-card-task-statistic/system-main-card-task-statistic.component';
+import { SystemMainManagerWindow } from '../system-main-manager-window/controller/system-main-manager.window';
+import { SystemMainManagerWindowComponent } from '../system-main-manager-window/system-main-manager-window.component';
 import { SystemMainMapHeatmapFilterComponent } from '../system-main-map-heatmap/system-main-map-heatmap-filter/system-main-map-heatmap-filter.component';
 import { SystemMainMapNavigationComponent } from '../system-main-map-navigation/system-main-map-navigation.component';
 import {
@@ -43,28 +30,23 @@ import {
   SyatemMainMapNavigation,
 } from '../system-main-map-navigation/system-main-map-navigation.model';
 import { SystemMainMapComponent } from '../system-main-map/system-main-map.component';
-import { SystemMainPanelControlsComponent } from '../system-main-panel/system-main-panel-controls/system-main-panel-controls.component';
 import { SystemMainPanelShopRegistrationTableManagerComponent } from '../system-main-panel/system-main-panel-shop-registration/system-main-panel-shop-registration-table-manager/system-main-panel-shop-registration-table-manager.component';
 import { SystemMainManagerBusiness } from './business/system-main-manager.business';
 import { SystemMainManagerShopArgs } from './business/system-main-manager.model';
 import { SystemMainManagerCard } from './card/system-main-manager.card';
+import { SystemMainManagerMapController } from './controller/system-main-manager-map.controller';
 import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
-import { SystemMainManagerSource } from './source/system-main-manager.source';
-import { SystemMainManagerWindow } from './window/system-main-manager.window';
 
 @Component({
   selector: 'ias-system-main-manager',
   imports: [
     CommonModule,
     FormsModule,
-    HowellSelectComponent,
     SystemMainCardStatisticNumberComponent,
-    SystemMainCardStatisticNumberDeviceComponent,
     SystemMainCardStatisticNumberDivisionListComponent,
     SystemMainCardDeviceStateComponent,
     SystemMainCardShopStatisticComponent,
     SystemMainCardEventRealtimeStatisticComponent,
-    SystemMainCardTaskStatisticComponent,
     SystemMainCardDeviceRouteStatisticComponent,
     SystemMainCardEventTableComponent,
     SystemMainCardStatisticEventComponent,
@@ -72,30 +54,20 @@ import { SystemMainManagerWindow } from './window/system-main-manager.window';
     SystemMainCardEventChartLineRealtimeComponent,
     SystemMainCardEventChartLineShopComponent,
     SystemMainCardEventChartLineSampleComponent,
-    SystemMainPanelControlsComponent,
     SystemMainPanelShopRegistrationTableManagerComponent,
     SystemMainMapComponent,
     SystemMapPanelDetailsShopRegistrationComponent,
-    WindowComponent,
-    PictureListComponent,
-    SystemEventVideoComponent,
-    SystemTaskVideoComponent,
-    SystemEventProcessRealtimeComponent,
-    SystemEventManagerRealtimeComponent,
-    SystemEventManagerShopComponent,
-    SystemEventManagerAnalysisComponent,
-    SystemTaskManagerComponent,
+    SystemMainManagerWindowComponent,
     SystemMainMapNavigationComponent,
     SystemMainMapHeatmapFilterComponent,
   ],
   templateUrl: './system-main-manager.component.html',
   styleUrl: './system-main-manager.component.less',
-  providers: [SystemMainManagerBusiness, SystemMainManagerSource],
+  providers: [SystemMainManagerBusiness],
 })
 export class SystemMainManagerComponent implements OnInit {
   constructor(
     private business: SystemMainManagerBusiness,
-    public source: SystemMainManagerSource,
     public toastr: ToastrService
   ) {}
 
@@ -105,6 +77,8 @@ export class SystemMainManagerComponent implements OnInit {
   card = new SystemMainManagerCard(this);
   panel = new SystemMainManagerPanel(this);
   duration = DateTimeTool.all.day(new Date());
+
+  map = new SystemMainManagerMapController(this);
 
   ngOnInit(): void {
     this.init.shop();
@@ -214,41 +188,6 @@ export class SystemMainManagerComponent implements OnInit {
     },
   };
 
-  map = {
-    data: {
-      shop: [] as ShopRegistration[],
-      device: [] as MobileDevice[],
-      realtime: [] as MobileEventRecord[],
-      sample: [] as GpsTaskSampleRecord[],
-    },
-    over: new EventEmitter<ShopRegistration>(),
-    out: new EventEmitter<ShopRegistration>(),
-    select: new EventEmitter<ShopRegistration>(),
-    moveto: new EventEmitter<ILocation>(),
-    heatmap: {
-      load: new EventEmitter<ILocation[]>(),
-    },
-    display: {
-      shop: true,
-      device: true,
-      alarm: true,
-      sample: true,
-      heatmap: false,
-    },
-    on: {
-      select: (data: ShopRegistration) => {
-        this.shop.selected = data;
-      },
-      details: (data: ShopRegistration) => {
-        this.shop.selected = data;
-        this.panel.details.show = true;
-      },
-      heatmap: (datas: ILocation[]) => {
-        this.map.heatmap.load.emit(datas);
-      },
-    },
-  };
-
   table = {
     on: {
       details: (item: ShopRegistration) => {
@@ -269,12 +208,6 @@ export class SystemMainManagerComponent implements OnInit {
           this.map.out.emit(item);
         },
       },
-    },
-  };
-
-  picture = {
-    open: <T>(paged: Paged<T>) => {
-      this.window.picture.open(paged);
     },
   };
 

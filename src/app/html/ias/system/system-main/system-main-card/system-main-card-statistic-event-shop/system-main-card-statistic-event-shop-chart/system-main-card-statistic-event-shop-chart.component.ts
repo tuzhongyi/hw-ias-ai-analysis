@@ -15,20 +15,12 @@ export class SystemMainCardStatisticEventShopChartComponent extends SystemMainCa
   declare element?: ElementRef;
 
   override set(datas: ChartItem[]) {
-    for (let i = 0; i < datas.length; i++) {
-      const item = datas[i];
-      this.option.color = [
-        ColorTool.ShopObjectState(ShopObjectState.Created),
-        ColorTool.ShopObjectState(ShopObjectState.Disappeared),
-        ColorTool.ShopObjectState(ShopObjectState.Existed),
-      ];
-      let index = this.option.series[0].data.findIndex(
-        (x: ChartItem) => x.id === item.id
-      );
-      if (index >= 0) {
-        this.option.series[0].data[index] = item;
-        this.option.series[1].data[index] = item;
-      }
-    }
+    this.option.color = [
+      ColorTool.ShopObjectState(ShopObjectState.Created),
+      ColorTool.ShopObjectState(ShopObjectState.Disappeared),
+      ColorTool.ShopObjectState(ShopObjectState.Existed),
+    ];
+    this.option.series[0].data = [...datas];
+    this.option.series[1].data = [...datas];
   }
 }

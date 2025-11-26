@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
@@ -15,11 +23,10 @@ import {
   Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
-import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventMapManagerComponent } from '../../system-event-map/system-event-map-manager/system-event-map-manager.component';
 import { SystemEventProcessDetailsComponent } from '../../system-event-process/system-event-process-details/system-event-process-details.component';
 import { SystemEventProcessRealtimeComponent } from '../../system-event-process/system-event-process-realtime/system-event-process-realtime.component';
@@ -57,9 +64,8 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
     SystemEventManagerRealtimeWindow,
   ],
 })
-export class SystemEventManagerRealtimeComponent implements OnInit {
-  @Input('type') input_type?: number;
-  @Input('duration') input_duration?: Duration;
+export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
+  @Input() args?: SystemEventTableArgs;
   @Input() mapable = true;
   @Input() iswindow = false;
 
@@ -73,13 +79,21 @@ export class SystemEventManagerRealtimeComponent implements OnInit {
 
   Language = Language;
 
+  private change = {
+    args: (simple: SimpleChange) => {
+      if (simple) {
+        this.table.args = {
+          ...this.table.args,
+          ...this.args,
+        };
+      }
+    },
+  };
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.args(changes['args']);
+  }
+
   ngOnInit(): void {
-    if (this.input_type !== undefined) {
-      this.table.args.type = this.input_type;
-    }
-    if (this.input_duration) {
-      this.table.args.duration = this.input_duration;
-    }
     this.init.table();
     this.init.window();
   }

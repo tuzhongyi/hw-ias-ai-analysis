@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
 import { SystemMapSearchShopRoadComponent } from '../../../system-map/system-map-search-shop-road/system-map-search-shop-road.component';
 import { SystemMapSearchShopRoadArgs } from '../../../system-map/system-map-search-shop-road/system-map-search-shop-road.model';

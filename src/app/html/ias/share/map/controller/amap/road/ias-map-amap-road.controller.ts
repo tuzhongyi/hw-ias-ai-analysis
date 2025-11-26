@@ -76,4 +76,12 @@ export class IASMapAMapRoadController {
     label.ignore(ids);
     polyline.ignore(ids);
   }
+  clear() {
+    this.controller.polyline.get().then((x) => {
+      x.clear();
+    });
+    this.controller.label.get().then((x) => {
+      x.clear();
+    });
+  }
 }

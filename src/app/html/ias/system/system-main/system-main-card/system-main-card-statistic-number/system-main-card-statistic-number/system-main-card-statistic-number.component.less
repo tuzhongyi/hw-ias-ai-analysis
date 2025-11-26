@@ -3,13 +3,19 @@
   height: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
+  align-items: center;
+
   padding: 20px;
   box-sizing: border-box;
+  @gap-width: 0%;
+  @gap-height: 25%;
+  gap: @gap-height @gap-width;
+
+
 
   &>* {
-    width: calc((100% - 40px) / 2);
-    height: calc((100% - 40px) / 2);
+    width: calc((100% - @gap-width) / 2);
+    height: calc((100% - @gap-height) / 2);
   }
 }
 

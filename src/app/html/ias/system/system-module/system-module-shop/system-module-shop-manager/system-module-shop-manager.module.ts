@@ -6,7 +6,7 @@ import { WheelInputNumberDirective } from '../../../../../../common/directives/w
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { SelectShopObjectStateComponent } from '../../../../share/select/select-shop-object-state/select-shop-object-state.component';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleShopDetailsComponent } from '../system-module-shop-details/system-module-shop-details.component';
 import { SystemModuleShopInformationComponent } from '../system-module-shop-information/system-module-shop-information.component';
 import { SystemModuleShopListComponent } from '../system-module-shop-list/system-module-shop-list.component';

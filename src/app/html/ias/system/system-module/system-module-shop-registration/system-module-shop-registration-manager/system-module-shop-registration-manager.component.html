@@ -1,4 +1,7 @@
-<div class="system-module-shop-registration-manager root-router">
+<div
+  class="system-module-shop-registration-manager root-router"
+  [style.padding]="iswindow ? 0 : undefined"
+>
   <div class="system-module-shop-registration-manager-head">
     <div class="system-module-shop-registration-manager-head-filter">
       <div class="forms">
@@ -31,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div class="button-group">
+    <div class="button-group" *ngIf="operable">
       <button
         class="button-clip-gradient"
         [disabled]="table.selecteds.length == 0"
@@ -86,6 +89,7 @@
     [title]="window.information.title"
   >
     <ias-system-module-shop-registration-information
+      [operable]="operable"
       [data]="window.information.data"
       (close)="window.information.show = false"
       (ok)="create.ok()"

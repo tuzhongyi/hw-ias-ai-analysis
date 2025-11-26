@@ -1,6 +1,7 @@
 import AMapLoader from '@amap/amap-jsapi-loader';
 import '@amap/amap-jsapi-types';
 import '@amap/amap-loca-types';
+import { wait } from '../../tools/wait';
 import { AMapInputTip, AMapInputTipItem, AMapInputTips } from './amap.model';
 
 export class AMapHelper {
@@ -35,14 +36,21 @@ export class AMapHelper {
     opts: any = {}
   ): Promise<AMap.Map> {
     let plugs = [...this.plugins, ...plugins];
-    return this.init(plugs, loca).then((AMap) => {
-      return new AMap.Map(id, {
-        mapStyle: this.style,
-        resizeEnable: true,
-        showIndoorMap: false,
-        zooms: [3, 26],
-        zoom: 17,
-        ...opts,
+    return new Promise<AMap.Map>((resolve) => {
+      wait(() => {
+        return !!document.getElementById(id);
+      }).then(() => {
+        this.init(plugs, loca).then((AMap) => {
+          let map = new AMap.Map(id, {
+            mapStyle: this.style,
+            resizeEnable: true,
+            showIndoorMap: false,
+            zooms: [3, 26],
+            zoom: 17,
+            ...opts,
+          });
+          resolve(map);
+        });
       });
     });
   }

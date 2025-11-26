@@ -18,7 +18,7 @@ import { ContainerZoomComponent } from '../../../../../../common/components/cont
 import { GisType } from '../../../../../../common/data-core/enums/gis-type.enum';
 import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { WindowComponent } from '../../../../share/window/window.component';
+import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleShopDetailsMapComponent } from '../../system-module-shop/system-module-shop-details-map/system-module-shop-details-map.component';
 import { SystemModuleShopRegistrationInformationBusinessInfoComponent } from '../system-module-shop-registration-information-business-info/system-module-shop-registration-information-business-info.component';
 import { SystemModuleShopRegistrationInformationSubnameInputComponent } from '../system-module-shop-registration-information-subname-input/system-module-shop-registration-information-subname-input.component';
@@ -53,6 +53,7 @@ import { SystemModuleShopRegistrationInformationWindow } from './system-module-s
 export class SystemModuleShopRegistrationInformationComponent
   implements OnInit
 {
+  @Input() operable = true;
   @Input() data?: ShopRegistration;
   @Output() ok = new EventEmitter<ShopRegistration>();
   @Output() close = new EventEmitter<void>();

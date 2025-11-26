@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthorizationService } from '../../common/data-core/requests/auth/authorization.service';
 import { HowellSM4 } from '../../common/data-core/requests/auth/howell-sm4';
 import { ArmAnalysisRequestService } from '../../common/data-core/requests/services/analysis/analysis.service';
+import { ArmDivisionRequestService } from '../../common/data-core/requests/services/division/division.service';
 import { ArmGeographicRequestService } from '../../common/data-core/requests/services/geographic/geographic.service';
 import { ArmSystemRequestService } from '../../common/data-core/requests/services/system/system.service';
 import { LocalStorage } from '../../common/storage/local.storage';
@@ -16,18 +17,22 @@ export class LoginBusiness {
     private local: LocalStorage,
     private analysis: ArmAnalysisRequestService,
     private geo: ArmGeographicRequestService,
-    private system: ArmSystemRequestService
+    private system: ArmSystemRequestService,
+    private division: ArmDivisionRequestService
   ) {}
 
   init() {
     this.local.clear();
+    this.clear();
   }
 
-  clear() {
+  private clear() {
     this.local.unload.clear();
     this.geo.shop.cache.clear();
     this.geo.road.cache.clear();
     this.analysis.server.task.cache.clear();
+    this.division.cache.clear();
+    this.system.mobile.device.cache.clear();
   }
 
   login(username: string, password: string) {

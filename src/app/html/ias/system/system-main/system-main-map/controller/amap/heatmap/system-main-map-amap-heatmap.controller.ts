@@ -61,6 +61,7 @@ export class SystemMainMapAMapHeatmapController {
       gradient: {
         // 0.2: '#3006e3',
         // 0.4: '#38baff',
+        0: '#23e353',
         0.4: 'yellow',
         0.6: '#fde546',
         0.8: '#ff8625',
@@ -74,6 +75,7 @@ export class SystemMainMapAMapHeatmapController {
       heightBezier: [0.2, 0.4, 0.8, 1],
     });
     this.container.add(this.heatmap);
+    this.container.animate.start();
   }
 
   clear() {

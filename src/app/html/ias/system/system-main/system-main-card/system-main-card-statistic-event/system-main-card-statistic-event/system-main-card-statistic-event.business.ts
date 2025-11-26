@@ -12,6 +12,7 @@ import { ArmSystemRequestService } from '../../../../../../../common/data-core/r
 import { ChartItem } from '../../../../../../../common/tools/chart-tool/chart.model';
 import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
+import { EventMode } from '../../../system-main-map-navigation/system-main-map-navigation.model';
 
 @Injectable()
 export class SystemMainCardStatisticEventBusiness {
@@ -41,7 +42,7 @@ export class SystemMainCardStatisticEventBusiness {
 
     let items: ChartItem[] = [
       {
-        id: 0,
+        id: EventMode.shop,
         name: '商铺更变',
         value: this.convert(
           data.mobile,
@@ -49,7 +50,7 @@ export class SystemMainCardStatisticEventBusiness {
         ),
       },
       {
-        id: 1,
+        id: EventMode.realtime,
         name: '实时事件',
         value: this.convert(
           data.mobile,
@@ -57,7 +58,7 @@ export class SystemMainCardStatisticEventBusiness {
         ),
       },
       {
-        id: 2,
+        id: EventMode.gpstask,
         name: '场景事件',
         value: data.sample.TotalRecordCount,
       },

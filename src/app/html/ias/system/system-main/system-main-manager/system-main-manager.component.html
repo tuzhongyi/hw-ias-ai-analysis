@@ -11,7 +11,7 @@
     [alarms]="map.data.realtime"
     [samples]="map.data.sample"
     (alarmvideo)="alarm.on.video($event)"
-    (alarmpicture)="picture.open($event)"
+    (alarmpicture)="map.on.picture($event)"
     [heatmapload]="map.heatmap.load"
     [shopdisplay]="map.display.shop"
     [devicedisplay]="map.display.device"
@@ -37,6 +37,7 @@
       <ias-system-main-card-statistic-number
         *ngIf="card.statistic.number.show"
         [load]="load"
+        (itemclick)="card.statistic.number.on.item($event)"
       ></ias-system-main-card-statistic-number>
     </div>
     <div class="system-main-manager-card-item">
@@ -53,16 +54,24 @@
       <ias-system-main-card-statistic-event
         *ngIf="card.statistic.pie.show"
         [load]="load"
+        [(duration)]="card.statistic.pie.duration"
+        (type)="card.statistic.pie.on.item($event)"
       >
       </ias-system-main-card-statistic-event>
       <ias-system-main-card-statistic-event-shop
         *ngIf="card.shop.pie.show"
         [load]="load"
+        [duration]="card.shop.pie.duration"
+        (durationChange)="card.shop.pie.on.duration($event)"
+        (type)="card.shop.pie.on.item($event)"
       >
       </ias-system-main-card-statistic-event-shop>
       <ias-system-main-card-event-realtime-statistic
         *ngIf="card.realtime.pie.show"
         [load]="load"
+        [duration]="card.realtime.pie.duration"
+        (durationChange)="card.realtime.pie.on.duration($event)"
+        (type)="card.realtime.pie.on.type($event)"
       ></ias-system-main-card-event-realtime-statistic>
       <ias-system-main-card-device-route-statistic
         *ngIf="card.device.route.show"
@@ -136,198 +145,6 @@
     ></ias-system-main-map-navigation>
   </div>
 </div>
-<!--  ias-system-event-process-realtime  -->
-<ias-window
-  [Model]="window.details"
-  *ngIf="window.details.show"
-  [style]="window.details.style"
-  [title]="window.details.title"
->
-  <ias-system-event-process-realtime
-    [data]="window.details.data"
-    (close)="window.details.show = false"
-    (picture)="picture.open($event)"
-  ></ias-system-event-process-realtime>
-</ias-window>
-<!--  ias-system-event-process-realtime  -->
-
-<!--  ias-system-event-manager-realtime  -->
-<ias-window
-  [Model]="window.record.realtime"
-  *ngIf="window.record.realtime.show"
-  [style]="window.record.realtime.style"
-  [title]="window.record.realtime.title"
->
-  <ias-system-event-manager-realtime
-    [iswindow]="true"
-    [mapable]="false"
-    [type]="window.record.realtime.type"
-    [duration]="window.record.realtime.duration"
-  ></ias-system-event-manager-realtime>
-</ias-window>
-<!--  ias-system-event-manager-realtime  -->
-<!--  ias-system-event-manager-shop  -->
-<ias-window
-  [Model]="window.record.shop"
-  *ngIf="window.record.shop.show"
-  [style]="window.record.shop.style"
-  [title]="window.record.shop.title"
->
-  <ias-system-event-manager-shop
-    [iswindow]="true"
-    [mapable]="false"
-    [duration]="window.record.shop.duration"
-  ></ias-system-event-manager-shop>
-</ias-window>
-<!--  ias-system-event-manager-shop  -->
-<!--  ias-system-event-manager-analysis  -->
-<ias-window
-  [Model]="window.record.analysis"
-  *ngIf="window.record.analysis.show"
-  [style]="window.record.analysis.style"
-  [title]="window.record.analysis.title"
->
-  <ias-system-event-manager-analysis
-    [iswindow]="true"
-    [mapable]="false"
-    [duration]="window.record.analysis.duration"
-  ></ias-system-event-manager-analysis>
-</ias-window>
-<!--  ias-system-event-manager-analysis  -->
-<!--  ias-system-task-manager  -->
-<ias-window
-  [Model]="window.task"
-  *ngIf="window.task.show"
-  [style]="window.task.style"
-  [title]="window.task.title"
->
-  <ias-system-task-manager
-    [iswindow]="true"
-    [tabable]="false"
-    [finished]="true"
-    [operable]="false"
-    [duration]="window.task.duration"
-  ></ias-system-task-manager>
-</ias-window>
-<!--  ias-system-task-manager  -->
-<ias-window
-  *ngIf="window.picture.show"
-  [Model]="window.picture"
-  [style]="window.picture.style"
-  [title]="window.picture.title"
->
-  <ias-picture-list
-    [id]="window.picture.id"
-    [polygon]="window.picture.polygon"
-    [zoom]="window.picture.polygon.length > 0"
-    [page]="window.picture.page"
-    (pageChange)="window.picture.change($event)"
-  ></ias-picture-list>
-</ias-window>
-<ias-window
-  [Model]="window.video.record"
-  *ngIf="window.video.record.show"
-  [style]="window.video.record.style"
-  [title]="window.video.record.title"
-  [CloseButton]="false"
->
-  <div ngProjectAs="window-head-operation" class="window-video-operation">
-    <div class="forms">
-      <div class="form-item">
-        <div class="form-item-text">前后时长</div>
-        <div class="form-item-value">
-          <select
-            [(ngModel)]="window.video.record.args.duration"
-            (change)="window.video.record.change()"
-          >
-            <!-- <option [ngValue]="undefined">全部</option> -->
-            <option [ngValue]="5">5秒</option>
-            <option [ngValue]="10">10秒</option>
-            <option [ngValue]="15">15秒</option>
-            <option [ngValue]="30">30秒</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-item">
-        <div class="form-item-text">摄像机:</div>
-        <div class="form-item-value">
-          <hw-select
-            [nullable]="true"
-            [(selected)]="window.video.record.args.channel"
-            (selectedChange)="window.video.record.change()"
-          >
-            <select [(ngModel)]="window.video.record.args.channel">
-              <option
-                *ngFor="let item of window.video.record.channels"
-                [ngValue]="item.Value"
-              >
-                {{ item.Name }}
-              </option>
-            </select>
-          </hw-select>
-        </div>
-      </div>
-      <div class="form-item">
-        <div class="button" (click)="window.video.record.show = false">
-          <i class="howell-icon-Close"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ias-system-event-video
-    [data]="window.video.record.data"
-    [args]="window.video.record.args"
-  ></ias-system-event-video>
-</ias-window>
-<ias-window
-  *ngIf="window.video.shop.show && window.video.shop.args"
-  [Model]="window.video.shop"
-  [style]="window.video.shop.style"
-  [title]="window.video.shop.title"
-  [CloseButton]="false"
->
-  <div ngProjectAs="window-head-operation" class="window-video-operation">
-    <div class="forms">
-      <div class="form-item">
-        <div class="form-item-text">前后时长</div>
-        <div class="form-item-value">
-          <select
-            [(ngModel)]="window.video.shop.args.Duration"
-            (change)="window.video.shop.change()"
-          >
-            <!-- <option [ngValue]="undefined">全部</option> -->
-            <option [ngValue]="5">5秒</option>
-            <option [ngValue]="10">10秒</option>
-            <option [ngValue]="15">15秒</option>
-            <option [ngValue]="30">30秒</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-item">
-        <div class="form-item-text">摄像机:</div>
-        <div class="form-item-value">
-          <select
-            [(ngModel)]="window.video.shop.args.Channel"
-            (change)="window.video.shop.change()"
-          >
-            <!-- <option [ngValue]="undefined">全部</option> -->
-            <option
-              *ngFor="let item of source.channels | async"
-              [ngValue]="item.Value"
-            >
-              {{ item.Name }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="form-item">
-        <div class="button" (click)="window.video.shop.show = false">
-          <i class="howell-icon-Close"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ias-system-task-video
-    [args]="window.video.shop.args"
-  ></ias-system-task-video>
-</ias-window>
+<ias-system-main-manager-window
+  [window]="window"
+></ias-system-main-manager-window>

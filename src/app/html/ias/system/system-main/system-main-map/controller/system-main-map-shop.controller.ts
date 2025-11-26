@@ -45,7 +45,7 @@ export class SystemMainMapShopController {
   }
   destory() {
     this.datas = undefined;
-    this.clear();
+    return this.clear();
   }
 
   async focus(data: IShop) {
