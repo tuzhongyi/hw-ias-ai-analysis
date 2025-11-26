@@ -75,7 +75,6 @@ export class SystemMainMapAMapHeatmapController {
       heightBezier: [0.2, 0.4, 0.8, 1],
     });
     this.container.add(this.heatmap);
-    this.container.animate.start();
   }
 
   clear() {

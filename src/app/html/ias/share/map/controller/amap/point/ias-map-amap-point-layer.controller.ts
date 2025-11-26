@@ -53,7 +53,9 @@ export class IASMapAMapPointLayerController {
   }
 
   clear() {
-    this.container.clear();
+    this.created.clear();
+    this.disappeared.clear();
+    this.existed.clear();
   }
 
   moving(position: [number, number]) {

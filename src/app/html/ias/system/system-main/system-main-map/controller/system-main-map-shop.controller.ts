@@ -22,23 +22,25 @@ export class SystemMainMapShopController {
   };
 
   private datas?: IShop[];
+  private loaded = false;
 
-  load(datas: IShop[]) {
+  async load(datas: IShop[]) {
     this.datas = datas;
-    this.amap.shop.point.get().then((x) => {
-      x.load(datas);
-    });
-    this.amap.shop.marker.get().then((ctr) => {
-      ctr.load(datas);
-    });
+    let point = await this.amap.shop.point.get();
+    point.load(datas);
+    let marker = await this.amap.shop.marker.get();
+    marker.load(datas);
+    this.loaded = true;
   }
   async clear() {
     let point = await this.amap.shop.point.get();
     point.clear();
     let marker = await this.amap.shop.marker.get();
     marker.clear();
+    this.loaded = false;
   }
   reload() {
+    if (this.loaded) return;
     if (this.datas) {
       this.load(this.datas);
     }

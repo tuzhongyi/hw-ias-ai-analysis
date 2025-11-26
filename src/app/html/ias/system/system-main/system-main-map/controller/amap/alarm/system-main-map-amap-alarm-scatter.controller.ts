@@ -44,7 +44,7 @@ export class SystemMainMapAMapAlarmScatterController {
   }
 
   clear() {
-    this.layer.remove();
+    this.container.remove(this.layer);
   }
   moving(position: [number, number]) {
     let point = this.layer.queryFeature(position);

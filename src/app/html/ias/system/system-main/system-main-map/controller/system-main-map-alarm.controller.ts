@@ -20,14 +20,14 @@ export class SystemMainMapAlarmController {
     picture: new EventEmitter<Paged<MobileEventRecord>>(),
   };
   private datas?: MobileEventRecord[];
-  load(datas: MobileEventRecord[]) {
+  private loaded = false;
+  async load(datas: MobileEventRecord[]) {
     this.datas = datas;
-    this.amap.alarm.scatter.get().then((x) => {
-      x.load(datas);
-    });
-    this.amap.alarm.marker.get().then((x) => {
-      x.load(datas);
-    });
+    let marker = await this.amap.alarm.marker.get();
+    marker.load(datas);
+    let scatter = await this.amap.alarm.scatter.get();
+    scatter.load(datas);
+    this.loaded = true;
   }
   async clear() {
     let scatter = await this.amap.alarm.scatter.get();
@@ -36,8 +36,10 @@ export class SystemMainMapAlarmController {
     marker.clear();
     let info = await this.amap.alarm.info.get();
     info.remove();
+    this.loaded = false;
   }
   reload() {
+    if (this.loaded) return;
     if (this.datas) {
       this.load(this.datas);
     }

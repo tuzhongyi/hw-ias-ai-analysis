@@ -3,15 +3,16 @@ import { SystemMainMapAMapController } from './amap/system-main-map-amap.control
 
 export class SystemMainMapRoadController {
   constructor(private amap: SystemMainMapAMapController) {}
-  load(datas: Road[]) {
-    return this.amap.road.get().then((x) => {
-      return x.load(datas);
-    });
+  private loaded = false;
+  async load(datas: Road[]) {
+    let road = await this.amap.road.get();
+    road.load(datas);
+    this.loaded = true;
   }
-  clear() {
-    return this.amap.road.get().then((x) => {
-      return x.clear();
-    });
+  async clear() {
+    let road = await this.amap.road.get();
+    road.clear();
+    this.loaded = false;
   }
   destory() {
     return this.clear();

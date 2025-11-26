@@ -20,18 +20,20 @@ export class SystemMainMapSampleController {
     picture: new EventEmitter<Paged<GpsTaskSampleRecord>>(),
   };
   private datas?: GpsTaskSampleRecord[];
-  load(datas: GpsTaskSampleRecord[]) {
+  private loaded = false;
+  async load(datas: GpsTaskSampleRecord[]) {
     this.datas = datas;
-
-    this.amap.sample.marker.get().then((x) => {
-      x.load(datas);
-    });
+    let marker = await this.amap.sample.marker.get();
+    marker.load(datas);
+    this.loaded = true;
   }
   async clear() {
     let marker = await this.amap.sample.marker.get();
     marker.clear();
+    this.loaded = false;
   }
   reload() {
+    if (this.loaded) return;
     if (this.datas) {
       this.load(this.datas);
     }

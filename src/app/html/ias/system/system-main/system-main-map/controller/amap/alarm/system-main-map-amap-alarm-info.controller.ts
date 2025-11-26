@@ -46,6 +46,10 @@ export class SystemMainMapAMapAlarmInfoController {
     }
     // this.map.add(this.marker);
     this.marker.open(this.map, position);
+
+    setTimeout(() => {
+      this.marker?.setAnchor('bottom-left');
+    }, 1);
   }
 
   regist(info: SystemMainMapAlarmInfoOutput) {
