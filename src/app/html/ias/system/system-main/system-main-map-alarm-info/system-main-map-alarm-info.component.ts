@@ -28,7 +28,10 @@ import {
   styleUrl: './system-main-map-alarm-info.component.less',
 })
 export class SystemMainMapAlarmInfoComponent
-  implements OnInit, SystemMainMapAlarmInfoInput, SystemMainMapAlarmInfoOutput
+  implements
+    OnInit,
+    SystemMainMapAlarmInfoInput<MobileEventRecord>,
+    SystemMainMapAlarmInfoOutput<MobileEventRecord>
 {
   @Input() data?: MobileEventRecord;
 

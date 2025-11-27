@@ -5,7 +5,7 @@ import { SystemMainManagerComponent } from '../system-main-manager.component';
 
 export class SystemMainManagerCardEventStatisticPie {
   show = false;
-  duration = DateTimeTool.all.year(new Date());
+  duration = DateTimeTool.all.month(new Date());
   constructor(private that: SystemMainManagerComponent) {}
   private get window() {
     return this.that.window;

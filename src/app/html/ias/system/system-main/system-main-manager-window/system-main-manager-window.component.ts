@@ -2,9 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HowellSelectComponent } from '../../../../../common/components/hw-select/select-control.component';
+import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { Paged } from '../../../../../common/data-core/models/page-list.model';
+import { MediumRequestService } from '../../../../../common/data-core/requests/services/medium/medium.service';
 import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../share/window/component/window.component';
+import { SystemEventGpsTaskDetailsContainerComponent } from '../../system-event/system-event-gps-task/system-event-gps-task-details/system-event-gps-task-details-container/system-event-gps-task-details-container.component';
 import { SystemEventGpsTaskManagerComponent } from '../../system-event/system-event-gps-task/system-event-gps-task-manager/system-event-gps-task-manager.component';
 import { SystemEventManagerRealtimeComponent } from '../../system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
 import { SystemEventManagerShopComponent } from '../../system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
@@ -36,6 +39,7 @@ import { SystemMainManagerWindowSource } from './system-main-manager-window.sour
     SystemModuleGpsTaskManagerComponent,
     SystemModuleRoadManagerComponent,
     SystemModuleShopRegistrationManagerComponent,
+    SystemEventGpsTaskDetailsContainerComponent,
   ],
   templateUrl: './system-main-manager-window.component.html',
   styleUrl: './system-main-manager-window.component.less',
@@ -44,11 +48,31 @@ import { SystemMainManagerWindowSource } from './system-main-manager-window.sour
 export class SystemMainManagerWindowComponent {
   @Input() window = new SystemMainManagerWindow();
 
-  constructor(public source: SystemMainManagerWindowSource) {}
+  constructor(
+    public source: SystemMainManagerWindowSource,
+    private medium: MediumRequestService
+  ) {}
 
   picture = {
     open: <T>(paged: Paged<T>) => {
       this.window.picture.open(paged);
+    },
+  };
+
+  video = {
+    sample: {
+      open: (data: GpsTaskSampleRecord) => {
+        if (data.Resources && data.Resources.length > 0) {
+          let resource = data.Resources[0];
+          if (resource.RecordUrl) {
+            this.window.video.sample.src = this.medium.record(
+              resource.RecordUrl
+            );
+            this.window.video.sample.title = `${data.SceneName}-${resource.ResourceName}`;
+            this.window.video.sample.show = true;
+          }
+        }
+      },
     },
   };
 }

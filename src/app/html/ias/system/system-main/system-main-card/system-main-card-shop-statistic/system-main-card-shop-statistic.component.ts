@@ -27,7 +27,7 @@ import { SystemMainCardShopStatisticBusiness } from './business/system-main-card
 })
 export class SystemMainCardShopStatisticComponent implements OnInit, OnDestroy {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.year(new Date());
+  @Input() duration = DateTimeTool.all.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
 
   constructor(private business: SystemMainCardShopStatisticBusiness) {}

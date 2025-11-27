@@ -1,17 +1,32 @@
 <!--  ias-system-event-process-realtime  -->
 <ias-window
-  [Model]="window.details"
-  *ngIf="window.details.show"
-  [style]="window.details.style"
-  [title]="window.details.title"
+  [Model]="window.details.mobile"
+  *ngIf="window.details.mobile.show"
+  [style]="window.details.mobile.style"
+  [title]="window.details.mobile.title"
 >
   <ias-system-event-process-realtime
-    [data]="window.details.data"
-    (close)="window.details.show = false"
+    [data]="window.details.mobile.data"
+    (close)="window.details.mobile.show = false"
     (picture)="picture.open($event)"
   ></ias-system-event-process-realtime>
 </ias-window>
 <!--  ias-system-event-process-realtime  -->
+<!--  ias-system-event-gps-task-details-container  -->
+<ias-window
+  [Model]="window.details.sample"
+  *ngIf="window.details.sample.show"
+  [style]="window.details.sample.style"
+  [title]="window.details.sample.title"
+>
+  <ias-system-event-gps-task-details-container
+    [data]="window.details.sample.data"
+    (close)="window.details.sample.show = false"
+    (picture)="picture.open($event)"
+    (video)="video.sample.open($event)"
+  ></ias-system-event-gps-task-details-container>
+</ias-window>
+<!--  ias-system-event-gps-task-details-container  -->
 
 <!--  ias-system-event-manager-realtime  -->
 <ias-window
@@ -233,4 +248,19 @@
   <ias-system-task-video
     [args]="window.video.shop.args"
   ></ias-system-task-video>
+</ias-window>
+
+<ias-window
+  [Model]="window.video.sample"
+  *ngIf="window.video.sample.show"
+  [style]="window.video.sample.style"
+  [title]="window.video.sample.title"
+  [mask]="false"
+>
+  <video
+    autoplay="autoplay"
+    controls
+    [src]="window.video.sample.src"
+    (error)="window.video.sample.on.error($event)"
+  ></video>
 </ias-window>

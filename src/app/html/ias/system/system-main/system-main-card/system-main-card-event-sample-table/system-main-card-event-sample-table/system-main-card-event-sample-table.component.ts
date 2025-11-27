@@ -18,7 +18,7 @@ export class SystemMainCardEventSampleTableComponent {
   @Output() details = new EventEmitter<GpsTaskSampleRecord>();
   @Output() position = new EventEmitter<GpsTaskSampleRecord>();
 
-  widths = ['120px', 'auto', '90px', '56px'];
+  widths = ['90px', 'auto', '60px', '56px'];
   Color = ColorTool;
   on = {
     select: (item: GpsTaskSampleRecord) => {

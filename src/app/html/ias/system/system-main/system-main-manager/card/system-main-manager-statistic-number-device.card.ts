@@ -1,8 +1,7 @@
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
-import { SystemMainManagerWindow } from '../window/system-main-manager.window';
 
 export class SystemMainManagerCardStatisticNumberDevice {
-  constructor(private window: SystemMainManagerWindow) {}
+  constructor() {}
 
-  duration = DateTimeTool.all.year(new Date());
+  duration = DateTimeTool.all.month(new Date());
 }

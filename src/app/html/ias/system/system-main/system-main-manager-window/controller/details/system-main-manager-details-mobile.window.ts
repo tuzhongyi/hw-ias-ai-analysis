@@ -2,7 +2,7 @@ import { WindowViewModel } from '../../../../../../../common/components/window-c
 import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 
-export class SystemMainManagerDetailsWindow extends WindowViewModel {
+export class SystemMainManagerDetailsMobileWindow extends WindowViewModel {
   style = {
     ...SizeTool.window.large,
   };

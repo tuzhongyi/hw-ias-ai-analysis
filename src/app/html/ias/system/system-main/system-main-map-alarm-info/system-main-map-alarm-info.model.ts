@@ -1,12 +1,11 @@
 import { EventEmitter } from '@angular/core';
-import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { Paged } from '../../../../../common/data-core/models/page-list.model';
 
-export interface SystemMainMapAlarmInfoInput {
-  data?: MobileEventRecord;
+export interface SystemMainMapAlarmInfoInput<T> {
+  data?: T;
 }
-export interface SystemMainMapAlarmInfoOutput {
+export interface SystemMainMapAlarmInfoOutput<T> {
   close: EventEmitter<void>;
-  video: EventEmitter<MobileEventRecord>;
-  image: EventEmitter<Paged<MobileEventRecord>>;
+  video: EventEmitter<T>;
+  image: EventEmitter<Paged<T>>;
 }

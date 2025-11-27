@@ -36,7 +36,7 @@ export class SystemMainCardEventRealtimeStatisticComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.year(new Date());
+  @Input() duration = DateTimeTool.all.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
   @Output() type = new EventEmitter<number>();
   constructor(private business: SystemMainCardEventRealtimeStatisticBusiness) {}

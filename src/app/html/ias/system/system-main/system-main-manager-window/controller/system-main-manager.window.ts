@@ -1,4 +1,5 @@
-import { SystemMainManagerDetailsWindow } from './details/system-main-manager-details.window';
+import { SystemMainManagerDetailsMobileWindow } from './details/system-main-manager-details-mobile.window';
+import { SystemMainManagerDetailsSampleWindow } from './details/system-main-manager-details-sample.window';
 import { SystemMainManagerPictureWindow } from './picture/system-main-manager-picture.window';
 import { SystemMainManagerRecordWindow } from './record/system-main-manager-record.window';
 import { SystemMainManagerRoadWindow } from './road/system-main-manager-road.window';
@@ -7,6 +8,7 @@ import { SystemMainManagerTaskGPSWindow } from './task/system-main-manager-task-
 import { SystemMainManagerTaskShopWindow } from './task/system-main-manager-task-shop.window';
 
 import { SystemMainManagerVideoRecordWindow } from './video/system-main-manager-video-record.window';
+import { SystemMainManagerVideoSampleWindow } from './video/system-main-manager-video-sample.window';
 import { SystemMainManagerVideoShopWindow } from './video/system-main-manager-video-shop.window';
 
 export class SystemMainManagerWindow {
@@ -14,8 +16,12 @@ export class SystemMainManagerWindow {
   video = {
     shop: new SystemMainManagerVideoShopWindow(),
     record: new SystemMainManagerVideoRecordWindow(),
+    sample: new SystemMainManagerVideoSampleWindow(),
   };
-  details = new SystemMainManagerDetailsWindow();
+  details = {
+    mobile: new SystemMainManagerDetailsMobileWindow(),
+    sample: new SystemMainManagerDetailsSampleWindow(),
+  };
   record = new SystemMainManagerRecordWindow();
   task = {
     shop: new SystemMainManagerTaskShopWindow(),

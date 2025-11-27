@@ -46,18 +46,27 @@ export class SystemMainManagerMapController {
   };
 
   on = {
-    select: (data: ShopRegistration) => {
-      this.that.shop.selected = data;
+    shop: {
+      select: (data: ShopRegistration) => {
+        this.that.shop.selected = data;
+      },
+      details: (data: ShopRegistration) => {
+        this.that.shop.selected = data;
+        this.that.panel.details.show = true;
+      },
     },
-    details: (data: ShopRegistration) => {
-      this.that.shop.selected = data;
-      this.that.panel.details.show = true;
-    },
+
     heatmap: (datas: ILocation[]) => {
       this.heatmap.load.emit(datas);
     },
     picture: <T>(paged: Paged<T>) => {
       this.that.window.picture.open(paged);
+    },
+    sample: (data: GpsTaskSampleRecord) => {
+      this.that.window.details.sample.data = data;
+      this.that.window.details.sample.title =
+        data.SceneName || '定制场景事件详情';
+      this.that.window.details.sample.show = true;
     },
   };
 }

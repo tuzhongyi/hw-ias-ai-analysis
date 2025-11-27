@@ -151,8 +151,8 @@ export class SystemMainManagerComponent implements OnInit {
         this.map.moveto.emit(data);
       },
       details: (data: MobileEventRecord) => {
-        this.window.details.data = data;
-        this.window.details.show = true;
+        this.window.details.mobile.data = data;
+        this.window.details.mobile.show = true;
       },
     },
   };
@@ -191,7 +191,7 @@ export class SystemMainManagerComponent implements OnInit {
   table = {
     on: {
       details: (item: ShopRegistration) => {
-        this.map.on.details(item);
+        this.map.on.shop.details(item);
       },
       position: (item: ShopRegistration) => {
         if (!item.Location) {

@@ -1,6 +1,5 @@
 import { EventEmitter } from '@angular/core';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
-import { Paged } from '../../../../../../common/data-core/models/page-list.model';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapSampleController {
@@ -8,16 +7,12 @@ export class SystemMainMapSampleController {
     this.regist();
   }
   private regist() {
-    this.amap.event.sample.video.subscribe((x) => {
-      this.event.video.emit(x);
-    });
-    this.amap.event.sample.picture.subscribe((x) => {
-      this.event.picture.emit(x);
+    this.amap.event.sample.dblclick.subscribe((x) => {
+      this.event.dblclick.emit(x);
     });
   }
   event = {
-    video: new EventEmitter<GpsTaskSampleRecord>(),
-    picture: new EventEmitter<Paged<GpsTaskSampleRecord>>(),
+    dblclick: new EventEmitter<GpsTaskSampleRecord>(),
   };
   private datas?: GpsTaskSampleRecord[];
   private loaded = false;

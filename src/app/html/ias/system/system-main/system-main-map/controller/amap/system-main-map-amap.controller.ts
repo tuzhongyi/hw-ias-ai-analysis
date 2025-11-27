@@ -16,7 +16,6 @@ import { SystemMainMapAMapAlarmInfoController } from './alarm/system-main-map-am
 import { SystemMainMapAMapAlarmMarkerLayerController } from './alarm/system-main-map-amap-alarm-marker-layer.controller';
 import { SystemMainMapAMapAlarmScatterController } from './alarm/system-main-map-amap-alarm-scatter.controller';
 import { SystemMainMapAMapHeatmapController } from './heatmap/system-main-map-amap-heatmap.controller';
-import { SystemMainMapAMapSampleInfoController } from './sample/system-main-map-amap-sample-info.controller';
 import { SystemMainMapAMapSampleMarkerLayerController } from './sample/system-main-map-amap-sample-marker-layer.controller';
 import { SystemMainMapAMapShopMarkerLayerController } from './shop/system-main-map-amap-shop-marker-layer.controller';
 
@@ -50,8 +49,7 @@ export class SystemMainMapAMapController {
       picture: new EventEmitter<Paged<MobileEventRecord>>(),
     },
     sample: {
-      video: new EventEmitter<GpsTaskSampleRecord>(),
-      picture: new EventEmitter<Paged<GpsTaskSampleRecord>>(),
+      dblclick: new EventEmitter<GpsTaskSampleRecord>(),
     },
   };
 
@@ -80,6 +78,8 @@ export class SystemMainMapAMapController {
         this.init.alarm.scatter(container);
         this.init.alarm.info(map);
         this.init.alarm.marker(map, info);
+
+        this.init.sample.marker(map, info);
       });
   }
 
@@ -98,7 +98,6 @@ export class SystemMainMapAMapController {
       marker: new PromiseValue<SystemMainMapAMapAlarmMarkerLayerController>(),
     },
     sample: {
-      info: new PromiseValue<SystemMainMapAMapSampleInfoController>(),
       marker: new PromiseValue<SystemMainMapAMapSampleMarkerLayerController>(),
     },
 
@@ -162,6 +161,15 @@ export class SystemMainMapAMapController {
           this.regist.alarm.over(x as MobileEventRecord);
         });
         this.controller.alarm.marker.set(ctr);
+      },
+    },
+    sample: {
+      marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
+        let ctr = new SystemMainMapAMapSampleMarkerLayerController(map, info);
+        ctr.event.dblclick.subscribe((x) => {
+          this.event.sample.dblclick.emit(x);
+        });
+        this.controller.sample.marker.set(ctr);
       },
     },
 

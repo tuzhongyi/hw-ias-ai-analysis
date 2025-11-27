@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { MobileEventRecord } from '../../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { GpsTaskSampleRecord } from '../../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { Paged } from '../../../../../../../../common/data-core/models/page-list.model';
 import { ComponentTool } from '../../../../../../../../common/tools/component-tool/component.tool';
 import { SystemMainMapAlarmInfoComponent } from '../../../../system-main-map-alarm-info/system-main-map-alarm-info.component';
@@ -7,10 +7,10 @@ import { SystemMainMapAlarmInfoOutput } from '../../../../system-main-map-alarm-
 
 export class SystemMainMapAMapSampleInfoController {
   marker?: AMap.InfoWindow;
-  current?: MobileEventRecord;
+  current?: GpsTaskSampleRecord;
   event = {
-    video: new EventEmitter<MobileEventRecord>(),
-    picture: new EventEmitter<Paged<MobileEventRecord>>(),
+    video: new EventEmitter<GpsTaskSampleRecord>(),
+    picture: new EventEmitter<Paged<GpsTaskSampleRecord>>(),
     close: new EventEmitter<void>(),
   };
 
@@ -25,7 +25,7 @@ export class SystemMainMapAMapSampleInfoController {
     return marker;
   }
 
-  add(data: MobileEventRecord) {
+  add(data: GpsTaskSampleRecord) {
     if (this.current && this.current.Id === data.Id) return;
     this.current = data;
     let position: [number, number] = [0, 0];
@@ -36,7 +36,9 @@ export class SystemMainMapAMapSampleInfoController {
     let component = this.tool.create(SystemMainMapAlarmInfoComponent, {
       data: data,
     });
-    this.regist(component.instance as unknown as SystemMainMapAlarmInfoOutput);
+    this.regist(
+      component.instance as unknown as SystemMainMapAlarmInfoOutput<GpsTaskSampleRecord>
+    );
     let html = this.tool.get.html(component);
 
     if (this.marker) {
@@ -48,7 +50,7 @@ export class SystemMainMapAMapSampleInfoController {
     this.marker.open(this.map, position);
   }
 
-  regist(info: SystemMainMapAlarmInfoOutput) {
+  regist(info: SystemMainMapAlarmInfoOutput<GpsTaskSampleRecord>) {
     info.close.subscribe((x) => {
       this.event.close.emit();
       this.remove();

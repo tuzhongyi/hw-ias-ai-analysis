@@ -8,7 +8,7 @@
         <thead>
           <tr>
             <th>事件时间</th>
-            <th>事件类型</th>
+            <th>场景名称</th>
             <th>状态</th>
             <th class="center">操作</th>
           </tr>
@@ -32,8 +32,8 @@
             <td>
               {{ item.Time | date : "HH:mm:ss" }}
             </td>
-            <td [title]="item.Address ?? ''">
-              {{ item.Address }}
+            <td [title]="item.SceneName ?? ''">
+              {{ item.SceneName }}
             </td>
             <td>
               @if(!item.Confirmed){

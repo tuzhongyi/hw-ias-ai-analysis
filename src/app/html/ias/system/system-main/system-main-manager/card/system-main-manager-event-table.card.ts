@@ -21,8 +21,11 @@ export class SystemMainManagerCardEventTable {
     },
     details: (data: MobileEventRecord | GpsTaskSampleRecord) => {
       if (data instanceof MobileEventRecord) {
-        this.that.window.details.data = data;
-        this.that.window.details.show = true;
+        this.that.window.details.mobile.data = data;
+        this.that.window.details.mobile.show = true;
+      } else if (data instanceof GpsTaskSampleRecord) {
+        this.that.window.details.sample.data = data;
+        this.that.window.details.sample.show = true;
       }
     },
   };

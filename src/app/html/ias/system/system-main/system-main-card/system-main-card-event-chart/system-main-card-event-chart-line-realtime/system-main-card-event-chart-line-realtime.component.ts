@@ -36,7 +36,7 @@ export class SystemMainCardEventChartLineRealtimeComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.week(new Date());
+  @Input() duration = DateTimeTool.all.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
   constructor(private business: SystemMainCardEventChartLineRealtimeBusiness) {}
 
@@ -101,7 +101,7 @@ export class SystemMainCardEventChartLineRealtimeComponent
   };
 
   unit = {
-    value: DurationUnit.week,
+    value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
       this.duration = DateTimeTool.all.unit(this.date, this.unit.value);

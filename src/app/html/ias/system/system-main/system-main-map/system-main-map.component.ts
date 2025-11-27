@@ -27,8 +27,9 @@ import { SystemMainMapController } from './controller/system-main-map.controller
   providers: [SystemMainMapBusiness, SystemMainMapController],
 })
 export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
-  @Output() itemclick = new EventEmitter<ShopRegistration>();
-  @Output() itemdblclick = new EventEmitter<ShopRegistration>();
+  @Output() shopclick = new EventEmitter<ShopRegistration>();
+  @Output() shopdblclick = new EventEmitter<ShopRegistration>();
+  @Output() sampledblclick = new EventEmitter<GpsTaskSampleRecord>();
   @Input() moveto?: EventEmitter<ILocation>;
   @Input() select?: EventEmitter<ShopRegistration>;
   @Input() over?: EventEmitter<ShopRegistration>;
@@ -176,6 +177,7 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
       this.regist.map();
       this.regist.alarm();
       this.regist.heatmap();
+      this.regist.sample();
     },
     heatmap: () => {
       if (this.heatmapload) {
@@ -226,10 +228,15 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         this.subscription.add(sub);
       }
       this.controller.shop.event.click.subscribe((x) => {
-        this.itemclick.emit(x);
+        this.shopclick.emit(x);
       });
       this.controller.shop.event.dblclick.subscribe((x) => {
-        this.itemdblclick.emit(x);
+        this.shopdblclick.emit(x);
+      });
+    },
+    sample: () => {
+      this.controller.sample.event.dblclick.subscribe((x) => {
+        this.sampledblclick.emit(x);
       });
     },
   };

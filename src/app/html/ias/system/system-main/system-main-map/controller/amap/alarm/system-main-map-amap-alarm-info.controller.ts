@@ -36,7 +36,9 @@ export class SystemMainMapAMapAlarmInfoController {
     let component = this.tool.create(SystemMainMapAlarmInfoComponent, {
       data: data,
     });
-    this.regist(component.instance as unknown as SystemMainMapAlarmInfoOutput);
+    this.regist(
+      component.instance as unknown as SystemMainMapAlarmInfoOutput<MobileEventRecord>
+    );
     let html = this.tool.get.html(component);
 
     if (this.marker) {
@@ -52,7 +54,7 @@ export class SystemMainMapAMapAlarmInfoController {
     }, 1);
   }
 
-  regist(info: SystemMainMapAlarmInfoOutput) {
+  regist(info: SystemMainMapAlarmInfoOutput<MobileEventRecord>) {
     info.close.subscribe((x) => {
       this.event.close.emit();
       this.remove();

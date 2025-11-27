@@ -36,7 +36,7 @@ export class SystemMainCardEventChartLineShopComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.week(new Date());
+  @Input() duration = DateTimeTool.all.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
   constructor(private business: SystemMainCardEventChartLineShopBusiness) {}
 

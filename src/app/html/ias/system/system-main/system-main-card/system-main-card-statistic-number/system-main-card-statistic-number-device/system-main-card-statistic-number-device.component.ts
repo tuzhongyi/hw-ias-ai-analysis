@@ -35,7 +35,7 @@ export class SystemMainCardStatisticNumberDeviceComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.year(new Date());
+  @Input() duration = DateTimeTool.all.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
   @Output() itemclick = new EventEmitter<string>();
 
