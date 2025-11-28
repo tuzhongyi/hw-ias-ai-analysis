@@ -9,6 +9,7 @@ import { EnumNameValue } from '../../../../../common/data-core/models/capabiliti
 import { DateTimeTool } from '../../../../../common/tools/date-time-tool/datetime.tool';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
+import { SystemMapStatisticComponent } from '../../system-map/system-map-statistic/system-map-statistic.component';
 import { SystemMainCardDeviceRouteStatisticComponent } from '../system-main-card/system-main-card-device-route-statistic/system-main-card-device-route-statistic/system-main-card-device-route-statistic.component';
 import { SystemMainCardDeviceStateComponent } from '../system-main-card/system-main-card-device-state/system-main-card-device-state.component';
 import { SystemMainCardEventChartLineRealtimeComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-realtime/system-main-card-event-chart-line-realtime.component';
@@ -29,6 +30,7 @@ import {
   EventMode,
   SyatemMainMapNavigation,
 } from '../system-main-map-navigation/system-main-map-navigation.model';
+import { SystemMainMapStateShopComponent } from '../system-main-map-state/system-main-map-state-shop/system-main-map-state-shop/system-main-map-state-shop.component';
 import { SystemMainMapComponent } from '../system-main-map/system-main-map.component';
 import { SystemMainPanelShopRegistrationTableManagerComponent } from '../system-main-panel/system-main-panel-shop-registration/system-main-panel-shop-registration-table-manager/system-main-panel-shop-registration-table-manager.component';
 import { SystemMainManagerBusiness } from './business/system-main-manager.business';
@@ -60,6 +62,8 @@ import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
     SystemMainManagerWindowComponent,
     SystemMainMapNavigationComponent,
     SystemMainMapHeatmapFilterComponent,
+    SystemMainMapStateShopComponent,
+    SystemMapStatisticComponent,
   ],
   templateUrl: './system-main-manager.component.html',
   styleUrl: './system-main-manager.component.less',
@@ -67,11 +71,13 @@ import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
 })
 export class SystemMainManagerComponent implements OnInit {
   constructor(
-    private business: SystemMainManagerBusiness,
+    public business: SystemMainManagerBusiness,
     public toastr: ToastrService
   ) {}
 
+  EventMode = EventMode;
   Navigation = SyatemMainMapNavigation;
+
   window = new SystemMainManagerWindow();
   load = new EventEmitter<void>();
   card = new SystemMainManagerCard(this);
@@ -172,7 +178,6 @@ export class SystemMainManagerComponent implements OnInit {
     },
     selected: undefined as ShopRegistration | undefined,
     args: new SystemMainManagerShopArgs(),
-
     load: () => {
       this.business.shop.load(this.shop.args).then((x) => {
         this.shop.data.registration = x;

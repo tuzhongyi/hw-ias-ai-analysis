@@ -65,11 +65,18 @@ export class SystemMainCardDeviceRouteStatisticComponent {
   private load() {
     this.business.load(this.duration).then((datas) => {
       this.datas = datas;
+      if (this.datas.length > 3) {
+        this.color.length = 3;
+        for (let i = 3; i < this.datas.length; i++) {
+          let color = ColorTool.getColorByIndex(i, 10);
+          this.color.push(color);
+        }
+      }
     });
   }
 
   unit = {
-    value: DurationUnit.year,
+    value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
       let today = new Date();

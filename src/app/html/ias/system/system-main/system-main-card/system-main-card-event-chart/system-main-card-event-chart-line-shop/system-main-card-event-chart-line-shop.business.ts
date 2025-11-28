@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as echarts from 'echarts';
 import { Division } from '../../../../../../../common/data-core/models/arm/division/division.model';
 import { EventNumberStatistic } from '../../../../../../../common/data-core/models/arm/event/event-number-statistic.model';
 import { IIdNameModel } from '../../../../../../../common/data-core/models/model.interface';
@@ -11,6 +10,7 @@ import {
   IChartData,
   ITimeData,
 } from '../../../../../../../common/tools/chart-tool/chart.model';
+import { ChartTool } from '../../../../../../../common/tools/chart-tool/chart.tool';
 import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
 import { LocaleCompare } from '../../../../../../../common/tools/compare-tool/compare.tool';
 import { DateTimeTool } from '../../../../../../../common/tools/date-time-tool/datetime.tool';
@@ -46,24 +46,7 @@ export class SystemMainCardEventChartLineShopBusiness {
       let item = this.convert(division, datas, type);
 
       let color = ColorTool.EventType(type);
-      let rgb = ColorTool.hex.to.rgb(color);
-      item.color = {
-        line: color,
-        area: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: `rgba(${rgb.R},${rgb.G},${rgb.B},0.3)`,
-          },
-          {
-            offset: 1,
-            color: 'rgba(0,0,0,0)',
-          },
-        ]),
-
-        point: {
-          border: color,
-        },
-      };
+      item.color = ChartTool.color.get(color);
       item.Name = types.find((x) => x.Value == type)?.Name ?? '';
       items.push(item);
     }

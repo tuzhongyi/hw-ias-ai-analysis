@@ -1,4 +1,5 @@
 import { EventEmitter } from '@angular/core';
+import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
@@ -20,6 +21,9 @@ export class SystemMainManagerMapController {
     device: MobileDevice[];
     realtime: MobileEventRecord[];
     sample: GpsTaskSampleRecord[];
+  };
+  private source = {
+    shop: [] as ShopRegistration[],
   };
 
   display = {
@@ -45,6 +49,8 @@ export class SystemMainManagerMapController {
     },
   };
 
+  filter(state?: ShopObjectState) {}
+
   on = {
     shop: {
       select: (data: ShopRegistration) => {
@@ -53,6 +59,11 @@ export class SystemMainManagerMapController {
       details: (data: ShopRegistration) => {
         this.that.shop.selected = data;
         this.that.panel.details.show = true;
+      },
+      filter: (states: ShopObjectState[]) => {
+        this.data.shop = this.that.shop.data.registration.filter((x) =>
+          states.includes(x.ObjectState)
+        );
       },
     },
 

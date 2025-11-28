@@ -1,0 +1,12 @@
+<div class="system-main-map-state-shop">
+  <ng-container *ngFor="let item of datas">
+    <ias-system-main-map-state-shop-item
+      [ngClass]="{
+        selected: selected.includes(item.state)
+      }"
+      *ngIf="item.show"
+      [data]="item"
+      (click)="on.select(item.state)"
+    ></ias-system-main-map-state-shop-item>
+  </ng-container>
+</div>

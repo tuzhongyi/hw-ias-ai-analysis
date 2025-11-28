@@ -1,7 +1,7 @@
 <div class="system-map-statistic">
   <div class="system-map-statistic-item">
     <div class="system-map-statistic-item-icon">
-      <div class="system-map-statistic-item-icon-shop"></div>
+      <div [class]="'system-map-statistic-item-icon-' + type"></div>
     </div>
     <div class="system-map-statistic-item-content">
       <div
@@ -11,11 +11,12 @@
         blue:color == 'blue',
         orange:color == 'orange',
       }"
+        [style.color]="!colorclass.includes(color) ? color : ''"
       >
         {{ title }}
       </div>
       <div class="system-map-statistic-item-content-value">
-        {{ shop }}
+        {{ value }}
       </div>
     </div>
   </div>

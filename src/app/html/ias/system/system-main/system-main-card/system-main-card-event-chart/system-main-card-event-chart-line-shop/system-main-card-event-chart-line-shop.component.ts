@@ -78,17 +78,18 @@ export class SystemMainCardEventChartLineShopComponent
   }
 
   get title() {
+    let name = '商铺变更统计';
     switch (this.unit.value) {
       case DurationUnit.day:
-        return '今日商铺更变统计';
+        return `今日${name}`;
       case DurationUnit.week:
-        return '本周商铺更变统计';
+        return `本周${name}`;
       case DurationUnit.month:
-        return '本月商铺更变统计';
+        return `本月${name}`;
       case DurationUnit.year:
-        return '本年商铺更变统计';
+        return `今年${name}`;
       default:
-        return '商铺更变统计';
+        return name;
     }
   }
 
@@ -101,7 +102,7 @@ export class SystemMainCardEventChartLineShopComponent
   };
 
   unit = {
-    value: DurationUnit.week,
+    value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
       this.duration = DateTimeTool.all.unit(this.date, this.unit.value);

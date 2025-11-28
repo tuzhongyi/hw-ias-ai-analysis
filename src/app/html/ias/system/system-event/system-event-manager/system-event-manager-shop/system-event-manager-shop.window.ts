@@ -171,7 +171,7 @@ class MapWindow extends WindowViewModel {
   style = {
     ...SizeTool.window.max,
   };
-  title = '商铺更变';
+  title = '商铺变更';
   args = new SystemEventMapArgs(
     ObjectTool.model.MobileEventRecord.get.type.shop
   );

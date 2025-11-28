@@ -1,0 +1,19 @@
+.system-main-map-state-shop {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: rgba(14, 7, 44, 0.3);
+  padding: 15px;
+  box-sizing: border-box;
+
+
+  &>* {
+    opacity: 0.5;
+
+    &.selected {
+      opacity: 1;
+    }
+  }
+}

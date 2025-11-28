@@ -66,7 +66,7 @@ export class SystemMainCardStatisticNumberDeviceComponent
     this.datas = await this.business.load(duration);
   }
   unit = {
-    value: DurationUnit.year,
+    value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
       let today = new Date();

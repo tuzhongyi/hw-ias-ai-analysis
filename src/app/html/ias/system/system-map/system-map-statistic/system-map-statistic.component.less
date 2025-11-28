@@ -22,13 +22,24 @@
       background-repeat: no-repeat;
       background-position: center;
 
-      &-shop {
+      &>* {
         width: 42px;
         height: 40px;
-        background-image: url("../../../../../../assets/image/map/panel/shop.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
         background-position: center;
+      }
+
+      &-shop {
+        background-image: url("../../../../../../assets/image/map/panel/map-panel-shop.png");
+      }
+
+      &-realtime {
+        background-image: url("../../../../../../assets/image/map/panel/map-panel-realtime.png");
+      }
+
+      &-gps {
+        background-image: url("../../../../../../assets/image/map/panel/map-panel-gps.png");
       }
     }
 

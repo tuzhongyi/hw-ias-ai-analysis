@@ -17,11 +17,15 @@ export class SystemMainManagerPanelNavigation {
   private get map() {
     return this.that.map;
   }
+  private get panel() {
+    return this.that.panel;
+  }
 
   change(index: SyatemMainMapNavigation, first = false) {
     if (index === this.index && !first) return;
     this.display.card(index);
     this.display.map(index);
+    this.display.panel(index);
     this.index = index;
   }
 
@@ -132,6 +136,37 @@ export class SystemMainManagerPanelNavigation {
           this.map.display.alarm = false;
           this.map.display.sample = false;
           this.map.display.heatmap = true;
+          break;
+        default:
+          break;
+      }
+    },
+    panel: (index: SyatemMainMapNavigation) => {
+      switch (index) {
+        case SyatemMainMapNavigation.main:
+          this.panel.state.realtime.show = true;
+          this.panel.state.shop.show = true;
+          this.panel.state.sample.show = true;
+          break;
+        case SyatemMainMapNavigation.shop:
+          this.panel.state.realtime.show = false;
+          this.panel.state.shop.show = true;
+          this.panel.state.sample.show = false;
+          break;
+        case SyatemMainMapNavigation.realtime:
+          this.panel.state.realtime.show = true;
+          this.panel.state.shop.show = false;
+          this.panel.state.sample.show = false;
+          break;
+        case SyatemMainMapNavigation.gpstask:
+          this.panel.state.realtime.show = false;
+          this.panel.state.shop.show = false;
+          this.panel.state.sample.show = true;
+          break;
+        case SyatemMainMapNavigation.heatmap:
+          this.panel.state.realtime.show = false;
+          this.panel.state.shop.show = false;
+          this.panel.state.sample.show = false;
           break;
         default:
           break;

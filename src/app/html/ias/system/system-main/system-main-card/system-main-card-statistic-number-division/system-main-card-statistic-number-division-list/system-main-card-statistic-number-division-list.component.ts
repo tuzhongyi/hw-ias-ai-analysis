@@ -75,7 +75,7 @@ export class SystemMainCardStatisticNumberDivisionListComponent
   }
 
   unit = {
-    value: DurationUnit.year,
+    value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
       this.duration = DateTimeTool.all.unit(new Date(), this.unit.value);

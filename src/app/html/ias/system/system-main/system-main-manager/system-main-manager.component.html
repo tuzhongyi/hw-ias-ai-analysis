@@ -30,6 +30,32 @@
     ></ias-system-main-map-heatmap-filter>
   </div>
 
+  <div class="system-main-manager-state-shop">
+    <ias-system-main-map-state-shop
+      *ngIf="panel.state.shop.show"
+      [datas]="shop.data.registration"
+      [(selected)]="shop.args.states!"
+      (selectedChange)="map.on.shop.filter($event)"
+    ></ias-system-main-map-state-shop>
+  </div>
+
+  <div class="system-main-manager-state-event">
+    <ias-system-map-statistic
+      *ngIf="panel.state.realtime.show"
+      [value]="map.data.realtime.length"
+      [type]="'realtime'"
+      [title]="'实时事件'"
+      (click)="card.statistic.pie.on.item(EventMode.realtime)"
+    ></ias-system-map-statistic>
+    <ias-system-map-statistic
+      *ngIf="panel.state.sample.show"
+      [value]="map.data.sample.length"
+      [type]="'gps'"
+      [title]="'场景事件'"
+      (click)="card.statistic.pie.on.item(EventMode.gpstask)"
+    ></ias-system-map-statistic>
+  </div>
+
   <div
     class="system-main-manager-card-list left"
     *ngIf="panel.navigation.index != Navigation.heatmap"

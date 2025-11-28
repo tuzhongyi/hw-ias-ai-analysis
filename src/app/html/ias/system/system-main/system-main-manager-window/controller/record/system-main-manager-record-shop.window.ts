@@ -13,7 +13,7 @@ export class SystemMainManagerRecordShopWindow extends WindowViewModel {
     boxShadow: 'none',
     transform: 'none',
   };
-  title = '商铺更变';
+  title = '商铺变更';
   args = new SystemEventTableArgs();
 
   open(args: SystemEventTableArgs) {

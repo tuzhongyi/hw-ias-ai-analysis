@@ -57,7 +57,7 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
       datas.set(division, [
         {
           key: 'howell-icon-shop',
-          value: { number: value.shop, title: '商铺更变' },
+          value: { number: value.shop, title: '商铺变更' },
         },
         {
           key: 'howell-icon-alarm4',

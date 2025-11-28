@@ -21,7 +21,7 @@ export const SystemMainCardStatisticEventChartOption: any = {
         borderWidth: 2,
       },
       data: [
-        { id: 1, value: 0, name: '商铺更变' },
+        { id: 1, value: 0, name: '商铺变更' },
         { id: 2, value: 0, name: '实时事件' },
         { id: 3, value: 0, name: '定制场景' },
       ],
@@ -39,7 +39,7 @@ export const SystemMainCardStatisticEventChartOption: any = {
         borderWidth: 2,
       },
       data: [
-        { id: 1, value: 0, name: '商铺更变' },
+        { id: 1, value: 0, name: '商铺变更' },
         { id: 2, value: 0, name: '实时事件' },
         { id: 3, value: 0, name: '定制场景' },
       ],

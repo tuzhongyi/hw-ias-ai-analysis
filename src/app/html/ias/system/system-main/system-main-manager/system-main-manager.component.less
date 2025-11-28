@@ -43,6 +43,31 @@
     height: @control-height;
   }
 
+  &-state {
+    &-shop {
+      position: absolute;
+      top: @padding;
+      right: calc(@padding + @card-width + @gap);
+
+    }
+
+    &-event {
+      position: absolute;
+      top: @padding;
+      left: calc(@padding + @card-width + @gap);
+
+      &>* {
+        opacity: 0.9;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+    }
+  }
+
   &-navigation {
     position: absolute;
     bottom: 0;

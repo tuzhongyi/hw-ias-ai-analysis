@@ -43,7 +43,7 @@ export class SystemMainCardStatisticEventBusiness {
     let items: ChartItem[] = [
       {
         id: EventMode.shop,
-        name: '商铺更变',
+        name: '商铺变更',
         value: this.convert(
           data.mobile,
           ObjectTool.model.MobileEventRecord.get.type.shop

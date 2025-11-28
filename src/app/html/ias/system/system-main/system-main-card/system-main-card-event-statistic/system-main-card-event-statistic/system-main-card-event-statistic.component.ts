@@ -71,7 +71,7 @@ export class SystemMainCardEventStatisticComponent
   }
 
   unit = {
-    value: DurationUnit.year,
+    value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
       let today = new Date();

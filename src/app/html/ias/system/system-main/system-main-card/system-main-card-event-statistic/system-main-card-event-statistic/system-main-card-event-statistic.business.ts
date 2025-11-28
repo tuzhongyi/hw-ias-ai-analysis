@@ -28,7 +28,7 @@ export class SystemMainCardEventStatisticBusiness {
     let page = await this.data.event(duration, types);
     let item = new SystemMainCardEventStatisticItem();
     item.icon = 'shop';
-    item.name = '商铺更变';
+    item.name = '商铺变更';
     item.value = page.TotalRecordCount;
     return item;
   }

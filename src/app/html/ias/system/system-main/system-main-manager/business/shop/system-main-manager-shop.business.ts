@@ -15,6 +15,9 @@ export class SystemMainManagerShopBusiness {
     if (args.road.ori) {
       params.OriRoadIds = [args.road.ori.Id];
     }
+    if (args.states && args.states.length > 0) {
+      params.ObjectStates = [...args.states];
+    }
     return this.service.shop.all(params).then((datas) => {
       datas.forEach((x) => {
         if (x.AssociatedCount) {

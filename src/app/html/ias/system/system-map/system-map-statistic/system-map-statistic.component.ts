@@ -8,7 +8,10 @@ import { Component, Input } from '@angular/core';
   styleUrl: './system-map-statistic.component.less',
 })
 export class SystemMapStatisticComponent {
-  @Input() shop = 0;
+  @Input() value = 0;
   @Input() color = '';
   @Input() title = '商铺';
+  @Input() type: 'shop' | 'realtime' | 'gps' = 'shop';
+
+  colorclass = ['green', 'blue', 'orange'];
 }

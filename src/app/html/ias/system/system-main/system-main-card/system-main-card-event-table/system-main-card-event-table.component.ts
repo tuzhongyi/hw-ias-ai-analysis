@@ -41,7 +41,7 @@ export class SystemMainCardEventTableComponent {
     let name = '';
     switch (this.mode) {
       case EventMode.shop:
-        name = '商铺更变';
+        name = '商铺变更';
         break;
       case EventMode.realtime:
         name = '实时事件';

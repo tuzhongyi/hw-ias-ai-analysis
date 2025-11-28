@@ -11,6 +11,7 @@ import {
   IChartData,
   ITimeData,
 } from '../../../../../../../common/tools/chart-tool/chart.model';
+import { ChartTool } from '../../../../../../../common/tools/chart-tool/chart.tool';
 import { LocaleCompare } from '../../../../../../../common/tools/compare-tool/compare.tool';
 import { DateTimeTool } from '../../../../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
@@ -38,7 +39,7 @@ export class SystemMainCardEventChartLineRealtimeBusiness {
       datas,
       types.map((x) => x.Value)
     );
-
+    model.color = ChartTool.color.get('#ff762c');
     return model;
   }
   private convert(

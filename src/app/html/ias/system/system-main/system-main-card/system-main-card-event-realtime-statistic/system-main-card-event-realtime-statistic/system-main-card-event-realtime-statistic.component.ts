@@ -40,7 +40,7 @@ export class SystemMainCardEventRealtimeStatisticComponent
   @Output() durationChange = new EventEmitter<Duration>();
   @Output() type = new EventEmitter<number>();
   constructor(private business: SystemMainCardEventRealtimeStatisticBusiness) {}
-  title = '本月事件统计';
+  title = '本月实时事件统计';
 
   datas: ChartItem[] = [];
   color = [
@@ -86,7 +86,7 @@ export class SystemMainCardEventRealtimeStatisticComponent
     },
   };
   unit = {
-    value: DurationUnit.year,
+    value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
       let today = new Date();
