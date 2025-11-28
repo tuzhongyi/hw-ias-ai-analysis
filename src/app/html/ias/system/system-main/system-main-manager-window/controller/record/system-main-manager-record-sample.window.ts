@@ -1,5 +1,5 @@
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
-import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
+import { SystemEventGpsTaskTableArgs } from '../../../../system-event/system-event-gps-task/system-event-gps-task-table/system-event-gps-task-table.model';
 
 export class SystemMainManagerRecordSampleWindow extends WindowViewModel {
   style = {
@@ -14,5 +14,5 @@ export class SystemMainManagerRecordSampleWindow extends WindowViewModel {
     transform: 'none',
   };
   title = '定制场景事件';
-  duration?: Duration;
+  args = new SystemEventGpsTaskTableArgs();
 }

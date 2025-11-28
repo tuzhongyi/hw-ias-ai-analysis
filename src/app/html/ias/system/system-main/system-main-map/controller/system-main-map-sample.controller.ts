@@ -20,9 +20,13 @@ export class SystemMainMapSampleController {
     this.datas = datas;
     let marker = await this.amap.sample.marker.get();
     marker.load(datas);
+    let scatter = await this.amap.sample.scatter.get();
+    scatter.load(datas);
     this.loaded = true;
   }
   async clear() {
+    let scatter = await this.amap.sample.scatter.get();
+    scatter.clear();
     let marker = await this.amap.sample.marker.get();
     marker.clear();
     this.loaded = false;

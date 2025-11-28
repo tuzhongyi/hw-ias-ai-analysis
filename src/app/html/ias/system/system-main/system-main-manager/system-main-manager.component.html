@@ -45,14 +45,14 @@
       [value]="map.data.realtime.length"
       [type]="'realtime'"
       [title]="'实时事件'"
-      (click)="card.statistic.pie.on.item(EventMode.realtime)"
+      (click)="card.statistic.pie.on.item(EventMode.realtime, duration)"
     ></ias-system-map-statistic>
     <ias-system-map-statistic
       *ngIf="panel.state.sample.show"
       [value]="map.data.sample.length"
       [type]="'gps'"
       [title]="'场景事件'"
-      (click)="card.statistic.pie.on.item(EventMode.gpstask)"
+      (click)="card.statistic.pie.on.item(EventMode.gpstask, duration)"
     ></ias-system-map-statistic>
   </div>
 

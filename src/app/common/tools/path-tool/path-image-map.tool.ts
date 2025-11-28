@@ -41,6 +41,7 @@ export class PathImageMapTool {
 
     breath: {
       red: '/assets/image/map/breath_red.png',
+      cyan: '/assets/image/map/breath_cyan.png',
     },
     info: {
       red: '/assets/image/map/map-alarm-info.png',

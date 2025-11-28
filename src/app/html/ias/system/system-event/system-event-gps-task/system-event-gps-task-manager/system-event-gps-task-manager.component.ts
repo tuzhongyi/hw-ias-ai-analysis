@@ -15,7 +15,6 @@ import {
   Page,
   Paged,
 } from '../../../../../../common/data-core/models/page-list.model';
-import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventGpsTaskDetailsContainerComponent } from '../system-event-gps-task-details/system-event-gps-task-details-container/system-event-gps-task-details-container.component';
@@ -41,7 +40,7 @@ import { SystemEventGpsTaskManagerWindow } from './system-event-gps-task-manager
 })
 export class SystemEventGpsTaskManagerComponent implements OnChanges {
   @Input() iswindow = false;
-  @Input('duration') input_duration?: Duration;
+  @Input() args?: SystemEventGpsTaskTableArgs;
   constructor(
     public source: SystemEventGpsTaskManagerSource,
     private toastr: ToastrService
@@ -54,17 +53,20 @@ export class SystemEventGpsTaskManagerComponent implements OnChanges {
   };
 
   private change = {
-    duration: (simple: SimpleChange) => {
+    args: (simple: SimpleChange) => {
       if (simple) {
-        if (this.input_duration) {
-          this.table.args.duration = this.input_duration;
+        if (this.args) {
+          this.table.args = {
+            ...this.table.args,
+            ...this.args,
+          };
         }
       }
     },
   };
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.change.duration(changes['input_duration']);
+    this.change.args(changes['args']);
   }
 
   on = {

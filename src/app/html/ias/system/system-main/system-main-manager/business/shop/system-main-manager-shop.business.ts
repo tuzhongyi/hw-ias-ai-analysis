@@ -20,7 +20,9 @@ export class SystemMainManagerShopBusiness {
     }
     return this.service.shop.all(params).then((datas) => {
       datas.forEach((x) => {
-        if (x.AssociatedCount) {
+        if (x.Removal) {
+          x.ObjectState = ShopObjectState.Disappeared;
+        } else if (x.AssociatedCount) {
           x.ObjectState = ShopObjectState.Existed;
         } else {
           x.ObjectState = ShopObjectState.Created;

@@ -1,13 +1,13 @@
 import { EventEmitter } from '@angular/core';
-import { MobileEventRecord } from '../../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { GpsTaskSampleRecord } from '../../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
 import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { IASMapAMapConverter } from '../../../../../../share/map/controller/amap/ias-map-amap.converter';
 
-export class SystemMainMapAMapAlarmScatterController {
+export class SystemMainMapAMapSampleScatterController {
   event = {
     move: new EventEmitter<ILocation | undefined>(),
-    click: new EventEmitter<MobileEventRecord>(),
+    click: new EventEmitter<GpsTaskSampleRecord>(),
   };
   constructor(private container: Loca.Container) {
     this.layer = this.init();
@@ -31,12 +31,12 @@ export class SystemMainMapAMapAlarmScatterController {
     unit: 'px',
     size: [100, 100],
     borderWidth: 0,
-    texture: PathTool.image.map.alarm.breath.red,
+    texture: PathTool.image.map.alarm.breath.cyan,
     duration: 500,
     animate: true,
   };
 
-  load(datas: MobileEventRecord[]) {
+  load(datas: GpsTaskSampleRecord[]) {
     let points = datas
       .filter((x) => !!x.Location)
       .map(
@@ -58,7 +58,7 @@ export class SystemMainMapAMapAlarmScatterController {
   moving(position: [number, number]) {
     let point = this.layer.queryFeature(position);
     if (point) {
-      this.over = point.properties as MobileEventRecord;
+      this.over = point.properties as GpsTaskSampleRecord;
       this.event.move.emit(this.over);
     } else {
       if (this.over) {
@@ -70,7 +70,7 @@ export class SystemMainMapAMapAlarmScatterController {
   click(position: [number, number]) {
     let point = this.layer.queryFeature(position);
     if (point) {
-      let data = point.properties as MobileEventRecord;
+      let data = point.properties as GpsTaskSampleRecord;
       if (data) {
         this.event.click.emit(data);
       }

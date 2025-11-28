@@ -17,6 +17,7 @@ import { SystemMainMapAMapAlarmMarkerLayerController } from './alarm/system-main
 import { SystemMainMapAMapAlarmScatterController } from './alarm/system-main-map-amap-alarm-scatter.controller';
 import { SystemMainMapAMapHeatmapController } from './heatmap/system-main-map-amap-heatmap.controller';
 import { SystemMainMapAMapSampleMarkerLayerController } from './sample/system-main-map-amap-sample-marker-layer.controller';
+import { SystemMainMapAMapSampleScatterController } from './sample/system-main-map-amap-sample-scatter.controller';
 import { SystemMainMapAMapShopMarkerLayerController } from './shop/system-main-map-amap-shop-marker-layer.controller';
 
 export class SystemMainMapAMapController {
@@ -79,6 +80,7 @@ export class SystemMainMapAMapController {
         this.init.alarm.info(map);
         this.init.alarm.marker(map, info);
 
+        this.init.sample.scatter(container);
         this.init.sample.marker(map, info);
       });
   }
@@ -98,6 +100,7 @@ export class SystemMainMapAMapController {
       marker: new PromiseValue<SystemMainMapAMapAlarmMarkerLayerController>(),
     },
     sample: {
+      scatter: new PromiseValue<SystemMainMapAMapSampleScatterController>(),
       marker: new PromiseValue<SystemMainMapAMapSampleMarkerLayerController>(),
     },
 
@@ -164,6 +167,10 @@ export class SystemMainMapAMapController {
       },
     },
     sample: {
+      scatter: (loca: Loca.Container) => {
+        let ctr = new SystemMainMapAMapSampleScatterController(loca);
+        this.controller.sample.scatter.set(ctr);
+      },
       marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
         let ctr = new SystemMainMapAMapSampleMarkerLayerController(map, info);
         ctr.event.dblclick.subscribe((x) => {
@@ -234,6 +241,11 @@ export class SystemMainMapAMapController {
   focus(datas?: any) {
     this.map.get().then((x) => {
       x.setFitView(datas, true);
+      let center = x.getCenter();
+
+      x.setZoom(17);
+      x.setPitch(45);
+      x.setCenter(center);
     });
   }
   async destory() {
