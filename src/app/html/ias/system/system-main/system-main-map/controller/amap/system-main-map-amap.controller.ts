@@ -66,7 +66,7 @@ export class SystemMainMapAMapController {
         this.loca.set(container);
         container.animate.start();
 
-        this.init.road(map);
+        this.init.road(map, container);
         this.init.heatmap(container);
 
         let info = this.init.info(map);
@@ -113,6 +113,8 @@ export class SystemMainMapAMapController {
     map: (map: AMap.Map) => {
       this.regist.map(map);
       this.map.set(map);
+      console.log('overlays:', map.getAllOverlays());
+      console.log('layers:', map.getLayers());
     },
     shop: {
       point: (loca: Loca.Container) => {
@@ -180,8 +182,8 @@ export class SystemMainMapAMapController {
       },
     },
 
-    road: (map: AMap.Map) => {
-      let ctr = new IASMapAMapRoadController(map);
+    road: (map: AMap.Map, loca: Loca.Container) => {
+      let ctr = new IASMapAMapRoadController(map, loca);
       this.controller.road.set(ctr);
     },
     info: (map: AMap.Map) => {

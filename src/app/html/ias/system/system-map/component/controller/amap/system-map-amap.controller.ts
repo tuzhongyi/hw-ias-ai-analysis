@@ -60,7 +60,7 @@ export class SystemMapAMapController {
     this.regist.layer.marker(map);
     this.regist.layer.point(container);
     this.regist.circle(map);
-    this.regist.road(map);
+    this.regist.road(map, container);
   }
 
   private regist = {
@@ -124,9 +124,9 @@ export class SystemMapAMapController {
         console.error(error);
       }
     },
-    road: (map: AMap.Map) => {
+    road: (map: AMap.Map, loca: Loca.Container) => {
       try {
-        let road = new IASMapAMapRoadController(map);
+        let road = new IASMapAMapRoadController(map, loca);
         this.controller.road.set(road);
       } catch (error) {
         console.error(error);

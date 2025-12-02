@@ -38,6 +38,9 @@ export class IASMapAMapRoadLabelController {
       let center = GeoTool.polyline.center(points);
       if (center) {
         let label = this.create(data.Name, center);
+
+        let options = label.getOptions();
+        console.log(options);
         this.map.add(label);
         this.texts.set(data.Id, label);
 

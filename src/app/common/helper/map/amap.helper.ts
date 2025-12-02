@@ -5,7 +5,8 @@ import { wait } from '../../tools/wait';
 import { AMapInputTip, AMapInputTipItem, AMapInputTips } from './amap.model';
 
 export class AMapHelper {
-  style = 'amap://styles/e8fb567a2f05a53b39e088f6fe186991';
+  styleid = 'e8fb567a2f05a53b39e088f6fe186991';
+  style = `amap://styles/${this.styleid}`;
   code = 'e1f1eeaee1b77531fa46d5230e2dfe20';
   key = {
     web: '6c2282c244333c7994d8465fd251ab63',

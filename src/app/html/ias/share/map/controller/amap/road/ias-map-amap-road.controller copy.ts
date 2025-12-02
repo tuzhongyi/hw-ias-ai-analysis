@@ -1,23 +1,22 @@
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
-import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
-import { IASMapAMapRoadLabelController } from './ias-map-amap-road-label.scatter';
-
+import { IASMapAMapRoadLabelController } from './ias-map-amap-road-label.controller';
 import { IASMapAMapRoadPolylineController } from './ias-map-amap-road-polyline.controller';
 
 export class IASMapAMapRoadController {
-  constructor(map: AMap.Map, private loca: Loca.Container) {
+  constructor(map: AMap.Map) {
     this.init.set(map);
   }
 
   private controller = {
     polyline: new PromiseValue<IASMapAMapRoadPolylineController>(),
-    labels: new Map<string, IASMapAMapRoadLabelController>(),
+    label: new PromiseValue<IASMapAMapRoadLabelController>(),
   };
 
   private init = {
     set: (map: AMap.Map) => {
       this.init.polyline(map);
+      this.init.label(map);
     },
     polyline: (map: AMap.Map) => {
       try {
@@ -27,35 +26,33 @@ export class IASMapAMapRoadController {
         console.error(error);
       }
     },
+    label: (map: AMap.Map) => {
+      try {
+        let label = new IASMapAMapRoadLabelController(map);
+        this.controller.label.set(label);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   };
 
   async load(datas: Road[]) {
     let polyline = await this.controller.polyline.get();
-
+    let label = await this.controller.label.get();
     let polylines: AMap.Polyline[] = [];
     datas.forEach((data) => {
       if (data.GeoLine) {
-        let points = this.get.points(data.GeoLine);
+        let points = data.GeoLine.map<[number, number]>((x) => [
+          x.Longitude,
+          x.Latitude,
+        ]);
         let item = polyline.add(data.Id, points);
         polylines.push(...item);
-        let label = new IASMapAMapRoadLabelController(this.loca, data);
-        this.controller.labels.set(data.Id, label);
+        label.add(data);
       }
     });
-
     return polylines;
   }
-
-  private get = {
-    points: (datas: GisPoint[]) => {
-      let points = datas.map<[number, number]>((x) => [
-        x.Longitude,
-        x.Latitude,
-      ]);
-      return points;
-    },
-  };
-
   select(road: Road) {
     this.controller.polyline.get().then((x) => {
       x.select(road.Id);
@@ -73,35 +70,18 @@ export class IASMapAMapRoadController {
   }
   async reload(datas: Road[]) {
     let polyline = await this.controller.polyline.get();
-
+    let label = await this.controller.label.get();
     let ids = datas.map((x) => x.Id);
     polyline.blur();
-
-    for (let i = 0; i < datas.length; i++) {
-      if (this.controller.labels.has(datas[i].Id)) {
-        continue;
-      }
-
-      let label = new IASMapAMapRoadLabelController(this.loca, datas[i]);
-      this.controller.labels.set(datas[i].Id, label);
-    }
-
-    this.controller.labels.forEach((x) => {
-      if (!ids.includes(x.data.Id)) {
-        x.clear();
-        this.controller.labels.delete(x.data.Id);
-      }
-    });
-
+    label.ignore(ids);
     polyline.ignore(ids);
   }
   clear() {
     this.controller.polyline.get().then((x) => {
       x.clear();
     });
-    this.controller.labels.forEach((x) => {
+    this.controller.label.get().then((x) => {
       x.clear();
     });
-    this.controller.labels.clear();
   }
 }
