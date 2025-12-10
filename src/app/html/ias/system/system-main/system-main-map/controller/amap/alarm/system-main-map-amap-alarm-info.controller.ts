@@ -35,6 +35,7 @@ export class SystemMainMapAMapAlarmInfoController {
 
     let component = this.tool.create(SystemMainMapAlarmInfoComponent, {
       data: data,
+      color: data.IsTimeout ? 'red' : 'orange',
     });
     this.regist(
       component.instance as unknown as SystemMainMapAlarmInfoOutput<MobileEventRecord>

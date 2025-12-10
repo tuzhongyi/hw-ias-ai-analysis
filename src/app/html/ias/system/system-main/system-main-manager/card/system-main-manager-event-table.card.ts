@@ -17,7 +17,9 @@ export class SystemMainManagerCardEventTable {
         this.that.toastr.warning('位置为空，无法定位');
         return;
       }
-      this.that.map.moveto.emit(data);
+      // this.that.map.moveto.emit(data);
+
+      this.that.map.select.emit(data);
     },
     details: (data: MobileEventRecord | GpsTaskSampleRecord) => {
       if (data instanceof MobileEventRecord) {

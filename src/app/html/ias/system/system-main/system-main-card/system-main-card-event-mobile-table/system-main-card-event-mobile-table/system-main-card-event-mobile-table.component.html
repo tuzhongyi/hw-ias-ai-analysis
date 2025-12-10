@@ -9,7 +9,7 @@
           <tr>
             <th>事件时间</th>
             <th>事件类型</th>
-            <th>状态</th>
+            <th class="center">状态</th>
             <th class="center">操作</th>
           </tr>
         </thead>
@@ -35,12 +35,14 @@
             <td [title]="item.EmergencyDescription ?? ''">
               {{ item.EmergencyDescription }}
             </td>
-            <td>
+            <td class="center">
               @if(!item.Assignment?.Handled){
-              <span [style.color]="Color.orange">未处置</span>
+              <span [style.color]="Color.yellow">未处置</span>
               } @else{ @if(item.Assignment?.IsMisInfo){
               <span [style.color]="Color.cyan">误报</span>
-              } @else{ 已处置 } }
+              } @else{ 已处置 } } @if(item.IsTimeout){ /
+              <span class="text-orange">高频</span>
+              }
             </td>
             <td class="center">
               <div class="operation">
@@ -51,6 +53,7 @@
                   class="button"
                   title="事件发生位置"
                   (click)="on.position(item)"
+                  [class.disabled]="!item.Location"
                 >
                   <i class="mdi mdi-map-marker"></i>
                 </div>

@@ -9,14 +9,16 @@
     (sampledblclick)="map.on.sample($event)"
     [shops]="map.data.shop"
     [devices]="map.data.device"
-    [alarms]="map.data.realtime"
+    [realtimes]="map.data.realtime"
+    [timeouts]="map.data.timeout"
     [samples]="map.data.sample"
     (alarmvideo)="alarm.on.video($event)"
     (alarmpicture)="map.on.picture($event)"
     [heatmapload]="map.heatmap.load"
     [shopdisplay]="map.display.shop"
     [devicedisplay]="map.display.device"
-    [alarmdisplay]="map.display.alarm"
+    [realtimedisplay]="map.display.realtime"
+    [timeoutdisplay]="map.display.timeout"
     [sampledisplay]="map.display.sample"
     [heatmapdisplay]="map.display.heatmap"
   ></ias-system-main-map>
@@ -46,6 +48,13 @@
       [type]="'realtime'"
       [title]="'实时事件'"
       (click)="card.statistic.pie.on.item(EventMode.realtime, duration)"
+    ></ias-system-map-statistic>
+    <ias-system-map-statistic
+      *ngIf="panel.state.timeout.show"
+      [value]="map.data.timeout.length"
+      [type]="'timeout'"
+      [title]="'高频事件'"
+      (click)="card.statistic.pie.on.item(EventMode.realtime, duration, true)"
     ></ias-system-map-statistic>
     <ias-system-map-statistic
       *ngIf="panel.state.sample.show"

@@ -49,6 +49,9 @@ export class SystemEventTableService {
     if (filter.confirmed != undefined) {
       params.Confirmed = filter.confirmed;
     }
+    if (filter.timeout != undefined) {
+      params.IsTimeout = filter.timeout;
+    }
 
     params.Asc = filter.asc;
     params.Desc = filter.desc;

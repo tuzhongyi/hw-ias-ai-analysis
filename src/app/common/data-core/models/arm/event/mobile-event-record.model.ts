@@ -70,4 +70,12 @@ export class MobileEventRecord implements IIdModel, ILocation {
   ConfirmedTime?: Date;
   /**	Double	置信度，0-100	O */
   Confidence?: number;
+  /**	String	网格ID	O */
+  GridCellId?: string;
+  /**	Int32	一段时间内的重复次数，默认：0，大于指定次数后将超时处置属性设置为true	O */
+  PeriodRepeatTimes?: number;
+  /**	Boolean	多次重复，默认：null	O */
+  IsTimeout?: boolean;
+  /**	String[]	关联的事件ID列表	O */
+  AssociationRecordIds?: string[];
 }

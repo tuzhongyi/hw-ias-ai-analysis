@@ -6,7 +6,7 @@ export class SystemMainMapAMapAlarmMarkerIconController {
     return [SizeTool.map.alarm.normal.width, SizeTool.map.alarm.normal.height];
   }
 
-  get icon(): AMap.LabelMarkerIconOptions {
+  private get icon(): AMap.LabelMarkerIconOptions {
     let icon = {
       type: 'image',
       image: PathTool.image.map.alarm.icon.red,
@@ -14,5 +14,18 @@ export class SystemMainMapAMapAlarmMarkerIconController {
       anchor: 'center',
     };
     return icon;
+  }
+
+  get normal(): AMap.LabelMarkerIconOptions {
+    return {
+      ...this.icon,
+      image: PathTool.image.map.alarm.icon.orange,
+    };
+  }
+  get timeout(): AMap.LabelMarkerIconOptions {
+    return {
+      ...this.icon,
+      image: PathTool.image.map.alarm.icon.red,
+    };
   }
 }

@@ -1,11 +1,19 @@
 .system-main-map-alarm-info {
   width: 555px;
   height: 328px;
-  background-image: url(../../../../../../assets/image/map/map-alarm-info.png);
+  background-image: url(../../../../../../assets/image/map/map-alarm-info-orange.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   padding: 22px 21px 21px 190px;
   box-sizing: border-box;
+
+  &.red {
+    background-image: url(../../../../../../assets/image/map/map-alarm-info-red.png);
+  }
+
+  &.orange {
+    background-image: url(../../../../../../assets/image/map/map-alarm-info-orange.png);
+  }
 
   &-content {
     width: 100%;
@@ -17,6 +25,14 @@
     padding: 10px;
     box-sizing: border-box;
     border-radius: 15px;
+
+    &.realtime {
+      background-color: rgba(61, 14, 14, 0.8);
+    }
+
+    &.timeout {
+      background-color: rgba(61, 14, 14, 0.8);
+    }
   }
 
   &-head {

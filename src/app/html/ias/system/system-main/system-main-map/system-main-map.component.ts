@@ -31,12 +31,15 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   @Output() shopdblclick = new EventEmitter<ShopRegistration>();
   @Output() sampledblclick = new EventEmitter<GpsTaskSampleRecord>();
   @Input() moveto?: EventEmitter<ILocation>;
-  @Input() select?: EventEmitter<ShopRegistration>;
+  @Input() select?: EventEmitter<
+    ShopRegistration | MobileEventRecord | GpsTaskSampleRecord
+  >;
   @Input() over?: EventEmitter<ShopRegistration>;
   @Input() out?: EventEmitter<ShopRegistration>;
   @Input() shops: ShopRegistration[] = [];
   @Input() devices: MobileDevice[] = [];
-  @Input() alarms: MobileEventRecord[] = [];
+  @Input() realtimes: MobileEventRecord[] = [];
+  @Input() timeouts: MobileEventRecord[] = [];
   @Input() samples: GpsTaskSampleRecord[] = [];
   @Output() alarmvideo = new EventEmitter<MobileEventRecord>();
   @Output() alarmpicture = new EventEmitter<Paged<MobileEventRecord>>();
@@ -44,7 +47,8 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() heatmapdisplay = false;
   @Input() shopdisplay = true;
   @Input() devicedisplay = true;
-  @Input() alarmdisplay = true;
+  @Input() realtimedisplay = true;
+  @Input() timeoutdisplay = true;
   @Input() sampledisplay = true;
 
   constructor(
@@ -61,11 +65,13 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     this.change.shops(changes['shops']);
     this.change.devices(changes['devices']);
-    this.change.alarms(changes['alarms']);
+    this.change.realtimes(changes['realtimes']);
+    this.change.timeouts(changes['timeouts']);
     this.change.samples(changes['samples']);
     this.change.display.shop(changes['shopdisplay']);
     this.change.display.device(changes['devicedisplay']);
-    this.change.display.alarm(changes['alarmdisplay']);
+    this.change.display.realtime(changes['realtimedisplay']);
+    this.change.display.timeout(changes['timeoutdisplay']);
     this.change.display.sample(changes['sampledisplay']);
     this.change.display.heatmap(changes['heatmapdisplay']);
   }
@@ -84,9 +90,14 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         this.load.device(this.devices);
       }
     },
-    alarms: (simple: SimpleChange) => {
+    realtimes: (simple: SimpleChange) => {
       if (simple && !simple.firstChange) {
-        this.load.alarms(this.alarms);
+        this.load.realtimes(this.realtimes);
+      }
+    },
+    timeouts: (simple: SimpleChange) => {
+      if (simple && !simple.firstChange) {
+        this.load.timeouts(this.timeouts);
       }
     },
     samples: (simple: SimpleChange) => {
@@ -113,12 +124,21 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
           }
         }
       },
-      alarm: (simple: SimpleChange) => {
+      realtime: (simple: SimpleChange) => {
         if (simple && !simple.firstChange) {
-          if (this.alarmdisplay) {
-            this.controller.alarm.reload();
+          if (this.realtimedisplay) {
+            this.controller.alarm.realtime.reload();
           } else {
-            this.controller.alarm.clear();
+            this.controller.alarm.realtime.clear();
+          }
+        }
+      },
+      timeout: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.realtimedisplay) {
+            this.controller.alarm.timeout.reload();
+          } else {
+            this.controller.alarm.timeout.clear();
           }
         }
       },
@@ -160,9 +180,14 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         this.controller.device.load(datas);
       });
     },
-    alarms: (datas: MobileEventRecord[]) => {
-      this.controller.alarm.clear().then((x) => {
-        this.controller.alarm.load(datas);
+    realtimes: (datas: MobileEventRecord[]) => {
+      this.controller.alarm.realtime.clear().then((x) => {
+        this.controller.alarm.realtime.load(datas);
+      });
+    },
+    timeouts: (datas: MobileEventRecord[]) => {
+      this.controller.alarm.timeout.clear().then((x) => {
+        this.controller.alarm.timeout.load(datas);
       });
     },
     samples: (datas: GpsTaskSampleRecord[]) => {
@@ -188,10 +213,16 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
       }
     },
     alarm: () => {
-      this.controller.alarm.event.video.subscribe((data) => {
+      this.controller.alarm.realtime.event.video.subscribe((data) => {
         this.alarmvideo.emit(data);
       });
-      this.controller.alarm.event.picture.subscribe((data) => {
+      this.controller.alarm.realtime.event.picture.subscribe((data) => {
+        this.alarmpicture.emit(data);
+      });
+      this.controller.alarm.timeout.event.video.subscribe((data) => {
+        this.alarmvideo.emit(data);
+      });
+      this.controller.alarm.timeout.event.picture.subscribe((data) => {
         this.alarmpicture.emit(data);
       });
     },
@@ -207,14 +238,19 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         });
         this.subscription.add(sub);
       }
-    },
-    shop: () => {
       if (this.select) {
         let sub = this.select.subscribe((x) => {
-          this.controller.shop.focus(x);
+          if (x instanceof ShopRegistration) {
+            this.controller.shop.focus(x);
+          } else if (x instanceof MobileEventRecord) {
+            this.controller.alarm.realtime.select(x);
+            this.controller.alarm.timeout.select(x);
+          }
         });
         this.subscription.add(sub);
       }
+    },
+    shop: () => {
       if (this.over) {
         let sub = this.over.subscribe((x) => {
           this.controller.shop.over(x);

@@ -43,4 +43,7 @@ export class GetAnalysisGpsTaskSampleListParams extends PagedDurationParams {
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/
   Desc?: string;
+
+  /**	String	网格ID	O */
+  GridCellId?: string;
 }

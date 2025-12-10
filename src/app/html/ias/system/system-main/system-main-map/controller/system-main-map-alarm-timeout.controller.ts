@@ -3,7 +3,7 @@ import { MobileEventRecord } from '../../../../../../common/data-core/models/arm
 import { Paged } from '../../../../../../common/data-core/models/page-list.model';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
-export class SystemMainMapAlarmController {
+export class SystemMainMapAlarmTimeoutController {
   constructor(private amap: SystemMainMapAMapController) {
     this.regist();
   }
@@ -23,18 +23,18 @@ export class SystemMainMapAlarmController {
   private loaded = false;
   async load(datas: MobileEventRecord[]) {
     this.datas = datas;
-    let marker = await this.amap.alarm.marker.get();
+    let marker = await this.amap.alarm.timeout.marker.get();
     marker.load(datas);
-    let scatter = await this.amap.alarm.scatter.get();
+    let scatter = await this.amap.alarm.timeout.scatter.get();
     scatter.load(datas);
     this.loaded = true;
   }
   async clear() {
-    let scatter = await this.amap.alarm.scatter.get();
+    let scatter = await this.amap.alarm.timeout.scatter.get();
     scatter.clear();
-    let marker = await this.amap.alarm.marker.get();
+    let marker = await this.amap.alarm.timeout.marker.get();
     marker.clear();
-    let info = await this.amap.alarm.info.get();
+    let info = await this.amap.alarm.timeout.info.get();
     info.remove();
     this.loaded = false;
   }
@@ -47,5 +47,20 @@ export class SystemMainMapAlarmController {
   async destory() {
     this.datas = undefined;
     return this.clear();
+  }
+
+  async select(data: MobileEventRecord) {
+    // let marker = await this.amap.alarm.marker.get();
+    // marker.select(data);
+    let info = await this.amap.alarm.timeout.info.get();
+    info.add(data);
+    let map = await this.amap.map.get();
+    if (data.Location) {
+      let position: [number, number] = [
+        data.Location.GCJ02.Longitude,
+        data.Location.GCJ02.Latitude,
+      ];
+      map.setCenter(position);
+    }
   }
 }

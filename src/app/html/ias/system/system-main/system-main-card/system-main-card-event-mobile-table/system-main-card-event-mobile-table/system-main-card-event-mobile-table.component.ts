@@ -18,7 +18,7 @@ export class SystemMainCardEventMobileTableComponent {
   @Output() details = new EventEmitter<MobileEventRecord>();
   @Output() position = new EventEmitter<MobileEventRecord>();
 
-  widths = ['120px', 'auto', '90px', '56px'];
+  widths = ['90px', 'auto', '120px', '56px'];
   Color = ColorTool;
   on = {
     select: (item: MobileEventRecord) => {
@@ -29,7 +29,9 @@ export class SystemMainCardEventMobileTableComponent {
       this.details.emit(item);
     },
     position: (item: MobileEventRecord) => {
-      this.position.emit(item);
+      if (item.Location) {
+        this.position.emit(item);
+      }
     },
   };
 }

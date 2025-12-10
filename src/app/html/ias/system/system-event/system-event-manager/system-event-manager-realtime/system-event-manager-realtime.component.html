@@ -5,7 +5,7 @@
   <div class="system-event-manager-realtime-head">
     <div class="system-event-manager-realtime-head-filter">
       <div class="forms">
-        <div class="form-item">
+        <div class="form-item duration">
           <div class="form-item-text">开始时间</div>
           <div class="form-item-value">
             <date-time-control
@@ -13,7 +13,7 @@
             ></date-time-control>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item duration">
           <div class="form-item-text">结束时间</div>
           <div class="form-item-value">
             <date-time-control
@@ -68,6 +68,17 @@
                 {{ item.Name }}
               </option>
             </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">是否高频</div>
+          <div class="form-item-value select">
+            <hw-select [nullable]="true" [(selected)]="table.args.timeout">
+              <select [(ngModel)]="table.args.timeout">
+                <option [ngValue]="true">是</option>
+                <option [ngValue]="false">否</option>
+              </select>
+            </hw-select>
           </div>
         </div>
         <div class="form-item">

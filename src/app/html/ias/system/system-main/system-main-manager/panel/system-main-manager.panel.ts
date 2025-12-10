@@ -6,6 +6,7 @@ import { SystemMainManagerPanelNavigation } from './navigation/system-main-manag
 import { SystemMainManagerPanelStateRealtime } from './state/system-main-manager-state-realtime.panel';
 import { SystemMainManagerPanelStateSample } from './state/system-main-manager-state-sample.panel';
 import { SystemMainManagerPanelStateShop } from './state/system-main-manager-state-shop.panel';
+import { SystemMainManagerPanelStateTimeout } from './state/system-main-manager-state-timeout.panel';
 
 export class SystemMainManagerPanel {
   list = new SystemMainManagerPanelList();
@@ -15,6 +16,7 @@ export class SystemMainManagerPanel {
   state: {
     shop: SystemMainManagerPanelStateShop;
     realtime: SystemMainManagerPanelStateRealtime;
+    timeout: SystemMainManagerPanelStateTimeout;
     sample: SystemMainManagerPanelStateSample;
   };
 
@@ -26,6 +28,7 @@ export class SystemMainManagerPanel {
       shop: new SystemMainManagerPanelStateShop(that),
       realtime: new SystemMainManagerPanelStateRealtime(that),
       sample: new SystemMainManagerPanelStateSample(that),
+      timeout: new SystemMainManagerPanelStateTimeout(that),
     };
   }
 }

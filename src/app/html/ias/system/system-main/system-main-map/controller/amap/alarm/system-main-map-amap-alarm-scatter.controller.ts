@@ -9,7 +9,7 @@ export class SystemMainMapAMapAlarmScatterController {
     move: new EventEmitter<ILocation | undefined>(),
     click: new EventEmitter<MobileEventRecord>(),
   };
-  constructor(private container: Loca.Container) {
+  constructor(private container: Loca.Container, private timeout: boolean) {
     this.layer = this.init();
   }
 
@@ -27,14 +27,23 @@ export class SystemMainMapAMapAlarmScatterController {
     return scatter;
   }
 
-  private style: Loca.ScatterLayerStyle = {
-    unit: 'px',
-    size: [100, 100],
-    borderWidth: 0,
-    texture: PathTool.image.map.alarm.breath.red,
-    duration: 500,
-    animate: true,
-  };
+  private get style(): Loca.ScatterLayerStyle {
+    return {
+      unit: 'px',
+      size: [100, 100],
+      borderWidth: 0,
+      texture: this.texture,
+      duration: 500,
+      animate: true,
+    };
+  }
+
+  private get texture() {
+    if (this.timeout) {
+      return PathTool.image.map.alarm.breath.red;
+    }
+    return PathTool.image.map.alarm.breath.orange;
+  }
 
   load(datas: MobileEventRecord[]) {
     let points = datas

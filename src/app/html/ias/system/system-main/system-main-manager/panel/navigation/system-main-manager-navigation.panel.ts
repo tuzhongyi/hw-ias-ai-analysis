@@ -106,34 +106,39 @@ export class SystemMainManagerPanelNavigation {
           this.map.display.heatmap = false;
           this.map.display.shop = true;
           this.map.display.device = true;
-          this.map.display.alarm = true;
+          this.map.display.realtime = true;
+          this.map.display.timeout = true;
           this.map.display.sample = true;
           break;
         case SyatemMainMapNavigation.shop:
           this.map.display.shop = true;
           this.map.display.device = false;
-          this.map.display.alarm = false;
+          this.map.display.realtime = false;
+          this.map.display.timeout = false;
           this.map.display.sample = false;
           this.map.display.heatmap = false;
           break;
         case SyatemMainMapNavigation.realtime:
           this.map.display.shop = false;
           this.map.display.device = true;
-          this.map.display.alarm = true;
+          this.map.display.realtime = true;
+          this.map.display.timeout = true;
           this.map.display.sample = false;
           this.map.display.heatmap = false;
           break;
         case SyatemMainMapNavigation.gpstask:
           this.map.display.shop = false;
           this.map.display.device = true;
-          this.map.display.alarm = false;
+          this.map.display.realtime = false;
+          this.map.display.timeout = false;
           this.map.display.sample = true;
           this.map.display.heatmap = false;
           break;
         case SyatemMainMapNavigation.heatmap:
           this.map.display.shop = false;
           this.map.display.device = false;
-          this.map.display.alarm = false;
+          this.map.display.realtime = false;
+          this.map.display.timeout = false;
           this.map.display.sample = false;
           this.map.display.heatmap = true;
           break;
@@ -145,26 +150,31 @@ export class SystemMainManagerPanelNavigation {
       switch (index) {
         case SyatemMainMapNavigation.main:
           this.panel.state.realtime.show = true;
+          this.panel.state.timeout.show = true;
           this.panel.state.shop.show = true;
           this.panel.state.sample.show = true;
           break;
         case SyatemMainMapNavigation.shop:
           this.panel.state.realtime.show = false;
+          this.panel.state.timeout.show = false;
           this.panel.state.shop.show = true;
           this.panel.state.sample.show = false;
           break;
         case SyatemMainMapNavigation.realtime:
           this.panel.state.realtime.show = true;
+          this.panel.state.timeout.show = true;
           this.panel.state.shop.show = false;
           this.panel.state.sample.show = false;
           break;
         case SyatemMainMapNavigation.gpstask:
           this.panel.state.realtime.show = false;
+          this.panel.state.timeout.show = false;
           this.panel.state.shop.show = false;
           this.panel.state.sample.show = true;
           break;
         case SyatemMainMapNavigation.heatmap:
           this.panel.state.realtime.show = false;
+          this.panel.state.timeout.show = false;
           this.panel.state.shop.show = false;
           this.panel.state.sample.show = false;
           break;

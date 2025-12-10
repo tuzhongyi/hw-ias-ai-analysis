@@ -14,6 +14,7 @@ export interface ISystemEventTableArgs {
   state?: number;
   handle?: boolean;
   misinform?: boolean;
+  timeout?: boolean;
 }
 
 export class SystemEventTableArgs implements ISystemEventTableArgs {
@@ -27,6 +28,7 @@ export class SystemEventTableArgs implements ISystemEventTableArgs {
   state?: number;
   handle?: boolean;
   misinform?: boolean;
+  timeout?: boolean;
 }
 
 export class SystemEventTableFilter implements ISystemEventTableArgs {
@@ -40,6 +42,7 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
   state?: number;
   handle?: boolean;
   misinform?: boolean;
+  timeout?: boolean;
   asc?: string;
   desc?: string = 'EventTime';
   static from(args: ISystemEventTableArgs) {
@@ -53,6 +56,7 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
     filter.state = args.state;
     filter.handle = args.handle;
     filter.misinform = args.misinform;
+    filter.timeout = args.timeout;
     return filter;
   }
 }

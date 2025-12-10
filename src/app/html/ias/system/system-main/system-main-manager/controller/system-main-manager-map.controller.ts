@@ -11,7 +11,9 @@ import { SystemMainManagerComponent } from '../system-main-manager.component';
 export class SystemMainManagerMapController {
   over = new EventEmitter<ShopRegistration>();
   out = new EventEmitter<ShopRegistration>();
-  select = new EventEmitter<ShopRegistration>();
+  select = new EventEmitter<
+    ShopRegistration | MobileEventRecord | GpsTaskSampleRecord
+  >();
   moveto = new EventEmitter<ILocation>();
   heatmap = {
     load: new EventEmitter<ILocation[]>(),
@@ -20,6 +22,7 @@ export class SystemMainManagerMapController {
     shop: ShopRegistration[];
     device: MobileDevice[];
     realtime: MobileEventRecord[];
+    timeout: MobileEventRecord[];
     sample: GpsTaskSampleRecord[];
   };
   private source = {
@@ -29,7 +32,8 @@ export class SystemMainManagerMapController {
   display = {
     shop: true,
     device: true,
-    alarm: true,
+    realtime: true,
+    timeout: true,
     sample: true,
     heatmap: false,
   };
@@ -43,8 +47,9 @@ export class SystemMainManagerMapController {
       return {
         shop: [],
         device: [],
-        realtime: [],
         sample: [],
+        realtime: [],
+        timeout: [],
       };
     },
   };

@@ -34,7 +34,7 @@ export class SystemMainMapAlarmInfoComponent
     SystemMainMapAlarmInfoOutput<MobileEventRecord>
 {
   @Input() data?: MobileEventRecord;
-
+  @Input() color: 'red' | 'orange' = 'orange';
   @Output() close = new EventEmitter<void>();
   @Output() video = new EventEmitter<MobileEventRecord>();
   @Output() image = new EventEmitter<Paged<MobileEventRecord>>();
@@ -55,6 +55,9 @@ export class SystemMainMapAlarmInfoComponent
       let resource = data.Resources[0];
       this.picture.id = resource.ImageUrl;
       this.picture.page.data = Page.create(1, 1, data.Resources.length);
+    }
+    if (data.IsTimeout) {
+      this.name = `高频事件 - ${this.name}`;
     }
   }
 

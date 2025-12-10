@@ -22,8 +22,8 @@
           <th sort="ConfirmedTime">确认时间</th>
           <th>状态</th>
 
-          <th>处置员</th>
           <th>处置时间</th>
+          <th>重复次数</th>
           <th>描述</th>
 
           <th class="center">操作</th>
@@ -126,16 +126,19 @@
             </ng-container>
           </td>
           <td>
-            {{ item?.Assignment?.Handler }}
+            {{ item?.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss }}
+          </td>
+
+          <td>
+            @if(item){
+            {{ item.PeriodRepeatTimes ?? "-" }}
+            }
             <!-- <audio
               *ngIf="item && item.AudioUrl"
               controls
               [src]="audio.get(item.AudioUrl)"
             ></audio>
             <span *ngIf="item && !item.AudioUrl">-</span> -->
-          </td>
-          <td>
-            {{ item?.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss }}
           </td>
           <td>
             {{ item?.AudioContent }}

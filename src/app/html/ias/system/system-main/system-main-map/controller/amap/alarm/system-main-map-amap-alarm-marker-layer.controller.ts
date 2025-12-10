@@ -9,7 +9,11 @@ import { SystemMainMapAMapAlarmMarkerController } from './system-main-map-amap-a
 export class SystemMainMapAMapAlarmMarkerLayerController {
   event = new IASMapAMapMarkerEvent<MobileEventRecord>();
 
-  constructor(map: AMap.Map, private info: IASMapAMapInfoController) {
+  constructor(
+    map: AMap.Map,
+    private info: IASMapAMapInfoController,
+    private timeout: boolean
+  ) {
     this.layer = this.init(map);
   }
 
@@ -60,7 +64,10 @@ export class SystemMainMapAMapAlarmMarkerLayerController {
     for (let i = 0; i < datas.length; i++) {
       const data = datas[i];
       if (data.Location) {
-        let point = new SystemMainMapAMapAlarmMarkerController(data);
+        let point = new SystemMainMapAMapAlarmMarkerController(
+          data,
+          this.timeout
+        );
         this.regist(point);
         markers.push(point.marker);
         this.points.push(point);

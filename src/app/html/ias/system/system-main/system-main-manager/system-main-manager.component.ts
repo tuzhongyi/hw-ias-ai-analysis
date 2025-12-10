@@ -82,7 +82,7 @@ export class SystemMainManagerComponent implements OnInit {
   load = new EventEmitter<void>();
   card = new SystemMainManagerCard(this);
   panel = new SystemMainManagerPanel(this);
-  duration = DateTimeTool.all.day(new Date());
+  duration = DateTimeTool.all.day(new Date(2025, 11, 4));
 
   map = new SystemMainManagerMapController(this);
 
@@ -143,6 +143,9 @@ export class SystemMainManagerComponent implements OnInit {
       this.business.mobile.load(this.duration, EventMode.gpstask).then((x) => {
         this.realtime.datas = x;
         this.map.data.realtime = x.filter((y) => !y.Assignment?.Assigned);
+        this.map.data.timeout = x.filter(
+          (y) => !y.Assignment?.Assigned && y.IsTimeout
+        );
       });
     },
     on: {

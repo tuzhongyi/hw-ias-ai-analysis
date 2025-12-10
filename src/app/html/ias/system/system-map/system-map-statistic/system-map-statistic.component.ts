@@ -11,7 +11,7 @@ export class SystemMapStatisticComponent {
   @Input() value = 0;
   @Input() color = '';
   @Input() title = '商铺';
-  @Input() type: 'shop' | 'realtime' | 'gps' = 'shop';
+  @Input() type: 'shop' | 'realtime' | 'timeout' | 'gps' = 'shop';
 
   colorclass = ['green', 'blue', 'orange'];
 }

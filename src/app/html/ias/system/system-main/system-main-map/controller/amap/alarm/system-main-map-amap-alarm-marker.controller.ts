@@ -5,7 +5,7 @@ import { IASMapAMapMarkerLabelAbstract } from '../../../../../../share/map/contr
 import { SystemMainMapAMapAlarmMarkerIconController } from './system-main-map-amap-alarm-marker-icon.controller';
 
 export class SystemMainMapAMapAlarmMarkerController extends IASMapAMapMarkerLabelAbstract<SystemMainMapAMapAlarmMarkerItem> {
-  constructor(data: MobileEventRecord) {
+  constructor(data: MobileEventRecord, private timeout: boolean) {
     super(new SystemMainMapAMapAlarmMarkerItem(data));
     this.icon = this.init();
     this.out();
@@ -14,8 +14,13 @@ export class SystemMainMapAMapAlarmMarkerController extends IASMapAMapMarkerLabe
   private _icon = new SystemMainMapAMapAlarmMarkerIconController();
 
   init() {
+    if (this.timeout) {
+      return {
+        normal: this._icon.timeout,
+      };
+    }
     return {
-      normal: this._icon.icon,
+      normal: this._icon.normal,
     };
   }
 }

@@ -14,7 +14,7 @@ export class SystemMainManagerCardEventStatisticPie {
   }
 
   on = {
-    item: (mode: EventMode, duration?: Duration) => {
+    item: (mode: EventMode, duration?: Duration, timeout?: boolean) => {
       switch (mode) {
         case EventMode.shop:
           let shopargs = new SystemEventTableArgs();
@@ -27,6 +27,7 @@ export class SystemMainManagerCardEventStatisticPie {
           realtimeargs.duration = duration ?? this.duration;
           realtimeargs.misinform = false;
           realtimeargs.confirmed = true;
+          realtimeargs.timeout = timeout;
           this.window.record.realtime.open(realtimeargs);
           break;
         case EventMode.gpstask:

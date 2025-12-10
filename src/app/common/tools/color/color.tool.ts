@@ -31,6 +31,7 @@ export class ColorTool {
   static red = '#ff762c';
   static orange = '#ff762c';
   static cyan = '#00f5ff';
+  static yellow = '#fde546';
 
   static canvas = new CanvasDrawColor();
   static trashcan = new TrashCanColor();

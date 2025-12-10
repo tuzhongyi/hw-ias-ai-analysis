@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
-import { SystemMainMapAlarmController } from './system-main-map-alarm.controller';
+
+import { SystemMainMapAlarmRealtimeController } from './system-main-map-alarm-realtime.controller';
+import { SystemMainMapAlarmTimeoutController } from './system-main-map-alarm-timeout.controller';
 import { SystemMainMapDeviceController } from './system-main-map-device.controller';
 import { SystemMainMapHeatmapController } from './system-main-map-heatmap.controller';
 import { SystemMainMapRoadController } from './system-main-map-road.controller';
@@ -13,7 +15,10 @@ export class SystemMainMapController {
   road: SystemMainMapRoadController;
   shop: SystemMainMapShopController;
   device: SystemMainMapDeviceController;
-  alarm: SystemMainMapAlarmController;
+  alarm: {
+    realtime: SystemMainMapAlarmRealtimeController;
+    timeout: SystemMainMapAlarmTimeoutController;
+  };
   sample: SystemMainMapSampleController;
   heatmap: SystemMainMapHeatmapController;
   constructor(tool: ComponentTool) {
@@ -21,7 +26,10 @@ export class SystemMainMapController {
     this.road = new SystemMainMapRoadController(this.amap);
     this.shop = new SystemMainMapShopController(this.amap);
     this.device = new SystemMainMapDeviceController(this.amap);
-    this.alarm = new SystemMainMapAlarmController(this.amap);
+    this.alarm = {
+      realtime: new SystemMainMapAlarmRealtimeController(this.amap),
+      timeout: new SystemMainMapAlarmTimeoutController(this.amap),
+    };
     this.sample = new SystemMainMapSampleController(this.amap);
     this.heatmap = new SystemMainMapHeatmapController(this.amap);
   }
@@ -43,7 +51,8 @@ export class SystemMainMapController {
         this.road.destory(),
         this.shop.destory(),
         this.device.destory(),
-        this.alarm.destory(),
+        this.alarm.realtime.destory(),
+        this.alarm.timeout.destory(),
         this.sample.destory(),
         this.heatmap.destory(),
       ];
