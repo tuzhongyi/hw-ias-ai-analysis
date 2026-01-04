@@ -19,6 +19,10 @@ export class DeviceRoutesStatistic implements IIdNameModel {
   AvgSpeed!: number;
   /**	Double	最高时速，单位：km/h	M	*/
   FastestSpeed!: number;
+  /**	Int32	每日应行驶总里程，单位：米	O	R */
+  DailyMeters?: number;
+  /**	Double	行驶覆盖率，0-100	O	R */
+  CoveragePercent?: number;
   /**	DateTime	最早出现时间	M	*/
   @Transform(Transformer.DateTime)
   BeginTime!: Date;

@@ -4,8 +4,25 @@ import { EventEmitter, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GlobalStorage {
-  version = '1.0.7.1';
+  version = '1.0.9.0';
   unload = new EventEmitter<void>();
+
+  display = {
+    task: {
+      shop: false,
+      gps: false,
+    },
+    module: {
+      shop: false,
+      road: false,
+      route: false,
+    },
+    record: {
+      shop: false,
+      realtime: false,
+      gps: false,
+    },
+  };
 
   constructor() {
     window.onbeforeunload = () => {

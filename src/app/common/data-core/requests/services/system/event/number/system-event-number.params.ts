@@ -19,5 +19,5 @@ export class GetEventNumbersParams implements IParams {
    * 目前只支持按天统计
    * O
    **/
-  TimeUnit?: number;
+  TimeUnit?: number = 1;
 }

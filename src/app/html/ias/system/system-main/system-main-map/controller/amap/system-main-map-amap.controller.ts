@@ -10,7 +10,9 @@ import { IASMapAMapPointLayerController } from '../../../../../share/map/control
 import { IASMapAMapRoadController } from '../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 import { SystemMainMapAMapDeviceMarkerLayerController } from './device/system-main-map-amap-device-marker-layer.controller';
 
+import { Subscription } from 'rxjs';
 import { GpsTaskSampleRecord } from '../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
+import { MobileDevice } from '../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { Paged } from '../../../../../../../common/data-core/models/page-list.model';
 import { SystemMainMapAMapAlarmInfoController } from './alarm/system-main-map-amap-alarm-info.controller';
 import { SystemMainMapAMapAlarmMarkerLayerController } from './alarm/system-main-map-amap-alarm-marker-layer.controller';
@@ -52,9 +54,12 @@ export class SystemMainMapAMapController {
     sample: {
       dblclick: new EventEmitter<GpsTaskSampleRecord>(),
     },
+    device: {
+      dblclick: new EventEmitter<MobileDevice>(),
+    },
   };
 
-  constructor(private tool: ComponentTool) {
+  constructor(private tool: ComponentTool, private subscription: Subscription) {
     MapHelper.amap
       .get('system-main-map-container', [], true, {
         showLabel: false,
@@ -89,7 +94,6 @@ export class SystemMainMapAMapController {
         this.init.sample.marker(map, info);
       });
   }
-
   private loca = new PromiseValue<Loca.Container>();
   private controller = {
     shop: {
@@ -129,26 +133,40 @@ export class SystemMainMapAMapController {
     shop: {
       point: (loca: Loca.Container) => {
         let ctr = new IASMapAMapPointLayerController(loca);
-        ctr.event.move.subscribe((data) => {
+        let sub = ctr.event.move.subscribe((data) => {
           this.regist.point.over(data as IShop);
         });
+        this.subscription.add(sub);
         this.controller.shop.point.set(ctr);
       },
       marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
-        let ctr = new SystemMainMapAMapShopMarkerLayerController(map, info);
-        ctr.event.click.subscribe((x) => {
+        let ctr = new SystemMainMapAMapShopMarkerLayerController(
+          map,
+          info,
+          this.subscription
+        );
+        let sub1 = ctr.event.click.subscribe((x) => {
           this.event.shop.click.emit(x);
         });
-        ctr.event.dblclick.subscribe((x) => {
+        this.subscription.add(sub1);
+        let sub2 = ctr.event.dblclick.subscribe((x) => {
           this.event.shop.dblclick.emit(x);
         });
+        this.subscription.add(sub2);
         this.controller.shop.marker.set(ctr);
       },
     },
     device: {
       marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
-        let ctr = new SystemMainMapAMapDeviceMarkerLayerController(map, info);
-
+        let ctr = new SystemMainMapAMapDeviceMarkerLayerController(
+          map,
+          info,
+          this.subscription
+        );
+        let sub = ctr.event.dblclick.subscribe((x) => {
+          this.event.device.dblclick.emit(x);
+        });
+        this.subscription.add(sub);
         this.controller.device.marker.set(ctr);
       },
     },
@@ -159,28 +177,37 @@ export class SystemMainMapAMapController {
           this.controller.alarm.realtime.scatter.set(ctr);
         },
         info: (map: AMap.Map) => {
-          let ctr = new SystemMainMapAMapAlarmInfoController(map, this.tool);
-          ctr.event.video.subscribe((data) => {
+          let ctr = new SystemMainMapAMapAlarmInfoController(
+            map,
+            this.tool,
+            this.subscription
+          );
+          let sub1 = ctr.event.video.subscribe((data) => {
             this.event.alarm.video.emit(data);
           });
-          ctr.event.picture.subscribe((data) => {
+          this.subscription.add(sub1);
+          let sub2 = ctr.event.picture.subscribe((data) => {
             this.event.alarm.picture.emit(data);
           });
-          ctr.event.close.subscribe((data) => {
+          this.subscription.add(sub2);
+          let sub3 = ctr.event.close.subscribe((data) => {
             this.regist.alarm.realtime.blur();
             this.regist.alarm.timeout.blur();
           });
+          this.subscription.add(sub3);
           this.controller.alarm.realtime.info.set(ctr);
         },
         marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
           let ctr = new SystemMainMapAMapAlarmMarkerLayerController(
             map,
             info,
-            false
+            false,
+            this.subscription
           );
-          ctr.event.click.subscribe((x) => {
+          let sub = ctr.event.click.subscribe((x) => {
             this.regist.alarm.realtime.over(x as MobileEventRecord);
           });
+          this.subscription.add(sub);
           this.controller.alarm.realtime.marker.set(ctr);
         },
       },
@@ -190,28 +217,37 @@ export class SystemMainMapAMapController {
           this.controller.alarm.timeout.scatter.set(ctr);
         },
         info: (map: AMap.Map) => {
-          let ctr = new SystemMainMapAMapAlarmInfoController(map, this.tool);
-          ctr.event.video.subscribe((data) => {
+          let ctr = new SystemMainMapAMapAlarmInfoController(
+            map,
+            this.tool,
+            this.subscription
+          );
+          let sub1 = ctr.event.video.subscribe((data) => {
             this.event.alarm.video.emit(data);
           });
-          ctr.event.picture.subscribe((data) => {
+          this.subscription.add(sub1);
+          let sub2 = ctr.event.picture.subscribe((data) => {
             this.event.alarm.picture.emit(data);
           });
-          ctr.event.close.subscribe((data) => {
+          this.subscription.add(sub2);
+          let sub3 = ctr.event.close.subscribe((data) => {
             this.regist.alarm.realtime.blur();
             this.regist.alarm.timeout.blur();
           });
+          this.subscription.add(sub3);
           this.controller.alarm.timeout.info.set(ctr);
         },
         marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
           let ctr = new SystemMainMapAMapAlarmMarkerLayerController(
             map,
             info,
-            true
+            true,
+            this.subscription
           );
-          ctr.event.click.subscribe((x) => {
+          let sub = ctr.event.click.subscribe((x) => {
             this.regist.alarm.timeout.over(x as MobileEventRecord);
           });
+          this.subscription.add(sub);
           this.controller.alarm.timeout.marker.set(ctr);
         },
       },
@@ -222,10 +258,15 @@ export class SystemMainMapAMapController {
         this.controller.sample.scatter.set(ctr);
       },
       marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
-        let ctr = new SystemMainMapAMapSampleMarkerLayerController(map, info);
-        ctr.event.dblclick.subscribe((x) => {
+        let ctr = new SystemMainMapAMapSampleMarkerLayerController(
+          map,
+          info,
+          this.subscription
+        );
+        let sub = ctr.event.dblclick.subscribe((x) => {
           this.event.sample.dblclick.emit(x);
         });
+        this.subscription.add(sub);
         this.controller.sample.marker.set(ctr);
       },
     },

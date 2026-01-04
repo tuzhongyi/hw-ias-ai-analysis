@@ -42,4 +42,8 @@ export class MobileDevice implements IIdNameLocationModel {
   GroupName?: string;
   /**	String	区划ID，（街道、网格）	O */
   DivisionId?: string;
+  /**	String	网格ID	O */
+  GridCellId?: string;
+  /**	Int32	每日应行驶里程数，单位：米	O */
+  DailyMeters?: number;
 }

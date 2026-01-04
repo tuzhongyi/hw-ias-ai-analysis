@@ -3,7 +3,7 @@ import { ArmSystemRequestService } from '../../../../common/data-core/requests/s
 import { LocalStorage } from '../../../../common/storage/local.storage';
 
 @Injectable()
-export class SystemIndexBusiness {
+export class SystemBusiness {
   constructor(
     private local: LocalStorage,
     private service: ArmSystemRequestService

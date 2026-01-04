@@ -1,10 +1,26 @@
+import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapDeviceController {
-  constructor(private amap: SystemMainMapAMapController) {}
+  event = {
+    dblclick: new EventEmitter<MobileDevice>(),
+  };
+  constructor(
+    private amap: SystemMainMapAMapController,
+    subscription: Subscription
+  ) {
+    this.regist(subscription);
+  }
   private datas?: MobileDevice[];
   private loaded = false;
+  private regist(subscription: Subscription) {
+    let sub = this.amap.event.device.dblclick.subscribe((x) => {
+      this.event.dblclick.emit(x);
+    });
+    subscription.add(sub);
+  }
   async load(datas: MobileDevice[]) {
     this.datas = datas;
     let marker = await this.amap.device.marker.get();

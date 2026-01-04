@@ -1,0 +1,21 @@
+<div class="system-module-mobile-device-route-chart-container" *ngIf="loaded">
+  <howell-system-module-mobile-device-route-chart
+    class="system-module-mobile-device-route-chart-container-item panel"
+    [datas]="datas"
+    [args]="args"
+    [statistictype]="RouteStatisticType.Meter"
+  ></howell-system-module-mobile-device-route-chart>
+  <howell-system-module-mobile-device-route-chart
+    class="system-module-mobile-device-route-chart-container-item panel"
+    [datas]="datas"
+    [args]="args"
+    [statistictype]="RouteStatisticType.Speed"
+  ></howell-system-module-mobile-device-route-chart>
+  <howell-system-module-mobile-device-route-chart
+    class="system-module-mobile-device-route-chart-container-item panel"
+    [datas]="datas"
+    [args]="args"
+    [statistictype]="RouteStatisticType.Time"
+  ></howell-system-module-mobile-device-route-chart>
+  <div class="loading" *ngIf="loading"></div>
+</div>

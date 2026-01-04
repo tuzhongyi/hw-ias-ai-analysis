@@ -113,6 +113,32 @@
   ></ias-system-module-road-manager>
 </ias-window>
 <!--  ias-system-road-manager  -->
+<!--  ias-system-road-manager  -->
+<ias-window
+  [Model]="window.device.mobile"
+  *ngIf="window.device.mobile.show"
+  [style]="window.device.mobile.style"
+  [title]="window.device.mobile.title"
+  [mask]="false"
+>
+  <ias-system-module-mobile-device-manager
+    [iswindow]="true"
+    [operable]="false"
+  ></ias-system-module-mobile-device-manager>
+</ias-window>
+<ias-window
+  [Model]="window.device.route"
+  *ngIf="window.device.route.show"
+  [style]="window.device.route.style"
+  [title]="window.device.route.title"
+  [mask]="false"
+>
+  <ias-system-module-mobile-device-route-manager
+    [deviceId]="window.device.route.deviceId"
+    [iswindow]="true"
+  ></ias-system-module-mobile-device-route-manager>
+</ias-window>
+<!--  ias-system-road-manager  -->
 <!--  ias-system-shop-manager  -->
 <ias-window
   [Model]="window.shop"

@@ -35,6 +35,7 @@ export class Language {
   static yyyyMMddHHmmss = `${this.yyyyMMdd} ${this.HHmmss}`;
   static yyyyMMddHHmm = `${this.yyyyMMdd} ${this.HHmm_}`;
 
+  static YearMonth = `${this.Year}${this.Month}`;
   static YearMonthDay = `${this.Year}${this.Month}${this.Day}`;
   static MonthDay = `${this.Month}${this.Day}`;
 

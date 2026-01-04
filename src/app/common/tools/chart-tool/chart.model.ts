@@ -25,3 +25,7 @@ export interface IChartData<TValue = number, TId = string>
   datas: ITimeData<TValue>[];
   format?: (value: TValue) => string;
 }
+export enum ChartType {
+  bar,
+  line,
+}

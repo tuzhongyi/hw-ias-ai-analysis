@@ -106,6 +106,7 @@
   </div>
   <div class="system-event-manager-realtime-body">
     <ias-system-event-table-realtime
+      *ngIf="table.args.types.length > 0"
       [args]="table.args"
       [load]="table.load"
       (picture)="table.on.picture($event)"

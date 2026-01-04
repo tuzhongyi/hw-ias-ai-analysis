@@ -84,5 +84,9 @@ export class SystemMainManagerMapController {
         data.SceneName || '定制场景事件详情';
       this.that.window.details.sample.show = true;
     },
+    device: (data: MobileDevice) => {
+      this.that.window.device.route.deviceId = data.Id;
+      this.that.window.device.route.show = true;
+    },
   };
 }

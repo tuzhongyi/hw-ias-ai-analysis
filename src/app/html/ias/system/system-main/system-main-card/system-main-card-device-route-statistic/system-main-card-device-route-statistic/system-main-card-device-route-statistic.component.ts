@@ -31,6 +31,7 @@ export class SystemMainCardDeviceRouteStatisticComponent {
   @Input('load') _load?: EventEmitter<void>;
   @Input() duration = DateTimeTool.all.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
+  @Output() itemclick = new EventEmitter<string>();
   constructor(
     private business: SystemMainCardDeviceRouteStatisticChartBusiness
   ) {}
@@ -68,7 +69,7 @@ export class SystemMainCardDeviceRouteStatisticComponent {
       if (this.datas.length > 3) {
         this.color.length = 3;
         for (let i = 3; i < this.datas.length; i++) {
-          let color = ColorTool.getColorByIndex(i, 10);
+          let color = ColorTool.get.index(i, 10);
           this.color.push(color);
         }
       }
@@ -105,6 +106,11 @@ export class SystemMainCardDeviceRouteStatisticComponent {
       // this.title = `${language}事件统计`;
       this.load();
       this.durationChange.emit(this.duration);
+    },
+  };
+  on = {
+    item: (id: string) => {
+      this.itemclick.emit(id);
     },
   };
 }

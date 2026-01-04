@@ -1,0 +1,78 @@
+<div class="system-module-mobile-device-table">
+  <div class="system-module-mobile-device-table-body table-split">
+    <div class="table-split-head">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="center">序号</th>
+            <th>名称</th>
+            <th>序列号</th>
+            <th>最后在线时间</th>
+            <th class="center">状态</th>
+            <th class="center" *ngIf="operable">操作</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            (click)="onselect(item)"
+            [ngClass]="{
+              selected: item === selected
+            }"
+          >
+            <td class="center">
+              <div>{{ index + 1 }}</div>
+            </td>
+            <td [title]="item.Name">
+              <div>{{ item.Name }}</div>
+            </td>
+            <td [title]="item.SerialNumber">
+              <div>{{ item.SerialNumber }}</div>
+            </td>
+            <td [title]="item.LastOnlineTime">
+              {{ item.LastOnlineTime | date : Language.yyyyMMddHHmmss }}
+            </td>
+            <td
+              [title]="item.OnlineStatus"
+              class="center"
+              [ngClass]="{
+                'text-green': item.OnlineStatus == 0,
+                'text-red': item.OnlineStatus != 0
+              }"
+            >
+              {{ item.OnlineStatus == 0 ? "在线" : "离线" }}
+            </td>
+            <td class="center" *ngIf="operable">
+              <div class="operation">
+                <div
+                  class="button"
+                  title="编辑"
+                  (click)="onmodify(item, $event)"
+                >
+                  <i class="howell-icon-modification"></i>
+                </div>
+                <div
+                  class="button"
+                  title="删除"
+                  (click)="ondelete(item, $event)"
+                >
+                  <i class="howell-icon-delete2"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,19 +1,25 @@
 import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { Paged } from '../../../../../../common/data-core/models/page-list.model';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapAlarmTimeoutController {
-  constructor(private amap: SystemMainMapAMapController) {
-    this.regist();
+  constructor(
+    private amap: SystemMainMapAMapController,
+    subscription: Subscription
+  ) {
+    this.regist(subscription);
   }
-  private regist() {
-    this.amap.event.alarm.video.subscribe((x) => {
+  private regist(subscription: Subscription) {
+    let sub1 = this.amap.event.alarm.video.subscribe((x) => {
       this.event.video.emit(x);
     });
-    this.amap.event.alarm.picture.subscribe((x) => {
+    subscription.add(sub1);
+    let sub2 = this.amap.event.alarm.picture.subscribe((x) => {
       this.event.picture.emit(x);
     });
+    subscription.add(sub2);
   }
   event = {
     video: new EventEmitter<MobileEventRecord>(),

@@ -1,4 +1,5 @@
 import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MobileEventRecord } from '../../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { Paged } from '../../../../../../../../common/data-core/models/page-list.model';
 import { ComponentTool } from '../../../../../../../../common/tools/component-tool/component.tool';
@@ -14,7 +15,11 @@ export class SystemMainMapAMapAlarmInfoController {
     close: new EventEmitter<void>(),
   };
 
-  constructor(private map: AMap.Map, private tool: ComponentTool) {}
+  constructor(
+    private map: AMap.Map,
+    private tool: ComponentTool,
+    private subscription: Subscription
+  ) {}
 
   private create(content: HTMLElement) {
     let marker = new AMap.InfoWindow({
@@ -38,7 +43,8 @@ export class SystemMainMapAMapAlarmInfoController {
       color: data.IsTimeout ? 'red' : 'orange',
     });
     this.regist(
-      component.instance as unknown as SystemMainMapAlarmInfoOutput<MobileEventRecord>
+      component.instance as unknown as SystemMainMapAlarmInfoOutput<MobileEventRecord>,
+      this.subscription
     );
     let html = this.tool.get.html(component);
 
@@ -55,17 +61,23 @@ export class SystemMainMapAMapAlarmInfoController {
     }, 1);
   }
 
-  regist(info: SystemMainMapAlarmInfoOutput<MobileEventRecord>) {
-    info.close.subscribe((x) => {
+  private regist(
+    info: SystemMainMapAlarmInfoOutput<MobileEventRecord>,
+    subscription: Subscription
+  ) {
+    let sub1 = info.close.subscribe((x) => {
       this.event.close.emit();
       this.remove();
     });
-    info.video.subscribe((x) => {
+    subscription.add(sub1);
+    let sub2 = info.video.subscribe((x) => {
       this.event.video.emit(x);
     });
-    info.image.subscribe((x) => {
+    subscription.add(sub2);
+    let sub3 = info.image.subscribe((x) => {
       this.event.picture.emit(x);
     });
+    subscription.add(sub3);
   }
 
   remove() {

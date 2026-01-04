@@ -1,19 +1,24 @@
 import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapShopController {
-  constructor(private amap: SystemMainMapAMapController) {
-    this.regist();
+  constructor(
+    private amap: SystemMainMapAMapController,
+    subscription: Subscription
+  ) {
+    this.regist(subscription);
   }
-
-  private regist() {
-    this.amap.event.shop.click.subscribe((x) => {
+  private regist(subscription: Subscription) {
+    let sub1 = this.amap.event.shop.click.subscribe((x) => {
       this.event.click.emit(x);
     });
-    this.amap.event.shop.dblclick.subscribe((x) => {
+    subscription.add(sub1);
+    let sub2 = this.amap.event.shop.dblclick.subscribe((x) => {
       this.event.dblclick.emit(x);
     });
+    subscription.add(sub2);
   }
 
   event = {
@@ -45,7 +50,7 @@ export class SystemMainMapShopController {
       this.load(this.datas);
     }
   }
-  destory() {
+  async destory() {
     this.datas = undefined;
     return this.clear();
   }

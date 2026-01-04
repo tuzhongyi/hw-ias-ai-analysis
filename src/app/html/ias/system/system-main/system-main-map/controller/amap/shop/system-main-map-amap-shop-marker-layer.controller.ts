@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
 import { IASMapAMapConfig } from '../../../../../../share/map/controller/amap/ias-map-amap.config';
@@ -9,7 +10,11 @@ import { IASMapAMapMarkerEvent } from '../../../../../../share/map/controller/am
 export class SystemMainMapAMapShopMarkerLayerController {
   event = new IASMapAMapMarkerEvent();
 
-  constructor(map: AMap.Map, private info: IASMapAMapInfoController) {
+  constructor(
+    map: AMap.Map,
+    private info: IASMapAMapInfoController,
+    private subscription: Subscription
+  ) {
     this.layer = this.init(map);
   }
 
@@ -26,8 +31,11 @@ export class SystemMainMapAMapShopMarkerLayerController {
     return layer;
   }
 
-  private regist(point: IASMapAMapMarkerLabelController) {
-    point.event.mouseover.subscribe((data) => {
+  private regist(
+    point: IASMapAMapMarkerLabelController,
+    subscription: Subscription
+  ) {
+    let sub1 = point.event.mouseover.subscribe((data) => {
       let info: IIASMapAMapInfo = {
         Name: data.Name,
       };
@@ -40,18 +48,22 @@ export class SystemMainMapAMapShopMarkerLayerController {
       this.info.add(info, undefined, [0, -SizeTool.map.shop.height]);
       this.event.mouseover.emit(data);
     });
-    point.event.mouseout.subscribe((data) => {
+    subscription.add(sub1);
+    let sub2 = point.event.mouseout.subscribe((data) => {
       this.info.remove();
       this.event.mouseout.emit(data);
     });
-    point.event.click.subscribe((data) => {
+    subscription.add(sub2);
+    let sub3 = point.event.click.subscribe((data) => {
       this.select(data);
       this.event.click.emit(data);
     });
-    point.event.dblclick.subscribe((data) => {
+    subscription.add(sub3);
+    let sub4 = point.event.dblclick.subscribe((data) => {
       this.select(data);
       this.event.dblclick.emit(data);
     });
+    subscription.add(sub4);
   }
 
   async load(datas: IShop[]) {
@@ -60,7 +72,7 @@ export class SystemMainMapAMapShopMarkerLayerController {
       const data = datas[i];
       if (data.Location) {
         let point = new IASMapAMapMarkerLabelController(data);
-        this.regist(point);
+        this.regist(point, this.subscription);
         let marker = await point.marker;
         markers.push(marker);
         this.points.push(point);

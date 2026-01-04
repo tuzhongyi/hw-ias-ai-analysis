@@ -7,19 +7,22 @@ import { LocalStorage } from '../../../../common/storage/local.storage';
 import { wait } from '../../../../common/tools/wait';
 import { RoutePath } from '../../../app.route.path';
 import { SystemHeadComponent } from '../system-head/system-head.component';
+import { SystemBusiness } from './system.business';
 
 @Component({
   selector: 'ias-system',
   imports: [RouterOutlet, SystemHeadComponent],
   templateUrl: './system.component.html',
   styleUrl: './system.component.less',
+  providers: [SystemBusiness],
 })
 export class SystemComponent implements OnInit, OnDestroy {
   constructor(
     private local: LocalStorage,
     private router: Router,
     private global: GlobalStorage,
-    private config: ConfigRequestService
+    private config: ConfigRequestService,
+    private business: SystemBusiness
   ) {}
 
   private subscription = new Subscription();
@@ -27,6 +30,39 @@ export class SystemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.regist();
     this.load();
+    this.init();
+  }
+
+  private init() {
+    this.business.get().then((user) => {
+      if (user) {
+        if (user.Priorities) {
+          if (user.Priorities.includes('1')) {
+            this.global.display.task.shop = true;
+            this.global.display.task.gps = true;
+
+            this.global.display.module.shop = true;
+            this.global.display.module.road = true;
+            this.global.display.module.route = true;
+
+            this.global.display.record.shop = true;
+            this.global.display.record.realtime = true;
+            this.global.display.record.gps = true;
+          } else {
+            this.global.display.task.shop = false;
+            this.global.display.task.gps = true;
+
+            this.global.display.module.shop = false;
+            this.global.display.module.road = false;
+            this.global.display.module.route = true;
+
+            this.global.display.record.shop = false;
+            this.global.display.record.realtime = true;
+            this.global.display.record.gps = true;
+          }
+        }
+      }
+    });
   }
 
   private regist() {

@@ -13,10 +13,16 @@ export class SystemMainManagerCardRealtimeStatistic {
       let args = new SystemEventTableArgs();
       args.duration = this.duration;
       args.type = type;
+      args.confirmed = true;
+      args.misinform = false;
       this.that.window.record.realtime.open(args);
     },
     duration: (duration: Duration) => {
       this.duration = duration;
+    },
+    item: (id: string) => {
+      this.that.window.device.route.deviceId = id;
+      this.that.window.device.route.show = true;
     },
   };
 }

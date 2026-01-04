@@ -25,7 +25,7 @@ export class SystemMapSourceTableShopBusiness {
       let item = await this.converter.convert(shops[i]);
       datas.push(item);
     }
-    datas = GeoTool.direction.sort(datas, sort, direction);
+    datas = GeoTool.math.direction.sort(datas, sort, direction);
     let paged = PagedList.create(datas, index, size);
 
     for (let i = 0; i < paged.Data.length; i++) {

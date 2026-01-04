@@ -4,5 +4,9 @@ import { HowellPoint } from '../../../../../../../common/data-core/models/arm/po
 @Injectable()
 export class SystemModuleRoadMapPositionController {
   show = false;
-  point = HowellPoint.create();
+  point = {
+    saved: HowellPoint.create(),
+    current: HowellPoint.create(),
+  };
+  distance = 0;
 }

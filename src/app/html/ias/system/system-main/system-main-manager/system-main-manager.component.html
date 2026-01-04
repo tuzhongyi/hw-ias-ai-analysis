@@ -7,6 +7,7 @@
     (shopclick)="map.on.shop.select($event)"
     (shopdblclick)="map.on.shop.details($event)"
     (sampledblclick)="map.on.sample($event)"
+    (devicedblclick)="map.on.device($event)"
     [shops]="map.data.shop"
     [devices]="map.data.device"
     [realtimes]="map.data.realtime"
@@ -112,6 +113,7 @@
       <ias-system-main-card-device-route-statistic
         *ngIf="card.device.route.show"
         [load]="load"
+        (itemclick)="card.realtime.pie.on.item($event)"
       >
       </ias-system-main-card-device-route-statistic>
     </div>

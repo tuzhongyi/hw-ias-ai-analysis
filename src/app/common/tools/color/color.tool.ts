@@ -1,5 +1,6 @@
 import { ShopObjectState } from '../../data-core/enums/analysis/shop-object-state.enum';
 import { ShopState } from '../../data-core/enums/analysis/shop-state.enum';
+import { ColorChartTool } from './color-chart.tool';
 
 class CanvasDrawColor {
   stroke = {
@@ -33,6 +34,7 @@ export class ColorTool {
   static cyan = '#00f5ff';
   static yellow = '#fde546';
 
+  static chart = new ColorChartTool();
   static canvas = new CanvasDrawColor();
   static trashcan = new TrashCanColor();
   static ShopObjectState(value: ShopObjectState) {
@@ -78,29 +80,31 @@ export class ColorTool {
     }
   }
 
-  static getColorByIndex(index: number, level = 5) {
-    // 鲜明度参数范围：1-10，默认5
-    const vividLevel = Math.max(1, Math.min(10, level));
+  static get = {
+    index: (index: number, level = 5) => {
+      // 鲜明度参数范围：1-10，默认5
+      const vividLevel = Math.max(1, Math.min(10, level));
 
-    // 使用HSL色彩空间
-    const hue = (index * 137.5) % 360;
+      // 使用HSL色彩空间
+      const hue = (index * 137.5) % 360;
 
-    // 线性映射鲜明度到饱和度和亮度范围
-    // 鲜明度1: 饱和度30-50%, 亮度20-40%
-    // 鲜明度10: 饱和度80-95%, 亮度55-75%
-    const minSaturation = 30 + ((level - 1) * (80 - 30)) / 9;
-    const maxSaturation = 50 + ((level - 1) * (95 - 50)) / 9;
-    const minLightness = 20 + ((level - 1) * (55 - 20)) / 9;
-    const maxLightness = 40 + ((level - 1) * (75 - 40)) / 9;
+      // 线性映射鲜明度到饱和度和亮度范围
+      // 鲜明度1: 饱和度30-50%, 亮度20-40%
+      // 鲜明度10: 饱和度80-95%, 亮度55-75%
+      const minSaturation = 30 + ((level - 1) * (80 - 30)) / 9;
+      const maxSaturation = 50 + ((level - 1) * (95 - 50)) / 9;
+      const minLightness = 20 + ((level - 1) * (55 - 20)) / 9;
+      const maxLightness = 40 + ((level - 1) * (75 - 40)) / 9;
 
-    const saturationRange = maxSaturation - minSaturation;
-    const lightnessRange = maxLightness - minLightness;
+      const saturationRange = maxSaturation - minSaturation;
+      const lightnessRange = maxLightness - minLightness;
 
-    const saturation = minSaturation + (index % 20) * (saturationRange / 20);
-    const lightness = minLightness + (index % 20) * (lightnessRange / 20);
+      const saturation = minSaturation + (index % 20) * (saturationRange / 20);
+      const lightness = minLightness + (index % 20) * (lightnessRange / 20);
 
-    return this.hsl.to.hex(hue, saturation, lightness);
-  }
+      return this.hsl.to.hex(hue, saturation, lightness);
+    },
+  };
 
   static hsl = {
     to: {

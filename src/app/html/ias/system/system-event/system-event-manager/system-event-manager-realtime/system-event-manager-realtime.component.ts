@@ -101,6 +101,8 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
   private init = {
     table: async () => {
       this.table.args.types = (await this.source.type).map((x) => x.Value);
+      this.table.args.confirmed = true;
+      this.table.args.misinform = false;
     },
     window: async () => {
       this.window.map.args.types = (await this.source.type).map((x) => x.Value);

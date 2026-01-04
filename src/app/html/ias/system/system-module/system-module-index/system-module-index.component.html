@@ -1,11 +1,19 @@
 <div class="system-module-index root-router">
   <div class="system-module-index-body">
     <div class="system-module-index-body-list">
-      <div class="system-module-index-body-list-item" (click)="oncompare()">
+      <div
+        class="system-module-index-body-list-item"
+        (click)="oncompare()"
+        *ngIf="display.shop"
+      >
         <div class="system-module-index-body-list-item-icon shop"></div>
         <div class="system-module-index-body-list-item-name">商铺</div>
       </div>
-      <div class="system-module-index-body-list-item" (click)="onshop()">
+      <div
+        class="system-module-index-body-list-item"
+        (click)="onshop()"
+        *ngIf="display.shop"
+      >
         <div class="system-module-index-body-list-item-icon shop"></div>
         <div class="system-module-index-body-list-item-name">分析商铺</div>
       </div>
@@ -13,13 +21,26 @@
       <div
         class="system-module-index-body-list-item"
         (click)="onregistration()"
+        *ngIf="display.shop"
       >
         <div class="system-module-index-body-list-item-icon shop"></div>
         <div class="system-module-index-body-list-item-name">注册商铺</div>
       </div>
-      <div class="system-module-index-body-list-item" (click)="onroad()">
+      <div
+        class="system-module-index-body-list-item"
+        (click)="onroad()"
+        *ngIf="display.road"
+      >
         <div class="system-module-index-body-list-item-icon road"></div>
         <div class="system-module-index-body-list-item-name">道路</div>
+      </div>
+      <div
+        class="system-module-index-body-list-item"
+        (click)="onmobiledevice()"
+        *ngIf="display.route"
+      >
+        <div class="system-module-index-body-list-item-icon road"></div>
+        <div class="system-module-index-body-list-item-name">巡检线路</div>
       </div>
     </div>
   </div>

@@ -1,15 +1,20 @@
 import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapSampleController {
-  constructor(private amap: SystemMainMapAMapController) {
-    this.regist();
+  constructor(
+    private amap: SystemMainMapAMapController,
+    subscription: Subscription
+  ) {
+    this.regist(subscription);
   }
-  private regist() {
-    this.amap.event.sample.dblclick.subscribe((x) => {
+  private regist(subscription: Subscription) {
+    let sub = this.amap.event.sample.dblclick.subscribe((x) => {
       this.event.dblclick.emit(x);
     });
+    subscription.add(sub);
   }
   event = {
     dblclick: new EventEmitter<GpsTaskSampleRecord>(),

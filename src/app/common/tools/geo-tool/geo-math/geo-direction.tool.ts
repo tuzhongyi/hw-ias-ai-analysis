@@ -1,9 +1,9 @@
-import { GisPoints } from '../../data-core/models/arm/gis-point.model';
-import { IIdModel } from '../../data-core/models/model.interface';
-import { ArrayTool } from '../array-tool/array.tool';
-import { LocaleCompare } from '../compare-tool/compare.tool';
-import { GeoDirection, GeoDirectionSort } from './geo.model';
-import { GeoTool } from './geo.tool';
+import { GisPoints } from '../../../data-core/models/arm/gis-point.model';
+import { IIdModel } from '../../../data-core/models/model.interface';
+import { ArrayTool } from '../../array-tool/array.tool';
+import { LocaleCompare } from '../../compare-tool/compare.tool';
+import { GeoDirection, GeoDirectionSort } from '../geo.model';
+import { GeoTool } from '../geo.tool';
 
 export interface IRoad extends IIdModel {
   Direction?: GeoDirection;
@@ -13,7 +13,7 @@ interface ILocation {
   Road?: IRoad;
 }
 
-export class GeoDirectionTool {
+export class GeoMathDirectionTool {
   private compare<T extends ILocation & IRoad>(
     a: T,
     b: T,

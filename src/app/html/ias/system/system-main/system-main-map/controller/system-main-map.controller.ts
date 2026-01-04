@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
+import { Subscription } from 'rxjs';
 import { SystemMainMapAlarmRealtimeController } from './system-main-map-alarm-realtime.controller';
 import { SystemMainMapAlarmTimeoutController } from './system-main-map-alarm-timeout.controller';
 import { SystemMainMapDeviceController } from './system-main-map-device.controller';
@@ -22,19 +23,32 @@ export class SystemMainMapController {
   sample: SystemMainMapSampleController;
   heatmap: SystemMainMapHeatmapController;
   constructor(tool: ComponentTool) {
-    this.amap = new SystemMainMapAMapController(tool);
+    this.amap = new SystemMainMapAMapController(tool, this.subscription);
     this.road = new SystemMainMapRoadController(this.amap);
-    this.shop = new SystemMainMapShopController(this.amap);
-    this.device = new SystemMainMapDeviceController(this.amap);
+    this.shop = new SystemMainMapShopController(this.amap, this.subscription);
+    this.device = new SystemMainMapDeviceController(
+      this.amap,
+      this.subscription
+    );
     this.alarm = {
-      realtime: new SystemMainMapAlarmRealtimeController(this.amap),
-      timeout: new SystemMainMapAlarmTimeoutController(this.amap),
+      realtime: new SystemMainMapAlarmRealtimeController(
+        this.amap,
+        this.subscription
+      ),
+      timeout: new SystemMainMapAlarmTimeoutController(
+        this.amap,
+        this.subscription
+      ),
     };
-    this.sample = new SystemMainMapSampleController(this.amap);
+    this.sample = new SystemMainMapSampleController(
+      this.amap,
+      this.subscription
+    );
     this.heatmap = new SystemMainMapHeatmapController(this.amap);
   }
 
   private amap: SystemMainMapAMapController;
+  private subscription = new Subscription();
 
   map = {
     moveto: (center: [number, number]) => {
@@ -59,6 +73,8 @@ export class SystemMainMapController {
       Promise.all(all).then(() => {
         this.amap.destory();
       });
+
+      this.subscription.unsubscribe();
     },
   };
 }

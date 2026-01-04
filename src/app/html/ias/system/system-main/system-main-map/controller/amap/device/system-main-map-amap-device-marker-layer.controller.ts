@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { MobileDevice } from '../../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
 import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
@@ -8,7 +9,11 @@ import { SystemMainMapAMapDeviceMarkerController } from './system-main-map-amap-
 export class SystemMainMapAMapDeviceMarkerLayerController {
   event = new IASMapAMapMarkerEvent<MobileDevice>();
 
-  constructor(map: AMap.Map, private info: IASMapAMapInfoController) {
+  constructor(
+    map: AMap.Map,
+    private info: IASMapAMapInfoController,
+    private subscription: Subscription
+  ) {
     this.layer = this.init(map);
   }
   private layer: AMap.LabelsLayer;
@@ -24,8 +29,11 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
     return layer;
   }
 
-  private regist(point: SystemMainMapAMapDeviceMarkerController) {
-    point.event.mouseover.subscribe((data) => {
+  private regist(
+    point: SystemMainMapAMapDeviceMarkerController,
+    subscription: Subscription
+  ) {
+    let sub1 = point.event.mouseover.subscribe((data) => {
       let info: IIASMapAMapInfo = {
         Name: data.Name,
       };
@@ -38,18 +46,22 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
       this.info.add(info, undefined, [0, -SizeTool.map.shop.height]);
       this.event.mouseover.emit(data);
     });
-    point.event.mouseout.subscribe((data) => {
+    subscription.add(sub1);
+    let sub2 = point.event.mouseout.subscribe((data) => {
       this.info.remove();
       this.event.mouseout.emit(data);
     });
-    point.event.click.subscribe((data) => {
+    subscription.add(sub2);
+    let sub3 = point.event.click.subscribe((data) => {
       this.select(data);
       this.event.click.emit(data);
     });
-    point.event.dblclick.subscribe((data) => {
+    subscription.add(sub3);
+    let sub4 = point.event.dblclick.subscribe((data) => {
       this.select(data);
       this.event.dblclick.emit(data);
     });
+    subscription.add(sub4);
   }
 
   async load(datas: MobileDevice[]) {
@@ -58,7 +70,7 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
       const data = datas[i];
       if (data.Location) {
         let point = new SystemMainMapAMapDeviceMarkerController(data);
-        this.regist(point);
+        this.regist(point, this.subscription);
         markers.push(point.marker);
         this.points.push(point);
       }

@@ -1,5 +1,7 @@
 import { SystemMainManagerDetailsMobileWindow } from './details/system-main-manager-details-mobile.window';
 import { SystemMainManagerDetailsSampleWindow } from './details/system-main-manager-details-sample.window';
+import { SystemMainManagerMobileDeviceWindow } from './device/system-main-manager-mobile-device.window';
+import { SystemMainManagerMobileRouteWindow } from './device/system-main-manager-mobile-route.window';
 import { SystemMainManagerPictureWindow } from './picture/system-main-manager-picture.window';
 import { SystemMainManagerRecordWindow } from './record/system-main-manager-record.window';
 import { SystemMainManagerRoadWindow } from './road/system-main-manager-road.window';
@@ -29,4 +31,8 @@ export class SystemMainManagerWindow {
   };
   road = new SystemMainManagerRoadWindow();
   shop = new SystemMainManagerShopWindow();
+  device = {
+    mobile: new SystemMainManagerMobileDeviceWindow(),
+    route: new SystemMainManagerMobileRouteWindow(),
+  };
 }

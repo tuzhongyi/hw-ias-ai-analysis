@@ -82,7 +82,7 @@ export class SystemMainManagerComponent implements OnInit {
   load = new EventEmitter<void>();
   card = new SystemMainManagerCard(this);
   panel = new SystemMainManagerPanel(this);
-  duration = DateTimeTool.all.day(new Date(2025, 11, 4));
+  duration = DateTimeTool.all.day(new Date());
 
   map = new SystemMainManagerMapController(this);
 

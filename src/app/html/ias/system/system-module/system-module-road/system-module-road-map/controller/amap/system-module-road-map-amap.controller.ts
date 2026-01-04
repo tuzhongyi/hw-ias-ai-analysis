@@ -13,6 +13,7 @@ export class SystemModuleRoadMapAMapController {
     mousemove: new EventEmitter<[number, number]>(),
     mouseout: new EventEmitter<void>(),
     change: new EventEmitter<[number, number][]>(),
+    click: new EventEmitter<[number, number]>(),
   };
 
   creator = new PromiseValue<SystemModuleRoadMapAMapCreatorController>();
@@ -48,6 +49,9 @@ export class SystemModuleRoadMapAMapController {
     });
     map.on('mouseout', () => {
       this.event.mouseout.emit();
+    });
+    map.on('click', (e) => {
+      this.event.click.emit([e.lnglat.lng, e.lnglat.lat]);
     });
   }
 

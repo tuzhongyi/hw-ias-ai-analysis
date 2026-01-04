@@ -1,0 +1,44 @@
+<div
+  class="system-module-mobile-device-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-module-mobile-device-manager-head">
+    <div class="system-module-mobile-device-manager-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="table.args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient" (click)="onsearch()">
+            查找
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="system-module-mobile-device-manager-head-operation"
+      *ngIf="operable"
+    >
+      <button class="button-clip-gradient">添加</button>
+    </div>
+  </div>
+  <div class="system-module-mobile-device-manager-body">
+    <div class="system-module-mobile-device-manager-body-table">
+      <ias-system-module-mobile-device-table
+        [operable]="operable"
+        [args]="table.args"
+        [load]="table.load"
+        [(selected)]="table.selected"
+        (loaded)="table.onload($event)"
+      ></ias-system-module-mobile-device-table>
+    </div>
+    <div class="system-module-mobile-device-manager-body-map">
+      <ias-system-module-mobile-device-map
+        [datas]="table.datas"
+      ></ias-system-module-mobile-device-map>
+    </div>
+  </div>
+</div>

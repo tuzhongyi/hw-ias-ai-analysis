@@ -21,6 +21,7 @@
       <div
         class="system-main-card-device-route-statistic-info-item"
         *ngFor="let item of datas; let index = index"
+        (click)="on.item(item.id)"
       >
         <div
           class="system-main-card-device-route-statistic-info-item-color"

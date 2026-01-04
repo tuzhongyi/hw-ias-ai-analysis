@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { MobileEventRecord } from '../../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ObjectTool } from '../../../../../../../../common/tools/object-tool/object.tool';
 import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
@@ -12,7 +13,8 @@ export class SystemMainMapAMapAlarmMarkerLayerController {
   constructor(
     map: AMap.Map,
     private info: IASMapAMapInfoController,
-    private timeout: boolean
+    private timeout: boolean,
+    private subscription: Subscription
   ) {
     this.layer = this.init(map);
   }
@@ -31,8 +33,11 @@ export class SystemMainMapAMapAlarmMarkerLayerController {
     return layer;
   }
 
-  private regist(point: SystemMainMapAMapAlarmMarkerController) {
-    point.event.mouseover.subscribe((data) => {
+  private regist(
+    point: SystemMainMapAMapAlarmMarkerController,
+    subscription: Subscription
+  ) {
+    let sub1 = point.event.mouseover.subscribe((data) => {
       let info: IIASMapAMapInfo = {
         Name: data.Name,
       };
@@ -45,18 +50,22 @@ export class SystemMainMapAMapAlarmMarkerLayerController {
       this.info.add(info, undefined, [0, -SizeTool.map.shop.height]);
       this.event.mouseover.emit(data);
     });
-    point.event.mouseout.subscribe((data) => {
+    subscription.add(sub1);
+    let sub2 = point.event.mouseout.subscribe((data) => {
       this.info.remove();
       this.event.mouseout.emit(data);
     });
-    point.event.click.subscribe((data) => {
+    subscription.add(sub2);
+    let sub3 = point.event.click.subscribe((data) => {
       this.select(data);
       this.event.click.emit(data);
     });
-    point.event.dblclick.subscribe((data) => {
+    subscription.add(sub3);
+    let sub4 = point.event.dblclick.subscribe((data) => {
       this.select(data);
       this.event.dblclick.emit(data);
     });
+    subscription.add(sub4);
   }
 
   async load(datas: MobileEventRecord[]) {
@@ -68,7 +77,7 @@ export class SystemMainMapAMapAlarmMarkerLayerController {
           data,
           this.timeout
         );
-        this.regist(point);
+        this.regist(point, this.subscription);
         markers.push(point.marker);
         this.points.push(point);
       }

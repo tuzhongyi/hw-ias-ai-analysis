@@ -1,11 +1,19 @@
 <div class="system-event-index">
   <div class="system-event-index-body">
     <div class="system-event-index-body-list">
-      <div class="system-event-index-body-list-item" (click)="on.shop()">
+      <div
+        class="system-event-index-body-list-item"
+        (click)="on.shop()"
+        *ngIf="display.shop"
+      >
         <div class="system-event-index-body-list-item-icon shop"></div>
         <div class="system-event-index-body-list-item-name">商铺变更</div>
       </div>
-      <div class="system-event-index-body-list-item" (click)="on.realtime()">
+      <div
+        class="system-event-index-body-list-item"
+        (click)="on.realtime()"
+        *ngIf="display.realtime"
+      >
         <div class="system-event-index-body-list-item-icon realtime"></div>
         <div class="system-event-index-body-list-item-name">实时事件</div>
       </div>
@@ -14,7 +22,11 @@
         <div class="system-event-index-body-list-item-icon analysis"></div>
         <div class="system-event-index-body-list-item-name">分析事件</div>
       </div> -->
-      <div class="system-event-index-body-list-item" (click)="on.task()">
+      <div
+        class="system-event-index-body-list-item"
+        (click)="on.task()"
+        *ngIf="display.gps"
+      >
         <div class="system-event-index-body-list-item-icon gps-task"></div>
         <div class="system-event-index-body-list-item-name">定制场景</div>
       </div>

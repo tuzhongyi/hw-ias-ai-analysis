@@ -1,0 +1,71 @@
+<div
+  class="system-module-mobile-device-route-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-module-mobile-device-route-manager-head">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">选择时间:</div>
+        <div class="form-item-value">
+          <date-time-control
+            [week]="date.week"
+            [format]="date.format"
+            [minView]="date.view.min"
+            [startView]="date.view.min"
+            [(date)]="args.date"
+          ></date-time-control>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">巡逻车辆:</div>
+        <div class="form-item-value">
+          <hw-select [(selected)]="args.deviceId" [nullable]="false">
+            <select [(ngModel)]="args.deviceId">
+              <option [ngValue]="item.Id" *ngFor="let item of source.devices">
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+      <div class="form-item submit">
+        <button class="button-clip-gradient" (click)="on.search()">查找</button>
+      </div>
+    </div>
+    <div class="forms">
+      <div class="form-item">
+        <select [(ngModel)]="args.unit" (change)="on.unit()">
+          <option [ngValue]="Unit.day">日报表</option>
+          <option [ngValue]="Unit.week">周报表</option>
+          <option [ngValue]="Unit.month">月报表</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-mobile-device-route-manager-body">
+    <div class="system-module-mobile-device-route-manager-body-map">
+      <howell-system-module-mobile-device-route-map
+        [load]="load"
+        [rectified]="rectified"
+        (loaded)="on.loaded()"
+      ></howell-system-module-mobile-device-route-map>
+      <div class="system-module-mobile-device-route-manager-body-map-settings">
+        <howell-system-module-mobile-device-route-map-settings
+          *ngIf="loaded"
+          [(rectified)]="rectified"
+        >
+        </howell-system-module-mobile-device-route-map-settings>
+      </div>
+    </div>
+    <div class="system-module-mobile-device-route-manager-body-info">
+      <howell-system-module-mobile-device-route-info
+        [load]="load"
+      ></howell-system-module-mobile-device-route-info>
+    </div>
+    <div class="system-module-mobile-device-route-manager-body-chart">
+      <howell-system-module-mobile-device-route-chart-container
+        [load]="load"
+      ></howell-system-module-mobile-device-route-chart-container>
+    </div>
+  </div>
+</div>

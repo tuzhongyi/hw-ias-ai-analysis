@@ -1,0 +1,72 @@
+.system-module-mobile-device-route-manager {
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+
+  padding: 25px;
+  padding-top: 0;
+  box-sizing: border-box;
+
+  @head-height: 60px;
+
+  &-head {
+    width: 100%;
+    height: @head-height;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .form {
+      &-item {
+        &-value {
+          &>* {
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  &-body {
+    height: calc(100% - @head-height);
+    width: 100%;
+    flex-grow: 1;
+    display: grid;
+    grid-template-areas: "map info"
+      "map chart";
+
+    grid-template-rows: calc((100% - 10px) * 0.15) calc((100% - 10px) * 0.85);
+    grid-template-columns: calc((100% - 10px) / 2) calc((100% - 10px) / 2);
+    grid-gap: 10px;
+
+    &-map {
+      grid-area: map;
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      &-settings {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+    }
+
+    &-info {
+      grid-area: info;
+      width: 100%;
+      height: 100%;
+    }
+
+    &-chart {
+      grid-area: chart;
+      width: 100%;
+      height: 100%;
+
+      &>* {
+        height: calc((100% - 10px * 2) / 3);
+        width: 100%;
+      }
+    }
+  }
+}
