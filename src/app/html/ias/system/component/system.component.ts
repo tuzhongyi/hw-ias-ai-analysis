@@ -36,30 +36,33 @@ export class SystemComponent implements OnInit, OnDestroy {
   private init() {
     this.business.get().then((user) => {
       if (user) {
+        let shop = false;
         if (user.Priorities) {
-          if (user.Priorities.includes('1')) {
-            this.global.display.task.shop = true;
-            this.global.display.task.gps = true;
+          shop = user.Priorities.includes('1');
+        }
 
-            this.global.display.module.shop = true;
-            this.global.display.module.road = true;
-            this.global.display.module.route = true;
+        if (shop) {
+          this.global.display.task.shop = true;
+          this.global.display.task.gps = true;
 
-            this.global.display.record.shop = true;
-            this.global.display.record.realtime = true;
-            this.global.display.record.gps = true;
-          } else {
-            this.global.display.task.shop = false;
-            this.global.display.task.gps = true;
+          this.global.display.module.shop = true;
+          this.global.display.module.road = true;
+          this.global.display.module.route = true;
 
-            this.global.display.module.shop = false;
-            this.global.display.module.road = false;
-            this.global.display.module.route = true;
+          this.global.display.record.shop = true;
+          this.global.display.record.realtime = true;
+          this.global.display.record.gps = true;
+        } else {
+          this.global.display.task.shop = false;
+          this.global.display.task.gps = true;
 
-            this.global.display.record.shop = false;
-            this.global.display.record.realtime = true;
-            this.global.display.record.gps = true;
-          }
+          this.global.display.module.shop = false;
+          this.global.display.module.road = false;
+          this.global.display.module.route = true;
+
+          this.global.display.record.shop = false;
+          this.global.display.record.realtime = true;
+          this.global.display.record.gps = true;
         }
       }
     });
