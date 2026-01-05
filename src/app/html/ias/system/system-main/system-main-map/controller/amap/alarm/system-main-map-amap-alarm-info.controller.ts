@@ -36,6 +36,9 @@ export class SystemMainMapAMapAlarmInfoController {
     let position: [number, number] = [0, 0];
     if (data.Location) {
       position = [data.Location.GCJ02.Longitude, data.Location.GCJ02.Latitude];
+      setTimeout(() => {
+        this.map.setCenter(position);
+      });
     }
 
     let component = this.tool.create(SystemMainMapAlarmInfoComponent, {

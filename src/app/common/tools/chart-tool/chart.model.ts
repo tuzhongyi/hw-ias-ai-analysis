@@ -26,6 +26,6 @@ export interface IChartData<TValue = number, TId = string>
   format?: (value: TValue) => string;
 }
 export enum ChartType {
-  bar,
-  line,
+  bar = 'bar',
+  line = 'line',
 }

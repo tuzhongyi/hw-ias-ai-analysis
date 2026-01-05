@@ -36,9 +36,16 @@ export class SystemMainManagerPanelNavigation {
           this.card.statistic.table.modeable = true;
           this.card.statistic.number.show = true;
           this.card.statistic.pie.show = true;
-          this.card.device.state.show = false;
+
           this.card.device.route.show = false;
-          this.card.shop.statistic.show = true;
+          if (this.that.global.display.map.shop) {
+            this.card.shop.statistic.show = true;
+            this.card.device.state.show = false;
+          } else {
+            this.card.shop.statistic.show = false;
+            this.card.device.state.show = true;
+          }
+
           this.card.shop.pie.show = false;
           this.card.shop.line.show = false;
           this.card.shop.task.show = true;

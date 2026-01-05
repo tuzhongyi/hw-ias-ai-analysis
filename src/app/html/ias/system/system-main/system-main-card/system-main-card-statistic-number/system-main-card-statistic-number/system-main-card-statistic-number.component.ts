@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
 import { SystemMainCardContainerComponent } from '../../system-main-card-container/system-main-card-container.component';
 import { SystemMainCardStatisticNumberItemComponent } from '../system-main-card-statistic-number-item/system-main-card-statistic-number-item.component';
 import { SystemMainCardStatisticNumberItem } from '../system-main-card-statistic-number-item/system-main-card-statistic-number-item.model';
@@ -32,7 +33,10 @@ export class SystemMainCardStatisticNumberComponent
   @Input('load') _load?: EventEmitter<void>;
   @Output() itemclick = new EventEmitter<string>();
 
-  constructor(private business: SystemMainCardStatisticNumberBusiness) {}
+  constructor(
+    private business: SystemMainCardStatisticNumberBusiness,
+    private global: GlobalStorage
+  ) {}
   title = '信息统计';
   datas: SystemMainCardStatisticNumberItem[] = [];
 
@@ -60,7 +64,13 @@ export class SystemMainCardStatisticNumberComponent
     let road = await this.business.road();
     let device = await this.business.device();
     let task = await this.business.task();
-    this.datas = [shop, road, device, task];
+    this.datas = [];
+    if (this.global.display.map.shop) {
+      this.datas.push(shop);
+    }
+    this.datas.push(road);
+    this.datas.push(device);
+    this.datas.push(task);
   }
 
   on = {

@@ -9,9 +9,11 @@ import { GetAnalysisGpsTaskSampleListParams } from '../../../../../../../common/
 import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
 import { GetEventNumbersParams } from '../../../../../../../common/data-core/requests/services/system/event/number/system-event-number.params';
 import { ArmSystemRequestService } from '../../../../../../../common/data-core/requests/services/system/system.service';
+import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
 import { ChartItem } from '../../../../../../../common/tools/chart-tool/chart.model';
 import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
+import { wait } from '../../../../../../../common/tools/wait';
 import { EventMode } from '../../../system-main-map-navigation/system-main-map-navigation.model';
 
 @Injectable()
@@ -20,7 +22,8 @@ export class SystemMainCardStatisticEventBusiness {
     private manager: Manager,
     system: ArmSystemRequestService,
     analysis: ArmAnalysisRequestService,
-    division: ArmDivisionRequestService
+    division: ArmDivisionRequestService,
+    private global: GlobalStorage
   ) {
     this.service = { system, analysis, division };
   }
@@ -40,29 +43,37 @@ export class SystemMainCardStatisticEventBusiness {
       },
     };
 
-    let items: ChartItem[] = [
-      {
+    await wait(() => !this.global.display.loading);
+
+    let items: ChartItem[] = [];
+
+    if (this.global.display.map.shop) {
+      items.push({
         id: EventMode.shop,
         name: '商铺变更',
         value: this.convert(
           data.mobile,
           ObjectTool.model.MobileEventRecord.get.type.shop
         ),
-      },
-      {
+      });
+    }
+    if (this.global.display.map.realtime) {
+      items.push({
         id: EventMode.realtime,
         name: '实时事件',
         value: this.convert(
           data.mobile,
           data.realtime.types.map((x) => x.Value)
         ),
-      },
-      {
+      });
+    }
+    if (this.global.display.map.gps) {
+      items.push({
         id: EventMode.gpstask,
         name: '场景事件',
         value: data.sample.TotalRecordCount,
-      },
-    ];
+      });
+    }
 
     return items;
   }

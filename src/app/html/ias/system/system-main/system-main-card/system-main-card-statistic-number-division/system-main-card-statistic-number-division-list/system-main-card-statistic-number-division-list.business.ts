@@ -10,6 +10,7 @@ import { GetAnalysisGpsTaskSampleListParams } from '../../../../../../../common/
 import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
 import { GetEventNumbersParams } from '../../../../../../../common/data-core/requests/services/system/event/number/system-event-number.params';
 import { ArmSystemRequestService } from '../../../../../../../common/data-core/requests/services/system/system.service';
+import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
 import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
 
@@ -19,7 +20,8 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
     division: ArmDivisionRequestService,
     system: ArmSystemRequestService,
     analysis: ArmAnalysisRequestService,
-    private source: SourceManager
+    private source: SourceManager,
+    private global: GlobalStorage
   ) {
     this.service = {
       division,
@@ -54,20 +56,22 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
         ),
         sample: await this.data.sample(division.Id, duration),
       };
-      datas.set(division, [
-        {
+      let items = [];
+      if (this.global.display.map.shop) {
+        items.push({
           key: 'howell-icon-shop',
           value: { number: value.shop, title: '商铺变更' },
-        },
-        {
-          key: 'howell-icon-alarm4',
-          value: { number: value.realtime, title: '实时事件' },
-        },
-        {
-          key: 'howell-icon-map6',
-          value: { number: value.sample, title: '定制场景' },
-        },
-      ]);
+        });
+      }
+      items.push({
+        key: 'howell-icon-alarm4',
+        value: { number: value.realtime, title: '实时事件' },
+      });
+      items.push({
+        key: 'howell-icon-map6',
+        value: { number: value.sample, title: '定制场景' },
+      });
+      datas.set(division, items);
     }
     return datas;
   }

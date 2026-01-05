@@ -34,6 +34,7 @@ export class SystemComponent implements OnInit, OnDestroy {
   }
 
   private init() {
+    this.global.display.loading = true;
     this.business.get().then((user) => {
       if (user) {
         let shop = false;
@@ -52,19 +53,28 @@ export class SystemComponent implements OnInit, OnDestroy {
           this.global.display.record.shop = true;
           this.global.display.record.realtime = true;
           this.global.display.record.gps = true;
+
+          this.global.display.map.shop = true;
+          this.global.display.map.realtime = true;
+          this.global.display.map.gps = true;
         } else {
           this.global.display.task.shop = false;
           this.global.display.task.gps = true;
 
           this.global.display.module.shop = false;
-          this.global.display.module.road = false;
+          this.global.display.module.road = true;
           this.global.display.module.route = true;
 
           this.global.display.record.shop = false;
           this.global.display.record.realtime = true;
           this.global.display.record.gps = true;
+
+          this.global.display.map.shop = false;
+          this.global.display.map.realtime = true;
+          this.global.display.map.gps = true;
         }
       }
+      this.global.display.loading = false;
     });
   }
 

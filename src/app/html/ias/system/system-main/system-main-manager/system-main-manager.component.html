@@ -33,7 +33,7 @@
     ></ias-system-main-map-heatmap-filter>
   </div>
 
-  <div class="system-main-manager-state-shop">
+  <div class="system-main-manager-state-shop" *ngIf="global.display.map.shop">
     <ias-system-main-map-state-shop
       *ngIf="panel.state.shop.show"
       [datas]="shop.data.registration"

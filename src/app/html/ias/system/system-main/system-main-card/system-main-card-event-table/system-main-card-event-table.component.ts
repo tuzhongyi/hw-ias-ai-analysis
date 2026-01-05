@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { EventMode } from '../../system-main-map-navigation/system-main-map-navigation.model';
 import { SystemMainCardContainerComponent } from '../system-main-card-container/system-main-card-container.component';
 import { SystemMainCardEventMobileTableComponent } from '../system-main-card-event-mobile-table/system-main-card-event-mobile-table/system-main-card-event-mobile-table.component';
@@ -33,7 +34,11 @@ export class SystemMainCardEventTableComponent {
   @Input() mode = EventMode.gpstask;
   @Input() modeable = true;
 
-  constructor() {}
+  constructor(private global: GlobalStorage) {}
+
+  get display() {
+    return this.global.display.map;
+  }
 
   Mode = EventMode;
 

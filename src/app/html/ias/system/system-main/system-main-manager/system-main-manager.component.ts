@@ -6,8 +6,10 @@ import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import { GlobalStorage } from '../../../../../common/storage/global.storage';
 import { DateTimeTool } from '../../../../../common/tools/date-time-tool/datetime.tool';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
+import { wait } from '../../../../../common/tools/wait';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
 import { SystemMapStatisticComponent } from '../../system-map/system-map-statistic/system-map-statistic.component';
 import { SystemMainCardDeviceRouteStatisticComponent } from '../system-main-card/system-main-card-device-route-statistic/system-main-card-device-route-statistic/system-main-card-device-route-statistic.component';
@@ -72,7 +74,8 @@ import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
 export class SystemMainManagerComponent implements OnInit {
   constructor(
     public business: SystemMainManagerBusiness,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    public global: GlobalStorage
   ) {}
 
   EventMode = EventMode;
@@ -87,11 +90,17 @@ export class SystemMainManagerComponent implements OnInit {
   map = new SystemMainManagerMapController(this);
 
   ngOnInit(): void {
-    this.init.shop();
-    this.init.device();
-    this.init.realtime();
-    this.init.sample();
-    this.panel.navigation.change(SyatemMainMapNavigation.main, true);
+    wait(() => {
+      return !this.global.display.loading;
+    }).then(() => {
+      if (this.global.display.map.shop) {
+        this.init.shop();
+      }
+      this.init.device();
+      this.init.realtime();
+      this.init.sample();
+      this.panel.navigation.change(SyatemMainMapNavigation.main, true);
+    });
   }
 
   private init = {
