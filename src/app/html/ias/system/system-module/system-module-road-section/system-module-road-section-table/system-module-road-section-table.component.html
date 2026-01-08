@@ -1,0 +1,71 @@
+<div class="system-module-road-section-table">
+  <div class="system-module-road-section-table-body table-split">
+    <div class="table-split-head">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="center">序号</th>
+            <th>名称</th>
+            <th>路段类型</th>
+            <th>事件类型</th>
+            <th class="center" *ngIf="operable">操作</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            (click)="onselect(item)"
+            [ngClass]="{
+              selected: item === selected
+            }"
+          >
+            <td class="center">
+              <div>{{ index + 1 }}</div>
+            </td>
+            <td [title]="item.Name">
+              <div>{{ item.Name }}</div>
+            </td>
+            <td>
+              {{ item.SectionType }}
+            </td>
+            <td>
+              <div>
+                <span *ngFor="let type of item.EventTypes">{{
+                  source.type.event.get(type)
+                }}</span>
+              </div>
+            </td>
+            <td class="center" *ngIf="operable">
+              <div class="operation">
+                <div
+                  class="button"
+                  title="编辑"
+                  (click)="onmodify(item, $event)"
+                >
+                  <i class="howell-icon-modification"></i>
+                </div>
+                <div
+                  class="button"
+                  title="删除"
+                  (click)="ondelete(item, $event)"
+                >
+                  <i class="howell-icon-delete2"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -73,7 +73,7 @@ export class SystemMainMapAMapController {
         container.animate.start();
 
         this.init.road(map, container);
-        this.init.heatmap(container);
+        this.init.heatmap(map, container);
 
         let info = this.init.info(map);
 
@@ -280,8 +280,8 @@ export class SystemMainMapAMapController {
       this.controller.info.set(ctr);
       return ctr;
     },
-    heatmap: (loca: Loca.Container) => {
-      let ctr = new SystemMainMapAMapHeatmapController(loca);
+    heatmap: (map: AMap.Map, loca: Loca.Container) => {
+      let ctr = new SystemMainMapAMapHeatmapController(map, loca);
       this.controller.heatmap.set(ctr);
     },
   };

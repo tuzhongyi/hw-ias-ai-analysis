@@ -1,0 +1,28 @@
+<div class="segment-week">
+  <div class="segment-week-head">
+    <div class="segment-week-select">
+      <!-- <select [(ngModel)]="week">
+        <option [ngValue]="item" *ngFor="let item of weeks">
+          {{ Language.Week(item) }}
+        </option>
+      </select> -->
+
+      <button
+        class="button-selection cyan"
+        *ngFor="let item of weeks"
+        (click)="on.week(item)"
+        [class.selected]="item == week"
+      >
+        {{ Language.Week(item) }}
+      </button>
+    </div>
+    <div class="segment-week-copy">
+      <button class="button-clip-blue">
+        <i class="mdi mdi-content-copy"></i>复制
+      </button>
+    </div>
+  </div>
+  <div class="segment-week-body">
+    <ias-segment-day [datas]="times"></ias-segment-day>
+  </div>
+</div>

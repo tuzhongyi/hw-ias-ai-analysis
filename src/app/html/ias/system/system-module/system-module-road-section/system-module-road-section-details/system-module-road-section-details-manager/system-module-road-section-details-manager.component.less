@@ -1,0 +1,81 @@
+.system-module-road-section-details-manager {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @foot-height: 36px;
+  @gap: 10px;
+
+  gap: @gap;
+
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @foot-height);
+    display: grid;
+
+    flex-grow: 1;
+
+    grid-gap: @gap;
+
+    grid-template-areas: "map info""map segment";
+    grid-template-rows: calc((100% - @gap) * 0.5) calc((100% - @gap) * 0.5);
+    grid-template-columns: calc((100% - @gap) * 0.5) calc((100% - @gap) * 0.5);
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+
+  &-map {
+    grid-area: map;
+  }
+
+  &-info {
+    grid-area: info;
+  }
+
+  &-segment {
+    grid-area: segment;
+
+    width: 100%;
+    height: 100%;
+
+    .panel-body {
+      position: relative;
+      height: calc(100% - 28px - 10px);
+
+      .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 10;
+      }
+
+
+
+      ::ng-deep {
+        .segment-day-body {
+          height: calc(100% - 46px);
+        }
+
+        .segment-day-foot {
+          height: 46px;
+        }
+      }
+    }
+
+
+
+  }
+
+
+}

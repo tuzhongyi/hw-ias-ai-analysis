@@ -1,0 +1,46 @@
+<div class="system-module-road-section-details-manager">
+  <div class="system-module-road-section-details-manager-body">
+    <div class="system-module-road-section-details-manager-map panel">
+      <ias-system-module-road-section-details-map></ias-system-module-road-section-details-map>
+    </div>
+    <div
+      class="system-module-road-section-details-manager-info panel panel-flex"
+    >
+      <div class="panel-head">
+        <div class="panel-title">路段信息</div>
+      </div>
+      <div class="panel-body">
+        <ias-system-module-road-section-details-info
+          [(data)]="data"
+          (dataChange)="on.change()"
+        ></ias-system-module-road-section-details-info>
+      </div>
+    </div>
+    <div
+      class="system-module-road-section-details-manager-segment panel panel-flex"
+      *ngIf="data"
+    >
+      <div class="panel-head">
+        <div class="panel-title">
+          <label for="road_section_details_segment"
+            >工作表<input
+              type="checkbox"
+              id="road_section_details_segment"
+              [(ngModel)]="data.ScheduleEnabled"
+            />
+          </label>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="mask" *ngIf="!data.ScheduleEnabled"></div>
+        <ias-segment-week></ias-segment-week>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-road-section-details-manager-foot">
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+      <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+    </div>
+  </div>
+</div>

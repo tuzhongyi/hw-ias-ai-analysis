@@ -492,4 +492,30 @@ export class Language {
       return value.toFixed(2) + '米';
     }
   }
+
+  static Week(day: number | string) {
+    if (typeof day === 'number') {
+      let name = ['日', '一', '二', '三', '四', '五', '六', '日'];
+      return `周${name[day]}`;
+    } else {
+      switch (day) {
+        case 'Monday':
+          return '周一';
+        case 'Tuesday':
+          return '周二';
+        case 'Wednesday':
+          return '周三';
+        case 'Thursday':
+          return '周四';
+        case 'Friday':
+          return '周五';
+        case 'Saturday':
+          return '周六';
+        case 'Sunday':
+          return '周日';
+        default:
+          return '未知';
+      }
+    }
+  }
 }

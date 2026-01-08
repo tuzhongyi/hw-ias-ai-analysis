@@ -17,7 +17,6 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
       [e.lnglat.lng, e.lnglat.lat],
       [...this.points]
     ) as unknown as [number, number];
-    console.log(point);
     if (point) {
       let closest = GeoTool.point.closest(this.points, point);
       if (closest) {

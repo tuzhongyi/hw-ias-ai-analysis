@@ -8,7 +8,10 @@ import { PromiseValue } from '../../../view-models/value.promise';
 import { AnalysisShopCapability } from '../../models/arm/analysis/analysis-shop-capability.model';
 import { AnalysisLLMCapability } from '../../models/arm/analysis/llm/analysis-llm-capability.model';
 import { EventCapability } from '../../models/capabilities/arm/event/event-capability.model';
+import { RoadObjectCapability } from '../../models/capabilities/arm/geographic/road-object-capability.model';
+import { RoadSectionCapability } from '../../models/capabilities/arm/geographic/road-section-capability.model';
 import { ArmAnalysisRequestService } from '../services/analysis/analysis.service';
+import { ArmGeographicRequestService } from '../services/geographic/geographic.service';
 import { ArmSystemRequestService } from '../services/system/system.service';
 
 @Injectable({
@@ -24,16 +27,22 @@ export class CapabilityManager {
   security = new PromiseValue<SecurityCapability>();
   network = new PromiseValue<NetworkCapability>();
   event = new PromiseValue<EventCapability>();
+  road = {
+    section: new PromiseValue<RoadSectionCapability>(),
+    object: new PromiseValue<RoadObjectCapability>(),
+  };
 
   // inputproxy = new PromiseValue<InputProxyCapability>();
 
   constructor(
     system: ArmSystemRequestService,
-    analysis: ArmAnalysisRequestService
+    analysis: ArmAnalysisRequestService,
+    geo: ArmGeographicRequestService
   ) {
     this.service = {
       system,
       analysis,
+      geo,
     };
     this.init();
   }
@@ -41,6 +50,7 @@ export class CapabilityManager {
   private service: {
     system: ArmSystemRequestService;
     analysis: ArmAnalysisRequestService;
+    geo: ArmGeographicRequestService;
   };
 
   private init() {
@@ -67,6 +77,12 @@ export class CapabilityManager {
     });
     this.service.analysis.llm.capability().then((x) => {
       this.analysis.llm.set(x);
+    });
+    this.service.geo.road.section.capability().then((x) => {
+      this.road.section.set(x);
+    });
+    this.service.geo.road.object.capability().then((x) => {
+      this.road.object.set(x);
     });
   }
 }

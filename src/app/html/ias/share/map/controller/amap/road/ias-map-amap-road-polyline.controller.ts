@@ -18,7 +18,7 @@ export class IASMapAMapRoadPolylineController {
 
       lineJoin: 'round',
       lineCap: 'round',
-      bubble: false,
+      bubble: true,
     });
     return polyline;
   }

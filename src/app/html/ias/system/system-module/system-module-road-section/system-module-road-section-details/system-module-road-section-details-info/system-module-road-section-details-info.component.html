@@ -1,0 +1,64 @@
+<div class="system-module-road-info">
+  <div class="forms">
+    <div class="form-item single">
+      <div class="form-item-text" text-space-between>路段名称</div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="model.Name" (input)="on.change()" />
+      </div>
+    </div>
+    <div class="form-item single">
+      <div class="form-item-text" text-space-between>屏蔽半径</div>
+      <div class="form-item-value">
+        <input
+          type="number"
+          min="0"
+          max="100"
+          step="1"
+          [(ngModel)]="model.Raduis"
+          (input)="on.change()"
+        />
+      </div>
+    </div>
+    <div class="form-item single">
+      <div class="form-item-text" text-space-between>路段类型</div>
+      <div class="form-item-value full">
+        <hw-select [(selected)]="model.SectionType" [nullable]="false">
+          <select [(ngModel)]="model.SectionType" (change)="on.type()">
+            <option [ngValue]="item.Value" *ngFor="let item of source.sections">
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item single">
+      <div
+        class="form-item-text"
+        text-space-between
+        [class.disabled]="model.SectionType != 1"
+      >
+        事件类型
+      </div>
+      <div class="form-item-value full">
+        <howell-select-multiple
+          [disabled]="model.SectionType != 1"
+          [datas]="source.events"
+          [selecteds]="event.selected"
+          (selectedsChange)="event.change($event)"
+          [searchable]="false"
+        ></howell-select-multiple>
+      </div>
+    </div>
+    <div class="form-item flex">
+      <div class="form-item-text baseline textarea" text-space-between>
+        描述
+      </div>
+      <div class="form-item-value">
+        <textarea
+          [(ngModel)]="model.Description"
+          (input)="on.change()"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+</div>

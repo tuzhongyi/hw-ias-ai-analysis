@@ -6,6 +6,8 @@ import { SourceAnalysisServerManager } from './source-analysis-server.manager';
 import { SourceAnalysisShopManager } from './source-analysis-shop.manager';
 import { SourceDeviceManager } from './source-device.manager';
 import { SourceEventManager } from './source-event.manager';
+import { SourceRoadObjectManager } from './source-road-object.manager';
+import { SourceRoadSectionManager } from './source-road-section.manager';
 import { SourceSecurityManager } from './source-security.manager';
 
 @Injectable({
@@ -21,6 +23,10 @@ export class SourceManager {
     llm: SourceAnalysisLLMManager;
   };
   local = new LocalCapability();
+  road: {
+    section: SourceRoadSectionManager;
+    object: SourceRoadObjectManager;
+  };
   constructor(capability: CapabilityManager) {
     this.analysis = {
       server: new SourceAnalysisServerManager(capability),
@@ -30,5 +36,9 @@ export class SourceManager {
     this.security = new SourceSecurityManager(capability);
     this.event = new SourceEventManager(capability);
     this.device = new SourceDeviceManager(capability);
+    this.road = {
+      section: new SourceRoadSectionManager(capability),
+      object: new SourceRoadObjectManager(capability),
+    };
   }
 }

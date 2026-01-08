@@ -1,12 +1,17 @@
 import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
+import { GarbageManagementMapAMapHeatmapMarkerClusterController } from './garbage-management-map-amap-heatmap-marker-cluster.controller';
 
 export class SystemMainMapAMapHeatmapController {
-  constructor(private container: Loca.Container) {
+  constructor(map: AMap.Map, private container: Loca.Container) {
     this.heatmap = this.init();
+    this.cluster = new GarbageManagementMapAMapHeatmapMarkerClusterController(
+      map
+    );
   }
 
   private heatmap: Loca.HeatMapLayer;
+  private cluster: GarbageManagementMapAMapHeatmapMarkerClusterController;
   private opts: Loca.HeatMapLayerStyle = {
     radius: 20,
     unit: 'px',

@@ -10,6 +10,7 @@
           <div class="form-item-value">
             <date-time-control
               [(date)]="table.args.duration.begin"
+              [zindex]="iswindow ? 9000 : 10"
             ></date-time-control>
           </div>
         </div>
@@ -18,6 +19,7 @@
           <div class="form-item-value">
             <date-time-control
               [(date)]="table.args.duration.end"
+              [zindex]="iswindow ? 9000 : 10"
             ></date-time-control>
           </div>
         </div>

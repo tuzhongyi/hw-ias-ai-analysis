@@ -1,0 +1,30 @@
+<div class="segment-day">
+  <div class="segment-day-body">
+    <div
+      class="segment-day-item panel"
+      *ngFor="let item of models; let i = index"
+    >
+      <div class="segment-day-item-time">
+        <div class="segment-day-item-time-index">{{ i + 1 }}：</div>
+        <app-time-control
+          [(time)]="item.StartTime"
+          [endTime]="item.StopTime"
+        ></app-time-control>
+        -
+        <app-time-control
+          [(time)]="item.StopTime"
+          [beginTime]="item.StartTime"
+        ></app-time-control>
+      </div>
+      <div (click)="on.remove(i)" class="button">
+        <i class="howell-icon-delete-bin td-icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="segment-day-foot">
+    <div class="panel plus" (click)="on.create()">
+      <i class="howell-icon-plus"></i> 添加
+    </div>
+  </div>
+</div>

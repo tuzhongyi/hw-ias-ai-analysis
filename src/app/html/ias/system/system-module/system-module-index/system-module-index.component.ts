@@ -17,22 +17,27 @@ export class SystemModuleIndexComponent {
     return this.global.display.module;
   }
 
-  onshop() {
-    this.router.navigateByUrl(SystemPath.module_shop);
-  }
-  onroad() {
-    this.router.navigateByUrl(SystemPath.module_road);
-  }
-  onregistration() {
-    this.router.navigateByUrl(SystemPath.module_shop_registration);
-  }
-  oncompare() {
-    this.router.navigateByUrl(SystemPath.module_shop_compare);
-  }
-  ongpstask() {
-    this.router.navigateByUrl(SystemPath.module_gps_task);
-  }
-  onmobiledevice() {
-    this.router.navigateByUrl(SystemPath.module_mobile_device_route);
-  }
+  on = {
+    shop: () => {
+      this.router.navigateByUrl(SystemPath.module_shop);
+    },
+    road: () => {
+      this.router.navigateByUrl(SystemPath.module_road);
+    },
+    roadsection: () => {
+      this.router.navigateByUrl(SystemPath.module_road_section);
+    },
+    registration: () => {
+      this.router.navigateByUrl(SystemPath.module_shop_registration);
+    },
+    compare: () => {
+      this.router.navigateByUrl(SystemPath.module_shop_compare);
+    },
+    gpstask: () => {
+      this.router.navigateByUrl(SystemPath.module_gps_task);
+    },
+    mobiledevice: () => {
+      this.router.navigateByUrl(SystemPath.module_mobile_device_route);
+    },
+  };
 }

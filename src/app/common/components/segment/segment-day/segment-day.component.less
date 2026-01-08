@@ -1,0 +1,77 @@
+.segment-day {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @foot-height: 50px;
+
+  &-body {
+    height: calc(100% - @foot-height);
+    overflow-y: auto;
+  }
+
+  &-foot {
+    height: @foot-height;
+  }
+
+  &-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    margin: 5px;
+
+    &-time {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &-index {
+        min-width: 35px;
+      }
+
+      app-time-control {
+        margin: 0 10px;
+        width: 130px;
+        height: 30px;
+
+        &:first-child {
+          margin-left: 0;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+.panel {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  border: 1px solid rgba(45, 118, 206, 0.8);
+  border-radius: 6px;
+
+  &.plus {
+    border: 1px solid #4a8eff;
+    height: calc(100% - 5px * 2);
+    width: calc(100% - 10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: #4a8eff;
+
+      color: white;
+    }
+  }
+}

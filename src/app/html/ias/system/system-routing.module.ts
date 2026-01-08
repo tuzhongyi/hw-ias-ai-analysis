@@ -15,6 +15,7 @@ import { SystemEventManagerRealtimeComponent } from './system-event/system-event
 import { SystemEventManagerShopComponent } from './system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
 import { SystemMainManagerComponent } from './system-main/system-main-manager/system-main-manager.component';
 import { SystemModuleMobileDeviceRouteManagerComponent } from './system-module/system-module-mobile-device-route/system-module-mobile-device-route-manager/system-module-mobile-device-route-manager.component';
+import { SystemModuleRoadSectionManagerComponent } from './system-module/system-module-road-section/system-module-road-section-manager/system-module-road-section-manager.component';
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
@@ -94,6 +95,10 @@ const routes: Routes = [
           {
             path: 'road',
             component: SystemModuleRoadManagerComponent,
+          },
+          {
+            path: 'road-section',
+            component: SystemModuleRoadSectionManagerComponent,
           },
           {
             path: 'gps-task',

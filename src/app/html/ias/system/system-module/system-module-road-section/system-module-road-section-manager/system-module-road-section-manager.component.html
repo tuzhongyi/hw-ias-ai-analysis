@@ -1,0 +1,68 @@
+<div
+  class="system-module-road-section-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-module-road-section-manager-head">
+    <div class="system-module-road-section-manager-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">路段名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="table.args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient" (click)="onsearch()">
+            查找
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="system-module-road-section-manager-head-operation"
+      *ngIf="operable"
+    >
+      <button class="button-clip-gradient" (click)="create.open()">添加</button>
+    </div>
+  </div>
+  <div class="system-module-road-section-manager-body">
+    <div class="system-module-road-section-manager-body-table">
+      <ias-system-module-road-section-table
+        [operable]="operable"
+        [args]="table.args"
+        [load]="table.load"
+        [(selected)]="table.selected"
+        (loaded)="table.onload($event)"
+        (delete)="delete.confirm($event)"
+        (modify)="modify.open($event)"
+      ></ias-system-module-road-section-table>
+    </div>
+    <div class="system-module-road-section-manager-body-map">
+      <ias-system-module-road-section-map
+        [creating]="create.doing"
+        [editing]="modify.doing"
+        [datas]="table.datas"
+        (create)="window.details.onpath($event)"
+        (change)="modify.path.change($event)"
+        [selected]="table.selected"
+      ></ias-system-module-road-section-map>
+    </div>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="delete.ok()"
+    (cancel)="delete.cancel()"
+  >
+  </confirm-window>
+  <ias-window
+    [Model]="window.details"
+    *ngIf="window.details.show"
+    [style]="window.details.style"
+    [title]="window.details.title"
+  >
+    <ias-system-module-road-section-details-manager></ias-system-module-road-section-details-manager>
+  </ias-window>
+</div>

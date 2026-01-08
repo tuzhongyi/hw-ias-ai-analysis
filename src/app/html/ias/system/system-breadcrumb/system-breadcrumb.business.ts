@@ -63,6 +63,18 @@ export class SystemBreadcrumbBusiness {
           this.module.index(),
           this.module.shop.analysis(),
         ];
+      } else if (
+        location.pathname.indexOf(SystemPath.module_road_section) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.module.index(),
+          this.module.roadsection(),
+        ];
+      } else if (
+        location.pathname.indexOf(SystemPath.module_mobile_device_route) >= 0
+      ) {
+        return [this.home.index(), this.module.index(), this.module.route()];
       } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
         return [this.home.index(), this.module.index(), this.module.road()];
       } else if (location.pathname.indexOf(SystemPath.module_gps_task) >= 0) {
@@ -103,6 +115,18 @@ export class SystemBreadcrumbBusiness {
       let item = new SystemBreadcrumbItem();
       item.path = SystemPath.module_road;
       item.text = '道路';
+      return item;
+    },
+    roadsection: () => {
+      let item = new SystemBreadcrumbItem();
+      item.path = SystemPath.module_road_section;
+      item.text = '屏蔽路段';
+      return item;
+    },
+    route: () => {
+      let item = new SystemBreadcrumbItem();
+      item.path = SystemPath.module_mobile_device_route;
+      item.text = '巡检线路';
       return item;
     },
     gps: {

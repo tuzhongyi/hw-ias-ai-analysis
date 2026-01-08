@@ -1,0 +1,49 @@
+.segment-week {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &-head {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+  }
+
+  &-body {
+    height: calc(100% - 30px - 10px);
+    flex-grow: 1;
+  }
+
+  &-select {
+    flex-grow: 1;
+    width: calc(100% - 100px - 10px);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    &>* {
+      width: calc((100% - 5px * 6) / 7);
+      min-width: calc((100% - 5px * 6) / 7);
+      height: 100%;
+      white-space: nowrap;
+    }
+
+  }
+
+  &-copy {
+    width: 75px;
+    height: 100%;
+
+    button {
+      width: 75px;
+      min-width: 75px;
+      height: 100%;
+
+      white-space: nowrap;
+    }
+  }
+}

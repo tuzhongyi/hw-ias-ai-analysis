@@ -5,6 +5,7 @@ import { LanguageAnalysisServerTool } from './language-analysis-server.tool';
 import { LanguageAnalysisShopTool } from './language-analysis-shop.tool';
 import { LanguageDeviceTool } from './language-device.tool';
 import { LanguageEventTool } from './language-event.tool';
+import { LanguageRoadTool } from './language-geo-road.tool';
 import { LanguageLocalTool } from './language-local.tool';
 import { LanguageSecurityTool } from './language-security.tool';
 
@@ -21,6 +22,7 @@ export class LanguageTool {
   };
   event: LanguageEventTool;
   local = new LanguageLocalTool();
+  road: LanguageRoadTool;
 
   constructor(private manager: Manager) {
     this.device = new LanguageDeviceTool(this.manager.source.device);
@@ -33,5 +35,9 @@ export class LanguageTool {
       llm: new LanguageAnalysisLLMTool(this.manager.source.analysis.llm),
     };
     this.event = new LanguageEventTool(this.manager.source.event);
+    this.road = new LanguageRoadTool(
+      this.manager.source.road.section,
+      this.manager.source.road.object
+    );
   }
 }

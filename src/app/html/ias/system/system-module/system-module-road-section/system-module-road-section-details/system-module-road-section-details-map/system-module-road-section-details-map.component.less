@@ -1,0 +1,29 @@
+.system-module-road-section-details-map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .system-map-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  &-position {
+    position: absolute;
+    bottom: 30px;
+
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    display: flex;
+    justify-content: center;
+
+    &>._ {
+      width: 15px;
+    }
+
+    &>* {
+      width: calc((100% - 15px * 2) / 3);
+    }
+  }
+}

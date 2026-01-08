@@ -3,7 +3,7 @@
     <div class="system-module-index-body-list">
       <div
         class="system-module-index-body-list-item"
-        (click)="oncompare()"
+        (click)="on.compare()"
         *ngIf="display.shop"
       >
         <div class="system-module-index-body-list-item-icon shop"></div>
@@ -11,7 +11,7 @@
       </div>
       <div
         class="system-module-index-body-list-item"
-        (click)="onshop()"
+        (click)="on.shop()"
         *ngIf="display.shop"
       >
         <div class="system-module-index-body-list-item-icon shop"></div>
@@ -20,7 +20,7 @@
 
       <div
         class="system-module-index-body-list-item"
-        (click)="onregistration()"
+        (click)="on.registration()"
         *ngIf="display.shop"
       >
         <div class="system-module-index-body-list-item-icon shop"></div>
@@ -28,15 +28,23 @@
       </div>
       <div
         class="system-module-index-body-list-item"
-        (click)="onroad()"
+        (click)="on.road()"
         *ngIf="display.road"
       >
         <div class="system-module-index-body-list-item-icon road"></div>
         <div class="system-module-index-body-list-item-name">道路</div>
       </div>
+      <!-- <div
+        class="system-module-index-body-list-item"
+        (click)="on.roadsection()"
+        *ngIf="display.road"
+      >
+        <div class="system-module-index-body-list-item-icon road"></div>
+        <div class="system-module-index-body-list-item-name">路段屏蔽</div>
+      </div> -->
       <div
         class="system-module-index-body-list-item"
-        (click)="onmobiledevice()"
+        (click)="on.mobiledevice()"
         *ngIf="display.route"
       >
         <div class="system-module-index-body-list-item-icon road"></div>
