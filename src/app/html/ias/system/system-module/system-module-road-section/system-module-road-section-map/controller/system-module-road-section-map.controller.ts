@@ -49,11 +49,10 @@ export class SystemModuleRoadSectionMapController {
         return x.load(datas);
       });
     },
-    destory: () => {
-      this.amap.road.get().then((x) => {
-        x.clear();
-        this.amap.road.clear();
-      });
+    destory: async () => {
+      let road = await this.amap.road.get();
+      road.clear();
+      this.amap.road.clear();
     },
   };
 
@@ -61,8 +60,8 @@ export class SystemModuleRoadSectionMapController {
     focus: (datas?: any) => {
       this.amap.focus(datas);
     },
-    destroy: () => {
-      this.road.destory();
+    destroy: async () => {
+      await this.road.destory();
       this.amap.destroy();
     },
   };

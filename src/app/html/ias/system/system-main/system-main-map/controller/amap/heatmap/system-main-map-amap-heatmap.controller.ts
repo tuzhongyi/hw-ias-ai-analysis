@@ -5,13 +5,18 @@ import { SystemMainMapAMapHeatmapMarkerClusterController } from './system-main-m
 export class SystemMainMapAMapHeatmapController {
   constructor(map: AMap.Map, private container: Loca.Container) {
     this.heatmap = this.init();
-    this.cluster = new SystemMainMapAMapHeatmapMarkerClusterController(map);
+    this.cluster = new SystemMainMapAMapHeatmapMarkerClusterController(
+      map,
+      this.radius
+    );
   }
+
+  private radius = 20;
 
   private heatmap: Loca.HeatMapLayer;
   private cluster: SystemMainMapAMapHeatmapMarkerClusterController;
   private opts: Loca.HeatMapLayerStyle = {
-    radius: 20,
+    radius: this.radius,
     unit: 'px',
     height: 90,
     // radius: 10,

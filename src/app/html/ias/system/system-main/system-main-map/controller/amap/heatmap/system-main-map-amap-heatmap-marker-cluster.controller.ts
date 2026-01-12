@@ -1,31 +1,16 @@
 export class SystemMainMapAMapHeatmapMarkerClusterController {
-  constructor(private map: AMap.Map) {}
+  constructor(private map: AMap.Map, private radius: number) {}
 
   cluster?: AMap.MarkerClusterer;
   private display = true;
 
-  load(positions: [number, number][]) {
-    // var _renderClusterMarker = function (context: any) {
-    //   // 聚合中点个数
-    //   var clusterCount = context.count;
-    //   var div = document.createElement('div');
-
-    //   div.style.backgroundColor = 'rgba(0,0,0,0)';
-
-    //   div.style.width = div.style.height = '10px';
-
-    //   div.innerHTML = context.count;
-    //   div.style.lineHeight = '10px';
-    //   div.style.color = '#ffffff';
-    //   div.style.fontSize = '12px';
-    //   div.style.textAlign = 'center';
-    //   context.marker.setOffset(new AMap.Pixel(-10 / 2, -10 / 2));
-    //   context.marker.setContent(div);
-    // };
-    let _renderClusterMarker = (context: any) => {
+  private render = {
+    cluster: (context: any) => {
       // 聚合中点个数
       var clusterCount = context.count;
       var div = document.createElement('div');
+
+      div.className = 'heatmap-cluster-marker';
 
       if (!this.display) {
         div.style.display = 'none';
@@ -40,10 +25,10 @@ export class SystemMainMapAMapHeatmapMarkerClusterController {
       div.style.color = '#ffffff';
       div.style.fontSize = '12px';
       div.style.textAlign = 'center';
-      context.marker.setOffset(new AMap.Pixel(-10 / 2, -10 / 2));
+      context.marker.setOffset(new AMap.Pixel(10 / 2, -10 / 2));
       context.marker.setContent(div);
-    };
-    var _renderMarker = function (context: any) {
+    },
+    marker: (context: any) => {
       var content = `
         <div style="
           display:none;
@@ -57,16 +42,25 @@ export class SystemMainMapAMapHeatmapMarkerClusterController {
       var offset = new AMap.Pixel(-9, -9);
       context.marker.setContent(content);
       context.marker.setOffset(offset);
-    };
+    },
+    load: (show: boolean) => {
+      if (!this.cluster) return;
+      let elements = document.querySelectorAll('.heatmap-cluster-marker');
+      elements.forEach((e) => {
+        (e as HTMLElement).style.display = show ? 'block' : 'none';
+      });
+    },
+  };
 
+  load(positions: [number, number][]) {
     let points = positions.map((x) => {
       return { weight: 1, lnglat: x };
     });
     this.cluster = new AMap.MarkerClusterer(this.map, points, {
       maxZoom: 20,
-      gridSize: 20, // 聚合网格像素大小
-      renderClusterMarker: _renderClusterMarker, // 自定义聚合点样式
-      renderMarker: _renderMarker, // 自定义非聚合点样式
+      gridSize: this.radius, // 聚合网格像素大小
+      renderClusterMarker: this.render.cluster, // 自定义聚合点样式
+      renderMarker: this.render.marker, // 自定义非聚合点样式
     });
   }
 
@@ -80,14 +74,10 @@ export class SystemMainMapAMapHeatmapMarkerClusterController {
 
   show() {
     this.display = true;
-    let zoom = this.map.getZoom();
-    this.map.setZoom(zoom + 0.1);
-    this.map.setZoom(zoom);
+    this.render.load(true);
   }
   hide() {
     this.display = false;
-    let zoom = this.map.getZoom();
-    this.map.setZoom(zoom + 0.1);
-    this.map.setZoom(zoom);
+    this.render.load(false);
   }
 }

@@ -1,9 +1,9 @@
-<div class="select-multiple" [class.disabled]="disabled">
-  <div
-    class="select-multiple-selected"
-    wheel-horizontal-scroll
-    (click)="on.open($event)"
-  >
+<div
+  class="select-multiple"
+  [class.disabled]="disabled"
+  (click)="on.open($event)"
+>
+  <div class="select-multiple-selected" wheel-horizontal-scroll>
     <div class="select-multiple-selected-item" *ngFor="let item of selecteds">
       <div class="select-multiple-selected-item-name">
         {{ item.Name }}

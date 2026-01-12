@@ -49,25 +49,27 @@ export class SelectMultipleComponent implements OnInit, OnChanges, OnDestroy {
     this.change.datas(changes['_datas']);
   }
   ngOnInit(): void {
-    this.handle.close = this.on.close;
-    this.handle.enter = this.on.enter;
-    window.addEventListener('click', this.handle.close);
-    window.addEventListener('keydown', this.handle.enter);
+    this.handle.close = this.on.close.bind(this);
+    this.handle.enter = this.on.enter.bind(this);
+    document.addEventListener('click', this.handle.close);
+    document.addEventListener('keydown', this.handle.enter);
   }
   ngOnDestroy(): void {
     if (this.handle.close) {
-      window.removeEventListener('click', this.handle.close);
+      document.removeEventListener('click', this.handle.close);
     }
     if (this.handle.enter) {
-      window.removeEventListener('keydown', this.handle.enter);
+      document.removeEventListener('keydown', this.handle.enter);
     }
   }
 
   on = {
     close: () => {
+      if (this.disabled) return;
       this.show = false;
     },
     open: (e: Event) => {
+      if (this.disabled) return;
       this.show = !this.show;
       e.stopPropagation();
     },
@@ -75,6 +77,7 @@ export class SelectMultipleComponent implements OnInit, OnChanges, OnDestroy {
       e.stopPropagation();
     },
     select: (item: IIdNameModel) => {
+      if (this.disabled) return;
       let index = this.selecteds.findIndex((x) => x.Id == item.Id);
       if (index < 0) {
         this.selecteds.push(item);
@@ -85,15 +88,18 @@ export class SelectMultipleComponent implements OnInit, OnChanges, OnDestroy {
       this.selectedsChange.emit(this.selecteds);
     },
     remove: (item: IIdNameModel, e: Event) => {
+      if (this.disabled) return;
       this.on.select(item);
       e.stopPropagation();
     },
     enter: (e: KeyboardEvent) => {
+      if (this.disabled) return;
       if (e.key === 'Enter') {
         this.on.search();
       }
     },
     search: () => {
+      if (this.disabled) return;
       if (this.name) {
         this.datas = this._datas.filter((x) => x.Name.includes(this.name));
       } else {
@@ -101,6 +107,7 @@ export class SelectMultipleComponent implements OnInit, OnChanges, OnDestroy {
       }
     },
     clean: () => {
+      if (this.disabled) return;
       this.name = '';
       this.on.search();
     },
