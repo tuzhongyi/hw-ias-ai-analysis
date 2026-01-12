@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GpsTaskSampleRecord } from '../../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { Paged } from '../../../../../../../../common/data-core/models/page-list.model';
+import { AMapTool } from '../../../../../../../../common/helper/map/amap.tool';
 import { ComponentTool } from '../../../../../../../../common/tools/component-tool/component.tool';
 import { SystemMainMapAlarmInfoComponent } from '../../../../system-main-map-alarm-info/system-main-map-alarm-info.component';
 import { SystemMainMapAlarmInfoOutput } from '../../../../system-main-map-alarm-info/system-main-map-alarm-info.model';
@@ -36,6 +37,7 @@ export class SystemMainMapAMapSampleInfoController {
     let position: [number, number] = [0, 0];
     if (data.Location) {
       position = [data.Location.GCJ02.Longitude, data.Location.GCJ02.Latitude];
+      AMapTool.set.center(this.map, position, new AMap.Pixel(278, 0));
     }
 
     let component = this.tool.create(SystemMainMapAlarmInfoComponent, {

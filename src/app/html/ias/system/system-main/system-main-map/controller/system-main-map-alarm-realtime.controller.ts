@@ -60,13 +60,15 @@ export class SystemMainMapAlarmRealtimeController {
     // marker.select(data);
     let info = await this.amap.alarm.realtime.info.get();
     info.add(data);
-    let map = await this.amap.map.get();
-    if (data.Location) {
-      let position: [number, number] = [
-        data.Location.GCJ02.Longitude,
-        data.Location.GCJ02.Latitude,
-      ];
-      map.setCenter(position);
-    }
+    //   if (center) {
+    //     let map = await this.amap.map.get();
+    //     if (data.Location) {
+    //       let position: [number, number] = [
+    //         data.Location.GCJ02.Longitude,
+    //         data.Location.GCJ02.Latitude,
+    //       ];
+    //       map.setCenter(position);
+    //     }
+    //   }
   }
 }

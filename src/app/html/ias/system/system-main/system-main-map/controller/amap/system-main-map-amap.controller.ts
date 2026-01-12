@@ -62,7 +62,6 @@ export class SystemMainMapAMapController {
   constructor(private tool: ComponentTool, private subscription: Subscription) {
     MapHelper.amap
       .get('system-main-map-container', ['AMap.MarkerCluster'], true, {
-        showBuildingBlock: false,
         showLabel: false,
         viewMode: '3D',
       })
