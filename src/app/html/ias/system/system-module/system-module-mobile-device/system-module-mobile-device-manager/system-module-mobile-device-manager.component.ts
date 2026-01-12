@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
-import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleMobileDeviceMapComponent } from '../system-module-mobile-device-map/system-module-mobile-device-map.component';
 import { SystemModuleMobileDeviceTableComponent } from '../system-module-mobile-device-table/system-module-mobile-device-table.component';
 import { SystemModuleMobileDeviceTableArgs } from '../system-module-mobile-device-table/system-module-mobile-device-table.model';
@@ -13,7 +12,6 @@ import { SystemModuleMobileDeviceManagerWindow } from './system-module-mobile-de
   imports: [
     CommonModule,
     FormsModule,
-    WindowComponent,
     SystemModuleMobileDeviceTableComponent,
     SystemModuleMobileDeviceMapComponent,
   ],

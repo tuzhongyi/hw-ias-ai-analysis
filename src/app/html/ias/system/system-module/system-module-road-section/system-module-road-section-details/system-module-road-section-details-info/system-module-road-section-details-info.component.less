@@ -4,16 +4,18 @@
 
   .form {
     &s {
-      flex-direction: column;
+      flex-wrap: wrap;
       height: 100%;
     }
 
     &-item {
+      width: calc((100% - 20px) * 0.5);
+
       &.single {
         height: 36px;
       }
 
-      &.flex {
+      &.grow {
         flex-grow: 1;
 
         textarea {
@@ -29,7 +31,7 @@
       &-value {
         width: calc(100% - 64px - 15px);
 
-        &.full>* {
+        &.fill>* {
           height: 100%;
           width: 100%;
         }

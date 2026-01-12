@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TimeSegment } from '../../../data-core/models/arm/analysis/segment/time-segment.model';
 import { Time } from '../../../data-core/models/common/time.model';
@@ -13,7 +21,7 @@ import { SegmentTimeModel } from './segment-day.model';
   templateUrl: './segment-day.component.html',
   styleUrl: './segment-day.component.less',
 })
-export class SegmentDayComponent implements OnInit {
+export class SegmentDayComponent implements OnChanges {
   @Input() datas: TimeSegment[] = [];
   @Output() datasChange: EventEmitter<TimeSegment[]> = new EventEmitter();
 
@@ -21,8 +29,16 @@ export class SegmentDayComponent implements OnInit {
 
   models: SegmentTimeModel[] = [];
 
-  ngOnInit(): void {
-    this.models = this.datas.map((x) => this.convert.from(x));
+  private change = {
+    datas: (simple: SimpleChange) => {
+      if (simple) {
+        this.models = this.datas.map((x) => this.convert.from(x));
+      }
+    },
+  };
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.datas(changes['datas']);
   }
 
   on = {
@@ -39,6 +55,10 @@ export class SegmentDayComponent implements OnInit {
         StopTime: new TimeModel(16, 0, 0),
       };
       this.models.push(model);
+      this.datas = this.models.map((x) => this.convert.to(x));
+      this.datasChange.emit(this.datas);
+    },
+    change: () => {
       this.datas = this.models.map((x) => this.convert.to(x));
       this.datasChange.emit(this.datas);
     },

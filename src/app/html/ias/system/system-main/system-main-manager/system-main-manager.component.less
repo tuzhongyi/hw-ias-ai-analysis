@@ -55,6 +55,9 @@
       position: absolute;
       top: @padding;
       left: calc(@padding + @card-width + @gap);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
 
       &>* {
         opacity: 0.9;
@@ -111,6 +114,14 @@
       &.list {
         left: calc(@padding + @card-width + @gap + 300px + @gap);
       }
+    }
+  }
+
+  &-operation {
+    &-heatmap {
+      position: absolute;
+      top: calc(@padding + 60px);
+      right: calc(@padding);
     }
   }
 }

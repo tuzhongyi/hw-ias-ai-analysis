@@ -1,10 +1,14 @@
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
+import { SystemModuleRoadSectionManagerComponent } from '../system-module-road-section-manager.component';
 import { SystemModuleRoadSectionManagerDetailsWindow } from './system-module-road-section-manager-details.window';
 
 export class SystemModuleRoadSectionManagerWindow {
+  details: SystemModuleRoadSectionManagerDetailsWindow;
+  constructor(that: SystemModuleRoadSectionManagerComponent) {
+    this.details = new SystemModuleRoadSectionManagerDetailsWindow(that);
+  }
   confirm = new ConfirmWindow();
-  details = new SystemModuleRoadSectionManagerDetailsWindow();
 }
 
 class ConfirmWindow extends WindowViewModel {

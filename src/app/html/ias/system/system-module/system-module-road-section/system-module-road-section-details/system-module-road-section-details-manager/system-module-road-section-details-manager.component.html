@@ -1,7 +1,13 @@
 <div class="system-module-road-section-details-manager">
   <div class="system-module-road-section-details-manager-body">
     <div class="system-module-road-section-details-manager-map panel">
-      <ias-system-module-road-section-details-map></ias-system-module-road-section-details-map>
+      <ias-system-module-road-section-details-map
+        [creating]="!data"
+        [editing]="!!data"
+        [datas]="data?.GeoLine ?? []"
+        (create)="map.change($event)"
+        (change)="map.change($event)"
+      ></ias-system-module-road-section-details-map>
     </div>
     <div
       class="system-module-road-section-details-manager-info panel panel-flex"
@@ -11,14 +17,12 @@
       </div>
       <div class="panel-body">
         <ias-system-module-road-section-details-info
-          [(data)]="data"
-          (dataChange)="on.change()"
+          [(data)]="model"
         ></ias-system-module-road-section-details-info>
       </div>
     </div>
     <div
       class="system-module-road-section-details-manager-segment panel panel-flex"
-      *ngIf="data"
     >
       <div class="panel-head">
         <div class="panel-title">
@@ -26,14 +30,19 @@
             >工作表<input
               type="checkbox"
               id="road_section_details_segment"
-              [(ngModel)]="data.ScheduleEnabled"
+              [(ngModel)]="model.ScheduleEnabled"
+              (change)="schedule.enable()"
             />
           </label>
         </div>
       </div>
       <div class="panel-body">
-        <div class="mask" *ngIf="!data.ScheduleEnabled"></div>
-        <ias-segment-week></ias-segment-week>
+        <div class="mask" *ngIf="!model.ScheduleEnabled"></div>
+
+        <ias-segment-week
+          [(data)]="schedule.data"
+          (dataChange)="schedule.change()"
+        ></ias-segment-week>
       </div>
     </div>
   </div>

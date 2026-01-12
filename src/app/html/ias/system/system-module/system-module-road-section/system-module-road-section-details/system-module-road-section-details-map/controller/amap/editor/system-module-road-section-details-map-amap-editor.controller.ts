@@ -11,8 +11,8 @@ export class SystemModuleRoadSectionDetailsMapAMapEditorController {
 
   private editor?: AMap.PolylineEditor;
   private target?: AMap.Polyline;
-  open(id: string) {
-    this.target = this.polyline.get(id);
+  open() {
+    this.target = this.polyline.get();
     if (this.target) {
       this.editor = new AMap.PolylineEditor(this.map, this.target);
       this.regist(this.editor);

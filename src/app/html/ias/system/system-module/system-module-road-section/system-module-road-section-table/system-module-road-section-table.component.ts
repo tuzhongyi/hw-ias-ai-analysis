@@ -13,7 +13,10 @@ import {
 import { Subscription } from 'rxjs';
 import { RoadSection } from '../../../../../../common/data-core/models/arm/geographic/road-section.model';
 import { SystemModuleRoadSectionTableBusiness } from './system-module-road-section-table.business';
-import { SystemModuleRoadSectionTableArgs } from './system-module-road-section-table.model';
+import {
+  SystemModuleRoadSectionTableArgs,
+  SystemModuleRoadSectionTableItem,
+} from './system-module-road-section-table.model';
 import { SystemModuleRoadSectionTableSource } from './system-module-road-section-table.source';
 
 @Component({
@@ -44,9 +47,9 @@ export class SystemModuleRoadSectionTableComponent
     public source: SystemModuleRoadSectionTableSource
   ) {}
 
-  datas: RoadSection[] = [];
+  datas: SystemModuleRoadSectionTableItem[] = [];
 
-  widths = ['65px', 'auto', 'auto', '100px'];
+  widths = ['65px', '200px', '100px', 'auto', '100px'];
   private subscription = new Subscription();
 
   private change = {
@@ -87,7 +90,7 @@ export class SystemModuleRoadSectionTableComponent
       });
   }
 
-  onselect(item: RoadSection) {
+  onselect(item: SystemModuleRoadSectionTableItem) {
     if (this.selected === item) {
       this.selected = undefined;
     } else {
@@ -96,7 +99,7 @@ export class SystemModuleRoadSectionTableComponent
     this.selectedChange.emit(this.selected);
   }
 
-  onmodify(item: RoadSection, e: Event) {
+  onmodify(item: SystemModuleRoadSectionTableItem, e: Event) {
     this.modify.emit(item);
     if (this.selected === item) {
       e.stopPropagation();

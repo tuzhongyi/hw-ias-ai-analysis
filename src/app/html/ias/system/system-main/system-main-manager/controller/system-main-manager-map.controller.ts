@@ -16,6 +16,7 @@ export class SystemMainManagerMapController {
   >();
   moveto = new EventEmitter<ILocation>();
   heatmap = {
+    textable: true,
     load: new EventEmitter<ILocation[]>(),
   };
   data: {

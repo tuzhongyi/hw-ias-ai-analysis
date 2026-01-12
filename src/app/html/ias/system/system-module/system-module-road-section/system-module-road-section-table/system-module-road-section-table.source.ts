@@ -10,6 +10,7 @@ export class SystemModuleRoadSectionTableSource {
 
   constructor(private manager: Manager) {
     this.init.section();
+    this.init.event();
   }
 
   private init = {

@@ -3,9 +3,7 @@ import { Road } from '../../../../../../../../common/data-core/models/arm/geogra
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
-import { SystemModuleRoadSectionMapAMapCreatorController } from './creator/system-module-road-section-map-amap-creator.controller';
-import { SystemModuleRoadSectionMapAMapEditorController } from './editor/system-module-road-section-map-amap-editor.controller';
-import { SystemModuleRoadSectionMapAMapLabelController } from './system-module-road-section-map-amap-label.controller';
+
 import { SystemModuleRoadSectionMapAMapPolylineController } from './system-module-road-section-map-amap-polyline.controller';
 
 @Injectable()
@@ -17,29 +15,17 @@ export class SystemModuleRoadSectionMapAMapController {
     click: new EventEmitter<[number, number]>(),
   };
 
-  creator = new PromiseValue<SystemModuleRoadSectionMapAMapCreatorController>();
-  editor = new PromiseValue<SystemModuleRoadSectionMapAMapEditorController>();
   road = new PromiseValue<IASMapAMapRoadController>();
   constructor() {
     MapHelper.amap
-      .get(
-        'system-module-road-section-map',
-        [...MapHelper.amap.plugins, 'AMap.PolylineEditor'],
-        true
-      )
+      .get('system-module-road-section-map', undefined, true)
       .then((x) => {
         let container = new Loca.Container({ map: x });
         this.map.set(x);
         this.regist(x);
         let polyline = new SystemModuleRoadSectionMapAMapPolylineController(x);
         this.polyline.set(polyline);
-        this.label.set(new SystemModuleRoadSectionMapAMapLabelController(x));
-        this.creator.set(
-          new SystemModuleRoadSectionMapAMapCreatorController(x)
-        );
-        this.editor.set(
-          new SystemModuleRoadSectionMapAMapEditorController(x, polyline)
-        );
+
         let road = new IASMapAMapRoadController(x, container);
         this.road.set(road);
       });
@@ -48,8 +34,6 @@ export class SystemModuleRoadSectionMapAMapController {
   private map = new PromiseValue<AMap.Map>();
   private polyline =
     new PromiseValue<SystemModuleRoadSectionMapAMapPolylineController>();
-  private label =
-    new PromiseValue<SystemModuleRoadSectionMapAMapLabelController>();
 
   private regist(map: AMap.Map) {
     map.on('mousemove', (e) => {
@@ -66,9 +50,8 @@ export class SystemModuleRoadSectionMapAMapController {
   async load(datas: Road[]) {
     let map = await this.map.get();
     let polyline = await this.polyline.get();
-    let label = await this.label.get();
+
     polyline.clear();
-    label.clear();
 
     for (let i = 0; i < datas.length; i++) {
       const item = datas[i];
@@ -77,7 +60,6 @@ export class SystemModuleRoadSectionMapAMapController {
           return [x.Longitude, x.Latitude];
         });
         polyline.add(item.Id, positions);
-        label.add(item);
       }
     }
 
@@ -88,11 +70,8 @@ export class SystemModuleRoadSectionMapAMapController {
     }, 1.5 * 1000);
   }
   clear() {
-    this.polyline.get().then((polyline) => {
-      polyline.clear();
-    });
-    this.label.get().then((label) => {
-      label.clear();
+    this.road.get().then((x) => {
+      x.clear();
     });
   }
 

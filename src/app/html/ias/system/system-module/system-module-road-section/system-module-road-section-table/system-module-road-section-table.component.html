@@ -36,14 +36,16 @@
               <div>{{ item.Name }}</div>
             </td>
             <td>
-              {{ item.SectionType }}
+              {{ source.type.section.get(item.SectionType) }}
             </td>
             <td>
-              <div>
-                <span *ngFor="let type of item.EventTypes">{{
-                  source.type.event.get(type)
-                }}</span>
+              @if(!item.EventTypeNames){
+              <span>-</span>
+              } @else{
+              <div class="events" [title]="item.EventTypeNames">
+                {{ item.EventTypeNames }}
               </div>
+              }
             </td>
             <td class="center" *ngIf="operable">
               <div class="operation">

@@ -1,11 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { RoadSection } from '../../../../../../../../../common/data-core/models/arm/geographic/road-section.model';
+import { GisPoint } from '../../../../../../../../../common/data-core/models/arm/gis-point.model';
 import { MapHelper } from '../../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../../common/view-models/value.promise';
 import { IASMapAMapRoadController } from '../../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 import { SystemModuleRoadSectionDetailsMapAMapCreatorController } from './creator/system-module-road-section-details-map-amap-creator.controller';
 import { SystemModuleRoadSectionDetailsMapAMapEditorController } from './editor/system-module-road-section-details-map-amap-editor.controller';
-import { SystemModuleRoadSectionDetailsMapAMapLabelController } from './system-module-road-section-details-map-amap-label.controller';
 import { SystemModuleRoadSectionDetailsMapAMapPolylineController } from './system-module-road-section-details-map-amap-polyline.controller';
 
 @Injectable()
@@ -36,9 +35,7 @@ export class SystemModuleRoadSectionDetailsMapAMapController {
         let polyline =
           new SystemModuleRoadSectionDetailsMapAMapPolylineController(x);
         this.polyline.set(polyline);
-        this.label.set(
-          new SystemModuleRoadSectionDetailsMapAMapLabelController(x)
-        );
+
         this.creator.set(
           new SystemModuleRoadSectionDetailsMapAMapCreatorController(x)
         );
@@ -53,8 +50,6 @@ export class SystemModuleRoadSectionDetailsMapAMapController {
   private map = new PromiseValue<AMap.Map>();
   private polyline =
     new PromiseValue<SystemModuleRoadSectionDetailsMapAMapPolylineController>();
-  private label =
-    new PromiseValue<SystemModuleRoadSectionDetailsMapAMapLabelController>();
 
   private regist(map: AMap.Map) {
     map.on('mousemove', (e) => {
@@ -68,49 +63,23 @@ export class SystemModuleRoadSectionDetailsMapAMapController {
     });
   }
 
-  async load(datas: RoadSection[]) {
+  async load(datas: GisPoint[]) {
     let map = await this.map.get();
     let polyline = await this.polyline.get();
-    let label = await this.label.get();
     polyline.clear();
-    label.clear();
 
-    for (let i = 0; i < datas.length; i++) {
-      const item = datas[i];
-      if (item.GeoLine) {
-        let positions = item.GeoLine.map<[number, number]>((x) => {
-          return [x.Longitude, x.Latitude];
-        });
-        polyline.add(item.Id, positions);
-        label.add(item);
-      }
-    }
-
-    map.setFitView();
-
-    setTimeout(() => {
-      map.setFitView();
-    }, 1.5 * 1000);
+    let positions = datas.map<[number, number]>((x) => {
+      return [x.Longitude, x.Latitude];
+    });
+    polyline.add(positions);
+    return polyline.get();
   }
   clear() {
     this.polyline.get().then((polyline) => {
       polyline.clear();
     });
-    this.label.get().then((label) => {
-      label.clear();
-    });
   }
 
-  select(id: string) {
-    this.polyline.get().then((polyline) => {
-      polyline.select(id);
-    });
-  }
-  blur() {
-    this.polyline.get().then((polyline) => {
-      polyline.blur();
-    });
-  }
   focus(datas?: any) {
     this.map.get().then((x) => {
       x.setFitView(datas, true);

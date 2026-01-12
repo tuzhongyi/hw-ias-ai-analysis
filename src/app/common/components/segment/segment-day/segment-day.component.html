@@ -1,4 +1,4 @@
-<div class="segment-day">
+<div class="segment-day root-router">
   <div class="segment-day-body">
     <div
       class="segment-day-item panel"
@@ -9,11 +9,13 @@
         <app-time-control
           [(time)]="item.StartTime"
           [endTime]="item.StopTime"
+          (timeChange)="on.change()"
         ></app-time-control>
         -
         <app-time-control
           [(time)]="item.StopTime"
           [beginTime]="item.StartTime"
+          (timeChange)="on.change()"
         ></app-time-control>
       </div>
       <div (click)="on.remove(i)" class="button">

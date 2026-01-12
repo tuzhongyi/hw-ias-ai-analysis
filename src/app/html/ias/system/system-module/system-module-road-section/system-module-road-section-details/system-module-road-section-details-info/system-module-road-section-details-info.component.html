@@ -3,7 +3,7 @@
     <div class="form-item single">
       <div class="form-item-text" text-space-between>路段名称</div>
       <div class="form-item-value">
-        <input type="text" [(ngModel)]="model.Name" (input)="on.change()" />
+        <input type="text" [(ngModel)]="data.Name" (change)="on.change()" />
       </div>
     </div>
     <div class="form-item single">
@@ -14,16 +14,16 @@
           min="0"
           max="100"
           step="1"
-          [(ngModel)]="model.Raduis"
-          (input)="on.change()"
+          [(ngModel)]="data.Raduis"
+          (change)="on.change()"
         />
       </div>
     </div>
     <div class="form-item single">
       <div class="form-item-text" text-space-between>路段类型</div>
-      <div class="form-item-value full">
-        <hw-select [(selected)]="model.SectionType" [nullable]="false">
-          <select [(ngModel)]="model.SectionType" (change)="on.type()">
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="data.SectionType" [nullable]="false">
+          <select [(ngModel)]="data.SectionType" (change)="on.type()">
             <option [ngValue]="item.Value" *ngFor="let item of source.sections">
               {{ item.Name }}
             </option>
@@ -35,13 +35,13 @@
       <div
         class="form-item-text"
         text-space-between
-        [class.disabled]="model.SectionType != 1"
+        [class.disabled]="data.SectionType != 1"
       >
         事件类型
       </div>
-      <div class="form-item-value full">
+      <div class="form-item-value fill">
         <howell-select-multiple
-          [disabled]="model.SectionType != 1"
+          [disabled]="data.SectionType != 1"
           [datas]="source.events"
           [selecteds]="event.selected"
           (selectedsChange)="event.change($event)"
@@ -49,14 +49,14 @@
         ></howell-select-multiple>
       </div>
     </div>
-    <div class="form-item flex">
+    <div class="form-item full">
       <div class="form-item-text baseline textarea" text-space-between>
         描述
       </div>
       <div class="form-item-value">
         <textarea
-          [(ngModel)]="model.Description"
-          (input)="on.change()"
+          [(ngModel)]="data.Description"
+          (change)="on.change()"
         ></textarea>
       </div>
     </div>

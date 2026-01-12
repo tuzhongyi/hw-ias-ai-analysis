@@ -1,36 +1,32 @@
-import { EventEmitter } from '@angular/core';
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
 import { RoadSection } from '../../../../../../../common/data-core/models/arm/geographic/road-section.model';
-import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
+import { SystemModuleRoadSectionManagerComponent } from '../system-module-road-section-manager.component';
 
 export class SystemModuleRoadSectionManagerDetailsWindow extends WindowViewModel {
+  constructor(private that: SystemModuleRoadSectionManagerComponent) {
+    super();
+  }
+
   style = {
-    ...SizeTool.window.large,
+    ...SizeTool.window.video.path,
   };
-  title = '工作表';
+  title = '路段信息';
 
-  create = new EventEmitter<RoadSection>();
+  data?: RoadSection;
 
-  ok = new EventEmitter<RoadSection>();
-  cancel = new EventEmitter<void>();
-
-  data = new RoadSection();
-
-  onpath(path: [number, number][]) {
-    this.data = new RoadSection();
-    this.data.GeoLine = path.map((x) => {
-      let point = new GisPoint();
-      point.Longitude = x[0];
-      point.Latitude = x[1];
-      point.Altitude = 0;
-      return point;
-    });
+  open(data?: RoadSection) {
+    this.data = data;
+    this.show = true;
   }
-  onok(data: RoadSection) {
-    this.ok.emit(data);
-  }
-  oncancel() {
-    this.cancel.emit();
-  }
+
+  on = {
+    ok: (data: RoadSection) => {
+      this.that.table.load.emit(this.that.table.args);
+      this.show = false;
+    },
+    cancel: () => {
+      this.show = false;
+    },
+  };
 }

@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
@@ -32,13 +30,8 @@ import { SystemModuleRoadSectionMapBusiness } from './system-module-road-section
 export class SystemModuleRoadSectionMapComponent
   implements OnChanges, OnInit, OnDestroy
 {
-  @Input() creating = false;
-  @Input() editing = false;
-
   @Input() datas: RoadSection[] = [];
-  @Output() create = new EventEmitter<[number, number][]>();
   @Input() selected?: RoadSection;
-  @Output('change') _change = new EventEmitter<[number, number][]>();
 
   constructor(
     public controller: SystemModuleRoadSectionMapController,
@@ -54,19 +47,6 @@ export class SystemModuleRoadSectionMapComponent
     },
   };
   ngOnInit(): void {
-    this.controller.amap.creator.get().then((creator) => {
-      let sub = creator.create.subscribe((x) => {
-        this.create.emit(x);
-      });
-      this.subscription.add(sub);
-    });
-    this.controller.amap.editor.get().then((editor) => {
-      let sub = editor.change.subscribe((x) => {
-        this._change.emit(x);
-      });
-      this.subscription.add(sub);
-    });
-
     this.load.road();
   }
   ngOnDestroy(): void {
@@ -75,9 +55,7 @@ export class SystemModuleRoadSectionMapComponent
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.change.datas(changes['datas']);
-    this.change.creating(changes['creating']);
     this.change.selected(changes['selected']);
-    this.change.editing(changes['editing']);
   }
 
   change = {
@@ -94,29 +72,6 @@ export class SystemModuleRoadSectionMapComponent
           this.controller.amap.blur();
           this.controller.amap.focus();
         }
-      }
-    },
-    creating: (data: SimpleChange) => {
-      if (data && !data.firstChange) {
-        this.controller.amap.creator.get().then((creator) => {
-          if (this.creating) {
-            creator.open();
-          } else {
-            creator.clear();
-            creator.close();
-          }
-        });
-      }
-    },
-    editing: (data: SimpleChange) => {
-      if (data && !data.firstChange) {
-        this.controller.amap.editor.get().then((editor) => {
-          if (this.editing && this.selected) {
-            editor.open(this.selected.Id);
-          } else {
-            editor.close();
-          }
-        });
       }
     },
   };

@@ -27,6 +27,7 @@ import { SystemMainCardStatisticNumberComponent } from '../system-main-card/syst
 import { SystemMainManagerWindow } from '../system-main-manager-window/controller/system-main-manager.window';
 import { SystemMainManagerWindowComponent } from '../system-main-manager-window/system-main-manager-window.component';
 import { SystemMainMapHeatmapFilterComponent } from '../system-main-map-heatmap/system-main-map-heatmap-filter/system-main-map-heatmap-filter.component';
+import { SystemMainMapHeatmapSettingsComponent } from '../system-main-map-heatmap/system-main-map-heatmap-settings/system-main-map-heatmap-settings.component';
 import { SystemMainMapNavigationComponent } from '../system-main-map-navigation/system-main-map-navigation.component';
 import {
   EventMode,
@@ -64,6 +65,7 @@ import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
     SystemMainManagerWindowComponent,
     SystemMainMapNavigationComponent,
     SystemMainMapHeatmapFilterComponent,
+    SystemMainMapHeatmapSettingsComponent,
     SystemMainMapStateShopComponent,
     SystemMapStatisticComponent,
   ],

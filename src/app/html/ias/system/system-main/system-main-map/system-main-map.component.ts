@@ -52,6 +52,8 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() timeoutdisplay = true;
   @Input() sampledisplay = true;
 
+  @Input() heatmaptext = true;
+
   constructor(
     private business: SystemMainMapBusiness,
     private controller: SystemMainMapController
@@ -75,6 +77,7 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
     this.change.display.timeout(changes['timeoutdisplay']);
     this.change.display.sample(changes['sampledisplay']);
     this.change.display.heatmap(changes['heatmapdisplay']);
+    this.change.heatmap.text(changes['heatmaptext']);
   }
   ngOnDestroy(): void {
     this.controller.map.destory();
@@ -159,6 +162,13 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
           } else {
             this.controller.heatmap.clear();
           }
+        }
+      },
+    },
+    heatmap: {
+      text: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          this.controller.heatmap.set.text(this.heatmaptext);
         }
       },
     },

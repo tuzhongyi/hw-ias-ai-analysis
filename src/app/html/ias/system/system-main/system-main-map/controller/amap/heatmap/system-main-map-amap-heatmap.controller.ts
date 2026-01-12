@@ -1,17 +1,15 @@
 import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
-import { GarbageManagementMapAMapHeatmapMarkerClusterController } from './garbage-management-map-amap-heatmap-marker-cluster.controller';
+import { SystemMainMapAMapHeatmapMarkerClusterController } from './system-main-map-amap-heatmap-marker-cluster.controller';
 
 export class SystemMainMapAMapHeatmapController {
   constructor(map: AMap.Map, private container: Loca.Container) {
     this.heatmap = this.init();
-    this.cluster = new GarbageManagementMapAMapHeatmapMarkerClusterController(
-      map
-    );
+    this.cluster = new SystemMainMapAMapHeatmapMarkerClusterController(map);
   }
 
   private heatmap: Loca.HeatMapLayer;
-  private cluster: GarbageManagementMapAMapHeatmapMarkerClusterController;
+  private cluster: SystemMainMapAMapHeatmapMarkerClusterController;
   private opts: Loca.HeatMapLayerStyle = {
     radius: 20,
     unit: 'px',
@@ -80,9 +78,21 @@ export class SystemMainMapAMapHeatmapController {
       heightBezier: [0.2, 0.4, 0.8, 1],
     });
     this.container.add(this.heatmap);
+    this.cluster.load(points);
   }
 
   clear() {
     this.container.remove(this.heatmap);
+    this.cluster.clear();
   }
+
+  set = {
+    text: (enabled: boolean) => {
+      if (enabled) {
+        this.cluster.show();
+      } else {
+        this.cluster.hide();
+      }
+    },
+  };
 }

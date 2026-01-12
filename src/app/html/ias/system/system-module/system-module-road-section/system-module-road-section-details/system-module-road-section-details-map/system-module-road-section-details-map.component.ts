@@ -11,7 +11,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { RoadSection } from '../../../../../../../common/data-core/models/arm/geographic/road-section.model';
+import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { SystemModuleRoadSectionDetailsMapAMapController } from './controller/amap/system-module-road-section-details-map-amap.controller';
 import { SystemModuleRoadSectionDetailsMapPositionController } from './controller/system-module-road-section-details-map-position.controller';
 import { SystemModuleRoadSectionDetailsMapController } from './controller/system-module-road-section-details-map.controller';
@@ -35,9 +35,8 @@ export class SystemModuleRoadSectionDetailsMapComponent
   @Input() creating = false;
   @Input() editing = false;
 
-  @Input() datas: RoadSection[] = [];
+  @Input() datas: GisPoint[] = [];
   @Output() create = new EventEmitter<[number, number][]>();
-  @Input() selected?: RoadSection;
   @Output('change') _change = new EventEmitter<[number, number][]>();
 
   constructor(
@@ -49,7 +48,11 @@ export class SystemModuleRoadSectionDetailsMapComponent
   private load = {
     road: () => {
       this.business.road().then((datas) => {
-        this.controller.road.load(datas);
+        this.controller.road.load(datas).then((x) => {
+          if (this.creating) {
+            this.controller.map.focus(x);
+          }
+        });
       });
     },
   };
@@ -76,28 +79,21 @@ export class SystemModuleRoadSectionDetailsMapComponent
   ngOnChanges(changes: SimpleChanges): void {
     this.change.datas(changes['datas']);
     this.change.creating(changes['creating']);
-    this.change.selected(changes['selected']);
     this.change.editing(changes['editing']);
   }
 
   change = {
     datas: (data: SimpleChange) => {
-      if (data && !data.firstChange) {
-        this.controller.amap.load(this.datas);
-      }
-    },
-    selected: (data: SimpleChange) => {
-      if (data && !data.firstChange) {
-        if (this.selected) {
-          this.controller.amap.select(this.selected.Id);
-        } else {
-          this.controller.amap.blur();
-          this.controller.amap.focus();
+      if (data) {
+        if (this.datas.length > 0) {
+          this.controller.amap.load(this.datas).then((x) => {
+            this.controller.map.focus(x);
+          });
         }
       }
     },
     creating: (data: SimpleChange) => {
-      if (data && !data.firstChange) {
+      if (data) {
         this.controller.amap.creator.get().then((creator) => {
           if (this.creating) {
             creator.open();
@@ -109,10 +105,10 @@ export class SystemModuleRoadSectionDetailsMapComponent
       }
     },
     editing: (data: SimpleChange) => {
-      if (data && !data.firstChange) {
+      if (data) {
         this.controller.amap.editor.get().then((editor) => {
-          if (this.editing && this.selected) {
-            editor.open(this.selected.Id);
+          if (this.editing) {
+            editor.open();
           } else {
             editor.close();
           }

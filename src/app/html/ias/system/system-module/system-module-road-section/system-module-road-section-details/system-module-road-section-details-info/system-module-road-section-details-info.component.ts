@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { HowellSelectComponent } from '../../../../../../../common/components/hw-select/select-control.component';
@@ -27,8 +35,8 @@ import { SystemModuleRoadSectionDetailsInfoSource } from './system-module-road-s
     SystemModuleRoadSectionDetailsInfoSource,
   ],
 })
-export class SystemModuleRoadSectionDetailsInfoComponent implements OnInit {
-  @Input('data') data?: RoadSection;
+export class SystemModuleRoadSectionDetailsInfoComponent implements OnChanges {
+  @Input('data') data = new RoadSection();
   @Output() dataChange = new EventEmitter<RoadSection>();
 
   constructor(
@@ -36,25 +44,16 @@ export class SystemModuleRoadSectionDetailsInfoComponent implements OnInit {
     public source: SystemModuleRoadSectionDetailsInfoSource
   ) {}
 
-  model = new RoadSection();
+  private change = {
+    data: (simple: SimpleChange) => {
+      if (simple) {
+        this.event.load(this.data.EventTypes);
+      }
+    },
+  };
 
-  ngOnInit(): void {
-    if (this.data) {
-      this.model = Object.assign(this.model, this.data);
-      this.event.load(this.model.EventTypes);
-    }
-  }
-
-  get check() {
-    if (!this.model.Name) {
-      this.toastr.error('请输入道路名称');
-      return false;
-    }
-    if (!this.model.GeoLine || this.model.GeoLine.length < 2) {
-      this.toastr.error('请绘制道路线路');
-      return false;
-    }
-    return true;
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.data(changes['data']);
   }
 
   event = {
@@ -74,16 +73,16 @@ export class SystemModuleRoadSectionDetailsInfoComponent implements OnInit {
       });
     },
     change: (items: IIdNameModel<number>[]) => {
-      this.model.EventTypes = items.map((x) => x.Id);
+      this.data.EventTypes = items.map((x) => x.Id);
       this.on.change();
     },
   };
 
   on = {
     type: () => {
-      if (this.model.SectionType != 1) {
+      if (this.data.SectionType != 1) {
         this.event.selected = [];
-        this.model.EventTypes = [];
+        this.data.EventTypes = [];
       }
       this.on.change();
     },
@@ -91,7 +90,7 @@ export class SystemModuleRoadSectionDetailsInfoComponent implements OnInit {
       if (!this.data) {
         this.data = new RoadSection();
       }
-      this.data = Object.assign(this.data, this.model);
+      this.data = Object.assign(this.data, this.data);
       this.dataChange.emit(this.data);
     },
   };

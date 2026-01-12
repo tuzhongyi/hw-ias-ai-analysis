@@ -1,0 +1,39 @@
+<ias-window
+  [Model]="model"
+  [style]="style"
+  [title]="'复制到...'"
+  [CloseButton]="false"
+>
+  <div ngProjectAs="window-head-operation" class="window-video-operation">
+    <div class="all" (click)="on.all()">全选</div>
+  </div>
+  <div class="segment-week-copy">
+    <div class="segment-week-copy-body">
+      <div class="segment-week-copy-body-checkboxs">
+        <label
+          [for]="'week_' + day"
+          *ngFor="let day of weeks"
+          [class.disabled]="week == day"
+        >
+          {{ Language.Week(day) }}
+          <input
+            type="checkbox"
+            [id]="'week_' + day"
+            [disabled]="week == day"
+            [checked]="selected.includes(day) || week == day"
+            (change)="on.week(day)"
+          />
+        </label>
+      </div>
+      <div class="segment-week-copy-body-controls"></div>
+    </div>
+    <div class="segment-week-copy-foot">
+      <button class="button-clip-gradient" (click)="on.copy()">
+        <i class="mdi mdi-content-copy"></i> 复制
+      </button>
+      <button class="button-clip-blue" (click)="on.close()">
+        <i class="howell-icon-Close"></i> 取消
+      </button>
+    </div>
+  </div>
+</ias-window>

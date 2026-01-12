@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { RoadSection } from '../../../../../../common/data-core/models/arm/geographic/road-section.model';
-import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleRoadSectionDetailsManagerComponent } from '../system-module-road-section-details/system-module-road-section-details-manager/system-module-road-section-details-manager.component';
 import { SystemModuleRoadSectionMapComponent } from '../system-module-road-section-map/system-module-road-section-map.component';
@@ -13,6 +13,7 @@ import { SystemModuleRoadSectionTableArgs } from '../system-module-road-section-
 import { SystemModuleRoadSectionManagerInfoController } from './controller/system-module-road-section-manager-info.controller';
 import { SystemModuleRoadSectionManagerController } from './controller/system-module-road-section-manager.controller';
 import { SystemModuleRoadSectionManagerBusiness } from './system-module-road-section-manager.business';
+import { SystemModuleRoadSectionManagerSource } from './system-module-road-section-manager.source';
 import { SystemModuleRoadSectionManagerWindow } from './window/system-module-road-section-manager.window';
 
 @Component({
@@ -20,6 +21,7 @@ import { SystemModuleRoadSectionManagerWindow } from './window/system-module-roa
   imports: [
     CommonModule,
     FormsModule,
+    HowellSelectComponent,
     SystemModuleRoadSectionTableComponent,
     SystemModuleRoadSectionMapComponent,
     SystemModuleRoadSectionDetailsManagerComponent,
@@ -32,6 +34,7 @@ import { SystemModuleRoadSectionManagerWindow } from './window/system-module-roa
     SystemModuleRoadSectionManagerController,
     SystemModuleRoadSectionManagerInfoController,
     SystemModuleRoadSectionManagerBusiness,
+    SystemModuleRoadSectionManagerSource,
   ],
 })
 export class SystemModuleRoadSectionManagerComponent implements OnInit {
@@ -39,34 +42,15 @@ export class SystemModuleRoadSectionManagerComponent implements OnInit {
   @Input() operable = true;
   constructor(
     private business: SystemModuleRoadSectionManagerBusiness,
+    public source: SystemModuleRoadSectionManagerSource,
     private toastr: ToastrService
-  ) {
-    this.window.details.show = true;
-  }
+  ) {}
 
-  window = new SystemModuleRoadSectionManagerWindow();
+  window = new SystemModuleRoadSectionManagerWindow(this);
 
-  ngOnInit(): void {
-    this.window.details.create.subscribe((x) => {
-      this.create.data = x;
-    });
-    this.window.details.ok.subscribe((x) => {
-      if (this.create.doing) {
-        this.create.ok(x);
-      } else if (this.modify.doing) {
-        this.modify.ok(x);
-      }
-    });
-    this.window.details.cancel.subscribe(() => {
-      if (this.create.doing) {
-        this.create.cancel();
-      } else if (this.modify.doing) {
-        this.modify.cancel();
-      }
-    });
-  }
+  ngOnInit(): void {}
 
-  onsearch() {
+  search() {
     this.table.load.emit(this.table.args);
   }
 
@@ -75,60 +59,13 @@ export class SystemModuleRoadSectionManagerComponent implements OnInit {
     load: new EventEmitter<SystemModuleRoadSectionTableArgs>(),
     datas: [] as RoadSection[],
     selected: undefined as RoadSection | undefined,
-    onload: (x: RoadSection[]) => {
-      this.table.datas = x;
-    },
-  };
-
-  create = {
-    data: undefined as RoadSection | undefined,
-    doing: false,
-    open: () => {
-      this.create.doing = true;
-      this.window.details.show = true;
-      this.window.details.data = new RoadSection();
-      this.table.selected = undefined;
-    },
-    ok: (data: RoadSection) => {
-      this.window.details.show = false;
-      this.create.doing = false;
-      this.window.details.data = new RoadSection();
-      this.table.load.emit(this.table.args);
-    },
-    cancel: () => {
-      this.create.doing = false;
-      this.window.details.show = false;
-    },
-  };
-  modify = {
-    doing: false,
-    open: (data: RoadSection) => {
-      this.modify.doing = true;
-      this.window.details.show = true;
-      this.window.details.data = data;
-    },
-    ok: (data: RoadSection) => {
-      this.modify.doing = false;
-      this.window.details.show = false;
-      this.table.load.emit(this.table.args);
-    },
-    cancel: () => {
-      this.modify.doing = false;
-      this.window.details.show = false;
-    },
-    path: {
-      change: (path: [number, number][]) => {
-        if (this.window.details.data) {
-          if (!this.window.details.data.GeoLine) {
-            this.window.details.data.GeoLine = [];
-          }
-          this.window.details.data.GeoLine = path.map((x) => {
-            return GisPoint.create(x[0], x[1]);
-          });
-        }
+    on: {
+      load: (x: RoadSection[]) => {
+        this.table.datas = x;
       },
     },
   };
+
   delete = {
     confirm: (data: RoadSection) => {
       this.window.confirm.data = data;

@@ -22,7 +22,17 @@
     [timeoutdisplay]="map.display.timeout"
     [sampledisplay]="map.display.sample"
     [heatmapdisplay]="map.display.heatmap"
+    [heatmaptext]="map.heatmap.textable"
   ></ias-system-main-map>
+
+  <div
+    class="system-main-manager-operation-heatmap"
+    *ngIf="panel.navigation.index == Navigation.heatmap"
+  >
+    <ias-system-main-map-heatmap-settings
+      [(textable)]="map.heatmap.textable"
+    ></ias-system-main-map-heatmap-settings>
+  </div>
 
   <div
     class="system-main-manager-heatmap-filter panel-map"

@@ -1,0 +1,25 @@
+<div class="system-main-map-heatmap-settings panel-map root-router">
+  <ias-container-expand-corner
+    [icon]="'howell-icon-settingoutline'"
+    [top]="top"
+    [left]="left"
+  >
+    <div class="map-panel-settings-body forms">
+      <div class="form-item">
+        <div class="form-item-text">
+          <label for="system-main-map-heatmap-settings-rectified"
+            >显示数量</label
+          >
+        </div>
+        <div class="form-item-value">
+          <input
+            type="checkbox"
+            id="system-main-map-heatmap-settings-rectified"
+            [(ngModel)]="textable"
+            (change)="on.textable()"
+          />
+        </div>
+      </div>
+    </div>
+  </ias-container-expand-corner>
+</div>

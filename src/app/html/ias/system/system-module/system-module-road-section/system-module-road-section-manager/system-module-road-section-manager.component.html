@@ -6,15 +6,28 @@
     <div class="system-module-road-section-manager-head-filter">
       <div class="forms">
         <div class="form-item">
+          <div class="form-item-text">路段类型</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="table.args.type" [nullable]="true">
+              <select [(ngModel)]="table.args.type">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.sections"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
           <div class="form-item-text">路段名称</div>
           <div class="form-item-value">
             <input type="text" [(ngModel)]="table.args.name" />
           </div>
         </div>
         <div class="form-item">
-          <button class="button-clip-gradient" (click)="onsearch()">
-            查找
-          </button>
+          <button class="button-clip-gradient" (click)="search()">查找</button>
         </div>
       </div>
     </div>
@@ -22,7 +35,9 @@
       class="system-module-road-section-manager-head-operation"
       *ngIf="operable"
     >
-      <button class="button-clip-gradient" (click)="create.open()">添加</button>
+      <button class="button-clip-gradient" (click)="window.details.open()">
+        添加
+      </button>
     </div>
   </div>
   <div class="system-module-road-section-manager-body">
@@ -32,18 +47,14 @@
         [args]="table.args"
         [load]="table.load"
         [(selected)]="table.selected"
-        (loaded)="table.onload($event)"
+        (loaded)="table.on.load($event)"
         (delete)="delete.confirm($event)"
-        (modify)="modify.open($event)"
+        (modify)="window.details.open($event)"
       ></ias-system-module-road-section-table>
     </div>
     <div class="system-module-road-section-manager-body-map">
       <ias-system-module-road-section-map
-        [creating]="create.doing"
-        [editing]="modify.doing"
         [datas]="table.datas"
-        (create)="window.details.onpath($event)"
-        (change)="modify.path.change($event)"
         [selected]="table.selected"
       ></ias-system-module-road-section-map>
     </div>
@@ -63,6 +74,10 @@
     [style]="window.details.style"
     [title]="window.details.title"
   >
-    <ias-system-module-road-section-details-manager></ias-system-module-road-section-details-manager>
+    <ias-system-module-road-section-details-manager
+      [data]="window.details.data"
+      (ok)="window.details.on.ok($event)"
+      (cancel)="window.details.on.cancel()"
+    ></ias-system-module-road-section-details-manager>
   </ias-window>
 </div>
