@@ -46,6 +46,7 @@ export class SystemMainCardDeviceRouteStatisticComponent {
   ];
 
   private subscription = new Subscription();
+  max = 0;
   ngOnInit(): void {
     this.regist();
     this.unit.change();
@@ -66,6 +67,11 @@ export class SystemMainCardDeviceRouteStatisticComponent {
   private load() {
     this.business.load(this.duration).then((datas) => {
       this.datas = datas;
+
+      for (let i = 0; i < datas.length; i++) {
+        this.max = this.Math.max(this.max, this.datas[i].name.length);
+      }
+
       if (this.datas.length > 3) {
         this.color.length = 3;
         for (let i = 3; i < this.datas.length; i++) {

@@ -5,9 +5,7 @@ export class SystemMainMapAMapHeatmapMarkerClusterController {
   private display = true;
 
   private render = {
-    cluster: (context: any) => {
-      // 聚合中点个数
-      var clusterCount = context.count;
+    content: (count: number) => {
       var div = document.createElement('div');
 
       div.className = 'heatmap-cluster-marker';
@@ -20,28 +18,22 @@ export class SystemMainMapAMapHeatmapMarkerClusterController {
 
       div.style.width = div.style.height = '10px';
 
-      div.innerHTML = context.count;
+      div.innerHTML = `${count}`;
       div.style.lineHeight = '10px';
       div.style.color = '#ffffff';
       div.style.fontSize = '12px';
       div.style.textAlign = 'center';
-      context.marker.setOffset(new AMap.Pixel(10 / 2, -10 / 2));
+      return div;
+    },
+    cluster: (context: any) => {
+      let div = this.render.content(context.count);
       context.marker.setContent(div);
+      context.marker.setOffset(new AMap.Pixel(-10 / 2, -10 / 2));
     },
     marker: (context: any) => {
-      var content = `
-        <div style="
-          display:none;
-          background-color: rgba(35,227,83,.1); 
-          height: 18px; 
-          width: 18px; 
-          border: 1px solid rgba(35,227,83,.1); 
-          border-radius: 12px; ">
-        </div>
-      `;
-      var offset = new AMap.Pixel(-9, -9);
-      context.marker.setContent(content);
-      context.marker.setOffset(offset);
+      let div = this.render.content(1);
+      context.marker.setContent(div);
+      context.marker.setOffset(new AMap.Pixel(-10 / 2, -10 / 2));
     },
     load: (show: boolean) => {
       if (!this.cluster) return;

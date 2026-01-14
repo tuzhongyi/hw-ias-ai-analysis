@@ -12,6 +12,10 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
+import { TimeControlComponent } from '../../../../../../common/components/time-control/time-control.component';
+import { TimeModel } from '../../../../../../common/components/time-control/time-control.model';
+import { TimelineComponent } from '../../../../../../common/components/timeline/timeline.component';
+import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { DateTimePickerView } from '../../../../../../common/directives/date-time-picker/date-time-picker.directive';
 import { DurationUnit } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
@@ -31,6 +35,8 @@ import { SystemModuleMobileDeviceRouteManagerSource } from './system-module-mobi
     CommonModule,
     FormsModule,
     DateTimeControlComponent,
+    TimeControlComponent,
+    TimelineComponent,
     HowellSelectComponent,
     SystemModuleMobileDeviceRouteMapComponent,
     SystemModuleMobileDeviceRouteMapSettingsComponent,
@@ -58,10 +64,39 @@ export class SystemModuleMobileDeviceRouteManagerComponent
   Unit = DurationUnit;
   RouteStatisticType = SystemModuleMobileDeviceRouteType;
   date = {
+    value: new Date(),
     format: Language.YearMonthDay,
     week: false,
     view: {
       min: DateTimePickerView.month,
+    },
+    change: () => {
+      this.args.duration.begin.setFullYear(
+        this.date.value.getFullYear(),
+        this.date.value.getMonth(),
+        this.date.value.getDate()
+      );
+      this.args.duration.end.setFullYear(
+        this.date.value.getFullYear(),
+        this.date.value.getMonth(),
+        this.date.value.getDate()
+      );
+    },
+  };
+  time = {
+    begin: new TimeModel(0, 0, 0),
+    end: new TimeModel(23, 59, 59),
+    change: () => {
+      this.args.duration.begin.setHours(
+        this.time.begin.hour.value,
+        this.time.begin.minute.value,
+        this.time.begin.second.value
+      );
+      this.args.duration.end.setHours(
+        this.time.end.hour.value,
+        this.time.end.minute.value,
+        this.time.end.second.value
+      );
     },
   };
 
@@ -114,8 +149,25 @@ export class SystemModuleMobileDeviceRouteManagerComponent
       }
       this.load.emit(this.args);
     },
-    loaded: () => {
+    loaded: (datas: FileGpsItem[]) => {
       this.loaded = true;
+
+      this.map.datas = [...datas];
+      this.timeline.datas = datas.map((x) => x.OSDTime!);
     },
+  };
+
+  timeline = {
+    datas: [] as Date[],
+    change: (data: Date) => {
+      this.map.current = this.map.datas.find(
+        (x) => x.OSDTime?.getTime() == data.getTime()
+      );
+    },
+  };
+
+  map = {
+    datas: [] as FileGpsItem[],
+    current: undefined as FileGpsItem | undefined,
   };
 }

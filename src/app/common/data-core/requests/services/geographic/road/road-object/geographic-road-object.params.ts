@@ -18,6 +18,10 @@ export class GetRoadObjectsParams extends PagedParams {
   Location?: GisPoint;
   /**	Double	单位：米，必须与Location一起出现	D	*/
   LocationDistance?: number;
+  /**	Int32	物件分类，用于分辨不同层级和重要度的物件	O	*/
+  Category?: number;
+  /**	Int32[]	物件状态	O	*/
+  ObjectStates?: number[];
   /**	String	升序属性，不区分大小写	O	*/
   Asc?: string;
   /**	String	降序属性，不区分大小写	O	*/

@@ -29,6 +29,7 @@ export class GpsTaskSampleRecord implements IIdModel {
   @Type(() => GpsTaskResourceContent)
   Resources?: GpsTaskResourceContent[];
   /**	BASE64	扩展数据	O	*/
+  @Transform(Transformer.Base64)
   ExtensionData?: string;
   /**	GisPoint	Gis坐标	M	*/
   @Transform(Transformer.GisPoint)

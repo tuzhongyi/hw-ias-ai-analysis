@@ -27,6 +27,9 @@ export class SystemModuleIndexComponent {
     roadsection: () => {
       this.router.navigateByUrl(SystemPath.module_road_section);
     },
+    roadobject: () => {
+      this.router.navigateByUrl(SystemPath.module_road_object);
+    },
     registration: () => {
       this.router.navigateByUrl(SystemPath.module_shop_registration);
     },

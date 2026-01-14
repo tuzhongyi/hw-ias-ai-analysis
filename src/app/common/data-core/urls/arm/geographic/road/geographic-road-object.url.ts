@@ -1,4 +1,5 @@
 import { AbstractUrl } from '../../../abstract.url';
+import { GeographicRoadObjectEventUrl } from './geographic-road-object-event.url';
 
 export class GeographicRoadObjectUrl extends AbstractUrl {
   constructor(base: string) {
@@ -7,5 +8,9 @@ export class GeographicRoadObjectUrl extends AbstractUrl {
 
   capability() {
     return `${this.basic()}/Capability`;
+  }
+
+  event() {
+    return new GeographicRoadObjectEventUrl(this.basic());
   }
 }

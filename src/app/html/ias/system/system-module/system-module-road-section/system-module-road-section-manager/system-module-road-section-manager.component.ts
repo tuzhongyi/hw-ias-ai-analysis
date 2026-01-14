@@ -10,8 +10,6 @@ import { SystemModuleRoadSectionDetailsManagerComponent } from '../system-module
 import { SystemModuleRoadSectionMapComponent } from '../system-module-road-section-map/system-module-road-section-map.component';
 import { SystemModuleRoadSectionTableComponent } from '../system-module-road-section-table/system-module-road-section-table.component';
 import { SystemModuleRoadSectionTableArgs } from '../system-module-road-section-table/system-module-road-section-table.model';
-import { SystemModuleRoadSectionManagerInfoController } from './controller/system-module-road-section-manager-info.controller';
-import { SystemModuleRoadSectionManagerController } from './controller/system-module-road-section-manager.controller';
 import { SystemModuleRoadSectionManagerBusiness } from './system-module-road-section-manager.business';
 import { SystemModuleRoadSectionManagerSource } from './system-module-road-section-manager.source';
 import { SystemModuleRoadSectionManagerWindow } from './window/system-module-road-section-manager.window';
@@ -31,8 +29,6 @@ import { SystemModuleRoadSectionManagerWindow } from './window/system-module-roa
   templateUrl: './system-module-road-section-manager.component.html',
   styleUrl: './system-module-road-section-manager.component.less',
   providers: [
-    SystemModuleRoadSectionManagerController,
-    SystemModuleRoadSectionManagerInfoController,
     SystemModuleRoadSectionManagerBusiness,
     SystemModuleRoadSectionManagerSource,
   ],

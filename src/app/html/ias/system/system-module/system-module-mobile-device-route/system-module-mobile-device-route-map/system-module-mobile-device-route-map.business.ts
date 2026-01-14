@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GetMobileDeviceRoutesParams } from '../../../../../../common/data-core/requests/services/system/mobile/system-mobile-device.params';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
-import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 import { SystemModuleMobileDeviceRouteArgs } from '../system-module-mobile-device-route.model';
 
 @Injectable()
@@ -10,6 +9,10 @@ export class SystemModuleMobileDeviceRouteMapBusiness {
   constructor(private service: ArmSystemRequestService) {}
 
   private interval = 5 * 60; // 5分钟
+
+  device(deviceId: string) {
+    return this.data.device(deviceId);
+  }
 
   async load(args: SystemModuleMobileDeviceRouteArgs, rectified?: boolean) {
     let datas = await this.data.load(args, rectified);
@@ -20,7 +23,7 @@ export class SystemModuleMobileDeviceRouteMapBusiness {
     // return datas;
   }
 
-  convert(datas: FileGpsItem[], interval: number) {
+  private convert(datas: FileGpsItem[], interval: number) {
     if (!Array.isArray(datas) || datas.length === 0) {
       return [];
     }
@@ -59,13 +62,17 @@ export class SystemModuleMobileDeviceRouteMapBusiness {
 
   private data = {
     load: (args: SystemModuleMobileDeviceRouteArgs, rectified?: boolean) => {
-      let duration = DateTimeTool.all.unit(args.date, args.unit);
       let params = new GetMobileDeviceRoutesParams();
       params.MobileDeviceId = args.deviceId;
-      params.BeginTime = duration.begin;
-      params.EndTime = duration.end;
+      params.BeginTime = args.duration.begin;
+      params.EndTime = args.duration.end;
       params.Rectified = rectified;
-      return this.service.mobile.device.route.all(params);
+      return this.service.mobile.device.route.all(params).catch((x) => {
+        return [];
+      });
+    },
+    device: (deviceId: string) => {
+      return this.service.mobile.device.cache.get(deviceId);
     },
   };
 }

@@ -1,5 +1,5 @@
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
-import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
+import { RoadSection } from '../../../../../../../common/data-core/models/arm/geographic/road-section.model';
 import { SystemModuleRoadSectionManagerComponent } from '../system-module-road-section-manager.component';
 import { SystemModuleRoadSectionManagerDetailsWindow } from './system-module-road-section-manager-details.window';
 
@@ -15,7 +15,7 @@ class ConfirmWindow extends WindowViewModel {
   clear() {
     this.data = undefined;
   }
-  data?: Road;
+  data?: RoadSection;
 
   get content() {
     return `是否删除路段 ${this.data?.Name} ？`;

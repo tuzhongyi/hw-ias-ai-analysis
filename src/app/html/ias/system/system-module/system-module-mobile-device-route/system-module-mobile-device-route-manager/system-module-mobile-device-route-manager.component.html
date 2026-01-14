@@ -5,23 +5,44 @@
   <div class="system-module-mobile-device-route-manager-head">
     <div class="forms">
       <div class="form-item">
-        <div class="form-item-text">选择时间:</div>
+        <div class="form-item-text">选择日期:</div>
         <div class="form-item-value">
           <date-time-control
             [week]="date.week"
             [format]="date.format"
             [minView]="date.view.min"
             [startView]="date.view.min"
-            [(date)]="args.date"
             [zindex]="iswindow ? 9000 : 10"
+            [(date)]="date.value"
+            (dateChange)="date.change()"
           ></date-time-control>
         </div>
       </div>
       <div class="form-item">
+        <div class="form-item-text">开始时间:</div>
+        <div class="form-item-value fill time">
+          <app-time-control
+            [(time)]="time.begin"
+            [endTime]="time.end"
+            (timeChange)="time.change()"
+          ></app-time-control>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">结束时间:</div>
+        <div class="form-item-value fill time">
+          <app-time-control
+            [(time)]="time.end"
+            [beginTime]="time.begin"
+            (timeChange)="time.change()"
+          ></app-time-control>
+        </div>
+      </div>
+      <div class="form-item">
         <div class="form-item-text">巡逻车辆:</div>
-        <div class="form-item-value">
+        <div class="form-item-value fill">
           <hw-select [(selected)]="args.deviceId" [nullable]="false">
-            <select [(ngModel)]="args.deviceId">
+            <select [(ngModel)]="args.deviceId" (change)="(map)">
               <option [ngValue]="item.Id" *ngFor="let item of source.devices">
                 {{ item.Name }}
               </option>
@@ -33,7 +54,7 @@
         <button class="button-clip-gradient" (click)="on.search()">查找</button>
       </div>
     </div>
-    <div class="forms">
+    <!-- <div class="forms">
       <div class="form-item">
         <select [(ngModel)]="args.unit" (change)="on.unit()">
           <option [ngValue]="Unit.day">日报表</option>
@@ -41,15 +62,24 @@
           <option [ngValue]="Unit.month">月报表</option>
         </select>
       </div>
-    </div>
+    </div> -->
   </div>
   <div class="system-module-mobile-device-route-manager-body">
-    <div class="system-module-mobile-device-route-manager-body-map">
-      <howell-system-module-mobile-device-route-map
-        [load]="load"
-        [rectified]="rectified"
-        (loaded)="on.loaded()"
-      ></howell-system-module-mobile-device-route-map>
+    <div class="system-module-mobile-device-route-manager-body-map panel">
+      <div class="system-module-mobile-device-route-manager-body-map-body">
+        <howell-system-module-mobile-device-route-map
+          [load]="load"
+          [rectified]="rectified"
+          (loaded)="on.loaded($event)"
+          [gps]="map.current"
+        ></howell-system-module-mobile-device-route-map>
+      </div>
+      <div class="system-module-mobile-device-route-manager-body-map-foot">
+        <howell-timeline
+          [datas]="timeline.datas"
+          (change)="timeline.change($event)"
+        ></howell-timeline>
+      </div>
       <div class="system-module-mobile-device-route-manager-body-map-settings">
         <howell-system-module-mobile-device-route-map-settings
           *ngIf="loaded"

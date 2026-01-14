@@ -1,0 +1,77 @@
+<div
+  class="system-module-road-object-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-module-road-object-manager-head">
+    <div class="system-module-road-object-manager-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">物件类型</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="table.args.type" [nullable]="true">
+              <select [(ngModel)]="table.args.type">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.types"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">物件状态</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="table.args.state" [nullable]="true">
+              <select [(ngModel)]="table.args.state">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.states"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">物件名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="table.args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient" (click)="search()">查找</button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="system-module-road-object-manager-head-operation"
+      *ngIf="operable"
+    >
+      <button class="button-clip-gradient" (click)="window.details.open()">
+        添加
+      </button>
+    </div>
+  </div>
+  <div class="system-module-road-object-manager-body">
+    <div class="system-module-road-object-manager-body-table">
+      <ias-system-module-road-object-table
+        [operable]="operable"
+        [args]="table.args"
+        [load]="table.load"
+        [(selected)]="table.selected"
+        (loaded)="table.on.load($event)"
+        (delete)="delete.confirm($event)"
+        (modify)="window.details.open($event)"
+      ></ias-system-module-road-object-table>
+    </div>
+    <div class="system-module-road-object-manager-body-map">
+      <!-- <ias-system-module-road-object-map
+        [datas]="table.datas"
+        [selected]="table.selected"
+      ></ias-system-module-road-object-map> -->
+    </div>
+  </div>
+</div>

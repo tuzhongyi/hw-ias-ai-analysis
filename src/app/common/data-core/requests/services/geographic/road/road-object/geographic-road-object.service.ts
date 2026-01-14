@@ -11,6 +11,7 @@ import { HowellResponse } from '../../../../../models/response';
 import { ArmGeographicUrl } from '../../../../../urls/arm/geographic/geographic.url';
 import { HowellHttpClient } from '../../../../howell-http.client';
 import { HowellResponseProcess } from '../../../../service-process';
+import { ArmGeographicRoadObjectEventRequestService } from './event/geographic-road-object-event.service';
 import { GetRoadObjectsParams } from './geographic-road-object.params';
 
 @Cache(ArmGeographicUrl.road.object.basic(), RoadObject)
@@ -74,5 +75,13 @@ export class ArmGeographicRoadObjectRequestService extends AbstractService<RoadO
       .then((x) => {
         return HowellResponseProcess.item(x, RoadObjectCapability);
       });
+  }
+
+  private _event?: ArmGeographicRoadObjectEventRequestService;
+  public get event(): ArmGeographicRoadObjectEventRequestService {
+    if (!this._event) {
+      this._event = new ArmGeographicRoadObjectEventRequestService(this.http);
+    }
+    return this._event;
   }
 }

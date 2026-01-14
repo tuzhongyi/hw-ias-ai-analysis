@@ -13,6 +13,8 @@ export class SystemModuleBusiness {
       title = '商铺管理';
     } else if (location.pathname.indexOf(SystemPath.module_shop) >= 0) {
       title = '分析商铺';
+    } else if (location.pathname.indexOf(SystemPath.module_road_object) >= 0) {
+      title = '道路物件管理';
     } else if (location.pathname.indexOf(SystemPath.module_road_section) >= 0) {
       title = '屏蔽路段管理';
     } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {

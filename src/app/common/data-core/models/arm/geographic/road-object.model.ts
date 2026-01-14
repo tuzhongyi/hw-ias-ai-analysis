@@ -1,7 +1,8 @@
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IIdNameModel, ILocation } from '../../model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoints } from '../gis-point.model';
+import { ObjectImageSamplingConfig } from './object-image-sampling-config.model';
 
 /**	RoadObject (道路固件)	*/
 export class RoadObject implements IIdNameModel, ILocation {
@@ -34,4 +35,17 @@ export class RoadObject implements IIdNameModel, ILocation {
   /**	DateTime	更新时间	M	*/
   @Transform(Transformer.DateTime)
   UpdateTime!: Date;
+  /**	Int32	物件分类，用于分辨不同层级和重要度的物件	O	*/
+  Category?: number;
+  /**	Double	健康度0-100	O	*/
+  Health?: number;
+  /**	String	物件照片	O	*/
+  ImageUrl?: string;
+  /**	Int32	连续消失次数	M	*/
+  DisappearTimes!: number;
+  /**	ObjectImageSamplingConfig	图片采样计划	M	*/
+  @Type(() => ObjectImageSamplingConfig)
+  ImageSampling!: ObjectImageSamplingConfig;
+  /**	Int32	物件状态	M	*/
+  ObjectState!: number;
 }

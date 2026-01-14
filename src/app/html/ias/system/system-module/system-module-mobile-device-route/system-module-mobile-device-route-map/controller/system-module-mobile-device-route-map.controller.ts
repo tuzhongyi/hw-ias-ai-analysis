@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
+import { MobileDevice } from '../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { SystemModuleMobileDeviceRouteAMapPathController } from './amap/system-module-mobile-device-route-amap-path.controller';
 import { SystemModuleMobileDeviceRouteAMapController } from './amap/system-module-mobile-device-route-amap.controller';
 
@@ -48,9 +49,25 @@ export class SystemModuleMobileDeviceRouteMapController {
   };
 
   map = {
-    destroy: () => {
-      this.amap.destroy();
+    destroy: async () => {
       this.path.clear();
+      await this.device.clear();
+      await this.amap.destroy();
+    },
+  };
+
+  device = {
+    load: (data: MobileDevice) => {
+      this.amap.device.get().then((x) => x.load(data));
+    },
+    clear: async () => {
+      let device = await this.amap.device.get();
+      device.clear();
+    },
+    set: {
+      position: (data: FileGpsItem) => {
+        this.amap.device.get().then((x) => x.set.position(data));
+      },
     },
   };
 }

@@ -56,7 +56,7 @@ export class SystemModuleMobileDeviceRouteChartContainerComponent
     load: (args: SystemModuleMobileDeviceRouteArgs) => {
       this.loading = true;
       this.business
-        .load(args.deviceId, args.unit, args.date)
+        .load(args.deviceId, args.unit, args.duration.begin)
         .then((x) => {
           this.datas = x;
         })

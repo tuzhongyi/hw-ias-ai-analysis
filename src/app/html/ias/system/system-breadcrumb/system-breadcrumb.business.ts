@@ -72,6 +72,14 @@ export class SystemBreadcrumbBusiness {
           this.module.roadsection(),
         ];
       } else if (
+        location.pathname.indexOf(SystemPath.module_road_object) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.module.index(),
+          this.module.roadobject(),
+        ];
+      } else if (
         location.pathname.indexOf(SystemPath.module_mobile_device_route) >= 0
       ) {
         return [this.home.index(), this.module.index(), this.module.route()];
@@ -121,6 +129,13 @@ export class SystemBreadcrumbBusiness {
       let item = new SystemBreadcrumbItem();
       item.path = SystemPath.module_road_section;
       item.text = '屏蔽路段';
+      return item;
+    },
+
+    roadobject: () => {
+      let item = new SystemBreadcrumbItem();
+      item.path = SystemPath.module_road_object;
+      item.text = '道路物件';
       return item;
     },
     route: () => {

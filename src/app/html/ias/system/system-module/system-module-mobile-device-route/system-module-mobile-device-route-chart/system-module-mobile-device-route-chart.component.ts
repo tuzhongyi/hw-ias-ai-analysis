@@ -50,7 +50,7 @@ export class SystemModuleMobileDeviceRouteChartComponent implements OnChanges {
         this.datas = x;
         this.xAxis = ChartTool.axis.x.unit(args.unit, {
           end: true,
-          date: args.date,
+          date: args.duration.begin,
           first: 1,
         });
 

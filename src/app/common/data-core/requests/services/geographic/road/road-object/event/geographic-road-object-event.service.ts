@@ -1,0 +1,42 @@
+import { instanceToPlain } from 'class-transformer';
+import { RoadObjectEventRecord } from '../../../../../../models/arm/geographic/road-object-event-record.model';
+import { PagedList } from '../../../../../../models/page-list.model';
+import { HowellResponse } from '../../../../../../models/response';
+import { ArmGeographicUrl } from '../../../../../../urls/arm/geographic/geographic.url';
+import { HowellHttpClient } from '../../../../../howell-http.client';
+import { HowellResponseProcess } from '../../../../../service-process';
+import { GetRoadObjectsParams } from '../geographic-road-object.params';
+import { RoadObjectEventConfirmation } from './geographic-road-object-event.params';
+
+export class ArmGeographicRoadObjectEventRequestService {
+  constructor(private http: HowellHttpClient) {}
+
+  async get(id: string) {
+    let url = ArmGeographicUrl.road.object.item(id);
+    return this.http
+      .get<HowellResponse<RoadObjectEventRecord>>(url)
+      .then((x) => {
+        return HowellResponseProcess.item(x, RoadObjectEventRecord);
+      });
+  }
+
+  async list(params: GetRoadObjectsParams) {
+    let url = ArmGeographicUrl.road.object.list();
+    let plain = instanceToPlain(params);
+    return this.http
+      .post<HowellResponse<PagedList<RoadObjectEventRecord>>, any>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.paged(x, RoadObjectEventRecord);
+      });
+  }
+
+  confirmed(params: RoadObjectEventConfirmation) {
+    let url = ArmGeographicUrl.road.object.event().confirmed(params.Id);
+    let plain = instanceToPlain(params);
+    return this.http
+      .post<HowellResponse<RoadObjectEventRecord>, any>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, RoadObjectEventRecord);
+      });
+  }
+}
