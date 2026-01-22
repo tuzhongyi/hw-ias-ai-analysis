@@ -4,8 +4,8 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 import { IASMapAMapConfig } from '../../../../../../share/map/controller/amap/ias-map-amap.config';
 import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
-import { IASMapAMapMarkerLabelController } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker-label.controller';
 import { IASMapAMapMarkerEvent } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
+import { IASMapAMapMarkerLabelController } from '../../../../../../share/map/controller/amap/shop/marker/ias-map-amap-shop-marker-label.controller';
 
 export class SystemMainMapAMapShopMarkerLayerController {
   event = new IASMapAMapMarkerEvent();

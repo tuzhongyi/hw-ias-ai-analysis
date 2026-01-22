@@ -58,11 +58,11 @@ export class Time {
   }
 
   toDate() {
-    // let date = new Date(
-    //   this.hour * 60 * 60 * 1000 + this.minute * 60 * 1000 + this.second * 1000
-    // );
-    let date = new Date();
-    date.setHours(this.hour, this.minute, this.second);
+    let date = new Date(
+      this.hour * 60 * 60 * 1000 + this.minute * 60 * 1000 + this.second * 1000
+    );
+    // let date = new Date();
+    // date.setHours(this.hour, this.minute, this.second);
     return date;
   }
   toString() {

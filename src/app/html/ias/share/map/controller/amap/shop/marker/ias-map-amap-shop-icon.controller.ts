@@ -1,6 +1,6 @@
-import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
-import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
-import { MapMarkerShopColor, MapMarkerType } from '../../../ias-map.model';
+import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
+import { MapMarkerShopColor, MapMarkerType } from '../../../../ias-map.model';
 
 export class IASMapAMapIconController {
   private type = MapMarkerType.other;

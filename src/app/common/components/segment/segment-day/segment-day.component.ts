@@ -80,9 +80,21 @@ export class SegmentDayComponent implements OnChanges {
       return data;
     },
     from: (data: TimeSegment) => {
+      let start = new Date();
+      start.setHours(
+        data.StartTime.hour,
+        data.StartTime.minute,
+        data.StartTime.second
+      );
+      let stop = new Date();
+      stop.setHours(
+        data.StopTime.hour,
+        data.StopTime.minute,
+        data.StopTime.second
+      );
       let model: SegmentTimeModel = {
-        StartTime: new TimeModel(data.StartTime.toDate()),
-        StopTime: new TimeModel(data.StopTime.toDate()),
+        StartTime: new TimeModel(start),
+        StopTime: new TimeModel(stop),
       };
       return model;
     },

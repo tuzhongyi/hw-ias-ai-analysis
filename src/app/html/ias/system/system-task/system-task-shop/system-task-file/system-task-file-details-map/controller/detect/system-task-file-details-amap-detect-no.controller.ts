@@ -1,4 +1,4 @@
-import { IASMapAMapPointDisappearedController } from '../../../../../../../share/map/controller/amap/point/ias-map-amap-point-disappeared.controller';
+import { IASMapAMapPointDisappearedController } from '../../../../../../../share/map/controller/amap/shop/point/ias-map-amap-shop-point-disappeared.controller';
 
 export class SystemTaskFileDetailsAMapUndetectedController extends IASMapAMapPointDisappearedController {
   constructor(container: Loca.Container) {

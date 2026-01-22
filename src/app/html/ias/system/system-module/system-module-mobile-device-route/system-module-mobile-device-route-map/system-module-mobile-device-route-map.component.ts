@@ -76,7 +76,9 @@ export class SystemModuleMobileDeviceRouteMapComponent
     },
     device: (args: SystemModuleMobileDeviceRouteArgs) => {
       this.business.device(args.deviceId).then((x) => {
-        this.controller.device.load(x);
+        this.controller.device.clear().then(() => {
+          this.controller.device.load(x);
+        });
       });
     },
   };

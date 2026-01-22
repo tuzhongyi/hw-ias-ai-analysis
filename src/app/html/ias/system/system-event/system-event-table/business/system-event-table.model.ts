@@ -15,6 +15,8 @@ export interface ISystemEventTableArgs {
   handle?: boolean;
   misinform?: boolean;
   timeout?: boolean;
+  division?: string;
+  gridcell?: string;
 }
 
 export class SystemEventTableArgs implements ISystemEventTableArgs {
@@ -29,6 +31,8 @@ export class SystemEventTableArgs implements ISystemEventTableArgs {
   handle?: boolean;
   misinform?: boolean;
   timeout?: boolean;
+  division?: string;
+  gridcell?: string;
 }
 
 export class SystemEventTableFilter implements ISystemEventTableArgs {
@@ -43,6 +47,8 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
   handle?: boolean;
   misinform?: boolean;
   timeout?: boolean;
+  division?: string;
+  gridcell?: string;
   asc?: string;
   desc?: string = 'EventTime';
   static from(args: ISystemEventTableArgs) {
@@ -57,6 +63,8 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
     filter.handle = args.handle;
     filter.misinform = args.misinform;
     filter.timeout = args.timeout;
+    filter.division = args.division;
+    filter.gridcell = args.gridcell;
     return filter;
   }
 }
@@ -65,6 +73,8 @@ export class SystemEventTableItem extends MobileEventRecord {
   EventTypeName!: Promise<string>;
   EmergencyTypeName!: Promise<string>;
   ResourceName?: string;
+  GridCellName?: Promise<string>;
+  DivisionName?: Promise<string>;
 }
 
 interface SystemEventTableArgsType {

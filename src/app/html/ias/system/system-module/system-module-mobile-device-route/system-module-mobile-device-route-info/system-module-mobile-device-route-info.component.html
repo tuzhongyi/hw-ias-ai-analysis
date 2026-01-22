@@ -14,8 +14,9 @@
       <div class="statistic-item-name">覆盖率</div>
       <div class="statistic-item-content">
         <div class="statistic-item-content-value">
-          {{ data.CoveragePercent }}%
+          {{ data.CoveragePercent }}
         </div>
+        <div class="statistic-item-content-unit">%</div>
       </div>
     </div>
   </div>
@@ -32,7 +33,9 @@
     <div class="statistic-item">
       <div class="statistic-item-name">行驶时长</div>
       <div class="statistic-item-content">
-        <div class="statistic-item-content-value">{{ data.MovingTime }}</div>
+        <div class="statistic-item-content-value">
+          {{ data.MovingTime || "-" }}
+        </div>
       </div>
     </div>
   </div>
@@ -41,7 +44,7 @@
       <div class="statistic-item-name">停留时长</div>
       <div class="statistic-item-content">
         <div class="statistic-item-content-value">
-          {{ data.StayTime }}
+          {{ data.StayTime || "-" }}
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { RoadObject } from '../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import { GlobalStorage } from '../../../../../common/storage/global.storage';
@@ -101,6 +102,7 @@ export class SystemMainManagerComponent implements OnInit {
       this.init.device();
       this.init.realtime();
       this.init.sample();
+      this.init.road.object();
       this.panel.navigation.change(SyatemMainMapNavigation.main, true);
     });
   }
@@ -117,6 +119,11 @@ export class SystemMainManagerComponent implements OnInit {
     },
     sample: () => {
       this.gps.task.load();
+    },
+    road: {
+      object: () => {
+        this.road.object.load();
+      },
     },
   };
 
@@ -245,6 +252,18 @@ export class SystemMainManagerComponent implements OnInit {
 
         this.window.video.record.data = data;
         this.window.video.record.show = true;
+      },
+    },
+  };
+
+  road = {
+    object: {
+      datas: [] as RoadObject[],
+      load: () => {
+        this.business.road.object.load().then((x) => {
+          this.road.object.datas = x;
+          this.map.data.road.object = x;
+        });
       },
     },
   };

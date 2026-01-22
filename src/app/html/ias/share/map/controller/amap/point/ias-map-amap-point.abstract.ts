@@ -7,7 +7,7 @@ export abstract class IASMapAMapPointAbstract {
   event = {
     move: new EventEmitter<ILocation | undefined>(),
   };
-  protected abstract style: {
+  protected abstract get style(): {
     radius: number;
     unit: string;
     color: string;

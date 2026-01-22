@@ -6,6 +6,7 @@ import { HowellSelectComponent } from '../../../../../../common/components/hw-se
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { WindowComponent } from '../../../../share/window/component/window.component';
+import { SystemModuleRoadObjectDetailsManagerComponent } from '../system-module-road-object-details/system-module-road-object-details-manager/system-module-road-object-details-manager.component';
 import { SystemModuleRoadObjectMapComponent } from '../system-module-road-object-map/system-module-road-object-map.component';
 import { SystemModuleRoadObjectTableComponent } from '../system-module-road-object-table/system-module-road-object-table.component';
 import { SystemModuleRoadObjectTableArgs } from '../system-module-road-object-table/system-module-road-object-table.model';
@@ -21,6 +22,7 @@ import { SystemModuleRoadObjectManagerWindow } from './window/system-module-road
     HowellSelectComponent,
     SystemModuleRoadObjectTableComponent,
     SystemModuleRoadObjectMapComponent,
+    SystemModuleRoadObjectDetailsManagerComponent,
     WindowComponent,
     WindowConfirmComponent,
   ],
@@ -57,7 +59,22 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
       load: (x: RoadObject[]) => {
         this.table.datas = x;
       },
+      select: (data: RoadObject) => {},
+
+      item: {
+        over: (item: RoadObject) => {
+          this.map.over.emit(item);
+        },
+        out: (item: RoadObject) => {
+          this.map.out.emit(item);
+        },
+      },
     },
+  };
+
+  map = {
+    over: new EventEmitter<RoadObject>(),
+    out: new EventEmitter<RoadObject>(),
   };
 
   delete = {

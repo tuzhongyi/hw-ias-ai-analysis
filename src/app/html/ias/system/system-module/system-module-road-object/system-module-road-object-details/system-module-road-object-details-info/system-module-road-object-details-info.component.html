@@ -1,0 +1,180 @@
+<div class="system-module-road-object-details-info">
+  <div class="forms">
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>物件名称</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <input type="text" [(ngModel)]="data.Name" [disabled]="!operable" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>物件类型</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <select [(ngModel)]="data.ObjectType" (change)="on.change()">
+          <ng-container *ngFor="let item of source.types">
+            @if(operable){
+            <option [ngValue]="item.Value">
+              {{ item.Name }}
+            </option>
+            } @else{
+            <option
+              [ngValue]="item.Value"
+              *ngIf="item.Value == data.ObjectType"
+            >
+              {{ item.Name }}
+            </option>
+            }
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>物件分类</div>
+      </div>
+      <div class="form-item-value fill">
+        <input
+          type="number"
+          min="0"
+          wheel-input-number
+          [(ngModel)]="data.Category"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>物件状态</div>
+      </div>
+      <div class="form-item-value fill">
+        <select [(ngModel)]="data.ObjectState" (change)="on.change()">
+          <ng-container *ngFor="let item of source.states">
+            @if(operable){
+            <option [ngValue]="item.Value">
+              {{ item.Name }}
+            </option>
+            } @else{
+            <option
+              [ngValue]="item.Value"
+              *ngIf="item.Value == data.ObjectState"
+            >
+              {{ item.Name }}
+            </option>
+            }
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>连续消失次数</div>
+      </div>
+      <div class="form-item-value fill">
+        <input
+          type="number"
+          min="1"
+          wheel-input-number
+          [(ngModel)]="data.DisappearTimes"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>行政区划</div>
+      </div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="data.DivisionId" [nullable]="false">
+          <select [(ngModel)]="data.DivisionId" (change)="on.change()">
+            <ng-container *ngFor="let item of source.divisions">
+              @if(operable){
+              <option [ngValue]="item.Id">
+                {{ item.Name }}
+              </option>
+              } @else{
+              <option [ngValue]="item.Id" *ngIf="item.Id == data.DivisionId">
+                {{ item.Name }}
+              </option>
+              }
+            </ng-container>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>输入坐标系</div>
+      </div>
+      <div class="form-item-value fill">
+        <select
+          [(ngModel)]="location.type.value"
+          (change)="location.type.change()"
+        >
+          <option [ngValue]="GisType.WGS84">WGS84</option>
+          <option [ngValue]="GisType.GCJ02">GCJ02</option>
+          <option [ngValue]="GisType.BD09">BD09</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>责任网格</div>
+      </div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="data.GridCellId" [nullable]="false">
+          <select [(ngModel)]="data.GridCellId" (change)="on.change()">
+            <ng-container *ngFor="let item of source.gridcells">
+              @if(operable){
+              <option [ngValue]="item.Id">
+                {{ item.Name }}
+              </option>
+              } @else{
+              <option [ngValue]="item.Id" *ngIf="item.Id == data.GridCellId">
+                {{ item.Name }}
+              </option>
+              }
+            </ng-container>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item full">
+      <div class="form-item-text">
+        <div class="name" text-space-between>坐标</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <input
+          type="text"
+          [(ngModel)]="location.value"
+          (input)="location.set()"
+          [readOnly]="!operable"
+        />
+      </div>
+    </div>
+
+    <div class="form-item full">
+      <div class="form-item-text">
+        <div class="name" text-space-between>地址</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <input type="text" [(ngModel)]="data.Address" />
+      </div>
+    </div>
+  </div>
+  <div class="forms textarea">
+    <div class="form-item textarea full">
+      <div class="form-item-text baseline textarea">
+        <div class="name" text-space-between>描述信息</div>
+      </div>
+      <div class="form-item-value">
+        <textarea [(ngModel)]="data.Description"></textarea>
+      </div>
+    </div>
+  </div>
+</div>

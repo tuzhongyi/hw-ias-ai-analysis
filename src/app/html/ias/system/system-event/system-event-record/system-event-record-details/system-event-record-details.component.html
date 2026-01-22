@@ -20,7 +20,7 @@
       <div class="form-item-text" text-space-between [suffix]="':'">
         事件类型
       </div>
-      <div class="form-item-value">{{ language.event }}</div>
+      <div class="form-item-value important">{{ language.event }}</div>
     </div>
 
     <div class="form-item">
@@ -43,7 +43,7 @@
       <div class="form-item-text baseline" text-space-between [suffix]="':'">
         描述内容
       </div>
-      <div class="form-item-value">{{ data.Description }}</div>
+      <div class="form-item-value important">{{ data.Description }}</div>
     </div>
 
     <div class="form-item" *ngIf="!data.Assignment || !data.Assignment.Handled">

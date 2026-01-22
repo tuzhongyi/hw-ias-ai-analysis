@@ -29,4 +29,8 @@ export class SizeMapTool {
       height: 60 * 0.5,
     },
   };
+  object = {
+    width: 76 * 0.7,
+    height: 86 * 0.7,
+  };
 }

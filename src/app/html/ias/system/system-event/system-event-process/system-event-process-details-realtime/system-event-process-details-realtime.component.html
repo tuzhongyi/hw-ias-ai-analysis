@@ -1,0 +1,27 @@
+<div class="system-event-process-details-realtime">
+  <div class="system-event-process-details-realtime-column">
+    <div class="system-event-process-details-realtime-picture panel">
+      <howell-container-page
+        [page]="record.picture.page.data"
+        (pageChange)="record.picture.page.change($event)"
+      >
+        <ias-picture-polygon-multiple
+          [id]="record.picture.src"
+          [polygon]="record.picture.polygon"
+        ></ias-picture-polygon-multiple>
+      </howell-container-page>
+    </div>
+    <div class="system-event-process-details-realtime-info panel">
+      <ias-system-event-record-details
+        [data]="data"
+      ></ias-system-event-record-details>
+    </div>
+  </div>
+  <div class="system-event-process-details-realtime-map panel">
+    <ias-map
+      [location]="data?.Location?.GCJ02"
+      [marker]="map.marker"
+      [points]="map.point ? [map.point] : []"
+    ></ias-map>
+  </div>
+</div>

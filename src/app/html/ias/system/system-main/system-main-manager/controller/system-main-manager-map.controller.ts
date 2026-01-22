@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { ILocation } from '../../../../../../common/data-core/models/model.interface';
@@ -25,18 +26,24 @@ export class SystemMainManagerMapController {
     realtime: MobileEventRecord[];
     timeout: MobileEventRecord[];
     sample: GpsTaskSampleRecord[];
+    road: {
+      object: RoadObject[];
+    };
   };
   private source = {
     shop: [] as ShopRegistration[],
   };
 
   display = {
-    shop: true,
+    shop: false,
     device: true,
     realtime: true,
     timeout: true,
     sample: true,
     heatmap: false,
+    road: {
+      object: false,
+    },
   };
 
   constructor(private that: SystemMainManagerComponent) {
@@ -51,6 +58,9 @@ export class SystemMainManagerMapController {
         sample: [],
         realtime: [],
         timeout: [],
+        road: {
+          object: [],
+        },
       };
     },
   };

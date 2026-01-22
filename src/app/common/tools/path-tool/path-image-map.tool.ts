@@ -54,4 +54,10 @@ export class PathImageMapTool {
       offline: '/assets/image/map/marker/marker-device-mobile-offline.png',
     },
   };
+  object = {
+    busstation: '/assets/image/map/marker/marker-bus-station.png',
+    firehydrant: '/assets/image/map/marker/marker-fire-hydrant.png',
+    passage: '/assets/image/map/marker/marker-passage.png',
+    trashcan: '/assets/image/map/marker/marker-trash-can.png',
+  };
 }

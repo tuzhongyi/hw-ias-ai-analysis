@@ -58,16 +58,18 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
   constructor(private business: SystemEventTableBusiness) {}
 
   widths = [
+    '4%',
+    '8%',
+    '5%',
+    'auto',
+    'auto',
+    '7%',
+    '10%',
     '5%',
     '10%',
-    '7%',
-    '7%',
+    '5%',
     '10%',
-    '7%',
-    '10%',
-    '7%',
-    '10%',
-    '10%',
+    '5%',
     'auto',
     '10%',
   ];

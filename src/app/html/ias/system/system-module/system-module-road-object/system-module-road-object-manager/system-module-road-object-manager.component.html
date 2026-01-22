@@ -42,6 +42,12 @@
           </div>
         </div>
         <div class="form-item">
+          <div class="form-item-text">地址</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="table.args.address" />
+          </div>
+        </div>
+        <div class="form-item">
           <button class="button-clip-gradient" (click)="search()">查找</button>
         </div>
       </div>
@@ -65,13 +71,39 @@
         (loaded)="table.on.load($event)"
         (delete)="delete.confirm($event)"
         (modify)="window.details.open($event)"
+        (itemover)="table.on.item.over($event)"
+        (itemout)="table.on.item.out($event)"
       ></ias-system-module-road-object-table>
     </div>
     <div class="system-module-road-object-manager-body-map">
-      <!-- <ias-system-module-road-object-map
+      <ias-system-module-road-object-map
         [datas]="table.datas"
         [selected]="table.selected"
-      ></ias-system-module-road-object-map> -->
+        [itemover]="map.over"
+        [itemout]="map.out"
+        (itemdblclick)="window.details.open($event)"
+      ></ias-system-module-road-object-map>
     </div>
   </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="delete.ok()"
+    (cancel)="delete.cancel()"
+  >
+  </confirm-window>
+  <ias-window
+    [Model]="window.details"
+    *ngIf="window.details.show"
+    [style]="window.details.style"
+    [title]="window.details.title"
+  >
+    <ias-system-module-road-object-details-manager
+      [data]="window.details.data"
+      (ok)="search()"
+      (close)="window.details.show = false"
+    ></ias-system-module-road-object-details-manager>
+  </ias-window>
 </div>

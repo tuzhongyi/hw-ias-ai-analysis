@@ -5,77 +5,87 @@
   <div class="system-event-manager-realtime-head">
     <div class="system-event-manager-realtime-head-filter">
       <div class="forms">
-        <div class="form-item duration">
+        <div class="form-item">
           <div class="form-item-text">开始时间</div>
-          <div class="form-item-value">
+          <div class="form-item-value fill">
             <date-time-control
               [(date)]="table.args.duration.begin"
               [zindex]="iswindow ? 9000 : 10"
             ></date-time-control>
           </div>
         </div>
-        <div class="form-item duration">
+        <div class="form-item">
           <div class="form-item-text">结束时间</div>
-          <div class="form-item-value">
+          <div class="form-item-value fill">
             <date-time-control
               [(date)]="table.args.duration.end"
               [zindex]="iswindow ? 9000 : 10"
             ></date-time-control>
           </div>
         </div>
+
         <div class="form-item">
           <div class="form-item-text">事件类型</div>
-          <div class="form-item-value">
-            <select [(ngModel)]="table.args.type">
-              <option [ngValue]="undefined">全部</option>
-              <option
-                [ngValue]="item.Value"
-                *ngFor="let item of source.type | async"
-              >
-                {{ item.Name }}
-              </option>
-            </select>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.type"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.type">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.type | async"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
           </div>
         </div>
         <div class="form-item">
           <div class="form-item-text">是否确认</div>
-          <div class="form-item-value">
-            <select [(ngModel)]="table.args.confirmed">
-              <option [ngValue]="true">已确认</option>
-              <option [ngValue]="undefined">未确认</option>
-            </select>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.confirmed"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.confirmed">
+                <option [ngValue]="true">已确认</option>
+                <option [ngValue]="false">未确认</option>
+              </select>
+            </hw-select>
           </div>
         </div>
 
         <div class="form-item">
           <div class="form-item-text">处置状态</div>
-          <div class="form-item-value">
-            <select [(ngModel)]="table.args.handle">
-              <option [ngValue]="undefined">全部</option>
-              <option [ngValue]="item.Value" *ngFor="let item of source.handle">
-                {{ item.Name }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="form-item">
-          <div class="form-item-text">是否误报</div>
-          <div class="form-item-value">
-            <select [(ngModel)]="table.args.misinform">
-              <option [ngValue]="undefined">全部</option>
-              <option
-                [ngValue]="item.Value"
-                *ngFor="let item of source.misinform"
-              >
-                {{ item.Name }}
-              </option>
-            </select>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.handle"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.handle">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.handle"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
           </div>
         </div>
         <div class="form-item">
           <div class="form-item-text">是否高频</div>
-          <div class="form-item-value select">
-            <hw-select [nullable]="true" [(selected)]="table.args.timeout">
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.timeout"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
               <select [(ngModel)]="table.args.timeout">
                 <option [ngValue]="true">是</option>
                 <option [ngValue]="false">否</option>
@@ -84,8 +94,58 @@
           </div>
         </div>
         <div class="form-item">
+          <div class="form-item-text">是否误报</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.misinform"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.misinform">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.misinform"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+
+        <div class="form-item division">
+          <div class="form-item-text">行政区划</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="table.args.division" [nullable]="true">
+              <select [(ngModel)]="table.args.division">
+                <option
+                  [ngValue]="item.key"
+                  *ngFor="let item of source.division | keyvalue"
+                >
+                  {{ item.value.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">责任网格</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="table.args.gridcell" [nullable]="true">
+              <select [(ngModel)]="table.args.gridcell">
+                <option
+                  [ngValue]="item.key"
+                  *ngFor="let item of source.gridcell | keyvalue"
+                >
+                  {{ item.value.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
           <div class="form-item-text">触发源名称</div>
-          <div class="form-item-value">
+          <div class="form-item-value fill">
             <input type="text" [(ngModel)]="table.args.resource" />
           </div>
         </div>
@@ -94,16 +154,16 @@
             查找
           </button>
         </div>
+        <div class="form-item other">
+          <button
+            class="button-clip-gradient"
+            (click)="window.map.show = true"
+            *ngIf="mapable"
+          >
+            地图
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="system-event-manager-shop-realtime-operation">
-      <button
-        class="button-clip-gradient"
-        (click)="window.map.show = true"
-        *ngIf="mapable"
-      >
-        地图
-      </button>
     </div>
   </div>
   <div class="system-event-manager-realtime-body">
@@ -138,11 +198,11 @@
     [style]="window.details.style"
     [title]="window.details.title"
   >
-    <ias-system-event-process-details
+    <ias-system-event-process-details-realtime
       [data]="window.details.data"
       (cancel)="window.details.show = false"
       (picture)="picture.open($event)"
-    ></ias-system-event-process-details>
+    ></ias-system-event-process-details-realtime>
   </ias-window>
 
   <ias-window

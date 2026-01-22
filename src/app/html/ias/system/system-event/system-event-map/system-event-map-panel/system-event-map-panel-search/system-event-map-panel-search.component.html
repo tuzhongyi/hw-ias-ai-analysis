@@ -3,7 +3,10 @@
     <div class="form-item date">
       <div class="form-item-text">日期:</div>
       <div class="form-item-value">
-        <date-time-control [(date)]="args.date"></date-time-control>
+        <date-time-control
+          [(date)]="args.date"
+          [zindex]="10000"
+        ></date-time-control>
       </div>
     </div>
     <div class="form-item type">

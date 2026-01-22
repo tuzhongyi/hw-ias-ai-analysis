@@ -29,10 +29,11 @@ class TrashCanColor {
 
 export class ColorTool {
   static green = '#21e452';
-  static red = '#ff762c';
+  static red = '#f73d3d';
   static orange = '#ff762c';
   static cyan = '#00f5ff';
   static yellow = '#fde546';
+  static blue = '#1e90ff';
 
   static chart = new ColorChartTool();
   static canvas = new CanvasDrawColor();

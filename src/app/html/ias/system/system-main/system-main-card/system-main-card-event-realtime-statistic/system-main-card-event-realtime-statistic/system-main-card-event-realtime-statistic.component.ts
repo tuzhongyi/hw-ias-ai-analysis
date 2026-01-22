@@ -54,6 +54,55 @@ export class SystemMainCardEventRealtimeStatisticComponent
     '#ffd700',
     '#23e353',
   ];
+  style = {
+    statistic: {
+      gap: '20px',
+    },
+    info: {
+      flexWrap: '',
+      justifyContent: 'space-around',
+      transform: '',
+      width: '',
+      height: '',
+      item: {
+        height: '',
+      },
+    },
+    chart: {
+      width: '',
+    },
+
+    load: (count: number) => {
+      if (count > 12) {
+        this.style.statistic.gap = '0px';
+        this.style.info.flexWrap = 'wrap';
+        this.style.info.justifyContent = 'flex-start';
+        this.style.info.transform = `scale(0.8)  translate(-10%, -10%)`;
+        this.style.info.width = `calc((100% - ${this.style.statistic.gap}) * 0.6)`;
+        this.style.info.height = 'calc(120%)';
+        this.style.info.item.height = 'calc(100% / 8)';
+        this.style.chart.width = `calc((100% - ${this.style.statistic.gap}) * 0.4)`;
+      } else if (count > 8) {
+        this.style.statistic.gap = '20px';
+        this.style.info.flexWrap = '';
+        this.style.info.justifyContent = 'center';
+        this.style.info.transform = `scale(${8 / count})`;
+        this.style.info.width = `calc((100% - ${this.style.statistic.gap}) * 0.5)`;
+        this.style.info.height = '';
+        this.style.info.item.height = '';
+        this.style.chart.width = `calc((100% - ${this.style.statistic.gap}) * 0.5)`;
+      } else {
+        this.style.statistic.gap = '20px';
+        this.style.info.flexWrap = '';
+        this.style.info.justifyContent = 'space-around';
+        this.style.info.transform = '';
+        this.style.info.width = `calc((100% - ${this.style.statistic.gap}) * 0.5)`;
+        this.style.info.height = '';
+        this.style.info.item.height = '';
+        this.style.chart.width = `calc((100% - ${this.style.statistic.gap}) * 0.5)`;
+      }
+    },
+  };
 
   private subscription = new Subscription();
   ngOnInit(): void {
@@ -77,6 +126,7 @@ export class SystemMainCardEventRealtimeStatisticComponent
     this.business.load(this.duration).then((datas) => {
       this.color = datas.map((x) => `${ColorTool.get.index(x.id, 10)}`);
       this.datas = datas;
+      this.style.load(datas.length);
     });
   }
 

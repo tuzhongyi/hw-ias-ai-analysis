@@ -1,3 +1,4 @@
+import { Division } from '../../../../../../common/data-core/models/arm/division/division.model';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 
 export class SystemModuleRoadObjectTableArgs {
@@ -9,6 +10,9 @@ export class SystemModuleRoadObjectTableArgs {
   category?: number;
 }
 export class SystemModuleRoadObjectTableItem extends RoadObject {
-  ObjectTypeName = '';
-  ObjectStateNames = '';
+  Image?: string;
+  ObjectTypeName!: Promise<string>;
+  ObjectStateName!: Promise<string>;
+  Division?: Promise<Division>;
+  GridCell?: Promise<Division>;
 }

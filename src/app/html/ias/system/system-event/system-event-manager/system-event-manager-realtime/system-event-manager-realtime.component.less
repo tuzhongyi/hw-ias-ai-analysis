@@ -10,7 +10,7 @@
   display: block;
 
 
-  @head-height: 60px;
+  @head-height: calc(36px * 2 + 24px + 10px);
 
 
   &-head {
@@ -22,24 +22,29 @@
 
     &-filter {
       display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      flex-direction: column;
+
       gap: 10px;
 
 
       .form {
         &s {
-          gap: 12px;
+          flex-wrap: wrap;
+          justify-content: space-between;
         }
 
         &-item {
-          gap: 5px;
+          flex-grow: 1;
 
+          &.division {
+            min-width: 250px;
+          }
 
+          &.submit {
+            flex-grow: 0;
+          }
 
           &-value {
-
-
             &.select {
               display: block;
               height: 100%;
@@ -63,11 +68,11 @@
           }
 
           &.duration {
-            width: 215px;
+            width: auto;
           }
 
           &.state {
-            min-width: 375px;
+            min-width: auto;
           }
         }
       }
@@ -91,7 +96,7 @@
 
   &-body {
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - @head-height);
 
 
   }

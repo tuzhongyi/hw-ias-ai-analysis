@@ -1,9 +1,9 @@
 import { EventEmitter } from '@angular/core';
-import { ShopObjectState } from '../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { IASMapAMapPointCreatedController } from './ias-map-amap-point-created.controller';
-import { IASMapAMapPointDisappearedController } from './ias-map-amap-point-disappeared.controller';
-import { IASMapAMapPointExistedController } from './ias-map-amap-point-existed.controller';
+import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
+import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { IASMapAMapPointCreatedController } from './ias-map-amap-shop-point-created.controller';
+import { IASMapAMapPointDisappearedController } from './ias-map-amap-shop-point-disappeared.controller';
+import { IASMapAMapPointExistedController } from './ias-map-amap-shop-point-existed.controller';
 
 export class IASMapAMapPointLayerController {
   event = {

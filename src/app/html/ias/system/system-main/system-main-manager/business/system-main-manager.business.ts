@@ -5,6 +5,7 @@ import { ArmGeographicRequestService } from '../../../../../../common/data-core/
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
 import { SystemMainManagerDeviceBusiness } from './device/system-main-manager-device.business';
 import { SystemMainManagerMobileBusiness } from './mobile/system-main-manager-mobile.business';
+import { SystemMainManagerRoadObjectBusiness } from './road-object/system-main-manager-road-object.business';
 import { SystemMainManagerSampleeBusiness } from './sample/system-main-manager-sample.business';
 import { SystemMainManagerShopBusiness } from './shop/system-main-manager-shop.business';
 
@@ -14,6 +15,9 @@ export class SystemMainManagerBusiness {
   device: SystemMainManagerDeviceBusiness;
   mobile: SystemMainManagerMobileBusiness;
   sample: SystemMainManagerSampleeBusiness;
+  road: {
+    object: SystemMainManagerRoadObjectBusiness;
+  };
   constructor(
     system: ArmSystemRequestService,
     geo: ArmGeographicRequestService,
@@ -24,5 +28,8 @@ export class SystemMainManagerBusiness {
     this.device = new SystemMainManagerDeviceBusiness(system);
     this.mobile = new SystemMainManagerMobileBusiness(system, source);
     this.sample = new SystemMainManagerSampleeBusiness(analysis);
+    this.road = {
+      object: new SystemMainManagerRoadObjectBusiness(geo),
+    };
   }
 }

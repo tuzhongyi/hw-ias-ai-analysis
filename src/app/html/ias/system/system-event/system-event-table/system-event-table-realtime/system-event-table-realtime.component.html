@@ -16,6 +16,8 @@
           <th>照片</th>
 
           <th>触发方式</th>
+          <th>行政区划</th>
+          <th>责任网格</th>
           <th sort="EmergencyType">事件类型</th>
           <th sort="EventTime">发现时间</th>
           <th sort="Confirmed">确认状态</th>
@@ -63,6 +65,16 @@
           <td>
             @if(!!item){ @if(item.EventType=== EventType.EmergencyEvent) {
             手动触发 } @else{ 分析触发 } }
+          </td>
+          <td [title]="(item?.DivisionName | async) ?? ''">
+            @if(item){
+            {{ item.DivisionName | async }}
+            }
+          </td>
+          <td [title]="(item?.GridCellName | async) ?? ''">
+            @if(item){
+            {{ item.GridCellName | async }}
+            }
           </td>
           <td>
             @if(item?.EmergencyDescription){

@@ -1,0 +1,73 @@
+.system-module-road-object-details {
+  @foot-height: 36px;
+  @gap: 10px;
+
+  &-manager {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    gap: @gap;
+
+
+    &-body {
+      width: 100%;
+      height: calc(100% - @foot-height - @gap);
+      transition: all 0.5s;
+      display: flex;
+
+      gap: @gap;
+    }
+
+    &-foot {
+      height: @foot-height;
+      justify-content: flex-end;
+    }
+  }
+
+  &-medium {
+    width: calc((100% - @gap) * 0.5);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: @gap;
+  }
+
+  &-info {
+    width: calc((100% - @gap) * 0.5);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: @gap;
+
+    &-base {
+      height: calc(100% - @gap - 157px);
+
+      .panel-head {
+        height: 28px;
+      }
+
+      .panel-body {
+        height: calc(100% - 28px - 10px);
+      }
+    }
+
+    &-config {
+      height: max-content;
+    }
+  }
+
+  &-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  &-map {
+    flex-grow: 1;
+    padding: 0;
+    box-sizing: border-box;
+  }
+}

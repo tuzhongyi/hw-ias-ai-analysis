@@ -83,6 +83,13 @@ export class SystemEventTableService {
       params.TaskId = filter.taskId;
     }
 
+    if (filter.division) {
+      params.DivisionIds = [filter.division];
+    }
+    if (filter.gridcell) {
+      params.GridCellIds = [filter.gridcell];
+    }
+
     return this.service.event.list(params);
   }
 

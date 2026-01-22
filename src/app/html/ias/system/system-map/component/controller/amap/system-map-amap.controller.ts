@@ -8,8 +8,8 @@ import { IShop } from '../../../../../../../common/data-core/models/arm/analysis
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { IASMapAMapConfig } from '../../../../../share/map/controller/amap/ias-map-amap.config';
 import { IASMapAMapMarkerEvent } from '../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
-import { IASMapAMapPointLayerController } from '../../../../../share/map/controller/amap/point/ias-map-amap-point-layer.controller';
 import { IASMapAMapRoadController } from '../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
+import { IASMapAMapPointLayerController } from '../../../../../share/map/controller/amap/shop/point/ias-map-amap-shop-point-layer.controller';
 import {
   SystemAMapCircleEditorController,
   SystemAMapCircleEditorEvent,

@@ -8,8 +8,13 @@
         <thead>
           <tr>
             <th class="center">序号</th>
+            <th>图片</th>
             <th>名称</th>
             <th>类型</th>
+            <th>物件分类</th>
+            <th>行政区划</th>
+            <th>责任网格</th>
+            <th>健康度</th>
             <th>状态</th>
             <th class="center" *ngIf="operable">操作</th>
           </tr>
@@ -24,36 +29,66 @@
         <tbody>
           <tr
             *ngFor="let item of datas; let index = index"
-            (click)="onselect(item)"
+            (click)="on.select(item)"
             [ngClass]="{
               selected: item === selected
             }"
+            (dblclick)="on.position(item, $event)"
+            (mouseover)="on.mouse.over(item)"
+            (mouseout)="on.mouse.out(item)"
           >
             <td class="center">
               <div>{{ index + 1 }}</div>
+            </td>
+
+            <td>
+              <div *ngIf="item">
+                <div
+                  [ngClass]="{ noimage: !item?.Image }"
+                  class="image"
+                  [ngStyle]="{
+                    backgroundImage: item.Image
+                      ? 'url(' + item.Image + ')'
+                      : 'none'
+                  }"
+                  (click)="on.picture(item, $event)"
+                ></div>
+              </div>
             </td>
             <td [title]="item.Name">
               <div>{{ item.Name }}</div>
             </td>
             <td>
-              {{ item.ObjectTypeName }}
+              {{ item.ObjectTypeName | async }}
             </td>
-            <td [title]="item.ObjectStateNames">
-              {{ item.ObjectStateNames ? item.ObjectStateNames : "-" }}
+            <td>
+              {{ item.Category ?? "-" }}
+            </td>
+            <td [title]="(item.Division | async)?.Name ?? ''">
+              {{ (item.Division | async)?.Name ?? "-" }}
+            </td>
+            <td [title]="(item.GridCell | async)?.Name ?? ''">
+              {{ (item.GridCell | async)?.Name ?? "-" }}
+            </td>
+            <td>
+              {{ item.Health ?? "-" }}
+            </td>
+            <td [title]="item.ObjectStateName">
+              {{ (item.ObjectStateName | async) || "-" }}
             </td>
             <td class="center" *ngIf="operable">
               <div class="operation">
                 <div
                   class="button"
                   title="编辑"
-                  (click)="onmodify(item, $event)"
+                  (click)="on.modify(item, $event)"
                 >
                   <i class="howell-icon-modification"></i>
                 </div>
                 <div
                   class="button"
                   title="删除"
-                  (click)="ondelete(item, $event)"
+                  (click)="on.delete(item, $event)"
                 >
                   <i class="howell-icon-delete2"></i>
                 </div>

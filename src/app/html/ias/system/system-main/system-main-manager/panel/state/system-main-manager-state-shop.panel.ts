@@ -1,6 +1,6 @@
 import { SystemMainManagerComponent } from '../../system-main-manager.component';
 
 export class SystemMainManagerPanelStateShop {
-  show = true;
+  show = false;
   constructor(private that: SystemMainManagerComponent) {}
 }

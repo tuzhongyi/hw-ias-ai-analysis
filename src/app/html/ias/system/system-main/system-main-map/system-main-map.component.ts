@@ -12,10 +12,12 @@ import {
 import { Subscription } from 'rxjs';
 import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { RoadObject } from '../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { ILocation } from '../../../../../common/data-core/models/model.interface';
 import { Paged } from '../../../../../common/data-core/models/page-list.model';
+import { wait } from '../../../../../common/tools/wait';
 import { SystemMainMapBusiness } from './business/system-main-map.business';
 import { SystemMainMapController } from './controller/system-main-map.controller';
 
@@ -42,6 +44,8 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() realtimes: MobileEventRecord[] = [];
   @Input() timeouts: MobileEventRecord[] = [];
   @Input() samples: GpsTaskSampleRecord[] = [];
+  @Input() roadobjects: RoadObject[] = [];
+
   @Output() alarmvideo = new EventEmitter<MobileEventRecord>();
   @Output() alarmpicture = new EventEmitter<Paged<MobileEventRecord>>();
   @Input() heatmapload?: EventEmitter<ILocation[]>;
@@ -51,6 +55,7 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() realtimedisplay = true;
   @Input() timeoutdisplay = true;
   @Input() sampledisplay = true;
+  @Input() roadobjectdisplay = true;
 
   @Input() heatmaptext = true;
 
@@ -71,12 +76,15 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
     this.change.realtimes(changes['realtimes']);
     this.change.timeouts(changes['timeouts']);
     this.change.samples(changes['samples']);
+    this.change.roadobjects(changes['roadobjects']);
+
     this.change.display.shop(changes['shopdisplay']);
     this.change.display.device(changes['devicedisplay']);
     this.change.display.realtime(changes['realtimedisplay']);
     this.change.display.timeout(changes['timeoutdisplay']);
     this.change.display.sample(changes['sampledisplay']);
     this.change.display.heatmap(changes['heatmapdisplay']);
+    this.change.display.roadobject(changes['roadobjectdisplay']);
     this.change.heatmap.text(changes['heatmaptext']);
   }
   ngOnDestroy(): void {
@@ -109,50 +117,75 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         this.load.samples(this.samples);
       }
     },
+    roadobjects: (simple: SimpleChange) => {
+      if (simple && !simple.firstChange) {
+        this.load.roadobject(this.roadobjects);
+      }
+    },
     display: {
       shop: (simple: SimpleChange) => {
-        if (simple && !simple.firstChange) {
-          if (this.shopdisplay) {
-            this.controller.shop.reload();
-          } else {
-            this.controller.shop.clear();
-          }
+        if (simple) {
+          wait(() => {
+            return this.controller.shop.inited;
+          }).then(() => {
+            if (this.shopdisplay) {
+              this.controller.shop.reload();
+            } else {
+              this.controller.shop.clear();
+            }
+          });
         }
       },
       device: (simple: SimpleChange) => {
-        if (simple && !simple.firstChange) {
-          if (this.devicedisplay) {
-            this.controller.device.reload();
-          } else {
-            this.controller.device.clear();
-          }
+        if (simple) {
+          wait(() => {
+            return this.controller.device.inited;
+          }).then(() => {
+            if (this.devicedisplay) {
+              this.controller.device.reload();
+            } else {
+              this.controller.device.clear();
+            }
+          });
         }
       },
       realtime: (simple: SimpleChange) => {
-        if (simple && !simple.firstChange) {
-          if (this.realtimedisplay) {
-            this.controller.alarm.realtime.reload();
-          } else {
-            this.controller.alarm.realtime.clear();
-          }
+        if (simple) {
+          wait(() => {
+            return this.controller.alarm.realtime.inited;
+          }).then(() => {
+            if (this.realtimedisplay) {
+              this.controller.alarm.realtime.reload();
+            } else {
+              this.controller.alarm.realtime.clear();
+            }
+          });
         }
       },
       timeout: (simple: SimpleChange) => {
-        if (simple && !simple.firstChange) {
-          if (this.realtimedisplay) {
-            this.controller.alarm.timeout.reload();
-          } else {
-            this.controller.alarm.timeout.clear();
-          }
+        if (simple) {
+          wait(() => {
+            return this.controller.alarm.timeout.inited;
+          }).then(() => {
+            if (this.realtimedisplay) {
+              this.controller.alarm.timeout.reload();
+            } else {
+              this.controller.alarm.timeout.clear();
+            }
+          });
         }
       },
       sample: (simple: SimpleChange) => {
-        if (simple && !simple.firstChange) {
-          if (this.sampledisplay) {
-            this.controller.sample.reload();
-          } else {
-            this.controller.sample.clear();
-          }
+        if (simple) {
+          wait(() => {
+            return this.controller.sample.inited;
+          }).then(() => {
+            if (this.sampledisplay) {
+              this.controller.sample.reload();
+            } else {
+              this.controller.sample.clear();
+            }
+          });
         }
       },
       heatmap: (simple: SimpleChange) => {
@@ -162,6 +195,19 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
           } else {
             this.controller.heatmap.clear();
           }
+        }
+      },
+      roadobject: (simple: SimpleChange) => {
+        if (simple) {
+          wait(() => {
+            return this.controller.roadobject.inited;
+          }).then(() => {
+            if (this.roadobjectdisplay) {
+              this.controller.roadobject.reload();
+            } else {
+              this.controller.roadobject.clear();
+            }
+          });
         }
       },
     },
@@ -205,6 +251,9 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
       this.controller.sample.clear().then((x) => {
         this.controller.sample.load(datas);
       });
+    },
+    roadobject: (datas: RoadObject[]) => {
+      this.controller.roadobject.load(datas);
     },
   };
   private regist = {

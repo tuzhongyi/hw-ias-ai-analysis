@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import { ArmDivisionRequestService } from '../../../../../../common/data-core/requests/services/division/division.service';
 import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { GetRoadObjectsParams } from '../../../../../../common/data-core/requests/services/geographic/road/road-object/geographic-road-object.params';
+import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import {
   SystemModuleRoadObjectTableArgs,
   SystemModuleRoadObjectTableItem,
@@ -9,7 +12,12 @@ import {
 
 @Injectable()
 export class SystemModuleRoadObjectTableBusiness {
-  constructor(private service: ArmGeographicRequestService) {}
+  constructor(
+    private service: ArmGeographicRequestService,
+    private language: LanguageTool,
+    private division: ArmDivisionRequestService,
+    private medium: MediumRequestService
+  ) {}
 
   async load(args: SystemModuleRoadObjectTableArgs) {
     let datas = await this.data(args);
@@ -21,6 +29,21 @@ export class SystemModuleRoadObjectTableBusiness {
     let item = new SystemModuleRoadObjectTableItem();
     item = Object.assign(item, source);
 
+    item.ObjectTypeName = this.language.road.object.ObjectTypes(
+      item.ObjectType
+    );
+    item.ObjectStateName = this.language.road.object.ObjectStates(
+      item.ObjectState
+    );
+    if (item.DivisionId) {
+      item.Division = this.division.cache.get(item.DivisionId);
+    }
+    if (item.GridCellId) {
+      item.GridCell = this.division.cache.get(item.GridCellId);
+    }
+    if (item.ImageUrl) {
+      item.Image = this.medium.picture(item.ImageUrl);
+    }
     return item;
   }
 

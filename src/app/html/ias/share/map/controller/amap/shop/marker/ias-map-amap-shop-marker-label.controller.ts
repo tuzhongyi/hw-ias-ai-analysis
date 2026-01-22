@@ -1,6 +1,6 @@
-import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { SystemAMapShopIconController } from '../../../../../system/system-map/component/controller/amap/marker/system-map-amap-shop-icon.controller';
-import { IASMapAMapMarkerLabelAbstract } from './ias-map-amap-marker-label.abstract';
+import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
+import { SystemAMapShopIconController } from '../../../../../../system/system-map/component/controller/amap/marker/system-map-amap-shop-icon.controller';
+import { IASMapAMapMarkerLabelAbstract } from '../../marker/ias-map-amap-marker-label.abstract';
 
 export class IASMapAMapMarkerLabelController extends IASMapAMapMarkerLabelAbstract<IShop> {
   constructor(data: IShop) {

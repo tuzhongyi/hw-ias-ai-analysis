@@ -11,7 +11,7 @@ export class ObjectImageSamplingConfig implements IModel {
   /**	Double	方向，0-360度，0正北，顺时针	O	*/
   Course!: number;
   /**	Int32	采样方案	M	*/
-  SamplingPlan!: number;
+  SamplePlan!: number;
   /**
    *  Int32
    * 	巡查时间间隔，单位：天

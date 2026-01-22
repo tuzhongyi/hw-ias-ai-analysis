@@ -1,6 +1,6 @@
-import { ShopObjectState } from '../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
-import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
-import { IASMapAMapPointAbstract } from './ias-map-amap-point.abstract';
+import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
+import { ColorTool } from '../../../../../../../../common/tools/color/color.tool';
+import { IASMapAMapPointAbstract } from '../../point/ias-map-amap-point.abstract';
 
 export class IASMapAMapPointExistedController extends IASMapAMapPointAbstract {
   constructor(container: Loca.Container) {

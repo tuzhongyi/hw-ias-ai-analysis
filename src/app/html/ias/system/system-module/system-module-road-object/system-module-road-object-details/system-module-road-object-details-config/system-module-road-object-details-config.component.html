@@ -1,0 +1,82 @@
+<div class="system-module-road-object-details-info">
+  <div class="mask" *ngIf="!data.Enabled"></div>
+  <div class="forms">
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>采样方案</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="data.SamplePlan" [nullable]="false">
+          <select [(ngModel)]="data.SamplePlan" (change)="on.change()">
+            <ng-container *ngFor="let item of source.plans">
+              @if(operable){
+              <option [ngValue]="item.Value">
+                {{ item.Name }}
+              </option>
+              } @else{
+              <option
+                [ngValue]="item.Value"
+                *ngIf="item.Value == data.SamplePlan"
+              >
+                {{ item.Name }}
+              </option>
+              }
+            </ng-container>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>巡查时间间隔</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <input
+          type="number"
+          min="0"
+          max="365"
+          wheel-input-number
+          [(value)]="data.InspectionInterval"
+          [disabled]="!operable"
+          (change)="on.change()"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>开始距离</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <input
+          type="number"
+          min="0"
+          max="50"
+          wheel-input-number
+          [(value)]="data.Distance"
+          [disabled]="!operable"
+          (change)="on.change()"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>方向</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <input
+          type="number"
+          min="0"
+          max="360"
+          wheel-input-number
+          [(value)]="data.Course"
+          [disabled]="!operable"
+          (change)="on.change()"
+        />
+      </div>
+    </div>
+  </div>
+</div>

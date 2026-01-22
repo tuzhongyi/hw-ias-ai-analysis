@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
-import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
-import { IIASMapArgs } from '../../../ias-map.model';
-import { IASMapAMapIconController } from './ias-map-amap-icon.controller';
+import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
+import { IIASMapArgs } from '../../../../ias-map.model';
+import { IASMapAMapIconController } from './ias-map-amap-shop-icon.controller';
 
 export class IASMapAMapMarkerController {
   event = {

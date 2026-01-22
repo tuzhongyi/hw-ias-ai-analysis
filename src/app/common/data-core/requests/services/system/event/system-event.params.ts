@@ -28,6 +28,8 @@ export class GetMobileEventsParams extends PagedDurationParams {
   TaskId?: string;
   /**	String[]	区划列表	O */
   DivisionIds?: string[];
+  /**	String[]	网格列表	O */
+  GridCellIds?: string[];
   /**	Boolean	是否已确认	O */
   Confirmed?: boolean;
   /**	Boolean	是否为实时事件	O */

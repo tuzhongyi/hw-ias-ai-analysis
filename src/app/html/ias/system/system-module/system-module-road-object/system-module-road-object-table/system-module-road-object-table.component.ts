@@ -37,6 +37,11 @@ export class SystemModuleRoadObjectTableComponent
   @Output() loaded = new EventEmitter<RoadObject[]>();
   @Input() selected?: RoadObject;
   @Output() selectedChange = new EventEmitter<RoadObject>();
+  @Output() picture = new EventEmitter<RoadObject>();
+
+  @Output() position = new EventEmitter<RoadObject>();
+  @Output() itemover = new EventEmitter<RoadObject>();
+  @Output() itemout = new EventEmitter<RoadObject>();
 
   constructor(private business: SystemModuleRoadObjectTableBusiness) {}
 
@@ -83,26 +88,45 @@ export class SystemModuleRoadObjectTableComponent
       });
   }
 
-  onselect(item: SystemModuleRoadObjectTableItem) {
-    if (this.selected === item) {
-      this.selected = undefined;
-    } else {
-      this.selected = item;
-    }
-    this.selectedChange.emit(this.selected);
-  }
-
-  onmodify(item: SystemModuleRoadObjectTableItem, e: Event) {
-    this.modify.emit(item);
-    if (this.selected === item) {
-      e.stopPropagation();
-    }
-  }
-
-  ondelete(item: RoadObject, e: Event) {
-    this.delete.emit(item);
-    if (this.selected === item) {
-      e.stopPropagation();
-    }
-  }
+  on = {
+    picture: (item: RoadObject, e: Event) => {},
+    delete: (item: RoadObject, e: Event) => {
+      this.delete.emit(item);
+      if (this.selected === item) {
+        e.stopPropagation();
+      }
+    },
+    modify: (item: SystemModuleRoadObjectTableItem, e: Event) => {
+      this.modify.emit(item);
+      if (this.selected === item) {
+        e.stopPropagation();
+      }
+    },
+    select: (item: SystemModuleRoadObjectTableItem) => {
+      if (this.selected === item) {
+        this.selected = undefined;
+      } else {
+        this.selected = item;
+      }
+      this.selectedChange.emit(this.selected);
+    },
+    position: (item: SystemModuleRoadObjectTableItem, e: Event) => {
+      this.position.emit(item);
+      if (this.selected === item) {
+        e.stopImmediatePropagation();
+      }
+    },
+    mouse: {
+      over: (item?: SystemModuleRoadObjectTableItem) => {
+        if (item) {
+          this.itemover.emit(item);
+        }
+      },
+      out: (item?: SystemModuleRoadObjectTableItem) => {
+        if (item) {
+          this.itemout.emit(item);
+        }
+      },
+    },
+  };
 }

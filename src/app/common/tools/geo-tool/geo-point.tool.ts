@@ -1,3 +1,7 @@
+import {
+  GisPoint,
+  GisPoints,
+} from '../../data-core/models/arm/gis-point.model';
 import { GeoPointConvertTool } from './geo-point-convert.tool';
 import { GeoPointSortTool } from './geo-point-sort.tool';
 import { GeoPoint } from './geo.model';
@@ -75,6 +79,37 @@ export class GeoPointTool {
 
     return closestPoint;
   }
+
+  check(point?: [number, number]): boolean;
+  check(point?: GisPoint): boolean;
+  check(point?: GisPoints): boolean;
+  check(point?: [number, number] | GisPoint | GisPoints) {
+    if (!point) return false;
+    if (point instanceof GisPoint) {
+      return this._check.point(point);
+    }
+    if (point instanceof GisPoints) {
+      return this._check.points(point);
+    } else {
+      return this._check.position(point);
+    }
+  }
+
+  private _check = {
+    point: (point: GisPoint) => {
+      return !!point.Longitude && !!point.Latitude;
+    },
+    points: (point: GisPoints) => {
+      return (
+        this._check.point(point.WGS84) ||
+        this._check.point(point.GCJ02) ||
+        this._check.point(point.BD09)
+      );
+    },
+    position: (point: [number, number]) => {
+      return point[0] && point[1];
+    },
+  };
 
   // sort(
   //   points: GeoPoint[],

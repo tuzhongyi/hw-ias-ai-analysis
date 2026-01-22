@@ -1,7 +1,7 @@
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
 import { IIASMapArgs } from '../../../ias-map.model';
-import { IASMapAMapIconController } from './ias-map-amap-icon.controller';
+import { IASMapAMapIconController } from '../shop/marker/ias-map-amap-shop-icon.controller';
 
 export class IASMapAMapPointController {
   private icon = new IASMapAMapIconController();

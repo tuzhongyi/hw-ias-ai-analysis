@@ -26,6 +26,7 @@ export class SystemModuleMobileDeviceRouteInfoComponent
 
   constructor(private business: SystemModuleMobileDeviceRouteInfoBusiness) {}
   data?: ISystemModuleMobileDeviceRouteInfo;
+  JSON = JSON;
 
   private subscription = new Subscription();
   private regist() {

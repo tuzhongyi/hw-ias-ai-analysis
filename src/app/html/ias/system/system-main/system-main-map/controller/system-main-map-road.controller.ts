@@ -2,8 +2,10 @@ import { Road } from '../../../../../../common/data-core/models/arm/geographic/r
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapRoadController {
+  loaded = false;
+
   constructor(private amap: SystemMainMapAMapController) {}
-  private loaded = false;
+
   async load(datas: Road[]) {
     let road = await this.amap.road.get();
     road.load(datas);

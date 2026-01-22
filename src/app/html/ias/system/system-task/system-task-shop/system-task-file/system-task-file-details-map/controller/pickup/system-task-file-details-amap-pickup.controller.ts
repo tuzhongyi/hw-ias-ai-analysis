@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { IASMapAMapIconController } from '../../../../../../../share/map/controller/amap/marker/ias-map-amap-icon.controller';
+import { IASMapAMapIconController } from '../../../../../../../share/map/controller/amap/shop/marker/ias-map-amap-shop-icon.controller';
 import {
   MapMarkerShopColor,
   MapMarkerType,

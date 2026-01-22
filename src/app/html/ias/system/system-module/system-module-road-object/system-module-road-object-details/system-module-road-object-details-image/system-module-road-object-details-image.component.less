@@ -1,0 +1,44 @@
+.system-module-road-object-details-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .upload-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &:hover {
+    .image-zoom {
+      opacity: 1;
+    }
+  }
+
+  .image-zoom {
+    opacity: 0;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(45, 118, 206, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(45, 118, 206, 1);
+      color: white;
+    }
+  }
+}

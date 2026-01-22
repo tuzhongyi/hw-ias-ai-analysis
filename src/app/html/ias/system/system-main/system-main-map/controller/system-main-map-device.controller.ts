@@ -4,9 +4,11 @@ import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobi
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapDeviceController {
+  inited = false;
   event = {
     dblclick: new EventEmitter<MobileDevice>(),
   };
+
   constructor(
     private amap: SystemMainMapAMapController,
     subscription: Subscription
@@ -14,7 +16,8 @@ export class SystemMainMapDeviceController {
     this.regist(subscription);
   }
   private datas?: MobileDevice[];
-  private loaded = false;
+  loaded = false;
+
   private regist(subscription: Subscription) {
     let sub = this.amap.event.device.dblclick.subscribe((x) => {
       this.event.dblclick.emit(x);
@@ -26,12 +29,14 @@ export class SystemMainMapDeviceController {
     let marker = await this.amap.device.marker.get();
     marker.load(datas);
     this.loaded = true;
+    this.inited = true;
   }
   async clear() {
     let marker = await this.amap.device.marker.get();
     marker.clear();
     this.loaded = false;
   }
+
   reload() {
     if (this.loaded) return;
     if (this.datas) {
@@ -40,6 +45,7 @@ export class SystemMainMapDeviceController {
   }
   destory() {
     this.datas = undefined;
+    this.inited = false;
     return this.clear();
   }
   async focus(data: MobileDevice) {

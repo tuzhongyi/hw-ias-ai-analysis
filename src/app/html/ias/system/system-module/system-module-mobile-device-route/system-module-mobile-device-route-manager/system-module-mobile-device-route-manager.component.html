@@ -76,6 +76,7 @@
       </div>
       <div class="system-module-mobile-device-route-manager-body-map-foot">
         <howell-timeline
+          *ngIf="loaded"
           [datas]="timeline.datas"
           (change)="timeline.change($event)"
         ></howell-timeline>

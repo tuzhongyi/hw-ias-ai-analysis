@@ -5,12 +5,22 @@ import { Paged } from '../../../../../../common/data-core/models/page-list.model
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapAlarmRealtimeController {
+  inited = false;
+  event = {
+    video: new EventEmitter<MobileEventRecord>(),
+    picture: new EventEmitter<Paged<MobileEventRecord>>(),
+  };
+
   constructor(
     private amap: SystemMainMapAMapController,
     subscription: Subscription
   ) {
     this.regist(subscription);
   }
+
+  private datas?: MobileEventRecord[];
+  private loaded = false;
+
   private regist(subscription: Subscription) {
     let sub1 = this.amap.event.alarm.video.subscribe((x) => {
       this.event.video.emit(x);
@@ -21,12 +31,7 @@ export class SystemMainMapAlarmRealtimeController {
     });
     subscription.add(sub2);
   }
-  event = {
-    video: new EventEmitter<MobileEventRecord>(),
-    picture: new EventEmitter<Paged<MobileEventRecord>>(),
-  };
-  private datas?: MobileEventRecord[];
-  private loaded = false;
+
   async load(datas: MobileEventRecord[]) {
     this.datas = datas;
     let marker = await this.amap.alarm.realtime.marker.get();
@@ -34,6 +39,7 @@ export class SystemMainMapAlarmRealtimeController {
     let scatter = await this.amap.alarm.realtime.scatter.get();
     scatter.load(datas);
     this.loaded = true;
+    this.inited = true;
   }
   async clear() {
     let scatter = await this.amap.alarm.realtime.scatter.get();
@@ -52,6 +58,7 @@ export class SystemMainMapAlarmRealtimeController {
   }
   async destory() {
     this.datas = undefined;
+    this.inited = false;
     return this.clear();
   }
 

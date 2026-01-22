@@ -1,0 +1,63 @@
+<div class="system-module-road-object-details-manager">
+  <div class="system-module-road-object-details-manager-body">
+    <div class="system-module-road-object-details-medium">
+      <div class="system-module-road-object-details-image panel">
+        <ias-system-module-road-object-details-image
+          [url]="model.ImageUrl"
+          (upload)="image.upload($event)"
+        ></ias-system-module-road-object-details-image>
+      </div>
+      <div class="system-module-road-object-details-map panel">
+        <ias-system-module-road-object-details-map
+          [(position)]="map.gcj02"
+          (positionChange)="map.on.gcj02($event)"
+          [type]="map.type"
+        ></ias-system-module-road-object-details-map>
+      </div>
+    </div>
+    <div class="system-module-road-object-details-info">
+      <div class="system-module-road-object-details-info-base panel panel-flex">
+        <div class="panel-head">
+          <div class="panel-title">基本信息</div>
+        </div>
+        <div class="panel-body">
+          <ias-system-module-road-object-details-info
+            [data]="model"
+            (dataChange)="on.change($event)"
+            [(wgs84)]="map.wgs84"
+            (wgs84Change)="map.on.wgs84($event)"
+            [operable]="operable"
+          ></ias-system-module-road-object-details-info>
+        </div>
+      </div>
+      <div class="system-module-road-object-details-info-config panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <label for="image_sampling_enabled"
+              >目标图片采样配置
+              <input
+                type="checkbox"
+                id="image_sampling_enabled"
+                [(ngModel)]="model.ImageSampling.Enabled"
+            /></label>
+          </div>
+        </div>
+        <div class="panel-body">
+          <ias-system-module-road-object-details-config
+            [(data)]="model.ImageSampling"
+            [operable]="operable"
+          ></ias-system-module-road-object-details-config>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-road-object-details-manager-foot button-group">
+    <button class="button-clip-gradient" (click)="on.create()" *ngIf="!data">
+      确定
+    </button>
+    <button class="button-clip-gradient" (click)="on.update()" *ngIf="data">
+      确定
+    </button>
+    <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+  </div>
+</div>

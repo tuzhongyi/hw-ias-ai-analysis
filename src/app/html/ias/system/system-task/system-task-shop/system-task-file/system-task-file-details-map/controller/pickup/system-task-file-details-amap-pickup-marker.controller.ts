@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { PromiseValue } from '../../../../../../../../../common/view-models/value.promise';
-import { IASMapAMapIconController } from '../../../../../../../share/map/controller/amap/marker/ias-map-amap-icon.controller';
+import { IASMapAMapIconController } from '../../../../../../../share/map/controller/amap/shop/marker/ias-map-amap-shop-icon.controller';
 import { IIASMapArgs } from '../../../../../../../share/map/ias-map.model';
 
 export class SystemTaskFileDetailsAMapPickupMarkerController {

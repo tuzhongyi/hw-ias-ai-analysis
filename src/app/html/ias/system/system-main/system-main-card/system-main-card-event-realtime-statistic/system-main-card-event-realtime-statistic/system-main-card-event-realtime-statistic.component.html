@@ -10,8 +10,18 @@
       <option [ngValue]="unit.Type.year">今年</option>
     </select>
   </div>
-  <div class="system-main-card-event-realtime-statistic">
-    <div class="system-main-card-event-realtime-statistic-chart">
+  <div
+    class="system-main-card-event-realtime-statistic"
+    [ngStyle]="{
+      gap: style.statistic.gap
+    }"
+  >
+    <div
+      class="system-main-card-event-realtime-statistic-chart"
+      [ngStyle]="{
+        width: style.chart.width
+      }"
+    >
       <ias-system-main-card-event-realtime-statistic-chart
         *ngIf="datas.length > 0"
         [datas]="datas"
@@ -21,12 +31,18 @@
     <div
       class="system-main-card-event-realtime-statistic-info"
       [ngStyle]="{
-        transform: 'scale(' + (datas.length > 8 ? 8 / datas.length : 1) + ')',
-        justifyContent: datas.length > 8 ? 'center' : 'space-around'
+        transform: style.info.transform,
+        justifyContent: style.info.justifyContent,
+        flexWrap: style.info.flexWrap,
+        width: style.info.width,
+        height: style.info.height
       }"
     >
       <div
         class="system-main-card-event-realtime-statistic-info-item"
+        [ngStyle]="{
+          height: style.info.item.height,
+        }"
         *ngFor="let item of datas; let index = index"
         (click)="on.click(item)"
       >

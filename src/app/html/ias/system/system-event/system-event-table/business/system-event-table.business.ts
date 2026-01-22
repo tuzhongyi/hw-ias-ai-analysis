@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
+import { ArmDivisionRequestService } from '../../../../../../common/data-core/requests/services/division/division.service';
 import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
 import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
@@ -15,15 +16,24 @@ import { SystemEventTableService } from './system-event-table.service';
 export class SystemEventTableBusiness {
   constructor(
     public medium: MediumRequestService,
-    private service: SystemEventTableService,
-    private language: LanguageTool
-  ) {}
+
+    private language: LanguageTool,
+    table: SystemEventTableService,
+    division: ArmDivisionRequestService
+  ) {
+    this.service = { table, division };
+  }
+
+  private service: {
+    table: SystemEventTableService;
+    division: ArmDivisionRequestService;
+  };
 
   async load(index: number, size: number, filter: SystemEventTableFilter) {
-    let datas = await this.service.load(index, size, filter);
+    let datas = await this.service.table.load(index, size, filter);
 
     if (datas.Page.PageCount > 0 && datas.Page.PageCount < index) {
-      datas = await this.service.load(datas.Page.PageCount, size, filter);
+      datas = await this.service.table.load(datas.Page.PageCount, size, filter);
     }
 
     let paged = new PagedList<SystemEventTableItem>();
@@ -48,6 +58,17 @@ export class SystemEventTableBusiness {
     }
     data.ResourceName =
       source.Resources?.map((x) => x.ResourceName).join('\n') ?? '';
+
+    if (source.DivisionId) {
+      data.DivisionName = this.service.division.cache
+        .get(source.DivisionId)
+        .then((x) => x.Name);
+    }
+    if (source.GridCellId) {
+      data.GridCellName = this.service.division.cache
+        .get(source.GridCellId)
+        .then((x) => x.Name);
+    }
 
     return data;
   }

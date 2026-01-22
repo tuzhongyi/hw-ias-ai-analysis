@@ -28,7 +28,7 @@ import { LanguageTool } from '../../../../../../common/tools/language-tool/langu
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventMapManagerComponent } from '../../system-event-map/system-event-map-manager/system-event-map-manager.component';
-import { SystemEventProcessDetailsComponent } from '../../system-event-process/system-event-process-details/system-event-process-details.component';
+import { SystemEventProcessDetailsRealtimeComponent } from '../../system-event-process/system-event-process-details-realtime/system-event-process-details-realtime.component';
 import { SystemEventProcessRealtimeComponent } from '../../system-event-process/system-event-process-realtime/system-event-process-realtime.component';
 import { SystemEventTableArgs } from '../../system-event-table/business/system-event-table.model';
 import { SystemEventTableRealtimeComponent } from '../../system-event-table/system-event-table-realtime/system-event-table-realtime.component';
@@ -51,7 +51,7 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
     WindowConfirmComponent,
     HowellSelectComponent,
     PictureListComponent,
-    SystemEventProcessDetailsComponent,
+    SystemEventProcessDetailsRealtimeComponent,
     SystemEventProcessRealtimeComponent,
     SystemEventMapManagerComponent,
   ],

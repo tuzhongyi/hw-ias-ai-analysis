@@ -6,14 +6,17 @@ import { ComponentTool } from '../../../../../../../common/tools/component-tool/
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
 import { IASMapAMapInfoController } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
-import { IASMapAMapPointLayerController } from '../../../../../share/map/controller/amap/point/ias-map-amap-point-layer.controller';
 import { IASMapAMapRoadController } from '../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
+import { IASMapAMapPointLayerController } from '../../../../../share/map/controller/amap/shop/point/ias-map-amap-shop-point-layer.controller';
 import { SystemMainMapAMapDeviceMarkerLayerController } from './device/system-main-map-amap-device-marker-layer.controller';
 
 import { Subscription } from 'rxjs';
 import { GpsTaskSampleRecord } from '../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
+import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { MobileDevice } from '../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { Paged } from '../../../../../../../common/data-core/models/page-list.model';
+import { IASMapAMapRoadObjectMarkerLayerController } from '../../../../../share/map/controller/amap/road-object/marker/ias-map-amap-road-object-marker-layer.controller';
+import { IASMapAMapRoadObjectPointLayerController } from '../../../../../share/map/controller/amap/road-object/point/ias-map-amap-road-object-point-layer.controller';
 import { SystemMainMapAMapAlarmInfoController } from './alarm/system-main-map-amap-alarm-info.controller';
 import { SystemMainMapAMapAlarmMarkerLayerController } from './alarm/system-main-map-amap-alarm-marker-layer.controller';
 import { SystemMainMapAMapAlarmScatterController } from './alarm/system-main-map-amap-alarm-scatter.controller';
@@ -41,6 +44,9 @@ export class SystemMainMapAMapController {
   get heatmap() {
     return this.controller.heatmap;
   }
+  get roadobject() {
+    return this.controller.roadobject;
+  }
   map = new PromiseValue<AMap.Map>();
   event = {
     shop: {
@@ -56,6 +62,12 @@ export class SystemMainMapAMapController {
     },
     device: {
       dblclick: new EventEmitter<MobileDevice>(),
+    },
+    road: {
+      object: {
+        click: new EventEmitter<RoadObject>(),
+        dblclick: new EventEmitter<RoadObject>(),
+      },
     },
   };
 
@@ -92,6 +104,9 @@ export class SystemMainMapAMapController {
 
         this.init.sample.scatter(container);
         this.init.sample.marker(map, info);
+
+        this.init.roadobject.point(container);
+        this.init.roadobject.marker(map, info);
       });
   }
   private loca = new PromiseValue<Loca.Container>();
@@ -123,6 +138,10 @@ export class SystemMainMapAMapController {
     road: new PromiseValue<IASMapAMapRoadController>(),
     info: new PromiseValue<IASMapAMapInfoController>(),
     heatmap: new PromiseValue<SystemMainMapAMapHeatmapController>(),
+    roadobject: {
+      point: new PromiseValue<IASMapAMapRoadObjectPointLayerController>(),
+      marker: new PromiseValue<IASMapAMapRoadObjectMarkerLayerController>(),
+    },
   };
 
   private init = {
@@ -134,7 +153,7 @@ export class SystemMainMapAMapController {
       point: (loca: Loca.Container) => {
         let ctr = new IASMapAMapPointLayerController(loca);
         let sub = ctr.event.move.subscribe((data) => {
-          this.regist.point.over(data as IShop);
+          this.regist.shop.point.over(data as IShop);
         });
         this.subscription.add(sub);
         this.controller.shop.point.set(ctr);
@@ -270,7 +289,32 @@ export class SystemMainMapAMapController {
         this.controller.sample.marker.set(ctr);
       },
     },
-
+    roadobject: {
+      point: (loca: Loca.Container) => {
+        let ctr = new IASMapAMapRoadObjectPointLayerController(loca);
+        let sub = ctr.event.move.subscribe((data) => {
+          this.regist.roadobject.point.over(data);
+        });
+        this.subscription.add(sub);
+        this.controller.roadobject.point.set(ctr);
+      },
+      marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
+        let ctr = new IASMapAMapRoadObjectMarkerLayerController(
+          map,
+          info,
+          this.subscription
+        );
+        let sub1 = ctr.event.click.subscribe((x) => {
+          this.event.road.object.click.emit(x);
+        });
+        this.subscription.add(sub1);
+        let sub2 = ctr.event.dblclick.subscribe((x) => {
+          this.event.road.object.dblclick.emit(x);
+        });
+        this.subscription.add(sub2);
+        this.controller.roadobject.marker.set(ctr);
+      },
+    },
     road: (map: AMap.Map, loca: Loca.Container) => {
       let ctr = new IASMapAMapRoadController(map, loca);
       this.controller.road.set(ctr);
@@ -290,6 +334,9 @@ export class SystemMainMapAMapController {
       map.on('mousemove', (e: any) => {
         let position: [number, number] = [e.pixel.x, e.pixel.y];
         this.controller.shop.point.get().then((x) => {
+          x.moving(position);
+        });
+        this.controller.roadobject.point.get().then((x) => {
           x.moving(position);
         });
       });
@@ -332,24 +379,48 @@ export class SystemMainMapAMapController {
         },
       },
     },
-    point: {
-      over: async (data?: IShop) => {
-        this.controller.info.get().then((ctr) => {
-          if (data && data.Location) {
-            let info: IIASMapAMapInfo = {
-              Name: data.Name,
-            };
-            if (data.Location) {
-              info.Location = [
-                data.Location.GCJ02.Longitude,
-                data.Location.GCJ02.Latitude,
-              ];
+    shop: {
+      point: {
+        over: async (data?: IShop) => {
+          this.controller.info.get().then((ctr) => {
+            if (data && data.Location) {
+              let info: IIASMapAMapInfo = {
+                Name: data.Name,
+              };
+              if (data.Location) {
+                info.Location = [
+                  data.Location.GCJ02.Longitude,
+                  data.Location.GCJ02.Latitude,
+                ];
+              }
+              ctr.add(info, undefined, [0, -15]);
+            } else {
+              ctr.remove();
             }
-            ctr.add(info, undefined, [0, -15]);
-          } else {
-            ctr.remove();
-          }
-        });
+          });
+        },
+      },
+    },
+    roadobject: {
+      point: {
+        over: async (data?: RoadObject) => {
+          this.controller.info.get().then((ctr) => {
+            if (data && data.Location) {
+              let info: IIASMapAMapInfo = {
+                Name: data.Name,
+              };
+              if (data.Location) {
+                info.Location = [
+                  data.Location.GCJ02.Longitude,
+                  data.Location.GCJ02.Latitude,
+                ];
+              }
+              ctr.add(info, undefined, [0, -15]);
+            } else {
+              ctr.remove();
+            }
+          });
+        },
       },
     },
   };

@@ -111,11 +111,12 @@ export class SystemMainManagerPanelNavigation {
       switch (index) {
         case SyatemMainMapNavigation.main:
           this.map.display.heatmap = false;
-          this.map.display.shop = true;
+          this.map.display.shop = false;
           this.map.display.device = true;
           this.map.display.realtime = true;
           this.map.display.timeout = true;
           this.map.display.sample = true;
+          this.map.display.road.object = true;
           break;
         case SyatemMainMapNavigation.shop:
           this.map.display.shop = true;
@@ -124,6 +125,7 @@ export class SystemMainManagerPanelNavigation {
           this.map.display.timeout = false;
           this.map.display.sample = false;
           this.map.display.heatmap = false;
+          this.map.display.road.object = false;
           break;
         case SyatemMainMapNavigation.realtime:
           this.map.display.shop = false;
@@ -132,6 +134,7 @@ export class SystemMainManagerPanelNavigation {
           this.map.display.timeout = true;
           this.map.display.sample = false;
           this.map.display.heatmap = false;
+          this.map.display.road.object = false;
           break;
         case SyatemMainMapNavigation.gpstask:
           this.map.display.shop = false;
@@ -140,6 +143,7 @@ export class SystemMainManagerPanelNavigation {
           this.map.display.timeout = false;
           this.map.display.sample = true;
           this.map.display.heatmap = false;
+          this.map.display.road.object = false;
           break;
         case SyatemMainMapNavigation.heatmap:
           this.map.display.shop = false;
@@ -148,6 +152,7 @@ export class SystemMainManagerPanelNavigation {
           this.map.display.timeout = false;
           this.map.display.sample = false;
           this.map.display.heatmap = true;
+          this.map.display.road.object = false;
           break;
         default:
           break;
@@ -158,7 +163,7 @@ export class SystemMainManagerPanelNavigation {
         case SyatemMainMapNavigation.main:
           this.panel.state.realtime.show = true;
           this.panel.state.timeout.show = true;
-          this.panel.state.shop.show = true;
+          this.panel.state.shop.show = false;
           this.panel.state.sample.show = true;
           break;
         case SyatemMainMapNavigation.shop:

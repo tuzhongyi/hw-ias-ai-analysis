@@ -1,9 +1,9 @@
 import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { ShopRegistration } from '../../../../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { IASMapAMapPointCreatedController } from '../../../../../../../../share/map/controller/amap/point/ias-map-amap-point-created.controller';
-import { IASMapAMapPointDisappearedController } from '../../../../../../../../share/map/controller/amap/point/ias-map-amap-point-disappeared.controller';
-import { IASMapAMapPointExistedController } from '../../../../../../../../share/map/controller/amap/point/ias-map-amap-point-existed.controller';
+import { IASMapAMapPointCreatedController } from '../../../../../../../../share/map/controller/amap/shop/point/ias-map-amap-shop-point-created.controller';
+import { IASMapAMapPointDisappearedController } from '../../../../../../../../share/map/controller/amap/shop/point/ias-map-amap-shop-point-disappeared.controller';
+import { IASMapAMapPointExistedController } from '../../../../../../../../share/map/controller/amap/shop/point/ias-map-amap-shop-point-existed.controller';
 
 export class SystemTaskRouteMapAMapPointController {
   event = {

@@ -1,0 +1,30 @@
+<div class="system-module-road-object-details-image">
+  <upload-control
+    [accept]="'image/*'"
+    [type]="0"
+    (upload)="image.upload($event)"
+    *ngIf="!image.src"
+  >
+    <div class="upload-image">
+      <i class="howell-icon-plus"></i>
+    </div>
+  </upload-control>
+  <howell-container-zoom
+    *ngIf="image.src"
+    [fullable]="!!image.src"
+    (full)="image.full()"
+  >
+    <ias-picture [src]="image.src"></ias-picture>
+    <div ngProjectAs="container-zoom-button-content" class="button-group">
+      <upload-control
+        [accept]="'image/*'"
+        [type]="0"
+        (upload)="image.upload($event)"
+      >
+        <div class="button panel-map" title="更换图片" style="font-size: 18px">
+          <i class="mdi mdi-file-image"></i>
+        </div>
+      </upload-control>
+    </div>
+  </howell-container-zoom>
+</div>

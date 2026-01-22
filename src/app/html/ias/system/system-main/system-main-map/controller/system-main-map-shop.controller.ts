@@ -4,12 +4,22 @@ import { IShop } from '../../../../../../common/data-core/models/arm/analysis/sh
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapShopController {
+  inited = false;
+  event = {
+    click: new EventEmitter<IShop>(),
+    dblclick: new EventEmitter<IShop>(),
+  };
+
   constructor(
     private amap: SystemMainMapAMapController,
     subscription: Subscription
   ) {
     this.regist(subscription);
   }
+
+  private datas?: IShop[];
+  private loaded = false;
+
   private regist(subscription: Subscription) {
     let sub1 = this.amap.event.shop.click.subscribe((x) => {
       this.event.click.emit(x);
@@ -21,14 +31,6 @@ export class SystemMainMapShopController {
     subscription.add(sub2);
   }
 
-  event = {
-    click: new EventEmitter<IShop>(),
-    dblclick: new EventEmitter<IShop>(),
-  };
-
-  private datas?: IShop[];
-  private loaded = false;
-
   async load(datas: IShop[]) {
     this.datas = datas;
     let point = await this.amap.shop.point.get();
@@ -36,6 +38,7 @@ export class SystemMainMapShopController {
     let marker = await this.amap.shop.marker.get();
     marker.load(datas);
     this.loaded = true;
+    this.inited = true;
   }
   async clear() {
     let point = await this.amap.shop.point.get();
@@ -52,6 +55,7 @@ export class SystemMainMapShopController {
   }
   async destory() {
     this.datas = undefined;
+    this.inited = false;
     return this.clear();
   }
 

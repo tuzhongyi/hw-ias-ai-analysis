@@ -13,6 +13,7 @@
     [realtimes]="map.data.realtime"
     [timeouts]="map.data.timeout"
     [samples]="map.data.sample"
+    [roadobjects]="map.data.road.object"
     (alarmvideo)="alarm.on.video($event)"
     (alarmpicture)="map.on.picture($event)"
     [heatmapload]="map.heatmap.load"
@@ -22,6 +23,7 @@
     [timeoutdisplay]="map.display.timeout"
     [sampledisplay]="map.display.sample"
     [heatmapdisplay]="map.display.heatmap"
+    [roadobjectdisplay]="map.display.road.object"
     [heatmaptext]="map.heatmap.textable"
   ></ias-system-main-map>
 

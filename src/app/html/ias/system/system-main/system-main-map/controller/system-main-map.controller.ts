@@ -7,6 +7,7 @@ import { SystemMainMapAlarmRealtimeController } from './system-main-map-alarm-re
 import { SystemMainMapAlarmTimeoutController } from './system-main-map-alarm-timeout.controller';
 import { SystemMainMapDeviceController } from './system-main-map-device.controller';
 import { SystemMainMapHeatmapController } from './system-main-map-heatmap.controller';
+import { SystemMainMapRoadObjectController } from './system-main-map-road-object.controller';
 import { SystemMainMapRoadController } from './system-main-map-road.controller';
 import { SystemMainMapSampleController } from './system-main-map-sample.controller';
 import { SystemMainMapShopController } from './system-main-map-shop.controller';
@@ -14,6 +15,7 @@ import { SystemMainMapShopController } from './system-main-map-shop.controller';
 @Injectable()
 export class SystemMainMapController {
   road: SystemMainMapRoadController;
+
   shop: SystemMainMapShopController;
   device: SystemMainMapDeviceController;
   alarm: {
@@ -22,6 +24,8 @@ export class SystemMainMapController {
   };
   sample: SystemMainMapSampleController;
   heatmap: SystemMainMapHeatmapController;
+  roadobject: SystemMainMapRoadObjectController;
+
   constructor(tool: ComponentTool) {
     this.amap = new SystemMainMapAMapController(tool, this.subscription);
     this.road = new SystemMainMapRoadController(this.amap);
@@ -45,6 +49,10 @@ export class SystemMainMapController {
       this.subscription
     );
     this.heatmap = new SystemMainMapHeatmapController(this.amap);
+    this.roadobject = new SystemMainMapRoadObjectController(
+      this.amap,
+      this.subscription
+    );
   }
 
   private amap: SystemMainMapAMapController;
