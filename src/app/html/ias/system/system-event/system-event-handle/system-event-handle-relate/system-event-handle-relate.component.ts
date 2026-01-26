@@ -6,7 +6,7 @@ import { Shop } from '../../../../../../common/data-core/models/arm/analysis/sho
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import {
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../../../share/map/ias-map.model';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
@@ -35,7 +35,7 @@ export class SystemEventHandleRelateComponent {
   map = {
     marker: {
       type: MapMarkerType.shop,
-      color: MapMarkerShopColor.blue,
+      color: MapMarkerColor.blue,
     },
   };
 

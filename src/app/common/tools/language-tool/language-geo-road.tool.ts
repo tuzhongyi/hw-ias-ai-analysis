@@ -25,6 +25,10 @@ export class LanguageRoadTool extends LanguageAbstract {
       let values = await this.manager.object.ObjectStates.get();
       return this.get(values, value, def);
     },
+    EventTypes: async (value?: number, def = '') => {
+      let values = await this.manager.object.EventTypes.get();
+      return this.get(values, value, def);
+    },
   };
   section = {
     RoadSectionTypes: async (value?: number, def = '') => {

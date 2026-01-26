@@ -12,7 +12,7 @@ import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/fil
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import {
   MapMarker,
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../../share/map/ias-map.model';
 import { VideoPathComponent } from '../../../share/video-path/component/video-path.component';
@@ -72,11 +72,11 @@ export class SystemEventVideoComponent implements OnInit, OnChanges {
 
       switch (data.EventType) {
         case ArmEventType.ShopSignDisappeared:
-          args.color = MapMarkerShopColor.orange;
+          args.color = MapMarkerColor.orange;
           args.type = MapMarkerType.shop;
           break;
         case ArmEventType.ShopSignCreated:
-          args.color = MapMarkerShopColor.green;
+          args.color = MapMarkerColor.green;
           args.type = MapMarkerType.shop;
           break;
 

@@ -30,5 +30,10 @@ export class SystemEventIndexComponent {
     task: () => {
       this.router.navigateByUrl(SystemPath.event_gps_task_manager);
     },
+    road: {
+      object: () => {
+        this.router.navigateByUrl(SystemPath.event_road_object_manager);
+      },
+    },
   };
 }

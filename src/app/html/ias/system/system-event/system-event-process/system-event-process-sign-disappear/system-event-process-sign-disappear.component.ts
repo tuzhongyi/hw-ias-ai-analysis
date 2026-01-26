@@ -16,7 +16,7 @@ import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
 
 import {
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../../../share/map/ias-map.model';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
@@ -91,10 +91,10 @@ export class SystemEventProcessSignDisappearComponent implements OnInit {
     map: (data: MobileEventRecord) => {
       switch (data.EventType) {
         case 8:
-          this.map.marker.color = MapMarkerShopColor.orange;
+          this.map.marker.color = MapMarkerColor.orange;
           break;
         case 9:
-          this.map.marker.color = MapMarkerShopColor.green;
+          this.map.marker.color = MapMarkerColor.green;
           break;
 
         default:
@@ -119,7 +119,7 @@ export class SystemEventProcessSignDisappearComponent implements OnInit {
   map = {
     marker: {
       type: MapMarkerType.shop,
-      color: MapMarkerShopColor.orange,
+      color: MapMarkerColor.orange,
     },
     point: undefined as GisPoint | undefined,
     location: undefined as GisPoint | undefined,

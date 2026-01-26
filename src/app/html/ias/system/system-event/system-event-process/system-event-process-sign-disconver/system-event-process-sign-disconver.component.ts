@@ -26,7 +26,7 @@ import { PicturePolygonComponent } from '../../../../share/picture/picture-polyg
 
 import { WheelHorizontalScrollDirective } from '../../../../../../common/directives/wheel-horizontal-scroll/wheel-horizontal-scroll.directive';
 import {
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../../../share/map/ias-map.model';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
@@ -135,10 +135,10 @@ export class SystemEventProcessSignDisconverComponent
       this.map.location = data.Location?.GCJ02;
       switch (data.EventType) {
         case 8:
-          this.map.marker.color = MapMarkerShopColor.orange;
+          this.map.marker.color = MapMarkerColor.orange;
           break;
         case 9:
-          this.map.marker.color = MapMarkerShopColor.green;
+          this.map.marker.color = MapMarkerColor.green;
           break;
 
         default:
@@ -151,7 +151,7 @@ export class SystemEventProcessSignDisconverComponent
     location: undefined as GisPoint | undefined,
     marker: {
       type: MapMarkerType.shop,
-      color: MapMarkerShopColor.orange,
+      color: MapMarkerColor.orange,
     },
     point: undefined as GisPoint | undefined,
   };

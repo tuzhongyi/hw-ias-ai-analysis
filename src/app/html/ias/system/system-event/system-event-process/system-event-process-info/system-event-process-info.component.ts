@@ -12,7 +12,7 @@ import {
 } from '../../../../../../common/data-core/models/page-list.model';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import {
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../../../share/map/ias-map.model';
 import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
@@ -61,11 +61,11 @@ export class SystemEventProcessInfoComponent implements OnInit {
       switch (data.EventType) {
         case 8:
           this.map.marker.type = MapMarkerType.shop;
-          this.map.marker.color = MapMarkerShopColor.blue;
+          this.map.marker.color = MapMarkerColor.blue;
           break;
         case 9:
           this.map.marker.type = MapMarkerType.shop;
-          this.map.marker.color = MapMarkerShopColor.green;
+          this.map.marker.color = MapMarkerColor.green;
           break;
 
         default:
@@ -77,7 +77,7 @@ export class SystemEventProcessInfoComponent implements OnInit {
   map = {
     marker: {
       type: MapMarkerType.other,
-      color: undefined as MapMarkerShopColor | undefined,
+      color: undefined as MapMarkerColor | undefined,
     },
     point: undefined as GisPoint | undefined,
   };

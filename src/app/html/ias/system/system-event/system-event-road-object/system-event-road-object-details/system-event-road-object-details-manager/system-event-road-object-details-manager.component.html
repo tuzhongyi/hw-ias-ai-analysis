@@ -1,0 +1,28 @@
+<div class="system-event-road-object-details-manager">
+  <div class="system-event-road-object-details-manager-column">
+    <div class="system-event-road-object-details-manager-picture panel">
+      <howell-container-page
+        [page]="record.picture.page.data"
+        (pageChange)="record.picture.page.change($event)"
+      >
+        <ias-picture-polygon-multiple
+          [id]="record.picture.src"
+          [polygon]="record.picture.polygon"
+        ></ias-picture-polygon-multiple>
+      </howell-container-page>
+    </div>
+    <div class="system-event-road-object-details-manager-info panel">
+      <ias-system-event-road-object-details-info
+        *ngIf="data"
+        [data]="data"
+      ></ias-system-event-road-object-details-info>
+    </div>
+  </div>
+  <div class="system-event-road-object-details-manager-map panel">
+    <ias-map
+      [location]="data?.Location?.GCJ02"
+      [marker]="map.marker"
+      [points]="map.point ? [map.point] : []"
+    ></ias-map>
+  </div>
+</div>

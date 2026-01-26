@@ -251,6 +251,14 @@ export class SystemBreadcrumbBusiness {
           this.event.index(),
           this.event.manager.gpstask(),
         ];
+      } else if (
+        location.pathname.indexOf(SystemPath.event_road_object_manager) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.event.index(),
+          this.event.manager.roadobject(),
+        ];
       } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
         return [this.home.index(), this.event.index()];
       } else {
@@ -285,6 +293,12 @@ export class SystemBreadcrumbBusiness {
       gpstask: () => {
         let item = new SystemBreadcrumbItem();
         item.text = '定制场景事件';
+        item.path = SystemPath.event_gps_task_manager;
+        return item;
+      },
+      roadobject: () => {
+        let item = new SystemBreadcrumbItem();
+        item.text = '道路物件事件';
         item.path = SystemPath.event_gps_task_manager;
         return item;
       },

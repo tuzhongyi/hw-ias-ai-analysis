@@ -23,7 +23,7 @@ import {
 import { ShopViewModel } from '../../../../../../../common/view-models/shop/shop.view-model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 import {
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../../../../share/map/ias-map.model';
 import { PicturePolygonComponent } from '../../../../../share/picture/picture-polygon/picture-polygon.component';
@@ -98,7 +98,7 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
   map = {
     marker: {
       type: MapMarkerType.shop,
-      color: MapMarkerShopColor.green,
+      color: MapMarkerColor.green,
     },
     points: [] as GisPoint[],
     location: undefined as GisPoint | undefined,

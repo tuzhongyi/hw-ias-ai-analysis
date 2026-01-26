@@ -1,0 +1,39 @@
+.system-event-road-object-details-manager {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  @gap: 15px;
+
+  gap: @gap;
+
+  &-column {
+    width: calc((100% - @gap) * 0.5);
+    display: flex;
+    flex-direction: column;
+
+    gap: @gap;
+  }
+
+
+  &-picture {
+    width: 100%;
+    aspect-ratio: 16/9;
+    flex-grow: 0;
+    padding: 0;
+  }
+
+  &-info {
+    width: 100%;
+    flex-grow: 1;
+    padding: 0;
+  }
+
+  &-map {
+    width: calc((100% - @gap) * 0.5);
+    height: 100%;
+
+    padding: 0;
+  }
+
+}

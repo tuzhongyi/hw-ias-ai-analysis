@@ -36,7 +36,7 @@ export class RoadObjectEventRecord implements IIdModel, ILocation {
   @Type(() => Assignment)
   Assignment?: Assignment;
   /**	GisPoint	Gis坐标	O	*/
-  @Type(() => GisPoints)
+  @Transform(Transformer.GisPoint)
   Location?: GisPoints;
   /**	String	事件配对ID	O	*/
   Guid?: string;

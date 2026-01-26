@@ -1,0 +1,118 @@
+.system-event-manager-realtime {
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+
+  padding: 25px;
+  padding-top: 0;
+  box-sizing: border-box;
+
+  display: block;
+
+
+  @head-height: calc(36px * 2 + 24px + 10px);
+
+
+  &-head {
+    width: 100%;
+    height: @head-height;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-filter {
+      display: flex;
+      flex-direction: column;
+
+      gap: 10px;
+
+
+      .form {
+        &s {
+          flex-wrap: wrap;
+          justify-content: space-between;
+        }
+
+        &-item {
+          flex-grow: 1;
+
+          &.division {
+            min-width: 250px;
+          }
+
+          &.submit {
+            flex-grow: 0;
+          }
+
+          &-value {
+            &.select {
+              display: block;
+              height: 100%;
+
+              select {
+                padding-right: calc(16px + 10px + 42px);
+              }
+            }
+
+            &.text {
+              max-width: 180px;
+            }
+
+            &.number {
+              max-width: 100px;
+            }
+
+
+
+
+          }
+
+          &.duration {
+            width: auto;
+          }
+
+          &.state {
+            min-width: auto;
+          }
+        }
+      }
+
+      .state {
+        width: 28%;
+
+        .form-item-value {
+          position: relative;
+        }
+
+
+      }
+
+      .date {
+        width: 200px;
+      }
+    }
+
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @head-height);
+
+
+  }
+
+  .window-video-operation {
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+
+    select {
+      height: 28px;
+      min-width: 90px;
+    }
+  }
+
+
+}

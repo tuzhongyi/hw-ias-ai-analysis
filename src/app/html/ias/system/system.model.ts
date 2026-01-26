@@ -20,4 +20,5 @@ export enum SystemPath {
   event_realtime_manager = 'system/event/manager/realtime',
   event_analysis_manager = 'system/event/manager/analysis',
   event_gps_task_manager = 'system/event/manager/gps-task',
+  event_road_object_manager = 'system/event/manager/road-object',
 }

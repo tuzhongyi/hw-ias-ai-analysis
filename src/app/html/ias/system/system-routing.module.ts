@@ -13,6 +13,7 @@ import { SystemEventIndexComponent } from './system-event/system-event-index/sys
 import { SystemEventManagerAnalysisComponent } from './system-event/system-event-manager/system-event-manager-analysis/system-event-manager-analysis.component';
 import { SystemEventManagerRealtimeComponent } from './system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
 import { SystemEventManagerShopComponent } from './system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
+import { SystemEventRoadObjectManagerComponent } from './system-event/system-event-road-object/system-event-road-object-manager/system-event-road-object-manager.component';
 import { SystemMainManagerComponent } from './system-main/system-main-manager/system-main-manager.component';
 import { SystemModuleMobileDeviceRouteManagerComponent } from './system-module/system-module-mobile-device-route/system-module-mobile-device-route-manager/system-module-mobile-device-route-manager.component';
 import { SystemModuleRoadObjectManagerComponent } from './system-module/system-module-road-object/system-module-road-object-manager/system-module-road-object-manager.component';
@@ -165,6 +166,10 @@ const routes: Routes = [
               {
                 path: 'gps-task',
                 component: SystemEventGpsTaskManagerComponent,
+              },
+              {
+                path: 'road-object',
+                component: SystemEventRoadObjectManagerComponent,
               },
             ],
           },

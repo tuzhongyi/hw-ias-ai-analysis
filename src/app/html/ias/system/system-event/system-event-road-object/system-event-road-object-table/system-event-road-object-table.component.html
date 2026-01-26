@@ -1,0 +1,194 @@
+<div class="system-event-road-object-table">
+  <div class="system-event-road-object-table-body table-page">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="on.sort($event)"
+    >
+      <colgroup>
+        <col
+          [ngStyle]="{ width: width, 'min-width': minwidth[i] }"
+          *ngFor="let width of widths; let i = index"
+        />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>照片</th>
+          <th>行政区划</th>
+          <th>责任网格</th>
+          <th sort="RoadObjectType">物件类型</th>
+          <th sort="EventType">事件类型</th>
+          <th sort="EventTime">发现时间</th>
+          <th sort="Confirmed">确认状态</th>
+          <th sort="ConfirmedTime">确认时间</th>
+          <th>状态</th>
+
+          <th>处置时间</th>
+          <th sort="Health">健康度</th>
+          <th>描述</th>
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="onselect(item)"
+          [ngClass]="{
+            nohover: !item,
+            nodata: !item,
+            selected: item === selected,
+          }"
+        >
+          <td class="center">
+            <ng-container *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </ng-container>
+          </td>
+
+          <td>
+            <div [ngClass]="{ noimage: !item.Resources }" *ngIf="item">
+              <div
+                *ngFor="let resource of item.Resources; let i = index"
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: resource.ImageUrl
+                    ? 'url(' + picture.get(resource.ImageUrl) + ')'
+                    : 'none'
+                }"
+                (click)="picture.on($event, item, i)"
+              ></div>
+            </div>
+          </td>
+
+          <td [title]="(item?.DivisionName | async) ?? ''">
+            @if(item){
+            {{ (item.DivisionName | async) ?? "-" }}
+            }
+          </td>
+          <td [title]="(item?.GridCellName | async) ?? ''">
+            @if(item){
+            {{ (item.GridCellName | async) ?? "-" }}
+            }
+          </td>
+          <td>
+            {{ item?.EventTypeName | async }}
+          </td>
+
+          <td>
+            @if(item){
+            {{ item.RoadObjectName }}
+            }
+          </td>
+          <td>
+            <div>{{ item?.EventTime | date : Language.yyyyMMddHHmmss }}</div>
+          </td>
+          <td>
+            <div
+              [ngClass]="{
+                'text-orange-state': item && !item.Confirmed,
+                'text-green': item && item.Confirmed
+              }"
+              *ngIf="item"
+            >
+              {{ item.Confirmed ? "已确认" : "未确认" }}
+            </div>
+          </td>
+          <td>
+            @if(item){
+            <div>
+              {{
+                (item?.ConfirmedTime | date : Language.yyyyMMddHHmmss) ?? "-"
+              }}
+            </div>
+            }
+          </td>
+          <td
+            [ngClass]="{
+              
+              handled: !!(item?.Assignment?.Handled),
+              unhandle: !(item?.Assignment?.Handled),
+              unassigned: !(item?.Assignment),
+            }"
+          >
+            <ng-container *ngIf="item">
+              <ng-container *ngIf="item.Assignment">
+                <div
+                  *ngIf="item.Assignment.IsMisInfo && item.EventType === 9"
+                  class="text-cyan"
+                >
+                  屏蔽
+                </div>
+                <div
+                  *ngIf="item.Assignment.IsMisInfo && item.EventType !== 9"
+                  class="text-cyan"
+                >
+                  误报
+                </div>
+
+                <ng-container *ngIf="!item.Assignment.IsMisInfo">
+                  <div *ngIf="item.Assignment.Handled" class="text-green">
+                    已处置
+                  </div>
+                  <div
+                    *ngIf="!item.Assignment.Handled"
+                    class="text-orange-state"
+                  >
+                    待处置
+                  </div>
+                </ng-container>
+              </ng-container>
+              <div *ngIf="!item.Assignment" class="text-orange">待派单</div>
+            </ng-container>
+          </td>
+          <td>
+            @if(item){
+            {{
+              (item.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss) ??
+                "-"
+            }}
+            }
+          </td>
+
+          <td>
+            @if(item){
+            {{ item.Health || "-" }}
+            }
+          </td>
+          <td>
+            @if(item){
+            {{ item.Description ?? "-" }}
+            }
+          </td>
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="事件视频"
+                (click)="on.video($event, item)"
+              >
+                <i class="mdi mdi-youtube-play"></i>
+              </div>
+
+              <div
+                class="button"
+                title="事件详情"
+                (click)="on.details($event, item)"
+              >
+                <i class="mdi mdi-clipboard-text"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    class="system-event-road-object-table-foot"
+    *ngIf="page.TotalRecordCount"
+  >
+    <paginator [page]="page" (change)="on.page($event)"> </paginator>
+  </div>
+</div>

@@ -1,8 +1,9 @@
 export enum MapMarkerType {
   other,
   shop,
+  roadobject,
 }
-export enum MapMarkerShopColor {
+export enum MapMarkerColor {
   red = 'red',
   green = 'green',
   blue = 'blue',
@@ -11,10 +12,10 @@ export enum MapMarkerShopColor {
 
 export class MapMarker {
   type = MapMarkerType.other;
-  color?: MapMarkerShopColor;
+  color?: MapMarkerColor;
 }
 
 export interface IIASMapArgs {
   type: MapMarkerType;
-  color?: MapMarkerShopColor;
+  color?: MapMarkerColor;
 }

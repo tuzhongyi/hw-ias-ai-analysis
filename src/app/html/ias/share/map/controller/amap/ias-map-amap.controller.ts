@@ -4,7 +4,7 @@ import { MapHelper } from '../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../common/view-models/value.promise';
 import {
   IIASMapArgs,
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../ias-map.model';
 import { IASMapAMapPointController } from './marker/ias-map-amap-point.controller';
@@ -53,7 +53,7 @@ export class IASMapAMapController {
         let point = new IASMapAMapPointController();
         let marker = point.set(x, {
           type: MapMarkerType.shop,
-          color: MapMarkerShopColor.blue,
+          color: MapMarkerColor.blue,
         });
         map.add(marker);
         return point;

@@ -15,7 +15,7 @@ import { NameValue } from '../../../../../../../common/data-core/models/capabili
 import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 import {
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../../../../share/map/ias-map.model';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
@@ -51,8 +51,8 @@ export class SystemTaskShopRegistrationDetailsComponent implements OnChanges {
           this.map.location = this.data.Location?.GCJ02;
           let marker = Object.assign({}, this.map.marker);
           marker.color = this.data.Detected
-            ? MapMarkerShopColor.blue
-            : MapMarkerShopColor.orange;
+            ? MapMarkerColor.blue
+            : MapMarkerColor.orange;
           this.map.marker = marker;
           this.picture.src = this.data.ImageUrl ?? '';
         }
@@ -76,7 +76,7 @@ export class SystemTaskShopRegistrationDetailsComponent implements OnChanges {
   map = {
     marker: {
       type: MapMarkerType.shop,
-      color: MapMarkerShopColor.green,
+      color: MapMarkerColor.green,
     },
     location: undefined as GisPoint | undefined,
   };

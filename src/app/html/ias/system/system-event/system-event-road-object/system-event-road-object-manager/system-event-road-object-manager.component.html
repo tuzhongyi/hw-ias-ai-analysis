@@ -1,0 +1,298 @@
+<div
+  class="system-event-manager-realtime"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-event-manager-realtime-head">
+    <div class="system-event-manager-realtime-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">开始时间</div>
+          <div class="form-item-value fill">
+            <date-time-control
+              [(date)]="table.args.duration.begin"
+              [zindex]="iswindow ? 9000 : 10"
+            ></date-time-control>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">结束时间</div>
+          <div class="form-item-value fill">
+            <date-time-control
+              [(date)]="table.args.duration.end"
+              [zindex]="iswindow ? 9000 : 10"
+            ></date-time-control>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-item-text">物件类型</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.type"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.type">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.types"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">事件类型</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.event"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.event">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.events"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">是否派单</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.confirmed"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.assigned">
+                <option [ngValue]="true">已派单</option>
+                <option [ngValue]="false">未派单</option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">是否确认</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.confirmed"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.confirmed">
+                <option [ngValue]="true">已确认</option>
+                <option [ngValue]="false">未确认</option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-item-text">是否误报</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.misinform"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.misinform">
+                <option [ngValue]="true">是</option>
+                <option [ngValue]="false">否</option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-item-text">是否派单</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.assigned"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.assigned">
+                <option [ngValue]="true">已派单</option>
+                <option [ngValue]="false">未派单</option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+
+        <div class="form-item division">
+          <div class="form-item-text">行政区划</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="table.args.divisionId" [nullable]="true">
+              <select [(ngModel)]="table.args.divisionId">
+                <option
+                  [ngValue]="item.Id"
+                  *ngFor="let item of source.divisions"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">责任网格</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="table.args.gridCellId" [nullable]="true">
+              <select [(ngModel)]="table.args.gridCellId">
+                <option
+                  [ngValue]="item.Id"
+                  *ngFor="let item of source.gridcells"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">名称</div>
+          <div class="form-item-value fill">
+            <input type="text" [(ngModel)]="table.args.name" />
+          </div>
+        </div>
+        <div class="form-item submit">
+          <button class="button-clip-gradient" (click)="table.search()">
+            查找
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-event-manager-realtime-body">
+    <ias-system-event-road-object-table
+      [args]="table.args"
+      [load]="table.load"
+      (picture)="table.on.picture($event)"
+      (process)="table.on.process($event)"
+      (video)="table.on.video($event)"
+      (details)="table.on.details($event)"
+    ></ias-system-event-road-object-table>
+  </div>
+
+  <ias-window
+    [Model]="window.details"
+    *ngIf="window.details.show"
+    [style]="window.details.style"
+    [title]="window.details.title"
+  >
+    <ias-system-event-road-object-details-manager
+      [data]="window.details.data"
+      (cancel)="window.details.show = false"
+      (picture)="picture.open($event)"
+    >
+    </ias-system-event-road-object-details-manager>
+  </ias-window>
+
+  <ias-window
+    [Model]="window.task"
+    *ngIf="window.task.show"
+    [style]="window.task.style"
+    [title]="'AI分析工单'"
+  >
+    <!-- <ias-system-event-task [data]="window.task.data"></ias-system-event-task> -->
+  </ias-window>
+  <ias-window
+    [Model]="window.process"
+    *ngIf="window.process.show"
+    [style]="window.process.style"
+    [title]="window.process.title"
+  >
+    <!-- <ias-system-event-process-realtime
+      [data]="window.process.data"
+      (close)="window.process.show = false"
+      (picture)="table.on.picture($event)"
+    ></ias-system-event-process-realtime> -->
+  </ias-window>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.message"
+    (ok)="confirm.ok()"
+    (cancel)="confirm.close()"
+  >
+  </confirm-window>
+
+  <ias-window
+    [Model]="window.picture"
+    *ngIf="window.picture.show && window.picture.args"
+    [style]="window.picture.style"
+    [title]="window.picture.title"
+    [mask]="!window.opened"
+  >
+    <ias-picture-list
+      [id]="window.picture.args.id"
+      [polygon]="window.picture.args.polygon"
+      [zoom]="window.picture.args.polygon.length > 0"
+      [page]="window.picture.page"
+      (pageChange)="picture.change($event)"
+      [loop]="true"
+    ></ias-picture-list>
+  </ias-window>
+  <ias-window
+    [Model]="window.video"
+    *ngIf="window.video.show"
+    [style]="window.video.style"
+    [title]="window.video.title"
+    [CloseButton]="false"
+    [mask]="!window.opened"
+  >
+    <div ngProjectAs="window-head-operation" class="window-video-operation">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">前后时长</div>
+          <div class="form-item-value">
+            <select
+              [(ngModel)]="window.video.args.duration"
+              (change)="window.video.change()"
+            >
+              <option [ngValue]="5">5秒</option>
+              <option [ngValue]="10">10秒</option>
+              <option [ngValue]="15">15秒</option>
+              <option [ngValue]="30">30秒</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">摄像机:</div>
+          <div class="form-item-value">
+            <hw-select
+              [nullable]="true"
+              [(selected)]="window.video.args.channel"
+              (selectedChange)="window.video.change()"
+            >
+              <select [(ngModel)]="window.video.args.channel">
+                <option
+                  *ngFor="let item of table.selected.channels"
+                  [ngValue]="item.Value"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="button" (click)="window.video.show = false">
+            <i class="howell-icon-Close"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ias-system-event-video
+      [data]="window.video.data"
+      [args]="window.video.args"
+    ></ias-system-event-video>
+  </ias-window>
+</div>

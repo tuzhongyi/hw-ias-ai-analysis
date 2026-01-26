@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import {
-  MapMarkerShopColor,
+  MapMarkerColor,
   MapMarkerType,
 } from '../../../../share/map/ias-map.model';
 import { VideoPathComponent } from '../../../../share/video-path/component/video-path.component';
@@ -38,7 +38,7 @@ export class SystemTaskVideoComponent implements OnChanges {
     },
     args: {
       type: MapMarkerType.shop,
-      color: MapMarkerShopColor.green,
+      color: MapMarkerColor.green,
     },
   };
   count = 5;
@@ -91,8 +91,8 @@ export class SystemTaskVideoComponent implements OnChanges {
       if (item.Point) {
         if (item.Detected != undefined) {
           this.map.args.color = item.Detected
-            ? MapMarkerShopColor.blue
-            : MapMarkerShopColor.orange;
+            ? MapMarkerColor.blue
+            : MapMarkerColor.orange;
         }
         this.map.points = [item.Point];
       }
