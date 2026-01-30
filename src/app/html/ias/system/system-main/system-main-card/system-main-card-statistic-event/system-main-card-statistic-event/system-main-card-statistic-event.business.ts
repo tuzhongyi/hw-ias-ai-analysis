@@ -7,6 +7,8 @@ import { Manager } from '../../../../../../../common/data-core/requests/managers
 import { ArmAnalysisRequestService } from '../../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisGpsTaskSampleListParams } from '../../../../../../../common/data-core/requests/services/analysis/llm/analysis-llm.params';
 import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
+import { ArmGeographicRequestService } from '../../../../../../../common/data-core/requests/services/geographic/geographic.service';
+import { GetRoadObjectEventsParams } from '../../../../../../../common/data-core/requests/services/geographic/road/road-object/event/geographic-road-object-event.params';
 import { GetEventNumbersParams } from '../../../../../../../common/data-core/requests/services/system/event/number/system-event-number.params';
 import { ArmSystemRequestService } from '../../../../../../../common/data-core/requests/services/system/system.service';
 import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
@@ -23,15 +25,17 @@ export class SystemMainCardStatisticEventBusiness {
     system: ArmSystemRequestService,
     analysis: ArmAnalysisRequestService,
     division: ArmDivisionRequestService,
+    geo: ArmGeographicRequestService,
     private global: GlobalStorage
   ) {
-    this.service = { system, analysis, division };
+    this.service = { system, analysis, division, geo };
   }
 
   private service: {
     system: ArmSystemRequestService;
     analysis: ArmAnalysisRequestService;
     division: ArmDivisionRequestService;
+    geo: ArmGeographicRequestService;
   };
 
   async load(duration: Duration) {
@@ -41,6 +45,7 @@ export class SystemMainCardStatisticEventBusiness {
       realtime: {
         types: await this.manager.source.event.LiveEventTypes.get(),
       },
+      roadobject: await this.data.roadobject(duration),
     };
 
     await wait(() => !this.global.display.loading);
@@ -67,11 +72,18 @@ export class SystemMainCardStatisticEventBusiness {
         ),
       });
     }
-    if (this.global.display.map.gps) {
+    if (this.global.display.map.gpstask) {
       items.push({
         id: EventMode.gpstask,
         name: '场景事件',
         value: data.sample.TotalRecordCount,
+      });
+    }
+    if (this.global.display.map.roadobject) {
+      items.push({
+        id: EventMode.roadobject,
+        name: '道路物件',
+        value: data.roadobject.TotalRecordCount,
       });
     }
 
@@ -117,7 +129,20 @@ export class SystemMainCardStatisticEventBusiness {
       params.EndTime = duration.end;
       params.PageIndex = 1;
       params.PageSize = 1;
+      params.Confirmed = true;
+      params.IsAlarmRecord = true;
       let paged = await this.service.analysis.llm.gps.task.sample.list(params);
+      return paged.Page;
+    },
+    roadobject: async (duration: Duration) => {
+      let params = new GetRoadObjectEventsParams();
+      params.BeginTime = duration.begin;
+      params.EndTime = duration.end;
+      params.PageIndex = 1;
+      params.PageSize = 1;
+      params.Confirmed = true;
+      params.IsMisInfo = false;
+      let paged = await this.service.geo.road.object.event.list(params);
       return paged.Page;
     },
   };

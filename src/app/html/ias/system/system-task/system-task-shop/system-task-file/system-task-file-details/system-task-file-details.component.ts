@@ -71,9 +71,11 @@ export class SystemTaskFileDetailsComponent implements OnInit {
     let target = e.currentTarget as HTMLVideoElement;
     this.video.event.time.emit(target.currentTime * 1000);
   }
-  onseek(item: FileGpsItem) {
-    let time = item.OffsetTime.toSeconds();
-    this.video.time = time;
+  onseek(data: { start: FileGpsItem; end: FileGpsItem; percent: number }) {
+    let start = data.start.OffsetTime.toSeconds();
+    let end = data.end.OffsetTime.toSeconds();
+    let timestamp = start + (end - start) * data.percent;
+    this.video.time = timestamp;
   }
   onvideoerror(e: Event) {
     if (!this.src) return;

@@ -15,6 +15,7 @@ import { SystemEventManagerRealtimeComponent } from './system-event/system-event
 import { SystemEventManagerShopComponent } from './system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
 import { SystemEventRoadObjectManagerComponent } from './system-event/system-event-road-object/system-event-road-object-manager/system-event-road-object-manager.component';
 import { SystemMainManagerComponent } from './system-main/system-main-manager/system-main-manager.component';
+import { SystemModuleFileManagerComponent } from './system-module/system-module-file/system-module-file-manager/system-module-file-manager.component';
 import { SystemModuleMobileDeviceRouteManagerComponent } from './system-module/system-module-mobile-device-route/system-module-mobile-device-route-manager/system-module-mobile-device-route-manager.component';
 import { SystemModuleRoadObjectManagerComponent } from './system-module/system-module-road-object/system-module-road-object-manager/system-module-road-object-manager.component';
 import { SystemModuleRoadSectionManagerComponent } from './system-module/system-module-road-section/system-module-road-section-manager/system-module-road-section-manager.component';
@@ -113,6 +114,10 @@ const routes: Routes = [
           {
             path: 'mobile-device-route',
             component: SystemModuleMobileDeviceRouteManagerComponent,
+          },
+          {
+            path: 'file',
+            component: SystemModuleFileManagerComponent,
           },
         ],
       },

@@ -15,6 +15,7 @@ import { IASMapPanelSettingsComponent } from '../../map-panel/ias-map-panel-sett
 import { IIASMapArgs, MapMarker } from '../../map/ias-map.model';
 import { VideoPathMapAMapController } from './controller/amap/video-path-map-amap.controller';
 import { VideoPathMapController } from './controller/video-path-map.controller';
+import { IVideoPathMapTriggerArgs } from './video-path-map.model';
 
 @Component({
   selector: 'howell-video-path-map',
@@ -28,7 +29,7 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
   @Input() points: GisPoint[] = [];
   @Input() args: IIASMapArgs = new MapMarker();
   @Input('to') _to?: EventEmitter<number>;
-  @Output() trigger = new EventEmitter<FileGpsItem>();
+  @Output() trigger = new EventEmitter<IVideoPathMapTriggerArgs>();
   @Output() loaded = new EventEmitter<void>();
   @Output() error = new EventEmitter<Error>();
   @Input() loading = false;

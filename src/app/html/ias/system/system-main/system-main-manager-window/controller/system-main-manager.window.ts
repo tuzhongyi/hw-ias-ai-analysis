@@ -4,6 +4,7 @@ import { SystemMainManagerMobileDeviceWindow } from './device/system-main-manage
 import { SystemMainManagerMobileRouteWindow } from './device/system-main-manager-mobile-route.window';
 import { SystemMainManagerPictureWindow } from './picture/system-main-manager-picture.window';
 import { SystemMainManagerRecordWindow } from './record/system-main-manager-record.window';
+import { SystemMainManagerRoadObjectWindow } from './road/system-main-manager-road-object.window';
 import { SystemMainManagerRoadWindow } from './road/system-main-manager-road.window';
 import { SystemMainManagerShopWindow } from './shop/system-main-manager-shop.window';
 import { SystemMainManagerTaskGPSWindow } from './task/system-main-manager-task-gps.window';
@@ -35,4 +36,5 @@ export class SystemMainManagerWindow {
     mobile: new SystemMainManagerMobileDeviceWindow(),
     route: new SystemMainManagerMobileRouteWindow(),
   };
+  roadobject = new SystemMainManagerRoadObjectWindow();
 }

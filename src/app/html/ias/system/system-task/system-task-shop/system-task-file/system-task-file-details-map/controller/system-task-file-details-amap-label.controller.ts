@@ -3,6 +3,7 @@ export class SystemTaskFileDetailsAMapLabelController {
   private marker = new AMap.Marker({
     anchor: 'bottom-center',
     offset: new AMap.Pixel(0, -15),
+    zooms: [0, 50],
   });
   show(position: [number, number], text: string) {
     this.marker.setContent(

@@ -1,0 +1,49 @@
+<div class="system-module-file-upload-manager">
+  <div class="system-module-file-upload-manager-body">
+    <div class="system-module-file-upload-manager-body-info">
+      <div class="forms">
+        <!-- <div class="form-item path">
+          <div class="form-item-text" text-space-between>文件路径</div>
+          <div class="form-item-value">
+            root:\\ <input type="text" [(ngModel)]="path" />
+          </div>
+        </div> -->
+        <div class="form-item submit">
+          <upload-control
+            [accept]="controller.file.accept"
+            [multiple]="true"
+            [type]="controller.file.type"
+            (loadstart)="controller.file.onstart($event)"
+            (upload)="controller.file.onfile($event)"
+          >
+            <button class="button-clip-gradient">添加</button>
+          </upload-control>
+          <button
+            class="button-clip-gradient"
+            (click)="controller.file.onremove()"
+            [disabled]="controller.file.selecteds.length == 0"
+          >
+            删除
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="system-module-file-upload-manager-body-table">
+      <ias-system-module-file-upload-table
+        [load]="controller.file.load"
+        [(selecteds)]="controller.file.selecteds"
+      ></ias-system-module-file-upload-table>
+    </div>
+  </div>
+  <div class="system-module-file-upload-manager-foot">
+    <div>
+      {{ this.controller.file.files.length }}/{{
+        this.controller.file.datas.length
+      }}
+    </div>
+    <div class="system-module-file-upload-manager-foot-buttons button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">上传</button>
+      <button class="button-clip-blue" (click)="on.close()">关闭</button>
+    </div>
+  </div>
+</div>

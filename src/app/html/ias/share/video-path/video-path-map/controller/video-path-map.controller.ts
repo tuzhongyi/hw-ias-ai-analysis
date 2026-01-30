@@ -2,14 +2,20 @@ import { EventEmitter, Injectable } from '@angular/core';
 import '../../../../../../../assets/js/map/CoordinateTransform.js';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model.js';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model.js';
+import { Time } from '../../../../../../common/data-core/models/common/time.model.js';
 import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool.js';
 import { ClassTool } from '../../../../../../common/tools/class-tool/class.tool.js';
+import {
+  GeoLine,
+  GeoPoint,
+} from '../../../../../../common/tools/geo-tool/geo.model.js';
 import { IIASMapArgs } from '../../../map/ias-map.model.js';
+import { IVideoPathMapTriggerArgs } from '../video-path-map.model.js';
 import { VideoPathMapAMapController } from './amap/video-path-map-amap.controller.js';
 
 @Injectable()
 export class VideoPathMapController {
-  trigger = new EventEmitter<FileGpsItem>();
+  trigger = new EventEmitter<IVideoPathMapTriggerArgs>();
   speed = new EventEmitter<number>();
   constructor(private amap: VideoPathMapAMapController) {
     this.regist.subscribe();
@@ -85,23 +91,59 @@ export class VideoPathMapController {
       });
     },
     on: {
-      mouseover: async (point: [number, number]) => {
-        let item = this.data.path.find((x) => {
-          return ClassTool.equals.array([x.Longitude, x.Latitude], point);
-        });
-        if (item) {
-          let _point: [number, number] = [item.Longitude, item.Latitude];
+      mouseover: async (data: {
+        line: GeoLine;
+        point: GeoPoint;
+        percent: number;
+      }) => {
+        let line = {
+          start: this.data.path.find((x) => {
+            return ClassTool.equals.array(
+              [x.Longitude, x.Latitude],
+              data.line[0]
+            );
+          }),
+          end: this.data.path.find((x) => {
+            return ClassTool.equals.array(
+              [x.Longitude, x.Latitude],
+              data.line[1]
+            );
+          }),
+        };
+
+        if (line.start && line.end) {
+          let start = line.start.OffsetTime.toSeconds();
+          let end = line.end.OffsetTime.toSeconds();
+
+          let timestamp = start + (end - start) * data.percent;
           let label = await this.amap.label.get();
-          label.show(_point, item.OffsetTime.toString());
+          let time = Time.from.seconds(timestamp);
+          label.show(data.point, `${time.toString()}`);
         }
       },
 
-      click: async (point: [number, number]) => {
-        let item = this.data.path.find((x) => {
-          return ClassTool.equals.array([x.Longitude, x.Latitude], point);
-        });
-        if (item) {
-          this.trigger.emit(item);
+      click: (data: { line: GeoLine; point: GeoPoint; percent: number }) => {
+        let line = {
+          start: this.data.path.find((x) => {
+            return ClassTool.equals.array(
+              [x.Longitude, x.Latitude],
+              data.line[0]
+            );
+          }),
+          end: this.data.path.find((x) => {
+            return ClassTool.equals.array(
+              [x.Longitude, x.Latitude],
+              data.line[1]
+            );
+          }),
+        };
+
+        if (line.start && line.end) {
+          this.trigger.emit({
+            start: line.start,
+            end: line.end,
+            percent: data.percent,
+          });
         }
       },
     },

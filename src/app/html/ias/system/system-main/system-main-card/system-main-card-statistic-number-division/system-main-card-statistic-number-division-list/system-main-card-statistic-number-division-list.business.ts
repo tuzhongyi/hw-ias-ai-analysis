@@ -8,6 +8,8 @@ import { SourceManager } from '../../../../../../../common/data-core/requests/ma
 import { ArmAnalysisRequestService } from '../../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisGpsTaskSampleListParams } from '../../../../../../../common/data-core/requests/services/analysis/llm/analysis-llm.params';
 import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
+import { ArmGeographicRequestService } from '../../../../../../../common/data-core/requests/services/geographic/geographic.service';
+import { GetRoadObjectEventsParams } from '../../../../../../../common/data-core/requests/services/geographic/road/road-object/event/geographic-road-object-event.params';
 import { GetEventNumbersParams } from '../../../../../../../common/data-core/requests/services/system/event/number/system-event-number.params';
 import { ArmSystemRequestService } from '../../../../../../../common/data-core/requests/services/system/system.service';
 import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
@@ -20,6 +22,7 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
     division: ArmDivisionRequestService,
     system: ArmSystemRequestService,
     analysis: ArmAnalysisRequestService,
+    geo: ArmGeographicRequestService,
     private source: SourceManager,
     private global: GlobalStorage
   ) {
@@ -27,12 +30,14 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
       division,
       system,
       analysis,
+      geo,
     };
   }
   private service: {
     division: ArmDivisionRequestService;
     system: ArmSystemRequestService;
     analysis: ArmAnalysisRequestService;
+    geo: ArmGeographicRequestService;
   };
 
   async load(duration: Duration) {
@@ -55,6 +60,7 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
           types.map((x) => x.Value)
         ),
         sample: await this.data.sample(division.Id, duration),
+        roadobject: await this.data.roadobject(division.Id, duration),
       };
       let items = [];
       if (this.global.display.map.shop) {
@@ -63,14 +69,25 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
           value: { number: value.shop, title: '商铺变更' },
         });
       }
-      items.push({
-        key: 'howell-icon-alarm4',
-        value: { number: value.realtime, title: '实时事件' },
-      });
-      items.push({
-        key: 'howell-icon-map6',
-        value: { number: value.sample, title: '定制场景' },
-      });
+      if (this.global.display.map.realtime) {
+        items.push({
+          key: 'howell-icon-alarm4',
+          value: { number: value.realtime, title: '实时事件' },
+        });
+      }
+      if (this.global.display.map.gpstask) {
+        items.push({
+          key: 'howell-icon-map6',
+          value: { number: value.sample, title: '定制场景' },
+        });
+      }
+      if (this.global.display.map.roadobject) {
+        items.push({
+          key: 'mdi mdi-map-marker-radius',
+          value: { number: value.roadobject, title: '道路物件' },
+        });
+      }
+
       datas.set(division, items);
     }
     return datas;
@@ -116,6 +133,17 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
       params.PageSize = 1;
       params.DivisionId = divisionId;
       let paged = await this.service.analysis.llm.gps.task.sample.list(params);
+      return paged.Page.TotalRecordCount;
+    },
+    roadobject: async (divisionId: string, duration: Duration) => {
+      let params = new GetRoadObjectEventsParams();
+      params.BeginTime = duration.begin;
+      params.EndTime = duration.end;
+      params.PageIndex = 1;
+      params.PageSize = 1;
+      params.Confirmed = true;
+      params.IsMisInfo = false;
+      let paged = await this.service.geo.road.object.event.list(params);
       return paged.Page.TotalRecordCount;
     },
   };

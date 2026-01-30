@@ -12,8 +12,10 @@ export enum SystemPath {
   module_road_section = 'system/module/road-section',
   module_road_object = 'system/module/road-object',
   module_gps_task = 'system/module/gps-task',
+  file = 'system/module/file',
   module_mobile_device_route = 'system/module/mobile-device-route',
   map = 'system/map',
+
   event = 'system/event',
   event_index = 'system/event/index',
   event_shop_manager = 'system/event/manager/shop',

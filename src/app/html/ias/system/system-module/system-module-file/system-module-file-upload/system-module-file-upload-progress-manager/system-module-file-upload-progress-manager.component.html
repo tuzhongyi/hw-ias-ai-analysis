@@ -1,0 +1,28 @@
+<div class="system-module-file-upload-progress-manager">
+  <div class="system-module-file-upload-progress-manager-body">
+    <div class="system-module-file-upload-progress-border">
+      <div
+        class="system-module-file-upload-progress-content"
+        [ngStyle]="{
+      width: progress + '%',
+    }"
+      ></div>
+      <div class="system-module-file-upload-progress-value">
+        {{ progress >= 100 ? 100 : progress.toFixed(2) }}%
+      </div>
+    </div>
+  </div>
+  <div class="system-module-file-upload-progress-manager-foot">
+    <div class="forms">
+      <div class="form-item-text">完成文件：</div>
+      <div class="form-item-value">{{ completed }}/{{ files.length }}</div>
+    </div>
+    <button
+      class="button-clip-gradient"
+      [disabled]="progress < 100"
+      (click)="on.close()"
+    >
+      确定
+    </button>
+  </div>
+</div>

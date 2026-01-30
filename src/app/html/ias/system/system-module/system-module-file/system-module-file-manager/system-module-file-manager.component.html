@@ -1,0 +1,46 @@
+<div
+  class="system-module-file-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <ias-system-module-file-table
+    (video)="on.video($event)"
+    (error)="on.error($event)"
+    [selected]="selected"
+    (selectedChange)="on.select($event)"
+    (upload)="window.upload.open()"
+  ></ias-system-module-file-table>
+
+  <ias-window
+    *ngIf="window.details.show"
+    [Model]="window.details"
+    [style]="window.details.style"
+    [title]="window.details.data?.FileName ?? ''"
+  >
+    <ias-system-task-file-details
+      [data]="window.details.data"
+    ></ias-system-task-file-details>
+  </ias-window>
+  <ias-window
+    *ngIf="window.upload.show"
+    [Model]="window.upload"
+    [style]="window.upload.style"
+    [title]="window.upload.title"
+  >
+    <ias-system-module-file-upload-manager
+      (close)="window.upload.show = false"
+      (upload)="on.upload($event)"
+    ></ias-system-module-file-upload-manager>
+  </ias-window>
+  <ias-window
+    *ngIf="window.progress.show"
+    [Model]="window.progress"
+    [style]="window.progress.style"
+    [title]="window.progress.title"
+    [CloseButton]="false"
+  >
+    <ias-system-module-file-upload-progress-manager
+      [files]="window.progress.files"
+      (close)="window.progress.show = false"
+    ></ias-system-module-file-upload-progress-manager>
+  </ias-window>
+</div>

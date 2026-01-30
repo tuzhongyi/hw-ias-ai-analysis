@@ -4,7 +4,7 @@ import { EventEmitter, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GlobalStorage {
-  version = '1.0.13.2';
+  version = '1.0.14.1';
   unload = new EventEmitter<void>();
 
   display = {
@@ -17,16 +17,19 @@ export class GlobalStorage {
       shop: false,
       road: false,
       route: false,
+      roadobject: false,
     },
     record: {
       shop: false,
       realtime: false,
       gps: false,
+      roadobject: false,
     },
     map: {
       shop: true,
       realtime: true,
-      gps: true,
+      gpstask: true,
+      roadobject: true,
     },
   };
 

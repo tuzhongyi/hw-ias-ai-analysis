@@ -1,17 +1,26 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
+import { Time } from '../../../../../../../../common/data-core/models/common/time.model';
 import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
 import { AMapInputTipItem } from '../../../../../../../../common/helper/map/amap.model';
 import { ArrayTool } from '../../../../../../../../common/tools/array-tool/array.tool';
 import { ClassTool } from '../../../../../../../../common/tools/class-tool/class.tool';
+import {
+  GeoLine,
+  GeoPoint,
+} from '../../../../../../../../common/tools/geo-tool/geo.model';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
 import { SystemTaskFileDetailsAMapController } from './system-task-file-details-amap.controller';
 
 @Injectable()
 export class SystemTaskFileDetailsMapController {
   event = {
-    trigger: new EventEmitter<FileGpsItem>(),
+    trigger: new EventEmitter<{
+      start: FileGpsItem;
+      end: FileGpsItem;
+      percent: number;
+    }>(),
     speed: new EventEmitter<number>(),
     position: new EventEmitter<[number, number]>(),
     point: new EventEmitter<[number, number]>(),
@@ -107,30 +116,28 @@ export class SystemTaskFileDetailsMapController {
 
   private regist() {
     this.amap.path.get().then((path) => {
-      path.mouseover.subscribe((point) => {
-        this.onmouseover(point);
+      path.mouseover.subscribe((data) => {
+        this.on.label.show(data);
       });
       path.mouseout.subscribe(() => {
         this.amap.label.get().then((label) => {
           label.hide();
         });
       });
-      path.click.subscribe((point) => {
+      path.click.subscribe((data) => {
         this.amap.label.get().then((label) => {
           label.hide();
-          this.onclick(point);
+          this.onclick(data);
         });
       });
     });
 
     this.amap.way.get().then((way) => {
       way.mouseover.subscribe((point) => {
-        this.onmouseover(point);
+        this.on.label.show(point);
       });
       way.mouseout.subscribe(() => {
-        this.amap.label.get().then((label) => {
-          label.hide();
-        });
+        this.on.label.hide();
       });
       way.click.subscribe((point) => {
         this.amap.label.get().then((label) => {
@@ -144,23 +151,62 @@ export class SystemTaskFileDetailsMapController {
     });
   }
 
-  private async onmouseover(point: [number, number]) {
-    let item = this.path.datas.find((x) => {
-      return ClassTool.equals.array([x.Longitude, x.Latitude], point);
-    });
-    if (item) {
-      let _point: [number, number] = [item.Longitude, item.Latitude];
-      let label = await this.amap.label.get();
-      label.show(_point, item.OffsetTime.toString());
-    }
-  }
+  on = {
+    label: {
+      show: async (data: {
+        line: GeoLine;
+        point: GeoPoint;
+        percent: number;
+      }) => {
+        let line = {
+          start: this.path.datas.find((x) => {
+            return ClassTool.equals.array(
+              [x.Longitude, x.Latitude],
+              data.line[0]
+            );
+          }),
+          end: this.path.datas.find((x) => {
+            return ClassTool.equals.array(
+              [x.Longitude, x.Latitude],
+              data.line[1]
+            );
+          }),
+        };
 
-  private onclick(point: [number, number]) {
-    let item = this.path.datas.find((x) => {
-      return ClassTool.equals.array([x.Longitude, x.Latitude], point);
-    });
-    if (item) {
-      this.event.trigger.emit(item);
+        if (line.start && line.end) {
+          let start = line.start.OffsetTime.toSeconds();
+          let end = line.end.OffsetTime.toSeconds();
+
+          let timestamp = start + (end - start) * data.percent;
+          let label = await this.amap.label.get();
+          let time = Time.from.seconds(timestamp);
+          label.show(data.point, `${time.toString()}`);
+        }
+      },
+      hide: () => {
+        this.amap.label.get().then((label) => {
+          label.hide();
+        });
+      },
+    },
+  };
+
+  private onclick(data: { line: GeoLine; point: GeoPoint; percent: number }) {
+    let line = {
+      start: this.path.datas.find((x) => {
+        return ClassTool.equals.array([x.Longitude, x.Latitude], data.line[0]);
+      }),
+      end: this.path.datas.find((x) => {
+        return ClassTool.equals.array([x.Longitude, x.Latitude], data.line[1]);
+      }),
+    };
+
+    if (line.start && line.end) {
+      this.event.trigger.emit({
+        start: line.start,
+        end: line.end,
+        percent: data.percent,
+      });
     }
   }
 

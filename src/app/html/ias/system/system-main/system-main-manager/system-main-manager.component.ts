@@ -13,18 +13,7 @@ import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool'
 import { wait } from '../../../../../common/tools/wait';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
 import { SystemMapStatisticComponent } from '../../system-map/system-map-statistic/system-map-statistic.component';
-import { SystemMainCardDeviceRouteStatisticComponent } from '../system-main-card/system-main-card-device-route-statistic/system-main-card-device-route-statistic/system-main-card-device-route-statistic.component';
-import { SystemMainCardDeviceStateComponent } from '../system-main-card/system-main-card-device-state/system-main-card-device-state.component';
-import { SystemMainCardEventChartLineRealtimeComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-realtime/system-main-card-event-chart-line-realtime.component';
-import { SystemMainCardEventChartLineSampleComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-sample/system-main-card-event-chart-line-sample.component';
-import { SystemMainCardEventChartLineShopComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-shop/system-main-card-event-chart-line-shop.component';
-import { SystemMainCardEventRealtimeStatisticComponent } from '../system-main-card/system-main-card-event-realtime-statistic/system-main-card-event-realtime-statistic/system-main-card-event-realtime-statistic.component';
-import { SystemMainCardEventTableComponent } from '../system-main-card/system-main-card-event-table/system-main-card-event-table.component';
-import { SystemMainCardShopStatisticComponent } from '../system-main-card/system-main-card-shop-statistic/system-main-card-shop-statistic.component';
-import { SystemMainCardStatisticEventShopComponent } from '../system-main-card/system-main-card-statistic-event-shop/system-main-card-statistic-event-shop/system-main-card-statistic-event-shop.component';
-import { SystemMainCardStatisticEventComponent } from '../system-main-card/system-main-card-statistic-event/system-main-card-statistic-event/system-main-card-statistic-event.component';
-import { SystemMainCardStatisticNumberDivisionListComponent } from '../system-main-card/system-main-card-statistic-number-division/system-main-card-statistic-number-division-list/system-main-card-statistic-number-division-list.component';
-import { SystemMainCardStatisticNumberComponent } from '../system-main-card/system-main-card-statistic-number/system-main-card-statistic-number/system-main-card-statistic-number.component';
+import { SystemMainManagerCardComponent } from '../system-main-manager-card/system-main-manager-card.component';
 import { SystemMainManagerWindow } from '../system-main-manager-window/controller/system-main-manager.window';
 import { SystemMainManagerWindowComponent } from '../system-main-manager-window/system-main-manager-window.component';
 import { SystemMainMapHeatmapFilterComponent } from '../system-main-map-heatmap/system-main-map-heatmap-filter/system-main-map-heatmap-filter.component';
@@ -48,18 +37,6 @@ import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
   imports: [
     CommonModule,
     FormsModule,
-    SystemMainCardStatisticNumberComponent,
-    SystemMainCardStatisticNumberDivisionListComponent,
-    SystemMainCardDeviceStateComponent,
-    SystemMainCardShopStatisticComponent,
-    SystemMainCardEventRealtimeStatisticComponent,
-    SystemMainCardDeviceRouteStatisticComponent,
-    SystemMainCardEventTableComponent,
-    SystemMainCardStatisticEventComponent,
-    SystemMainCardStatisticEventShopComponent,
-    SystemMainCardEventChartLineRealtimeComponent,
-    SystemMainCardEventChartLineShopComponent,
-    SystemMainCardEventChartLineSampleComponent,
     SystemMainPanelShopRegistrationTableManagerComponent,
     SystemMainMapComponent,
     SystemMapPanelDetailsShopRegistrationComponent,
@@ -69,6 +46,7 @@ import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
     SystemMainMapHeatmapSettingsComponent,
     SystemMainMapStateShopComponent,
     SystemMapStatisticComponent,
+    SystemMainManagerCardComponent,
   ],
   templateUrl: './system-main-manager.component.html',
   styleUrl: './system-main-manager.component.less',

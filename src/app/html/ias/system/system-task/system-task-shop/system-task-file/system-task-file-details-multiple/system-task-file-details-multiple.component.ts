@@ -129,9 +129,15 @@ export class SystemTaskFileDetailsMultipleComponent
         }
         this.video.src = urls;
       },
-      seek: (item: FileGpsItem) => {
-        let time = item.OffsetTime.toSeconds();
-        this.video.time = time;
+      seek: (data: {
+        start: FileGpsItem;
+        end: FileGpsItem;
+        percent: number;
+      }) => {
+        let start = data.start.OffsetTime.toSeconds();
+        let end = data.end.OffsetTime.toSeconds();
+        let timestamp = start + (end - start) * data.percent;
+        this.video.time = timestamp;
       },
       error: (e: Error) => {
         this.toastr.error(e.message);

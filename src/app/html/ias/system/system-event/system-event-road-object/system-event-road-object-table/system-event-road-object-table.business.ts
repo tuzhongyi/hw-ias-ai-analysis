@@ -48,6 +48,9 @@ export class SystemEventRoadObjectTableBusiness {
     item = Object.assign(item, data);
 
     item.EventTypeName = this.language.road.object.EventTypes(data.EventType);
+    item.RoadObjectTypeName = this.language.road.object.ObjectTypes(
+      data.RoadObjectType
+    );
 
     if (data.DivisionId) {
       item.DivisionName = this.service.division.cache

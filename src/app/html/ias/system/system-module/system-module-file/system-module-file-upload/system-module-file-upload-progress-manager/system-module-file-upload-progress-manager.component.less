@@ -1,0 +1,43 @@
+.system-module-file-upload-progress {
+  &-border {
+    border: 1px solid #2d76ce;
+    box-sizing: border-box;
+    width: 100%;
+    height: 36px;
+    position: relative;
+  }
+
+  &-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &-content {
+    height: 100%;
+    width: 0;
+    background-color: rgba(45, 118, 206, 0.5);
+
+  }
+
+  &-manager {
+    height: 100%;
+    width: 100%;
+
+
+    &-body {
+      width: 100%;
+      height: calc(100% - 36px);
+      display: flex;
+      align-items: center;
+    }
+
+    &-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 36px;
+    }
+  }
+}

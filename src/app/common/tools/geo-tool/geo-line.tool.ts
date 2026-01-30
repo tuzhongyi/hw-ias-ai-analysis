@@ -31,4 +31,29 @@ export class GeoLineTool {
 
     return distanceSquared <= epsilon * epsilon;
   }
+
+  per(line: GeoLine, point: GeoPoint): GeoPoint {
+    const [[x1, y1], [x2, y2]] = line;
+    const [px, py] = point;
+
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+
+    const lenSq = dx * dx + dy * dy;
+
+    // 退化线段（两个点重合）
+    if (lenSq === 0) {
+      return [x1, y1];
+    }
+
+    let t = ((px - x1) * dx + (py - y1) * dy) / lenSq;
+
+    // 限制在线段范围内
+    t = Math.max(0, Math.min(1, t));
+
+    const cx = x1 + t * dx;
+    const cy = y1 + t * dy;
+
+    return [cx, cy];
+  }
 }

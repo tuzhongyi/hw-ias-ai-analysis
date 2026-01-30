@@ -60,17 +60,26 @@ export class SystemMainCardStatisticNumberComponent
     }
   }
   private async load() {
-    let shop = await this.business.shop();
-    let road = await this.business.road();
     let device = await this.business.device();
-    let task = await this.business.task();
+
     this.datas = [];
     if (this.global.display.map.shop) {
+      let shop = await this.business.shop();
       this.datas.push(shop);
+    } else {
+      let road = await this.business.road();
+      this.datas.push(road);
     }
-    this.datas.push(road);
+
     this.datas.push(device);
-    this.datas.push(task);
+    if (this.global.display.map.gpstask) {
+      let task = await this.business.task();
+      this.datas.push(task);
+    }
+    if (this.global.display.map.roadobject) {
+      let roadobject = await this.business.roadobject();
+      this.datas.push(roadobject);
+    }
   }
 
   on = {

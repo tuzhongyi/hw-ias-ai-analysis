@@ -4,9 +4,11 @@ export enum SyatemMainMapNavigation {
   realtime = 'realtime',
   gpstask = 'gpstask',
   heatmap = 'heatmap',
+  roadobject = 'roadobject',
 }
 export enum EventMode {
   shop,
   realtime,
   gpstask,
+  roadobject,
 }

@@ -3,3 +3,8 @@ import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/fil
 export interface IVideoPathMapBusiness {
   load(...args: any[]): Promise<FileGpsItem[]>;
 }
+export interface IVideoPathMapTriggerArgs {
+  start: FileGpsItem;
+  end: FileGpsItem;
+  percent: number;
+}

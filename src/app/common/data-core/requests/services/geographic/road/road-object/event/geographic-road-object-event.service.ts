@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { ServiceTool } from '../../../../../../../tools/service-tool/service.tool';
 import { RoadObjectEventRecord } from '../../../../../../models/arm/geographic/road-object-event-record.model';
 import { PagedList } from '../../../../../../models/page-list.model';
 import { HowellResponse } from '../../../../../../models/response';
@@ -12,6 +13,12 @@ import {
 
 export class ArmGeographicRoadObjectEventRequestService {
   constructor(private http: HowellHttpClient) {}
+
+  all(params: GetRoadObjectEventsParams): Promise<RoadObjectEventRecord[]> {
+    return ServiceTool.all((p) => {
+      return this.list(p);
+    }, params);
+  }
 
   async get(id: string) {
     let url = ArmGeographicUrl.road.object.item(id);

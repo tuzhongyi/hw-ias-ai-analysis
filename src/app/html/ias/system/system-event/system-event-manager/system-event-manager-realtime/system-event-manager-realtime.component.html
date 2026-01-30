@@ -60,6 +60,25 @@
         </div>
 
         <div class="form-item">
+          <div class="form-item-text">是否误报</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.misinform"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.misinform">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.misinform"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
           <div class="form-item-text">处置状态</div>
           <div class="form-item-value fill">
             <hw-select
@@ -89,25 +108,6 @@
               <select [(ngModel)]="table.args.timeout">
                 <option [ngValue]="true">是</option>
                 <option [ngValue]="false">否</option>
-              </select>
-            </hw-select>
-          </div>
-        </div>
-        <div class="form-item">
-          <div class="form-item-text">是否误报</div>
-          <div class="form-item-value fill">
-            <hw-select
-              [(selected)]="table.args.misinform"
-              [nullable]="true"
-              [nulltext]="'全部'"
-            >
-              <select [(ngModel)]="table.args.misinform">
-                <option
-                  [ngValue]="item.Value"
-                  *ngFor="let item of source.misinform"
-                >
-                  {{ item.Name }}
-                </option>
               </select>
             </hw-select>
           </div>

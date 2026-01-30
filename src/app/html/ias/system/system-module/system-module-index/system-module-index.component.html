@@ -46,7 +46,7 @@
       <div
         class="system-module-index-body-list-item"
         (click)="on.roadobject()"
-        *ngIf="display.road"
+        *ngIf="display.roadobject"
       >
         <div class="system-module-index-body-list-item-icon road"></div>
         <div class="system-module-index-body-list-item-name">道路物件</div>
@@ -58,6 +58,14 @@
       >
         <div class="system-module-index-body-list-item-icon road"></div>
         <div class="system-module-index-body-list-item-name">巡检线路</div>
+      </div>
+      <div
+        class="system-module-index-body-list-item"
+        (click)="on.file()"
+        *ngIf="display.roadobject"
+      >
+        <div class="system-module-index-body-list-item-icon analysis"></div>
+        <div class="system-module-index-body-list-item-name">视频文件</div>
       </div>
     </div>
   </div>

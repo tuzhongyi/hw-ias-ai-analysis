@@ -19,8 +19,8 @@
           <th>照片</th>
           <th>行政区划</th>
           <th>责任网格</th>
-          <th sort="RoadObjectType">物件类型</th>
           <th sort="EventType">事件类型</th>
+          <th sort="RoadObjectType">物件类型</th>
           <th sort="EventTime">发现时间</th>
           <th sort="Confirmed">确认状态</th>
           <th sort="ConfirmedTime">确认时间</th>
@@ -79,7 +79,7 @@
 
           <td>
             @if(item){
-            {{ item.RoadObjectName }}
+            {{ item.RoadObjectTypeName | async }}
             }
           </td>
           <td>

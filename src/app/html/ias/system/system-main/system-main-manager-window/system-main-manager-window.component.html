@@ -58,6 +58,21 @@
   ></ias-system-event-manager-shop>
 </ias-window>
 <!--  ias-system-event-manager-shop  -->
+<!--  ias-system-event-manager-shop  -->
+<ias-window
+  [Model]="window.record.roadobject"
+  *ngIf="window.record.roadobject.show"
+  [style]="window.record.roadobject.style"
+  [title]="window.record.roadobject.title"
+  [mask]="false"
+>
+  <ias-system-event-road-object-manager
+    [iswindow]="true"
+    [mapable]="false"
+    [args]="window.record.roadobject.args"
+  ></ias-system-event-road-object-manager>
+</ias-window>
+<!--  ias-system-event-manager-shop  -->
 <!--  ias-system-event-gps-task-manager  -->
 <ias-window
   [Model]="window.record.sample"
@@ -113,6 +128,20 @@
   ></ias-system-module-road-manager>
 </ias-window>
 <!--  ias-system-road-manager  -->
+<!--  ias-system-road-object-manager  -->
+<ias-window
+  [Model]="window.roadobject"
+  *ngIf="window.roadobject.show"
+  [style]="window.roadobject.style"
+  [title]="window.roadobject.title"
+  [mask]="false"
+>
+  <ias-system-module-road-object-manager
+    [iswindow]="true"
+    [operable]="false"
+  ></ias-system-module-road-object-manager>
+</ias-window>
+<!--  ias-system-road-object-manager  -->
 <!--  ias-system-road-manager  -->
 <ias-window
   [Model]="window.device.mobile"

@@ -8,7 +8,12 @@
   </div>
   <div
     class="system-index-button module"
-    *ngIf="display.module.shop || display.module.road || display.module.route"
+    *ngIf="
+      display.module.shop ||
+      display.module.road ||
+      display.module.route ||
+      display.module.roadobject
+    "
     (click)="onpath(Path.module)"
   >
     AI功能模块
@@ -16,7 +21,12 @@
   <div class="system-index-button map" (click)="onpath(Path.map)">地图</div>
   <div
     class="system-index-button event"
-    *ngIf="display.record.shop || display.record.realtime || display.record.gps"
+    *ngIf="
+      display.record.shop ||
+      display.record.realtime ||
+      display.record.gps ||
+      display.record.roadobject
+    "
     (click)="onpath(Path.event)"
   >
     AI分析事件

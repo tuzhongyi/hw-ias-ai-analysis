@@ -1,6 +1,9 @@
+import { GeoPolylineClosestTool } from './geo-polyline-closet.tool';
 import { GeoLine, GeoPoint, GeoPolyline } from './geo.model';
 
 export class GeoPolylineTool {
+  closest = new GeoPolylineClosestTool();
+
   center(points: GeoPolyline): GeoPoint | undefined {
     let total = 0,
       lens = [];

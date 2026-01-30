@@ -1,0 +1,29 @@
+@import url(../system-main-manager/system-main-manager-@.less);
+
+.system-main-manager-card {
+
+  @card-margin: @padding;
+  @card-gap: @gap;
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: @card-gap;
+    position: absolute;
+    width: @card-width;
+    height: calc(100% - 2 * @card-margin);
+    top: @card-margin;
+
+    &.left {
+      left: @card-margin;
+    }
+
+    &.right {
+      right: @card-margin;
+    }
+  }
+
+  &-item {
+    height: calc((100% - @card-gap * 2) / 3);
+  }
+}

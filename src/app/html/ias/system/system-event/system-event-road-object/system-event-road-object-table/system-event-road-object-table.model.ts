@@ -67,4 +67,5 @@ export class SystemEventRoadObjectTableItem extends RoadObjectEventRecord {
   GridCellName?: Promise<string>;
   DivisionName?: Promise<string>;
   EventTypeName!: Promise<string>;
+  RoadObjectTypeName!: Promise<string>;
 }

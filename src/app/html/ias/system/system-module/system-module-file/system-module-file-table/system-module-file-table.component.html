@@ -1,0 +1,107 @@
+<div class="system-module-file-table">
+  <div class="system-module-file-table-head">
+    <div class="system-module-file-table-head-operation left">
+      <div
+        class="button"
+        title="向上"
+        (click)="on.up()"
+        [class.disabled]="folders.length == 0"
+      >
+        <i class="mdi mdi-arrow-up"></i>
+      </div>
+    </div>
+    <div class="system-module-file-table-head-path button-group">
+      <div class="button" (click)="on.path()">root</div>
+      <ng-container *ngFor="let item of folders; let index = index">
+        /
+
+        <div class="button" (click)="on.path(item.value)">
+          {{ item.key }}
+        </div>
+      </ng-container>
+    </div>
+    <div class="system-module-file-table-head-operation right">
+      <div class="button" title="上传" (click)="on.upload()">
+        <i class="mdi mdi-upload"></i> 上传视频
+      </div>
+    </div>
+  </div>
+  <div class="system-module-file-table-body table-split">
+    <div class="table-split-head">
+      <table
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        TableSorter
+        (sort)="on.sort($event)"
+      >
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="center">序号</th>
+            <th sort="FileName">文件名称</th>
+            <th sort="ModifiedTime">修改日期</th>
+            <th sort="IsDirectory">类型</th>
+            <th sort="FileSize">文件大小</th>
+            <th class="center">操作</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let index = index"
+            (click)="on.select(item)"
+            (dblclick)="on.dblclick(item, $event)"
+            [ngClass]="{
+              selected: selected == item
+            }"
+          >
+            <td class="center">
+              <div>{{ index + 1 }}</div>
+            </td>
+            <td [title]="item.FileName">
+              <div>{{ item.FileName }}</div>
+            </td>
+            <td>
+              {{ item.ModifiedTime | date : Language.YearMonthDayHHmmss }}
+            </td>
+            <td>
+              {{ item.IsDirectory ? "文件夹" : "文件" }}
+            </td>
+            <td>
+              @if(!item.IsDirectory){
+              {{ Language.Size(item.FileSize) }}
+              }
+            </td>
+            <td class="center">
+              <div class="operation" *ngIf="!item.IsDirectory">
+                <div
+                  class="button"
+                  title="播放视频"
+                  (click)="on.video(item, $event)"
+                >
+                  <i class="mdi mdi-video"></i>
+                </div>
+                <div
+                  class="button"
+                  title="下载视频"
+                  (click)="on.download(item, $event)"
+                >
+                  <i class="mdi mdi-download"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

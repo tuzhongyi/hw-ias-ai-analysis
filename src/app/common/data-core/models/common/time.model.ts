@@ -71,4 +71,17 @@ export class Time {
     let second = this.second.toString().padStart(2, '0');
     return `${hour}:${minute}:${second}`;
   }
+
+  static from = {
+    seconds: (seconds: number, floor = true) => {
+      let hour = Math.floor(seconds / 3600);
+      let minute = Math.floor((seconds % 3600) / 60);
+      let second = seconds % 60;
+      if (floor) {
+        second = Math.floor(second);
+      }
+
+      return new Time(hour, minute, second);
+    },
+  };
 }

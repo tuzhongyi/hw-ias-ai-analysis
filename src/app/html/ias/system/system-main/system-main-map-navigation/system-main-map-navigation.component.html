@@ -1,9 +1,12 @@
-<div class="system-main-map-navigation">
+<div class="system-main-map-navigation" [class.six]="items.length > 5">
   <div
     class="system-main-map-navigation-item"
     *ngFor="let item of items"
-    [class.selected]="item.key == index"
     (click)="on.select(item.key)"
+    [ngClass]="{
+      selected: item.key == index,
+      
+    }"
   >
     <div class="system-main-map-navigation-item-icon-border">
       <div class="system-main-map-navigation-item-icon-background">

@@ -41,7 +41,11 @@ export class SystemTaskFileDetailsMapComponent
   @Input() data?: FileInfo;
   @Input() task?: AnalysisTask;
   @Input('to') _to?: EventEmitter<number>;
-  @Output() trigger = new EventEmitter<FileGpsItem>();
+  @Output() trigger = new EventEmitter<{
+    start: FileGpsItem;
+    end: FileGpsItem;
+    percent: number;
+  }>();
   @Output() loaded = new EventEmitter<FileGpsItem[]>();
   @Output() error = new EventEmitter<Error>();
 

@@ -18,6 +18,9 @@ export class SystemMainManagerCardStatisticNumber {
         case 'task':
           this.that.window.task.gps.show = true;
           break;
+        case 'roadobject':
+          this.that.window.roadobject.show = true;
+          break;
         default:
           break;
       }

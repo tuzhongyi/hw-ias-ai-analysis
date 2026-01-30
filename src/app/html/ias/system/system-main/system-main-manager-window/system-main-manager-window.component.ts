@@ -12,9 +12,11 @@ import { SystemEventGpsTaskManagerComponent } from '../../system-event/system-ev
 import { SystemEventManagerRealtimeComponent } from '../../system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
 import { SystemEventManagerShopComponent } from '../../system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
 import { SystemEventProcessRealtimeComponent } from '../../system-event/system-event-process/system-event-process-realtime/system-event-process-realtime.component';
+import { SystemEventRoadObjectManagerComponent } from '../../system-event/system-event-road-object/system-event-road-object-manager/system-event-road-object-manager.component';
 import { SystemEventVideoComponent } from '../../system-event/system-event-video/system-event-video.component';
 import { SystemModuleMobileDeviceRouteManagerComponent } from '../../system-module/system-module-mobile-device-route/system-module-mobile-device-route-manager/system-module-mobile-device-route-manager.component';
 import { SystemModuleMobileDeviceManagerComponent } from '../../system-module/system-module-mobile-device/system-module-mobile-device-manager/system-module-mobile-device-manager.component';
+import { SystemModuleRoadObjectManagerComponent } from '../../system-module/system-module-road-object/system-module-road-object-manager/system-module-road-object-manager.component';
 import { SystemModuleRoadManagerComponent } from '../../system-module/system-module-road/system-module-road-manager/system-module-road-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from '../../system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemModuleGpsTaskManagerComponent } from '../../system-task/system-module-gps-task/system-module-gps-task-manager/system-module-gps-task-manager.component';
@@ -40,8 +42,10 @@ import { SystemMainManagerWindowSource } from './system-main-manager-window.sour
     SystemTaskManagerComponent,
     SystemModuleGpsTaskManagerComponent,
     SystemModuleRoadManagerComponent,
+    SystemModuleRoadObjectManagerComponent,
     SystemModuleShopRegistrationManagerComponent,
     SystemEventGpsTaskDetailsContainerComponent,
+    SystemEventRoadObjectManagerComponent,
     SystemModuleMobileDeviceManagerComponent,
     SystemModuleMobileDeviceRouteManagerComponent,
   ],

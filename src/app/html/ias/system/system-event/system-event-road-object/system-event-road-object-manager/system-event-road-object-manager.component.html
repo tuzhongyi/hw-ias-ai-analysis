@@ -25,25 +25,6 @@
         </div>
 
         <div class="form-item">
-          <div class="form-item-text">物件类型</div>
-          <div class="form-item-value fill">
-            <hw-select
-              [(selected)]="table.args.type"
-              [nullable]="true"
-              [nulltext]="'全部'"
-            >
-              <select [(ngModel)]="table.args.type">
-                <option
-                  [ngValue]="item.Value"
-                  *ngFor="let item of source.types"
-                >
-                  {{ item.Name }}
-                </option>
-              </select>
-            </hw-select>
-          </div>
-        </div>
-        <div class="form-item">
           <div class="form-item-text">事件类型</div>
           <div class="form-item-value fill">
             <hw-select
@@ -63,20 +44,25 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-text">是否派单</div>
+          <div class="form-item-text">物件类型</div>
           <div class="form-item-value fill">
             <hw-select
-              [(selected)]="table.args.confirmed"
+              [(selected)]="table.args.type"
               [nullable]="true"
               [nulltext]="'全部'"
             >
-              <select [(ngModel)]="table.args.assigned">
-                <option [ngValue]="true">已派单</option>
-                <option [ngValue]="false">未派单</option>
+              <select [(ngModel)]="table.args.type">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.types"
+                >
+                  {{ item.Name }}
+                </option>
               </select>
             </hw-select>
           </div>
         </div>
+
         <div class="form-item">
           <div class="form-item-text">是否确认</div>
           <div class="form-item-value fill">
@@ -102,13 +88,12 @@
               [nulltext]="'全部'"
             >
               <select [(ngModel)]="table.args.misinform">
-                <option [ngValue]="true">是</option>
-                <option [ngValue]="false">否</option>
+                <option [ngValue]="true">误报</option>
+                <option [ngValue]="false">非误报</option>
               </select>
             </hw-select>
           </div>
         </div>
-
         <div class="form-item">
           <div class="form-item-text">是否派单</div>
           <div class="form-item-value fill">
@@ -125,6 +110,21 @@
           </div>
         </div>
 
+        <div class="form-item">
+          <div class="form-item-text">处置状态</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.handled"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.assigned">
+                <option [ngValue]="true">已处置</option>
+                <option [ngValue]="false">待处置</option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
         <div class="form-item division">
           <div class="form-item-text">行政区划</div>
           <div class="form-item-value fill">
@@ -140,7 +140,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item division">
           <div class="form-item-text">责任网格</div>
           <div class="form-item-value fill">
             <hw-select [(selected)]="table.args.gridCellId" [nullable]="true">
@@ -155,6 +155,7 @@
             </hw-select>
           </div>
         </div>
+
         <div class="form-item">
           <div class="form-item-text">名称</div>
           <div class="form-item-value fill">

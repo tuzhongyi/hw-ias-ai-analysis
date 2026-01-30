@@ -23,14 +23,25 @@ export class SystemMainMapNavigationComponent implements OnInit {
     let shop = { key: SyatemMainMapNavigation.shop, value: '分析商铺' };
     let realtime = { key: SyatemMainMapNavigation.realtime, value: '实时事件' };
     let gpstask = { key: SyatemMainMapNavigation.gpstask, value: '定制场景' };
+    let roadobject = {
+      key: SyatemMainMapNavigation.roadobject,
+      value: '道路物件',
+    };
     let heatmap = { key: SyatemMainMapNavigation.heatmap, value: '事件热力' };
 
     this.items.push(main);
     if (this.global.display.map.shop) {
       this.items.push(shop);
     }
-    this.items.push(realtime);
-    this.items.push(gpstask);
+    if (this.global.display.map.roadobject) {
+      this.items.push(realtime);
+    }
+    if (this.global.display.map.gpstask) {
+      this.items.push(gpstask);
+    }
+    if (this.global.display.map.roadobject) {
+      // this.items.push(roadobject);
+    }
     this.items.push(heatmap);
   }
 

@@ -76,9 +76,15 @@ export class VideoPathComponent implements OnChanges {
           this.video.event.time.emit(target.currentTime * 1000);
         },
       },
-      seek: (item: FileGpsItem) => {
-        let time = item.OffsetTime.toSeconds();
-        this.video.time = time;
+      seek: (data: {
+        start: FileGpsItem;
+        end: FileGpsItem;
+        percent: number;
+      }) => {
+        let start = data.start.OffsetTime.toSeconds();
+        let end = data.end.OffsetTime.toSeconds();
+        let timestamp = start + (end - start) * data.percent;
+        this.video.time = timestamp;
       },
       error: (e: Event) => {
         if (!this.video.src) return;
