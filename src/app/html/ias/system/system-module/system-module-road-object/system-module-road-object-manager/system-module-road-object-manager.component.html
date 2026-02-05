@@ -56,7 +56,7 @@
       class="system-module-road-object-manager-head-operation"
       *ngIf="operable"
     >
-      <button class="button-clip-gradient" (click)="window.details.open()">
+      <button class="button-clip-gradient" (click)="window.file.open()">
         视频添加
       </button>
       <button class="button-clip-gradient" (click)="window.details.open()">
@@ -97,6 +97,33 @@
     (cancel)="delete.cancel()"
   >
   </confirm-window>
+
+  <ias-window
+    [Model]="window.file"
+    *ngIf="window.file.show"
+    [style]="window.file.style"
+    [title]="window.file.title"
+  >
+    <ias-system-module-file-manager
+      [iswindow]="true"
+      [videoable]="false"
+      (video)="window.video.open($event)"
+      [(folder)]="window.file.folder"
+    ></ias-system-module-file-manager>
+  </ias-window>
+  <ias-window
+    [Model]="window.video"
+    *ngIf="window.video.show"
+    [style]="window.video.style"
+    [title]="window.video.title"
+  >
+    <ias-system-module-road-object-video-manager
+      [data]="window.video.data"
+      [objects]="table.datas"
+      (pickup)="file.on.pickup($event)"
+      (close)="window.video.show = false"
+    ></ias-system-module-road-object-video-manager>
+  </ias-window>
   <ias-window
     [Model]="window.details"
     *ngIf="window.details.show"
@@ -105,7 +132,8 @@
   >
     <ias-system-module-road-object-details-manager
       [data]="window.details.data"
-      (ok)="search()"
+      [pickup]="window.details.pickup"
+      (ok)="reload()"
       (close)="window.details.show = false"
     ></ias-system-module-road-object-details-manager>
   </ias-window>

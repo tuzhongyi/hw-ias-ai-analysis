@@ -4,6 +4,7 @@
       <div class="system-module-road-object-details-image panel">
         <ias-system-module-road-object-details-image
           [url]="model.ImageUrl"
+          [load]="image.load"
           (upload)="image.upload($event)"
         ></ias-system-module-road-object-details-image>
       </div>
@@ -46,6 +47,7 @@
           <ias-system-module-road-object-details-config
             [(data)]="model.ImageSampling"
             [operable]="operable"
+            (course)="window.course.show = true"
           ></ias-system-module-road-object-details-config>
         </div>
       </div>
@@ -61,3 +63,14 @@
     <button class="button-clip-blue" (click)="on.cancel()">取消</button>
   </div>
 </div>
+
+<ias-window
+  [Model]="window.course"
+  *ngIf="window.course.show"
+  [style]="window.course.style"
+  [title]="window.course.title"
+>
+  <ias-angle-control
+    [(value)]="this.model.ImageSampling.Course"
+  ></ias-angle-control>
+</ias-window>

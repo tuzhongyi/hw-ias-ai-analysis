@@ -35,4 +35,8 @@ export class MapPath {
   get object() {
     return this.marker.object;
   }
+
+  get arrow() {
+    return `${this.base}/arrow_1.png`;
+  }
 }

@@ -85,6 +85,8 @@ export class SystemBreadcrumbBusiness {
         return [this.home.index(), this.module.index(), this.module.route()];
       } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
         return [this.home.index(), this.module.index(), this.module.road()];
+      } else if (location.pathname.indexOf(SystemPath.module_file) >= 0) {
+        return [this.home.index(), this.module.index(), this.module.file()];
       } else if (location.pathname.indexOf(SystemPath.module_gps_task) >= 0) {
         return [this.home.index(), this.module.index(), this.module.gps.task()];
       } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
@@ -151,6 +153,12 @@ export class SystemBreadcrumbBusiness {
         item.text = '定制场景';
         return item;
       },
+    },
+    file: () => {
+      let item = new SystemBreadcrumbItem();
+      item.path = SystemPath.module_file;
+      item.text = '视频文件';
+      return item;
     },
   };
 

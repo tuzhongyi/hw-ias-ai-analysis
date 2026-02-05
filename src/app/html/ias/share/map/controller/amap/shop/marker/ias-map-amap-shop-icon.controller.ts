@@ -39,7 +39,11 @@ export class IASMapAMapIconController {
   private _get = {
     image: {
       shop: () => {
-        let color = this.color ?? MapMarkerColor.green;
+        let color = MapMarkerColor.green;
+        if (this.color == MapMarkerColor.gray) {
+        } else if (this.color) {
+          color == this.color;
+        }
         if (this.is.selected) {
           if (this.is.hover) {
             return PathTool.image.map.shop[color].hover;
@@ -66,7 +70,7 @@ export class IASMapAMapIconController {
           case MapMarkerColor.orange:
             path = PathTool.image.map.object.passage;
             break;
-
+          case MapMarkerColor.gray:
           default:
             path = PathTool.image.map.object.unknow;
             break;

@@ -1,0 +1,59 @@
+<div
+  class="system-task-file-details-map-panel-position panel-map"
+  [ngClass]="{
+    fixed: fixed,
+    'top-left': top && left,
+    'top-right': top && !left,
+    'bottom-left': !top && left,
+    'bottom-right': !top && !left
+  }"
+>
+  <div class="system-task-file-details-map-panel-position-head">
+    <div class="panel-title">
+      <div class="icon"><i [class]="icon"></i></div>
+      <div class="title">
+        {{ title }}
+      </div>
+    </div>
+    <div class="panel-operation">
+      <button
+        [ngClass]="{
+          'button-fixed': fixed
+        }"
+        (click)="on.fixed()"
+      >
+        <i class="mdi mdi-pin"></i>
+      </button>
+    </div>
+  </div>
+  <div class="system-task-file-details-map-panel-position-body">
+    @if(position){
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">
+          <select [(ngModel)]="position.type">
+            <option [ngValue]="GisType.GCJ02">GCJ02</option>
+            <option [ngValue]="GisType.WGS84">WGS84</option>
+            <option [ngValue]="GisType.BD09">BD09</option>
+          </select>
+        </div>
+        <div class="form-item-value">
+          @if(position.type === GisType.WGS84) {
+          {{ position.wgs84[0] }},{{ position.wgs84[1] }}
+          } @if(position.type === GisType.GCJ02) {
+          {{ position.gcj02[0] }},{{ position.gcj02[1] }}
+          } @if(position.type === GisType.BD09) {
+          {{ position.bd09[0] }},{{ position.bd09[1] }}
+          }
+        </div>
+        <div class="form-item-suffix">
+          <button title="复制坐标" (click)="on.copy()">
+            <i class="mdi mdi-content-copy"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    }
+  </div>
+</div>

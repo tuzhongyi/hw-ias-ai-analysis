@@ -38,6 +38,10 @@ export class SystemModuleFileManagerComponent implements OnInit, OnDestroy {
   @Input() selected?: FileInfo;
   @Output() selectedChange = new EventEmitter<FileInfo>();
   @Input() multiple?: EventEmitter<void>;
+  @Input() videoable = true;
+  @Output() video = new EventEmitter<FileInfo>();
+  @Input() folder?: FileInfo;
+  @Output() folderChange = new EventEmitter<FileInfo>();
   constructor(
     private business: SystemMobuleFileManagerBusiness,
     private toastr: ToastrService
@@ -58,8 +62,11 @@ export class SystemModuleFileManagerComponent implements OnInit, OnDestroy {
       this.selectedChange.emit(this.selected);
     },
     video: (data: FileInfo) => {
-      this.window.details.data = data;
-      this.window.details.show = true;
+      if (this.videoable) {
+        this.window.details.data = data;
+        this.window.details.show = true;
+      }
+      this.video.emit(data);
     },
     error: (e: Error) => {
       this.toastr.error(e.message);
@@ -67,6 +74,10 @@ export class SystemModuleFileManagerComponent implements OnInit, OnDestroy {
     upload: (files: UploadControlFile[]) => {
       this.window.progress.open(files);
       this.window.upload.show = false;
+    },
+    folder: (data: FileInfo) => {
+      this.folder = data;
+      this.folderChange.emit(data);
     },
   };
 }

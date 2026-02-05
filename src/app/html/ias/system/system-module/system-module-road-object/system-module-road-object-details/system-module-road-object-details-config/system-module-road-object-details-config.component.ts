@@ -25,11 +25,16 @@ export class SystemModuleRoadObjectDetailsConfigComponent {
   @Input() data = new ObjectImageSamplingConfig();
   @Output() dataChange = new EventEmitter<ObjectImageSamplingConfig>();
 
+  @Output() course = new EventEmitter<number>();
+
   constructor(public source: SystemModuleRoadObjectDetailsConfigSource) {}
 
   on = {
     change: () => {
       this.dataChange.emit(this.data);
+    },
+    course: () => {
+      this.course.emit(this.data.Course);
     },
   };
 }

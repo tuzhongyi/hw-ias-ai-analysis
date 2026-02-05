@@ -1,0 +1,35 @@
+<div
+  class="video-tag-container"
+  (mousemove)="video.on.mouse.move()"
+  (mouseleave)="video.on.mouse.leave()"
+>
+  <video
+    video-directive
+    autoplay="autoplay"
+    controls="true"
+    [keycontrol]="keycontrol"
+    [src]="src"
+    (play)="video.on.play()"
+    (pause)="video.on.pause()"
+    [currentTime]="video.time"
+    (loadedmetadata)="video.on.loaded($event)"
+    (timeupdate)="video.on.update($event)"
+    (error)="video.on.error($event)"
+  ></video>
+  <div
+    class="video-tag-list"
+    [style.display]="video.control.visible ? '' : 'none'"
+  >
+    <div
+      class="video-tag-item"
+      *ngFor="let item of video.tags | keyvalue"
+      [ngStyle]="{
+        left: item.key + '%'
+      }"
+      [title]="item.value.OffsetTime.toString()"
+      (click)="video.on.seek(item.value)"
+      (mousemove)="video.on.mouse.move()"
+      (mouseenter)="video.on.mouse.move()"
+    ></div>
+  </div>
+</div>

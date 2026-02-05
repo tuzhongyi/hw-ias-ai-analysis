@@ -1,0 +1,61 @@
+<div class="system-task-file-details-map-manager">
+  <ias-system-module-road-object-video-map-container
+    [objects]="objects"
+    [data]="data"
+    [to]="to"
+    [pickupable]="pickupable"
+    [(location)]="position.current.data"
+    [(rectified)]="rectified"
+    [(pickup)]="position.pickup.data"
+    (pickupChange)="on.pickup($event)"
+    (loaded)="on.loaded($event)"
+    (trigger)="on.trigger($event)"
+    (error)="on.error($event)"
+    (current)="on.current($event)"
+  ></ias-system-module-road-object-video-map-container>
+  <div
+    class="system-task-file-details-map-manager-road panel-map"
+    *ngIf="roadable"
+  >
+    {{ current?.RoadName }}
+  </div>
+  <div class="system-task-file-details-map-manager-settings panel-map">
+    <ias-system-module-road-object-video-map-settings
+      [(rectified)]="rectified"
+      [(pickupable)]="pickupable"
+    ></ias-system-module-road-object-video-map-settings>
+  </div>
+  <div
+    class="system-task-file-details-map-manager-position-current"
+    *ngIf="position.current && locationable"
+    [ngClass]="{
+      fixed: position.current.fixed
+    }"
+  >
+    <ias-system-module-road-object-video-map-position
+      [icon]="'howell-icon-arrow'"
+      [title]="'当前位置'"
+      [position]="position.current.data"
+      [(fixed)]="position.current.fixed"
+      [left]="true"
+      [top]="false"
+      [offset]="true"
+    ></ias-system-module-road-object-video-map-position>
+  </div>
+  <div
+    class="system-task-file-details-map-manager-position-point"
+    *ngIf="position.pickup.data && pickupable"
+    [ngClass]="{
+      fixed: position.pickup.fixed
+    }"
+  >
+    <ias-system-module-road-object-video-map-position
+      [icon]="'howell-icon-garbage2'"
+      [title]="'物件位置'"
+      [position]="position.pickup.data"
+      [(fixed)]="position.pickup.fixed"
+      [left]="true"
+      [top]="false"
+    ></ias-system-module-road-object-video-map-position>
+  </div>
+</div>

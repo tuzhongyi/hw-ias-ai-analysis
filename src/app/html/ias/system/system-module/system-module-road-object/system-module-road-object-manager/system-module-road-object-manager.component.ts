@@ -6,10 +6,13 @@ import { HowellSelectComponent } from '../../../../../../common/components/hw-se
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { WindowComponent } from '../../../../share/window/component/window.component';
+import { SystemModuleFileManagerComponent } from '../../system-module-file/system-module-file-manager/system-module-file-manager.component';
 import { SystemModuleRoadObjectDetailsManagerComponent } from '../system-module-road-object-details/system-module-road-object-details-manager/system-module-road-object-details-manager.component';
 import { SystemModuleRoadObjectMapComponent } from '../system-module-road-object-map/system-module-road-object-map.component';
 import { SystemModuleRoadObjectTableComponent } from '../system-module-road-object-table/system-module-road-object-table.component';
 import { SystemModuleRoadObjectTableArgs } from '../system-module-road-object-table/system-module-road-object-table.model';
+import { SystemModuleRoadObjectVideoManagerComponent } from '../system-module-road-object-video/system-module-road-object-video-manager/system-module-road-object-video-manager.component';
+import { PickupModel } from '../system-module-road-object-video/system-module-road-object-video-manager/system-module-road-object-video-manager.model';
 import { SystemModuleRoadObjectManagerBusiness } from './system-module-road-object-manager.business';
 import { SystemModuleRoadObjectManagerSource } from './system-module-road-object-manager.source';
 import { SystemModuleRoadObjectManagerWindow } from './window/system-module-road-object-manager.window';
@@ -25,6 +28,8 @@ import { SystemModuleRoadObjectManagerWindow } from './window/system-module-road
     SystemModuleRoadObjectDetailsManagerComponent,
     WindowComponent,
     WindowConfirmComponent,
+    SystemModuleFileManagerComponent,
+    SystemModuleRoadObjectVideoManagerComponent,
   ],
   templateUrl: './system-module-road-object-manager.component.html',
   styleUrl: './system-module-road-object-manager.component.less',
@@ -48,6 +53,10 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
 
   search() {
     this.table.load.emit(this.table.args);
+  }
+  reload() {
+    this.table.load.emit(this.table.args);
+    this.window.video.load.emit();
   }
 
   table = {
@@ -98,6 +107,18 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
     },
     cancel: () => {
       this.window.confirm.show = false;
+    },
+  };
+
+  file = {
+    on: {
+      pickup: (data: PickupModel) => {
+        this.window.details.data = undefined;
+        this.window.details.show = true;
+        setTimeout(() => {
+          this.window.details.pickup.emit(data);
+        }, 1);
+      },
     },
   };
 }

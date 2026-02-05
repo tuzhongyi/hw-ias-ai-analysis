@@ -43,7 +43,7 @@ export class SystemModuleIndexComponent {
       this.router.navigateByUrl(SystemPath.module_mobile_device_route);
     },
     file: () => {
-      this.router.navigateByUrl(SystemPath.file);
+      this.router.navigateByUrl(SystemPath.module_file);
     },
   };
 }

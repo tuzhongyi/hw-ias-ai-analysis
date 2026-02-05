@@ -1,0 +1,75 @@
+.video-tag {
+  @margin: 17px;
+
+  &-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    &:hover {
+
+      video::-webkit-media-controls,
+      video::-webkit-media-controls-enclosure,
+      video::-webkit-media-controls-panel,
+      video::-webkit-media-controls-play-button,
+      video::-webkit-media-controls-pause-button,
+      video::-webkit-media-controls-timeline,
+      video::-webkit-media-controls-current-time-display,
+      video::-webkit-media-controls-time-remaining-display,
+      video::-webkit-media-controls-total-time-display,
+      video::-webkit-media-controls-mute-button,
+      video::-webkit-media-controls-volume-slider,
+      video::-webkit-media-controls-fullscreen-button {
+        /* 不写就是显示，按需删减 */
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: flex !important;
+      }
+
+      .video-tag-list {
+        opacity: 1;
+      }
+    }
+  }
+
+
+
+  &-list {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: calc(100% - @margin * 2);
+    height: 20px;
+    margin: 0 @margin;
+    pointer-events: none;
+
+    transition: opacity 0.25s ease 0s;
+    opacity: 0;
+  }
+
+  &-item {
+    position: absolute;
+    pointer-events: all;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    width: 10px;
+    transform: translateX(-50%);
+    /* 顺时针旋转90度 */
+    transform-origin: center;
+    cursor: pointer;
+
+    clip-path: polygon(50% 0, 100% 30%, 100% 100%, 0 100%, 0 30%);
+    background-color: #ddf4ff;
+
+
+    /* 默认中心点旋转 */
+    &:hover {
+      background-color: #2d76ce;
+      z-index: 20;
+    }
+
+  }
+}

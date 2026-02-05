@@ -1,7 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { AngleControlComponent } from '../../../../../../../common/components/angle-control/angle-control.component';
 import { GisType } from '../../../../../../../common/data-core/enums/gis-type.enum';
 import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { ObjectImageSamplingConfig } from '../../../../../../../common/data-core/models/arm/geographic/object-image-sampling-config.model';
@@ -11,11 +20,14 @@ import {
   GisPoints,
 } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
+import { WindowComponent } from '../../../../../share/window/component/window.component';
+import { PickupModel } from '../../system-module-road-object-video/system-module-road-object-video-manager/system-module-road-object-video-manager.model';
 import { SystemModuleRoadObjectDetailsConfigComponent } from '../system-module-road-object-details-config/system-module-road-object-details-config.component';
 import { SystemModuleRoadObjectDetailsImageComponent } from '../system-module-road-object-details-image/system-module-road-object-details-image.component';
 import { SystemModuleRoadObjectDetailsInfoComponent } from '../system-module-road-object-details-info/system-module-road-object-details-info.component';
 import { SystemModuleRoadObjectDetailsMapComponent } from '../system-module-road-object-details-map/system-module-road-object-details-map.component';
 import { SystemModuleRoadObjectDetailsManagerBusiness } from './system-module-road-object-details-manager.business';
+import { SystemModuleRoadObjectDetailsManagerWindow } from './system-module-road-object-details-manager.window';
 
 @Component({
   selector: 'ias-system-module-road-object-details-manager',
@@ -26,17 +38,22 @@ import { SystemModuleRoadObjectDetailsManagerBusiness } from './system-module-ro
     SystemModuleRoadObjectDetailsInfoComponent,
     SystemModuleRoadObjectDetailsConfigComponent,
     SystemModuleRoadObjectDetailsImageComponent,
+    WindowComponent,
+    AngleControlComponent,
   ],
   templateUrl: './system-module-road-object-details-manager.component.html',
   styleUrl: './system-module-road-object-details-manager.component.less',
   providers: [SystemModuleRoadObjectDetailsManagerBusiness],
 })
-export class SystemModuleRoadObjectDetailsManagerComponent implements OnInit {
+export class SystemModuleRoadObjectDetailsManagerComponent
+  implements OnInit, OnDestroy
+{
   @Input() operable = true;
   @Input() data?: RoadObject;
   @Output() picture = new EventEmitter<RoadObject>();
   @Output() ok = new EventEmitter<RoadObject>();
   @Output() close = new EventEmitter<void>();
+  @Input() pickup?: EventEmitter<PickupModel>;
 
   constructor(
     private business: SystemModuleRoadObjectDetailsManagerBusiness,
@@ -44,6 +61,8 @@ export class SystemModuleRoadObjectDetailsManagerComponent implements OnInit {
   ) {}
 
   model = new RoadObject();
+  window = new SystemModuleRoadObjectDetailsManagerWindow();
+  private subscription = new Subscription();
 
   private init() {
     let obj = new RoadObject();
@@ -51,16 +70,29 @@ export class SystemModuleRoadObjectDetailsManagerComponent implements OnInit {
     obj.ObjectState = 0;
     obj.DisappearTimes = 2;
     obj.ImageSampling = new ObjectImageSamplingConfig();
-    obj.ImageSampling.Enabled = false;
+    obj.ImageSampling.Enabled = true;
     obj.ImageSampling.Distance = 5;
-    obj.ImageSampling.SamplePlan = 1;
-    obj.ImageSampling.InspectionInterval = 0;
+    obj.ImageSampling.SamplePlan = 3;
+    obj.ImageSampling.InspectionInterval = 1;
     obj.ImageSampling.Course = 0;
     obj.ImageSampling.InspectionTime = new Date();
     obj.ImageSampling.LatestInspectionTime = new Date();
 
     obj.Location = new GisPoints();
     return obj;
+  }
+  private regist() {
+    if (this.pickup) {
+      let sub = this.pickup.subscribe((x) => {
+        this.model = this.init();
+        this.model.Location = GisPoints.create(x.position, GisType.GCJ02);
+        this.model.Address = x.address;
+        this.image.data = x.capture.buffer;
+        this.map.load(this.model);
+        this.image.load.emit(x.capture.src);
+      });
+      this.subscription.add(sub);
+    }
   }
 
   ngOnInit(): void {
@@ -70,6 +102,10 @@ export class SystemModuleRoadObjectDetailsManagerComponent implements OnInit {
     } else {
       this.model = this.init();
     }
+    this.regist();
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private get check() {
@@ -97,6 +133,7 @@ export class SystemModuleRoadObjectDetailsManagerComponent implements OnInit {
   }
 
   on = {
+    course: (value: number) => {},
     change: (data: RoadObject) => {
       this.map.type = data.ObjectType;
     },
@@ -183,12 +220,16 @@ export class SystemModuleRoadObjectDetailsManagerComponent implements OnInit {
       this.map.type = data.ObjectType;
     },
     on: {
-      wgs84: (data: GisPoint) => {
+      wgs84: (data: GisPoint, sync = false) => {
         this.map.wgs84 = Object.assign(new GisPoint(), data);
         this.model.Location = new GisPoints();
         this.model.Location.set(data, GisType.WGS84);
+        this.map.gcj02 = GeoTool.point.convert.wgs84.to.gcj02(
+          this.map.wgs84.Longitude,
+          this.map.wgs84.Latitude
+        );
       },
-      gcj02: (data: [number, number]) => {
+      gcj02: (data: [number, number], sync = false) => {
         let wgs84 = GeoTool.point.convert.gcj02.to.wgs84(data[0], data[1]);
         let point = new GisPoint();
         point.GisType = GisType.WGS84;
@@ -196,13 +237,16 @@ export class SystemModuleRoadObjectDetailsManagerComponent implements OnInit {
         point.Longitude = wgs84[0];
         point.Latitude = wgs84[1];
         this.map.wgs84 = point;
-        this.map.on.wgs84(point);
+        if (sync) {
+          this.map.on.wgs84(point);
+        }
       },
     },
   };
 
   image = {
     data: undefined as ArrayBuffer | undefined,
+    load: new EventEmitter<string>(),
     upload: (data: ArrayBuffer) => {
       this.image.data = data;
     },

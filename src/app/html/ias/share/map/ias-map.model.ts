@@ -8,6 +8,7 @@ export enum MapMarkerColor {
   green = 'green',
   blue = 'blue',
   orange = 'orange',
+  gray = 'gray',
 }
 
 export class MapMarker {

@@ -8,6 +8,8 @@
     [selected]="selected"
     (selectedChange)="on.select($event)"
     (upload)="window.upload.open()"
+    [folder]="folder"
+    (folderChange)="on.folder($event)"
   ></ias-system-module-file-table>
 
   <ias-window

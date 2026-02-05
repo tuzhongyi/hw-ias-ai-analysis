@@ -38,7 +38,12 @@
         {{ data.EventTime | date : Language.YearMonthDayHHmmss }}
       </div>
     </div>
-
+    <div class="form-item" *ngIf="data.Address">
+      <div class="form-item-text baseline" text-space-between [suffix]="':'">
+        地址
+      </div>
+      <div class="form-item-value important">{{ data.Address }}</div>
+    </div>
     <div class="form-item" *ngIf="data.Description">
       <div class="form-item-text baseline" text-space-between [suffix]="':'">
         描述内容

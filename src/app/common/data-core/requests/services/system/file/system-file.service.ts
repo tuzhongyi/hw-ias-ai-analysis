@@ -2,11 +2,12 @@ import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { UploadControlFile } from '../../../../../components/upload-control/upload-control.model';
 import { FileGpsItem } from '../../../../models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../models/arm/file/file-info.model';
+import { FileTagItem } from '../../../../models/arm/file/file-tag-item.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
-import { ParseGpsItemParams } from './system-file.param';
+import { ParseGpsItemParams, ParseTagItemParams } from './system-file.param';
 
 export class SystemFileRequestService {
   constructor(private http: HowellHttpClient) {}
@@ -63,6 +64,16 @@ export class SystemFileRequestService {
       .post<HowellResponse<FileGpsItem[]>, any>(url, plain)
       .then((response) => {
         return HowellResponseProcess.array(response, FileGpsItem);
+      });
+  }
+
+  tags(params: ParseTagItemParams) {
+    let url = ArmSystemUrl.file.tag();
+    let plain = instanceToPlain(params);
+    return this.http
+      .post<HowellResponse<FileTagItem[]>, any>(url, plain)
+      .then((response) => {
+        return HowellResponseProcess.array(response, FileTagItem);
       });
   }
 }

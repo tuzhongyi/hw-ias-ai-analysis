@@ -1,6 +1,8 @@
+import { EventEmitter } from '@angular/core';
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
 import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
+import { PickupModel } from '../../system-module-road-object-video/system-module-road-object-video-manager/system-module-road-object-video-manager.model';
 import { SystemModuleRoadObjectManagerComponent } from '../system-module-road-object-manager.component';
 
 export class SystemModuleRoadObjectManagerDetailsWindow extends WindowViewModel {
@@ -15,6 +17,7 @@ export class SystemModuleRoadObjectManagerDetailsWindow extends WindowViewModel 
   title = '道路物件详情';
 
   data?: RoadObject;
+  pickup = new EventEmitter<PickupModel>();
 
   open(data?: RoadObject) {
     this.data = data;

@@ -25,6 +25,8 @@ export class SystemModuleBusiness {
       title = '巡检线路';
     } else if (location.pathname.indexOf(SystemPath.module_gps_task) >= 0) {
       title = '定制场景';
+    } else if (location.pathname.indexOf(SystemPath.module_file) >= 0) {
+      title = '视频文件';
     } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
       title = 'AI功能模块';
     }

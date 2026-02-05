@@ -11,6 +11,11 @@ export class GeoPointConvertTool {
         if (!latitude || !longitude) return [0, 0];
         return bd09togcj02(longitude, latitude);
       },
+      wgs84: (longitude: number, latitude: number): [number, number] => {
+        if (!latitude || !longitude) return [0, 0];
+        let gcj02 = bd09togcj02(longitude, latitude);
+        return gcj02towgs84(gcj02[0], gcj02[1]);
+      },
     },
   };
   gcj02 = {

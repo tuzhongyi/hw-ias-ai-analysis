@@ -72,6 +72,13 @@ export class GisPoints {
     }
   }
 
+  static create(data: [number, number], type: GisType) {
+    let point = GisPoint.create(data[0], data[1], type);
+    let points = new GisPoints();
+    points.set(point, type);
+    return points;
+  }
+
   private change = {
     from: {
       wgs84: (value: GisPoint) => {

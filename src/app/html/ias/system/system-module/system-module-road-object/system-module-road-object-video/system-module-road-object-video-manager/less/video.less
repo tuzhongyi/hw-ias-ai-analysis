@@ -1,0 +1,67 @@
+@import url(./video-view.less);
+@import url(./video-controls.less);
+
+.system-task-file-details {
+  &-body {
+    .video-info {
+      .video {
+
+        width: 100%;
+        height: max-content;
+        flex-grow: 0;
+        padding: 1px;
+        box-sizing: border-box;
+        position: relative;
+
+        &:hover {
+          .video-tag-list {
+            display: block;
+          }
+        }
+
+
+        &-tag {
+          @margin: 17px;
+
+          &-list {
+            position: absolute;
+            display: none;
+            left: 0;
+            bottom: 0;
+            width: calc(100% - @margin * 2);
+            height: 20px;
+            margin: 0 @margin;
+            pointer-events: none;
+          }
+
+          &-item {
+            position: absolute;
+            pointer-events: all;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80%;
+            width: 10px;
+            transform: translateX(-50%);
+            /* 顺时针旋转90度 */
+            transform-origin: center;
+            cursor: pointer;
+
+            clip-path: polygon(50% 0, 100% 30%, 100% 100%, 0 100%, 0 30%);
+            background-color: #ddf4ff;
+
+
+            /* 默认中心点旋转 */
+            &:hover {
+              background-color: #2d76ce;
+              z-index: 20;
+            }
+
+          }
+        }
+
+      }
+    }
+  }
+}

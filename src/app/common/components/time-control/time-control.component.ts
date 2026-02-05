@@ -70,7 +70,9 @@ export class TimeControlComponent implements OnChanges, OnInit, AfterViewInit {
           if (value !== undefined) {
             this.time.hour.value = value;
             this.time.hour.view = value.toString().padStart(2, '0');
+            this.timeChange.emit(this.time);
             this.date.setHours(value);
+            this.dateChange.emit(this.date);
           }
         }
       );
@@ -86,7 +88,9 @@ export class TimeControlComponent implements OnChanges, OnInit, AfterViewInit {
           if (value !== undefined) {
             this.time.minute.value = value;
             this.time.minute.view = value.toString().padStart(2, '0');
+            this.timeChange.emit(this.time);
             this.date.setMinutes(value);
+            this.dateChange.emit(this.date);
           }
         }
       );
@@ -102,7 +106,9 @@ export class TimeControlComponent implements OnChanges, OnInit, AfterViewInit {
           if (value !== undefined) {
             this.time.second.value = value;
             this.time.second.view = value.toString().padStart(2, '0');
+            this.timeChange.emit(this.time);
             this.date.setSeconds(value);
+            this.dateChange.emit(this.date);
           }
         }
       );

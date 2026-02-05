@@ -13,7 +13,7 @@ export abstract class ChartAbstract {
     window.addEventListener('resize', this.handle);
   }
 
-  protected view() {
+  protected view(dark = false) {
     wait(() => {
       return (
         !!this.element &&
@@ -22,7 +22,10 @@ export abstract class ChartAbstract {
       );
     }).then(() => {
       if (this.element) {
-        let chart = echarts.init(this.element.nativeElement);
+        let chart = echarts.init(
+          this.element.nativeElement,
+          dark ? 'dark' : undefined
+        );
         this.chart.set(chart);
       }
     });

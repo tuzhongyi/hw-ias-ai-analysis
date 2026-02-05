@@ -94,7 +94,35 @@ export class SystemModuleRoadObjectDetailsInfoComponent
         .split(',')
         .map((x) => parseFloat(x)) as [number, number];
       if (position.length === 2) {
-        this.wgs84 = this.data.Location.WGS84;
+        let wgs84 = new GisPoint();
+        wgs84.GisType = GisType.WGS84;
+        wgs84.Altitude = 0;
+        switch (this.location.type.value) {
+          case GisType.WGS84:
+            wgs84.Longitude = position[0];
+            wgs84.Latitude = position[1];
+            break;
+          case GisType.GCJ02:
+            position = GeoTool.point.convert.gcj02.to.wgs84(
+              position[0],
+              position[1]
+            );
+            wgs84.Longitude = position[0];
+            wgs84.Latitude = position[1];
+            break;
+          case GisType.BD09:
+            position = GeoTool.point.convert.bd09.to.wgs84(
+              position[0],
+              position[1]
+            );
+            wgs84.Longitude = position[0];
+            wgs84.Latitude = position[1];
+            break;
+
+          default:
+            break;
+        }
+        this.wgs84 = wgs84;
         this.wgs84Change.emit(this.wgs84);
       } else {
         this.toastr.warning('请输入正确的坐标格式');

@@ -1,6 +1,7 @@
 import { ShopObjectState } from '../../data-core/enums/analysis/shop-object-state.enum';
 import { ShopState } from '../../data-core/enums/analysis/shop-state.enum';
 import { ColorChartTool } from './color-chart.tool';
+import { ColorMapTool } from './color-map.tool';
 
 class CanvasDrawColor {
   stroke = {
@@ -34,7 +35,9 @@ export class ColorTool {
   static cyan = '#00f5ff';
   static yellow = '#fde546';
   static blue = '#1e90ff';
+  static gray = '#666';
 
+  static map = new ColorMapTool();
   static chart = new ColorChartTool();
   static canvas = new CanvasDrawColor();
   static trashcan = new TrashCanColor();

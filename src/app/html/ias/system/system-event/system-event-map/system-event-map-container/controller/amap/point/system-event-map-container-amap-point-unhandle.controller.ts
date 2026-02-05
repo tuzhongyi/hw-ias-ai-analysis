@@ -8,7 +8,7 @@ export class SystemEventMapContainerAMapPointUnhandleController extends IASMapAM
   protected style = {
     radius: 5,
     unit: 'px',
-    color: ColorTool.orange,
+    color: ColorTool.map.orange,
     borderWidth: 0,
     blurWidth: 3,
   };

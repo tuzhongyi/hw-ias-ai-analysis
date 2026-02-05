@@ -1,0 +1,39 @@
+.system-task-file-details {
+  &-body {
+    .video-info {
+      .video {
+        &-controls {
+          flex: 0 0 auto;
+          width: 100%;
+          height: 40px; // 原生 controls 高度
+          background: #000;
+          overflow: hidden;
+
+          &>video {
+            width: 100%;
+            height: 100%;
+
+            /* 只需要 controls，不需要画面 */
+            object-fit: fill;
+
+            /* 关键：把视频画面“挤没” */
+            &::-webkit-media-controls-panel {
+              height: 100%;
+            }
+
+            /* 隐藏视频画面，只留控制条 */
+            &::-webkit-media-controls-play-button,
+            &::-webkit-media-controls-timeline,
+            &::-webkit-media-controls-current-time-display,
+            &::-webkit-media-controls-time-remaining-display,
+            &::-webkit-media-controls-mute-button,
+            &::-webkit-media-controls-volume-slider,
+            &::-webkit-media-controls-fullscreen-button {
+              /* 不写就是显示，按需删减 */
+            }
+          }
+        }
+      }
+    }
+  }
+}

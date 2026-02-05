@@ -27,11 +27,15 @@ export class WheelInputNumberDirective
   }
 
   private ele: HTMLInputElement;
-  private handle: any;
+  private handle: {
+    wheel?: any;
+    input?: any;
+  } = {};
 
   ngOnInit(): void {
     this.ele.value = `${this.value?.toFixed(0)}`;
-    this.handle = this.event.bind(this);
+    this.handle.wheel = this.on.wheel.bind(this);
+    this.handle.input = this.on.input.bind(this);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -39,45 +43,55 @@ export class WheelInputNumberDirective
     this.valueChange.emit(this.value);
   }
   ngAfterContentInit(): void {
-    this.ele.addEventListener('wheel', this.handle);
+    this.ele.addEventListener('wheel', this.handle.wheel);
+    this.ele.addEventListener('input', this.handle.input);
   }
   ngOnDestroy(): void {
-    this.ele.removeEventListener('wheel', this.handle);
+    this.ele.removeEventListener('wheel', this.handle.wheel);
+    this.ele.removeEventListener('input', this.handle.input);
   }
-  event(e: WheelEvent) {
-    e.preventDefault();
-    let min = Number.MIN_SAFE_INTEGER;
-    let max = Number.MAX_SAFE_INTEGER;
-    let step = 1;
-    let value = this.value ?? 0;
-    if (this.ele.value) {
-      value = parseInt(this.ele.value);
-    }
-    if (this.ele.min) {
-      min = parseInt(this.ele.min);
-    }
-    if (this.ele.max) {
-      max = parseInt(this.ele.max);
-    }
-    if (this.ele.step) {
-      step = parseInt(this.ele.step);
-    }
+  on = {
+    wheel: (e: WheelEvent) => {
+      e.preventDefault();
+      let min = Number.MIN_SAFE_INTEGER;
+      let max = Number.MAX_SAFE_INTEGER;
+      let step = 1;
+      let value = this.value ?? 0;
+      if (this.ele.value) {
+        value = parseInt(this.ele.value);
+      }
+      if (this.ele.min) {
+        min = parseInt(this.ele.min);
+      }
+      if (this.ele.max) {
+        max = parseInt(this.ele.max);
+      }
+      if (this.ele.step) {
+        step = parseInt(this.ele.step);
+      }
 
-    if (e.deltaY < 0) {
-      if (value + step < max) {
-        value += step;
+      if (e.deltaY < 0) {
+        if (value + step < max) {
+          value += step;
+        } else {
+          value = max;
+        }
       } else {
-        value = max;
+        if (value - step > min) {
+          value -= step;
+        } else {
+          value = min;
+        }
       }
-    } else {
-      if (value - step > min) {
-        value -= step;
-      } else {
-        value = min;
-      }
-    }
-    this.value = value;
-    this.ele.value = `${this.value}`;
-    this.valueChange.emit(this.value);
-  }
+      this.value = value;
+      this.ele.value = `${this.value}`;
+      this.valueChange.emit(this.value);
+    },
+    input: (e: Event) => {
+      let input = e.currentTarget as HTMLInputElement;
+      let value = parseInt(input.value) || 0;
+      this.value = value;
+      this.valueChange.emit(this.value);
+    },
+  };
 }

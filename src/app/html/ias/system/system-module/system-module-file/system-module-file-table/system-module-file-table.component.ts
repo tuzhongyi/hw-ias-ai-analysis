@@ -3,9 +3,12 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChange,
+  SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FileInfo } from '../../../../../../common/data-core/models/arm/file/file-info.model';
@@ -22,12 +25,16 @@ import { SystemMobuleFileTableBusiness } from './system-module-file-table.busine
   styleUrl: './system-module-file-table.component.less',
   providers: [SystemMobuleFileTableBusiness],
 })
-export class SystemModuleFileTableComponent implements OnInit, OnDestroy {
+export class SystemModuleFileTableComponent
+  implements OnChanges, OnInit, OnDestroy
+{
   @Output() video = new EventEmitter<FileInfo>();
   @Output() error = new EventEmitter<Error>();
   @Input() selected?: FileInfo;
   @Output() selectedChange = new EventEmitter<FileInfo>();
 
+  @Input() folder?: FileInfo;
+  @Output() folderChange = new EventEmitter<FileInfo>();
   @Output() upload = new EventEmitter<void>();
 
   @Input('load') _load?: EventEmitter<void>;
@@ -44,13 +51,28 @@ export class SystemModuleFileTableComponent implements OnInit, OnDestroy {
     direction: 'desc',
   };
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.change.folder(changes['folder']);
+  }
   ngOnInit(): void {
-    this.load();
+    if (!this.folder) {
+      this.load();
+    }
+
     this.regist();
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+  private change = {
+    folder: (change: SimpleChange) => {
+      if (change) {
+        if (this.folder) {
+          this.on.folder(this.folder);
+        }
+      }
+    },
+  };
   private regist() {
     if (this._load) {
       let sub = this._load.subscribe((x) => {
@@ -108,13 +130,18 @@ export class SystemModuleFileTableComponent implements OnInit, OnDestroy {
       if (!item.IsDirectory) {
         this.on.video(item, e);
       } else {
-        this.folders = item.FileName.split('/').map((x) => {
-          let index = item.FileName.indexOf(x);
-          let value = item.FileName.substring(0, index + x.length);
-          return { key: x, value: value };
-        });
-        this.load(item.FileName);
+        this.on.folder(item);
       }
+    },
+    folder: (item: FileInfo) => {
+      this.folders = item.FileName.split('/').map((x) => {
+        let index = item.FileName.indexOf(x);
+        let value = item.FileName.substring(0, index + x.length);
+        return { key: x, value: value };
+      });
+      this.folder = item;
+      this.folderChange.emit(item);
+      this.load(item.FileName);
     },
     up: () => {
       if (this.folders.length > 0) {

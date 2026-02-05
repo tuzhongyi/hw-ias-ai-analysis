@@ -1,6 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ContainerZoomComponent } from '../../../../../../../common/components/container-zoom/container-zoom.component';
 import { UploadControlComponent } from '../../../../../../../common/components/upload-control/upload-control.component';
 import { UploadControlFile } from '../../../../../../../common/components/upload-control/upload-control.model';
@@ -20,16 +28,35 @@ import { SystemModuleRoadObjectDetailsImageBusiness } from './system-module-road
   styleUrl: './system-module-road-object-details-image.component.less',
   providers: [SystemModuleRoadObjectDetailsImageBusiness],
 })
-export class SystemModuleRoadObjectDetailsImageComponent implements OnInit {
+export class SystemModuleRoadObjectDetailsImageComponent
+  implements OnInit, OnDestroy
+{
   @Input() url?: string;
+  @Input() load?: EventEmitter<string>;
   @Output() upload = new EventEmitter<ArrayBuffer>();
   @Output() picture = new EventEmitter<string>();
 
   constructor(private business: SystemModuleRoadObjectDetailsImageBusiness) {}
 
+  private subscription = new Subscription();
+
   ngOnInit(): void {
     if (this.url) {
       this.image.src = this.business.get(this.url);
+    }
+    this.regist();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  private regist() {
+    if (this.load) {
+      const sub = this.load.subscribe((url) => {
+        this.image.src = url;
+      });
+      this.subscription.add(sub);
     }
   }
 
