@@ -50,13 +50,13 @@ export class SystemModuleRoadObjectVideoMapController {
   };
   path = {
     datas: [] as FileGpsItem[],
-    load: async (datas: FileGpsItem[]) => {
+    load: async (datas: FileGpsItem[], focus: boolean) => {
       this.path.datas = datas;
       let ll = this.path.datas.map<[number, number]>((x) => {
         return [x.Longitude, x.Latitude];
       });
       let path = await this.amap.path.get();
-      path.load(ll);
+      path.load(ll, focus);
     },
 
     clear: async () => {

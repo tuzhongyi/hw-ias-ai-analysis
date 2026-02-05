@@ -121,6 +121,7 @@
       [data]="window.video.data"
       [objects]="table.datas"
       (pickup)="file.on.pickup($event)"
+      (details)="window.details.open($event)"
       (close)="window.video.show = false"
     ></ias-system-module-road-object-video-manager>
   </ias-window>

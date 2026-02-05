@@ -69,7 +69,7 @@ export class SystemModuleRoadObjectVideoAMapPathController {
     }
   }
 
-  load(positions: [number, number][]) {
+  load(positions: [number, number][], focus: boolean) {
     if (positions.length === 0) return;
     this.points = positions;
     if (positions.length > 0) {
@@ -101,10 +101,12 @@ export class SystemModuleRoadObjectVideoAMapPathController {
     });
 
     this.map.add(this.positions);
-    this.map.setFitView(this.positions, true);
-    setTimeout(() => {
+    if (focus) {
       this.map.setFitView(this.positions, true);
-    }, 2 * 1000);
+      setTimeout(() => {
+        this.map.setFitView(this.positions, true);
+      }, 2 * 1000);
+    }
   }
 
   clear() {

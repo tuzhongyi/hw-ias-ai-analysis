@@ -1,14 +1,10 @@
 import '../../../../assets/js/map/CoordinateTransform.js';
-import { CoordinateTransform } from './geo-point-transform.js';
-
 declare var bd09togcj02: any;
 declare var gcj02tobd09: any;
 declare var wgs84togcj02: any;
 declare var gcj02towgs84: any;
 
 export class GeoPointConvertTool {
-  transform = new CoordinateTransform();
-
   bd09 = {
     to: {
       gcj02: (longitude: number, latitude: number): [number, number] => {
@@ -30,8 +26,7 @@ export class GeoPointConvertTool {
       },
       wgs84: (longitude: number, latitude: number): [number, number] => {
         if (!latitude || !longitude) return [0, 0];
-        let point = this.transform.Gcj2Wgs_AnalyticDiff(longitude, latitude);
-        return [point.lon, point.lat];
+        return gcj02towgs84(longitude, latitude);
       },
     },
   };
@@ -39,13 +34,12 @@ export class GeoPointConvertTool {
     to: {
       gcj02: (longitude: number, latitude: number): [number, number] => {
         if (!latitude || !longitude) return [0, 0];
-        let point = this.transform.Wgs2Gcj(longitude, latitude);
-        return [point.lon, point.lat];
+        return wgs84togcj02(longitude, latitude);
       },
       bd09: (longitude: number, latitude: number): [number, number] => {
         if (!latitude || !longitude) return [0, 0];
-        let gcj02 = this.transform.Wgs2Gcj(longitude, latitude);
-        return gcj02tobd09(gcj02.lon, gcj02.lat);
+        let gcj02 = wgs84togcj02(longitude, latitude);
+        return gcj02tobd09(gcj02[0], gcj02[1]);
       },
     },
   };

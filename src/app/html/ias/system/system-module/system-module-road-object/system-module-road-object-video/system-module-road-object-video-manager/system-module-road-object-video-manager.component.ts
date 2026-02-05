@@ -27,6 +27,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   @Output() pickup = new EventEmitter<PickupModel>();
   @Output() close = new EventEmitter<void>();
   @Output() finished = new EventEmitter<void>();
+  @Output() details = new EventEmitter<RoadObject>();
 
   constructor(private toastr: ToastrService) {}
 
@@ -83,6 +84,11 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
       },
       pickup: (data: [number, number]) => {
         this.map.pickup = data;
+      },
+      object: {
+        dblclick: (data: RoadObject) => {
+          this.details.emit(data);
+        },
       },
     },
   };

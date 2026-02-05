@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../../../../../common/data-core/models/arm/file/file-info.model';
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import { wait } from '../../../../../../../../common/tools/wait';
 import { SystemModuleRoadObjectVideoMapController } from './controller/system-module-road-object-video-map.controller';
 import { SystemModuleRoadObjectVideoMapBusiness } from './system-module-road-object-video-map-container.business';
 
@@ -49,6 +50,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   @Output() pickupChange = new EventEmitter<[number, number]>();
 
   @Output() current = new EventEmitter<FileGpsItem>();
+  @Output() objectdblclick = new EventEmitter<RoadObject>();
 
   constructor(private business: SystemModuleRoadObjectVideoMapBusiness) {}
 
@@ -63,52 +65,12 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   );
 
   ngOnInit(): void {
-    if (this._to) {
-      this._to.subscribe((time) => {
-        this.time.current = time;
-        this.controller.to(time).then((x) => {
-          this.current.emit(x);
-        });
-      });
-    }
-    this.controller.event.trigger.subscribe((x) => {
-      this.trigger.emit(x);
-    });
-    this.controller.event.position.subscribe((x) => {
-      this.location = x;
-      this.locationChange.emit(this.location);
-    });
-    this.controller.event.point.subscribe((x) => {
-      this.pickup = x;
-      this.pickupChange.emit(this.pickup);
-    });
+    this.regist.load();
 
     if (this.data) {
-      this.load.gps(this.data, this.rectified);
+      this.load.gps(this.data, this.rectified, true);
     }
   }
-
-  load = {
-    gps: async (data: FileInfo, rectified: boolean) => {
-      try {
-        this.loading = true;
-        let datas = await this.business.gps(data.FileName, rectified);
-        this.hasdata = datas.length > 0;
-        this.loaded.emit(datas);
-        if (this.hasdata) {
-          await this.controller.path.load(datas);
-        }
-      } catch (e: any) {
-        this.error.emit(e);
-      } finally {
-        this.loading = false;
-      }
-    },
-    objects: (datas: RoadObject[]) => {
-      this.controller.object.load(datas);
-      this.controller.pickup.clear();
-    },
-  };
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.rectified(changes['rectified']);
@@ -116,21 +78,88 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
     this.change.objects(changes['objects']);
   }
 
-  change = {
-    rectified: (simple: SimpleChange) => {
-      if (simple) {
-        this.controller.path.clear().then((x) => {
-          if (this.data) {
-            this.business
-              .gps(this.data.FileName, this.rectified)
-              .then((datas) => {
-                this.controller.path.load(datas);
-                if (this.time.current) {
-                  this.controller.to(this.time.current);
-                }
-              });
-          }
+  ngOnDestroy(): void {
+    this.controller.destroy();
+    this.subscription.unsubscribe();
+  }
+
+  private regist = {
+    load: () => {
+      this.regist.input.to();
+      this.regist.output.trigger();
+      this.regist.output.location();
+      this.regist.output.pickup();
+      this.regist.output.object.dblclick();
+    },
+    input: {
+      to: () => {
+        if (this._to) {
+          let sub = this._to.subscribe((time) => {
+            this.time.current = time;
+            this.controller.to(time).then((x) => {
+              this.current.emit(x);
+            });
+          });
+          this.subscription.add(sub);
+        }
+      },
+    },
+    output: {
+      trigger: () => {
+        let sub = this.controller.event.trigger.subscribe((x) => {
+          this.trigger.emit(x);
         });
+        this.subscription.add(sub);
+      },
+      location: () => {
+        let sub = this.controller.event.position.subscribe((x) => {
+          this.location = x;
+          this.locationChange.emit(this.location);
+        });
+        this.subscription.add(sub);
+      },
+      pickup: () => {
+        let sub = this.controller.event.point.subscribe((x) => {
+          this.pickup = x;
+          this.pickupChange.emit(this.pickup);
+        });
+        this.subscription.add(sub);
+      },
+      object: {
+        dblclick: () => {
+          let sub = this.controller.object.event.dblclick.subscribe((x) => {
+            this.objectdblclick.emit(x);
+          });
+          this.subscription.add(sub);
+        },
+      },
+    },
+  };
+
+  private change = {
+    rectified: async (simple: SimpleChange) => {
+      if (simple && !simple.firstChange) {
+        await wait(() => {
+          return this.loading == false;
+        });
+        try {
+          this.loading = true;
+          await this.controller.path.clear();
+          if (this.data) {
+            let datas = await this.business.gps(
+              this.data.FileName,
+              this.rectified
+            );
+            this.controller.path.load(datas, false);
+            if (this.time.current) {
+              this.controller.to(this.time.current);
+            }
+          }
+        } catch (e) {
+          console.error('change.rectified', e);
+        } finally {
+          this.loading = false;
+        }
       }
     },
     pickup: (simple: SimpleChange) => {
@@ -148,8 +177,32 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
     },
   };
 
-  ngOnDestroy(): void {
-    this.controller.destroy();
-    this.subscription.unsubscribe();
-  }
+  private load = {
+    gps: async (data: FileInfo, rectified: boolean, focus: boolean) => {
+      await wait(() => {
+        return this.loading == false;
+      });
+      try {
+        this.loading = true;
+
+        await this.controller.path.clear();
+        let datas = await this.business.gps(data.FileName, rectified);
+        this.hasdata = datas.length > 0;
+        this.loaded.emit(datas);
+        if (this.hasdata) {
+          await this.controller.path.load(datas, focus);
+        }
+      } catch (e: any) {
+        this.error.emit(e);
+      } finally {
+        this.loading = false;
+      }
+    },
+    objects: (datas: RoadObject[]) => {
+      this.controller.object.clear().then(() => {
+        this.controller.object.load(datas);
+      });
+      this.controller.pickup.clear();
+    },
+  };
 }
