@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { RoadObjectType } from '../../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
+import { RoadObjectState } from '../../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { ArrayTool } from '../../../../../../../../common/tools/array-tool/array.tool';
 import { ColorTool } from '../../../../../../../../common/tools/color/color.tool';
@@ -20,7 +20,6 @@ export class IASMapAMapRoadObjectPointLayerController {
   }
 
   private controllers = new Map<number, IASMapAMapRoadObjectPointController>();
-
   private unknow: IASMapAMapRoadObjectPointController;
 
   private regist() {
@@ -36,9 +35,9 @@ export class IASMapAMapRoadObjectPointLayerController {
   }
 
   private init(container: Loca.Container) {
-    let types = EnumTool.values(RoadObjectType);
+    let states = EnumTool.values(RoadObjectState);
 
-    types.forEach((type) => {
+    states.forEach((type) => {
       let color = this.get.color(type);
       let controller = new IASMapAMapRoadObjectPointController(
         container,
@@ -50,17 +49,17 @@ export class IASMapAMapRoadObjectPointLayerController {
 
   async load(datas: RoadObject[]) {
     let group = ArrayTool.groupBy(datas, (data) => {
-      return data.ObjectType;
+      return data.ObjectState;
     });
 
     Object.keys(group).forEach((key) => {
-      let type = parseInt(key);
-      let datas = group[type];
+      let state = parseInt(key);
+      let datas = group[state];
       if (datas && datas.length > 0) {
-        if (this.controllers.has(type)) {
-          this.controllers.get(type)?.load(group[type]);
+        if (this.controllers.has(state)) {
+          this.controllers.get(state)?.load(group[state]);
         } else {
-          this.unknow.load(group[type]);
+          this.unknow.load(group[state]);
         }
       }
     });
@@ -79,16 +78,15 @@ export class IASMapAMapRoadObjectPointLayerController {
   }
 
   private get = {
-    color: (type: RoadObjectType) => {
+    color: (type: RoadObjectState) => {
       switch (type) {
-        case RoadObjectType.FireHydrant:
+        case RoadObjectState.Normal:
+          return ColorTool.map.cyan;
+        case RoadObjectState.Disappear:
           return ColorTool.map.red;
-        case RoadObjectType.BusStation:
-          return ColorTool.map.blue;
-        case RoadObjectType.TrashCan:
-          return ColorTool.map.green;
-        case RoadObjectType.Passage:
-          return ColorTool.map.orange;
+        case RoadObjectState.Breakage:
+          return ColorTool.map.yellow;
+        case RoadObjectState.None:
         default:
           return ColorTool.map.gray;
       }

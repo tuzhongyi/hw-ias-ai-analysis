@@ -3,30 +3,21 @@
   width: 100%;
   transition: all 0.5s;
 
+  @foot-height: 60px;
 
   &-body {
-    height: calc(100%);
-
-    table {
-      tbody {
-        tr {
-          height: 60px;
-        }
-      }
-    }
-
+    height: calc(100% - @foot-height);
 
     .image {
-      height: calc(60px * 0.8);
-      aspect-ratio: 16 / 9;
+      height: 70%;
       cursor: pointer;
-    }
-
-    .events {
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
   }
 
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
 }

@@ -26,8 +26,10 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   @Input() objects: RoadObject[] = [];
   @Output() pickup = new EventEmitter<PickupModel>();
   @Output() close = new EventEmitter<void>();
-  @Output() finished = new EventEmitter<void>();
+
   @Output() details = new EventEmitter<RoadObject>();
+  @Input() last = false;
+  @Output() next = new EventEmitter<FileInfo>();
 
   constructor(private toastr: ToastrService) {}
 
@@ -47,8 +49,10 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
       loaded: (data: VideoDirective) => {
         this.video.element = data;
       },
-      finished: () => {
-        this.finished.emit();
+      next: () => {
+        if (this.data) {
+          this.next.emit(this.data);
+        }
       },
     },
   };
@@ -56,7 +60,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   map = {
     loaded: false,
     datas: [] as FileGpsItem[],
-    current: undefined as FileGpsItem | undefined,
+    address: undefined as string | undefined,
     pickup: undefined as [number, number] | undefined,
     on: {
       loaded: (datas: FileGpsItem[]) => {
@@ -79,9 +83,6 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
       error: (e: Error) => {
         this.toastr.error(e.message);
       },
-      current: (item: FileGpsItem) => {
-        this.map.current = item;
-      },
       pickup: (data: [number, number]) => {
         this.map.pickup = data;
       },
@@ -89,6 +90,9 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
         dblclick: (data: RoadObject) => {
           this.details.emit(data);
         },
+      },
+      address: (address: string) => {
+        this.map.address = address;
       },
     },
   };
@@ -101,7 +105,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
             this.pickup.emit({
               position: this.map.pickup,
               capture: x,
-              address: this.map.current?.RoadName,
+              address: this.map.address,
             });
           }
         });

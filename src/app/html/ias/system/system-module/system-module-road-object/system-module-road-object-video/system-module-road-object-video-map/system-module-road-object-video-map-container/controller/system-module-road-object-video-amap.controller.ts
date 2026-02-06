@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { RoadObject } from '../../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { MapHelper } from '../../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../../common/view-models/value.promise';
+import { IASMapAMapGeocoderController } from '../../../../../../../share/map/controller/amap/geocoder/ias-map-amap-geocoder.controller';
 import { IASMapAMapInfoController } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapRoadObjectMarkerLayerController } from '../../../../../../../share/map/controller/amap/road-object/marker/ias-map-amap-road-object-marker-layer.controller';
@@ -34,6 +35,7 @@ export class SystemModuleRoadObjectVideoAMapController {
     point: new PromiseValue<IASMapAMapRoadObjectPointLayerController>(),
     marker: new PromiseValue<IASMapAMapRoadObjectMarkerLayerController>(),
   };
+  geocoder = new PromiseValue<IASMapAMapGeocoderController>();
   private info = new PromiseValue<IASMapAMapInfoController>();
 
   constructor(private subscription: Subscription) {
@@ -47,6 +49,8 @@ export class SystemModuleRoadObjectVideoAMapController {
 
         this.init.roadobject.point(container);
         this.init.roadobject.marker(x, info);
+
+        this.init.geocoder();
       });
   }
 
@@ -103,6 +107,10 @@ export class SystemModuleRoadObjectVideoAMapController {
         this.subscription.add(sub2);
         this.roadobject.marker.set(ctr);
       },
+    },
+    geocoder: () => {
+      let controller = new IASMapAMapGeocoderController();
+      this.geocoder.set(controller);
     },
   };
 

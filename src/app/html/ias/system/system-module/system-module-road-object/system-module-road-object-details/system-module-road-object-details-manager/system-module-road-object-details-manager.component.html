@@ -12,6 +12,7 @@
         <ias-system-module-road-object-details-map
           [(position)]="map.gcj02"
           (positionChange)="map.on.gcj02($event)"
+          (address)="map.on.address($event)"
           [type]="map.type"
         ></ias-system-module-road-object-details-map>
       </div>

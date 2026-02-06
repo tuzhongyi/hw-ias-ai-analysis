@@ -55,16 +55,19 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
     map: (data: RoadObjectEventRecord) => {
       switch (data.RoadObjectType) {
         case RoadObjectType.BusStation:
-          this.map.marker.color = MapMarkerColor.blue;
+          this.map.marker.type = MapMarkerType.busstation;
           break;
         case RoadObjectType.FireHydrant:
-          this.map.marker.color = MapMarkerColor.red;
+          this.map.marker.type = MapMarkerType.firehydrant;
           break;
         case RoadObjectType.Passage:
-          this.map.marker.color = MapMarkerColor.orange;
+          this.map.marker.type = MapMarkerType.passage;
           break;
         case RoadObjectType.TrashCan:
-          this.map.marker.color = MapMarkerColor.green;
+          this.map.marker.type = MapMarkerType.trashcan;
+          break;
+        case RoadObjectType.TelephoneBooth:
+          this.map.marker.type = MapMarkerType.telephonebooth;
           break;
 
         default:
@@ -74,8 +77,8 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
   };
   map = {
     marker: {
-      type: MapMarkerType.roadobject,
-      color: undefined as MapMarkerColor | undefined,
+      type: MapMarkerType.unknow,
+      color: MapMarkerColor.orange,
     },
     point: undefined as GisPoint | undefined,
   };

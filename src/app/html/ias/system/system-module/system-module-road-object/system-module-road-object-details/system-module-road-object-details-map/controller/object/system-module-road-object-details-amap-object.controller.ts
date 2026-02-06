@@ -1,4 +1,6 @@
 import { EventEmitter } from '@angular/core';
+import { RoadObjectState } from '../../../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
+import { RoadObjectType } from '../../../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { PathTool } from '../../../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../../../common/tools/size-tool/size.tool';
 
@@ -9,7 +11,7 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
   constructor(private map: AMap.Map) {}
 
   private marker?: AMap.Marker;
-  private type?: number;
+  private type?: RoadObjectType;
 
   private regist(marker: AMap.Marker) {
     marker.on('dragend', (e) => {
@@ -19,7 +21,7 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
     marker.on('mouseover', () => {
       if (this.marker) {
         let icon = this.get.icon();
-        let img = this.get.image(this.type);
+        let img = PathTool.image.map.object.get(this.type);
         icon.setImage(img.hover);
         this.marker.setIcon(icon);
       }
@@ -27,7 +29,7 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
     marker.on('mouseout', () => {
       if (this.marker) {
         let icon = this.get.icon();
-        let img = this.get.image(this.type);
+        let img = PathTool.image.map.object.get(this.type);
         icon.setImage(img.normal);
         this.marker.setIcon(icon);
       }
@@ -54,28 +56,13 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
   }
 
   private get = {
-    icon: (type?: number) => {
+    icon: (type?: RoadObjectType, state?: RoadObjectState) => {
       let icon = new AMap.Icon({
         imageSize: this.get.size(),
         size: this.get.size(),
-        image: this.get.image(type).normal,
+        image: PathTool.image.map.object.get(type, state).normal,
       });
       return icon;
-    },
-    image: (type?: number) => {
-      switch (type) {
-        case 1:
-          return PathTool.image.map.object.firehydrant;
-        case 2:
-          return PathTool.image.map.object.busstation;
-        case 3:
-          return PathTool.image.map.object.trashcan;
-        case 4:
-          return PathTool.image.map.object.passage;
-
-        default:
-          return PathTool.image.map.object.unknow;
-      }
     },
     size: () => {
       return [SizeTool.map.object.width, SizeTool.map.object.height] as [
@@ -86,8 +73,9 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
   };
 
   set = {
-    type: (type: number) => {
+    type: (type: RoadObjectType) => {
       this.type = type;
+
       if (this.marker) {
         let icon = this.get.icon(type);
         this.marker.setIcon(icon);

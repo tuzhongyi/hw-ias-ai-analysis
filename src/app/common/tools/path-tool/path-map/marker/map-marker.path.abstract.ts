@@ -16,6 +16,10 @@ export abstract class MapMarkerPathAbstract implements IMapMarkerPath {
   get hover() {
     return `${this.basic}-hover.png`;
   }
+
+  equals(other: IMapMarkerPath): boolean {
+    return this.normal === other.normal;
+  }
 }
 
 export class MapMarkerPathInstance extends MapMarkerPathAbstract {

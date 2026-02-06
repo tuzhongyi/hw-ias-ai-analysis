@@ -35,6 +35,7 @@ export class VideoTagsComponent implements OnInit, OnChanges, OnDestroy {
   @Output() loaded = new EventEmitter<VideoDirective>();
   @Output() picture = new EventEmitter<ArrayBuffer>();
   @Input() keycontrol = false;
+  @Input() wheelcontrol = false;
   constructor(
     private business: VideoTagsBusiness,
     private sanitizer: DomSanitizer,
@@ -106,9 +107,11 @@ export class VideoTagsComponent implements OnInit, OnChanges, OnDestroy {
     playing: true,
     time: 0,
     duration: 0,
+
     control: {
       visible: true,
       timer: undefined as NodeJS.Timeout | undefined,
+      wheel: new EventEmitter<WheelEvent>(),
       show: () => {
         this.video.control.visible = true;
         if (this.video.control.timer) {
@@ -173,6 +176,9 @@ export class VideoTagsComponent implements OnInit, OnChanges, OnDestroy {
           if (this.video.playing) {
             this.video.control.visible = false;
           }
+        },
+        wheel: (e: WheelEvent) => {
+          this.video.control.wheel.emit(e);
         },
       },
     },

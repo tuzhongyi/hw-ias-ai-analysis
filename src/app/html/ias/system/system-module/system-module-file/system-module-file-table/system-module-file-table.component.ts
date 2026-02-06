@@ -36,8 +36,8 @@ export class SystemModuleFileTableComponent
   @Input() folder?: FileInfo;
   @Output() folderChange = new EventEmitter<FileInfo>();
   @Output() upload = new EventEmitter<void>();
-
   @Input('load') _load?: EventEmitter<void>;
+  @Input() next?: EventEmitter<FileInfo>;
 
   constructor(private business: SystemMobuleFileTableBusiness) {}
 
@@ -80,6 +80,21 @@ export class SystemModuleFileTableComponent
       });
       this.subscription.add(sub);
     }
+    if (this.next) {
+      let sub = this.next.subscribe((current) => {
+        if (this.selected) {
+          let index = this.datas.findIndex(
+            (x) => x.FileName == current.FileName
+          );
+          if (index >= 0 && index + 1 < this.datas.length) {
+            let next = this.datas[index + 1];
+            this.on.select(next);
+            this.on.video(next);
+          }
+        }
+      });
+      this.subscription.add(sub);
+    }
   }
 
   private load(path?: string) {
@@ -104,10 +119,10 @@ export class SystemModuleFileTableComponent
       this.selected = item;
       this.selectedChange.emit(this.selected);
     },
-    video: (item: FileInfo, e: Event) => {
+    video: (item: FileInfo, e?: Event) => {
       this.video.emit(item);
       if (this.selected == item) {
-        e.stopImmediatePropagation();
+        e?.stopImmediatePropagation();
       }
     },
     download: (item: FileInfo, e: Event) => {

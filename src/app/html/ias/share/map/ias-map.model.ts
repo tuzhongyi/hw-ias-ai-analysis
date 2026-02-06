@@ -1,7 +1,12 @@
 export enum MapMarkerType {
   other,
   shop,
-  roadobject,
+  passage,
+  busstation,
+  firehydrant,
+  trashcan,
+  telephonebooth,
+  unknow,
 }
 export enum MapMarkerColor {
   red = 'red',

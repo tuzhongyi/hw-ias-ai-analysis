@@ -1,3 +1,4 @@
+import { RoadObjectState } from '../../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
@@ -16,8 +17,8 @@ export class IASMapAMapRoadObjectIconController {
     };
     return icon;
   }
-  get(type?: RoadObjectType) {
-    let image = this._get.image(type);
+  get(type?: RoadObjectType, state?: RoadObjectState) {
+    let image = PathTool.image.map.object.get(type, state);
     return {
       normal: {
         ...this.opts,
@@ -33,21 +34,4 @@ export class IASMapAMapRoadObjectIconController {
       },
     };
   }
-
-  private _get = {
-    image: (type?: RoadObjectType) => {
-      switch (type) {
-        case RoadObjectType.BusStation:
-          return PathTool.image.map.object.busstation;
-        case RoadObjectType.FireHydrant:
-          return PathTool.image.map.object.firehydrant;
-        case RoadObjectType.Passage:
-          return PathTool.image.map.object.passage;
-        case RoadObjectType.TrashCan:
-          return PathTool.image.map.object.trashcan;
-        default:
-          return PathTool.image.map.object.unknow;
-      }
-    },
-  };
 }

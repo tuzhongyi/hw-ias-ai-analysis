@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { RoadObjectType } from '../../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { SystemModuleRoadObjectDetailsAMapController } from './system-module-road-object-details-amap.controller';
 
@@ -33,7 +34,7 @@ export class SystemModuleRoadObjectDetailsMapController {
         let point = await this.amap.point;
         point.set.position(position);
       },
-      type: async (type: number) => {
+      type: async (type: RoadObjectType) => {
         let point = await this.amap.point;
         point.set.type(type);
       },
@@ -41,6 +42,12 @@ export class SystemModuleRoadObjectDetailsMapController {
     clear: async () => {
       let point = await this.amap.point;
       point.clear();
+    },
+  };
+  geocoder = {
+    address: async (position: [number, number]) => {
+      let geocoder = await this.amap.geocoder;
+      return geocoder.get(position);
     },
   };
 

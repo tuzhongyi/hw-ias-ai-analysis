@@ -37,6 +37,7 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
   @Output('current') _current = new EventEmitter<FileGpsItem>();
   @Output() pickup = new EventEmitter<[number, number]>();
   @Output() objectdblclick = new EventEmitter<RoadObject>();
+  @Output() address = new EventEmitter<string>();
 
   rectified = false;
   position = {
@@ -77,6 +78,9 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
       dblclick: (data: RoadObject) => {
         this.objectdblclick.emit(data);
       },
+    },
+    address: (address: string) => {
+      this.address.emit(address);
     },
   };
 }

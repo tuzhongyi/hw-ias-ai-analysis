@@ -109,6 +109,7 @@
       [videoable]="false"
       (video)="window.video.open($event)"
       [(folder)]="window.file.folder"
+      [next]="window.file.next"
     ></ias-system-module-file-manager>
   </ias-window>
   <ias-window
@@ -123,6 +124,7 @@
       (pickup)="file.on.pickup($event)"
       (details)="window.details.open($event)"
       (close)="window.video.show = false"
+      (next)="window.file.on.next($event)"
     ></ias-system-module-road-object-video-manager>
   </ias-window>
   <ias-window

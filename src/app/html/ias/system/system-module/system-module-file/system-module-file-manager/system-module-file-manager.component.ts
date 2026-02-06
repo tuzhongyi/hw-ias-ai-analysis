@@ -42,6 +42,7 @@ export class SystemModuleFileManagerComponent implements OnInit, OnDestroy {
   @Output() video = new EventEmitter<FileInfo>();
   @Input() folder?: FileInfo;
   @Output() folderChange = new EventEmitter<FileInfo>();
+  @Input() next?: EventEmitter<FileInfo>;
   constructor(
     private business: SystemMobuleFileManagerBusiness,
     private toastr: ToastrService

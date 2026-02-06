@@ -1,102 +1,105 @@
 <div class="system-module-road-object-table">
-  <div class="system-module-road-object-table-body table-split">
-    <div class="table-split-head">
-      <table border="0" cellpadding="0" cellspacing="0">
-        <colgroup>
-          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th class="center">序号</th>
-            <th>图片</th>
-            <th>名称</th>
-            <th>类型</th>
-            <th>物件分类</th>
-            <th>行政区划</th>
-            <th>责任网格</th>
-            <th>健康度</th>
-            <th>状态</th>
-            <th class="center" *ngIf="operable">操作</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
-    <div class="table-split-body">
-      <table border="0" cellpadding="0" cellspacing="0">
-        <colgroup>
-          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
-        </colgroup>
-        <tbody>
-          <tr
-            *ngFor="let item of datas; let index = index"
-            (click)="on.select(item)"
-            [ngClass]="{
-              selected: item === selected
-            }"
-            (dblclick)="on.position(item, $event)"
-            (mouseover)="on.mouse.over(item)"
-            (mouseout)="on.mouse.out(item)"
-          >
-            <td class="center">
-              <div>{{ index + 1 }}</div>
-            </td>
+  <div class="system-module-road-object-table-body table-page">
+    <table border="0" cellpadding="0" cellspacing="0" TableSorter>
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th>图片</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>物件分类</th>
+          <th>行政区划</th>
+          <th>责任网格</th>
+          <th>健康度</th>
+          <th>状态</th>
+          <th class="center" *ngIf="operable">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="on.select(item)"
+          [ngClass]="{
+            selected: item && item === selected,
+            nodata: !item
+          }"
+          [ngStyle]="{
+            height: item ? 100 / page.PageSize + '%' : 0
+          }"
+          (dblclick)="on.position(item, $event)"
+          (mouseover)="on.mouse.over(item)"
+          (mouseout)="on.mouse.out(item)"
+        >
+          <td class="center">
+            <span *ngIf="item">{{
+              page.PageSize * (page.PageIndex - 1) + index + 1
+            }}</span>
+          </td>
 
-            <td>
-              <div *ngIf="item">
-                <div
-                  [ngClass]="{ noimage: !item?.Image }"
-                  class="image"
-                  [ngStyle]="{
-                    backgroundImage: item.Image
-                      ? 'url(' + item.Image + ')'
-                      : 'none'
-                  }"
-                  (click)="on.picture(item, $event)"
-                ></div>
+          <td>
+            <div *ngIf="item">
+              <div
+                [ngClass]="{ noimage: !item?.Image }"
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: item.Image
+                    ? 'url(' + item.Image + ')'
+                    : 'none'
+                }"
+                (click)="on.picture(item, $event)"
+              ></div>
+            </div>
+          </td>
+          <td [title]="item.Name">
+            <div>{{ item.Name }}</div>
+          </td>
+          <td>
+            {{ item.ObjectTypeName | async }}
+          </td>
+          <td>
+            {{ item.Category ?? "-" }}
+          </td>
+          <td [title]="(item.Division | async)?.Name ?? ''">
+            {{ (item.Division | async)?.Name ?? "-" }}
+          </td>
+          <td [title]="(item.GridCell | async)?.Name ?? ''">
+            {{ (item.GridCell | async)?.Name ?? "-" }}
+          </td>
+          <td>
+            {{ item.Health ?? "-" }}
+          </td>
+          <td [title]="item.ObjectStateName">
+            {{ (item.ObjectStateName | async) || "-" }}
+          </td>
+          <td class="center" *ngIf="operable">
+            <div class="operation">
+              <div
+                class="button"
+                title="编辑"
+                (click)="on.modify(item, $event)"
+              >
+                <i class="howell-icon-modification"></i>
               </div>
-            </td>
-            <td [title]="item.Name">
-              <div>{{ item.Name }}</div>
-            </td>
-            <td>
-              {{ item.ObjectTypeName | async }}
-            </td>
-            <td>
-              {{ item.Category ?? "-" }}
-            </td>
-            <td [title]="(item.Division | async)?.Name ?? ''">
-              {{ (item.Division | async)?.Name ?? "-" }}
-            </td>
-            <td [title]="(item.GridCell | async)?.Name ?? ''">
-              {{ (item.GridCell | async)?.Name ?? "-" }}
-            </td>
-            <td>
-              {{ item.Health ?? "-" }}
-            </td>
-            <td [title]="item.ObjectStateName">
-              {{ (item.ObjectStateName | async) || "-" }}
-            </td>
-            <td class="center" *ngIf="operable">
-              <div class="operation">
-                <div
-                  class="button"
-                  title="编辑"
-                  (click)="on.modify(item, $event)"
-                >
-                  <i class="howell-icon-modification"></i>
-                </div>
-                <div
-                  class="button"
-                  title="删除"
-                  (click)="on.delete(item, $event)"
-                >
-                  <i class="howell-icon-delete2"></i>
-                </div>
+              <div
+                class="button"
+                title="删除"
+                (click)="on.delete(item, $event)"
+              >
+                <i class="howell-icon-delete2"></i>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    class="system-module-road-object-table-foot"
+    *ngIf="page.TotalRecordCount"
+  >
+    <paginator [page]="page" (change)="on.page($event)"> </paginator>
   </div>
 </div>

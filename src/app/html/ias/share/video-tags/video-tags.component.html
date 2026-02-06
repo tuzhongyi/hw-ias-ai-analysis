@@ -8,6 +8,8 @@
     autoplay="autoplay"
     controls="true"
     [keycontrol]="keycontrol"
+    [wheelcontrol]="wheelcontrol"
+    [wheel]="video.control.wheel"
     [src]="src"
     (play)="video.on.play()"
     (pause)="video.on.pause()"
@@ -30,6 +32,7 @@
       (click)="video.on.seek(item.value)"
       (mousemove)="video.on.mouse.move()"
       (mouseenter)="video.on.mouse.move()"
+      (wheel)="video.on.mouse.wheel($event)"
     ></div>
   </div>
 </div>

@@ -241,6 +241,9 @@ export class SystemModuleRoadObjectDetailsManagerComponent
           this.map.on.wgs84(point);
         }
       },
+      address: (address: string) => {
+        this.model.Address = address;
+      },
     },
   };
 

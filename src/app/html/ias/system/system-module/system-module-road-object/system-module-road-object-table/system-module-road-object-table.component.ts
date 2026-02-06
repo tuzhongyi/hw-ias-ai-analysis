@@ -11,7 +11,12 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import {
+  Page,
+  PagedList,
+} from '../../../../../../common/data-core/models/page-list.model';
 import { SystemModuleRoadObjectTableBusiness } from './system-module-road-object-table.business';
 import {
   SystemModuleRoadObjectTableArgs,
@@ -20,7 +25,7 @@ import {
 
 @Component({
   selector: 'ias-system-module-road-object-table',
-  imports: [CommonModule],
+  imports: [CommonModule, PaginatorComponent],
   templateUrl: './system-module-road-object-table.component.html',
   styleUrl: './system-module-road-object-table.component.less',
   providers: [SystemModuleRoadObjectTableBusiness],
@@ -45,7 +50,9 @@ export class SystemModuleRoadObjectTableComponent
 
   constructor(private business: SystemModuleRoadObjectTableBusiness) {}
 
+  page = Page.create(1, 10);
   datas: SystemModuleRoadObjectTableItem[] = [];
+  source: SystemModuleRoadObjectTableItem[] = [];
 
   widths = ['65px', '200px', '100px', 'auto', '100px'];
   private subscription = new Subscription();
@@ -66,22 +73,23 @@ export class SystemModuleRoadObjectTableComponent
   ngOnInit(): void {
     if (this._load) {
       let sub = this._load.subscribe((x) => {
-        this.load(this.args);
+        this.load(1, this.args);
       });
       this.subscription.add(sub);
     }
-    this.load(this.args);
+    this.load(1, this.args);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  private load(args: SystemModuleRoadObjectTableArgs) {
+  private load(index: number, args: SystemModuleRoadObjectTableArgs) {
     this.business
       .load(args)
       .then((x) => {
-        this.datas = x;
         this.loaded.emit(x);
+        this.source = x;
+        this.on.page(index);
       })
       .catch((e) => {
         this.error.emit(e);
@@ -89,6 +97,13 @@ export class SystemModuleRoadObjectTableComponent
   }
 
   on = {
+    page: (num: number) => {
+      let paged = PagedList.create(this.source, num, this.page.PageSize);
+      this.page = paged.Page;
+      this.datas = paged.Data;
+      this.selected = undefined;
+      this.selectedChange.emit();
+    },
     picture: (item: RoadObject, e: Event) => {},
     delete: (item: RoadObject, e: Event) => {
       this.delete.emit(item);

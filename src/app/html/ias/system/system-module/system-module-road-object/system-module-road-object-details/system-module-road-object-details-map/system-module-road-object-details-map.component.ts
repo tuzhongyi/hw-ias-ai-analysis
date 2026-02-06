@@ -29,6 +29,7 @@ export class SystemModuleRoadObjectDetailsMapComponent
   @Input() position: [number, number] = [0, 0];
   @Output() positionChange = new EventEmitter<[number, number]>();
   @Input() type: number = 0;
+  @Output() address = new EventEmitter<string>();
 
   constructor(private business: SystemModuleRoadObjectMapBusiness) {}
 
@@ -54,6 +55,9 @@ export class SystemModuleRoadObjectDetailsMapComponent
     let sub = this.controller.event.position.subscribe((x) => {
       this.position = [...x];
       this.positionChange.emit(this.position);
+      this.controller.geocoder.address(this.position).then((address) => {
+        this.address.emit(address);
+      });
     });
     this.subscription.add(sub);
   }

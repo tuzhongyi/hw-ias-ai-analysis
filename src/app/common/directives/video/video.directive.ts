@@ -1,8 +1,19 @@
-import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Directive({ selector: '[video-directive]' })
 export class VideoDirective implements OnInit, OnDestroy {
   @Input() keycontrol = false;
+  @Input() wheelcontrol = false;
+  @Input() step = 0.25;
+  @Input() wheel?: EventEmitter<WheelEvent>;
   constructor(private e: ElementRef<HTMLVideoElement>) {
     this.playing = !!e.nativeElement.getAttribute('autoplay');
   }
@@ -33,11 +44,21 @@ export class VideoDirective implements OnInit, OnDestroy {
     return this.e.nativeElement;
   }
 
-  private handle: { keypress?: any } = {};
+  private handle: { keypress?: any; wheel?: any } = {};
+  private subscription = new Subscription();
 
   ngOnInit(): void {
     if (this.keycontrol) {
-      this.regist();
+      this.regist.keypress();
+    }
+    if (this.wheelcontrol) {
+      this.regist.wheel();
+    }
+    if (this.wheel) {
+      let sub = this.wheel.subscribe((x) => {
+        this.on.mouse.wheel(x);
+      });
+      this.subscription.add(sub);
     }
   }
   ngOnDestroy(): void {
@@ -45,12 +66,25 @@ export class VideoDirective implements OnInit, OnDestroy {
       window.removeEventListener('keydown', this.handle.keypress);
       this.handle.keypress = undefined;
     }
+    if (this.handle.wheel) {
+      this.nativeElement.removeEventListener('wheel', this.handle.wheel);
+      this.handle.wheel = undefined;
+    }
+    this.subscription.unsubscribe();
   }
 
-  private regist() {
-    this.handle.keypress = this.on.key.press;
-    window.addEventListener('keydown', this.handle.keypress);
-  }
+  private regist = {
+    keypress: () => {
+      this.handle.keypress = this.on.key.press;
+      window.addEventListener('keydown', this.handle.keypress);
+    },
+    wheel: () => {
+      this.handle.wheel = this.on.mouse.wheel;
+      this.nativeElement.addEventListener('wheel', this.handle.wheel, {
+        passive: false,
+      });
+    },
+  };
 
   async capture() {
     return new Promise<VideoCaptureModel>((resolve) => {
@@ -93,7 +127,7 @@ export class VideoDirective implements OnInit, OnDestroy {
             }
 
             if (time != undefined) {
-              time -= 1 / 4;
+              time -= this.step;
               this.nativeElement.currentTime = time;
             }
 
@@ -103,13 +137,34 @@ export class VideoDirective implements OnInit, OnDestroy {
               this.pause();
             }
             if (time != undefined) {
-              time += 1 / 4;
+              time += this.step;
               this.nativeElement.currentTime = time;
             }
             break;
 
           default:
             break;
+        }
+      },
+    },
+    mouse: {
+      wheel: (e: WheelEvent) => {
+        e.preventDefault();
+
+        let time = this.currentTime;
+        if (time == null) return;
+
+        // 滚轮滚动时先暂停
+        if (this.playing) {
+          this.pause();
+        }
+
+        if (e.deltaY > 0) {
+          // 向上滚：快进
+          this.nativeElement.currentTime = time + this.step;
+        } else {
+          // 向下滚：快退
+          this.nativeElement.currentTime = Math.max(0, time - this.step);
         }
       },
     },

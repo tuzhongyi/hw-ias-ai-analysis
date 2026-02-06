@@ -1,5 +1,6 @@
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
+import { IASMapAMapGeocoderController } from '../../../../../../share/map/controller/amap/geocoder/ias-map-amap-geocoder.controller';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 import { SystemModuleRoadObjectDetailsAMapObjectController } from './object/system-module-road-object-details-amap-object.controller';
 
@@ -12,6 +13,9 @@ export class SystemModuleRoadObjectDetailsAMapController {
   }
   get map() {
     return this.controller.map.get();
+  }
+  get geocoder() {
+    return this.controller.geocoder.get();
   }
   constructor() {
     MapHelper.amap
@@ -31,6 +35,9 @@ export class SystemModuleRoadObjectDetailsAMapController {
 
         let point = new SystemModuleRoadObjectDetailsAMapObjectController(map);
         this.controller.point.set(point);
+
+        let geocoder = new IASMapAMapGeocoderController();
+        this.controller.geocoder.set(geocoder);
       });
   }
 
@@ -40,5 +47,6 @@ export class SystemModuleRoadObjectDetailsAMapController {
     road: new PromiseValue<IASMapAMapRoadController>(),
     point:
       new PromiseValue<SystemModuleRoadObjectDetailsAMapObjectController>(),
+    geocoder: new PromiseValue<IASMapAMapGeocoderController>(),
   };
 }

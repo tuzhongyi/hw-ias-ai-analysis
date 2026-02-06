@@ -65,6 +65,13 @@ export class SystemModuleRoadObjectVideoMapController {
       this.event.point.emit(undefined);
     },
   };
+  geocoder = {
+    address: (psoition: [number, number]) => {
+      return this.amap.geocoder.get().then((geocoder) => {
+        return geocoder.get(psoition);
+      });
+    },
+  };
 
   private regist() {
     this.amap.path.get().then((path) => {

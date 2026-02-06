@@ -20,7 +20,7 @@ export class SystemTaskFileDetailsAMapPickupController {
 
   create(position: [number, number]) {
     let args = {
-      type: MapMarkerType.roadobject,
+      type: MapMarkerType.unknow,
       color: MapMarkerColor.green,
     };
     let marker = this.marker.set(position, args, true);

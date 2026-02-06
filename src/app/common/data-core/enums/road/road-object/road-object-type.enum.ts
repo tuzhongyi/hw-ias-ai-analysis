@@ -8,4 +8,5 @@ export enum RoadObjectType {
   TrashCan = 3,
   /**	重要通道	*/
   Passage = 4,
+  TelephoneBooth = 5,
 }

@@ -49,6 +49,8 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   @Input() pickup?: [number, number];
   @Output() pickupChange = new EventEmitter<[number, number]>();
 
+  @Output() address = new EventEmitter<string>();
+
   @Output() current = new EventEmitter<FileGpsItem>();
   @Output() objectdblclick = new EventEmitter<RoadObject>();
 
@@ -122,6 +124,9 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
         let sub = this.controller.event.point.subscribe((x) => {
           this.pickup = x;
           this.pickupChange.emit(this.pickup);
+          this.controller.geocoder.address(x).then((address) => {
+            this.address.emit(address);
+          });
         });
         this.subscription.add(sub);
       },

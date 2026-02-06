@@ -1,12 +1,17 @@
+import { RoadObjectState } from '../../../../../data-core/enums/road/road-object/road-object-state.enum';
+import { RoadObjectType } from '../../../../../data-core/enums/road/road-object/road-object-type.enum';
+import { IMapMarkerPath } from '../map-marker.interface';
 import { MapMarkerObjectBusStationPath } from './map-marker-object-bus-station.path';
 import { MapMarkerObjectFireHydrantPath } from './map-marker-object-fire-hydrant.path';
 import { MapMarkerObjectPassagePath } from './map-marker-object-passage.path';
+import { MapMarkerObjectTelephoneBoothPath } from './map-marker-object-telephone-booth.path';
 import { MapMarkerObjectTrashCanPath } from './map-marker-object-trash-can.path';
 import { MapMarkerObjectUnknowPath } from './map-marker-object-unknow.path';
+import { IMapMarkerObjectPath } from './map-marker-object.interface';
 
 export class MapMarkerObjectPath {
   constructor(path: string) {
-    this.basic = `${path}/marker`;
+    this.basic = `${path}`;
   }
 
   private basic: string;
@@ -26,4 +31,47 @@ export class MapMarkerObjectPath {
   get unknow() {
     return new MapMarkerObjectUnknowPath(this.basic);
   }
+  get telephonebooth() {
+    return new MapMarkerObjectTelephoneBoothPath(this.basic);
+  }
+
+  get(type?: RoadObjectType, state?: RoadObjectState) {
+    let path = this.from.type(type);
+
+    if (path instanceof IMapMarkerObjectPath) {
+      switch (state) {
+        case RoadObjectState.Normal:
+          return path.cyan;
+        case RoadObjectState.Breakage:
+          return path.orange;
+        case RoadObjectState.Disappear:
+          return path.red;
+        case RoadObjectState.None:
+          return path.gray;
+        default:
+          return path.green;
+      }
+    }
+
+    return this.unknow;
+  }
+
+  private from = {
+    type: (type?: RoadObjectType): IMapMarkerObjectPath | IMapMarkerPath => {
+      switch (type) {
+        case RoadObjectType.BusStation:
+          return this.busstation;
+        case RoadObjectType.FireHydrant:
+          return this.firehydrant;
+        case RoadObjectType.Passage:
+          return this.passage;
+        case RoadObjectType.TrashCan:
+          return this.trashcan;
+        case RoadObjectType.TelephoneBooth:
+          return this.telephonebooth;
+        default:
+          return this.unknow;
+      }
+    },
+  };
 }
