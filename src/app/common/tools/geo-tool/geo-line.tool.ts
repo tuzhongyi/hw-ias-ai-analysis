@@ -56,4 +56,19 @@ export class GeoLineTool {
 
     return [cx, cy];
   }
+
+  get = {
+    by: {
+      percent: (line: GeoLine, percent: number): GeoPoint => {
+        // 防御一下
+        if (percent <= 0) return [...line[0]];
+        if (percent >= 1) return [...line[1]];
+
+        const lng = line[0][0] + (line[1][0] - line[0][0]) * percent;
+        const lat = line[0][1] + (line[1][1] - line[0][1]) * percent;
+
+        return [lng, lat];
+      },
+    },
+  };
 }

@@ -217,7 +217,7 @@ export class SystemTaskFileDetailsMapController {
         return time.getTime();
       });
 
-      let finded = ArrayTool.closest(times, stamp);
+      let finded = ArrayTool.closest.item(times, stamp);
       if (finded) {
         let item = this.path.datas[finded.index];
         resolve(item);

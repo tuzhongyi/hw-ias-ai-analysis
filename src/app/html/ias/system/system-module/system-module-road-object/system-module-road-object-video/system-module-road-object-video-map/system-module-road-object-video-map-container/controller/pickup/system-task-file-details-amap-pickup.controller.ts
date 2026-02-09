@@ -1,9 +1,7 @@
 import { EventEmitter } from '@angular/core';
+import { PathTool } from '../../../../../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../../../../../common/tools/size-tool/size.tool';
 import { IASMapAMapIconController } from '../../../../../../../../share/map/controller/amap/shop/marker/ias-map-amap-shop-icon.controller';
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../../../../../share/map/ias-map.model';
 import { SystemTaskFileDetailsAMapPickupMarkerController } from './system-task-file-details-amap-pickup-marker.controller';
 
 export class SystemTaskFileDetailsAMapPickupController {
@@ -20,8 +18,11 @@ export class SystemTaskFileDetailsAMapPickupController {
 
   create(position: [number, number]) {
     let args = {
-      type: MapMarkerType.unknow,
-      color: MapMarkerColor.green,
+      path: PathTool.image.map.object.unknow.green,
+      size: [SizeTool.map.object.width, SizeTool.map.object.height] as [
+        number,
+        number
+      ],
     };
     let marker = this.marker.set(position, args, true);
     this.map.add(marker);

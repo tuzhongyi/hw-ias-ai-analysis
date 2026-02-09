@@ -53,7 +53,7 @@ export class MapMarkerObjectPath {
       }
     }
 
-    return this.unknow;
+    return this.unknow.gray;
   }
 
   private from = {
@@ -70,7 +70,7 @@ export class MapMarkerObjectPath {
         case RoadObjectType.TelephoneBooth:
           return this.telephonebooth;
         default:
-          return this.unknow;
+          return this.unknow.gray;
       }
     },
   };

@@ -30,7 +30,7 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
   @Output() loaded = new EventEmitter<FileGpsItem[]>();
   @Output() error = new EventEmitter<Error>();
 
-  @Input() locationable = true;
+  @Input() locationable = false;
   @Input() pickupable = true;
   @Input() roadable = true;
 
@@ -38,6 +38,7 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
   @Output() pickup = new EventEmitter<[number, number]>();
   @Output() objectdblclick = new EventEmitter<RoadObject>();
   @Output() address = new EventEmitter<string>();
+  @Output() course = new EventEmitter<number>();
 
   rectified = false;
   position = {
@@ -70,6 +71,9 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
     current: (item: FileGpsItem) => {
       this.current = item;
       this._current.emit(item);
+    },
+    course: (value: number) => {
+      this.course.emit(value);
     },
     pickup: (data: [number, number]) => {
       this.pickup.emit(data);

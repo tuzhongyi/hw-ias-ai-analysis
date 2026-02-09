@@ -20,7 +20,7 @@ export class SystemModuleRoadObjectVideoAMapPathWayController {
 
   constructor(private map: AMap.Map) {}
 
-  private positions?: AMap.Polyline;
+  private polyline?: AMap.Polyline;
   private points: [number, number][] = [];
   private hover = false;
 
@@ -68,14 +68,14 @@ export class SystemModuleRoadObjectVideoAMapPathWayController {
     }
   }
   load(positions: [number, number][]) {
-    if (this.positions) {
-      this.map.remove(this.positions);
+    if (this.polyline) {
+      this.map.remove(this.polyline);
     }
     if (positions.length < 2) {
       return;
     }
     this.points = positions;
-    this.positions = new AMap.Polyline({
+    this.polyline = new AMap.Polyline({
       path: [...positions],
       showDir: true,
       strokeWeight: 6,
@@ -85,21 +85,29 @@ export class SystemModuleRoadObjectVideoAMapPathWayController {
       cursor: 'pointer',
     });
 
-    this.positions.on('mouseover', (e: any) => {
+    // let markers = positions.map((x) => {
+    //   return new AMap.Marker({
+    //     position: x,
+    //     icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+    //   });
+    // });
+    // this.map.add(markers);
+
+    this.polyline.on('mouseover', (e: any) => {
       this.onmouseover(e);
     });
-    this.positions.on('mouseout', (e: any) => {
+    this.polyline.on('mouseout', (e: any) => {
       this.onmouseout(e);
     });
-    this.positions.on('mousemove', (e: any) => {
+    this.polyline.on('mousemove', (e: any) => {
       if (this.hover) {
         this.onmove(e);
       }
     });
-    this.positions.on('click', (e: any) => {
+    this.polyline.on('click', (e: any) => {
       this.onclick(e);
     });
 
-    this.map.add(this.positions);
+    this.map.add(this.polyline);
   }
 }

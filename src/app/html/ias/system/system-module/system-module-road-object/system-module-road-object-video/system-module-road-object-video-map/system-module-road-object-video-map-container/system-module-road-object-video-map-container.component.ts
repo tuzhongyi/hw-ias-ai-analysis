@@ -52,6 +52,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   @Output() address = new EventEmitter<string>();
 
   @Output() current = new EventEmitter<FileGpsItem>();
+  @Output() course = new EventEmitter<number>();
   @Output() objectdblclick = new EventEmitter<RoadObject>();
 
   constructor(private business: SystemModuleRoadObjectVideoMapBusiness) {}
@@ -88,6 +89,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   private regist = {
     load: () => {
       this.regist.input.to();
+      this.regist.output.course();
       this.regist.output.trigger();
       this.regist.output.location();
       this.regist.output.pickup();
@@ -107,6 +109,12 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
       },
     },
     output: {
+      course: () => {
+        let sub = this.controller.event.course.subscribe((x) => {
+          this.course.emit(x);
+        });
+        this.subscription.add(sub);
+      },
       trigger: () => {
         let sub = this.controller.event.trigger.subscribe((x) => {
           this.trigger.emit(x);

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContainerPageComponent } from '../../../../../../../common/components/container-page/container-page.component';
-import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { HowellPoint } from '../../../../../../../common/data-core/models/arm/point.model';
@@ -11,10 +10,10 @@ import {
   PagedList,
 } from '../../../../../../../common/data-core/models/page-list.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../../share/map/ias-map.model';
+
+import { IMapMarkerPath } from '../../../../../../../common/tools/path-tool/path-map/marker/map-marker.interface';
+import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonMultipleComponent } from '../../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRoadObjectDetailsInfoComponent } from '../system-event-road-object-details-info/system-event-road-object-details-info.component';
 
@@ -53,32 +52,13 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
       }
     },
     map: (data: RoadObjectEventRecord) => {
-      switch (data.RoadObjectType) {
-        case RoadObjectType.BusStation:
-          this.map.marker.type = MapMarkerType.busstation;
-          break;
-        case RoadObjectType.FireHydrant:
-          this.map.marker.type = MapMarkerType.firehydrant;
-          break;
-        case RoadObjectType.Passage:
-          this.map.marker.type = MapMarkerType.passage;
-          break;
-        case RoadObjectType.TrashCan:
-          this.map.marker.type = MapMarkerType.trashcan;
-          break;
-        case RoadObjectType.TelephoneBooth:
-          this.map.marker.type = MapMarkerType.telephonebooth;
-          break;
-
-        default:
-          break;
-      }
+      this.map.marker.path = PathTool.image.map.object.get(data.RoadObjectType);
     },
   };
   map = {
     marker: {
-      type: MapMarkerType.unknow,
-      color: MapMarkerColor.orange,
+      path: PathTool.image.map.object.unknow.gray as IMapMarkerPath,
+      size: SizeTool.map.shop.get(),
     },
     point: undefined as GisPoint | undefined,
   };

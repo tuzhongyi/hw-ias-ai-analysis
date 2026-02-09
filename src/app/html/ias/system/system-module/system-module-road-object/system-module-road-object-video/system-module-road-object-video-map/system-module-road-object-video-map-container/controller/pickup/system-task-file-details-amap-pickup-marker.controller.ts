@@ -19,7 +19,9 @@ export class SystemTaskFileDetailsAMapPickupMarkerController {
   }
   set(position: [number, number], args: IIASMapArgs, draggable = false) {
     this.position = [...position];
-    let icon = this.icon.get(args.type, args.color);
+    this.icon.set.path(args.path);
+    this.icon.set.size(args.size);
+    let icon = this.icon.get();
     let marker = new AMap.Marker({
       position: this.position,
       draggable: draggable,

@@ -2,6 +2,9 @@ export class SizeMapTool {
   shop = {
     width: 76 * 0.7,
     height: 86 * 0.7,
+    get: (): [number, number] => {
+      return [this.shop.width, this.shop.height];
+    },
   };
   point = {
     normal: {

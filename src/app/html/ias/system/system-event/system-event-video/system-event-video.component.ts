@@ -10,11 +10,9 @@ import { ArmEventType } from '../../../../../common/data-core/enums/event/arm-ev
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
-import {
-  MapMarker,
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../share/map/ias-map.model';
+import { PathTool } from '../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../common/tools/size-tool/size.tool';
+import { MapMarker } from '../../../share/map/ias-map.model';
 import { VideoPathComponent } from '../../../share/video-path/component/video-path.component';
 import { SystemEventVideoBusiness } from './business/system-event-video.business';
 import { SystemEventVideoArgs } from './system-event-video.model';
@@ -69,15 +67,15 @@ export class SystemEventVideoComponent implements OnInit, OnChanges {
   load = {
     point: (data: MobileEventRecord) => {
       let args = new MapMarker();
+      args.size = SizeTool.map.shop.get();
 
       switch (data.EventType) {
         case ArmEventType.ShopSignDisappeared:
-          args.color = MapMarkerColor.orange;
-          args.type = MapMarkerType.shop;
+          args.path = PathTool.image.map.shop.orange;
+
           break;
         case ArmEventType.ShopSignCreated:
-          args.color = MapMarkerColor.green;
-          args.type = MapMarkerType.shop;
+          args.path = PathTool.image.map.shop.green;
           break;
 
         default:

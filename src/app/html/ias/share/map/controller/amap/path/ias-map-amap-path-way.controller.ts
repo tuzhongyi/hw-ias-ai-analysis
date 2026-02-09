@@ -2,10 +2,10 @@ import { EventEmitter } from '@angular/core';
 import {
   GeoLine,
   GeoPoint,
-} from '../../../../../../../../../../common/tools/geo-tool/geo.model';
-import { GeoTool } from '../../../../../../../../../../common/tools/geo-tool/geo.tool';
+} from '../../../../../../../common/tools/geo-tool/geo.model';
+import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 
-export class SystemModuleRoadObjectVideoAMapPathController {
+export class IASMapAMapPathWayController {
   mouseover = new EventEmitter<{
     line: GeoLine;
     point: GeoPoint;
@@ -28,10 +28,6 @@ export class SystemModuleRoadObjectVideoAMapPathController {
     this.hover = true;
     this.onmove(e);
   }
-  private onmouseout(e: any) {
-    this.hover = false;
-    this.mouseout.emit();
-  }
 
   private onmove(e: any) {
     var point = AMap.GeometryUtil.closestOnLine(
@@ -50,7 +46,10 @@ export class SystemModuleRoadObjectVideoAMapPathController {
       }
     }
   }
-
+  private onmouseout(e: any) {
+    this.hover = false;
+    this.mouseout.emit();
+  }
   private onclick(e: any) {
     var point = AMap.GeometryUtil.closestOnLine(
       [e.lnglat.lng, e.lnglat.lat],
@@ -68,58 +67,39 @@ export class SystemModuleRoadObjectVideoAMapPathController {
       }
     }
   }
-
-  load(positions: [number, number][], focus: boolean) {
-    if (positions.length === 0) return;
-    this.points = positions;
-    if (positions.length > 0) {
-      this.map.setCenter(positions[0]);
+  load(positions: [number, number][], test: [number, number][]) {
+    if (this.polyline) {
+      this.map.remove(this.polyline);
     }
+    if (positions.length < 2) {
+      return;
+    }
+    this.points = positions;
     this.polyline = new AMap.Polyline({
       path: [...positions],
       showDir: true,
       strokeWeight: 6,
-      strokeColor: '#32b33e',
+      strokeColor: '#4196ff',
       lineJoin: 'round',
       lineCap: 'round',
       cursor: 'pointer',
     });
 
-    // let markers = positions.map((x) => {
-    //   return new AMap.Marker({
-    //     position: x,
-    //   });
-    // });
-    // this.map.add(markers);
-
     this.polyline.on('mouseover', (e: any) => {
       this.onmouseover(e);
+    });
+    this.polyline.on('mouseout', (e: any) => {
+      this.onmouseout(e);
     });
     this.polyline.on('mousemove', (e: any) => {
       if (this.hover) {
         this.onmove(e);
       }
     });
-    this.polyline.on('mouseout', (e: any) => {
-      this.onmouseout(e);
-    });
     this.polyline.on('click', (e: any) => {
       this.onclick(e);
     });
 
     this.map.add(this.polyline);
-    if (focus) {
-      this.map.setFitView(this.polyline, true);
-      setTimeout(() => {
-        this.map.setFitView(this.polyline, true);
-      }, 2 * 1000);
-    }
-  }
-
-  clear() {
-    if (this.polyline) {
-      this.map.remove(this.polyline);
-      this.polyline = undefined;
-    }
   }
 }

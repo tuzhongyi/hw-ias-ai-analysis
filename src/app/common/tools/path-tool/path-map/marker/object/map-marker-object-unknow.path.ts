@@ -1,7 +1,16 @@
-import { MapMarkerPathAbstract } from '../map-marker.path.abstract';
+import { MapMarkerPathInstance } from '../map-marker.path.abstract';
 
-export class MapMarkerObjectUnknowPath extends MapMarkerPathAbstract {
+export class MapMarkerObjectUnknowPath {
   constructor(base: string) {
-    super(`${base}/marker-unknow`);
+    this.basic = `${base}/unknow/marker-unknow`;
+  }
+
+  private basic: string;
+
+  get gray() {
+    return new MapMarkerPathInstance(`${this.basic}-gray`);
+  }
+  get green() {
+    return new MapMarkerPathInstance(`${this.basic}-green`);
   }
 }

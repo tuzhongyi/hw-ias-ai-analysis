@@ -1,7 +1,7 @@
-import { GeoTool } from '../../../../../../../../../../common/tools/geo-tool/geo.tool';
-import { PathTool } from '../../../../../../../../../../common/tools/path-tool/path.tool';
+import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
+import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 
-export class SystemModuleRoadObjectVideoAMapArrowController {
+export class IASMapAMapPathArrowController {
   constructor(private map: AMap.Map) {
     this.init();
     this.regist();

@@ -6,12 +6,12 @@ import { PromiseValue } from '../../../../../../../../../common/view-models/valu
 import { IASMapAMapGeocoderController } from '../../../../../../../share/map/controller/amap/geocoder/ias-map-amap-geocoder.controller';
 import { IASMapAMapInfoController } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
+import { IASMapAMapPathArrowController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path-arrow.controller';
+import { IASMapAMapPathLabelController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path-label.controller';
+import { IASMapAMapPathWayController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path-way.controller';
+import { IASMapAMapPathController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path.controller';
 import { IASMapAMapRoadObjectMarkerLayerController } from '../../../../../../../share/map/controller/amap/road-object/marker/ias-map-amap-road-object-marker-layer.controller';
 import { IASMapAMapRoadObjectPointLayerController } from '../../../../../../../share/map/controller/amap/road-object/point/ias-map-amap-road-object-point-layer.controller';
-import { SystemModuleRoadObjectVideoAMapArrowController } from './path/system-module-road-object-video-amap-arrow.controller';
-import { SystemModuleRoadObjectVideoAMapLabelController } from './path/system-module-road-object-video-amap-label.controller';
-import { SystemModuleRoadObjectVideoAMapPathWayController } from './path/system-module-road-object-video-amap-path-way.controller';
-import { SystemModuleRoadObjectVideoAMapPathController } from './path/system-module-road-object-video-amap-path.controller';
 import { SystemTaskFileDetailsAMapPickupController } from './pickup/system-task-file-details-amap-pickup.controller';
 
 export class SystemModuleRoadObjectVideoAMapController {
@@ -26,10 +26,10 @@ export class SystemModuleRoadObjectVideoAMapController {
   };
   pickupable = false;
   map = new PromiseValue<AMap.Map>();
-  arrow = new PromiseValue<SystemModuleRoadObjectVideoAMapArrowController>();
-  path = new PromiseValue<SystemModuleRoadObjectVideoAMapPathController>();
-  way = new PromiseValue<SystemModuleRoadObjectVideoAMapPathWayController>();
-  label = new PromiseValue<SystemModuleRoadObjectVideoAMapLabelController>();
+  arrow = new PromiseValue<IASMapAMapPathArrowController>();
+  path = new PromiseValue<IASMapAMapPathController>();
+  way = new PromiseValue<IASMapAMapPathWayController>();
+  label = new PromiseValue<IASMapAMapPathLabelController>();
   pickup = new PromiseValue<SystemTaskFileDetailsAMapPickupController>();
   roadobject = {
     point: new PromiseValue<IASMapAMapRoadObjectPointLayerController>(),
@@ -72,10 +72,10 @@ export class SystemModuleRoadObjectVideoAMapController {
       return ctr;
     },
     path: (map: AMap.Map) => {
-      this.arrow.set(new SystemModuleRoadObjectVideoAMapArrowController(map));
-      this.path.set(new SystemModuleRoadObjectVideoAMapPathController(map));
-      this.way.set(new SystemModuleRoadObjectVideoAMapPathWayController(map));
-      this.label.set(new SystemModuleRoadObjectVideoAMapLabelController(map));
+      this.arrow.set(new IASMapAMapPathArrowController(map));
+      this.path.set(new IASMapAMapPathController(map));
+      this.way.set(new IASMapAMapPathWayController(map));
+      this.label.set(new IASMapAMapPathLabelController(map));
     },
     pickup: (map: AMap.Map) => {
       let point = new SystemTaskFileDetailsAMapPickupController(map);

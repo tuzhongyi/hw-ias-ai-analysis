@@ -1,27 +1,16 @@
-export enum MapMarkerType {
-  other,
-  shop,
-  passage,
-  busstation,
-  firehydrant,
-  trashcan,
-  telephonebooth,
-  unknow,
-}
-export enum MapMarkerColor {
-  red = 'red',
-  green = 'green',
-  blue = 'blue',
-  orange = 'orange',
-  gray = 'gray',
-}
+import { IMapMarkerPath } from '../../../../common/tools/path-tool/path-map/marker/map-marker.interface';
+import { PathTool } from '../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../common/tools/size-tool/size.tool';
 
-export class MapMarker {
-  type = MapMarkerType.other;
-  color?: MapMarkerColor;
+export class MapMarker implements IIASMapArgs {
+  path: string | IMapMarkerPath = PathTool.image.map.point.red;
+  size: [number, number] = [
+    SizeTool.map.point.normal.width,
+    SizeTool.map.point.normal.height,
+  ];
 }
 
 export interface IIASMapArgs {
-  type: MapMarkerType;
-  color?: MapMarkerColor;
+  path: string | IMapMarkerPath;
+  size: [number, number];
 }

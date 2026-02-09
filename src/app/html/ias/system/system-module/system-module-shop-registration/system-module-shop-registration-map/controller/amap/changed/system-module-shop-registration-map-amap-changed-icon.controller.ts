@@ -17,7 +17,7 @@ export class SystemModuleShopRegistrationMapAMapChangedIconController {
     return icon;
   }
 
-  size: [number, number] = [SizeTool.map.shop.width, SizeTool.map.shop.height];
+  size: [number, number] = SizeTool.map.shop.get();
 
   get over() {
     this.icon.setImage(PathTool.image.map.shop.green.hover);

@@ -51,7 +51,7 @@ export class SystemModuleRoadObjectTableComponent
   constructor(private business: SystemModuleRoadObjectTableBusiness) {}
 
   page = Page.create(1, 10);
-  datas: SystemModuleRoadObjectTableItem[] = [];
+  datas: (SystemModuleRoadObjectTableItem | undefined)[] = [];
   source: SystemModuleRoadObjectTableItem[] = [];
 
   widths = ['65px', '200px', '100px', 'auto', '100px'];
@@ -101,23 +101,31 @@ export class SystemModuleRoadObjectTableComponent
       let paged = PagedList.create(this.source, num, this.page.PageSize);
       this.page = paged.Page;
       this.datas = paged.Data;
+
+      while (this.datas.length < this.page.PageSize) {
+        this.datas.push(undefined);
+      }
+
       this.selected = undefined;
       this.selectedChange.emit();
     },
-    picture: (item: RoadObject, e: Event) => {},
-    delete: (item: RoadObject, e: Event) => {
+    picture: (e: Event, item?: RoadObject) => {},
+    delete: (e: Event, item?: RoadObject) => {
+      if (!item) return;
       this.delete.emit(item);
       if (this.selected === item) {
         e.stopPropagation();
       }
     },
-    modify: (item: SystemModuleRoadObjectTableItem, e: Event) => {
+    modify: (e: Event, item?: SystemModuleRoadObjectTableItem) => {
+      if (!item) return;
       this.modify.emit(item);
       if (this.selected === item) {
         e.stopPropagation();
       }
     },
-    select: (item: SystemModuleRoadObjectTableItem) => {
+    select: (item?: SystemModuleRoadObjectTableItem) => {
+      if (!item) return;
       if (this.selected === item) {
         this.selected = undefined;
       } else {
@@ -125,7 +133,8 @@ export class SystemModuleRoadObjectTableComponent
       }
       this.selectedChange.emit(this.selected);
     },
-    position: (item: SystemModuleRoadObjectTableItem, e: Event) => {
+    position: (e: Event, item?: SystemModuleRoadObjectTableItem) => {
+      if (!item) return;
       this.position.emit(item);
       if (this.selected === item) {
         e.stopImmediatePropagation();

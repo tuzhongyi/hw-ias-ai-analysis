@@ -2,6 +2,7 @@ import { VideoCaptureModel } from '../../../../../../../common/directives/video/
 
 export interface PickupModel {
   address?: string;
+  course: number;
   capture: VideoCaptureModel;
   position: [number, number];
 }

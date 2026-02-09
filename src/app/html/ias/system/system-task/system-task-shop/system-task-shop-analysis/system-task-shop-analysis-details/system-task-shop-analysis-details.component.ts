@@ -22,10 +22,9 @@ import {
 } from '../../../../../../../common/data-core/models/page-list.model';
 import { ShopViewModel } from '../../../../../../../common/view-models/shop/shop.view-model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../../share/map/ias-map.model';
+
+import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonComponent } from '../../../../../share/picture/picture-polygon/picture-polygon.component';
 import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemTaskShopAnalysisDetailsInfoComponent } from '../system-task-shop-analysis-details-info/system-task-shop-analysis-details-info.component';
@@ -97,8 +96,8 @@ export class SystemTaskShopAnalysisDetailsComponent implements OnChanges {
   };
   map = {
     marker: {
-      type: MapMarkerType.shop,
-      color: MapMarkerColor.green,
+      path: PathTool.image.map.shop.green,
+      size: SizeTool.map.shop.get(),
     },
     points: [] as GisPoint[],
     location: undefined as GisPoint | undefined,

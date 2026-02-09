@@ -2,10 +2,10 @@ import { EventEmitter } from '@angular/core';
 import {
   GeoLine,
   GeoPoint,
-} from '../../../../../../../../../../common/tools/geo-tool/geo.model';
-import { GeoTool } from '../../../../../../../../../../common/tools/geo-tool/geo.tool';
+} from '../../../../../../../common/tools/geo-tool/geo.model';
+import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 
-export class SystemModuleRoadObjectVideoAMapPathController {
+export class IASMapAMapPathController {
   mouseover = new EventEmitter<{
     line: GeoLine;
     point: GeoPoint;
@@ -84,13 +84,6 @@ export class SystemModuleRoadObjectVideoAMapPathController {
       lineCap: 'round',
       cursor: 'pointer',
     });
-
-    // let markers = positions.map((x) => {
-    //   return new AMap.Marker({
-    //     position: x,
-    //   });
-    // });
-    // this.map.add(markers);
 
     this.polyline.on('mouseover', (e: any) => {
       this.onmouseover(e);

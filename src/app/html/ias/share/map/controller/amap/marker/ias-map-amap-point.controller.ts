@@ -11,7 +11,9 @@ export class IASMapAMapPointController {
 
   set(data: GisPoint, args: IIASMapArgs) {
     this.position = [data.Longitude, data.Latitude];
-    let icon = this.icon.get(args.type, args.color);
+    this.icon.set.path(args.path);
+    this.icon.set.size(args.size);
+    let icon = this.icon.get();
     let marker = new AMap.Marker({
       position: this.position,
       draggable: false,

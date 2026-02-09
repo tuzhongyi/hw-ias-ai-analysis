@@ -61,6 +61,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
     loaded: false,
     datas: [] as FileGpsItem[],
     address: undefined as string | undefined,
+    course: 0,
     pickup: undefined as [number, number] | undefined,
     on: {
       loaded: (datas: FileGpsItem[]) => {
@@ -94,6 +95,9 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
       address: (address: string) => {
         this.map.address = address;
       },
+      course: (course: number) => {
+        this.map.course = course;
+      },
     },
   };
 
@@ -106,6 +110,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
               position: this.map.pickup,
               capture: x,
               address: this.map.address,
+              course: this.map.course,
             });
           }
         });

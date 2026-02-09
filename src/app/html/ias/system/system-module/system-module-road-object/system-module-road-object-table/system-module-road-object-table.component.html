@@ -29,7 +29,7 @@
           [ngStyle]="{
             height: item ? 100 / page.PageSize + '%' : 0
           }"
-          (dblclick)="on.position(item, $event)"
+          (dblclick)="on.position($event, item)"
           (mouseover)="on.mouse.over(item)"
           (mouseout)="on.mouse.out(item)"
         >
@@ -49,48 +49,64 @@
                     ? 'url(' + item.Image + ')'
                     : 'none'
                 }"
-                (click)="on.picture(item, $event)"
+                (click)="on.picture($event, item)"
               ></div>
             </div>
           </td>
-          <td [title]="item.Name">
-            <div>{{ item.Name }}</div>
+          <td [title]="item?.Name ?? ''">
+            @if(item){
+            <div>{{ item?.Name ?? "-" }}</div>
+            }
           </td>
           <td>
-            {{ item.ObjectTypeName | async }}
+            @if(item){
+            {{ (item?.ObjectTypeName | async) ?? "-" }}
+            }
           </td>
           <td>
-            {{ item.Category ?? "-" }}
+            @if(item){
+            {{ item?.Category ?? "-" }}
+            }
           </td>
-          <td [title]="(item.Division | async)?.Name ?? ''">
-            {{ (item.Division | async)?.Name ?? "-" }}
+          <td [title]="(item?.Division | async)?.Name ?? ''">
+            @if(item){
+            {{ (item?.Division | async)?.Name ?? "-" }}
+            }
           </td>
-          <td [title]="(item.GridCell | async)?.Name ?? ''">
-            {{ (item.GridCell | async)?.Name ?? "-" }}
+          <td [title]="(item?.GridCell | async)?.Name ?? ''">
+            @if(item){
+            {{ (item?.GridCell | async)?.Name ?? "-" }}
+            }
           </td>
           <td>
-            {{ item.Health ?? "-" }}
+            @if(item){
+            {{ item?.Health ?? "-" }}
+            }
           </td>
-          <td [title]="item.ObjectStateName">
-            {{ (item.ObjectStateName | async) || "-" }}
+          <td [title]="item?.ObjectStateName ?? ''">
+            @if(item){
+            {{ (item?.ObjectStateName | async) || "-" }}
+            }
           </td>
           <td class="center" *ngIf="operable">
+            @if(item){
             <div class="operation">
               <div
                 class="button"
                 title="编辑"
-                (click)="on.modify(item, $event)"
+                (click)="on.modify($event, item)"
               >
                 <i class="howell-icon-modification"></i>
               </div>
               <div
                 class="button"
                 title="删除"
-                (click)="on.delete(item, $event)"
+                (click)="on.delete($event, item)"
               >
                 <i class="howell-icon-delete2"></i>
               </div>
             </div>
+            }
           </td>
         </tr>
       </tbody>

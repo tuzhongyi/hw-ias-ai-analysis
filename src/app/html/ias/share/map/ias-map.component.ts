@@ -28,8 +28,8 @@ export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
 
   hasdata = true;
   private args: IIASMapArgs = {
-    type: this.marker.type,
-    color: this.marker.color,
+    path: this.marker.path,
+    size: this.marker.size,
   };
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,8 +38,8 @@ export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
       load = true;
     }
     if (changes['marker']) {
-      this.args.type = this.marker.type;
-      this.args.color = this.marker.color;
+      this.args.path = this.marker.path;
+      this.args.size = this.marker.size;
       if (!changes['marker'].firstChange) {
         load = true;
       }

@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../share/map/ias-map.model';
+
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { VideoPathComponent } from '../../../../share/video-path/component/video-path.component';
 import { SystemTaskVideoBusiness } from './system-task-video.business';
 import { SystemTaskVideoArgs } from './system-task-video.model';
@@ -37,8 +36,8 @@ export class SystemTaskVideoComponent implements OnChanges {
       },
     },
     args: {
-      type: MapMarkerType.shop,
-      color: MapMarkerColor.green,
+      path: PathTool.image.map.shop.green,
+      size: SizeTool.map.shop.get(),
     },
   };
   count = 5;
@@ -90,9 +89,9 @@ export class SystemTaskVideoComponent implements OnChanges {
     point: (item: SystemTaskVideoArgs) => {
       if (item.Point) {
         if (item.Detected != undefined) {
-          this.map.args.color = item.Detected
-            ? MapMarkerColor.blue
-            : MapMarkerColor.orange;
+          this.map.args.path = item.Detected
+            ? PathTool.image.map.shop.blue
+            : PathTool.image.map.shop.orange;
         }
         this.map.points = [item.Point];
       }

@@ -1,23 +1,74 @@
+interface ArrayItem {
+  index: number;
+  value: number;
+}
 export class ArrayTool {
   /** 寻找最近值 */
-  static closest(
-    arr: number[],
-    target: number
-  ): { index: number; value: number } | undefined {
-    if (arr.length === 0) return undefined;
-    let index = 0;
-    let closest = arr[0];
-    for (let i = 1; i < arr.length; i++) {
-      if (Math.abs(arr[i] - target) < Math.abs(closest - target)) {
-        closest = arr[i];
-        index = i;
+  static closest = {
+    item: (arr: number[], target: number): ArrayItem | undefined => {
+      if (arr.length === 0) return undefined;
+      let index = 0;
+      let closest = arr[0];
+      for (let i = 1; i < arr.length; i++) {
+        if (Math.abs(arr[i] - target) < Math.abs(closest - target)) {
+          closest = arr[i];
+          index = i;
+        }
       }
-    }
-    return {
-      index: index,
-      value: closest,
-    };
-  }
+      return {
+        index: index,
+        value: closest,
+      };
+    },
+    between: (
+      arr: number[],
+      target: number
+    ): { left: ArrayItem; right: ArrayItem; percent: number } | undefined => {
+      {
+        if (arr.length < 2) return undefined;
+        // target 在最左侧
+        if (target <= arr[0]) {
+          return {
+            left: { index: 0, value: arr[0] },
+            right: { index: 1, value: arr[1] },
+            percent: 0,
+          };
+        }
+
+        // target 在最右侧
+        const last = arr.length - 1;
+        if (target >= arr[last]) {
+          return {
+            left: { index: last - 1, value: arr[last - 1] },
+            right: { index: last, value: arr[last] },
+            percent: 1,
+          };
+        }
+
+        // 正常区间
+        for (let i = 0; i < arr.length - 1; i++) {
+          const leftValue = arr[i];
+          const rightValue = arr[i + 1];
+
+          if (target >= leftValue && target <= rightValue) {
+            const percent =
+              rightValue === leftValue
+                ? 0
+                : (target - leftValue) / (rightValue - leftValue);
+
+            return {
+              left: { index: i, value: leftValue },
+              right: { index: i + 1, value: rightValue },
+              percent,
+            };
+          }
+        }
+
+        return undefined;
+      }
+    },
+  };
+
   /** 分组 */
   static groupBy<TData, TKey extends keyof any = string>(
     array: TData[],

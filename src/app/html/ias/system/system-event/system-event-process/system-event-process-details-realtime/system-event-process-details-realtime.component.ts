@@ -9,11 +9,10 @@ import {
   Page,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../share/map/ias-map.model';
+import { MapMarker } from '../../../../share/map/ias-map.model';
 import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
 
@@ -54,12 +53,12 @@ export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
     map: (data: MobileEventRecord) => {
       switch (data.EventType) {
         case 8:
-          this.map.marker.type = MapMarkerType.shop;
-          this.map.marker.color = MapMarkerColor.blue;
+          this.map.marker.path = PathTool.image.map.shop.blue;
+          this.map.marker.size = SizeTool.map.shop.get();
           break;
         case 9:
-          this.map.marker.type = MapMarkerType.shop;
-          this.map.marker.color = MapMarkerColor.green;
+          this.map.marker.path = PathTool.image.map.shop.green;
+          this.map.marker.size = SizeTool.map.shop.get();
           break;
 
         default:
@@ -68,10 +67,7 @@ export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
     },
   };
   map = {
-    marker: {
-      type: MapMarkerType.other,
-      color: undefined as MapMarkerColor | undefined,
-    },
+    marker: new MapMarker(),
     point: undefined as GisPoint | undefined,
   };
   record = {

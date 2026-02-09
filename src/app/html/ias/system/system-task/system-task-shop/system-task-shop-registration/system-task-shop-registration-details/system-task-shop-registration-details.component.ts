@@ -14,10 +14,9 @@ import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-p
 import { NameValue } from '../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../../share/map/ias-map.model';
+
+import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
 import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemTaskShopRegistrationInfoComponent } from '../system-task-shop-registration-info/system-task-shop-registration-info.component';
@@ -50,9 +49,9 @@ export class SystemTaskShopRegistrationDetailsComponent implements OnChanges {
         if (this.data) {
           this.map.location = this.data.Location?.GCJ02;
           let marker = Object.assign({}, this.map.marker);
-          marker.color = this.data.Detected
-            ? MapMarkerColor.blue
-            : MapMarkerColor.orange;
+          marker.path = this.data.Detected
+            ? PathTool.image.map.shop.blue
+            : PathTool.image.map.shop.orange;
           this.map.marker = marker;
           this.picture.src = this.data.ImageUrl ?? '';
         }
@@ -75,8 +74,8 @@ export class SystemTaskShopRegistrationDetailsComponent implements OnChanges {
   };
   map = {
     marker: {
-      type: MapMarkerType.shop,
-      color: MapMarkerColor.green,
+      path: PathTool.image.map.shop.green,
+      size: SizeTool.map.shop.get(),
     },
     location: undefined as GisPoint | undefined,
   };

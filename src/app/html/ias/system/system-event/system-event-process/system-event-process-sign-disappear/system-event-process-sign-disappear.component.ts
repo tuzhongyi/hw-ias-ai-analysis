@@ -12,13 +12,10 @@ import {
   Page,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
-
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../share/map/ias-map.model';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
 import { SystemEventProcessShopInfoComponent } from '../system-event-process-shop/system-event-process-shop-info/system-event-process-shop-info.component';
 import { SystemEventProcessSignDisappearShopSignBusiness } from './business/system-event-process-sign-disappear-shop-sign.business';
@@ -91,10 +88,10 @@ export class SystemEventProcessSignDisappearComponent implements OnInit {
     map: (data: MobileEventRecord) => {
       switch (data.EventType) {
         case 8:
-          this.map.marker.color = MapMarkerColor.orange;
+          this.map.marker.path = PathTool.image.map.shop.orange;
           break;
         case 9:
-          this.map.marker.color = MapMarkerColor.green;
+          this.map.marker.path = PathTool.image.map.shop.green;
           break;
 
         default:
@@ -118,8 +115,8 @@ export class SystemEventProcessSignDisappearComponent implements OnInit {
 
   map = {
     marker: {
-      type: MapMarkerType.shop,
-      color: MapMarkerColor.orange,
+      path: PathTool.image.map.shop.orange,
+      size: SizeTool.map.shop.get(),
     },
     point: undefined as GisPoint | undefined,
     location: undefined as GisPoint | undefined,

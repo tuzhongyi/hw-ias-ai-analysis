@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { MapHelper } from '../../../../../../common/helper/map/map.helper';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PromiseValue } from '../../../../../../common/view-models/value.promise';
-import {
-  IIASMapArgs,
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../ias-map.model';
+import { IIASMapArgs } from '../../ias-map.model';
 import { IASMapAMapPointController } from './marker/ias-map-amap-point.controller';
 import { IASMapAMapMarkerController } from './shop/marker/ias-map-amap-shop-marker.controller';
 
@@ -30,7 +28,7 @@ export class IASMapAMapController {
       this.marker.select();
       x.add(marker);
       if (center) {
-        x.setCenter(this.marker.position);
+        x.setCenter(this.marker.position, true);
       }
     });
   }
@@ -52,8 +50,8 @@ export class IASMapAMapController {
       this.points = datas.map((x) => {
         let point = new IASMapAMapPointController();
         let marker = point.set(x, {
-          type: MapMarkerType.shop,
-          color: MapMarkerColor.blue,
+          path: PathTool.image.map.shop.blue,
+          size: SizeTool.map.shop.get(),
         });
         map.add(marker);
         return point;

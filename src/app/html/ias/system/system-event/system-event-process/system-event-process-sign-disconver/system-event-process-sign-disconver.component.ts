@@ -25,10 +25,9 @@ import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
 
 import { WheelHorizontalScrollDirective } from '../../../../../../common/directives/wheel-horizontal-scroll/wheel-horizontal-scroll.directive';
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../share/map/ias-map.model';
+
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
 import { SystemEventProcessShopComponent } from '../system-event-process-shop/component/system-event-process-shop.component';
 import { SystemEventProcessShopFilterComponent } from '../system-event-process-shop/system-event-process-shop-filter/system-event-process-shop-filter.component';
@@ -135,10 +134,10 @@ export class SystemEventProcessSignDisconverComponent
       this.map.location = data.Location?.GCJ02;
       switch (data.EventType) {
         case 8:
-          this.map.marker.color = MapMarkerColor.orange;
+          this.map.marker.path = PathTool.image.map.shop.orange;
           break;
         case 9:
-          this.map.marker.color = MapMarkerColor.green;
+          this.map.marker.path = PathTool.image.map.shop.green;
           break;
 
         default:
@@ -150,8 +149,8 @@ export class SystemEventProcessSignDisconverComponent
   map = {
     location: undefined as GisPoint | undefined,
     marker: {
-      type: MapMarkerType.shop,
-      color: MapMarkerColor.orange,
+      path: PathTool.image.map.shop.orange,
+      size: SizeTool.map.shop.get(),
     },
     point: undefined as GisPoint | undefined,
   };

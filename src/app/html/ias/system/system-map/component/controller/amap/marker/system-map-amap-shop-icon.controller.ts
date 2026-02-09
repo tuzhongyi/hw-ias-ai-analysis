@@ -4,10 +4,6 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 
 export class SystemAMapShopIconController {
   private size(selected = false): [number, number] {
-    if (selected) {
-      return [SizeTool.map.shop.width, SizeTool.map.shop.width];
-    }
-
     return [SizeTool.map.shop.width, SizeTool.map.shop.width];
   }
 

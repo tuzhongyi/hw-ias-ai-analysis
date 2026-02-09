@@ -72,7 +72,7 @@ export class SystemModuleRoadObjectDetailsMapController {
     },
     move: (position: [number, number]) => {
       this.amap.map.then((map) => {
-        map.setCenter(new AMap.LngLat(position[0], position[1]));
+        map.setCenter(new AMap.LngLat(position[0], position[1], true));
       });
     },
     destroy: async () => {

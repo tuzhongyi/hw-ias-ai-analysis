@@ -156,7 +156,7 @@ export class VideoPathMapController {
         return time.getTime();
       });
 
-      let finded = ArrayTool.closest(times, stamp);
+      let finded = ArrayTool.closest.item(times, stamp);
       if (finded) {
         let item = this.data.path[finded.index];
         resolve(item);

@@ -11,7 +11,7 @@ export class IASMapAMapRoadObjectIconController {
   private get opts(): AMap.LabelMarkerIconOptions {
     let icon = {
       type: 'image',
-      image: PathTool.image.map.object.unknow.normal,
+      image: PathTool.image.map.object.unknow.gray.normal,
       size: this.size(),
       anchor: 'bottom-center',
     };

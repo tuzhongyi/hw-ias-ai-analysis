@@ -12,6 +12,7 @@
     (trigger)="on.trigger($event)"
     (error)="on.error($event)"
     (current)="on.current($event)"
+    (course)="on.course($event)"
     (objectdblclick)="on.object.dblclick($event)"
     (address)="on.address($event)"
   ></ias-system-module-road-object-video-map-container>
@@ -46,7 +47,7 @@
   </div>
   <div
     class="system-task-file-details-map-manager-position-point"
-    *ngIf="position.pickup.data && pickupable"
+    *ngIf="position.pickup.data && pickupable && locationable"
     [ngClass]="{
       fixed: position.pickup.fixed
     }"

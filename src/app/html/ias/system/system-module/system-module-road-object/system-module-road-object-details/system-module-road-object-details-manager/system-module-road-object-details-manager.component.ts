@@ -87,6 +87,7 @@ export class SystemModuleRoadObjectDetailsManagerComponent
         this.model = this.init();
         this.model.Location = GisPoints.create(x.position, GisType.GCJ02);
         this.model.Address = x.address;
+        this.model.ImageSampling.Course = x.course;
         this.image.data = x.capture.buffer;
         this.map.load(this.model);
         this.image.load.emit(x.capture.src);
