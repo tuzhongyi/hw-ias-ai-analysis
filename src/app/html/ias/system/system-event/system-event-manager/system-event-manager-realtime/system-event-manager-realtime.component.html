@@ -112,6 +112,21 @@
             </hw-select>
           </div>
         </div>
+        <div class="form-item">
+          <div class="form-item-text">是否重复</div>
+          <div class="form-item-value fill">
+            <hw-select
+              [(selected)]="table.args.repeated"
+              [nullable]="true"
+              [nulltext]="'全部'"
+            >
+              <select [(ngModel)]="table.args.repeated">
+                <option [ngValue]="true">是</option>
+                <option [ngValue]="false">否</option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
 
         <div class="form-item division">
           <div class="form-item-text">行政区划</div>

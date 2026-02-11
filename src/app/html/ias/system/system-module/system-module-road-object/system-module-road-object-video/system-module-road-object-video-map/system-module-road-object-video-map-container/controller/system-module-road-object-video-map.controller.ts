@@ -3,13 +3,12 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { Time } from '../../../../../../../../../common/data-core/models/common/time.model';
-import { ArrayTool } from '../../../../../../../../../common/tools/array-tool/array.tool';
 import { ClassTool } from '../../../../../../../../../common/tools/class-tool/class.tool';
 import {
   GeoLine,
   GeoPoint,
 } from '../../../../../../../../../common/tools/geo-tool/geo.model';
-import { GeoTool } from '../../../../../../../../../common/tools/geo-tool/geo.tool';
+import { IASMapAMapPathHelper } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path.helper';
 import { SystemModuleRoadObjectVideoAMapController } from './system-module-road-object-video-amap.controller';
 import { SystemMainMapRoadObjectController } from './system-module-road-object-video-objects.controller';
 
@@ -65,13 +64,6 @@ export class SystemModuleRoadObjectVideoMapController {
       let path = await this.amap.path.get();
       path.clear();
       this.event.point.emit(undefined);
-    },
-  };
-  geocoder = {
-    address: (psoition: [number, number]) => {
-      return this.amap.geocoder.get().then((geocoder) => {
-        return geocoder.get(psoition);
-      });
     },
   };
 
@@ -173,77 +165,22 @@ export class SystemModuleRoadObjectVideoMapController {
 
   async to(stamp: number) {
     return new Promise<FileGpsItem>((resolve) => {
-      let times = this.path.datas.map((x) => {
-        let time = x.OffsetTime.toDate();
-        return time.getTime();
-      });
-
-      // let finded = ArrayTool.closest.item(times, stamp);
-      let closest = ArrayTool.closest.between(times, stamp);
-      if (closest) {
-        let start = this.path.datas[closest.left.index];
-        let end = this.path.datas[closest.right.index];
-        resolve(start);
-        let line: GeoLine = [
-          [start.Longitude, start.Latitude],
-          [end.Longitude, end.Latitude],
-        ];
-        let position = GeoTool.line.get.by.percent(line, closest.percent);
-        let way = this.path.datas
-          .slice(0, closest.right.index)
-          .map<[number, number]>((x) => {
-            return [x.Longitude, x.Latitude];
-          });
-        if (closest.percent == 1) {
-          way.push(line[0]);
-          way.push(line[1]);
-        } else {
-          way.push(position);
+      IASMapAMapPathHelper.to(
+        this.path.datas,
+        stamp,
+        {
+          way: this.amap.way.get(),
+          arrow: this.amap.arrow.get(),
+        },
+        {
+          course: async (course) => {
+            this.event.course.emit(course);
+          },
+          current: async (current) => {
+            resolve(current);
+          },
         }
-
-        this.amap.way.get().then((x) => {
-          x.load(way, line);
-        });
-
-        this.amap.arrow.get().then((x) => {
-          x.set(position);
-          if (Number.isFinite(end.Course)) {
-            x.direction(end.Course!);
-            this.event.course.emit(end.Course);
-          } else {
-            x.direction1(line);
-          }
-        });
-      }
-      // if (finded) {
-      //   let item = this.path.datas[finded.index];
-      //   resolve(item);
-      //   this.event.position.emit([item.Longitude, item.Latitude]);
-
-      //   let way = this.path.datas
-      //     .slice(0, finded.index)
-      //     .map<[number, number]>((x) => {
-      //       return [x.Longitude, x.Latitude];
-      //     });
-      //   this.amap.way.get().then((x) => {
-      //     x.load(way);
-      //   });
-
-      //   let position: [number, number] = [item.Longitude, item.Latitude];
-      //   this.amap.arrow.get().then((x) => {
-      //     x.set(position);
-      //   });
-      //   if (finded.index > 0) {
-      //     this.amap.arrow.get().then((arrow) => {
-      //       if (Number.isFinite(item.Course)) {
-      //         arrow.direction(item.Course!);
-      //       } else {
-      //         let last = this.path.datas[finded.index - 1];
-      //         arrow.direction1([[last.Longitude, last.Latitude], position]);
-      //       }
-      //     });
-      //   }
-      // }
+      );
     });
   }
 

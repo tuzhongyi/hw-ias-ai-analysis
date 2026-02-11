@@ -40,6 +40,8 @@ export class GetMobileEventsParams extends PagedDurationParams {
   LocationDistance?: number;
   /**	Boolean	多次重复标记	O */
   IsTimeout?: boolean;
+  /**	Boolean	是否为短时间的重复案件，默认：false	O */
+  IsRepeated?: boolean;
   /**	String	升序属性，不区分大小写	O */
   Asc?: string;
   /**	String	降序属性，不区分大小写	O */

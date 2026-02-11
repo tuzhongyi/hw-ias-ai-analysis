@@ -10,7 +10,7 @@ import { DateTimeTool } from '../../../../../../../common/tools/date-time-tool/d
 import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
 
 @Injectable()
-export class SystemMainCardEventChartLineSampleBusiness {
+export class SystemMainCardEventChartLineRoadObjectBusiness {
   constructor(private service: ArmGeographicRequestService) {}
   async load(date: Date) {
     let duration = DateTimeTool.all.day(date);

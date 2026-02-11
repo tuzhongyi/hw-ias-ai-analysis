@@ -1,4 +1,4 @@
-import { IASMapAMapPointAbstract } from '../../../../../../../share/map/controller/amap/point/ias-map-amap-point.abstract';
+import { IASMapAMapPointAbstract } from '../../../../../../../../../share/map/controller/amap/point/ias-map-amap-point.abstract';
 
 export class SystemMainMapAMapRoadObjectPointController extends IASMapAMapPointAbstract {
   constructor(container: Loca.Container, private color: string) {

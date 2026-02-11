@@ -18,6 +18,10 @@
       *ngIf="card.device.state.show"
       [load]="load"
     ></ias-system-main-card-device-state>
+    <ias-system-main-card-event-chart-bar-roadobject
+      [load]="load"
+      *ngIf="card.roadobject.bar.show"
+    ></ias-system-main-card-event-chart-bar-roadobject>
   </div>
   <div class="system-main-manager-card-item">
     <ias-system-main-card-statistic-event
@@ -35,6 +39,14 @@
       (type)="card.shop.pie.on.item($event)"
     >
     </ias-system-main-card-statistic-event-shop>
+    <ias-system-main-card-statistic-event-road-object
+      *ngIf="card.roadobject.pie.show"
+      [load]="load"
+      [duration]="card.roadobject.pie.duration"
+      (durationChange)="card.roadobject.pie.on.duration($event)"
+      (type)="card.roadobject.pie.on.type($event)"
+    >
+    </ias-system-main-card-statistic-event-road-object>
     <ias-system-main-card-event-realtime-statistic
       *ngIf="card.realtime.pie.show"
       [load]="load"
@@ -72,6 +84,11 @@
       [load]="load"
     >
     </ias-system-main-card-event-chart-line-sample>
+    <ias-system-main-card-event-chart-line-roadobject
+      *ngIf="card.roadobject.line.show"
+      [load]="load"
+    >
+    </ias-system-main-card-event-chart-line-roadobject>
   </div>
   <div class="system-main-manager-card-item">
     <ias-system-main-card-event-table

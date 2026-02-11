@@ -11,6 +11,7 @@ import { GlobalStorage } from '../../../../../common/storage/global.storage';
 import { DateTimeTool } from '../../../../../common/tools/date-time-tool/datetime.tool';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
 import { wait } from '../../../../../common/tools/wait';
+import { SystemMapPanelDetailsRoadObjectComponent } from '../../system-map/system-map-panel-details-road-object/system-map-panel-details-road-object.component';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../../system-map/system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
 import { SystemMapStatisticComponent } from '../../system-map/system-map-statistic/system-map-statistic.component';
 import { SystemMainManagerCardComponent } from '../system-main-manager-card/system-main-manager-card.component';
@@ -23,9 +24,11 @@ import {
   EventMode,
   SyatemMainMapNavigation,
 } from '../system-main-map-navigation/system-main-map-navigation.model';
-import { SystemMainMapStateShopComponent } from '../system-main-map-state/system-main-map-state-shop/system-main-map-state-shop/system-main-map-state-shop.component';
+import { SystemMainMapStateRoadObjectComponent } from '../system-main-map-state/system-main-map-state-road-object/system-main-map-state-road-object.component';
+import { SystemMainMapStateShopComponent } from '../system-main-map-state/system-main-map-state-shop/system-main-map-state-shop.component';
 import { SystemMainMapComponent } from '../system-main-map/system-main-map.component';
 import { SystemMainPanelShopRegistrationTableManagerComponent } from '../system-main-panel/system-main-panel-shop-registration/system-main-panel-shop-registration-table-manager/system-main-panel-shop-registration-table-manager.component';
+import { SystemMainManagerRoadObjectArgs } from './business/road-object/system-main-manager-road-object.model';
 import { SystemMainManagerBusiness } from './business/system-main-manager.business';
 import { SystemMainManagerShopArgs } from './business/system-main-manager.model';
 import { SystemMainManagerCard } from './card/system-main-manager.card';
@@ -45,8 +48,10 @@ import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
     SystemMainMapHeatmapFilterComponent,
     SystemMainMapHeatmapSettingsComponent,
     SystemMainMapStateShopComponent,
+    SystemMainMapStateRoadObjectComponent,
     SystemMapStatisticComponent,
     SystemMainManagerCardComponent,
+    SystemMapPanelDetailsRoadObjectComponent,
   ],
   templateUrl: './system-main-manager.component.html',
   styleUrl: './system-main-manager.component.less',
@@ -237,8 +242,9 @@ export class SystemMainManagerComponent implements OnInit {
   road = {
     object: {
       datas: [] as RoadObject[],
+      args: new SystemMainManagerRoadObjectArgs(),
       load: () => {
-        this.business.road.object.load().then((x) => {
+        this.business.road.object.load(this.road.object.args).then((x) => {
           this.road.object.datas = x;
           this.map.data.road.object = x;
         });

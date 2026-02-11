@@ -83,7 +83,15 @@
             {{ item?.Health ?? "-" }}
             }
           </td>
-          <td [title]="item?.ObjectStateName ?? ''">
+          <td
+            [title]="(item?.ObjectStateName | async) ?? ''"
+            [ngClass]="{
+              'text-green': item?.ObjectState == State.None,
+              'text-cyan': item?.ObjectState == State.Normal,
+              'text-orange': item?.ObjectState == State.Breakage,
+              'text-red': item?.ObjectState == State.Disappear
+            }"
+          >
             @if(item){
             {{ (item?.ObjectStateName | async) || "-" }}
             }

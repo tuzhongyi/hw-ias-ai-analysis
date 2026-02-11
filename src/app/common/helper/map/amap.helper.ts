@@ -2,6 +2,7 @@ import AMapLoader from '@amap/amap-jsapi-loader';
 import '@amap/amap-jsapi-types';
 import '@amap/amap-loca-types';
 import { wait } from '../../tools/wait';
+import { AMapConverter } from './amap.converter';
 import { AMapInputTip, AMapInputTipItem, AMapInputTips } from './amap.model';
 
 export class AMapHelper {
@@ -56,35 +57,7 @@ export class AMapHelper {
     });
   }
 
-  private convert = {
-    content: (content: string | string[]) => {
-      if (content instanceof Array) {
-        if (content.length == 0) {
-          return undefined;
-        }
-        return content.join(',');
-      }
-      return content;
-    },
-    location: (value?: string) => {
-      if (value) {
-        return value.split(',').map((x) => parseFloat(x)) as [number, number];
-      }
-      return undefined;
-    },
-    data: (data: AMapInputTip): AMapInputTipItem => {
-      return {
-        id: this.convert.content(data.id) || '',
-        name: data.name,
-        district: this.convert.content(data.district),
-        adcode: this.convert.content(data.adcode),
-        location: this.convert.location(this.convert.content(data.location)),
-        address: this.convert.content(data.address),
-        typecode: this.convert.content(data.typecode),
-        city: this.convert.content(data.city),
-      };
-    },
-  };
+  private convert = new AMapConverter();
 
   private test() {
     let datas = [

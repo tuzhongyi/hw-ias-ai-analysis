@@ -3,12 +3,12 @@ import '../../../../../../../assets/js/map/CoordinateTransform.js';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model.js';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model.js';
 import { Time } from '../../../../../../common/data-core/models/common/time.model.js';
-import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool.js';
 import { ClassTool } from '../../../../../../common/tools/class-tool/class.tool.js';
 import {
   GeoLine,
   GeoPoint,
 } from '../../../../../../common/tools/geo-tool/geo.model.js';
+import { IASMapAMapPathHelper } from '../../../map/controller/amap/path/ias-map-amap-path.helper.js';
 import { IIASMapArgs } from '../../../map/ias-map.model.js';
 import { IVideoPathMapTriggerArgs } from '../video-path-map.model.js';
 import { VideoPathMapAMapController } from './amap/video-path-map-amap.controller.js';
@@ -39,13 +39,13 @@ export class VideoPathMapController {
   };
 
   path = {
-    load: async (datas: FileGpsItem[]) => {
+    load: async (datas: FileGpsItem[], focus: boolean) => {
       this.data.path = datas;
       let ll = this.data.path.map<[number, number]>((x) => {
         return [x.Longitude, x.Latitude];
       });
       let path = await this.amap.path.get();
-      path.load(ll);
+      path.load(ll, focus);
     },
     clear: async () => {
       this.data.path = [];
@@ -151,39 +151,19 @@ export class VideoPathMapController {
 
   async to(stamp: number) {
     return new Promise<FileGpsItem>((resolve) => {
-      let times = this.data.path.map((x) => {
-        let time = x.OffsetTime.toDate();
-        return time.getTime();
-      });
-
-      let finded = ArrayTool.closest.item(times, stamp);
-      if (finded) {
-        let item = this.data.path[finded.index];
-        resolve(item);
-        this.speed.emit(item.Speed);
-
-        let way = this.data.path
-          .slice(0, finded.index)
-          .map<[number, number]>((x) => {
-            return [x.Longitude, x.Latitude];
-          });
-        this.amap.way.get().then((x) => {
-          x.load(way);
-        });
-        let position: [number, number] = [item.Longitude, item.Latitude];
-
-        this.amap.arrow.get().then((arrow) => {
-          arrow.set(position);
-          if (finded.index > 0) {
-            if (Number.isFinite(item.Course)) {
-              arrow.direction(item.Course!);
-            } else {
-              let last = this.data.path[finded.index - 1];
-              arrow.direction1([[last.Longitude, last.Latitude], position]);
-            }
-          }
-        });
-      }
+      IASMapAMapPathHelper.to(
+        this.data.path,
+        stamp,
+        {
+          way: this.amap.way.get(),
+          arrow: this.amap.arrow.get(),
+        },
+        {
+          current: async (current) => {
+            resolve(current);
+          },
+        }
+      );
     });
   }
 

@@ -12,9 +12,11 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
+import { RoadObjectState } from '../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import {
   Page,
+  Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/page-list.model';
 import { SystemModuleRoadObjectTableBusiness } from './system-module-road-object-table.business';
@@ -42,26 +44,40 @@ export class SystemModuleRoadObjectTableComponent
   @Output() loaded = new EventEmitter<RoadObject[]>();
   @Input() selected?: RoadObject;
   @Output() selectedChange = new EventEmitter<RoadObject>();
-  @Output() picture = new EventEmitter<RoadObject>();
 
   @Output() position = new EventEmitter<RoadObject>();
   @Output() itemover = new EventEmitter<RoadObject>();
   @Output() itemout = new EventEmitter<RoadObject>();
 
+  @Input('page') _page = new EventEmitter<number>();
+  @Output() picture = new EventEmitter<Paged<RoadObject>>();
+
   constructor(private business: SystemModuleRoadObjectTableBusiness) {}
 
+  State = RoadObjectState;
   page = Page.create(1, 10);
   datas: (SystemModuleRoadObjectTableItem | undefined)[] = [];
   source: SystemModuleRoadObjectTableItem[] = [];
 
-  widths = ['65px', '200px', '100px', 'auto', '100px'];
+  widths = [
+    '65px',
+    '150px',
+    '100px',
+    '100px',
+    '100px',
+    'auto',
+    'auto',
+    '100px',
+    '100px',
+    '100px',
+  ];
   private subscription = new Subscription();
 
   private change = {
     operable: (simple: SimpleChange) => {
       if (simple) {
         if (!this.operable) {
-          this.widths = ['65px', 'auto', 'auto', '0px'];
+          this.widths[this.widths.length - 1] = '0px';
         }
       }
     },
@@ -74,6 +90,17 @@ export class SystemModuleRoadObjectTableComponent
     if (this._load) {
       let sub = this._load.subscribe((x) => {
         this.load(1, this.args);
+      });
+      this.subscription.add(sub);
+    }
+    if (this._page) {
+      let sub = this._page.subscribe((index) => {
+        let data = this.source[index - 1];
+        let paged = new Paged<RoadObject>();
+
+        paged.Page = Page.create(index, 1, this.source.length);
+        paged.Data = data;
+        this.picture.emit(paged);
       });
       this.subscription.add(sub);
     }
@@ -109,7 +136,18 @@ export class SystemModuleRoadObjectTableComponent
       this.selected = undefined;
       this.selectedChange.emit();
     },
-    picture: (e: Event, item?: RoadObject) => {},
+    picture: (e: Event, item?: RoadObject) => {
+      if (!item) return;
+      let paged = new Paged<RoadObject>();
+      paged.Data = item;
+      paged.Page = new Page();
+      paged.Page.PageCount = this.page.TotalRecordCount;
+      paged.Page.PageIndex = this.source.findIndex((x) => x.Id == item.Id) + 1;
+      paged.Page.PageSize = 1;
+      paged.Page.RecordCount = 1;
+      paged.Page.TotalRecordCount = this.page.TotalRecordCount;
+      this.picture.emit(paged);
+    },
     delete: (e: Event, item?: RoadObject) => {
       if (!item) return;
       this.delete.emit(item);

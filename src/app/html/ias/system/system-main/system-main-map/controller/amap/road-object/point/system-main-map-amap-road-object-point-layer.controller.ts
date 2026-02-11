@@ -2,7 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { RoadObject } from '../../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { ColorTool } from '../../../../../../../../../common/tools/color/color.tool';
 
-import { RoadObjectType } from '../../../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
+import { RoadObjectState } from '../../../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { ArrayTool } from '../../../../../../../../../common/tools/array-tool/array.tool';
 import { EnumTool } from '../../../../../../../../../common/tools/enum-tool/enum.tool';
 import { SystemMainMapAMapRoadObjectPointController } from './system-main-map-amap-road-object-point.controller';
@@ -40,31 +40,31 @@ export class SystemMainMapAMapRoadObjectPointLayerController {
   }
 
   private init(container: Loca.Container) {
-    let types = EnumTool.values(RoadObjectType);
+    let states = EnumTool.values(RoadObjectState);
 
-    types.forEach((type) => {
-      let color = this.get.color(type);
+    states.forEach((state) => {
+      let color = this.get.color(state);
       let controller = new SystemMainMapAMapRoadObjectPointController(
         container,
         color
       );
-      this.controllers.set(type, controller);
+      this.controllers.set(state, controller);
     });
   }
 
   async load(datas: RoadObject[]) {
     let group = ArrayTool.groupBy(datas, (data) => {
-      return data.ObjectType;
+      return data.ObjectState;
     });
 
     Object.keys(group).forEach((key) => {
-      let type = parseInt(key);
-      let datas = group[type];
+      let state = parseInt(key);
+      let datas = group[state];
       if (datas && datas.length > 0) {
-        if (this.controllers.has(type)) {
-          this.controllers.get(type)?.load(group[type]);
+        if (this.controllers.has(state)) {
+          this.controllers.get(state)?.load(group[state]);
         } else {
-          this.unknow.load(group[type]);
+          this.unknow.load(group[state]);
         }
       }
     });
@@ -83,16 +83,16 @@ export class SystemMainMapAMapRoadObjectPointLayerController {
   }
 
   private get = {
-    color: (type: RoadObjectType) => {
-      switch (type) {
-        case RoadObjectType.FireHydrant:
-          return ColorTool.map.red;
-        case RoadObjectType.BusStation:
-          return ColorTool.map.blue;
-        case RoadObjectType.TrashCan:
+    color: (state: RoadObjectState) => {
+      switch (state) {
+        case RoadObjectState.None:
           return ColorTool.map.green;
-        case RoadObjectType.Passage:
+        case RoadObjectState.Normal:
+          return ColorTool.map.cyan;
+        case RoadObjectState.Breakage:
           return ColorTool.map.orange;
+        case RoadObjectState.Disappear:
+          return ColorTool.map.red;
         default:
           return ColorTool.map.gray;
       }

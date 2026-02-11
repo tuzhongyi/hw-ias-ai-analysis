@@ -8,16 +8,26 @@ import { ArmDivisionRequestService } from '../../../../../../../common/data-core
 export class SystemModuleRoadObjectDetailsInfoSource {
   types: EnumNameValue<number>[] = [];
   states: EnumNameValue<number>[] = [];
-  divisions: IIdNameModel[] = [];
-  gridcells: IIdNameModel[] = [];
-  loaded?: () => void;
+  divisions: Promise<IIdNameModel[]>;
+  gridcells: Promise<IIdNameModel[]>;
+
   constructor(
     private manager: Manager,
     private service: ArmDivisionRequestService
   ) {
     this.init.types();
     this.init.states();
-    this.init.divisions();
+    let source = this.init.divisions();
+    this.divisions = new Promise<IIdNameModel[]>((resolve) => {
+      source.then((x) => {
+        resolve(x.divisions);
+      });
+    });
+    this.gridcells = new Promise<IIdNameModel[]>((resolve) => {
+      source.then((x) => {
+        resolve(x.gridcells);
+      });
+    });
   }
 
   private init = {
@@ -28,17 +38,22 @@ export class SystemModuleRoadObjectDetailsInfoSource {
       this.states = await this.manager.source.road.object.ObjectStates.get();
     },
     divisions: async () => {
-      let divisions = await this.service.cache.all();
-      divisions.forEach((x) => {
+      let source = await this.service.cache.all();
+      let divisions: IIdNameModel[] = [];
+      let gridcells: IIdNameModel[] = [];
+
+      source.forEach((x) => {
         if (x.DivisionType == 4) {
-          this.gridcells.push(x);
+          gridcells.push(x);
         } else {
-          this.divisions.push(x);
+          divisions.push(x);
         }
       });
-      if (this.loaded) {
-        this.loaded();
-      }
+
+      return {
+        divisions,
+        gridcells,
+      };
     },
   };
 }

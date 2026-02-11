@@ -1,6 +1,6 @@
 <div class="system-module-road-object-details-info">
   <div class="forms">
-    <div class="form-item">
+    <div class="form-item full">
       <div class="form-item-text">
         <div class="name" text-space-between>物件名称</div>
         <div class="must">*</div>
@@ -48,29 +48,6 @@
     </div>
     <div class="form-item">
       <div class="form-item-text">
-        <div class="name" text-space-between>物件状态</div>
-      </div>
-      <div class="form-item-value fill">
-        <select [(ngModel)]="data.ObjectState" (change)="on.change()">
-          <ng-container *ngFor="let item of source.states">
-            @if(operable){
-            <option [ngValue]="item.Value">
-              {{ item.Name }}
-            </option>
-            } @else{
-            <option
-              [ngValue]="item.Value"
-              *ngIf="item.Value == data.ObjectState"
-            >
-              {{ item.Name }}
-            </option>
-            }
-          </ng-container>
-        </select>
-      </div>
-    </div>
-    <div class="form-item">
-      <div class="form-item-text">
         <div class="name" text-space-between>连续消失次数</div>
       </div>
       <div class="form-item-value fill">
@@ -89,7 +66,7 @@
       <div class="form-item-value fill">
         <hw-select [(selected)]="data.DivisionId" [nullable]="false">
           <select [(ngModel)]="data.DivisionId" (change)="on.change()">
-            <ng-container *ngFor="let item of source.divisions">
+            <ng-container *ngFor="let item of source.divisions | async">
               @if(operable){
               <option [ngValue]="item.Id">
                 {{ item.Name }}
@@ -127,7 +104,7 @@
       <div class="form-item-value fill">
         <hw-select [(selected)]="data.GridCellId" [nullable]="false">
           <select [(ngModel)]="data.GridCellId" (change)="on.change()">
-            <ng-container *ngFor="let item of source.gridcells">
+            <ng-container *ngFor="let item of source.gridcells | async">
               @if(operable){
               <option [ngValue]="item.Id">
                 {{ item.Name }}
@@ -162,8 +139,11 @@
         <div class="name" text-space-between>地址</div>
         <div class="must">*</div>
       </div>
-      <div class="form-item-value fill">
+      <div class="form-item-value input_button">
         <input type="text" [(ngModel)]="data.Address" />
+        <button class="button-border-blue" (click)="on.getaddress()">
+          获取
+        </button>
       </div>
     </div>
   </div>

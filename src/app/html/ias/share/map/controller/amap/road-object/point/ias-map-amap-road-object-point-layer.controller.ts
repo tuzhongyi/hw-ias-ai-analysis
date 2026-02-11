@@ -10,13 +10,14 @@ export class IASMapAMapRoadObjectPointLayerController {
   event = {
     move: new EventEmitter<RoadObject>(),
   };
-  constructor(container: Loca.Container) {
-    this.init(container);
+  constructor(container: Loca.Container, init = true) {
     this.unknow = new IASMapAMapRoadObjectPointController(
       container,
       ColorTool.map.gray
     );
-    this.regist();
+    if (init) {
+      this.init(container);
+    }
   }
 
   private controllers = new Map<number, IASMapAMapRoadObjectPointController>();
@@ -34,7 +35,7 @@ export class IASMapAMapRoadObjectPointLayerController {
     });
   }
 
-  private init(container: Loca.Container) {
+  protected init(container: Loca.Container) {
     let states = EnumTool.values(RoadObjectState);
 
     states.forEach((type) => {
@@ -45,9 +46,15 @@ export class IASMapAMapRoadObjectPointLayerController {
       );
       this.controllers.set(type, controller);
     });
+
+    this.regist();
   }
 
   async load(datas: RoadObject[]) {
+    if (datas.length == 0) {
+      this.clear();
+      return;
+    }
     let group = ArrayTool.groupBy(datas, (data) => {
       return data.ObjectState;
     });
@@ -77,9 +84,9 @@ export class IASMapAMapRoadObjectPointLayerController {
     });
   }
 
-  private get = {
-    color: (type: RoadObjectState) => {
-      switch (type) {
+  protected get = {
+    color: (state: RoadObjectState) => {
+      switch (state) {
         case RoadObjectState.Normal:
           return ColorTool.map.cyan;
         case RoadObjectState.Disappear:
@@ -87,6 +94,7 @@ export class IASMapAMapRoadObjectPointLayerController {
         case RoadObjectState.Breakage:
           return ColorTool.map.yellow;
         case RoadObjectState.None:
+          return ColorTool.map.green;
         default:
           return ColorTool.map.gray;
       }

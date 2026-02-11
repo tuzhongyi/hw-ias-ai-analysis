@@ -90,7 +90,7 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
   load = {
     path: async (datas: FileGpsItem[]) => {
       this.controller.path
-        .load(datas)
+        .load(datas, true)
         .then((x) => {
           this.loaded.emit();
         })

@@ -33,6 +33,8 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   @Output() shopdblclick = new EventEmitter<ShopRegistration>();
   @Output() sampledblclick = new EventEmitter<GpsTaskSampleRecord>();
   @Output() devicedblclick = new EventEmitter<MobileDevice>();
+  @Output() roadobjectclick = new EventEmitter<RoadObject>();
+  @Output() roadobjectdblclick = new EventEmitter<RoadObject>();
   @Input() moveto?: EventEmitter<ILocation>;
   @Input() select?: EventEmitter<
     ShopRegistration | MobileEventRecord | GpsTaskSampleRecord
@@ -264,6 +266,7 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
       this.regist.heatmap();
       this.regist.sample();
       this.regist.device();
+      this.regist.roadobject();
     },
     heatmap: () => {
       if (this.heatmapload) {
@@ -339,6 +342,14 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
     device: () => {
       this.controller.device.event.dblclick.subscribe((x) => {
         this.devicedblclick.emit(x);
+      });
+    },
+    roadobject: () => {
+      this.controller.roadobject.event.click.subscribe((x) => {
+        this.roadobjectclick.emit(x);
+      });
+      this.controller.roadobject.event.dblclick.subscribe((x) => {
+        this.roadobjectdblclick.emit(x);
       });
     },
   };

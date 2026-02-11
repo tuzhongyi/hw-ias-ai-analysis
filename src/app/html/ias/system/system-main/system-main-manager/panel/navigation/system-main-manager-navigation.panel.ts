@@ -53,6 +53,9 @@ export class SystemMainManagerPanelNavigation {
           this.card.realtime.pie.show = false;
           this.card.realtime.table.show = false;
           this.card.gpstask.line.show = false;
+          this.card.roadobject.pie.show = false;
+          this.card.roadobject.line.show = false;
+          this.card.roadobject.bar.show = false;
           break;
         case SyatemMainMapNavigation.shop:
           this.card.statistic.table.mode = EventMode.shop;
@@ -70,6 +73,9 @@ export class SystemMainManagerPanelNavigation {
           this.card.realtime.pie.show = false;
           this.card.realtime.table.show = false;
           this.card.gpstask.line.show = false;
+          this.card.roadobject.pie.show = false;
+          this.card.roadobject.line.show = false;
+          this.card.roadobject.bar.show = false;
           break;
         case SyatemMainMapNavigation.realtime:
           this.card.statistic.table.mode = EventMode.realtime;
@@ -85,6 +91,9 @@ export class SystemMainManagerPanelNavigation {
           this.card.realtime.table.show = true;
           this.card.realtime.line.show = true;
           this.card.gpstask.line.show = false;
+          this.card.roadobject.pie.show = false;
+          this.card.roadobject.line.show = false;
+          this.card.roadobject.bar.show = false;
           break;
         case SyatemMainMapNavigation.gpstask:
           this.card.statistic.table.mode = EventMode.gpstask;
@@ -100,8 +109,27 @@ export class SystemMainManagerPanelNavigation {
           this.card.realtime.pie.show = false;
           this.card.realtime.table.show = false;
           this.card.gpstask.line.show = true;
+          this.card.roadobject.pie.show = false;
+          this.card.roadobject.line.show = false;
+          this.card.roadobject.bar.show = false;
           break;
-        case SyatemMainMapNavigation.heatmap:
+        case SyatemMainMapNavigation.roadobject:
+          this.card.statistic.table.mode = EventMode.roadobject;
+          this.card.statistic.table.modeable = false;
+          this.card.statistic.number.show = true;
+          this.card.statistic.pie.show = false;
+          this.card.device.state.show = false;
+          this.card.device.route.show = false;
+          this.card.shop.statistic.show = false;
+          this.card.shop.pie.show = false;
+          this.card.shop.line.show = false;
+          this.card.realtime.line.show = false;
+          this.card.realtime.pie.show = false;
+          this.card.realtime.table.show = false;
+          this.card.gpstask.line.show = false;
+          this.card.roadobject.pie.show = true;
+          this.card.roadobject.line.show = true;
+          this.card.roadobject.bar.show = true;
           break;
         default:
           break;
@@ -154,41 +182,64 @@ export class SystemMainManagerPanelNavigation {
           this.map.display.heatmap = true;
           this.map.display.road.object = false;
           break;
+        case SyatemMainMapNavigation.roadobject:
+          this.map.display.shop = false;
+          this.map.display.device = false;
+          this.map.display.realtime = false;
+          this.map.display.timeout = false;
+          this.map.display.sample = false;
+          this.map.display.heatmap = true;
+          this.map.display.road.object = true;
+          break;
         default:
           break;
       }
     },
     panel: (index: SyatemMainMapNavigation) => {
+      this.panel.details.shop.show = false;
+      this.panel.details.object.show = false;
       switch (index) {
         case SyatemMainMapNavigation.main:
           this.panel.state.realtime.show = true;
           this.panel.state.timeout.show = true;
           this.panel.state.shop.show = false;
           this.panel.state.sample.show = true;
+          this.panel.state.roadobject.show = true;
           break;
         case SyatemMainMapNavigation.shop:
           this.panel.state.realtime.show = false;
           this.panel.state.timeout.show = false;
           this.panel.state.shop.show = true;
           this.panel.state.sample.show = false;
+          this.panel.state.roadobject.show = false;
           break;
         case SyatemMainMapNavigation.realtime:
           this.panel.state.realtime.show = true;
           this.panel.state.timeout.show = true;
           this.panel.state.shop.show = false;
           this.panel.state.sample.show = false;
+          this.panel.state.roadobject.show = false;
           break;
         case SyatemMainMapNavigation.gpstask:
           this.panel.state.realtime.show = false;
           this.panel.state.timeout.show = false;
           this.panel.state.shop.show = false;
           this.panel.state.sample.show = true;
+          this.panel.state.roadobject.show = false;
+          break;
+        case SyatemMainMapNavigation.roadobject:
+          this.panel.state.realtime.show = false;
+          this.panel.state.timeout.show = false;
+          this.panel.state.shop.show = false;
+          this.panel.state.sample.show = false;
+          this.panel.state.roadobject.show = true;
           break;
         case SyatemMainMapNavigation.heatmap:
           this.panel.state.realtime.show = false;
           this.panel.state.timeout.show = false;
           this.panel.state.shop.show = false;
           this.panel.state.sample.show = false;
+          this.panel.state.roadobject.show = false;
           break;
         default:
           break;

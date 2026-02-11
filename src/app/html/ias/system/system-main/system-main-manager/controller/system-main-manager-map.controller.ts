@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
+import { RoadObjectState } from '../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
@@ -74,7 +75,7 @@ export class SystemMainManagerMapController {
       },
       details: (data: ShopRegistration) => {
         this.that.shop.selected = data;
-        this.that.panel.details.show = true;
+        this.that.panel.details.shop.show = true;
       },
       filter: (states: ShopObjectState[]) => {
         this.data.shop = this.that.shop.data.registration.filter((x) =>
@@ -82,7 +83,15 @@ export class SystemMainManagerMapController {
         );
       },
     },
-
+    road: {
+      object: {
+        filter: (states: RoadObjectState[]) => {
+          this.data.road.object = this.that.road.object.datas.filter((x) =>
+            states.includes(x.ObjectState)
+          );
+        },
+      },
+    },
     heatmap: (datas: ILocation[]) => {
       this.heatmap.load.emit(datas);
     },

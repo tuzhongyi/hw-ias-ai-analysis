@@ -34,13 +34,13 @@ export class SystemMainMapNavigationComponent implements OnInit {
       this.items.push(shop);
     }
     if (this.global.display.map.roadobject) {
+      this.items.push(roadobject);
+    }
+    if (this.global.display.map.realtime) {
       this.items.push(realtime);
     }
     if (this.global.display.map.gpstask) {
       this.items.push(gpstask);
-    }
-    if (this.global.display.map.roadobject) {
-      // this.items.push(roadobject);
     }
     this.items.push(heatmap);
   }

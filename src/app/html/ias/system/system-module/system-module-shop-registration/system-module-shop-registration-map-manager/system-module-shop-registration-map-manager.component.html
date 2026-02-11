@@ -78,6 +78,7 @@
         class="panel-map button"
         title="商铺沿道路对齐"
         (click)="panel.location.trigger()"
+        [class.disabled]="map.draggable"
       >
         <i class="mdi mdi-format-horizontal-align-center"></i>
       </div>

@@ -1,13 +1,13 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
+import { IASMapAMapPathArrowController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path-arrow.controller';
+import { IASMapAMapPathLabelController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path-label.controller';
+import { IASMapAMapPathWayController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path-way.controller';
+import { IASMapAMapPathController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path.controller';
 import { SystemTaskFileDetailsAMapCopiedController } from './cipied/system-task-file-details-amap-copied.controller';
 import { SystemTaskFileDetailsAMapDetectController } from './detect/system-task-file-details-amap-detect.controller';
 import { SystemTaskFileDetailsAMapPickupController } from './pickup/system-task-file-details-amap-pickup.controller';
-import { SystemTaskFileDetailsAMapArrowController } from './system-task-file-details-amap-arrow.controller';
-import { SystemTaskFileDetailsAMapLabelController } from './system-task-file-details-amap-label.controller';
-import { SystemTaskFileDetailsAMapPathWayController } from './system-task-file-details-amap-path-way.controller';
-import { SystemTaskFileDetailsAMapPathController } from './system-task-file-details-amap-path.controller';
 import { SystemTaskFileDetailsAMapTipLayerController } from './tip/system-task-file-details-amap-tip-layer.controller';
 
 @Injectable()
@@ -17,10 +17,10 @@ export class SystemTaskFileDetailsAMapController {
   };
   pickupable = false;
 
-  arrow = new PromiseValue<SystemTaskFileDetailsAMapArrowController>();
-  path = new PromiseValue<SystemTaskFileDetailsAMapPathController>();
-  way = new PromiseValue<SystemTaskFileDetailsAMapPathWayController>();
-  label = new PromiseValue<SystemTaskFileDetailsAMapLabelController>();
+  arrow = new PromiseValue<IASMapAMapPathArrowController>();
+  path = new PromiseValue<IASMapAMapPathController>();
+  way = new PromiseValue<IASMapAMapPathWayController>();
+  label = new PromiseValue<IASMapAMapPathLabelController>();
   pickup = new PromiseValue<SystemTaskFileDetailsAMapPickupController>();
   tip = new PromiseValue<SystemTaskFileDetailsAMapTipLayerController>();
   copied = new PromiseValue<SystemTaskFileDetailsAMapCopiedController>();
@@ -37,10 +37,10 @@ export class SystemTaskFileDetailsAMapController {
 
         this.regist.map(x);
 
-        this.arrow.set(new SystemTaskFileDetailsAMapArrowController(x));
-        this.path.set(new SystemTaskFileDetailsAMapPathController(x));
-        this.way.set(new SystemTaskFileDetailsAMapPathWayController(x));
-        this.label.set(new SystemTaskFileDetailsAMapLabelController(x));
+        this.arrow.set(new IASMapAMapPathArrowController(x));
+        this.path.set(new IASMapAMapPathController(x));
+        this.way.set(new IASMapAMapPathWayController(x));
+        this.label.set(new IASMapAMapPathLabelController(x));
 
         let point = new SystemTaskFileDetailsAMapPickupController(x);
         this.pickup.set(point);

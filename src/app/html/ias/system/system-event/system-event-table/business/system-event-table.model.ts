@@ -17,6 +17,7 @@ export interface ISystemEventTableArgs {
   timeout?: boolean;
   division?: string;
   gridcell?: string;
+  repeated?: boolean;
 }
 
 export class SystemEventTableArgs implements ISystemEventTableArgs {
@@ -33,6 +34,7 @@ export class SystemEventTableArgs implements ISystemEventTableArgs {
   timeout?: boolean;
   division?: string;
   gridcell?: string;
+  repeated?: boolean;
 }
 
 export class SystemEventTableFilter implements ISystemEventTableArgs {
@@ -49,6 +51,7 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
   timeout?: boolean;
   division?: string;
   gridcell?: string;
+  repeated?: boolean;
   asc?: string;
   desc?: string = 'EventTime';
   static from(args: ISystemEventTableArgs) {
@@ -65,6 +68,7 @@ export class SystemEventTableFilter implements ISystemEventTableArgs {
     filter.timeout = args.timeout;
     filter.division = args.division;
     filter.gridcell = args.gridcell;
+    filter.repeated = args.repeated;
     return filter;
   }
 }

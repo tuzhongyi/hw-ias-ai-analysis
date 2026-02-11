@@ -5,6 +5,9 @@ import { SystemMainManagerCardSampleLine } from './gpstask/system-main-manager-s
 import { SystemMainManagerCardRealtimeLine } from './realtime/system-main-manager-realtime-line.card';
 import { SystemMainManagerCardRealtimeStatistic } from './realtime/system-main-manager-realtime-statistic.card';
 import { SystemMainManagerCardRealtimeTable } from './realtime/system-main-manager-realtime-table.card';
+import { SystemMainManagerCardRoadObjectBar } from './road-object/system-main-manager-roadobject-bar.card';
+import { SystemMainManagerCardRoadObjectLine } from './road-object/system-main-manager-roadobject-line.card';
+import { SystemMainManagerCardRoadObjectStatisticPie } from './road-object/system-main-manager-roadobject-statistic-pie.card';
 import { SystemMainManagerCardShopStatisticLine } from './shop/system-main-manager-shop-statistic-line.card';
 import { SystemMainManagerCardShopStatisticPie } from './shop/system-main-manager-shop-statistic-pie.card';
 import { SystemMainManagerCardShopStatistic } from './shop/system-main-manager-shop-statistic.card';
@@ -40,12 +43,18 @@ export class SystemMainManagerCard {
   gpstask: {
     line: SystemMainManagerCardSampleLine;
   };
+  roadobject: {
+    pie: SystemMainManagerCardRoadObjectStatisticPie;
+    line: SystemMainManagerCardRoadObjectLine;
+    bar: SystemMainManagerCardRoadObjectBar;
+  };
   constructor(that: SystemMainManagerComponent) {
     this.statistic = this.init.statistic(that);
     this.device = this.init.device(that);
     this.shop = this.init.shop(that);
     this.realtime = this.init.realtime(that);
     this.gpstask = this.init.gpstask(that);
+    this.roadobject = this.init.roadobject(that);
   }
 
   private init = {
@@ -81,6 +90,13 @@ export class SystemMainManagerCard {
     gpstask: (that: SystemMainManagerComponent) => {
       return {
         line: new SystemMainManagerCardSampleLine(),
+      };
+    },
+    roadobject: (that: SystemMainManagerComponent) => {
+      return {
+        pie: new SystemMainManagerCardRoadObjectStatisticPie(that),
+        line: new SystemMainManagerCardRoadObjectLine(),
+        bar: new SystemMainManagerCardRoadObjectBar(),
       };
     },
   };

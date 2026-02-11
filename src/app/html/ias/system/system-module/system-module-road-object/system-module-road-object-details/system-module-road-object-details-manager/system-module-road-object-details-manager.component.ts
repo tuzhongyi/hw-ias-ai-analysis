@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AngleControlComponent } from '../../../../../../../common/components/angle-control/angle-control.component';
 import { GisType } from '../../../../../../../common/data-core/enums/gis-type.enum';
+import { RoadObjectState } from '../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { ObjectImageSamplingConfig } from '../../../../../../../common/data-core/models/arm/geographic/object-image-sampling-config.model';
 import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
@@ -25,6 +26,7 @@ import { PickupModel } from '../../system-module-road-object-video/system-module
 import { SystemModuleRoadObjectDetailsConfigComponent } from '../system-module-road-object-details-config/system-module-road-object-details-config.component';
 import { SystemModuleRoadObjectDetailsImageComponent } from '../system-module-road-object-details-image/system-module-road-object-details-image.component';
 import { SystemModuleRoadObjectDetailsInfoComponent } from '../system-module-road-object-details-info/system-module-road-object-details-info.component';
+import { SystemModuleRoadObjectDetailsInfoSource } from '../system-module-road-object-details-info/system-module-road-object-details-info.source';
 import { SystemModuleRoadObjectDetailsMapComponent } from '../system-module-road-object-details-map/system-module-road-object-details-map.component';
 import { SystemModuleRoadObjectDetailsManagerBusiness } from './system-module-road-object-details-manager.business';
 import { SystemModuleRoadObjectDetailsManagerWindow } from './system-module-road-object-details-manager.window';
@@ -43,7 +45,10 @@ import { SystemModuleRoadObjectDetailsManagerWindow } from './system-module-road
   ],
   templateUrl: './system-module-road-object-details-manager.component.html',
   styleUrl: './system-module-road-object-details-manager.component.less',
-  providers: [SystemModuleRoadObjectDetailsManagerBusiness],
+  providers: [
+    SystemModuleRoadObjectDetailsManagerBusiness,
+    SystemModuleRoadObjectDetailsInfoSource,
+  ],
 })
 export class SystemModuleRoadObjectDetailsManagerComponent
   implements OnInit, OnDestroy
@@ -57,6 +62,7 @@ export class SystemModuleRoadObjectDetailsManagerComponent
 
   constructor(
     private business: SystemModuleRoadObjectDetailsManagerBusiness,
+    private source: SystemModuleRoadObjectDetailsInfoSource,
     private toastr: ToastrService
   ) {}
 
@@ -78,7 +84,14 @@ export class SystemModuleRoadObjectDetailsManagerComponent
     obj.ImageSampling.InspectionTime = new Date();
     obj.ImageSampling.LatestInspectionTime = new Date();
 
+    this.source.divisions.then((x) => {
+      if (x.length == 1) {
+        obj.DivisionId = x[0].Id;
+      }
+    });
+
     obj.Location = new GisPoints();
+
     return obj;
   }
   private regist() {
@@ -134,7 +147,18 @@ export class SystemModuleRoadObjectDetailsManagerComponent
   }
 
   on = {
-    course: (value: number) => {},
+    error: (e: Error) => {
+      let message = '';
+      if (typeof e == 'string') {
+        message = e;
+      } else {
+        message = e.message;
+      }
+      this.toastr.error(message);
+    },
+    address: () => {
+      this.map.get.address.emit(this.map.gcj02);
+    },
     change: (data: RoadObject) => {
       this.map.type = data.ObjectType;
     },
@@ -209,6 +233,10 @@ export class SystemModuleRoadObjectDetailsManagerComponent
     wgs84: undefined as GisPoint | undefined,
     gcj02: [0, 0] as [number, number],
     type: RoadObjectType.FireHydrant,
+    state: RoadObjectState.None,
+    get: {
+      address: new EventEmitter<[number, number]>(),
+    },
     load: (data: RoadObject) => {
       if (data.Location) {
         this.map.wgs84 = data.Location.WGS84;

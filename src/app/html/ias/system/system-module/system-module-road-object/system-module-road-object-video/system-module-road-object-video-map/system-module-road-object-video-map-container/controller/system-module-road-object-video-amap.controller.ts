@@ -3,16 +3,15 @@ import { Subscription } from 'rxjs';
 import { RoadObject } from '../../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { MapHelper } from '../../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../../common/view-models/value.promise';
-import { IASMapAMapGeocoderController } from '../../../../../../../share/map/controller/amap/geocoder/ias-map-amap-geocoder.controller';
 import { IASMapAMapInfoController } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapPathArrowController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path-arrow.controller';
 import { IASMapAMapPathLabelController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path-label.controller';
 import { IASMapAMapPathWayController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path-way.controller';
 import { IASMapAMapPathController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path.controller';
-import { IASMapAMapRoadObjectMarkerLayerController } from '../../../../../../../share/map/controller/amap/road-object/marker/ias-map-amap-road-object-marker-layer.controller';
-import { IASMapAMapRoadObjectPointLayerController } from '../../../../../../../share/map/controller/amap/road-object/point/ias-map-amap-road-object-point-layer.controller';
 import { SystemTaskFileDetailsAMapPickupController } from './pickup/system-task-file-details-amap-pickup.controller';
+import { SystemMainMapAMapRoadObjectMarkerLayerController } from './road-object/marker/system-main-map-amap-road-object-marker-layer.controller';
+import { SystemMainMapAMapRoadObjectPointLayerController } from './road-object/point/system-main-map-amap-road-object-point-layer.controller';
 
 export class SystemModuleRoadObjectVideoAMapController {
   event = {
@@ -32,10 +31,10 @@ export class SystemModuleRoadObjectVideoAMapController {
   label = new PromiseValue<IASMapAMapPathLabelController>();
   pickup = new PromiseValue<SystemTaskFileDetailsAMapPickupController>();
   roadobject = {
-    point: new PromiseValue<IASMapAMapRoadObjectPointLayerController>(),
-    marker: new PromiseValue<IASMapAMapRoadObjectMarkerLayerController>(),
+    point: new PromiseValue<SystemMainMapAMapRoadObjectPointLayerController>(),
+    marker:
+      new PromiseValue<SystemMainMapAMapRoadObjectMarkerLayerController>(),
   };
-  geocoder = new PromiseValue<IASMapAMapGeocoderController>();
   private info = new PromiseValue<IASMapAMapInfoController>();
 
   constructor(private subscription: Subscription) {
@@ -49,8 +48,6 @@ export class SystemModuleRoadObjectVideoAMapController {
 
         this.init.roadobject.point(container);
         this.init.roadobject.marker(x, info);
-
-        this.init.geocoder();
       });
   }
 
@@ -84,7 +81,7 @@ export class SystemModuleRoadObjectVideoAMapController {
     },
     roadobject: {
       point: (loca: Loca.Container) => {
-        let ctr = new IASMapAMapRoadObjectPointLayerController(loca);
+        let ctr = new SystemMainMapAMapRoadObjectPointLayerController(loca);
         let sub = ctr.event.move.subscribe((data) => {
           this.regist.roadobject.point.over(data);
         });
@@ -92,7 +89,7 @@ export class SystemModuleRoadObjectVideoAMapController {
         this.roadobject.point.set(ctr);
       },
       marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
-        let ctr = new IASMapAMapRoadObjectMarkerLayerController(
+        let ctr = new SystemMainMapAMapRoadObjectMarkerLayerController(
           map,
           info,
           this.subscription
@@ -107,10 +104,6 @@ export class SystemModuleRoadObjectVideoAMapController {
         this.subscription.add(sub2);
         this.roadobject.marker.set(ctr);
       },
-    },
-    geocoder: () => {
-      let controller = new IASMapAMapGeocoderController();
-      this.geocoder.set(controller);
     },
   };
 

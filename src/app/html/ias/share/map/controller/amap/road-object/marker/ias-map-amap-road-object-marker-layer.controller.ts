@@ -5,9 +5,13 @@ import { IASMapAMapConfig } from '../../ias-map-amap.config';
 import { IASMapAMapInfoController } from '../../info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../info/ias-map-amap-info.model';
 import { IASMapAMapMarkerEvent } from '../../marker/ias-map-amap-marker.model';
+import { IASMapAMapRoadObjectIconController } from './ias-map-amap-road-object-icon.controller';
 import { IASMapAMapRoadObjectMarkerLabelController } from './ias-map-amap-road-object-marker-label.controller';
 
-export class IASMapAMapRoadObjectMarkerLayerController {
+export class IASMapAMapRoadObjectMarkerLayerController<
+  TIcon extends IASMapAMapRoadObjectIconController = IASMapAMapRoadObjectIconController,
+  TMarker extends IASMapAMapRoadObjectMarkerLabelController<TIcon> = IASMapAMapRoadObjectMarkerLabelController<TIcon>
+> {
   event = new IASMapAMapMarkerEvent<RoadObject>();
 
   constructor(
@@ -19,7 +23,7 @@ export class IASMapAMapRoadObjectMarkerLayerController {
   }
 
   private layer: AMap.LabelsLayer;
-  private points: IASMapAMapRoadObjectMarkerLabelController[] = [];
+  private points: TMarker[] = [];
 
   private init(map: AMap.Map) {
     let layer = new AMap.LabelsLayer({
@@ -31,10 +35,11 @@ export class IASMapAMapRoadObjectMarkerLayerController {
     return layer;
   }
 
-  private regist(
-    point: IASMapAMapRoadObjectMarkerLabelController,
-    subscription: Subscription
-  ) {
+  protected create(data: RoadObject) {
+    return new IASMapAMapRoadObjectMarkerLabelController(data);
+  }
+
+  private regist(point: TMarker, subscription: Subscription) {
     let sub1 = point.event.mouseover.subscribe((data) => {
       let info: IIASMapAMapInfo = {
         Name: data.Name,
@@ -71,7 +76,7 @@ export class IASMapAMapRoadObjectMarkerLayerController {
     for (let i = 0; i < datas.length; i++) {
       const data = datas[i];
       if (data.Location) {
-        let point = new IASMapAMapRoadObjectMarkerLabelController(data);
+        let point = this.create(data) as TMarker;
         this.regist(point, this.subscription);
         let marker = await point.marker;
         markers.push(marker);

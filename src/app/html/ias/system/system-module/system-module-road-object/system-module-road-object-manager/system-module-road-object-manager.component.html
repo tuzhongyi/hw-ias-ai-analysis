@@ -76,6 +76,8 @@
         (modify)="window.details.open($event)"
         (itemover)="table.on.item.over($event)"
         (itemout)="table.on.item.out($event)"
+        [page]="table.picture.page"
+        (picture)="window.picture.open($event)"
       ></ias-system-module-road-object-table>
     </div>
     <div class="system-module-road-object-manager-body-map">
@@ -136,8 +138,23 @@
     <ias-system-module-road-object-details-manager
       [data]="window.details.data"
       [pickup]="window.details.pickup"
+      (picture)="window.details.picture($event)"
       (ok)="reload()"
       (close)="window.details.show = false"
     ></ias-system-module-road-object-details-manager>
+  </ias-window>
+  <ias-window
+    *ngIf="window.picture.show"
+    [Model]="window.picture"
+    [style]="window.picture.style"
+    [title]="window.picture.title"
+    [mask]="!window.opened"
+  >
+    <ias-picture-list
+      [id]="window.picture.id"
+      [zoom]="false"
+      [page]="window.picture.page"
+      (pageChange)="window.picture.change($event)"
+    ></ias-picture-list>
   </ias-window>
 </div>

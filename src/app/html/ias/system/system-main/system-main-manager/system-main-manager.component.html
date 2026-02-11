@@ -8,6 +8,8 @@
     (shopdblclick)="map.on.shop.details($event)"
     (sampledblclick)="map.on.sample($event)"
     (devicedblclick)="map.on.device($event)"
+    (roadobjectclick)="panel.details.object.data = $event"
+    (roadobjectdblclick)="panel.details.object.open($event)"
     [shops]="map.data.shop"
     [devices]="map.data.device"
     [realtimes]="map.data.realtime"
@@ -52,6 +54,17 @@
       [(selected)]="shop.args.states!"
       (selectedChange)="map.on.shop.filter($event)"
     ></ias-system-main-map-state-shop>
+  </div>
+  <div
+    class="system-main-manager-state-road-object"
+    *ngIf="global.display.map.roadobject"
+  >
+    <ias-system-main-map-state-road-object
+      *ngIf="panel.state.roadobject.show"
+      [datas]="road.object.datas"
+      [(selected)]="road.object.args.states!"
+      (selectedChange)="map.on.road.object.filter($event)"
+    ></ias-system-main-map-state-road-object>
   </div>
 
   <div class="system-main-manager-state-event">
@@ -101,13 +114,23 @@
   <div
     class="system-main-manager-panel-details"
     [class.list]="panel.list.show"
-    *ngIf="panel.details.show"
+    *ngIf="panel.details.shop.show"
   >
     <ias-system-map-panel-details-shop-registration
       [data]="shop.selected"
-      (picture)="panel.details.on.picture($event)"
-      (close)="panel.details.show = false"
+      (picture)="panel.details.shop.on.picture($event)"
+      (close)="panel.details.shop.show = false"
     ></ias-system-map-panel-details-shop-registration>
+  </div>
+  <div
+    class="system-main-manager-panel-details"
+    *ngIf="panel.details.object.show"
+  >
+    <ias-system-map-panel-details-road-object
+      [data]="panel.details.object.data"
+      (picture)="panel.details.object.on.picture($event)"
+      (close)="panel.details.object.show = false"
+    ></ias-system-map-panel-details-road-object>
   </div>
   <div class="system-main-manager-navigation">
     <ias-system-main-map-navigation

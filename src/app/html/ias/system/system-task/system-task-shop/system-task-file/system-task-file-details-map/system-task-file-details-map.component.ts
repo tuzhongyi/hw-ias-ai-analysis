@@ -161,7 +161,7 @@ export class SystemTaskFileDetailsMapComponent
         this.hasdata = datas.length > 0;
         this.loaded.emit(datas);
         if (this.hasdata) {
-          await this.controller.path.load(datas);
+          await this.controller.path.load(datas, true);
         }
       } catch (e: any) {
         this.error.emit(e);
@@ -191,7 +191,7 @@ export class SystemTaskFileDetailsMapComponent
             this.business.gps
               .load(this.data.FileName, this.rectified)
               .then((datas) => {
-                this.controller.path.load(datas);
+                this.controller.path.load(datas, false);
                 if (this.time.current) {
                   this.controller.to(this.time.current);
                 }

@@ -89,6 +89,9 @@ export class SystemEventTableService {
     if (filter.gridcell) {
       params.GridCellIds = [filter.gridcell];
     }
+    if (filter.repeated != undefined) {
+      params.IsRepeated = filter.repeated;
+    }
 
     return this.service.event.list(params);
   }

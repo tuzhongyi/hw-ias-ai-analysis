@@ -11,6 +11,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { RoadObjectState } from '../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
+import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 import { wait } from '../../../../../../../common/tools/wait';
 import { SystemModuleRoadObjectMapBusiness } from '../../system-module-road-object-map/system-module-road-object-map.business';
@@ -28,8 +30,11 @@ export class SystemModuleRoadObjectDetailsMapComponent
 {
   @Input() position: [number, number] = [0, 0];
   @Output() positionChange = new EventEmitter<[number, number]>();
-  @Input() type: number = 0;
+  @Input() type = RoadObjectType.FireHydrant;
+  @Input() state = RoadObjectState.None;
+  @Input() get?: { address?: EventEmitter<[number, number]> };
   @Output() address = new EventEmitter<string>();
+  @Output() error = new EventEmitter<Error>();
 
   constructor(private business: SystemModuleRoadObjectMapBusiness) {}
 
@@ -55,11 +60,24 @@ export class SystemModuleRoadObjectDetailsMapComponent
     let sub = this.controller.event.position.subscribe((x) => {
       this.position = [...x];
       this.positionChange.emit(this.position);
-      this.controller.geocoder.address(this.position).then((address) => {
-        this.address.emit(address);
-      });
     });
     this.subscription.add(sub);
+
+    if (this.get) {
+      if (this.get.address) {
+        let sub = this.get.address.subscribe((x) => {
+          this.controller.geocoder
+            .address(x)
+            .then((address) => {
+              this.address.emit(address);
+            })
+            .catch((e) => {
+              this.error.emit(e);
+            });
+        });
+        this.subscription.add(sub);
+      }
+    }
   }
   ngOnInit(): void {
     this.load.road();
@@ -87,9 +105,15 @@ export class SystemModuleRoadObjectDetailsMapComponent
         this.controller.object.set.type(this.type);
       }
     },
+    state: (change: SimpleChange) => {
+      if (change) {
+        this.controller.object.set.state(this.state);
+      }
+    },
   };
   ngOnChanges(changes: SimpleChanges): void {
     this.change.position(changes['position']);
+    this.change.state(changes['state']);
     this.change.type(changes['type']);
   }
 }

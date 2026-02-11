@@ -56,11 +56,12 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
   }
 
   private get = {
-    icon: (type?: RoadObjectType, state?: RoadObjectState) => {
+    state: RoadObjectState.None,
+    icon: (type?: RoadObjectType) => {
       let icon = new AMap.Icon({
         imageSize: this.get.size(),
         size: this.get.size(),
-        image: PathTool.image.map.object.get(type, state).normal,
+        image: PathTool.image.map.object.get(type, this.get.state).normal,
       });
       return icon;
     },
@@ -80,6 +81,9 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
         let icon = this.get.icon(type);
         this.marker.setIcon(icon);
       }
+    },
+    state: (state: RoadObjectState) => {
+      this.get.state = state;
     },
     position: (position: [number, number]) => {
       if (this.marker) {

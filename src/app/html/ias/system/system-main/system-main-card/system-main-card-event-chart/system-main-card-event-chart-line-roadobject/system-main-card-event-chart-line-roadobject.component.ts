@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { IChartData } from '../../../../../../../common/tools/chart-tool/chart.model';
 import { SystemMainCardContainerComponent } from '../../system-main-card-container/system-main-card-container.component';
 import { SystemMainCardEventChartLineContainerComponent } from '../system-main-card-event-chart-line-container/system-main-card-event-chart-line-container.component';
-import { SystemMainCardEventChartLineSampleBusiness } from './system-main-card-event-chart-line-roadobject.business';
+import { SystemMainCardEventChartLineRoadObjectBusiness } from './system-main-card-event-chart-line-roadobject.business';
 
 @Component({
   selector: 'ias-system-main-card-event-chart-line-roadobject',
@@ -24,15 +24,17 @@ import { SystemMainCardEventChartLineSampleBusiness } from './system-main-card-e
   ],
   templateUrl: './system-main-card-event-chart-line-roadobject.component.html',
   styleUrl: './system-main-card-event-chart-line-roadobject.component.less',
-  providers: [SystemMainCardEventChartLineSampleBusiness],
+  providers: [SystemMainCardEventChartLineRoadObjectBusiness],
 })
-export class SystemMainCardEventChartLineRealtimeComponent
+export class SystemMainCardEventChartLineRoadObjectComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
   @Input() date = new Date(2025, 10, 5);
   @Output() dateChange = new EventEmitter<Date>();
-  constructor(private business: SystemMainCardEventChartLineSampleBusiness) {}
+  constructor(
+    private business: SystemMainCardEventChartLineRoadObjectBusiness
+  ) {}
 
   private subscription = new Subscription();
   private load() {

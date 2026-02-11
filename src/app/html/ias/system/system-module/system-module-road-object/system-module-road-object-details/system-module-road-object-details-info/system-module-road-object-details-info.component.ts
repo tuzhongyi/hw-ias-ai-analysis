@@ -41,19 +41,12 @@ export class SystemModuleRoadObjectDetailsInfoComponent
   @Output() dataChange = new EventEmitter<RoadObject>();
   @Input() wgs84?: GisPoint;
   @Output() wgs84Change = new EventEmitter<GisPoint>();
+  @Output() getaddress = new EventEmitter<RoadObject>();
 
   constructor(
     public source: SystemModuleRoadObjectDetailsInfoSource,
     private toastr: ToastrService
-  ) {
-    source.loaded = () => {
-      if (source.divisions.length == 1) {
-        if (!this.data.DivisionId) {
-          this.data.DivisionId = source.divisions[0].Id;
-        }
-      }
-    };
-  }
+  ) {}
 
   GisType = GisType;
 
@@ -152,6 +145,9 @@ export class SystemModuleRoadObjectDetailsInfoComponent
   on = {
     change: () => {
       this.dataChange.emit(this.data);
+    },
+    getaddress: () => {
+      this.getaddress.emit(this.data);
     },
   };
 }

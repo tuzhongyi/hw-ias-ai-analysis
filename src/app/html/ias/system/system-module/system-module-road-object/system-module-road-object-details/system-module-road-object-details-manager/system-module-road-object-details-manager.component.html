@@ -6,14 +6,18 @@
           [url]="model.ImageUrl"
           [load]="image.load"
           (upload)="image.upload($event)"
+          (picture)="image.open()"
         ></ias-system-module-road-object-details-image>
       </div>
       <div class="system-module-road-object-details-map panel">
         <ias-system-module-road-object-details-map
           [(position)]="map.gcj02"
           (positionChange)="map.on.gcj02($event)"
-          (address)="map.on.address($event)"
+          [state]="map.state"
           [type]="map.type"
+          [get]="map.get"
+          (address)="map.on.address($event)"
+          (error)="on.error($event)"
         ></ias-system-module-road-object-details-map>
       </div>
     </div>
@@ -29,6 +33,7 @@
             [(wgs84)]="map.wgs84"
             (wgs84Change)="map.on.wgs84($event)"
             [operable]="operable"
+            (getaddress)="on.address()"
           ></ias-system-module-road-object-details-info>
         </div>
       </div>

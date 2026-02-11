@@ -1,0 +1,77 @@
+<div
+  class="panel-map-border system-map-panel-details-shop root-router"
+  *ngIf="data"
+>
+  <div class="system-map-panel-details-shop-head">
+    <div class="panel-map-title">物件信息</div>
+    <div>
+      <div class="button" (click)="onclose()">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+  </div>
+  <div class="system-map-panel-details-shop-body">
+    <div class="system-map-panel-details-shop-body-image" (click)="onpicture()">
+      <ias-picture [id]="data.ImageUrl"></ias-picture>
+    </div>
+    <div class="system-map-panel-details-shop-body-info forms">
+      <div class="form-item">
+        <div class="form-item-text baseline">物件名称</div>
+        <div class="form-item-value">
+          {{ data.Name }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text baseline">行政区划</div>
+        <div class="form-item-value">
+          {{ name.division || "-" }}
+        </div>
+      </div>
+      <div class="form-item" *ngIf="name.gridcell">
+        <div class="form-item-text baseline">责任网格</div>
+        <div class="form-item-value">
+          {{ name.gridcell }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text baseline">物件地址</div>
+        <div class="form-item-value">
+          {{ data.Address ?? "-" }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">物件类型</div>
+        <div class="form-item-value">
+          {{ name.type }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">连续消失次数</div>
+        <div class="form-item-value">
+          {{ data.DisappearTimes }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">巡查时间间隔</div>
+        <div class="form-item-value">
+          {{ data.ImageSampling.InspectionInterval }}天
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">状态</div>
+        <div class="form-item-value">
+          <div
+            [ngClass]="{
+              'text-green': data.ObjectState == State.None,
+              'text-cyan': data.ObjectState == State.Normal,
+              'text-orange': data.ObjectState == State.Breakage,
+              'text-red': data.ObjectState == State.Disappear
+            }"
+          >
+            {{ name.state }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,24 +1,11 @@
 import { RoadObjectState } from '../../../../../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { PathTool } from '../../../../../../../../../../../common/tools/path-tool/path.tool';
-import { SizeTool } from '../../../../../../../../../../../common/tools/size-tool/size.tool';
+import { IASMapAMapRoadObjectIconController } from '../../../../../../../../../share/map/controller/amap/road-object/marker/ias-map-amap-road-object-icon.controller';
 
-export class SystemMainMapAMapRoadObjectIconController {
-  private size(): [number, number] {
-    return [SizeTool.map.object.width, SizeTool.map.object.height];
-  }
-
-  private get opts(): AMap.LabelMarkerIconOptions {
-    let icon = {
-      type: 'image',
-      image: PathTool.image.map.object.unknow.normal,
-      size: this.size(),
-      anchor: 'bottom-center',
-    };
-    return icon;
-  }
-  get(type?: RoadObjectType, state?: RoadObjectState) {
-    let image = PathTool.image.map.object.get(type, state);
+export class SystemMainMapAMapRoadObjectIconController extends IASMapAMapRoadObjectIconController {
+  override get(type?: RoadObjectType) {
+    let image = PathTool.image.map.object.get(type, RoadObjectState.Normal);
     return {
       normal: {
         ...this.opts,

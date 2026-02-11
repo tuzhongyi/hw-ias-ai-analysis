@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { RoadObjectState } from '../../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { SystemModuleRoadObjectDetailsAMapController } from './system-module-road-object-details-amap.controller';
@@ -37,6 +38,10 @@ export class SystemModuleRoadObjectDetailsMapController {
       type: async (type: RoadObjectType) => {
         let point = await this.amap.point;
         point.set.type(type);
+      },
+      state: async (state: RoadObjectState) => {
+        let point = await this.amap.point;
+        point.set.state(state);
       },
     },
     clear: async () => {

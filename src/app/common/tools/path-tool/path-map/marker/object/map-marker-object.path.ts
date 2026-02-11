@@ -47,7 +47,7 @@ export class MapMarkerObjectPath {
         case RoadObjectState.Disappear:
           return path.red;
         case RoadObjectState.None:
-          return path.gray;
+          return path.green;
         default:
           return path.green;
       }

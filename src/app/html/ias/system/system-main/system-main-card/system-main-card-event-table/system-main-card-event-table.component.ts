@@ -3,11 +3,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { EventMode } from '../../system-main-map-navigation/system-main-map-navigation.model';
 import { SystemMainCardContainerComponent } from '../system-main-card-container/system-main-card-container.component';
-import { SystemMainCardEventMobileTableComponent } from '../system-main-card-event-mobile-table/system-main-card-event-mobile-table/system-main-card-event-mobile-table.component';
-import { SystemMainCardEventSampleTableComponent } from '../system-main-card-event-sample-table/system-main-card-event-sample-table/system-main-card-event-sample-table.component';
+import { SystemMainCardEventMobileTableComponent } from '../system-main-card-event-table-mobile/system-main-card-event-mobile-table/system-main-card-event-mobile-table.component';
+import { SystemMainCardEventRoadObjectTableComponent } from '../system-main-card-event-table-road-object/system-main-card-event-road-object-table/system-main-card-event-road-object-table.component';
+import { SystemMainCardEventSampleTableComponent } from '../system-main-card-event-table-sample/system-main-card-event-sample-table/system-main-card-event-sample-table.component';
 
 @Component({
   selector: 'ias-system-main-card-event-table',
@@ -17,6 +19,7 @@ import { SystemMainCardEventSampleTableComponent } from '../system-main-card-eve
     SystemMainCardContainerComponent,
     SystemMainCardEventSampleTableComponent,
     SystemMainCardEventMobileTableComponent,
+    SystemMainCardEventRoadObjectTableComponent,
   ],
   templateUrl: './system-main-card-event-table.component.html',
   styleUrl: './system-main-card-event-table.component.less',
@@ -25,6 +28,7 @@ export class SystemMainCardEventTableComponent {
   @Input() shops: MobileEventRecord[] = [];
   @Input() realtimes: MobileEventRecord[] = [];
   @Input() samples: GpsTaskSampleRecord[] = [];
+  @Input() roadobjects: RoadObjectEventRecord[] = [];
   @Output() details = new EventEmitter<
     GpsTaskSampleRecord | MobileEventRecord
   >();
@@ -53,6 +57,9 @@ export class SystemMainCardEventTableComponent {
         break;
       case EventMode.gpstask:
         name = '场景事件';
+        break;
+      case EventMode.roadobject:
+        name = '道路物件事件';
         break;
     }
     return `今日${name}`;
