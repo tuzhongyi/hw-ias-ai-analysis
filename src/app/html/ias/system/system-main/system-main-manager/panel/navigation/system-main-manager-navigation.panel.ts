@@ -118,7 +118,7 @@ export class SystemMainManagerPanelNavigation {
           this.card.statistic.table.modeable = false;
           this.card.statistic.number.show = true;
           this.card.statistic.pie.show = false;
-          this.card.device.state.show = false;
+          this.card.device.state.show = true;
           this.card.device.route.show = false;
           this.card.shop.statistic.show = false;
           this.card.shop.pie.show = false;
@@ -129,7 +129,7 @@ export class SystemMainManagerPanelNavigation {
           this.card.gpstask.line.show = false;
           this.card.roadobject.pie.show = true;
           this.card.roadobject.line.show = true;
-          this.card.roadobject.bar.show = true;
+          this.card.roadobject.bar.show = false;
           break;
         default:
           break;

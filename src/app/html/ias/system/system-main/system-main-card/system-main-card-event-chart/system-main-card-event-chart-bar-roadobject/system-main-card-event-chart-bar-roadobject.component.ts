@@ -30,7 +30,7 @@ export class SystemMainCardEventChartBarRoadObjectComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() date = new Date(2025, 10, 5);
+  @Input() date = new Date();
   @Output() dateChange = new EventEmitter<Date>();
   constructor(
     private business: SystemMainCardEventChartBarRoadObjectBusiness
@@ -59,7 +59,7 @@ export class SystemMainCardEventChartBarRoadObjectComponent
     this.subscription.unsubscribe();
   }
 
-  title = '今日事件统计';
+  title = '道路物件事件';
 
   datas: IChartData[] = [];
 }

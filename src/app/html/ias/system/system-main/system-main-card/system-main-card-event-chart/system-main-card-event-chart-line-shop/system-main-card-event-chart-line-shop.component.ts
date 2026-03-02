@@ -57,7 +57,6 @@ export class SystemMainCardEventChartLineShopComponent
         default:
           break;
       }
-      this.chart.interval;
     });
   }
   ngOnInit(): void {

@@ -65,7 +65,7 @@ export class SystemModuleShopDetailsAMapController {
 
   async load(data: GisPoint) {
     let map = await this.map.get();
-    if (this.marker.exists) {
+    if (this.marker.existed) {
       let marker = await this.marker.get();
       map.remove(marker);
     }

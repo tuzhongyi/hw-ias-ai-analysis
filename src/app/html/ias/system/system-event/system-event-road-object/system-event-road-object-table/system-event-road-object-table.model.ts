@@ -18,7 +18,7 @@ export interface ISystemEventRoadObjectTableArgs {
 export class SystemEventRoadObjectTableArgs
   implements ISystemEventRoadObjectTableArgs
 {
-  duration = DateTimeTool.all.month(new Date());
+  duration = DateTimeTool.last.month(new Date());
   type?: number;
   confirmed?: boolean;
   assigned?: boolean;
@@ -38,7 +38,7 @@ export class SystemEventRoadObjectTableFilter
   confirmed?: boolean;
   assigned?: boolean;
   event?: number;
-  desc?: string = 'Time';
+  desc?: string = 'EventTime';
   asc?: string;
   misinform?: boolean;
   handled?: boolean;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
+import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { Page } from '../../../../../../common/data-core/models/page-list.model';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';
@@ -35,12 +36,14 @@ class PictureWindow extends WindowViewModel {
     this.args = undefined;
   }
 
-  set(data: RoadObjectEventRecord | EventResourceContent): void {
+  set(data: RoadObjectEventRecord | EventResourceContent | RoadObject): void {
     this.clear();
     if (data instanceof RoadObjectEventRecord) {
       this.from.record(data);
     } else if (data instanceof EventResourceContent) {
       return this.from.resource(data);
+    } else if (data instanceof RoadObject) {
+      return this.from.object(data);
     }
   }
 
@@ -59,6 +62,14 @@ class PictureWindow extends WindowViewModel {
       if (data.Objects && data.Objects.length > 0) {
         this.args.polygon = data.Objects[0].Polygon;
       }
+    },
+    object: (data: RoadObject) => {
+      this.args = new PicturePolygonArgs();
+      this.title = `${data.Name}${data.Address ? '-' : ''}${
+        data.Address || ''
+      }`;
+      this.args.id = data.ImageUrl;
+      this.args.polygon = [];
     },
   };
 }

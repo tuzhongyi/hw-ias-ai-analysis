@@ -4,7 +4,7 @@ import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { SystemMainCardDeviceRouteStatisticComponent } from '../system-main-card/system-main-card-device-route-statistic/system-main-card-device-route-statistic/system-main-card-device-route-statistic.component';
 import { SystemMainCardDeviceStateComponent } from '../system-main-card/system-main-card-device-state/system-main-card-device-state.component';
-import { SystemMainCardEventChartBarRoadObjectComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-bar-roadobject/system-main-card-event-chart-line-roadobject.component';
+import { SystemMainCardEventChartBarRoadObjectComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-bar-roadobject/system-main-card-event-chart-bar-roadobject.component';
 import { SystemMainCardEventChartLineRealtimeComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-realtime/system-main-card-event-chart-line-realtime.component';
 import { SystemMainCardEventChartLineRoadObjectComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-roadobject/system-main-card-event-chart-line-roadobject.component';
 import { SystemMainCardEventChartLineSampleComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-sample/system-main-card-event-chart-line-sample.component';

@@ -7,8 +7,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ArmEventType } from '../../../../../common/data-core/enums/event/arm-event-type.enum';
+import { RoadObjectEventType } from '../../../../../common/data-core/enums/road/road-object/road-object-event-type.enum';
+import { RoadObjectState } from '../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
+import { RoadObjectEventRecord } from '../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { PathTool } from '../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../common/tools/size-tool/size.tool';
@@ -25,7 +28,7 @@ import { SystemEventVideoArgs } from './system-event-video.model';
   providers: [SystemEventVideoBusiness],
 })
 export class SystemEventVideoComponent implements OnInit, OnChanges {
-  @Input() data?: MobileEventRecord;
+  @Input() data?: MobileEventRecord | RoadObjectEventRecord;
   @Input() args: SystemEventVideoArgs = {};
   constructor(private business: SystemEventVideoBusiness) {}
 
@@ -65,21 +68,41 @@ export class SystemEventVideoComponent implements OnInit, OnChanges {
   }
 
   load = {
-    point: (data: MobileEventRecord) => {
+    point: (data: MobileEventRecord | RoadObjectEventRecord) => {
       let args = new MapMarker();
-      args.size = SizeTool.map.shop.get();
 
-      switch (data.EventType) {
-        case ArmEventType.ShopSignDisappeared:
-          args.path = PathTool.image.map.shop.orange;
+      if (data instanceof MobileEventRecord) {
+        args.size = SizeTool.map.shop.get();
+        switch (data.EventType) {
+          case ArmEventType.ShopSignDisappeared:
+            args.path = PathTool.image.map.shop.orange;
 
-          break;
-        case ArmEventType.ShopSignCreated:
-          args.path = PathTool.image.map.shop.green;
-          break;
+            break;
+          case ArmEventType.ShopSignCreated:
+            args.path = PathTool.image.map.shop.green;
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
+      } else if (data instanceof RoadObjectEventRecord) {
+        args.size = SizeTool.map.object.get();
+        let state = RoadObjectState.None;
+        switch (data.EventType) {
+          case RoadObjectEventType.Breakage:
+            state = RoadObjectState.Breakage;
+            break;
+          case RoadObjectEventType.Inspection:
+            state = RoadObjectState.Normal;
+            break;
+          case RoadObjectEventType.Disappear:
+            state = RoadObjectState.Disappear;
+            break;
+          default:
+            break;
+        }
+
+        args.path = PathTool.image.map.object.get(data.RoadObjectType, state);
       }
       this.map.args = args;
 

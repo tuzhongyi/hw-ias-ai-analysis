@@ -23,7 +23,7 @@
           *ngFor="let item of datas; let index = index"
           (click)="on.select(item)"
           [ngClass]="{
-            selected: item && item === selected,
+            selected: item && selected && item.Id === selected.Id,
             nodata: !item
           }"
           [ngStyle]="{

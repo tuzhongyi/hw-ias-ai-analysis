@@ -35,5 +35,8 @@ export class SizeMapTool {
   object = {
     width: 76 * 0.7,
     height: 86 * 0.7,
+    get: (): [number, number] => {
+      return [this.object.width, this.object.height];
+    },
   };
 }

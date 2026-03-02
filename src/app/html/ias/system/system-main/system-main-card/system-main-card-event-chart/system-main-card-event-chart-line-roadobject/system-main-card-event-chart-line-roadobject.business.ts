@@ -7,15 +7,17 @@ import {
   ITimeData,
 } from '../../../../../../../common/tools/chart-tool/chart.model';
 import { DateTimeTool } from '../../../../../../../common/tools/date-time-tool/datetime.tool';
-import { Duration } from '../../../../../../../common/tools/date-time-tool/duration.model';
+import {
+  Duration,
+  DurationUnit,
+} from '../../../../../../../common/tools/date-time-tool/duration.model';
 
 @Injectable()
 export class SystemMainCardEventChartLineRoadObjectBusiness {
   constructor(private service: ArmGeographicRequestService) {}
-  async load(date: Date) {
-    let duration = DateTimeTool.all.day(date);
+  async load(duration: Duration, unit: DurationUnit) {
     let datas = await this.data.load(duration);
-    let times = DateTimeTool.full.day(date);
+    let times = DateTimeTool.full.unit(duration.begin, unit);
 
     let items: ITimeData<number>[] = [];
     times.forEach((begin, i) => {

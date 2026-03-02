@@ -12,7 +12,7 @@ export class SystemTaskFileDetailsAMapPickupMarkerController {
   private marker = new PromiseValue<AMap.Marker>();
   position: [number, number] = [0, 0];
   async get() {
-    if (this.marker.exists) {
+    if (this.marker.existed) {
       return this.marker.get();
     }
     return undefined;

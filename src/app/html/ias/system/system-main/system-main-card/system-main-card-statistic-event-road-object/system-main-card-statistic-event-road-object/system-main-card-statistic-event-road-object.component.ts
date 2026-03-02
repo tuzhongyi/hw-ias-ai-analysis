@@ -42,7 +42,7 @@ export class SystemMainCardStatisticEventRoadObjectComponent
   constructor(
     private business: SystemMainCardStatisticEventRoadObjectBusiness
   ) {}
-  title = '商铺事件统计';
+  title = '事件分类统计';
 
   datas: ChartItem[] = [];
   color = [ColorTool.blue, ColorTool.orange, ColorTool.red];

@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { RoadObjectState } from '../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
+import { MapHelper } from '../../../../../../../common/helper/map/map.helper';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 import { wait } from '../../../../../../../common/tools/wait';
 import { SystemModuleRoadObjectMapBusiness } from '../../system-module-road-object-map/system-module-road-object-map.business';
@@ -66,8 +67,8 @@ export class SystemModuleRoadObjectDetailsMapComponent
     if (this.get) {
       if (this.get.address) {
         let sub = this.get.address.subscribe((x) => {
-          this.controller.geocoder
-            .address(x)
+          MapHelper.amap
+            .geocoder(x)
             .then((address) => {
               this.address.emit(address);
             })

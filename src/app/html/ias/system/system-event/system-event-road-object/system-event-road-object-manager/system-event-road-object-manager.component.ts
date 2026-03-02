@@ -15,6 +15,7 @@ import { HowellSelectComponent } from '../../../../../../common/components/hw-se
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
+import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { EnumNameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import {
   Page,
@@ -145,9 +146,13 @@ export class SystemEventRoadObjectManagerComponent
   };
 
   picture = {
-    datas: [] as Array<RoadObjectEventRecord | EventResourceContent>,
+    datas: [] as Array<
+      RoadObjectEventRecord | EventResourceContent | RoadObject
+    >,
     open: (
-      paged: PagedList<RoadObjectEventRecord | EventResourceContent>,
+      paged: PagedList<
+        RoadObjectEventRecord | EventResourceContent | RoadObject
+      >,
       opened: boolean = false
     ) => {
       if (paged.Data.length == 0) return;

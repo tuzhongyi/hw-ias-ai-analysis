@@ -1,12 +1,17 @@
 <div class="picture-polygon-multiple">
-  <howell-container-zoom [fullable]="fullable" (full)="onfull()">
+  <howell-container-zoom
+    [fullable]="fullable"
+    (full)="on.full()"
+    [reset]="reset"
+    (resetChange)="on.reset($event)"
+  >
     <ias-picture-canvas
       [src]="src"
       [id]="id"
       [default]="default"
-      (error)="onerror($event)"
-      (canvas)="oncanvas($event)"
-      (image)="onimage($event)"
+      (error)="on.error($event)"
+      (canvas)="on.canvas($event)"
+      (image)="on.image($event)"
     ></ias-picture-canvas>
   </howell-container-zoom>
 </div>

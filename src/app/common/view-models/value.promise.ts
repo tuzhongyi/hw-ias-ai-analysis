@@ -23,7 +23,7 @@ export class PromiseValue<T> {
   clear() {
     this._value = undefined;
   }
-  get exists(): boolean {
+  get existed(): boolean {
     return !!this._value;
   }
 }

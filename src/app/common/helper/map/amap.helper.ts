@@ -12,6 +12,7 @@ export class AMapHelper {
   key = {
     web: '6c2282c244333c7994d8465fd251ab63',
     js: '12be1c6c0ea1645659e2b7dcb2e263c5',
+    geocoder: '934aadcc25bdb5e08929e5087a020448',
   };
   plugins = ['AMap.GeoLocation', 'AMap.GeometryUtil'];
 
@@ -180,6 +181,29 @@ export class AMapHelper {
             if (x.status == 1) {
               let datas = x.tips.map((x) => this.convert.data(x));
               resolve(datas);
+            } else {
+              reject(new Error(x.info));
+            }
+          })
+          .catch((e) => {
+            reject(e);
+          });
+      });
+    });
+  }
+
+  async geocoder(position: [number, number]) {
+    return new Promise<string>((resolve, reject) => {
+      let location = position.join(',');
+      fetch(
+        `https://restapi.amap.com/v3/geocode/regeo?output=json&location=${location}&key=${this.key.geocoder}&radius=5&extensions=base`
+      ).then((response) => {
+        response
+          .json()
+          .then((x: any) => {
+            console.log(x);
+            if (x.status == 1) {
+              resolve(x.regeocode.formatted_address);
             } else {
               reject(new Error(x.info));
             }

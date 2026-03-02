@@ -7,15 +7,21 @@ import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-p
 import { HowellPoint } from '../../../../../../../common/data-core/models/arm/point.model';
 import {
   Page,
+  Paged,
   PagedList,
 } from '../../../../../../../common/data-core/models/page-list.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 
+import { ContainerZoomComponent } from '../../../../../../../common/components/container-zoom/container-zoom.component';
+import { EventResourceContent } from '../../../../../../../common/data-core/models/arm/event/event-resource-content.model';
+import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { IMapMarkerPath } from '../../../../../../../common/tools/path-tool/path-map/marker/map-marker.interface';
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
+import { PictureComponent } from '../../../../../share/picture/component/picture.component';
 import { PicturePolygonMultipleComponent } from '../../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRoadObjectDetailsInfoComponent } from '../system-event-road-object-details-info/system-event-road-object-details-info.component';
+import { SystemEventRoadObjectDetailsManagerBusiness } from './system-event-road-object-details-manager.business';
 
 @Component({
   selector: 'ias-system-event-road-object-details-manager',
@@ -23,24 +29,32 @@ import { SystemEventRoadObjectDetailsInfoComponent } from '../system-event-road-
     CommonModule,
     FormsModule,
     ContainerPageComponent,
+    ContainerZoomComponent,
     PicturePolygonMultipleComponent,
+    PictureComponent,
     IASMapComponent,
     SystemEventRoadObjectDetailsInfoComponent,
   ],
   templateUrl: './system-event-road-object-details-manager.component.html',
   styleUrl: './system-event-road-object-details-manager.component.less',
+  providers: [SystemEventRoadObjectDetailsManagerBusiness],
 })
 export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
   @Input() data?: RoadObjectEventRecord;
-  @Output() picture = new EventEmitter<PagedList<RoadObjectEventRecord>>();
 
-  constructor() {}
+  @Output() video = new EventEmitter<RoadObjectEventRecord>();
+  @Output() picture = new EventEmitter<
+    PagedList<EventResourceContent | RoadObject>
+  >();
+
+  constructor(private business: SystemEventRoadObjectDetailsManagerBusiness) {}
 
   ngOnInit(): void {
     console.log(this.data);
     if (this.data) {
       this.load.picture(this.data);
       this.load.map(this.data);
+      this.load.object(this.data);
     }
   }
 
@@ -54,6 +68,12 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
     map: (data: RoadObjectEventRecord) => {
       this.map.marker.path = PathTool.image.map.object.get(data.RoadObjectType);
     },
+    object: (data: RoadObjectEventRecord) => {
+      this.business.get(data.RoadObjectId).then((x) => {
+        this.road.object.data = x;
+        this.road.object.picture.src = x.ImageUrl ?? '';
+      });
+    },
   };
   map = {
     marker: {
@@ -65,6 +85,7 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
   record = {
     picture: {
       src: '',
+      reset: false,
       polygon: [] as HowellPoint[][],
       page: {
         data: Page.create(1),
@@ -85,6 +106,42 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
             }
           }
         },
+      },
+    },
+  };
+  road = {
+    object: {
+      data: undefined as RoadObject | undefined,
+      picture: {
+        src: '',
+        reset: false,
+      },
+    },
+  };
+
+  on = {
+    video: () => {
+      if (this.data) {
+        this.video.emit(this.data);
+      }
+    },
+    picture: {
+      record: () => {
+        if (this.data && this.data.Resources) {
+          let paged = PagedList.create(
+            this.data.Resources,
+            this.record.picture.page.data.PageIndex,
+            1
+          );
+          paged.Data = [...this.data.Resources];
+          this.picture.emit(paged);
+        }
+      },
+      object: () => {
+        if (this.road.object.data) {
+          let paged = Paged.create([this.road.object.data], 1);
+          this.picture.emit(paged);
+        }
       },
     },
   };

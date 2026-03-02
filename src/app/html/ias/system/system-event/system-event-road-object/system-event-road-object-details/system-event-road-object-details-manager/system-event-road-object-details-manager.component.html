@@ -1,21 +1,63 @@
 <div class="system-event-road-object-details-manager">
-  <div class="system-event-road-object-details-manager-column">
-    <div class="system-event-road-object-details-manager-picture panel">
+  <div
+    class="system-event-road-object-details-manager-picture panel panel-flex"
+  >
+    <div class="panel-body">
+      <howell-container-zoom [(reset)]="road.object.picture.reset">
+        <ias-picture [id]="road.object.picture.src"></ias-picture>
+      </howell-container-zoom>
+    </div>
+    <div class="panel-foot">
+      <div class="panel-foot-title">道路物件</div>
+      <div class="button-group">
+        <div
+          title="预览大图"
+          class="button"
+          [class.disabled]="!road.object.picture.src"
+          (click)="on.picture.object()"
+        >
+          <i class="mdi mdi-fullscreen"></i>
+        </div>
+        <div
+          title="重置"
+          class="button"
+          [class.disabled]="!road.object.picture.src"
+          (click)="road.object.picture.reset = true"
+        >
+          <i class="mdi mdi-backup-restore"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="system-event-road-object-details-manager-picture panel panel-flex"
+  >
+    <div class="panel-body">
       <howell-container-page
         [page]="record.picture.page.data"
         (pageChange)="record.picture.page.change($event)"
+        [small]="true"
       >
         <ias-picture-polygon-multiple
           [id]="record.picture.src"
           [polygon]="record.picture.polygon"
+          [(reset)]="record.picture.reset"
         ></ias-picture-polygon-multiple>
       </howell-container-page>
     </div>
-    <div class="system-event-road-object-details-manager-info panel">
-      <ias-system-event-road-object-details-info
-        *ngIf="data"
-        [data]="data"
-      ></ias-system-event-road-object-details-info>
+    <div class="panel-foot">
+      <div class="panel-foot-title">匹配结果</div>
+      <div class="button-group">
+        <div title="播放视频" class="button" (click)="on.video()">
+          <i class="mdi mdi-youtube-play"></i>
+        </div>
+        <div title="预览大图" class="button" (click)="on.picture.record()">
+          <i class="mdi mdi-fullscreen"></i>
+        </div>
+        <div title="重置" class="button" (click)="record.picture.reset = true">
+          <i class="mdi mdi-backup-restore"></i>
+        </div>
+      </div>
     </div>
   </div>
   <div class="system-event-road-object-details-manager-map panel">
@@ -24,5 +66,11 @@
       [marker]="map.marker"
       [points]="map.point ? [map.point] : []"
     ></ias-map>
+  </div>
+  <div class="system-event-road-object-details-manager-info panel">
+    <ias-system-event-road-object-details-info
+      *ngIf="data"
+      [data]="data"
+    ></ias-system-event-road-object-details-info>
   </div>
 </div>

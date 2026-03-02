@@ -14,7 +14,12 @@ export class SystemModuleRoadObjectDetailsAMapController {
   get map() {
     return this.controller.map.get();
   }
+
   get geocoder() {
+    if (!this.controller.geocoder.existed) {
+      let geocoder = new IASMapAMapGeocoderController();
+      this.controller.geocoder.set(geocoder);
+    }
     return this.controller.geocoder.get();
   }
   constructor() {
@@ -35,9 +40,6 @@ export class SystemModuleRoadObjectDetailsAMapController {
 
         let point = new SystemModuleRoadObjectDetailsAMapObjectController(map);
         this.controller.point.set(point);
-
-        let geocoder = new IASMapAMapGeocoderController();
-        this.controller.geocoder.set(geocoder);
       });
   }
 

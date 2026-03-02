@@ -30,7 +30,7 @@ export class SystemMainCardEventChartLineSampleComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() date = new Date(2025, 10, 5);
+  @Input() date = new Date();
   @Output() dateChange = new EventEmitter<Date>();
   constructor(private business: SystemMainCardEventChartLineSampleBusiness) {}
 

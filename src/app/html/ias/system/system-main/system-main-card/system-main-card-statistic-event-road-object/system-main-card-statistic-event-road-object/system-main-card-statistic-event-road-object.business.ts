@@ -60,6 +60,8 @@ export class SystemMainCardStatisticEventRoadObjectBusiness {
       params.EventType = type;
       params.PageIndex = 1;
       params.PageSize = 1;
+      params.Confirmed = true;
+      params.IsMisInfo = false;
       let paged = await this.service.geo.road.object.event.list(params);
       return paged;
     },

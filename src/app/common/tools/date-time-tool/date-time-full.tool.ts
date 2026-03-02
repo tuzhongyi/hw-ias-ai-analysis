@@ -1,22 +1,21 @@
-import { TimeUnit } from './date-time-tool.model';
-import { Duration } from './duration.model';
+import { Duration, DurationUnit } from './duration.model';
 
 export class DateTimeFullTool {
   unit(
     date: Date,
-    unit: TimeUnit,
+    unit: DurationUnit,
     opts?: {
       week: { first: number };
     }
   ): Date[] {
     switch (unit) {
-      case TimeUnit.day:
+      case DurationUnit.day:
         return this.day(date);
-      case TimeUnit.week:
+      case DurationUnit.week:
         return this.week(date, opts?.week.first);
-      case TimeUnit.month:
+      case DurationUnit.month:
         return this.month(date);
-      case TimeUnit.year:
+      case DurationUnit.year:
         return this.year(date);
 
       default:

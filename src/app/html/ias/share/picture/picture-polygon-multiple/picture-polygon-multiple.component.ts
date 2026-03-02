@@ -28,6 +28,8 @@ export class PicturePolygonMultipleComponent implements OnChanges {
   @Input() draw = true;
   @Input() fullable = false;
   @Output() full = new EventEmitter<void>();
+  @Input() reset = false;
+  @Output() resetChange = new EventEmitter<boolean>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['polygon']) {
@@ -44,17 +46,23 @@ export class PicturePolygonMultipleComponent implements OnChanges {
 
   private controller = new PromiseValue<PictureCanvasController>();
 
-  oncanvas(canvas: HTMLCanvasElement) {
-    let controller = new PictureCanvasController(canvas);
-    this.controller.set(controller);
-  }
-  onimage(img: HTMLImageElement) {
-    this.image.emit(img);
-  }
-  onerror(e: Event) {
-    this.error.emit(e);
-  }
-  onfull() {
-    this.full.emit();
-  }
+  on = {
+    canvas: (canvas: HTMLCanvasElement) => {
+      let controller = new PictureCanvasController(canvas);
+      this.controller.set(controller);
+    },
+    image: (img: HTMLImageElement) => {
+      this.image.emit(img);
+    },
+    error: (e: Event) => {
+      this.error.emit(e);
+    },
+    full: () => {
+      this.full.emit();
+    },
+    reset: (value: boolean) => {
+      this.reset = value;
+      this.resetChange.emit(value);
+    },
+  };
 }

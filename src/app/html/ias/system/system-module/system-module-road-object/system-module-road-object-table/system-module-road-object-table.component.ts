@@ -95,12 +95,19 @@ export class SystemModuleRoadObjectTableComponent
     }
     if (this._page) {
       let sub = this._page.subscribe((index) => {
-        let data = this.source[index - 1];
-        let paged = new Paged<RoadObject>();
+        if (0 < index && index <= this.source.length) {
+          let data = this.source[index - 1];
+          let paged = new Paged<RoadObject>();
+          paged.Page = Page.create(index, 1, this.source.length);
+          paged.Data = data;
+          this.picture.emit(paged);
 
-        paged.Page = Page.create(index, 1, this.source.length);
-        paged.Data = data;
-        this.picture.emit(paged);
+          let pageindex = Math.floor((index - 1) / this.page.PageSize) + 1;
+          this.on.page(pageindex);
+
+          this.selected = data;
+          this.selectedChange.emit(this.selected);
+        }
       });
       this.subscription.add(sub);
     }

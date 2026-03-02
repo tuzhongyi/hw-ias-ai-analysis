@@ -19,6 +19,7 @@ export class IASMapAMapGeocoderController {
     return new Promise<string>((resolve, reject) => {
       this.coder.get().then((x) => {
         x.getAddress(position, (status, result) => {
+          console.log(`坐标地址转换：`, result);
           if (status === 'complete' && result.regeocode?.formattedAddress) {
             resolve(result.regeocode.formattedAddress);
           } else {

@@ -12,7 +12,7 @@ export interface ISystemEventGpsTaskTableArgs {
 export class SystemEventGpsTaskTableArgs
   implements ISystemEventGpsTaskTableArgs
 {
-  duration = DateTimeTool.all.month(new Date());
+  duration = DateTimeTool.last.month(new Date());
   type?: number;
   confirmed?: boolean;
   alarm?: boolean;
