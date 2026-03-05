@@ -12,30 +12,37 @@ export class IASMapAMapPathHelper {
     controller: {
       way: Promise<IASMapAMapPathWayController>;
       arrow: Promise<IASMapAMapPathArrowController>;
+      map?: AMap.Map;
     },
     callback?: {
       course?: (course: number) => Promise<void>;
-      current?: (current: FileGpsItem) => Promise<void>;
+      closest?: (closest: FileGpsItem) => Promise<void>;
+      current?: (current: [number, number]) => Promise<void>;
     }
   ) {
+    if (datas.length == 0) return;
     return new Promise<void>((resolve) => {
       let times = datas.map((x) => {
-        let time = x.OffsetTime.toDate();
-        return time.getTime();
+        return x.OffsetTime.toSeconds();
       });
 
       let closest = ArrayTool.closest.between(times, stamp);
       if (closest) {
         let start = datas[closest.left.index];
         let end = datas[closest.right.index];
-        if (callback?.current) {
-          callback.current(start);
+
+        if (callback?.closest) {
+          callback.closest(start);
         }
         let line: GeoLine = [
           [start.Longitude, start.Latitude],
           [end.Longitude, end.Latitude],
         ];
+
         let position = GeoTool.line.get.by.percent(line, closest.percent);
+        if (callback?.current) {
+          callback.current(position);
+        }
         let way = datas
           .slice(0, closest.right.index)
           .map<[number, number]>((x) => {

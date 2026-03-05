@@ -137,7 +137,7 @@ export class SystemBreadcrumbBusiness {
     roadobject: () => {
       let item = new SystemBreadcrumbItem();
       item.path = SystemPath.module_road_object;
-      item.text = '道路物件';
+      item.text = '道路部件';
       return item;
     },
     route: () => {
@@ -282,7 +282,7 @@ export class SystemBreadcrumbBusiness {
     manager: {
       shop: () => {
         let item = new SystemBreadcrumbItem();
-        item.text = '商铺事件';
+        item.text = '商铺变更';
         item.path = SystemPath.event_shop_manager;
         return item;
       },
@@ -306,7 +306,7 @@ export class SystemBreadcrumbBusiness {
       },
       roadobject: () => {
         let item = new SystemBreadcrumbItem();
-        item.text = '道路物件事件';
+        item.text = '部件监测';
         item.path = SystemPath.event_gps_task_manager;
         return item;
       },

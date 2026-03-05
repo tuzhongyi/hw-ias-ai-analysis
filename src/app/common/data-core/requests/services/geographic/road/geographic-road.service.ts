@@ -2,7 +2,9 @@ import { instanceToPlain } from 'class-transformer';
 
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
+import { RoadAddress } from '../../../../models/arm/geographic/road-address.model';
 import { Road } from '../../../../models/arm/geographic/road.model';
+import { GisPoint } from '../../../../models/arm/gis-point.model';
 import { PagedList } from '../../../../models/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmGeographicUrl } from '../../../../urls/arm/geographic/geographic.url';
@@ -67,6 +69,16 @@ export class ArmGeographicRoadRequestService extends AbstractService<Road> {
       index++;
     } while (index <= paged.Page.PageCount);
     return data;
+  }
+
+  address(location: GisPoint) {
+    let url = ArmGeographicUrl.road.address();
+    let plain = instanceToPlain({ Location: location });
+    return this.http
+      .post<HowellResponse<RoadAddress>, any>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, RoadAddress);
+      });
   }
 
   private _section?: ArmGeographicRoadSectionRequestService;

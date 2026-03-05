@@ -7,19 +7,27 @@
     [(location)]="position.current.data"
     [(rectified)]="rectified"
     [(pickup)]="position.pickup.data"
-    (pickupChange)="on.pickup($event)"
     (loaded)="on.loaded($event)"
     (trigger)="on.trigger($event)"
     (error)="on.error($event)"
     (current)="on.current($event)"
     (course)="on.course($event)"
     (objectdblclick)="on.object.dblclick($event)"
+    (closest)="on.closest($event)"
   ></ias-system-module-road-object-video-map-container>
   <div
-    class="system-task-file-details-map-manager-road panel-map"
+    class="system-task-file-details-map-manager-info osd panel-map"
     *ngIf="roadable"
   >
-    {{ current?.RoadName }}
+    {{ closest?.OSDTime | date : Language.yyyyMMddHHmmss }}
+  </div>
+  <div
+    class="system-task-file-details-map-manager-info position"
+    *ngIf="roadable && current"
+  >
+    <div class="text">{{ current[0] }}</div>
+    <div class="dot">,</div>
+    <div class="text">{{ current[1] }}</div>
   </div>
   <div class="system-task-file-details-map-manager-settings panel-map">
     <ias-system-module-road-object-video-map-settings
@@ -53,7 +61,7 @@
   >
     <ias-system-module-road-object-video-map-position
       [icon]="'howell-icon-garbage2'"
-      [title]="'物件位置'"
+      [title]="'部件位置'"
       [position]="position.pickup.data"
       [(fixed)]="position.pickup.fixed"
       [left]="true"

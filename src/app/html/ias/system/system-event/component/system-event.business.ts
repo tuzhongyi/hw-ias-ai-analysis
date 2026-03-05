@@ -11,7 +11,7 @@ export class SystemEventBusiness {
       title = 'AI分析事件';
     }
     if (location.pathname.indexOf(SystemPath.event_shop_manager) >= 0) {
-      title = '商铺事件';
+      title = '商铺变更';
     } else if (
       location.pathname.indexOf(SystemPath.event_realtime_manager) >= 0
     ) {
@@ -27,7 +27,7 @@ export class SystemEventBusiness {
     } else if (
       location.pathname.indexOf(SystemPath.event_road_object_manager) >= 0
     ) {
-      title = '道路物件事件';
+      title = '部件检测';
     } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
       title = 'AI分析事件';
     }

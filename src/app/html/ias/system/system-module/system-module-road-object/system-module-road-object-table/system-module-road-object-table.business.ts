@@ -37,6 +37,16 @@ export class SystemModuleRoadObjectTableBusiness {
     );
     if (item.DivisionId) {
       item.Division = this.division.cache.get(item.DivisionId);
+      if (item.Address) {
+        let address = item.Address;
+        item.AddressSubed = item.Division.then((x) => {
+          let index = address.indexOf(x.Name);
+          if (index != undefined && index != -1) {
+            return address.substring(index + x.Name.length);
+          }
+          return address;
+        });
+      }
     }
     if (item.GridCellId) {
       item.GridCell = this.division.cache.get(item.GridCellId);
@@ -44,6 +54,7 @@ export class SystemModuleRoadObjectTableBusiness {
     if (item.ImageUrl) {
       item.Image = this.medium.picture(item.ImageUrl);
     }
+
     return item;
   }
 

@@ -3,7 +3,7 @@
   width: 100%;
   transition: all 0.5s;
 
-  @foot-height: 60px;
+  @foot-height: 36px;
 
   &-body {
     height: calc(100% - @foot-height);
@@ -17,7 +17,23 @@
   &-foot {
     height: @foot-height;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    align-items: end;
+    justify-content: space-between;
+    gap: 10px;
+
+    &-select {
+      &-button {
+        display: flex;
+        align-items: center;
+        height: 24px;
+      }
+
+      &-info {
+        flex-grow: 1;
+        text-align: end;
+        height: 24px;
+      }
+    }
+
   }
 }

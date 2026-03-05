@@ -19,6 +19,31 @@
     (error)="video.on.error($event)"
   ></video>
   <div
+    class="video-control-plugin-container"
+    [ngClass]="{
+      show: pluginable && plugin.display.show
+    }"
+  >
+    <div
+      class="video-control-plugin"
+      [ngClass]="{
+        show: plugin.display.back
+      }"
+      (click)="plugin.on.back($event)"
+    >
+      <i class="mdi mdi-skip-previous"></i>
+    </div>
+    <div
+      class="video-control-plugin"
+      [ngClass]="{
+        show: plugin.display.forward
+      }"
+      (click)="plugin.on.forward($event)"
+    >
+      <i class="mdi mdi-skip-next"></i>
+    </div>
+  </div>
+  <div
     class="video-tag-list"
     [style.display]="video.control.visible ? '' : 'none'"
   >
@@ -32,6 +57,7 @@
       (click)="video.on.seek(item.value)"
       (mousemove)="video.on.mouse.move()"
       (mouseenter)="video.on.mouse.move()"
+      (mouseover)="video.on.mouse.move()"
       (wheel)="video.on.mouse.wheel($event)"
     ></div>
   </div>

@@ -59,7 +59,7 @@ export class SystemMainCardEventChartBarRoadObjectComponent
     this.subscription.unsubscribe();
   }
 
-  title = '道路物件事件';
+  title = '部件检测';
 
   datas: IChartData[] = [];
 }

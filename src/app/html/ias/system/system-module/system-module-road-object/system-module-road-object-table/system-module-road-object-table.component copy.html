@@ -11,7 +11,7 @@
             <th>图片</th>
             <th>名称</th>
             <th>类型</th>
-            <th>物件分类</th>
+            <th>部件分类</th>
             <th>行政区划</th>
             <th>责任网格</th>
             <th>健康度</th>
@@ -58,21 +58,15 @@
             <td [title]="item.Name">
               <div>{{ item.Name }}</div>
             </td>
-            <td>
-              {{ item.ObjectTypeName | async }}
-            </td>
-            <td>
-              {{ item.Category ?? "-" }}
-            </td>
+            <td>{{ item.ObjectTypeName | async }}</td>
+            <td>{{ item.Category ?? "-" }}</td>
             <td [title]="(item.Division | async)?.Name ?? ''">
               {{ (item.Division | async)?.Name ?? "-" }}
             </td>
             <td [title]="(item.GridCell | async)?.Name ?? ''">
               {{ (item.GridCell | async)?.Name ?? "-" }}
             </td>
-            <td>
-              {{ item.Health ?? "-" }}
-            </td>
+            <td>{{ item.Health ?? "-" }}</td>
             <td [title]="item.ObjectStateName">
               {{ (item.ObjectStateName | async) || "-" }}
             </td>

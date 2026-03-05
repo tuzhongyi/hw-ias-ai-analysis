@@ -8,6 +8,7 @@ export class SystemModuleRoadObjectTableArgs {
   division?: string;
   state?: number;
   category?: number;
+  first = false;
 }
 export class SystemModuleRoadObjectTableItem extends RoadObject {
   Image?: string;
@@ -15,4 +16,5 @@ export class SystemModuleRoadObjectTableItem extends RoadObject {
   ObjectStateName!: Promise<string>;
   Division?: Promise<Division>;
   GridCell?: Promise<Division>;
+  AddressSubed?: Promise<string>;
 }

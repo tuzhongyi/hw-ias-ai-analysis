@@ -26,16 +26,28 @@
 
       padding: 0;
       box-sizing: border-box;
+      position: relative;
 
-      .video {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-      }
+      &-marker {
+        position: absolute;
+        border: 0.5px dashed rgba(0, 244, 155, 0.8);
 
-      .info {
-        flex-grow: 1;
-        width: 100%;
+        height: 100%;
+        top: 0;
+        pointer-events: none;
 
+
+        &.left {
+          left: 25%;
+        }
+
+        &.center {
+          left: 50%;
+        }
+
+        &.right {
+          left: 75%;
+        }
       }
     }
 

@@ -32,6 +32,6 @@ export class RoadObjectEventUploadContent implements IIdModel, ILocation {
   Location!: GisPoints;
   /**	String	事件配对ID	M	*/
   Guid!: string;
-  /**	String	物件ID	M	*/
+  /**	String	部件ID	M	*/
   RoadObjectId!: string;
 }

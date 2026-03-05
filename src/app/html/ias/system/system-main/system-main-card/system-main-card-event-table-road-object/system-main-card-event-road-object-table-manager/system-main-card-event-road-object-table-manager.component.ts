@@ -34,7 +34,7 @@ export class SystemMainCardEventRoadObjectTableManagerComponent
 
   records: RoadObjectEventRecord[] = [];
 
-  title = '今日物件事件';
+  title = '今日部件事件';
 
   private change = {
     datas: (simple: SimpleChange) => {

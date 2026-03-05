@@ -31,6 +31,7 @@ export class VideoTagsComponent implements OnInit, OnChanges, OnDestroy {
   @Input('load') _load?: EventEmitter<FileInfo>;
   @Input() capture?: EventEmitter<void>;
   @Input() time = 0;
+  @Input() pluginable = false;
   @Output() timeChange = new EventEmitter<number>();
   @Output() loaded = new EventEmitter<VideoDirective>();
   @Output() picture = new EventEmitter<ArrayBuffer>();
@@ -134,10 +135,12 @@ export class VideoTagsComponent implements OnInit, OnChanges, OnDestroy {
       play: () => {
         this.video.playing = true;
         this.video.control.hide();
+        this.plugin.display.show = false;
       },
       pause: () => {
         this.video.playing = false;
         this.video.control.show();
+        this.plugin.display.show = true;
       },
       seek: (data: FileTagItem) => {
         this.video.control.show();
@@ -180,6 +183,22 @@ export class VideoTagsComponent implements OnInit, OnChanges, OnDestroy {
         wheel: (e: WheelEvent) => {
           this.video.control.wheel.emit(e);
         },
+      },
+    },
+  };
+
+  plugin = {
+    display: {
+      show: false,
+      forward: true,
+      back: true,
+    },
+    on: {
+      forward: (e: MouseEvent) => {
+        this._video?.on.step.forward();
+      },
+      back: (e: MouseEvent) => {
+        this._video?.on.step.back();
       },
     },
   };

@@ -159,7 +159,7 @@ export class VideoPathMapController {
           arrow: this.amap.arrow.get(),
         },
         {
-          current: async (current) => {
+          closest: async (current) => {
             resolve(current);
           },
         }

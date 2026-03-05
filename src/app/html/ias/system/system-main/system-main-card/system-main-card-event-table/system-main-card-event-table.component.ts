@@ -59,7 +59,7 @@ export class SystemMainCardEventTableComponent {
         name = '场景事件';
         break;
       case EventMode.roadobject:
-        name = '道路物件事件';
+        name = '部件监测';
         break;
     }
     return `今日${name}`;

@@ -2,8 +2,8 @@
 export enum RoadObjectEventType {
   /**	日常视察	*/
   Inspection = 1,
-  /**	物件破损	*/
+  /**	部件破损	*/
   Breakage = 2,
-  /**	物件消失	*/
+  /**	部件消失	*/
   Disappear = 3,
 }

@@ -12,5 +12,5 @@ export class SystemMainManagerRoadObjectWindow extends WindowViewModel {
     boxShadow: 'none',
     transform: 'none',
   };
-  title = '道路物件信息';
+  title = '道路部件信息';
 }

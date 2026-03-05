@@ -64,7 +64,7 @@ export class SystemMainCardStatisticNumberBusiness {
     let page = await this.data.roadobject();
     let item: SystemMainCardStatisticNumberItem = {
       icon: 'roadobject',
-      name: '道路物件',
+      name: '道路部件',
       value: page.TotalRecordCount,
     };
     return item;

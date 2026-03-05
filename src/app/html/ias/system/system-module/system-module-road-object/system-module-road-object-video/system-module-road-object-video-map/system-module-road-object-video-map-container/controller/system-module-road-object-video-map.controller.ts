@@ -22,6 +22,7 @@ export class SystemModuleRoadObjectVideoMapController {
     position: new EventEmitter<[number, number]>(),
     point: new EventEmitter<[number, number]>(),
     course: new EventEmitter<number>(),
+    current: new EventEmitter<[number, number]>(),
   };
   object: SystemMainMapRoadObjectController;
   private amap: SystemModuleRoadObjectVideoAMapController;
@@ -144,7 +145,11 @@ export class SystemModuleRoadObjectVideoMapController {
     },
   };
 
-  private onclick(data: { line: GeoLine; point: GeoPoint; percent: number }) {
+  private async onclick(data: {
+    line: GeoLine;
+    point: GeoPoint;
+    percent: number;
+  }) {
     let line = {
       start: this.path.datas.find((x) => {
         return ClassTool.equals.array([x.Longitude, x.Latitude], data.line[0]);
@@ -176,8 +181,11 @@ export class SystemModuleRoadObjectVideoMapController {
           course: async (course) => {
             this.event.course.emit(course);
           },
-          current: async (current) => {
+          closest: async (current) => {
             resolve(current);
+          },
+          current: async (current) => {
+            this.event.current.emit(current);
           },
         }
       );

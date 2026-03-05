@@ -19,11 +19,38 @@
     right: 10px;
   }
 
-  &-road {
+  &-info {
     position: absolute;
-    top: 10px;
-    left: 10px;
+
     padding: 15px;
+
+    &.osd {
+      top: 10px;
+      left: 10px;
+    }
+
+    &.position {
+      bottom: 10px;
+      left: 50%;
+      width: 360px;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .dot {
+        width: 5px;
+      }
+
+      .text {
+        width: calc((100% - 5px) * 0.5);
+
+        &:first-child {
+          text-align: end;
+        }
+      }
+
+    }
   }
 
   &-settings {

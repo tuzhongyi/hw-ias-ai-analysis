@@ -82,7 +82,7 @@ export class SystemMainCardStatisticEventBusiness {
     if (this.global.display.map.roadobject) {
       items.push({
         id: EventMode.roadobject,
-        name: '道路物件',
+        name: '部件监测',
         value: data.roadobject.TotalRecordCount,
       });
     }

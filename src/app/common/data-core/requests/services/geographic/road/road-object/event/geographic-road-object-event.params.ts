@@ -46,7 +46,7 @@ export class RoadObjectEventConfirmation implements IParams {
   Confidence?: number;
   /**	String	LLM场景描述	O	*/
   Description?: string;
-  /**	Double	物件健康度，0-100	O	*/
+  /**	Double	部件健康度，0-100	O	*/
   Health?: number;
   /**	EventResource[]	资源列表	O	*/
   Resources?: EventResource[];

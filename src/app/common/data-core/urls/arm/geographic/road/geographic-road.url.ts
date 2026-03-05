@@ -13,4 +13,8 @@ export class GeographicRoadUrl extends AbstractUrl {
   get object() {
     return new GeographicRoadObjectUrl(this.base);
   }
+
+  address() {
+    return `${this.basic()}/Address`;
+  }
 }

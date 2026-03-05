@@ -54,9 +54,11 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
   ngOnInit(): void {}
 
   search() {
+    this.table.args.first = true;
     this.table.load.emit(this.table.args);
   }
   reload() {
+    this.table.args.first = false;
     this.table.load.emit(this.table.args);
     this.window.video.load.emit();
   }
@@ -65,7 +67,10 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
     args: new SystemModuleRoadObjectTableArgs(),
     load: new EventEmitter<SystemModuleRoadObjectTableArgs>(),
     datas: [] as RoadObject[],
-    selected: undefined as RoadObject | undefined,
+    selected: {
+      all: [] as RoadObject[],
+      current: undefined as RoadObject | undefined,
+    },
     picture: {
       page: new EventEmitter<number>(),
     },
@@ -73,7 +78,12 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
       load: (x: RoadObject[]) => {
         this.table.datas = x;
       },
-      select: (data: RoadObject) => {},
+      select: (data: RoadObject[]) => {
+        this.table.selected.all = [...data];
+      },
+      position: (data: RoadObject) => {
+        this.table.selected.current = data;
+      },
 
       item: {
         over: (item: RoadObject) => {
@@ -92,15 +102,20 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
   };
 
   delete = {
-    confirm: (data: RoadObject) => {
-      this.window.confirm.data = data;
-      this.window.confirm.show = true;
+    confirm: () => {
+      if (this.table.selected.all.length > 0) {
+        this.window.confirm.count = this.table.selected.all.length;
+        this.window.confirm.show = true;
+      }
     },
     ok: () => {
-      if (this.window.confirm.data) {
+      if (this.table.selected.all.length > 0) {
         this.business
-          .delete(this.window.confirm.data.Id)
+          .delete(this.table.selected.all)
           .then(() => {
+            this.table.selected.all = [];
+            this.table.selected.current = undefined;
+            this.table.args.first = false;
             this.table.load.emit(this.table.args);
             this.window.confirm.show = false;
             this.toastr.success('删除成功');

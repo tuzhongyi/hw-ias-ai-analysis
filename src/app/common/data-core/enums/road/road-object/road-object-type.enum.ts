@@ -1,4 +1,4 @@
-/**	RoadObjectType (物件类型)	*/
+/**	RoadObjectType (部件类型)	*/
 export enum RoadObjectType {
   /**	消防栓	*/
   FireHydrant = 1,

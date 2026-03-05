@@ -6,14 +6,24 @@
       </colgroup>
       <thead>
         <tr>
+          <th class="center">
+            <input
+              type="checkbox"
+              [checked]="
+                selecteds.length > 0 && selecteds.length === page.RecordCount
+              "
+              (click)="on.select.page()"
+            />
+          </th>
           <th class="center">序号</th>
           <th>图片</th>
           <th>名称</th>
           <th>类型</th>
-          <th>物件分类</th>
+          <!-- <th>部件分类</th> -->
           <th>行政区划</th>
           <th>责任网格</th>
-          <th>健康度</th>
+          <!-- <th>健康度</th> -->
+          <th>地址</th>
           <th>状态</th>
           <th class="center" *ngIf="operable">操作</th>
         </tr>
@@ -21,9 +31,9 @@
       <tbody>
         <tr
           *ngFor="let item of datas; let index = index"
-          (click)="on.select(item)"
+          (click)="on.select.item(item)"
           [ngClass]="{
-            selected: item && selected && item.Id === selected.Id,
+            selected: item && selecteds.includes(item),
             nodata: !item
           }"
           [ngStyle]="{
@@ -33,6 +43,13 @@
           (mouseover)="on.mouse.over(item)"
           (mouseout)="on.mouse.out(item)"
         >
+          <td class="center">
+            <input
+              type="checkbox"
+              *ngIf="item"
+              [checked]="selecteds.includes(item)"
+            />
+          </td>
           <td class="center">
             <span *ngIf="item">{{
               page.PageSize * (page.PageIndex - 1) + index + 1
@@ -63,11 +80,11 @@
             {{ (item?.ObjectTypeName | async) ?? "-" }}
             }
           </td>
-          <td>
+          <!-- <td>
             @if(item){
             {{ item?.Category ?? "-" }}
             }
-          </td>
+          </td> -->
           <td [title]="(item?.Division | async)?.Name ?? ''">
             @if(item){
             {{ (item?.Division | async)?.Name ?? "-" }}
@@ -78,9 +95,14 @@
             {{ (item?.GridCell | async)?.Name ?? "-" }}
             }
           </td>
-          <td>
+          <!-- <td>
             @if(item){
             {{ item?.Health ?? "-" }}
+            }
+          </td> -->
+          <td [title]="item?.Address ?? ''">
+            @if(item){
+            {{ (item?.AddressSubed | async) ?? "-" }}
             }
           </td>
           <td
@@ -108,11 +130,18 @@
               </div>
               <div
                 class="button"
+                title="定位"
+                (click)="on.position($event, item)"
+              >
+                <i class="mdi mdi-map-marker"></i>
+              </div>
+              <!-- <div
+                class="button"
                 title="删除"
                 (click)="on.delete($event, item)"
               >
                 <i class="howell-icon-delete2"></i>
-              </div>
+              </div> -->
             </div>
             }
           </td>
@@ -120,10 +149,23 @@
       </tbody>
     </table>
   </div>
-  <div
-    class="system-module-road-object-table-foot"
-    *ngIf="page.TotalRecordCount"
-  >
-    <paginator [page]="page" (change)="on.page($event)"> </paginator>
+  <div class="system-module-road-object-table-foot">
+    <div class="system-module-road-object-table-foot-select-button">
+      <button (click)="on.select.all()">全选</button>
+      <button (click)="on.select.invert()">反选</button>
+      <button (click)="on.select.cancel()">取消</button>
+    </div>
+    <div
+      class="system-module-road-object-table-foot-select-info"
+      *ngIf="page.TotalRecordCount"
+    >
+      选中 {{ selecteds.length }} 条
+    </div>
+    <div
+      class="system-module-road-object-table-foot-page"
+      *ngIf="page.TotalRecordCount"
+    >
+      <paginator [page]="page" (change)="on.page($event)"> </paginator>
+    </div>
   </div>
 </div>

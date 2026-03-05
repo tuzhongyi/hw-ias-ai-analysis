@@ -71,13 +71,13 @@ export class SystemModuleRoadObjectDetailsMapController {
     focus: async (datas: any) => {
       let map = await this.amap.map;
       map.setFitView(datas, true);
-      map.setZoom(17);
+      map.setZoom(17, true);
       let center = map.getCenter();
       return [center.lng, center.lat] as [number, number];
     },
     move: (position: [number, number]) => {
       this.amap.map.then((map) => {
-        map.setCenter(new AMap.LngLat(position[0], position[1], true));
+        map.setCenter(new AMap.LngLat(position[0], position[1]), true);
       });
     },
     destroy: async () => {

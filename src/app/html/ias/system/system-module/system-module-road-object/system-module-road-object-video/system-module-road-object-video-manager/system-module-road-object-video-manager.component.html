@@ -6,9 +6,13 @@
         [load]="video.event.load"
         [keycontrol]="true"
         [wheelcontrol]="true"
+        [pluginable]="true"
         (timeChange)="video.on.update($event)"
         (loaded)="video.on.loaded($event)"
       ></ias-video-tags>
+      <div class="video-info-marker left"></div>
+      <div class="video-info-marker center"></div>
+      <div class="video-info-marker right"></div>
     </div>
     <div class="panel map">
       <ias-system-module-road-object-video-map-manager
@@ -19,7 +23,7 @@
         (trigger)="map.on.seek($event)"
         (loaded)="map.on.loaded($event)"
         (error)="map.on.error($event)"
-        (pickup)="map.on.pickup($event)"
+        [pickupable]="false"
         (objectdblclick)="map.on.object.dblclick($event)"
         (current)="map.on.current($event)"
         (course)="map.on.course($event)"
@@ -33,7 +37,7 @@
     <div class="button-group">
       <button
         class="button-clip-gradient"
-        [disabled]="!(video.element && map.pickup)"
+        [disabled]="!video.element"
         (click)="on.ok()"
       >
         拾取

@@ -25,7 +25,7 @@ export class SystemMainMapNavigationComponent implements OnInit {
     let gpstask = { key: SyatemMainMapNavigation.gpstask, value: '定制场景' };
     let roadobject = {
       key: SyatemMainMapNavigation.roadobject,
-      value: '道路物件',
+      value: '道路部件',
     };
     let heatmap = { key: SyatemMainMapNavigation.heatmap, value: '事件热力' };
 

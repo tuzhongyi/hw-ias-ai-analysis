@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 export class VideoDirective implements OnInit, OnDestroy {
   @Input() keycontrol = false;
   @Input() wheelcontrol = false;
-  @Input() step = 0.25;
+  @Input() step = 1 / 25;
   @Input() wheel?: EventEmitter<WheelEvent>;
   constructor(private e: ElementRef<HTMLVideoElement>) {
     this.playing = !!e.nativeElement.getAttribute('autoplay');
@@ -112,7 +112,6 @@ export class VideoDirective implements OnInit, OnDestroy {
           return;
         }
 
-        let time = this.currentTime;
         switch (e.code) {
           case 'Space':
             if (this.playing) {
@@ -126,20 +125,13 @@ export class VideoDirective implements OnInit, OnDestroy {
               this.pause();
             }
 
-            if (time != undefined) {
-              time -= this.step;
-              this.nativeElement.currentTime = time;
-            }
-
+            this.on.step.back();
             break;
           case 'ArrowRight':
             if (this.playing) {
               this.pause();
             }
-            if (time != undefined) {
-              time += this.step;
-              this.nativeElement.currentTime = time;
-            }
+            this.on.step.forward();
             break;
 
           default:
@@ -165,6 +157,22 @@ export class VideoDirective implements OnInit, OnDestroy {
         } else {
           // 向下滚：快退
           this.nativeElement.currentTime = Math.max(0, time - this.step);
+        }
+      },
+    },
+    step: {
+      forward: () => {
+        let time = this.currentTime;
+        if (time != undefined) {
+          time += this.step;
+          this.nativeElement.currentTime = time;
+        }
+      },
+      back: () => {
+        let time = this.currentTime;
+        if (time != undefined) {
+          time -= this.step;
+          this.nativeElement.currentTime = time;
         }
       },
     },

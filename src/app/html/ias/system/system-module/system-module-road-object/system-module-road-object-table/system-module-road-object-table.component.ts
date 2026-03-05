@@ -39,11 +39,10 @@ export class SystemModuleRoadObjectTableComponent
   @Input() args = new SystemModuleRoadObjectTableArgs();
   @Input('load') _load?: EventEmitter<SystemModuleRoadObjectTableArgs>;
   @Output() modify = new EventEmitter<RoadObject>();
-  @Output() delete = new EventEmitter<RoadObject>();
   @Output() error = new EventEmitter<Error>();
   @Output() loaded = new EventEmitter<RoadObject[]>();
-  @Input() selected?: RoadObject;
-  @Output() selectedChange = new EventEmitter<RoadObject>();
+
+  @Output() selected = new EventEmitter<RoadObject[]>();
 
   @Output() position = new EventEmitter<RoadObject>();
   @Output() itemover = new EventEmitter<RoadObject>();
@@ -61,17 +60,19 @@ export class SystemModuleRoadObjectTableComponent
 
   widths = [
     '65px',
+    '65px',
+    '100px',
+    '100px',
+    '100px',
+
     '150px',
-    '100px',
-    '100px',
-    '100px',
+    '150px',
     'auto',
-    'auto',
-    '100px',
     '100px',
     '100px',
   ];
   private subscription = new Subscription();
+  selecteds: RoadObject[] = [];
 
   private change = {
     operable: (simple: SimpleChange) => {
@@ -89,7 +90,10 @@ export class SystemModuleRoadObjectTableComponent
   ngOnInit(): void {
     if (this._load) {
       let sub = this._load.subscribe((x) => {
-        this.load(1, this.args);
+        let index = x.first ? 1 : this.page.PageIndex;
+        this.selecteds = [];
+        this.selected.emit(this.selecteds);
+        this.load(index, this.args);
       });
       this.subscription.add(sub);
     }
@@ -105,8 +109,8 @@ export class SystemModuleRoadObjectTableComponent
           let pageindex = Math.floor((index - 1) / this.page.PageSize) + 1;
           this.on.page(pageindex);
 
-          this.selected = data;
-          this.selectedChange.emit(this.selected);
+          this.selecteds = [data];
+          this.selected.emit(this.selecteds);
         }
       });
       this.subscription.add(sub);
@@ -133,6 +137,11 @@ export class SystemModuleRoadObjectTableComponent
   on = {
     page: (num: number) => {
       let paged = PagedList.create(this.source, num, this.page.PageSize);
+      if (paged.Data.length == 0 && paged.Page.PageIndex > 1) {
+        this.on.page(paged.Page.PageIndex - 1);
+        return;
+      }
+
       this.page = paged.Page;
       this.datas = paged.Data;
 
@@ -140,8 +149,8 @@ export class SystemModuleRoadObjectTableComponent
         this.datas.push(undefined);
       }
 
-      this.selected = undefined;
-      this.selectedChange.emit();
+      // this.selecteds = [];
+      // this.selected.emit(this.selecteds);
     },
     picture: (e: Event, item?: RoadObject) => {
       if (!item) return;
@@ -155,35 +164,64 @@ export class SystemModuleRoadObjectTableComponent
       paged.Page.TotalRecordCount = this.page.TotalRecordCount;
       this.picture.emit(paged);
     },
-    delete: (e: Event, item?: RoadObject) => {
-      if (!item) return;
-      this.delete.emit(item);
-      if (this.selected === item) {
-        e.stopPropagation();
-      }
-    },
+    // delete: (e: Event, item?: RoadObject) => {
+    //   if (!item) return;
+    //   this.delete.emit(item);
+    //   if (this.selected === item) {
+    //     e.stopPropagation();
+    //   }
+    // },
     modify: (e: Event, item?: SystemModuleRoadObjectTableItem) => {
       if (!item) return;
       this.modify.emit(item);
-      if (this.selected === item) {
+      if (this.selecteds.includes(item)) {
         e.stopPropagation();
       }
     },
-    select: (item?: SystemModuleRoadObjectTableItem) => {
-      if (!item) return;
-      if (this.selected === item) {
-        this.selected = undefined;
-      } else {
-        this.selected = item;
-      }
-      this.selectedChange.emit(this.selected);
+    select: {
+      item: (item?: SystemModuleRoadObjectTableItem) => {
+        if (!item) return;
+        let index = this.selecteds.findIndex((x) => x.Id === item.Id);
+        if (index < 0) {
+          this.selecteds.push(item);
+        } else {
+          this.selecteds.splice(index, 1);
+        }
+        this.selected.emit(this.selecteds);
+      },
+      page: () => {
+        if (this.selecteds.length === this.page.RecordCount) {
+          this.selecteds = [];
+        } else {
+          this.selecteds = [];
+          for (let i = 0; i < this.datas.length; i++) {
+            const data = this.datas[i];
+            if (data) {
+              this.selecteds.push(data);
+            }
+          }
+        }
+        this.selected.emit(this.selecteds);
+      },
+      all: () => {
+        this.selecteds = [...this.source];
+        this.selected.emit(this.selecteds);
+      },
+      invert: () => {
+        this.selecteds = this.source.filter(
+          (item) => !this.selecteds.includes(item)
+        );
+        this.selected.emit(this.selecteds);
+      },
+      cancel: () => {
+        this.selecteds = [];
+        this.selected.emit(this.selecteds);
+      },
     },
     position: (e: Event, item?: SystemModuleRoadObjectTableItem) => {
       if (!item) return;
       this.position.emit(item);
-      if (this.selected === item) {
-        e.stopImmediatePropagation();
-      }
+      e.stopImmediatePropagation();
     },
     mouse: {
       over: (item?: SystemModuleRoadObjectTableItem) => {

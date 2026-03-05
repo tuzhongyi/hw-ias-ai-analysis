@@ -1,5 +1,4 @@
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
-import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { SystemModuleRoadObjectManagerComponent } from '../system-module-road-object-manager.component';
 import { SystemModuleRoadObjectManagerDetailsWindow } from './system-module-road-object-manager-details.window';
 import { SystemModuleRoadObjectManagerFileWindow } from './system-module-road-object-manager-file.window';
@@ -25,12 +24,9 @@ export class SystemModuleRoadObjectManagerWindow {
 }
 
 class ConfirmWindow extends WindowViewModel {
-  clear() {
-    this.data = undefined;
-  }
-  data?: RoadObject;
+  count = 0;
 
   get content() {
-    return `是否删除物件 ${this.data?.Name} ？`;
+    return `是否删除${this.count}个部件 ？`;
   }
 }

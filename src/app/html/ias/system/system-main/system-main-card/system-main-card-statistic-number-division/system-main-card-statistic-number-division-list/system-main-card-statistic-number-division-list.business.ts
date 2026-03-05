@@ -84,7 +84,7 @@ export class SystemMainCardStatisticNumberDivisionBusiness {
       if (this.global.display.map.roadobject) {
         items.push({
           key: 'mdi mdi-map-marker-radius',
-          value: { number: value.roadobject, title: '道路物件' },
+          value: { number: value.roadobject, title: '道路部件' },
         });
       }
 

@@ -5,7 +5,7 @@ import { Assignment } from '../event/assignment.model';
 import { EventResourceContent } from '../event/event-resource-content.model';
 import { GisPoints } from '../gis-point.model';
 
-/**	RoadObjectEventRecord (道路物件事件记录)	*/
+/**	RoadObjectEventRecord (道路部件事件记录)	*/
 export class RoadObjectEventRecord implements IIdModel, ILocation {
   /**	String	事件ID	M	*/
   Id!: string;
@@ -57,13 +57,13 @@ export class RoadObjectEventRecord implements IIdModel, ILocation {
   Confidence?: number;
   /**	String	网格ID	O	*/
   GridCellId?: string;
-  /**	String	物件ID	M	*/
+  /**	String	部件ID	M	*/
   RoadObjectId!: string;
-  /**	String	物件名称	M	*/
+  /**	String	部件名称	M	*/
   RoadObjectName!: string;
-  /**	Int32	物件类型	M	*/
+  /**	Int32	部件类型	M	*/
   RoadObjectType!: number;
-  /**	Int32	物件分类，用于分辨不同层级和重要度的物件	O	*/
+  /**	Int32	部件分类，用于分辨不同层级和重要度的部件	O	*/
   Category?: number;
   /**	Double	健康度0-100	O	*/
   Health?: number;

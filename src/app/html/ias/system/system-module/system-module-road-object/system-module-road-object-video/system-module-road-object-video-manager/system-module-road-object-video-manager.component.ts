@@ -44,7 +44,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
     },
     on: {
       update: (currentTime: number) => {
-        this.video.event.time.emit(currentTime * 1000);
+        this.video.event.time.emit(currentTime);
       },
       loaded: (data: VideoDirective) => {
         this.video.element = data;
@@ -60,9 +60,9 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   map = {
     loaded: false,
     datas: [] as FileGpsItem[],
-    current: undefined as FileGpsItem | undefined,
     course: 0,
-    pickup: undefined as [number, number] | undefined,
+    current: undefined as [number, number] | undefined,
+    closest: undefined as FileGpsItem | undefined,
     on: {
       loaded: (datas: FileGpsItem[]) => {
         this.map.loaded = true;
@@ -84,16 +84,16 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
       error: (e: Error) => {
         this.toastr.error(e.message);
       },
-      pickup: (data: [number, number]) => {
-        this.map.pickup = data;
-      },
       object: {
         dblclick: (data: RoadObject) => {
           this.details.emit(data);
         },
       },
-      current: (data: FileGpsItem) => {
+      current: (data: [number, number]) => {
         this.map.current = data;
+      },
+      closest: (data: FileGpsItem) => {
+        this.map.closest = data;
       },
       course: (course: number) => {
         this.map.course = course;
@@ -105,11 +105,11 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
     ok: () => {
       if (this.video.element) {
         this.video.element.capture().then((x) => {
-          if (this.map.pickup) {
+          if (this.map.current) {
             this.pickup.emit({
-              position: this.map.pickup,
+              position: this.map.current,
               capture: x,
-              address: this.map.current?.RoadName,
+              address: this.map.closest?.RoadName,
               course: this.map.course,
             });
           }

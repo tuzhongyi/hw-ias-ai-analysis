@@ -49,9 +49,10 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   @Input() pickup?: [number, number];
   @Output() pickupChange = new EventEmitter<[number, number]>();
 
-  @Output() current = new EventEmitter<FileGpsItem>();
+  @Output() closest = new EventEmitter<FileGpsItem>();
   @Output() course = new EventEmitter<number>();
   @Output() objectdblclick = new EventEmitter<RoadObject>();
+  @Output() current = new EventEmitter<[number, number]>();
 
   constructor(private business: SystemModuleRoadObjectVideoMapBusiness) {}
 
@@ -91,6 +92,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
       this.regist.output.trigger();
       this.regist.output.location();
       this.regist.output.pickup();
+      this.regist.output.current();
       this.regist.output.object.dblclick();
     },
     input: {
@@ -99,7 +101,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
           let sub = this._to.subscribe((time) => {
             this.time.current = time;
             this.controller.to(time).then((x) => {
-              this.current.emit(x);
+              this.closest.emit(x);
             });
           });
           this.subscription.add(sub);
@@ -130,6 +132,12 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
         let sub = this.controller.event.point.subscribe((x) => {
           this.pickup = x;
           this.pickupChange.emit(this.pickup);
+        });
+        this.subscription.add(sub);
+      },
+      current: () => {
+        let sub = this.controller.event.current.subscribe((x) => {
+          this.current.emit(x);
         });
         this.subscription.add(sub);
       },

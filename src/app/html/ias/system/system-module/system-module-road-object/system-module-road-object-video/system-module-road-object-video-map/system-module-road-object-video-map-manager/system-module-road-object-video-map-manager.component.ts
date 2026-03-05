@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../../../../../common/data-core/models/arm/file/file-info.model';
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import { Language } from '../../../../../../../../common/tools/language-tool/language';
 import { SystemModuleRoadObjectVideoMapContainerComponent } from '../system-module-road-object-video-map-container/system-module-road-object-video-map-container.component';
 import { SystemModuleRoadObjectVideoMapPositionComponent } from '../system-module-road-object-video-map-position/system-module-road-object-video-map-position.component';
 import { SystemModuleRoadObjectVideoMapSettingsComponent } from '../system-module-road-object-video-map-settings/system-module-road-object-video-map-settings.component';
@@ -34,8 +35,8 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
   @Input() pickupable = true;
   @Input() roadable = true;
 
-  @Output('current') _current = new EventEmitter<FileGpsItem>();
-  @Output() pickup = new EventEmitter<[number, number]>();
+  @Output('current') _current = new EventEmitter<[number, number]>();
+  @Output('closest') _closest = new EventEmitter<FileGpsItem>();
   @Output() objectdblclick = new EventEmitter<RoadObject>();
   @Output() course = new EventEmitter<number>();
 
@@ -50,7 +51,10 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
       data: undefined as [number, number] | undefined,
     },
   };
-  current?: FileGpsItem;
+  closest?: FileGpsItem;
+  current?: [number, number];
+
+  Language = Language;
 
   on = {
     trigger: (data: {
@@ -67,15 +71,16 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
       this.error.emit(e);
     },
 
-    current: (item: FileGpsItem) => {
-      this.current = item;
-      this._current.emit(item);
+    closest: (item: FileGpsItem) => {
+      this.closest = item;
+      this._closest.emit(item);
     },
     course: (value: number) => {
       this.course.emit(value);
     },
-    pickup: (data: [number, number]) => {
-      this.pickup.emit(data);
+    current: (data: [number, number]) => {
+      this.current = data;
+      this._current.emit(data);
     },
     object: {
       dblclick: (data: RoadObject) => {

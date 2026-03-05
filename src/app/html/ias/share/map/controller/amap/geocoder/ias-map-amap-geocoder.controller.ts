@@ -10,6 +10,7 @@ export class IASMapAMapGeocoderController {
     AMap.plugin('AMap.Geocoder', () => {
       let geocoder = new AMap.Geocoder({
         city: '全国',
+        extensions: 'all',
       });
       this.coder.set(geocoder);
     });

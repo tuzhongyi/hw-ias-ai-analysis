@@ -15,7 +15,7 @@ export class SystemModuleRoadObjectManagerDetailsWindow extends WindowViewModel 
     ...SizeTool.window.large,
   };
 
-  title = '道路物件详情';
+  title = '道路部件详情';
 
   data?: RoadObject;
   pickup = new EventEmitter<PickupModel>();

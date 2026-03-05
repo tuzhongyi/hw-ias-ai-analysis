@@ -8,7 +8,7 @@
       </howell-container-zoom>
     </div>
     <div class="panel-foot">
-      <div class="panel-foot-title">道路物件</div>
+      <div class="panel-foot-title">部件监测</div>
       <div class="button-group">
         <div
           title="预览大图"
@@ -71,6 +71,7 @@
     <ias-system-event-road-object-details-info
       *ngIf="data"
       [data]="data"
+      [resourceindex]="record.picture.page.data.PageIndex"
     ></ias-system-event-road-object-details-info>
   </div>
 </div>

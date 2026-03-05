@@ -41,7 +41,7 @@ export class SystemMainCardStatisticEventShopComponent
   @Output() durationChange = new EventEmitter<Duration>();
   @Output() type = new EventEmitter<number>();
   constructor(private business: SystemMainCardStatisticEventShopBusiness) {}
-  title = '商铺事件统计';
+  title = '商铺变更统计';
 
   datas: ChartItem[] = [];
   color = [

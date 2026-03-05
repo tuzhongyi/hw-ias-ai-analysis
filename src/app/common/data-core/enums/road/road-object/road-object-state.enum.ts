@@ -1,4 +1,4 @@
-/**	RoadObjectState (物件状态)	*/
+/**	RoadObjectState (部件状态)	*/
 export enum RoadObjectState {
   /**	未检测	*/
   None = 0,

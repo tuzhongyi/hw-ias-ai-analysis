@@ -100,6 +100,9 @@ export class SystemEventRoadObjectTableBusiness {
       if (filter.assigned !== undefined) {
         params.Assigned = filter.assigned;
       }
+      if (filter.name) {
+        params.RoadObjectName = filter.name;
+      }
 
       params.Asc = filter.asc;
       params.Desc = filter.desc;

@@ -124,23 +124,23 @@ export class SystemModuleRoadObjectDetailsManagerComponent
 
   private get check() {
     if (!this.model.Name) {
-      this.toastr.warning('请填写物件名称');
+      this.toastr.warning('请填写部件名称');
       return false;
     }
     if (!this.model.ObjectType) {
-      this.toastr.warning('请选择物件类型');
+      this.toastr.warning('请选择部件类型');
       return false;
     }
     if (!this.model.Address) {
-      this.toastr.warning('请填写物件地址');
+      this.toastr.warning('请填写部件地址');
       return false;
     }
     if (!this.model.ImageUrl && !this.image.data) {
-      this.toastr.warning('请上传物件图片');
+      this.toastr.warning('请上传部件图片');
       return false;
     }
     if (!this.map.wgs84) {
-      this.toastr.warning('请设置物件位置');
+      this.toastr.warning('请设置部件位置');
       return false;
     }
     return true;
@@ -182,13 +182,13 @@ export class SystemModuleRoadObjectDetailsManagerComponent
           .create(this.model)
           .then((x) => {
             this.data = x;
-            this.toastr.success('物件创建成功');
+            this.toastr.success('部件创建成功');
             this.ok.emit(this.data);
             this.close.emit();
           })
           .catch((e) => {
             console.error(e);
-            this.toastr.error('物件创建失败');
+            this.toastr.error('部件创建失败');
           });
       }
     },
@@ -212,13 +212,13 @@ export class SystemModuleRoadObjectDetailsManagerComponent
           .update(this.model)
           .then((x) => {
             this.data = x;
-            this.toastr.success('物件修改成功');
+            this.toastr.success('部件修改成功');
             this.ok.emit(this.data);
             this.close.emit();
           })
           .catch((e) => {
             console.error(e);
-            this.toastr.error('物件修改失败');
+            this.toastr.error('部件修改失败');
           });
       }
     },

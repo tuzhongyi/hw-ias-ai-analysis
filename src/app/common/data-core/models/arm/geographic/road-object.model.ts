@@ -6,18 +6,18 @@ import { ObjectImageSamplingConfig } from './object-image-sampling-config.model'
 
 /**	RoadObject (道路固件)	*/
 export class RoadObject implements IIdNameModel, ILocation {
-  /**	String	物件ID	M	*/
+  /**	String	部件ID	M	*/
   Id!: string;
-  /**	String	物件名称	M	*/
+  /**	String	部件名称	M	*/
   Name!: string;
-  /**	Int32	物件类型	M	*/
+  /**	Int32	部件类型	M	*/
   ObjectType!: number;
   /**	String	描述信息	O	*/
   Description?: string;
   /**	GisPoint	Gis坐标	M	*/
   @Transform(Transformer.GisPoint)
   Location!: GisPoints;
-  /**	String	物件所在地址	O	*/
+  /**	String	部件所在地址	O	*/
   Address?: string;
   /**	String	分组GUID，用于中心服务器区分来源	O	*/
   GroupGuid?: string;
@@ -35,17 +35,17 @@ export class RoadObject implements IIdNameModel, ILocation {
   /**	DateTime	更新时间	M	*/
   @Transform(Transformer.DateTime)
   UpdateTime!: Date;
-  /**	Int32	物件分类，用于分辨不同层级和重要度的物件	O	*/
+  /**	Int32	部件分类，用于分辨不同层级和重要度的部件	O	*/
   Category?: number;
   /**	Double	健康度0-100	O	*/
   Health?: number;
-  /**	String	物件照片	O	*/
+  /**	String	部件照片	O	*/
   ImageUrl?: string;
   /**	Int32	连续消失次数	M	*/
   DisappearTimes!: number;
   /**	ObjectImageSamplingConfig	图片采样计划	M	*/
   @Type(() => ObjectImageSamplingConfig)
   ImageSampling!: ObjectImageSamplingConfig;
-  /**	Int32	物件状态	M	*/
+  /**	Int32	部件状态	M	*/
   ObjectState!: number;
 }
