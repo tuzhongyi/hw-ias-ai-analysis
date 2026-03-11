@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Page } from '../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../common/data-core/models/interface/page-list.model';
 
 @Component({
   selector: 'ias-list-page',

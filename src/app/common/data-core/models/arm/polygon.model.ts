@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import 'reflect-metadata';
-import { IModel } from '../model.interface';
+import { IModel } from '../interface/model.interface';
 import { HowellPoint } from './point.model';
 
 /**	Polygon (多边形)	*/

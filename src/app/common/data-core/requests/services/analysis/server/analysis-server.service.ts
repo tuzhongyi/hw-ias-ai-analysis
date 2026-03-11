@@ -8,7 +8,7 @@ import { AnalysisTask } from '../../../../models/arm/analysis/task/analysis-task
 import { ShopTaskStatistic } from '../../../../models/arm/analysis/task/shop-task-statistic.model';
 import { TaskRoadRoute } from '../../../../models/arm/analysis/task/task-road-route.model';
 import { FileGpsItem } from '../../../../models/arm/file/file-gps-item.model';
-import { PagedList } from '../../../../models/page-list.model';
+import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmAnalysisUrl } from '../../../../urls/arm/analysis/analysis.url';
 import { HowellHttpClient } from '../../../howell-http.client';

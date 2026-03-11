@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MobileEventRecord } from '../../../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { IConverter } from '../../../../../../../../../common/data-core/models/converter.interface';
+import { IConverter } from '../../../../../../../../../common/data-core/models/interface/converter.interface';
 import { LanguageTool } from '../../../../../../../../../common/tools/language-tool/language.tool';
 import { ObjectTool } from '../../../../../../../../../common/tools/object-tool/object.tool';
 import { MobileEventRecordModel } from '../system-event-map-panel-record-table.model';

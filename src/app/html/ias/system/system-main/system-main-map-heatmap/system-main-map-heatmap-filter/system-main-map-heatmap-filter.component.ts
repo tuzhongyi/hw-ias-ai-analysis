@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
-import { ILocation } from '../../../../../../common/data-core/models/model.interface';
+import { ILocation } from '../../../../../../common/data-core/models/interface/model.interface';
 import { SystemEventManagerRealtimeSource } from '../../../system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.soiurce';
 import { SystemEventManagerShopSource } from '../../../system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.soiurce';
 import { EventMode } from '../../system-main-map-navigation/system-main-map-navigation.model';

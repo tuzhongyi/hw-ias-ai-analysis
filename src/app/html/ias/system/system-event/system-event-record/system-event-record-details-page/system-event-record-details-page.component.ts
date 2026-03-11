@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
-import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRecordDetailsComponent } from '../system-event-record-details/system-event-record-details.component';
 

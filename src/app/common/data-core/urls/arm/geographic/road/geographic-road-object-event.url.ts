@@ -8,4 +8,10 @@ export class GeographicRoadObjectEventUrl extends AbstractUrl {
   confirmed(id: string) {
     return `${this.item(id)}/Confirmed`;
   }
+
+  excel = {
+    export: () => {
+      return `${this.basic()}/Excels/Export`;
+    },
+  };
 }

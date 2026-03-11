@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import '../../../../assets/js/jquery/jquery-page/jquery.page.js';
-import { Page } from '../../data-core/models/page-list.model';
+import { Page } from '../../data-core/models/interface/page-list.model.js';
 import { PaginatorText } from './paginator.model.js';
 
 declare var $: any;

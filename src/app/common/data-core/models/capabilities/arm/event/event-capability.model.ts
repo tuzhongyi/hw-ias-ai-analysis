@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IModel } from '../../../model.interface';
+import { IModel } from '../../../interface/model.interface';
 import { EnumNameValue } from '../../enum-name-value.model';
 
 /**	EventCapability (事件能力)	*/

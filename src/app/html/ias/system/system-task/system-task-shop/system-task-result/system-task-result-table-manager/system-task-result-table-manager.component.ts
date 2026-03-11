@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ShopSign } from '../../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { DirectionSortControlComponent } from '../../../../../share/direction-sort-control/direction-sort-control.component';
 import { SystemTaskResultShopTableBusiness } from '../system-task-result-shop-table/system-task-result-shop-table.business';
 import { SystemTaskResultShopTableComponent } from '../system-task-result-shop-table/system-task-result-shop-table.component';

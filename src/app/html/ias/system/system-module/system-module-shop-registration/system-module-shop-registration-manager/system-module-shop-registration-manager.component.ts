@@ -12,7 +12,7 @@ import { ShopRegistration } from '../../../../../../common/data-core/models/arm/
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { InputSelectRoadComponent } from '../../../../share/input-select-road/input-select-road.component';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';

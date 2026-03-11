@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { Paged } from '../../../../../common/data-core/models/page-list.model';
+import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
 
 export interface SystemMainMapAlarmInfoInput<T> {
   data?: T;

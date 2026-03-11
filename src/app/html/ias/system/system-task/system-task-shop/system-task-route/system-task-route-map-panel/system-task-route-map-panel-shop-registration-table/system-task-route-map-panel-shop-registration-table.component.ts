@@ -11,7 +11,7 @@ import {
 import { PaginatorComponent } from '../../../../../../../../common/components/paginator/paginator.component';
 import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
-import { Page } from '../../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../../common/data-core/models/interface/page-list.model';
 import { ColorTool } from '../../../../../../../../common/tools/color/color.tool';
 import { SystemTaskRouteMapPanelTableShopRegistrationBusiness } from './system-task-route-map-panel-shop-registration-table.business';
 

@@ -1,7 +1,7 @@
 import { ShopState } from '../../../../../../common/data-core/enums/analysis/shop-state.enum';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
-import { IConverter } from '../../../../../../common/data-core/models/converter.interface';
-import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
+import { IConverter } from '../../../../../../common/data-core/models/interface/converter.interface';
+import { PagedList } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisTaskListParams } from '../../../../../../common/data-core/requests/services/analysis/server/analysis-server.params';
 import {

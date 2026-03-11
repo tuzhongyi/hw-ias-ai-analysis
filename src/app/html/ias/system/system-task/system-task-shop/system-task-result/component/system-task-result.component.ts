@@ -10,7 +10,7 @@ import { NameValue } from '../../../../../../../common/data-core/models/capabili
 import {
   Page,
   PagedList,
-} from '../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { InputSelectRoadComponent } from '../../../../../share/input-select-road/input-select-road.component';
 import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';

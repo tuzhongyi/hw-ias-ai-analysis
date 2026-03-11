@@ -8,7 +8,7 @@ import { HowellPoint } from '../../../../../../common/data-core/models/arm/point
 import {
   Page,
   PagedList,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';

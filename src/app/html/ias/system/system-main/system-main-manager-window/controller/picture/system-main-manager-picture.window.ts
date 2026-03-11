@@ -6,7 +6,7 @@ import { NameValue } from '../../../../../../../common/data-core/models/capabili
 import {
   Page,
   Paged,
-} from '../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemMainManagerPictureWindow extends WindowViewModel {

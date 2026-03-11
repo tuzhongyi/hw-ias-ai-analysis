@@ -2,7 +2,7 @@ import { instanceToPlain } from 'class-transformer';
 import { MobileEventRecord } from '../../../../models/arm/event/mobile-event-record.model';
 import { FileGpsItem } from '../../../../models/arm/file/file-gps-item.model';
 import { EventCapability } from '../../../../models/capabilities/arm/event/event-capability.model';
-import { PagedList } from '../../../../models/page-list.model';
+import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
@@ -66,6 +66,29 @@ export class SystemEventRequestService {
       return HowellResponseProcess.item(x, EventCapability);
     });
   }
+
+  excel = {
+    export: async (params: GetMobileEventsParams) => {
+      let url = ArmSystemUrl.event.excel.export();
+      let plain = instanceToPlain(params);
+      let response = await this.http.post<HowellResponse<string>, any>(
+        url,
+        plain
+      );
+      return response.Data;
+    },
+    url: (id: string) => {
+      return ArmSystemUrl.event.excel.get(id);
+    },
+    download: async (id: string) => {
+      let url = ArmSystemUrl.event.excel.get(id);
+      let response = await this.http.blob(
+        url,
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      );
+      return response;
+    },
+  };
 
   private _handle?: SystemEventHandleRequestService;
   public get handle(): SystemEventHandleRequestService {

@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HowellSelectComponent } from '../../../../../common/components/hw-select/select-control.component';
 import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
-import { Paged } from '../../../../../common/data-core/models/page-list.model';
+import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
 import { MediumRequestService } from '../../../../../common/data-core/requests/services/medium/medium.service';
 import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../share/window/component/window.component';

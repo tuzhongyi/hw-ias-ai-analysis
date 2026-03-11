@@ -5,7 +5,7 @@
   <div class="system-event-manager-shop-head">
     <div class="system-event-manager-shop-head-filter">
       <div class="forms">
-        <div class="form-item">
+        <div class="form-item duration">
           <div class="form-item-text">开始时间</div>
           <div class="form-item-value">
             <date-time-control
@@ -13,7 +13,7 @@
             ></date-time-control>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item duration">
           <div class="form-item-text">结束时间</div>
           <div class="form-item-value">
             <date-time-control
@@ -47,7 +47,7 @@
             </select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item task">
           <div class="form-item-text">任务</div>
           <div class="form-item-value">
             <!-- <select [(ngModel)]="table.args.taskId">
@@ -62,27 +62,29 @@
             ></ias-input-select-task>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item text">
           <div class="form-item-text">触发源名称</div>
           <div class="form-item-value">
             <input type="text" [(ngModel)]="table.args.resource" />
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item submit">
           <button class="button-clip-gradient" (click)="table.search()">
             查找
           </button>
+
+          <button class="button-clip-gradient" (click)="on.download()">
+            导出
+          </button>
+          <button
+            class="button-clip-gradient"
+            (click)="window.map.show = true"
+            *ngIf="mapable"
+          >
+            地图
+          </button>
         </div>
       </div>
-    </div>
-    <div class="system-event-manager-shop-head-operation">
-      <button
-        class="button-clip-gradient"
-        (click)="window.map.show = true"
-        *ngIf="mapable"
-      >
-        地图
-      </button>
     </div>
   </div>
   <div class="system-event-manager-shop-body">
@@ -90,6 +92,7 @@
       *ngIf="table.args.types.length > 0"
       [args]="table.args"
       [load]="table.load"
+      [download]="table.download"
       [processget]="controller.process.get"
       (picture)="table.on.picture($event)"
       (process)="table.on.process($event)"

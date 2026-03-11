@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ILocation } from '../../../../../common/data-core/models/model.interface';
+import { ILocation } from '../../../../../common/data-core/models/interface/model.interface';
 import { ArmAnalysisRequestService } from '../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisGpsTaskSampleListParams } from '../../../../../common/data-core/requests/services/analysis/llm/analysis-llm.params';
 import { GetMobileEventsParams } from '../../../../../common/data-core/requests/services/system/event/system-event.params';

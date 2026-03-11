@@ -1,0 +1,33 @@
+.system-statistic-road-object {
+  @gap: 15px;
+
+  &-manager {
+    height: 100%;
+    width: 100%;
+
+    padding: 25px;
+    padding-top: 12px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: @gap;
+  }
+
+
+  &-map {
+    grid-area: map;
+    padding: 0;
+    height: calc((100% - @gap) * 0.7);
+  }
+
+  &-timeline {
+    width: 100%;
+    height: calc((100% - @gap) * 0.3);
+  }
+
+
+
+
+}

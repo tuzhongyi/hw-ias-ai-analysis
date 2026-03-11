@@ -11,7 +11,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IIdNameModel } from '../../data-core/models/model.interface';
+import { IIdNameModel } from '../../data-core/models/interface/model.interface';
 import { WheelHorizontalScrollDirective } from '../../directives/wheel-horizontal-scroll/wheel-horizontal-scroll.directive';
 
 @Component({

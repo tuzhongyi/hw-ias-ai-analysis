@@ -12,7 +12,7 @@ import { ContainerZoomComponent } from '../../../../../../../common/components/c
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { NameValue } from '../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';

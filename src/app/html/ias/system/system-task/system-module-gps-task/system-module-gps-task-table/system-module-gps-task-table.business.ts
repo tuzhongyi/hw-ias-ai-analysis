@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AnalysisGpsTask } from '../../../../../../common/data-core/models/arm/analysis/llm/analysis-gps-task.model';
-import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetAnalysisGpsTaskListParams } from '../../../../../../common/data-core/requests/services/analysis/llm/analysis-llm.params';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';

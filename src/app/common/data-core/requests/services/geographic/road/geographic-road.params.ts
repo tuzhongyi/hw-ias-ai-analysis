@@ -1,5 +1,5 @@
 import { GisPoint } from '../../../../models/arm/gis-point.model';
-import { PagedParams } from '../../../../models/params.interface';
+import { PagedParams } from '../../../../models/interface/params.interface';
 
 export class GetRoadsParams extends PagedParams {
   /**	String[]	店招ID列表	O	*/

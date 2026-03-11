@@ -1,12 +1,16 @@
 import { Transform, Type } from 'class-transformer';
-import { IIdModel, ILocation } from '../../model.interface';
+import { RoadObjectEventType } from '../../../enums/road/road-object/road-object-event-type.enum';
+import { IConfirmed } from '../../interface/event-record.interface';
+import { IIdModel, ILocation } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
-import { Assignment } from '../event/assignment.model';
+import { Assignment, IAssignment } from '../event/assignment.model';
 import { EventResourceContent } from '../event/event-resource-content.model';
 import { GisPoints } from '../gis-point.model';
 
 /**	RoadObjectEventRecord (道路部件事件记录)	*/
-export class RoadObjectEventRecord implements IIdModel, ILocation {
+export class RoadObjectEventRecord
+  implements IIdModel, ILocation, IConfirmed, IAssignment
+{
   /**	String	事件ID	M	*/
   Id!: string;
   /**	String	设备ID，设备序列号，非实时事件，序列号无效。	M	*/
@@ -15,7 +19,7 @@ export class RoadObjectEventRecord implements IIdModel, ILocation {
   @Transform(Transformer.DateTime)
   EventTime!: Date;
   /**	Int32	事件类型	M	*/
-  EventType!: number;
+  EventType!: RoadObjectEventType;
   /**	Int32	事件触发类型	M	*/
   TriggerType!: number;
   /**	DateTime	开始时间	O	*/

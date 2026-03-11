@@ -1,5 +1,6 @@
 import { ShopObjectState } from '../../data-core/enums/analysis/shop-object-state.enum';
 import { ShopState } from '../../data-core/enums/analysis/shop-state.enum';
+import { IAssignment } from '../../data-core/models/arm/event/assignment.model';
 import { ColorChartTool } from './color-chart.tool';
 import { ColorMapTool } from './color-map.tool';
 
@@ -31,7 +32,8 @@ class TrashCanColor {
 export class ColorTool {
   static green = '#21e452';
   static red = '#f73d3d';
-  static orange = '#ff762c';
+  static redlight = '#ff762c';
+  static orange = '#ffba00';
   static cyan = '#00f5ff';
   static yellow = '#fde546';
   static blue = '#1e90ff';
@@ -82,6 +84,27 @@ export class ColorTool {
       default:
         return '#ddf4ff';
     }
+  }
+
+  static Assignment(data: IAssignment) {
+    let result = this.orange;
+    if (data.Assignment) {
+      if (data.Assignment.IsMisInfo) {
+        result = this.cyan;
+      } else if (data.Assignment.Handled) {
+        result = this.green;
+      } else {
+      }
+    }
+
+    return result;
+  }
+  static Confirmed(value?: boolean) {
+    let result = this.orange;
+    if (value) {
+      result = this.green;
+    }
+    return result;
   }
 
   static get = {

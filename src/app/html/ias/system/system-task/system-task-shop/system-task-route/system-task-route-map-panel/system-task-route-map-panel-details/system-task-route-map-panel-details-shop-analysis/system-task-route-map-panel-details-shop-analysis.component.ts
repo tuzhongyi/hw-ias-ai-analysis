@@ -18,7 +18,7 @@ import { NameValue } from '../../../../../../../../../common/data-core/models/ca
 import {
   Page,
   PagedList,
-} from '../../../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../../../common/data-core/models/interface/page-list.model';
 import { Language } from '../../../../../../../../../common/tools/language-tool/language';
 import { PicturePolygonComponent } from '../../../../../../../share/picture/picture-polygon/picture-polygon.component';
 import { PicturePolygonArgs } from '../../../../../../../share/picture/picture-polygon/picture-polygon.model';

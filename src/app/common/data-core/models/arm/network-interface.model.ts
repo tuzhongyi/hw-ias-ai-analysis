@@ -1,6 +1,6 @@
 import { NetworkInterfaceDuplex } from '../../enums/network-interface-duplex.enum';
 import { NetworkInterfaceSpeed } from '../../enums/network-interface-speed.enum';
-import { IIdModel } from '../model.interface';
+import { IIdModel } from '../interface/model.interface';
 import { IPAddress } from './ip-address.model';
 
 /**	NetworkInterface (网络接口信息)	*/

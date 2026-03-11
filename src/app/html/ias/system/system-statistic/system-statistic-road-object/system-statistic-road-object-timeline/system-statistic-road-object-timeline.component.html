@@ -1,0 +1,12 @@
+<div class="system-statistic-road-object-timeline" wheel-horizontal-scroll>
+  <div
+    class="system-statistic-road-object-timeline-item"
+    *ngFor="let item of datas; let index = index"
+  >
+    <ias-system-statistic-road-object-timeline-item
+      [data]="item"
+      [first]="index == 0"
+      [last]="index == datas.length - 1"
+    ></ias-system-statistic-road-object-timeline-item>
+  </div>
+</div>

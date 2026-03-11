@@ -2,7 +2,7 @@
 
 import { Type } from 'class-transformer';
 import 'reflect-metadata';
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 import { ShopRegistration } from '../geographic/shop-registration.model';
 import { Shop } from './shop.model';
 

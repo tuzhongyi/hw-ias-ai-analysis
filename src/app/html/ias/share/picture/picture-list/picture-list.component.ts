@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ContainerPageComponent } from '../../../../../common/components/container-page/container-page.component';
 import { HowellPoint } from '../../../../../common/data-core/models/arm/point.model';
-import { Page } from '../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../common/data-core/models/interface/page-list.model';
 import { PicturePolygonZoomComponent } from '../picture-polygon-zoom/picture-polygon-zoom.component';
 
 @Component({

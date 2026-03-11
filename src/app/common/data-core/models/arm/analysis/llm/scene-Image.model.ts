@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IModel } from '../../../model.interface';
+import { IModel } from '../../../interface/model.interface';
 import { SceneLabel } from './scene-label.model';
 
 /**	SceneImage (场景图片)	*/

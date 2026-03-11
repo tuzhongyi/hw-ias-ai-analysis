@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 
 /**	ObjectImageSamplingConfig (目标图片采样配置)	*/

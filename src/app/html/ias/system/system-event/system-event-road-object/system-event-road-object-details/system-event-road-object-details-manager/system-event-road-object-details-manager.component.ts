@@ -9,7 +9,7 @@ import {
   Page,
   Paged,
   PagedList,
-} from '../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 
 import { ContainerZoomComponent } from '../../../../../../../common/components/container-zoom/container-zoom.component';

@@ -1,4 +1,4 @@
-import { IModel } from '../model.interface';
+import { IModel } from '../interface/model.interface';
 
 /**	UpgradeStatus (程序升级状态和进度)	*/
 export class UpgradeStatus implements IModel {

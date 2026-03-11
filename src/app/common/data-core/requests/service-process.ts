@@ -1,5 +1,5 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer';
-import { PagedList } from '../models/page-list.model';
+import { PagedList } from '../models/interface/page-list.model';
 import { HowellResponse } from '../models/response';
 
 export class HowellResponseProcess {

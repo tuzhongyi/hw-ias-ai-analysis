@@ -6,7 +6,7 @@ import { HowellPoint } from '../../../../../../../common/data-core/models/arm/po
 import {
   Page,
   Paged,
-} from '../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
 import { PicturePolygonComponent } from '../../../../../share/picture/picture-polygon/picture-polygon.component';

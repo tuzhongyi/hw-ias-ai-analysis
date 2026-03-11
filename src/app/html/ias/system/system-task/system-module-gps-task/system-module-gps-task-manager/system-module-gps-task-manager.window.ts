@@ -4,7 +4,7 @@ import { HowellPoint } from '../../../../../../common/data-core/models/arm/point
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { SystemModuleGpsTaskPictureDrawingArgs } from '../system-module-gps-task-picture/system-module-gps-task-picture-drawing/system-module-gps-task-picture-drawing.model';
 

@@ -22,7 +22,7 @@ import { NameValue } from '../../../../../../common/data-core/models/capabilitie
 import {
   Page,
   PagedList,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
 import { TaskDuration } from '../../../../../../common/storage/system-compare-storage/system-compare.storage';
 import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';

@@ -3,7 +3,7 @@ import { RoadObject } from '../../../../../../../common/data-core/models/arm/geo
 import {
   Page,
   Paged,
-} from '../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 import { SystemModuleRoadObjectManagerComponent } from '../system-module-road-object-manager.component';
 

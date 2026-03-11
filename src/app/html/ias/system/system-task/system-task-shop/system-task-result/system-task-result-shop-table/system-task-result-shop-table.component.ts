@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { ArrayTool } from '../../../../../../../common/tools/array-tool/array.tool';
 import {
   GeoDirection,

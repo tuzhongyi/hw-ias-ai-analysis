@@ -12,7 +12,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { PaginatorComponent } from '../../../../../common/components/paginator/paginator.component';
 import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { Page } from '../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../common/data-core/models/interface/page-list.model';
 import {
   GeoDirection,
   GeoDirectionSort,

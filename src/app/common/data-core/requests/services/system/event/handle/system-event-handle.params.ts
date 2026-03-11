@@ -1,4 +1,4 @@
-import { IParams } from '../../../../../models/params.interface';
+import { IParams } from '../../../../../models/interface/params.interface';
 
 export class CreateShopRegistrationParams implements IParams {
   /**	String	新增的注册商铺信息ID	M	*/

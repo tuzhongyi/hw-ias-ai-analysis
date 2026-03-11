@@ -11,7 +11,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { PaginatorComponent } from '../../../../../../../common/components/paginator/paginator.component';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { SystemMainPanelShopRegistrationTableBusiness } from './system-main-panel-shop-registration-table.business';
 
 @Component({

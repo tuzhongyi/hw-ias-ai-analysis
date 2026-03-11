@@ -1,5 +1,5 @@
-import { PagedList } from '../../data-core/models/page-list.model';
-import { PagedParams } from '../../data-core/models/params.interface';
+import { PagedList } from '../../data-core/models/interface/page-list.model';
+import { PagedParams } from '../../data-core/models/interface/params.interface';
 
 export class ServiceTool {
   static async all<T extends PagedParams, R>(

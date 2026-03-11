@@ -1,6 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
-import { IIdModel } from '../../model.interface';
+import { IIdModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { SignResult } from './sign-result.model';
 

@@ -1,4 +1,4 @@
-import { IModel } from '../model.interface';
+import { IModel } from '../interface/model.interface';
 
 /**	UserGroup (用户分组信息)	*/
 export class UserGroup implements IModel {

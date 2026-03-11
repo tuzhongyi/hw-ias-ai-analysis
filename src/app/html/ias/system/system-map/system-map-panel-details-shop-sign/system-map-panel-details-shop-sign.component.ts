@@ -14,7 +14,7 @@ import {
   Page,
   Paged,
   PagedList,
-} from '../../../../../common/data-core/models/page-list.model';
+} from '../../../../../common/data-core/models/interface/page-list.model';
 import { PicturePolygonZoomComponent } from '../../../share/picture/picture-polygon-zoom/picture-polygon-zoom.component';
 import { SystemMapPanelDetailsShopSignTableComponent } from '../system-map-panel-details-shop-sign-table/system-map-panel-details-shop-sign-table.component';
 

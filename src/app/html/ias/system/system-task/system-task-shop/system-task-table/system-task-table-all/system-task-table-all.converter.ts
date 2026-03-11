@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
-import { IConverter } from '../../../../../../../common/data-core/models/converter.interface';
+import { IConverter } from '../../../../../../../common/data-core/models/interface/converter.interface';
 import { ArmAnalysisRequestService } from '../../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import { GetShopsParams } from '../../../../../../../common/data-core/requests/services/analysis/shop/analysis-shop.params';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';

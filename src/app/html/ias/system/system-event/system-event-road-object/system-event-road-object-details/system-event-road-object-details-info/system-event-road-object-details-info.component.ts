@@ -11,6 +11,7 @@ import { EventResourceContent } from '../../../../../../../common/data-core/mode
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
 import { TextSpaceBetweenDirective } from '../../../../../../../common/directives/text-space-between/text-space-between.directive';
+import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 
@@ -37,6 +38,7 @@ export class SystemEventRoadObjectDetailsInfoComponent implements OnChanges {
   };
 
   Language = Language;
+  Color = ColorTool;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.data(changes['data']);
@@ -72,6 +74,9 @@ export class SystemEventRoadObjectDetailsInfoComponent implements OnChanges {
   private async init(data: RoadObjectEventRecord) {
     this._language.road.object.EventTypes(data.EventType).then((x) => {
       this.language.event = x;
+    });
+    this._language.road.object.ObjectTypes(data.RoadObjectType).then((x) => {
+      this.language.type = x;
     });
     if (data.DivisionId) {
       this.division.cache.get(data.DivisionId).then((x) => {

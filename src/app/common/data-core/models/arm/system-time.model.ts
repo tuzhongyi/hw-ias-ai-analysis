@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { NTPTimeMode } from '../../enums/ntp-time-mode.enum';
-import { IModel } from '../model.interface';
+import { IModel } from '../interface/model.interface';
 import { Transformer } from '../transformer';
 import { NTPServer } from './ntp-server.model';
 

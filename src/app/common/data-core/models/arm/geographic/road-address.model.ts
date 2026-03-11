@@ -1,4 +1,4 @@
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 
 export class RoadAddress implements IModel {
   FormattedAddress!: string;

@@ -14,7 +14,7 @@ import { ShopRegistration } from '../../../../../../common/data-core/models/arm/
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';

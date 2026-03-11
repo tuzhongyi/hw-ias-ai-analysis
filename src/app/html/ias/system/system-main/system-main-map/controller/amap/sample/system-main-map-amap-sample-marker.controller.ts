@@ -1,5 +1,5 @@
 import { GpsTaskSampleRecord } from '../../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
-import { IIdNameLocationModel } from '../../../../../../../../common/data-core/models/model.interface';
+import { IIdNameLocationModel } from '../../../../../../../../common/data-core/models/interface/model.interface';
 import { IASMapAMapMarkerLabelAbstract } from '../../../../../../share/map/controller/amap/marker/ias-map-amap-marker-label.abstract';
 import { SystemMainMapAMapSampleMarkerIconController } from './system-main-map-amap-sample-marker-icon.controller';
 

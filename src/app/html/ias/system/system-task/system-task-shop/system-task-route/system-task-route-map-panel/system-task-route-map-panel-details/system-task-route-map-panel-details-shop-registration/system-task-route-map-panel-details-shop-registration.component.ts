@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ContainerZoomComponent } from '../../../../../../../../../common/components/container-zoom/container-zoom.component';
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
 import { NameValue } from '../../../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { PagedList } from '../../../../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../../../../common/data-core/models/interface/page-list.model';
 import { Language } from '../../../../../../../../../common/tools/language-tool/language';
 import { PictureComponent } from '../../../../../../../share/picture/component/picture.component';
 import { PicturePolygonArgs } from '../../../../../../../share/picture/picture-polygon/picture-polygon.model';

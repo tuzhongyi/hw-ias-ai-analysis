@@ -1,5 +1,5 @@
 import { ProcessState } from '../../enums/process-state.enum';
-import { IIdNameModel } from '../model.interface';
+import { IIdNameModel } from '../interface/model.interface';
 
 /**	Process (进程信息)	*/
 export class Process implements IIdNameModel {

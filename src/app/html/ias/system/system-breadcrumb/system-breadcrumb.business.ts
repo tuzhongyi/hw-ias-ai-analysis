@@ -19,11 +19,15 @@ export class SystemBreadcrumbBusiness {
       if (models.length > 0) {
         return models;
       }
-      models = this.map.load();
+      models = this.event.load();
       if (models.length > 0) {
         return models;
       }
-      models = this.event.load();
+      models = this.statistic.load();
+      if (models.length > 0) {
+        return models;
+      }
+      models = this.map.load();
       return models;
     } finally {
       if (models.length > 0) {
@@ -310,6 +314,34 @@ export class SystemBreadcrumbBusiness {
         item.path = SystemPath.event_gps_task_manager;
         return item;
       },
+    },
+  };
+
+  private statistic = {
+    load: () => {
+      if (location.pathname.indexOf(SystemPath.statistic_road_object) >= 0) {
+        return [
+          this.home.index(),
+          this.statistic.index(),
+          this.statistic.road_object(),
+        ];
+      } else if (location.pathname.indexOf(SystemPath.statistic_index) >= 0) {
+        return [this.home.index(), this.statistic.index()];
+      } else {
+        return [];
+      }
+    },
+    road_object: () => {
+      let item = new SystemBreadcrumbItem();
+      item.text = '道路部件统计';
+      item.path = SystemPath.statistic_road_object;
+      return item;
+    },
+    index: () => {
+      let item = new SystemBreadcrumbItem();
+      item.text = '分析统计';
+      item.path = SystemPath.statistic;
+      return item;
     },
   };
 }

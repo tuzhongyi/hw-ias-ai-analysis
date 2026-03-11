@@ -1,4 +1,4 @@
-import { PagedParams } from '../../../models/params.interface';
+import { PagedParams } from '../../../models/interface/params.interface';
 
 export class GetDivisionsParams extends PagedParams {
   /**	Int32[]	区划类型	O	*/

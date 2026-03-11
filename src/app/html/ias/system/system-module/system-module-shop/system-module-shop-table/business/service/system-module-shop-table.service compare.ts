@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ShopObjectState } from '../../../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { ShopTaskCompareResult } from '../../../../../../../../common/data-core/models/arm/analysis/shop-task-compare-result.model';
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { PagedList } from '../../../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../../../common/data-core/models/interface/page-list.model';
 import { ArmGeographicRequestService } from '../../../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { ShopTaskCompareParams } from '../../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
 import { SystemModuleShopTableFilter } from '../../system-module-shop-table.model';

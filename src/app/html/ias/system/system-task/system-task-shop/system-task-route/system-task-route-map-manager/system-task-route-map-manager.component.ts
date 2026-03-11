@@ -6,7 +6,7 @@ import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/fi
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { NameValue } from '../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { IASMapPanelSettingsComponent } from '../../../../../share/map-panel/ias-map-panel-settings/ias-map-panel-settings.component';
 import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemMapSearchComponent } from '../../../../system-map/system-map-search/system-map-search.component';

@@ -4,7 +4,7 @@ import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ObjectTool } from '../../../../../../common/tools/object-tool/object.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';

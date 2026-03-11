@@ -4,7 +4,7 @@ import { IShop } from '../../../../../../../common/data-core/models/arm/analysis
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { NameValue } from '../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemTaskRouteMapManagerComponent } from '../system-task-route-map-manager/system-task-route-map-manager.component';
 import { ShopStatisticStatus } from '../system-task-route-statistic/system-task-route-statistic.model';

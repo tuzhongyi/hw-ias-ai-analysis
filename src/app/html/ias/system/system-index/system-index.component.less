@@ -6,19 +6,21 @@
   background-position-y: -54px;
   background-repeat: no-repeat;
   background-size: 70% 100%;
-  position: relative;
-  display: block;
-  padding: 6% 20% 10% 20%;
+
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 5%;
+
+  &-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
 
 
   &-button {
-
+    position: absolute;
     background-image: url(../../../../../assets/image/main/main-button.png);
     background-position: center;
     background-repeat: no-repeat;
@@ -30,29 +32,58 @@
     align-items: center;
     font-size: 40px;
     cursor: pointer;
+    transform: translate(-50%, -50%);
+    // scale(80%);
+
+    &.task {
+      left: 30%;
+      top: 32.5%;
+    }
+
+    &.module {
+      left: 70%;
+      top: 32.5%;
+    }
+
+    &.map {
+      left: 30%;
+      top: 60%;
+    }
+
+    &.event {
+      left: 70%;
+      top: 60%;
+    }
+
+    &.statistic {
+      display: none;
+      left: 30%;
+      top: 70%;
+    }
 
     // &.task {
-    //   left: 50%;
-    //   top: 50%;
-    //   transform: translate(-150%, -125%);
+    //   left: 30%;
+    //   top: 20%;
     // }
 
     // &.module {
-    //   left: 50%;
-    //   top: 50%;
-    //   transform: translate(50%, -125%);
+    //   left: 70%;
+    //   top: 32.5%;
     // }
 
     // &.map {
-    //   left: 50%;
-    //   top: 50%;
-    //   transform: translate(-150%, 0%);
+    //   left: 30%;
+    //   top: 45%;
     // }
 
     // &.event {
-    //   left: 50%;
-    //   top: 50%;
-    //   transform: translate(50%, 0%);
+    //   left: 70%;
+    //   top: 57.5%;
+    // }
+
+    // &.statistic {
+    //   left: 30%;
+    //   top: 70%;
     // }
   }
 }

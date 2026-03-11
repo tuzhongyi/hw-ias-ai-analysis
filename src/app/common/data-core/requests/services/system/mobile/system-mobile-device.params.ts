@@ -2,7 +2,7 @@ import {
   DurationParams,
   PagedDurationParams,
   PagedParams,
-} from '../../../../models/params.interface';
+} from '../../../../models/interface/params.interface';
 
 export class GetMobileDevicesParams extends PagedParams {
   /**	String[]	设备ID列表	O	*/

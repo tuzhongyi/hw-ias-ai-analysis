@@ -15,8 +15,8 @@ import { MobileEventRecord } from '../../../../../common/data-core/models/arm/ev
 import { RoadObject } from '../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
-import { ILocation } from '../../../../../common/data-core/models/model.interface';
-import { Paged } from '../../../../../common/data-core/models/page-list.model';
+import { ILocation } from '../../../../../common/data-core/models/interface/model.interface';
+import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
 import { wait } from '../../../../../common/tools/wait';
 import { SystemMainMapBusiness } from './business/system-main-map.business';
 import { SystemMainMapController } from './controller/system-main-map.controller';

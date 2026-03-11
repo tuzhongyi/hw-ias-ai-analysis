@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { ArmGeographicRequestService } from '../../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { GetShopRegistrationsParams } from '../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
 import {

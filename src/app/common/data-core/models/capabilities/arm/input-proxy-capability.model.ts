@@ -1,4 +1,4 @@
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 import { EnumValue } from '../enum-value.model';
 
 /**	InputProxyCapability (代理输入通道能力)	*/

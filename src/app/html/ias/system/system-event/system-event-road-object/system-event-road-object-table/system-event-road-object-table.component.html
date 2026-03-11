@@ -87,14 +87,8 @@
             <div>{{ item?.EventTime | date : Language.yyyyMMddHHmmss }}</div>
           </td>
           <td>
-            <div
-              [ngClass]="{
-                'text-orange-state': item && !item.Confirmed,
-                'text-green': item && item.Confirmed
-              }"
-              *ngIf="item"
-            >
-              {{ item.Confirmed ? "已确认" : "未确认" }}
+            <div *ngIf="item" [style.color]="Color.Confirmed(item.Confirmed)">
+              {{ Language.Confirmed(item.Confirmed) }}
             </div>
           </td>
           <td>
@@ -106,43 +100,10 @@
             </div>
             }
           </td>
-          <td
-            [ngClass]="{
-              
-              handled: !!(item?.Assignment?.Handled),
-              unhandle: !(item?.Assignment?.Handled),
-              unassigned: !(item?.Assignment),
-            }"
-          >
-            <ng-container *ngIf="item">
-              <ng-container *ngIf="item.Assignment">
-                <div
-                  *ngIf="item.Assignment.IsMisInfo && item.EventType === 9"
-                  class="text-cyan"
-                >
-                  屏蔽
-                </div>
-                <div
-                  *ngIf="item.Assignment.IsMisInfo && item.EventType !== 9"
-                  class="text-cyan"
-                >
-                  误报
-                </div>
-
-                <ng-container *ngIf="!item.Assignment.IsMisInfo">
-                  <div *ngIf="item.Assignment.Handled" class="text-green">
-                    已处置
-                  </div>
-                  <div
-                    *ngIf="!item.Assignment.Handled"
-                    class="text-orange-state"
-                  >
-                    待处置
-                  </div>
-                </ng-container>
-              </ng-container>
-              <div *ngIf="!item.Assignment" class="text-orange">待派单</div>
-            </ng-container>
+          <td>
+            <div *ngIf="item" [style.color]="Color.Assignment(item)">
+              {{ Language.Assignment(item) }}
+            </div>
           </td>
           <td>
             @if(item){

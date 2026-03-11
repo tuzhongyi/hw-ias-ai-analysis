@@ -19,7 +19,7 @@ import { NameValue } from '../../../../../../../common/data-core/models/capabili
 import {
   Page,
   PagedList,
-} from '../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { ShopViewModel } from '../../../../../../../common/view-models/shop/shop.view-model';
 import { IASMapComponent } from '../../../../../share/map/ias-map.component';
 

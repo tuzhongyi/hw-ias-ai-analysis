@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { ArmEventType } from '../../../../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { MobileEventRecord } from '../../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { IConverter } from '../../../../../../../../common/data-core/models/converter.interface';
-import { Page } from '../../../../../../../../common/data-core/models/page-list.model';
+import { IConverter } from '../../../../../../../../common/data-core/models/interface/converter.interface';
+import { Page } from '../../../../../../../../common/data-core/models/interface/page-list.model';
 import { ColorTool } from '../../../../../../../../common/tools/color/color.tool';
 import { SystemEventMapPanelRecordTableBusiness } from './system-event-map-panel-record-table.business';
 import { MobileEventRecordModel } from './system-event-map-panel-record-table.model';

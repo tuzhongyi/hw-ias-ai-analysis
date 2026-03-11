@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { ILocation } from '../../../../../../../common/data-core/models/model.interface';
+import { ILocation } from '../../../../../../../common/data-core/models/interface/model.interface';
 import { IASMapAMapConfig } from '../ias-map-amap.config';
 import { IASMapAMapConverter } from '../ias-map-amap.converter';
 

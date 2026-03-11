@@ -13,7 +13,7 @@ import { MobileEventRecord } from '../../../../../../common/data-core/models/arm
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { SystemEventTableBusiness } from '../business/system-event-table.business';
@@ -34,6 +34,7 @@ import { SystemEventTableService } from '../business/system-event-table.service'
 export class SystemEventTableShopComponent implements OnInit, OnDestroy {
   @Input() args = new SystemEventTableArgs();
   @Input('load') input_load?: EventEmitter<SystemEventTableArgs>;
+  @Input() download?: EventEmitter<SystemEventTableArgs>;
   @Output() position = new EventEmitter<MobileEventRecord>();
 
   @Output('picture') output_picture = new EventEmitter<MobileEventRecord>();
@@ -78,6 +79,13 @@ export class SystemEventTableShopComponent implements OnInit, OnDestroy {
             this.process.emit(paged);
           }
         });
+      });
+      this.subscription.add(sub);
+    }
+    if (this.download) {
+      let sub = this.download.subscribe((x) => {
+        let filter = SystemEventTableFilter.from(this.args);
+        this.business.download(filter, this.page.TotalRecordCount);
       });
       this.subscription.add(sub);
     }

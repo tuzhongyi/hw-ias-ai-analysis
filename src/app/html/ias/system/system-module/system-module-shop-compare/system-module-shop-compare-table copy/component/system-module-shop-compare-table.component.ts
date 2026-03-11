@@ -17,7 +17,7 @@ import { IShop } from '../../../../../../../common/data-core/models/arm/analysis
 import {
   Page,
   Paged,
-} from '../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { SystemModuleShopCompareTableBusiness } from '../business/system-module-shop-compare-table.business';
 import {
   ShopCompareMode,

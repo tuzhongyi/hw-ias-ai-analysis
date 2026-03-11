@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { EnumNameValue } from '../../../capabilities/enum-name-value.model';
-import { IModel } from '../../../model.interface';
+import { IModel } from '../../../interface/model.interface';
 /**	AnalysisLLMCapability (大语言模型能力)	*/
 export class AnalysisLLMCapability implements IModel {
   /**	EnumNameValue[]	摄像机方向	O	*/

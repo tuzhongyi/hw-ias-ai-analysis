@@ -1,6 +1,6 @@
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemModuleShopRegistrationManagerWindow {

@@ -42,7 +42,7 @@
                   item?.EventType === EventType.ShopSignCreated
                     ? Color.green
                     : item?.EventType === EventType.ShopSignDisappeared
-                    ? Color.orange
+                    ? Color.redlight
                     : 'inherit'
               }"
             >
@@ -51,7 +51,7 @@
           </td>
           <td>
             @if(item){ @if(!item.Assignment?.Handled){
-            <span [style.color]="Color.orange">未处置</span>
+            <span [style.color]="Color.redlight">未处置</span>
             } @else{ @if(item.Assignment?.IsMisInfo){
             <span [style.color]="Color.cyan">误报</span>
             } @else{ <span [style.color]="Color.green">已处置</span> } } }

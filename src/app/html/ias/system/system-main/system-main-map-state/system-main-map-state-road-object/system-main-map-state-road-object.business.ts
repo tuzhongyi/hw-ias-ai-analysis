@@ -44,7 +44,7 @@ export class SystemMainMapStateRoadObjectBusiness {
         case RoadObjectState.Normal:
           return ColorTool.cyan;
         case RoadObjectState.Breakage:
-          return ColorTool.orange;
+          return ColorTool.redlight;
         case RoadObjectState.Disappear:
           return ColorTool.red;
 

@@ -6,7 +6,7 @@ import { MobileEventRecord } from '../../../../../common/data-core/models/arm/ev
 import {
   Page,
   Paged,
-} from '../../../../../common/data-core/models/page-list.model';
+} from '../../../../../common/data-core/models/interface/page-list.model';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
 import { AudioButtonComponent } from '../../../share/audio/audio-button/audio-button.component';
 import { PictureComponent } from '../../../share/picture/component/picture.component';

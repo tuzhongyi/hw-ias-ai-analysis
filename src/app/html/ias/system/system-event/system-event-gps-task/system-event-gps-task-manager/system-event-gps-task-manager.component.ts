@@ -14,7 +14,7 @@ import { GpsTaskSampleRecord } from '../../../../../../common/data-core/models/a
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventGpsTaskDetailsContainerComponent } from '../system-event-gps-task-details/system-event-gps-task-details-container/system-event-gps-task-details-container.component';

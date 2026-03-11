@@ -1,5 +1,5 @@
-import { AuthType } from '../../enums/auth-type.enum'
-import { IModel } from '../model.interface'
+import { AuthType } from '../../enums/auth-type.enum';
+import { IModel } from '../interface/model.interface';
 
 /**	Authentication (进程信息)	*/
 export class Authentication implements IModel {
@@ -9,7 +9,7 @@ export class Authentication implements IModel {
    * Basic：基础认证
    * M
    **/
-  AuthType!: AuthType
+  AuthType!: AuthType;
   /**	String	算法。(保留)	O	*/
-  Algorithm?: string
+  Algorithm?: string;
 }

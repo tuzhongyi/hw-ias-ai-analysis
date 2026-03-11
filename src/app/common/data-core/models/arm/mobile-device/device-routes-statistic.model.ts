@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer';
-import { IIdNameModel } from '../../model.interface';
+import { IIdNameModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { DeviceRoadStatistic } from './device-road-statistic.model';
 

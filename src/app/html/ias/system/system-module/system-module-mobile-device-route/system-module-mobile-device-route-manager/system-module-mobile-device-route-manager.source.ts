@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
-import { IIdNameModel } from '../../../../../../common/data-core/models/model.interface';
+import { IIdNameModel } from '../../../../../../common/data-core/models/interface/model.interface';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
 import { SystemModuleMobileDeviceRouteType } from '../system-module-mobile-device-route.model';
 

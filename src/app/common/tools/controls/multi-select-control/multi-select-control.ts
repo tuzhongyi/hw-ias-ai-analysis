@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, Output } from '@angular/core';
-import { IIdNameModel } from '../../../data-core/models/model.interface';
+import { IIdNameModel } from '../../../data-core/models/interface/model.interface';
 import './multi-select-control.less';
 
 @Directive({

@@ -1,6 +1,7 @@
-import { IIdModel } from '../models/model.interface';
-import { PagedList } from '../models/page-list.model';
-import { IParams } from '../models/params.interface';
+import { IIdModel } from '../models/interface/model.interface';
+import { PagedList } from '../models/interface/page-list.model';
+import { IParams } from '../models/interface/params.interface';
+
 import { ServiceCache } from './service.cache';
 
 export interface IService<T extends IIdModel> {

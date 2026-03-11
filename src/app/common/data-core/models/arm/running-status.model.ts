@@ -1,4 +1,4 @@
-import { IModel } from '../model.interface';
+import { IModel } from '../interface/model.interface';
 import { Process } from './process.model';
 
 /**	RunningStatus (系统运行状态)	*/

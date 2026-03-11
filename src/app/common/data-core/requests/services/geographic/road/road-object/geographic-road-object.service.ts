@@ -6,7 +6,7 @@ import { AbstractService } from '../../../../../cache/cache.interface';
 import { ServiceTool } from '../../../../../../tools/service-tool/service.tool';
 import { RoadObject } from '../../../../../models/arm/geographic/road-object.model';
 import { RoadObjectCapability } from '../../../../../models/capabilities/arm/geographic/road-object-capability.model';
-import { PagedList } from '../../../../../models/page-list.model';
+import { PagedList } from '../../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../../models/response';
 import { ArmGeographicUrl } from '../../../../../urls/arm/geographic/geographic.url';
 import { HowellHttpClient } from '../../../../howell-http.client';

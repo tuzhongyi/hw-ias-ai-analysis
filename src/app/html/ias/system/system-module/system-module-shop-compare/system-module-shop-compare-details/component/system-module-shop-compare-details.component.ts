@@ -7,7 +7,7 @@ import { ShopRegistration } from '../../../../../../../common/data-core/models/a
 import {
   Page,
   Paged,
-} from '../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { ListPageComponent } from '../../../../../share/list-page/list-page.component';
 import { SystemModuleShopCompareDetailsShopRegistrationComponent } from '../system-module-shop-compare-details-shop-registration/system-module-shop-compare-details-shop-registration.component';
 import { SystemModuleShopCompareDetailsShopComponent } from '../system-module-shop-compare-details-shop/system-module-shop-compare-details-shop.component';

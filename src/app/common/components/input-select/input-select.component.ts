@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IIdNameModel } from '../../data-core/models/model.interface';
+import { IIdNameModel } from '../../data-core/models/interface/model.interface';
 
 @Component({
   selector: 'ias-input-select',

@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 
 /**	DeviceRoadStatistic (车辆道路统计结果)	*/

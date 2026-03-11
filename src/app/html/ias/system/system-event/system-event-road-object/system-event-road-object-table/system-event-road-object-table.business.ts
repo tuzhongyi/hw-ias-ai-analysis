@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
-import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ArmDivisionRequestService } from '../../../../../../common/data-core/requests/services/division/division.service';
 import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { GetRoadObjectEventsParams } from '../../../../../../common/data-core/requests/services/geographic/road/road-object/event/geographic-road-object-event.params';
@@ -43,6 +43,11 @@ export class SystemEventRoadObjectTableBusiness {
     return paged;
   }
 
+  download(filter: SystemEventRoadObjectTableFilter) {
+    let params = this.data.params(1, 200, filter);
+    return this.service.geo.road.object.event.excel.export(params);
+  }
+
   private convert(data: RoadObjectEventRecord) {
     let item = new SystemEventRoadObjectTableItem();
     item = Object.assign(item, data);
@@ -66,7 +71,7 @@ export class SystemEventRoadObjectTableBusiness {
   }
 
   private data = {
-    load: (
+    params: (
       index: number,
       size: number,
       filter: SystemEventRoadObjectTableFilter
@@ -106,6 +111,14 @@ export class SystemEventRoadObjectTableBusiness {
 
       params.Asc = filter.asc;
       params.Desc = filter.desc;
+      return params;
+    },
+    load: (
+      index: number,
+      size: number,
+      filter: SystemEventRoadObjectTableFilter
+    ) => {
+      let params = this.data.params(index, size, filter);
       return this.service.geo.road.object.event.list(params);
     },
   };

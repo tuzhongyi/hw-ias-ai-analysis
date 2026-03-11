@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IIdNameModel } from '../../../model.interface';
+import { IIdNameModel } from '../../../interface/model.interface';
 import { HowellPoint } from '../../point.model';
 
 /**	SceneLabel (场景目标标签)	*/

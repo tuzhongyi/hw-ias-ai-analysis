@@ -1,14 +1,14 @@
-import { Type } from 'class-transformer'
-import 'reflect-metadata'
-import { ProxyChannelState } from '../../enums/proxy-channel-state.enum'
-import { IIdNameModel } from '../model.interface'
-import { VideoSourceChannel } from './video-source-channel.model'
+import { Type } from 'class-transformer';
+import 'reflect-metadata';
+import { ProxyChannelState } from '../../enums/proxy-channel-state.enum';
+import { IIdNameModel } from '../interface/model.interface';
+import { VideoSourceChannel } from './video-source-channel.model';
 /**	InputProxyChannel (代理通道)	*/
 export class InputProxyChannel implements IIdNameModel<number> {
   /**	Int32	通道ID，从1开始	M	*/
-  Id!: number
+  Id!: number;
   /**	String	通道名称	M	*/
-  Name!: string
+  Name!: string;
   /**
    * Int32	机位，从1开始。
    * 1-10舱外
@@ -16,10 +16,10 @@ export class InputProxyChannel implements IIdNameModel<number> {
    * 21-30 红外
    * O
    **/
-  PositionNo?: number
+  PositionNo?: number;
   /**	VideoSourceChannel	数据来源	M	*/
   @Type(() => VideoSourceChannel)
-  SourceChannel!: VideoSourceChannel
+  SourceChannel!: VideoSourceChannel;
   /**
    * String	通道状态：
    * Online：在线
@@ -27,26 +27,26 @@ export class InputProxyChannel implements IIdNameModel<number> {
    * Locked：用户锁定
    * O
    **/
-  ChannelState?: ProxyChannelState
+  ChannelState?: ProxyChannelState;
   /**	String	通道GUID	O */
-  Guid?: string
+  Guid?: string;
   /**	String	平台接入ID	O	*/
-  PlatformAccessId?: string
+  PlatformAccessId?: string;
   /**	String	视频分析接入方式	O	*/
-  AnalysisAccessType?: string
+  AnalysisAccessType?: string;
   /**	String	用途	O	*/
-  Usage?: string
+  Usage?: string;
   /**	Boolean	过滤策略3是否启用，防止部分厢房无法识别湿垃圾桶	O	*/
-  Filter3Enabled?: boolean
+  Filter3Enabled?: boolean;
   /**	Boolean	是否正在录像	O	*/
-  Recording?: boolean
+  Recording?: boolean;
   /**	Boolean	是否自动录像	O	*/
-  AutoRecord?: boolean
+  AutoRecord?: boolean;
 
   static create() {
-    let data = new InputProxyChannel()
-    data.Id = 0
-    data.SourceChannel = new VideoSourceChannel()
-    return data
+    let data = new InputProxyChannel();
+    data.Id = 0;
+    data.SourceChannel = new VideoSourceChannel();
+    return data;
   }
 }

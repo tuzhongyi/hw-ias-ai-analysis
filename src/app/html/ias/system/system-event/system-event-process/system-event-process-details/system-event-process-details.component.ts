@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
-import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventProcessHandledComponent } from '../system-event-process-handled/system-event-process-handled.component';
 import { SystemEventProcessInfoComponent } from '../system-event-process-info/system-event-process-info.component';

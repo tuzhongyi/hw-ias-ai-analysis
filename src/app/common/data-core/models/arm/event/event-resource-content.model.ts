@@ -2,7 +2,7 @@
 
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoints } from '../gis-point.model';
 import { EventDataObject } from './event-data-object.model';

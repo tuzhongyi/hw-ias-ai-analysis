@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ArmEventType } from '../../../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { Division } from '../../../../../../../common/data-core/models/arm/division/division.model';
 import { EventNumberStatistic } from '../../../../../../../common/data-core/models/arm/event/event-number-statistic.model';
-import { IIdNameModel } from '../../../../../../../common/data-core/models/model.interface';
+import { IIdNameModel } from '../../../../../../../common/data-core/models/interface/model.interface';
 import { SourceManager } from '../../../../../../../common/data-core/requests/managers/source/source.manager';
 import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
 import { GetEventNumbersParams } from '../../../../../../../common/data-core/requests/services/system/event/number/system-event-number.params';

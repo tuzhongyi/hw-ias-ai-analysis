@@ -1,9 +1,9 @@
 import { ClassConstructor } from 'class-transformer';
 
 import { wait } from '../../tools/wait';
-import { IIdModel } from '../models/model.interface';
-import { PagedList } from '../models/page-list.model';
-import { IParams, PagedParams } from '../models/params.interface';
+import { IIdModel } from '../models/interface/model.interface';
+import { PagedList } from '../models/interface/page-list.model';
+import { IParams, PagedParams } from '../models/interface/params.interface';
 import { AppCache, IService } from './cache.interface';
 
 export class ServicePool {

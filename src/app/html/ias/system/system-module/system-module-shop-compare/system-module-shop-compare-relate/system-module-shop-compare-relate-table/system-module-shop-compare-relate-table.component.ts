@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaginatorComponent } from '../../../../../../../common/components/paginator/paginator.component';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { TableSorterDirective } from '../../../../../../../common/directives/table-sorter/table-soater.directive';
 import { SystemModuleShopRegistrationTableBusiness } from '../../../system-module-shop-registration/system-module-shop-registration-table/business/system-module-shop-registration-table.business';
 import { SystemModuleShopRegistrationTableConverter } from '../../../system-module-shop-registration/system-module-shop-registration-table/business/system-module-shop-registration-table.converter';

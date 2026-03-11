@@ -3,7 +3,7 @@ import { AnalysisShopCapability } from '../../../../models/arm/analysis/analysis
 import { LabelResultStatistic } from '../../../../models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../models/arm/analysis/shop.model';
-import { PagedList } from '../../../../models/page-list.model';
+import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmAnalysisUrl } from '../../../../urls/arm/analysis/analysis.url';
 import { HowellHttpClient } from '../../../howell-http.client';

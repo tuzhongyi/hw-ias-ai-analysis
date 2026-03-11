@@ -1,0 +1,63 @@
+.system-statistic-road-object-timeline-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+
+
+  &-image {
+    width: 100px;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &-background {
+      border: 2px solid #2d76ce;
+      width: 50px;
+      /* 控制菱形的大小（外接正方形的边长） */
+      height: 50px;
+      background: #050D15;
+
+      /* 边框颜色和粗细 */
+      transform: rotate(45deg);
+      z-index: 1;
+      /* 避免被父容器裁剪，可调整 */
+    }
+
+    &-line {
+      border: 1px solid #2d76ce;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: calc(50% + 30px);
+      z-index: 0;
+
+      &.left {
+        right: 50%;
+      }
+
+      &.right {
+        left: 50%;
+      }
+    }
+
+  }
+
+  &-type {
+    text-align: center;
+  }
+
+  &-name {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    /* 隐藏超出部分 */
+    text-overflow: ellipsis;
+    /* 显示省略号 */
+  }
+
+  &-time {
+    text-align: center;
+  }
+}

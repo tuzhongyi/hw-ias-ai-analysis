@@ -1,7 +1,7 @@
 /**	EventDataObject (事件目标)	*/
 import { Type } from 'class-transformer';
 import 'reflect-metadata';
-import { IIdModel } from '../../model.interface';
+import { IIdModel } from '../../interface/model.interface';
 import { HowellPoint } from '../point.model';
 
 export class EventDataObject implements IIdModel {

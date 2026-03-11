@@ -1,8 +1,9 @@
 import { Transform } from 'class-transformer';
+
 import {
   IParams,
   PagedDurationParams,
-} from '../../../../models/params.interface';
+} from '../../../../models/interface/params.interface';
 import { Transformer } from '../../../../models/transformer';
 
 export class GetAnalysisTaskListParams extends PagedDurationParams {

@@ -13,9 +13,10 @@ import { RoadObjectEventRecord } from '../../../../../../common/data-core/models
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
+import { ColorTool } from '../../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { SystemEventRoadObjectTableBusiness } from './system-event-road-object-table.business';
 import {
@@ -34,7 +35,7 @@ import {
 export class SystemEventRoadObjectTableComponent implements OnInit, OnDestroy {
   @Input() args = new SystemEventRoadObjectTableArgs();
   @Input('load') input_load?: EventEmitter<SystemEventRoadObjectTableArgs>;
-
+  @Input() download?: EventEmitter<SystemEventRoadObjectTableArgs>;
   @Output('picture') output_picture = new EventEmitter<
     Paged<RoadObjectEventRecord>
   >();
@@ -78,6 +79,7 @@ export class SystemEventRoadObjectTableComponent implements OnInit, OnDestroy {
   page = Page.create(1, 10);
   selected?: SystemEventRoadObjectTableItem;
 
+  Color = ColorTool;
   Language = Language;
   Math = Math;
 
@@ -94,6 +96,12 @@ export class SystemEventRoadObjectTableComponent implements OnInit, OnDestroy {
           this.page.PageSize,
           this.filter
         );
+      });
+      this.subscription.add(sub);
+    }
+    if (this.download) {
+      let sub = this.download.subscribe((x) => {
+        this.business.download(x);
       });
       this.subscription.add(sub);
     }

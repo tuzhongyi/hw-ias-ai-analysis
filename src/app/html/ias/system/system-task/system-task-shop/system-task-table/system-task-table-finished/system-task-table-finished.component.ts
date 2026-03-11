@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../../common/components/paginator/paginator.component';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { TableSorterDirective } from '../../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../../../../common/tools/color/color.tool';

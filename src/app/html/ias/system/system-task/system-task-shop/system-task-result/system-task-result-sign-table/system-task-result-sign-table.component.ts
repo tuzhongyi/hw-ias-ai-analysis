@@ -12,7 +12,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ShopSign } from '../../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { ShopSignViewModel } from '../../../../../../../common/view-models/shop-sign/shop-sign.view-model';
 import { SystemTaskResultSignTableBusiness } from './system-task-result-sign-table.business';
 import {

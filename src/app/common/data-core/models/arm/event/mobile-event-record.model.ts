@@ -1,13 +1,16 @@
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
-import { IIdModel, ILocation } from '../../model.interface';
+import { IConfirmed } from '../../interface/event-record.interface';
+import { IIdModel, ILocation } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoints } from '../gis-point.model';
-import { Assignment } from './assignment.model';
+import { Assignment, IAssignment } from './assignment.model';
 import { EventResourceContent } from './event-resource-content.model';
 
 /**	EventRecord (AI事件记录)	*/
-export class MobileEventRecord implements IIdModel, ILocation {
+export class MobileEventRecord
+  implements IIdModel, ILocation, IConfirmed, IAssignment
+{
   /**	String	事件ID	M	*/
   Id!: string;
   /**	String	设备ID，设备序列号	M	*/

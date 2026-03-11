@@ -1,6 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import 'reflect-metadata';
-import { IIdModel, ILocation } from '../../model.interface';
+import { IIdModel, ILocation } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoints } from '../gis-point.model';
 import { EventResource } from './event-resource.model';

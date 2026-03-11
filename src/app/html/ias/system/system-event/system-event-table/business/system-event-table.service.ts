@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { ArmEventTriggerType } from '../../../../../../common/data-core/enums/event/arm-event-trigger-type.enum';
 import { ArmEventType } from '../../../../../../common/data-core/enums/event/arm-event-type.enum';
@@ -7,7 +8,7 @@ import { EventDataObject } from '../../../../../../common/data-core/models/arm/e
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { GisPoints } from '../../../../../../common/data-core/models/arm/gis-point.model';
-import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ArmAnalysisRequestService } from '../../../../../../common/data-core/requests/services/analysis/analysis.service';
 import {
   GetShopSignsParams,
@@ -29,72 +30,99 @@ export class SystemEventTableService {
     size: number,
     filter: SystemEventTableFilter
   ): Promise<PagedList<MobileEventRecord>> {
-    let params = new GetMobileEventsParams();
-    params.PageIndex = index;
-    params.PageSize = size;
-    params.BeginTime = filter.duration.begin;
-    params.EndTime = filter.duration.end;
-
-    if (filter.resource) {
-      params.ResourceName = filter.resource;
-    }
-
-    if (filter.type) {
-      params.EventType = filter.type;
-    }
-    if (filter.types && filter.types.length > 0) {
-      params.EventTypes = filter.types;
-    }
-
-    if (filter.confirmed != undefined) {
-      params.Confirmed = filter.confirmed;
-    }
-    if (filter.timeout != undefined) {
-      params.IsTimeout = filter.timeout;
-    }
-
-    params.Asc = filter.asc;
-    params.Desc = filter.desc;
-
-    if (filter.handle != undefined) {
-      params.Handled = filter.handle;
-    }
-    if (filter.misinform != undefined) {
-      params.IsMisInfo = filter.misinform;
-    }
-    if (filter.handle == undefined && filter.misinform == undefined) {
-      switch (filter.state) {
-        case 1:
-          params.Handled = false;
-          break;
-        case 2:
-          params.Handled = true;
-          params.IsMisInfo = false;
-          break;
-        case 3:
-          params.IsMisInfo = true;
-          break;
-        default:
-          break;
-      }
-    }
-
-    if (filter.taskId) {
-      params.TaskId = filter.taskId;
-    }
-
-    if (filter.division) {
-      params.DivisionIds = [filter.division];
-    }
-    if (filter.gridcell) {
-      params.GridCellIds = [filter.gridcell];
-    }
-    if (filter.repeated != undefined) {
-      params.IsRepeated = filter.repeated;
-    }
-
+    let params = this.get.params(index, size, filter);
     return this.service.event.list(params);
   }
+
+  async download(filter: SystemEventTableFilter, total: number) {
+    let size = 200;
+    let count = Math.ceil(total / size);
+    for (let index = 0; index < count; index++) {
+      let params = this.get.params(index + 1, size, filter);
+      let id = await this.service.event.excel.export(params);
+      let blob = await this.service.event.excel.download(id);
+      let link = document.createElement('a');
+      link.style.display = 'none';
+      link.href = URL.createObjectURL(blob);
+      link.download = `AI事件_${formatDate(
+        new Date(),
+        'YYYYMMdd_HHmmss',
+        'en'
+      )}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
+  private get = {
+    params: (index: number, size: number, filter: SystemEventTableFilter) => {
+      let params = new GetMobileEventsParams();
+      params.PageIndex = index;
+      params.PageSize = size;
+      params.BeginTime = filter.duration.begin;
+      params.EndTime = filter.duration.end;
+
+      if (filter.resource) {
+        params.ResourceName = filter.resource;
+      }
+
+      if (filter.type) {
+        params.EventType = filter.type;
+      }
+      if (filter.types && filter.types.length > 0) {
+        params.EventTypes = filter.types;
+      }
+
+      if (filter.confirmed != undefined) {
+        params.Confirmed = filter.confirmed;
+      }
+      if (filter.timeout != undefined) {
+        params.IsTimeout = filter.timeout;
+      }
+
+      params.Asc = filter.asc;
+      params.Desc = filter.desc;
+
+      if (filter.handle != undefined) {
+        params.Handled = filter.handle;
+      }
+      if (filter.misinform != undefined) {
+        params.IsMisInfo = filter.misinform;
+      }
+      if (filter.handle == undefined && filter.misinform == undefined) {
+        switch (filter.state) {
+          case 1:
+            params.Handled = false;
+            break;
+          case 2:
+            params.Handled = true;
+            params.IsMisInfo = false;
+            break;
+          case 3:
+            params.IsMisInfo = true;
+            break;
+          default:
+            break;
+        }
+      }
+
+      if (filter.taskId) {
+        params.TaskId = filter.taskId;
+      }
+
+      if (filter.division) {
+        params.DivisionIds = [filter.division];
+      }
+      if (filter.gridcell) {
+        params.GridCellIds = [filter.gridcell];
+      }
+      if (filter.repeated != undefined) {
+        params.IsRepeated = filter.repeated;
+      }
+      return params;
+    },
+  };
 
   private test = {
     shop: async (

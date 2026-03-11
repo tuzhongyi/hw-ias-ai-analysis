@@ -1,7 +1,7 @@
 import {
   PagedDurationParams,
   PagedParams,
-} from '../../../../models/params.interface';
+} from '../../../../models/interface/params.interface';
 
 export class GetAnalysisGpsTaskListParams extends PagedParams {
   /**	String	任务名称	O	*/

@@ -4,7 +4,7 @@ import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { EventUploadContent } from '../../../../models/arm/event/event-upload-content.model';
 import { MobileDevice } from '../../../../models/arm/mobile-device/mobile-device.model';
-import { PagedList } from '../../../../models/page-list.model';
+import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';

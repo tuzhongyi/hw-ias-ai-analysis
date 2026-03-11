@@ -7,7 +7,7 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
-import { Page } from '../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../common/data-core/models/interface/page-list.model';
 import { PictureListComponent } from '../picture-list/picture-list.component';
 
 @Component({

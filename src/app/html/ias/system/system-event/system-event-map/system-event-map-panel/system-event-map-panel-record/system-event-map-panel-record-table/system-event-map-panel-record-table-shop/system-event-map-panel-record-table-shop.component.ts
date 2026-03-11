@@ -3,7 +3,7 @@ import { Component, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PaginatorComponent } from '../../../../../../../../../common/components/paginator/paginator.component';
 import { MobileEventRecord } from '../../../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { IConverter } from '../../../../../../../../../common/data-core/models/converter.interface';
+import { IConverter } from '../../../../../../../../../common/data-core/models/interface/converter.interface';
 import { SystemEventMapPanelRecordTableBusiness } from '../system-event-map-panel-record-table.business';
 import { SystemEventMapPanelRecordTableComponent } from '../system-event-map-panel-record-table.component';
 import { MobileEventRecordModel } from '../system-event-map-panel-record-table.model';

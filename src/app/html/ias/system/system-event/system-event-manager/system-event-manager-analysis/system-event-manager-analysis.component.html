@@ -52,27 +52,29 @@
             <input type="text" [(ngModel)]="table.args.resource" />
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item submit">
           <button class="button-clip-gradient" (click)="table.search()">
             查找
           </button>
+          <button class="button-clip-gradient" (click)="on.download()">
+            导出
+          </button>
+          <button
+            class="button-clip-gradient"
+            (click)="window.map.show = true"
+            *ngIf="mapable"
+          >
+            地图
+          </button>
         </div>
       </div>
-    </div>
-    <div class="system-event-manager-analysis-head-operation">
-      <button
-        class="button-clip-gradient"
-        (click)="window.map.show = true"
-        *ngIf="mapable"
-      >
-        地图
-      </button>
     </div>
   </div>
   <div class="system-event-manager-analysis-body">
     <ias-system-event-table-analysis
       [args]="table.args"
       [load]="table.load"
+      [download]="table.download"
       (picture)="table.on.picture($event)"
       (process)="table.on.process($event)"
       (task)="table.on.task($event)"

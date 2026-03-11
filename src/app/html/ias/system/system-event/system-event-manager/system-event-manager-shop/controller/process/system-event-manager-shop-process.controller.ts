@@ -3,7 +3,7 @@ import { MobileEventRecord } from '../../../../../../../../common/data-core/mode
 import {
   Page,
   Paged,
-} from '../../../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../../../common/data-core/models/interface/page-list.model';
 import { SystemEventManagerShopProcessSignController } from './system-event-manager-shop-process-sign.controller';
 
 @Injectable()

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
-import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';

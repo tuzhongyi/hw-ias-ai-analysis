@@ -7,7 +7,7 @@ import { HowellPoint } from '../../../../../../common/data-core/models/arm/point
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { AudioButtonComponent } from '../../../../share/audio/audio-button/audio-button.component';
 import { AudioSubtitleComponent } from '../../../../share/audio/audio-subtitle/audio-subtitle.component';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';

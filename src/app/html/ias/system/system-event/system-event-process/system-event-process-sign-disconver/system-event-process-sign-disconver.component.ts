@@ -20,7 +20,7 @@ import { HowellPoint } from '../../../../../../common/data-core/models/arm/point
 import {
   Page,
   PagedList,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PicturePolygonComponent } from '../../../../share/picture/picture-polygon/picture-polygon.component';
 

@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IIdNameModel } from '../../../model.interface';
+import { IIdNameModel } from '../../../interface/model.interface';
 import { Transformer } from '../../../transformer';
 /**	AnalysisTask (AI分析任务)	*/
 export class AnalysisTask implements IIdNameModel<string, string | undefined> {

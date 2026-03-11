@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { PagedList } from '../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ArmDivisionRequestService } from '../../../../../../common/data-core/requests/services/division/division.service';
 import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
 import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
@@ -41,6 +41,10 @@ export class SystemEventTableBusiness {
     paged.Data = datas.Data.map((x) => this.convert(x));
 
     return paged;
+  }
+
+  download(filter: SystemEventTableFilter, total: number) {
+    this.service.table.download(filter, total);
   }
 
   convert(source: MobileEventRecord) {

@@ -13,6 +13,7 @@ import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model';
 import { RobotBatteryState } from '../../data-core/enums/robot/robot-battery-state.enum';
 import { CanType } from '../../data-core/enums/robot/robot-can-type.model';
 import { RobotState } from '../../data-core/enums/robot/robot-state.enum';
+import { IAssignment } from '../../data-core/models/arm/event/assignment.model';
 
 export class Language {
   static Year = 'yyyy年';
@@ -517,5 +518,27 @@ export class Language {
           return '未知';
       }
     }
+  }
+
+  static Confirmed(value?: boolean) {
+    let result = '未确认';
+    if (value) {
+      result = '已确认';
+    }
+    return result;
+  }
+
+  static Assignment(data: IAssignment) {
+    let result = '未处置';
+    if (data.Assignment) {
+      if (data.Assignment.IsMisInfo) {
+        result = '已忽略';
+      } else if (data.Assignment.Handled) {
+        result = '已处置';
+      } else {
+      }
+    }
+
+    return result;
   }
 }

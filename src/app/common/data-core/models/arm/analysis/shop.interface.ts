@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
-import { IIdNameLocationModel } from '../../model.interface';
+import { IIdNameLocationModel } from '../../interface/model.interface';
 import { GisPoints } from '../gis-point.model';
 
 export interface IShop extends IIdNameLocationModel {

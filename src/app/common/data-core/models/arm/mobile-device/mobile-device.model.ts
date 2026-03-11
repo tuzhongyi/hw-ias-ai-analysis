@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IIdNameLocationModel } from '../../model.interface';
+import { IIdNameLocationModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoints } from '../gis-point.model';
 

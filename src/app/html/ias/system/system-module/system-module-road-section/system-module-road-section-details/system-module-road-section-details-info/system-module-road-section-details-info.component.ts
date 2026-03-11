@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HowellSelectComponent } from '../../../../../../../common/components/hw-select/select-control.component';
 import { SelectMultipleComponent } from '../../../../../../../common/components/select-multiple/select-multiple.component';
 import { RoadSection } from '../../../../../../../common/data-core/models/arm/geographic/road-section.model';
-import { IIdNameModel } from '../../../../../../../common/data-core/models/model.interface';
+import { IIdNameModel } from '../../../../../../../common/data-core/models/interface/model.interface';
 import { TextSpaceBetweenDirective } from '../../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { wait } from '../../../../../../../common/tools/wait';
 import { SystemModuleRoadSectionDetailsInfoBusiness } from './system-module-road-section-details-info.business';

@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer';
-import { IIdNameModel } from '../../model.interface';
+import { IIdNameModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { WeekTimeSegment } from '../analysis/segment/week-time-segment.model';
 import { GisPoint } from '../gis-point.model';

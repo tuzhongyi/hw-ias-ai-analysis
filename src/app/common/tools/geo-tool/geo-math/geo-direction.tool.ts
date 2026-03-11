@@ -1,5 +1,5 @@
 import { GisPoints } from '../../../data-core/models/arm/gis-point.model';
-import { IIdModel } from '../../../data-core/models/model.interface';
+import { IIdModel } from '../../../data-core/models/interface/model.interface';
 import { ArrayTool } from '../../array-tool/array.tool';
 import { LocaleCompare } from '../../compare-tool/compare.tool';
 import { GeoDirection, GeoDirectionSort } from '../geo.model';

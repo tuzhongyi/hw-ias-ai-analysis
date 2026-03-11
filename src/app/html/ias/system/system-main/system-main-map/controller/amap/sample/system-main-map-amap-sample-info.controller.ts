@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GpsTaskSampleRecord } from '../../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
-import { Paged } from '../../../../../../../../common/data-core/models/page-list.model';
+import { Paged } from '../../../../../../../../common/data-core/models/interface/page-list.model';
 import { AMapTool } from '../../../../../../../../common/helper/map/amap.tool';
 import { ComponentTool } from '../../../../../../../../common/tools/component-tool/component.tool';
 import { SystemMainMapAlarmInfoComponent } from '../../../../system-main-map-alarm-info/system-main-map-alarm-info.component';

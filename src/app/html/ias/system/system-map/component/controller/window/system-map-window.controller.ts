@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
 import { HowellPoint } from '../../../../../../../common/data-core/models/arm/point.model';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 
 @Injectable()

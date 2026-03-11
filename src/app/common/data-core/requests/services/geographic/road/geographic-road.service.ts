@@ -5,7 +5,7 @@ import { AbstractService } from '../../../../cache/cache.interface';
 import { RoadAddress } from '../../../../models/arm/geographic/road-address.model';
 import { Road } from '../../../../models/arm/geographic/road.model';
 import { GisPoint } from '../../../../models/arm/gis-point.model';
-import { PagedList } from '../../../../models/page-list.model';
+import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmGeographicUrl } from '../../../../urls/arm/geographic/geographic.url';
 import { HowellHttpClient } from '../../../howell-http.client';

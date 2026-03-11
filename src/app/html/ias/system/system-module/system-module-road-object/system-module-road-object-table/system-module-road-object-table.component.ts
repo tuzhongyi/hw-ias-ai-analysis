@@ -18,7 +18,7 @@ import {
   Page,
   Paged,
   PagedList,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { SystemModuleRoadObjectTableBusiness } from './system-module-road-object-table.business';
 import {
   SystemModuleRoadObjectTableArgs,
@@ -62,13 +62,13 @@ export class SystemModuleRoadObjectTableComponent
     '65px',
     '65px',
     '100px',
-    '100px',
+    'auto',
     '100px',
 
     '150px',
     '150px',
     'auto',
-    '100px',
+    '70px',
     '100px',
   ];
   private subscription = new Subscription();

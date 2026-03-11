@@ -13,7 +13,7 @@ import { ResultLabelType } from '../../../../../../../common/data-core/enums/ana
 import { ShopSign } from '../../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { TextSpaceBetweenDirective } from '../../../../../../../common/directives/text-space-between/text-space-between.directive';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { ShopSignViewModel } from '../../../../../../../common/view-models/shop-sign/shop-sign.view-model';

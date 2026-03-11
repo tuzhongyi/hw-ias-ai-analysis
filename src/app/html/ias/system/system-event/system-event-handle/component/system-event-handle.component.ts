@@ -14,7 +14,7 @@ import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
-import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ListPageComponent } from '../../../../share/list-page/list-page.component';
 import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { PicturePolygonZoomComponent } from '../../../../share/picture/picture-polygon-zoom/picture-polygon-zoom.component';

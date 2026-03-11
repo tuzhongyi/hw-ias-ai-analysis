@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import 'reflect-metadata';
 import { EnumNameValue } from '../../capabilities/enum-name-value.model';
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 /**	AnalysisServerCapability (分析服务器能力)	*/
 export class AnalysisServerCapability implements IModel {
   /**	EnumNameValue[]	任务类型	O	*/

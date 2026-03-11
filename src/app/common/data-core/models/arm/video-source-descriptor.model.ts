@@ -1,5 +1,5 @@
 import { DeviceProtocolType } from '../../enums/device-protocol-type.enum';
-import { IIdModel } from '../model.interface';
+import { IIdModel } from '../interface/model.interface';
 
 /**	VideoSourceDescriptor (视频数据来源)	*/
 export class VideoSourceDescriptor implements IIdModel<number> {

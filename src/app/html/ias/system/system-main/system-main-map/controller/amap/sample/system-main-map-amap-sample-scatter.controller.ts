@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { GpsTaskSampleRecord } from '../../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
-import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
+import { ILocation } from '../../../../../../../../common/data-core/models/interface/model.interface';
 import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { IASMapAMapConverter } from '../../../../../../share/map/controller/amap/ias-map-amap.converter';
 

@@ -5,7 +5,7 @@ import { Shop } from '../../../../../../common/data-core/models/arm/analysis/sho
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
 import { ISystemModuleShopStorage } from '../../../../../../common/storage/system-module-storage/system-module-shop.storage';
 import { ShopViewModel } from '../../../../../../common/view-models/shop/shop.view-model';

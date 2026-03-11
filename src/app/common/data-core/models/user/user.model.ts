@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IIdModel } from '../model.interface';
+import { IIdModel } from '../interface/model.interface';
 import { Transformer } from '../transformer';
 
 /**	User (用户信息)	*/

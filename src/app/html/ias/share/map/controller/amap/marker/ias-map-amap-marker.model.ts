@@ -3,7 +3,7 @@ import { IShop } from '../../../../../../../common/data-core/models/arm/analysis
 import {
   IIdModel,
   ILocation,
-} from '../../../../../../../common/data-core/models/model.interface';
+} from '../../../../../../../common/data-core/models/interface/model.interface';
 
 export class IASMapAMapMarkerEvent<T extends IIdModel & ILocation = IShop> {
   mouseover = new EventEmitter<T>();

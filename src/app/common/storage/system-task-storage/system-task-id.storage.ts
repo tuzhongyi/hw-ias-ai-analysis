@@ -1,4 +1,4 @@
-import { IIdNameModel } from '../../data-core/models/model.interface';
+import { IIdNameModel } from '../../data-core/models/interface/model.interface';
 
 export class SystemTaskInfoStorage {
   key = 'system-task-info';

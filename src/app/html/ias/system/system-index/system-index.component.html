@@ -1,34 +1,39 @@
 <div class="system-index root-router">
-  <div
-    class="system-index-button task"
-    *ngIf="display.task.shop || display.task.gps"
-    (click)="onpath(Path.task_index)"
-  >
-    AI分析任务
-  </div>
-  <div
-    class="system-index-button module"
-    *ngIf="
-      display.module.shop ||
-      display.module.road ||
-      display.module.route ||
-      display.module.roadobject
-    "
-    (click)="onpath(Path.module)"
-  >
-    AI功能模块
-  </div>
-  <div class="system-index-button map" (click)="onpath(Path.map)">地图</div>
-  <div
-    class="system-index-button event"
-    *ngIf="
-      display.record.shop ||
-      display.record.realtime ||
-      display.record.gps ||
-      display.record.roadobject
-    "
-    (click)="onpath(Path.event)"
-  >
-    AI分析事件
+  <div class="system-index-container">
+    <div
+      class="system-index-button task"
+      *ngIf="display.task.shop || display.task.gps"
+      (click)="onpath(Path.task_index)"
+    >
+      AI分析任务
+    </div>
+    <div
+      class="system-index-button module"
+      *ngIf="
+        display.module.shop ||
+        display.module.road ||
+        display.module.route ||
+        display.module.roadobject
+      "
+      (click)="onpath(Path.module)"
+    >
+      AI功能模块
+    </div>
+    <div class="system-index-button map" (click)="onpath(Path.map)">地图</div>
+    <div
+      class="system-index-button event"
+      *ngIf="
+        display.record.shop ||
+        display.record.realtime ||
+        display.record.gps ||
+        display.record.roadobject
+      "
+      (click)="onpath(Path.event)"
+    >
+      AI分析事件
+    </div>
+    <div class="system-index-button statistic" (click)="onpath(Path.statistic)">
+      分析统计
+    </div>
   </div>
 </div>

@@ -2,7 +2,7 @@ import { instanceToPlain } from 'class-transformer';
 import { ServiceTool } from '../../../../../tools/service-tool/service.tool';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { GpsTaskSampleRecord } from '../../../../models/arm/analysis/llm/gps-task-sample-record.model';
-import { PagedList } from '../../../../models/page-list.model';
+import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmAnalysisUrl } from '../../../../urls/arm/analysis/analysis.url';
 import { HowellHttpClient } from '../../../howell-http.client';

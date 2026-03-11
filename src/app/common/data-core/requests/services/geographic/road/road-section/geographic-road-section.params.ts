@@ -1,4 +1,4 @@
-import { PagedParams } from '../../../../../models/params.interface';
+import { PagedParams } from '../../../../../models/interface/params.interface';
 
 export class GetRoadSectionsParams extends PagedParams {
   /**	String[]	路段ID列表	O	*/

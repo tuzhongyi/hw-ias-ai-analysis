@@ -1,4 +1,4 @@
-import { ILocation } from '../../../../../../common/data-core/models/model.interface';
+import { ILocation } from '../../../../../../common/data-core/models/interface/model.interface';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapHeatmapController {

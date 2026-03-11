@@ -10,9 +10,15 @@
     </ng-container>
     <div class="form-item">
       <div class="form-item-text" text-space-between [suffix]="':'">
-        部件类型
+        部件名称
       </div>
       <div class="form-item-value">{{ data.RoadObjectName }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        部件类型
+      </div>
+      <div class="form-item-value">{{ language.type }}</div>
     </div>
     <div class="form-item" *ngIf="data.Category != undefined">
       <div class="form-item-text" text-space-between [suffix]="':'">
@@ -68,34 +74,16 @@
       <div class="form-item-value">{{ data.Description }}</div>
     </div>
 
-    <div class="form-item" *ngIf="!data.Assignment || !data.Assignment.Handled">
+    <div class="form-item">
       <div class="form-item-text" text-space-between [suffix]="':'">
         处置状态
       </div>
-      <div class="form-item-value unhandle">待处置</div>
+      <div class="form-item-value" [style.color]="Color.Assignment(data)">
+        {{ Language.Assignment(data) }}
+      </div>
     </div>
 
     <ng-container *ngIf="data.Assignment && data.Assignment.Handled">
-      <div class="form-item">
-        <div class="form-item-text" text-space-between [suffix]="':'">
-          处置状态
-        </div>
-        <div
-          class="form-item-value"
-          [ngClass]="{
-            misinfo: data.Assignment.IsMisInfo,
-            handled: !data.Assignment.IsMisInfo,
-          }"
-        >
-          {{
-            data.Assignment.IsMisInfo
-              ? data.EventType === 9
-                ? "屏蔽"
-                : "误报"
-              : "已处置"
-          }}
-        </div>
-      </div>
       <div class="form-item" *ngIf="data.Assignment.AssociationDescription">
         <div class="form-item-text" text-space-between [suffix]="':'">
           处置描述

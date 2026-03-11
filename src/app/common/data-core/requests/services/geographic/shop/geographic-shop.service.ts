@@ -4,7 +4,7 @@ import { AbstractService } from '../../../../cache/cache.interface';
 import { ShopTaskCompareResult } from '../../../../models/arm/analysis/shop-task-compare-result.model';
 import { ShopRegistrationTaskDetectedResult } from '../../../../models/arm/geographic/shop-registration-task-detected-result.model';
 import { ShopRegistration } from '../../../../models/arm/geographic/shop-registration.model';
-import { PagedList } from '../../../../models/page-list.model';
+import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmGeographicUrl } from '../../../../urls/arm/geographic/geographic.url';
 import { HowellHttpClient } from '../../../howell-http.client';

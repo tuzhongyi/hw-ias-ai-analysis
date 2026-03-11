@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { GpsTaskSampleRecord } from '../../../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { MobileDevice } from '../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
-import { Paged } from '../../../../../../../common/data-core/models/page-list.model';
+import { Paged } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { IASMapAMapRoadObjectMarkerLayerController } from '../../../../../share/map/controller/amap/road-object/marker/ias-map-amap-road-object-marker-layer.controller';
 import { IASMapAMapRoadObjectPointLayerController } from '../../../../../share/map/controller/amap/road-object/point/ias-map-amap-road-object-point-layer.controller';
 import { SystemMainMapAMapAlarmInfoController } from './alarm/system-main-map-amap-alarm-info.controller';

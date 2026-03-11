@@ -12,7 +12,7 @@ import { PaginatorComponent } from '../../../../../../common/components/paginato
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { TableSorterDirective } from '../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../common/directives/table-sorter/table-sorter.model';
 import { LocalStorage } from '../../../../../../common/storage/local.storage';

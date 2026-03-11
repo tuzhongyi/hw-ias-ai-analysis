@@ -19,6 +19,14 @@ export class SystemEventUrl extends AbstractUrl {
   capability() {
     return `${this.basic()}/Capability`;
   }
+  excel = {
+    export: () => {
+      return `${this.basic()}/Excels/Export`;
+    },
+    get: (id: string) => {
+      return `${this.basic()}/Excels/${id}`;
+    },
+  };
   record = {
     file: (id: string, params: GetMobileEventFileParams) => {
       let query = params.to.query();

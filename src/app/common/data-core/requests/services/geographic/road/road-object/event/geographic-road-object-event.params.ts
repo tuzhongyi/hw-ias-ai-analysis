@@ -4,7 +4,7 @@ import { EventResource } from '../../../../../../models/arm/event/event-resource
 import {
   IParams,
   PagedDurationParams,
-} from '../../../../../../models/params.interface';
+} from '../../../../../../models/interface/params.interface';
 
 export class GetRoadObjectEventsParams extends PagedDurationParams {
   /**	String[]	时间ID	O	*/
@@ -50,4 +50,21 @@ export class RoadObjectEventConfirmation implements IParams {
   Health?: number;
   /**	EventResource[]	资源列表	O	*/
   Resources?: EventResource[];
+}
+
+export class GetRoadObjectEventsExportParams extends PagedDurationParams {
+  /**	String[]	时间ID	O	*/ Ids?: string[];
+  /**	Int32	事件类型	O	*/ EventType?: number;
+  /**	Boolean	是否已派单，true：已派单	O	*/ Assigned?: boolean;
+  /**	Boolean	是否已处置，true：已处置	O	*/ Handled?: boolean;
+  /**	Boolean	是否为误报，true：误报	O	*/ IsMisInfo?: boolean;
+  /**	String	分组GUID，用于中心服务器区分来源	O	*/ GroupGuid?: string;
+  /**	String[]	区划列表	O	*/ DivisionIds?: string[];
+  /**	String[]	网格列表	O	*/ GridCellIds?: string[];
+  /**	Boolean	是否已确认	O	*/ Confirmed?: boolean;
+  /**	String[]	道路固件ID	O	*/ RoadObjectIds?: string[];
+  /**	Int32	道路固件类型	O	*/ RoadObjectType?: number;
+  /**	String	名称，LIKE	O	*/ RoadObjectName?: string;
+  /**	String	升序属性，不区分大小写	O	*/ Asc?: string;
+  /**	String	降序属性，不区分大小写	O	*/ Desc?: string;
 }

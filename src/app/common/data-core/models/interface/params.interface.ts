@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { Transformer } from './transformer';
+import { Transformer } from '../transformer';
 
 export interface IParams {}
 export class PagedParams implements IParams {

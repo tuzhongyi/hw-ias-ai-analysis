@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { IShop } from '../../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
+import { ILocation } from '../../../../../../../../common/data-core/models/interface/model.interface';
 import { IASMapAMapPointExistedController } from '../../../../../../share/map/controller/amap/shop/point/ias-map-amap-shop-point-existed.controller';
 
 export class SystemModuleShopDetailsAMapPointController {

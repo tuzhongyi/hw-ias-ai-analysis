@@ -3,7 +3,7 @@ import { ShopObjectState } from '../../../../../common/data-core/enums/analysis/
 import { ShopSign } from '../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { IShop } from '../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { Road } from '../../../../../common/data-core/models/arm/geographic/road.model';
-import { Paged } from '../../../../../common/data-core/models/page-list.model';
+import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
 import { SystemMapPanelDetailsShopRegistrationComponent } from '../system-map-panel-details-shop-registration/system-map-panel-details-shop-registration.component';
 import { TaskCompareType } from '../system-map-task/system-map-task-manager/system-map-task-manager.model';
 

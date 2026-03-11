@@ -29,30 +29,21 @@
 
 
       .form {
-        &s {
-          gap: 12px;
-        }
+
 
         &-item {
-          gap: 5px;
 
-          &-value {
+          &.task {
+            min-width: 265px;
+          }
 
-            &.text {
-              max-width: 180px;
-            }
-
-            &.number {
-              max-width: 100px;
-            }
-
-
-
-
+          &.text {
+            flex-grow: 1;
+            flex-shrink: 0;
           }
 
           &.duration {
-            min-width: 150px;
+            min-width: 250px;
           }
 
           &.state {

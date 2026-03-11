@@ -16,7 +16,7 @@ export class SystemMainCardStatisticEventRoadObjectChartComponent extends System
   declare element?: ElementRef;
 
   override set(datas: ChartItem[]) {
-    this.option.color = [ColorTool.blue, ColorTool.orange, ColorTool.red];
+    this.option.color = [ColorTool.blue, ColorTool.redlight, ColorTool.red];
     this.option.series[0].data = [...datas];
     this.option.series[1].data = [...datas];
   }

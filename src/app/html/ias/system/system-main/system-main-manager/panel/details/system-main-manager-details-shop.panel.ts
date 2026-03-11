@@ -1,6 +1,6 @@
 import { ShopSign } from '../../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { Paged } from '../../../../../../../common/data-core/models/page-list.model';
+import { Paged } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { SystemMainManagerComponent } from '../../system-main-manager.component';
 
 export class SystemMainManagerPanelShopDetails {

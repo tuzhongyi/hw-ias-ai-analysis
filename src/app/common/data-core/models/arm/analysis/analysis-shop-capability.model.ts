@@ -3,7 +3,7 @@ import { ResultLabelType } from '../../../enums/analysis/result-label-type.enum'
 import { ShopObjectState } from '../../../enums/analysis/shop-object-state.enum';
 import { SignType } from '../../../enums/analysis/sign-type.enum';
 import { EnumNameValue } from '../../capabilities/enum-name-value.model';
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 
 /**	AnalysisShopCapability (商铺店招能力)	*/
 export class AnalysisShopCapability implements IModel {

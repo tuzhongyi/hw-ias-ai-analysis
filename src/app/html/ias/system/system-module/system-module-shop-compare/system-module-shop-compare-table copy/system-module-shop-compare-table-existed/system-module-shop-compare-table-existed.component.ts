@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { PaginatorComponent } from '../../../../../../../common/components/paginator/paginator.component';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { Page } from '../../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { ShopConverter } from '../../../../../../../common/view-models/shop/shop.converter';
 import { IShopViewModel } from '../../../../../../../common/view-models/shop/shop.view-model';

@@ -1,4 +1,4 @@
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 
 /**	EventNumber (事件数量)	*/
 export class EventNumber implements IModel {

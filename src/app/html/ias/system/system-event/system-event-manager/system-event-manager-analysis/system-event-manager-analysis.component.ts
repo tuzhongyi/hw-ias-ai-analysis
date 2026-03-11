@@ -11,7 +11,7 @@ import { ShopRegistration } from '../../../../../../common/data-core/models/arm/
 import {
   Page,
   PagedList,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
@@ -86,6 +86,7 @@ export class SystemEventManagerAnalysisComponent implements OnInit {
   table = {
     args: new SystemEventTableArgs(),
     load: new EventEmitter<SystemEventTableArgs>(),
+    download: new EventEmitter<SystemEventTableArgs>(),
     search: () => {
       this.table.args.first = true;
       this.table.load.emit(this.table.args);
@@ -166,6 +167,12 @@ export class SystemEventManagerAnalysisComponent implements OnInit {
     close: () => {
       this.window.confirm.result = false;
       this.window.confirm.show = false;
+    },
+  };
+
+  on = {
+    download: () => {
+      this.table.download.emit(this.table.args);
     },
   };
 }

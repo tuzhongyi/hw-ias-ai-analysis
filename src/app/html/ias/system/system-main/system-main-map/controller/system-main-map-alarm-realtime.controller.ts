@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { Paged } from '../../../../../../common/data-core/models/page-list.model';
+import { Paged } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 export class SystemMainMapAlarmRealtimeController {

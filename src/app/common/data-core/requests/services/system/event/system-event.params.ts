@@ -2,7 +2,7 @@ import { GisPoint } from '../../../../models/arm/gis-point.model';
 import {
   IParams,
   PagedDurationParams,
-} from '../../../../models/params.interface';
+} from '../../../../models/interface/params.interface';
 
 export class GetMobileEventsParams extends PagedDurationParams {
   /**	Int32	事件类型	O	*/

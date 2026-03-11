@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import { GeoTool } from '../../../tools/geo-tool/geo.tool';
 import { GisType } from '../../enums/gis-type.enum';
-import { IGisPoint } from '../model.interface';
+import { IGisPoint } from '../interface/model.interface';
 import { Transformer } from '../transformer';
 
 /**	GisPoint (地理信息坐标点)	*/

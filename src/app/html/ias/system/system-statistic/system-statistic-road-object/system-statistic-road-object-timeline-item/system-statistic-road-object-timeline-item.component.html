@@ -1,0 +1,24 @@
+<div class="system-statistic-road-object-timeline-item" *ngIf="data">
+  <div class="system-statistic-road-object-timeline-item-image">
+    <div
+      class="system-statistic-road-object-timeline-item-image-background"
+    ></div>
+    <div
+      class="system-statistic-road-object-timeline-item-image-line left"
+      *ngIf="!first"
+    ></div>
+    <div
+      class="system-statistic-road-object-timeline-item-image-line right"
+      *ngIf="!last"
+    ></div>
+  </div>
+  <div class="system-statistic-road-object-timeline-item-type">
+    {{ type }}
+  </div>
+  <div class="system-statistic-road-object-timeline-item-name">
+    {{ data.Address }}
+  </div>
+  <div class="system-statistic-road-object-timeline-item-time">
+    {{ data.EventTime | date : "mm:ss" }}
+  </div>
+</div>

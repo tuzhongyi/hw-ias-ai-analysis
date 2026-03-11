@@ -4,7 +4,7 @@ import { ServiceTool } from '../../../../tools/service-tool/service.tool';
 import { Cache } from '../../../cache/cache';
 import { AbstractService } from '../../../cache/cache.interface';
 import { Division } from '../../../models/arm/division/division.model';
-import { PagedList } from '../../../models/page-list.model';
+import { PagedList } from '../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../models/response';
 import { ArmDivisionUrl } from '../../../urls/arm/division/division.url';
 import { HowellHttpClient } from '../../howell-http.client';

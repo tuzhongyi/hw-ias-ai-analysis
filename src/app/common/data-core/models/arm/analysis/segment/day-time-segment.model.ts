@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IModel } from '../../../model.interface';
+import { IModel } from '../../../interface/model.interface';
 import { TimeSegment } from './time-segment.model';
 
 /**	DayTimeSegment (每日工作表时间段)	*/

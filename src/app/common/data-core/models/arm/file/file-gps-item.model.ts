@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { Time } from '../../common/time.model';
-import { IModel } from '../../model.interface';
+import { IModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 
 /**	FileGpsItem (文件中的GPS信息)	*/

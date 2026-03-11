@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
-import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../../common/data-core/models/interface/page-list.model';
 
 @Injectable()
 export class SystemMainPanelShopRegistrationTableBusiness {

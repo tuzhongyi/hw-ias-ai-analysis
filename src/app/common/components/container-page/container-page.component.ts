@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Page } from '../../data-core/models/page-list.model';
+import { Page } from '../../data-core/models/interface/page-list.model';
 
 @Component({
   selector: 'howell-container-page',

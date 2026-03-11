@@ -168,8 +168,10 @@
           <button class="button-clip-gradient" (click)="table.search()">
             查找
           </button>
-        </div>
-        <div class="form-item other">
+
+          <button class="button-clip-gradient" (click)="on.download()">
+            导出
+          </button>
           <button
             class="button-clip-gradient"
             (click)="window.map.show = true"
@@ -186,6 +188,7 @@
       *ngIf="table.args.types.length > 0"
       [args]="table.args"
       [load]="table.load"
+      [download]="table.download"
       (picture)="table.on.picture($event)"
       (process)="table.on.process($event)"
       (task)="table.on.task($event)"

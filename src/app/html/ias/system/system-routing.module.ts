@@ -21,6 +21,9 @@ import { SystemModuleRoadObjectManagerComponent } from './system-module/system-m
 import { SystemModuleRoadSectionManagerComponent } from './system-module/system-module-road-section/system-module-road-section-manager/system-module-road-section-manager.component';
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
+import { SystemStatisticComponent } from './system-statistic/component/system-statistic.component';
+import { SystemStatisticIndexComponent } from './system-statistic/system-statistic-index/system-statistic-index.component';
+import { SystemStatisticRoadObjectManagerComponent } from './system-statistic/system-statistic-road-object/system-statistic-road-object-manager/system-statistic-road-object-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
 import { SystemModuleGpsTaskManagerComponent } from './system-task/system-module-gps-task/system-module-gps-task-manager/system-module-gps-task-manager.component';
 import { SystemTaskIndexComponent } from './system-task/system-task-index/system-task-index.component';
@@ -177,6 +180,25 @@ const routes: Routes = [
                 component: SystemEventRoadObjectManagerComponent,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: 'statistic',
+        component: SystemStatisticComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'index',
+            pathMatch: 'full',
+          },
+          {
+            path: 'index',
+            component: SystemStatisticIndexComponent,
+          },
+          {
+            path: 'road-object',
+            component: SystemStatisticRoadObjectManagerComponent,
           },
         ],
       },

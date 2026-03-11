@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
 import { Time } from '../../../../../../../../common/data-core/models/common/time.model';
-import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
+import { ILocation } from '../../../../../../../../common/data-core/models/interface/model.interface';
 import { AMapInputTipItem } from '../../../../../../../../common/helper/map/amap.model';
 import { ArrayTool } from '../../../../../../../../common/tools/array-tool/array.tool';
 import { ClassTool } from '../../../../../../../../common/tools/class-tool/class.tool';

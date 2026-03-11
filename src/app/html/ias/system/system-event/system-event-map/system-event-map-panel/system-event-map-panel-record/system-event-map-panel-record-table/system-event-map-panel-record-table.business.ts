@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MobileEventRecord } from '../../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
-import { PagedList } from '../../../../../../../../common/data-core/models/page-list.model';
+import { PagedList } from '../../../../../../../../common/data-core/models/interface/page-list.model';
 
 @Injectable()
 export class SystemEventMapPanelRecordTableBusiness {

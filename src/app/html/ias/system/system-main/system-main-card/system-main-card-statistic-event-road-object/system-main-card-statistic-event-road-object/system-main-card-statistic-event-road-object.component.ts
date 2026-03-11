@@ -45,7 +45,7 @@ export class SystemMainCardStatisticEventRoadObjectComponent
   title = '事件分类统计';
 
   datas: ChartItem[] = [];
-  color = [ColorTool.blue, ColorTool.orange, ColorTool.red];
+  color = [ColorTool.blue, ColorTool.redlight, ColorTool.red];
 
   private subscription = new Subscription();
   ngOnInit(): void {

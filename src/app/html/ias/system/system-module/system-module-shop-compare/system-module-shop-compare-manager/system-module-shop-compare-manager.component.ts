@@ -12,7 +12,7 @@ import { ShopRegistration } from '../../../../../../common/data-core/models/arm/
 import {
   Page,
   Paged,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { LocalStorage } from '../../../../../../common/storage/local.storage';
 import { TaskDuration } from '../../../../../../common/storage/system-compare-storage/system-compare.storage';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';

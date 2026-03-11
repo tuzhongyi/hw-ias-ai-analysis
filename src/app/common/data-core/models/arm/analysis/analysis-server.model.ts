@@ -1,4 +1,4 @@
-import { IIdNameModel } from '../../model.interface';
+import { IIdNameModel } from '../../interface/model.interface';
 
 /**	AnalysisServer (本地分析服务器)	*/
 export class AnalysisServer

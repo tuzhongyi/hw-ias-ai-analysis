@@ -1,5 +1,8 @@
 import { GisPoint } from '../../../../models/arm/gis-point.model';
-import { IParams, PagedParams } from '../../../../models/params.interface';
+import {
+  IParams,
+  PagedParams,
+} from '../../../../models/interface/params.interface';
 
 export class GetShopRegistrationsParams extends PagedParams {
   /**	String[]	商铺ID列表	O	*/

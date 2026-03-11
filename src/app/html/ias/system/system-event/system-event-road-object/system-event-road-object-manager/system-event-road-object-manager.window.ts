@@ -3,7 +3,7 @@ import { WindowViewModel } from '../../../../../../common/components/window-cont
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
-import { Page } from '../../../../../../common/data-core/models/page-list.model';
+import { Page } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PicturePolygonArgs } from '../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemEventVideoArgs } from '../../system-event-video/system-event-video.model';

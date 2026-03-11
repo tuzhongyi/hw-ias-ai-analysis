@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IParams } from '../../../../../models/params.interface';
+import { IParams } from '../../../../../models/interface/params.interface';
 import { Transformer } from '../../../../../models/transformer';
 
 export class GetEventNumbersParams implements IParams {

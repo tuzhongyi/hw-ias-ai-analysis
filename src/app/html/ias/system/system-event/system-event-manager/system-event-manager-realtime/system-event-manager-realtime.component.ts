@@ -22,7 +22,7 @@ import {
   Page,
   Paged,
   PagedList,
-} from '../../../../../../common/data-core/models/page-list.model';
+} from '../../../../../../common/data-core/models/interface/page-list.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
@@ -117,6 +117,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
   table = {
     args: new SystemEventTableArgs(),
     load: new EventEmitter<SystemEventTableArgs>(),
+    download: new EventEmitter<SystemEventTableArgs>(),
     selected: {
       channels: [] as EnumNameValue<number>[],
     },
@@ -210,6 +211,12 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
     close: () => {
       this.window.confirm.result = false;
       this.window.confirm.show = false;
+    },
+  };
+
+  on = {
+    download: () => {
+      this.table.download.emit(this.table.args);
     },
   };
 }

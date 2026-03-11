@@ -5,7 +5,7 @@ import { GisPoints } from '../../../../models/arm/gis-point.model';
 import {
   IParams,
   PagedDurationParams,
-} from '../../../../models/params.interface';
+} from '../../../../models/interface/params.interface';
 import { Transformer } from '../../../../models/transformer';
 
 export class GetShopsParams extends PagedDurationParams {

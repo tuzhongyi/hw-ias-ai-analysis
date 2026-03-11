@@ -2,7 +2,7 @@
 
 import { Transform } from 'class-transformer';
 import 'reflect-metadata';
-import { IIdModel } from '../../model.interface';
+import { IIdModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoints } from '../gis-point.model';
 import { HowellPoint } from '../point.model';

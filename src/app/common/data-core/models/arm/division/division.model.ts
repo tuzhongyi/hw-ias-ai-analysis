@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { ArmDivisionType } from '../../../enums/division/divison-type.enum';
-import { IIdNameModel } from '../../model.interface';
+import { IIdNameModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 
 /**	Division (区划)	*/

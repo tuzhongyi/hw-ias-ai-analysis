@@ -1,4 +1,4 @@
-import { IModel } from '../model.interface';
+import { IModel } from '../interface/model.interface';
 
 /**	Point (点)	*/
 export class HowellPoint implements IModel {

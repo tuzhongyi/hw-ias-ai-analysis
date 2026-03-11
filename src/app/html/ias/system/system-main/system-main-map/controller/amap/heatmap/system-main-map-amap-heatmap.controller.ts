@@ -1,4 +1,4 @@
-import { ILocation } from '../../../../../../../../common/data-core/models/model.interface';
+import { ILocation } from '../../../../../../../../common/data-core/models/interface/model.interface';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
 import { SystemMainMapAMapHeatmapMarkerClusterController } from './system-main-map-amap-heatmap-marker-cluster.controller';
 

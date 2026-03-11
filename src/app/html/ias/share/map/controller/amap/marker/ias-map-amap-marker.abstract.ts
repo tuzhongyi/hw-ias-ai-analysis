@@ -1,4 +1,4 @@
-import { IIdNameLocationModel } from '../../../../../../../common/data-core/models/model.interface';
+import { IIdNameLocationModel } from '../../../../../../../common/data-core/models/interface/model.interface';
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 import { IASMapAMapMarkerEvent } from './ias-map-amap-marker.model';

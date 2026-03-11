@@ -15,8 +15,8 @@ import { Shop } from '../../../../../../../common/data-core/models/arm/analysis/
 import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
 import { ShopRegistration } from '../../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { NameValue } from '../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
-import { IIdNameModel } from '../../../../../../../common/data-core/models/model.interface';
-import { PagedList } from '../../../../../../../common/data-core/models/page-list.model';
+import { IIdNameModel } from '../../../../../../../common/data-core/models/interface/model.interface';
+import { PagedList } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { PicturePolygonArgs } from '../../../../../share/picture/picture-polygon/picture-polygon.model';
 import { SystemTaskShopAnalysisDetailsComponent } from '../../system-task-shop-analysis/system-task-shop-analysis-details/system-task-shop-analysis-details.component';

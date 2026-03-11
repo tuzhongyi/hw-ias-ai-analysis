@@ -1,4 +1,4 @@
-import { IModel } from '../../../model.interface';
+import { IModel } from '../../../interface/model.interface';
 
 /**	ShopTaskStatistic (商铺任务统计结果)	*/
 export class ShopTaskStatistic implements IModel {
