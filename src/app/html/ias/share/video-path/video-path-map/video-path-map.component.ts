@@ -12,7 +12,7 @@ import {
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { IASMapPanelSettingsComponent } from '../../map-panel/ias-map-panel-settings/ias-map-panel-settings.component';
-import { IIASMapArgs, MapMarker } from '../../map/ias-map.model';
+import { IIASMapArgs, MapMarkerStyle } from '../../map/ias-map.model';
 import { VideoPathMapAMapController } from './controller/amap/video-path-map-amap.controller';
 import { VideoPathMapController } from './controller/video-path-map.controller';
 import { IVideoPathMapTriggerArgs } from './video-path-map.model';
@@ -27,7 +27,7 @@ import { IVideoPathMapTriggerArgs } from './video-path-map.model';
 export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
   @Input() datas: FileGpsItem[] = [];
   @Input() points: GisPoint[] = [];
-  @Input() args: IIASMapArgs = new MapMarker();
+  @Input() args: IIASMapArgs = new MapMarkerStyle();
   @Input('to') _to?: EventEmitter<number>;
   @Output() trigger = new EventEmitter<IVideoPathMapTriggerArgs>();
   @Output() loaded = new EventEmitter<void>();
@@ -100,7 +100,7 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
     },
     point: async (
       datas: GisPoint[],
-      args: MapMarker,
+      args: MapMarkerStyle,
       fitview: boolean = false
     ) => {
       try {

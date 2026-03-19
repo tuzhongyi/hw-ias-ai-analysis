@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../common/components/paginator/paginator.component';
 import { ArmEventType } from '../../../../../../common/data-core/enums/event/arm-event-type.enum';
@@ -56,7 +57,10 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
   @Output() details = new EventEmitter<MobileEventRecord>();
   @Output() task = new EventEmitter<MobileEventRecord>();
 
-  constructor(private business: SystemEventTableBusiness) {}
+  constructor(
+    private business: SystemEventTableBusiness,
+    private toastr: ToastrService
+  ) {}
 
   widths = [
     '4%',
@@ -115,7 +119,14 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
     if (this.download) {
       let sub = this.download.subscribe((x) => {
         let filter = SystemEventTableFilter.from(this.args);
-        this.business.download(filter, this.page.TotalRecordCount);
+        this.business.download
+          .to(filter, this.page.TotalRecordCount)
+          .then((ids) => {
+            this.toastr.success('正在打包下载文件，请稍候...');
+            this.business.download.do(ids).catch((e) => {
+              this.toastr.error('下载失败，请重试');
+            });
+          });
       });
       this.subscription.add(sub);
     }

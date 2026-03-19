@@ -3,7 +3,7 @@ import { MapMarkerPath } from './marker/map-marker.path';
 import { MapPointPath } from './point/map-point.path';
 
 export class MapPath {
-  constructor(private node: string) {
+  constructor(private node: string = '') {
     this.base = `${this.node}/assets/image/map`;
   }
 
@@ -38,5 +38,8 @@ export class MapPath {
 
   get arrow() {
     return `${this.base}/arrow_1.png`;
+  }
+  get arrow_2() {
+    return `${this.base}/arrow_2.png`;
   }
 }

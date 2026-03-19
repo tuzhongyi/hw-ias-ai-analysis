@@ -29,6 +29,8 @@ export class DateTimeControlComponent {
   @Input('week') week: boolean = false;
   @Input() disabled: boolean = false;
   @Input() zindex: number = 10;
+  @Input() position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left' =
+    'bottom-right';
 
   private _date: Date = new Date();
   public get date(): Date {

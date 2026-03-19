@@ -1,13 +1,152 @@
-<div class="system-statistic-road-object-manager">
+<div class="system-statistic-road-object-manager root-router">
+  <div class="system-statistic-road-object-head">
+    <ias-content-header [title]="title"></ias-content-header>
+    <div class="forms">
+      <div class="form-item">
+        <date-time-control
+          [(date)]="args.date"
+          (dateChange)="load()"
+          [position]="'bottom-left'"
+        ></date-time-control>
+      </div>
+    </div>
+  </div>
   <div class="system-statistic-road-object-timeline panel">
     <ias-system-statistic-road-object-timeline
-      [datas]="datas"
+      [datas]="data.record.view"
+      [(selected)]="selected"
     ></ias-system-statistic-road-object-timeline>
   </div>
 
   <div class="system-statistic-road-object-map panel">
+    <!-- <ng-container *ngIf="datas.length > 0">
+      <ias-system-statistic-road-object-map-marker
+        [data]="datas[0]"
+      ></ias-system-statistic-road-object-map-marker>
+      <ias-system-statistic-road-object-map-marker
+        [data]="datas[0]"
+        [selected]="true"
+      ></ias-system-statistic-road-object-map-marker>
+    </ng-container> -->
     <ias-system-statistic-road-object-map
-      [datas]="datas"
+      [records]="data.record.view"
+      [path]="data.path"
+      [selected]="selected"
+      (selectedChange)="on.select($event)"
+      (recorddblclick)="on.details($event)"
     ></ias-system-statistic-road-object-map>
+
+    <div class="system-statistic-road-object-map-state">
+      <ias-system-statistic-road-object-map-state-group
+        [source]="data.record.source"
+        [view]="data.record.view"
+        (selected)="on.filter($event)"
+      ></ias-system-statistic-road-object-map-state-group>
+    </div>
   </div>
 </div>
+
+<ias-window
+  [Model]="window.details"
+  *ngIf="window.details.show"
+  [style]="window.details.style"
+  [title]="window.details.title"
+>
+  <ias-system-event-road-object-details-manager
+    [data]="window.details.data"
+    (cancel)="window.details.show = false"
+    (picture)="picture.open($event)"
+    (video)="on.video($event)"
+  >
+  </ias-system-event-road-object-details-manager>
+</ias-window>
+
+<ias-window
+  [Model]="window.task"
+  *ngIf="window.task.show"
+  [style]="window.task.style"
+  [title]="'AI分析工单'"
+>
+  <!-- <ias-system-event-task [data]="window.task.data"></ias-system-event-task> -->
+</ias-window>
+<ias-window
+  [Model]="window.process"
+  *ngIf="window.process.show"
+  [style]="window.process.style"
+  [title]="window.process.title"
+>
+  <!-- <ias-system-event-process-realtime
+  [data]="window.process.data"
+  (close)="window.process.show = false"
+  (picture)="table.on.picture($event)"
+></ias-system-event-process-realtime> -->
+</ias-window>
+
+<ias-window
+  [Model]="window.picture"
+  *ngIf="window.picture.show && window.picture.args"
+  [style]="window.picture.style"
+  [title]="window.picture.title"
+  [mask]="!window.opened"
+>
+  <ias-picture-list
+    [id]="window.picture.args.id"
+    [polygon]="window.picture.args.polygon"
+    [zoom]="window.picture.args.polygon.length > 0"
+    [page]="window.picture.page"
+    (pageChange)="picture.change($event)"
+    [loop]="true"
+  ></ias-picture-list>
+</ias-window>
+<ias-window
+  [Model]="window.video"
+  *ngIf="window.video.show"
+  [style]="window.video.style"
+  [title]="window.video.title"
+  [CloseButton]="false"
+  [mask]="!window.opened"
+>
+  <div ngProjectAs="window-head-operation" class="window-video-operation">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">前后时长</div>
+        <div class="form-item-value">
+          <select
+            [(ngModel)]="window.video.args.duration"
+            (change)="window.video.change()"
+          >
+            <option [ngValue]="5">5秒</option>
+            <option [ngValue]="10">10秒</option>
+            <option [ngValue]="15">15秒</option>
+            <option [ngValue]="30">30秒</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">摄像机:</div>
+        <div class="form-item-value">
+          <hw-select
+            [nullable]="true"
+            [(selected)]="window.video.args.channel"
+            (selectedChange)="window.video.change()"
+          >
+            <select [(ngModel)]="window.video.args.channel">
+              <option *ngFor="let item of data.channels" [ngValue]="item.Value">
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="button" (click)="window.video.show = false">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ias-system-event-video
+    [data]="window.video.data"
+    [args]="window.video.args"
+  ></ias-system-event-video>
+</ias-window>

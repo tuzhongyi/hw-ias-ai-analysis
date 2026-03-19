@@ -13,18 +13,33 @@
     flex-direction: column;
 
     gap: @gap;
+
+    overflow-y: auto;
   }
 
+  &-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   &-map {
-    grid-area: map;
     padding: 0;
-    height: calc((100% - @gap) * 0.7);
+    height: calc(608px);
+    position: relative;
+    flex-shrink: 0;
+
+    &-state {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+    }
   }
 
   &-timeline {
     width: 100%;
-    height: calc((100% - @gap) * 0.3);
+    min-height: 212px;
+    flex-shrink: 0;
   }
 
 

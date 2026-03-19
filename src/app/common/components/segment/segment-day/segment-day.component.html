@@ -10,22 +10,24 @@
           [(time)]="item.StartTime"
           [endTime]="item.StopTime"
           (timeChange)="on.change()"
+          [disabled]="disabled"
         ></app-time-control>
         -
         <app-time-control
           [(time)]="item.StopTime"
           [beginTime]="item.StartTime"
           (timeChange)="on.change()"
+          [disabled]="disabled"
         ></app-time-control>
       </div>
-      <div (click)="on.remove(i)" class="button">
+      <div (click)="on.remove(i)" class="button" [class.disabled]="disabled">
         <i class="howell-icon-delete-bin td-icon"></i>
       </div>
     </div>
   </div>
 
   <div class="segment-day-foot">
-    <div class="panel plus" (click)="on.create()">
+    <div class="panel plus" (click)="on.create()" [class.disabled]="disabled">
       <i class="howell-icon-plus"></i> 添加
     </div>
   </div>

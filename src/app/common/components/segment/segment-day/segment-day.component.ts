@@ -24,6 +24,7 @@ import { SegmentTimeModel } from './segment-day.model';
 export class SegmentDayComponent implements OnChanges {
   @Input() datas: TimeSegment[] = [];
   @Output() datasChange: EventEmitter<TimeSegment[]> = new EventEmitter();
+  @Input() disabled?: boolean = false;
 
   constructor() {}
 
@@ -51,8 +52,8 @@ export class SegmentDayComponent implements OnChanges {
     },
     create: () => {
       let model: SegmentTimeModel = {
-        StartTime: new TimeModel(8, 0, 0),
-        StopTime: new TimeModel(16, 0, 0),
+        StartTime: new TimeModel(0, 0, 0),
+        StopTime: new TimeModel(23, 59, 59),
       };
       this.models.push(model);
       this.datas = this.models.map((x) => this.convert.to(x));

@@ -1,5 +1,6 @@
-import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
-
 export class SystemStatisticRoadObjectArgs {
-  duration = DateTimeTool.all.month(new Date());
+  date = new Date(2026, 2, 11);
+  eventtype?: number;
+  objecttype?: number;
+  deviceId?: string;
 }

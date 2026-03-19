@@ -47,7 +47,8 @@ export class SystemModuleRoadSectionDetailsInfoComponent implements OnChanges {
   private change = {
     data: (simple: SimpleChange) => {
       if (simple) {
-        this.event.load(this.data.EventTypes);
+        this.event.mobile.load(this.data.EventTypes);
+        this.event.roadobject.load(this.data.EventTypes);
       }
     },
   };
@@ -57,32 +58,64 @@ export class SystemModuleRoadSectionDetailsInfoComponent implements OnChanges {
   }
 
   event = {
-    selected: [] as IIdNameModel<number>[],
-    load: async (types?: number[]) => {
-      wait(() => this.source.events.length > 0).then(() => {
-        if (types) {
-          this.event.selected = [];
-          for (let i = 0; i < types.length; i++) {
-            const type = types[i];
-            let item = this.source.events.find((x) => x.Id == type);
-            if (item) {
-              this.event.selected.push(item);
+    mobile: {
+      selected: [] as IIdNameModel<number>[],
+      load: async (types?: number[]) => {
+        wait(() => this.source.events.length > 0).then(() => {
+          if (types) {
+            this.event.mobile.selected = [];
+            for (let i = 0; i < types.length; i++) {
+              const type = types[i];
+              let item = this.source.events.find((x) => x.Id == type);
+              if (item) {
+                this.event.mobile.selected.push(item);
+              }
             }
           }
-        }
-      });
+        });
+      },
+      change: (items: IIdNameModel<number>[]) => {
+        this.data.EventTypes = items.map((x) => x.Id);
+        this.on.change();
+      },
     },
-    change: (items: IIdNameModel<number>[]) => {
-      this.data.EventTypes = items.map((x) => x.Id);
-      this.on.change();
+    roadobject: {
+      selected: [] as IIdNameModel<number>[],
+      load: async (types?: number[]) => {
+        wait(() => this.source.events.length > 0).then(() => {
+          if (types) {
+            this.event.roadobject.selected = [];
+            for (let i = 0; i < types.length; i++) {
+              const type = types[i];
+              let item = this.source.events.find((x) => x.Id == type);
+              if (item) {
+                this.event.roadobject.selected.push(item);
+              }
+            }
+          }
+        });
+      },
+      change: (items: IIdNameModel<number>[]) => {
+        this.data.EventTypes = items.map((x) => x.Id);
+        this.on.change();
+      },
     },
   };
 
   on = {
     type: () => {
-      if (this.data.SectionType != 1) {
-        this.event.selected = [];
-        this.data.EventTypes = [];
+      switch (this.data.SectionType) {
+        case 1:
+          this.event.roadobject.selected = [];
+          this.data.RoadObjectTypes = [];
+          break;
+        case 2:
+          this.event.mobile.selected = [];
+          this.data.EventTypes = [];
+          break;
+
+        default:
+          break;
       }
       this.on.change();
     },

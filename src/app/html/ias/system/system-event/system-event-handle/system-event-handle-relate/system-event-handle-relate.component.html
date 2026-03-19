@@ -19,13 +19,13 @@
     <div class="panel system-event-handle-relate-body-table">
       <ias-system-event-handle-relate-manager
         [(selected)]="selected"
-        [location]="data?.Location"
+        [location]="data?.Location?.GCJ02"
       ></ias-system-event-handle-relate-manager>
     </div>
     <div class="panel system-event-handle-relate-body-map">
       <ias-map
-        [location]="data?.Location"
-        [points]="selected && selected.Location ? [selected.Location] : []"
+        [location]="data?.Location?.GCJ02"
+        [shops]="selected && selected.Location ? [selected.Location.GCJ02] : []"
         [marker]="map.marker"
       ></ias-map>
     </div>

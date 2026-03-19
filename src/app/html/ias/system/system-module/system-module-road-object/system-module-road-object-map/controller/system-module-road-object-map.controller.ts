@@ -59,7 +59,7 @@ export class SystemModuleRoadObjectMapController {
   road = {
     load: async (datas: Road[]) => {
       let road = await this.amap.road;
-      road.load(datas);
+      return road.load(datas);
     },
     clear: async () => {
       let road = await this.amap.road;
@@ -71,7 +71,6 @@ export class SystemModuleRoadObjectMapController {
     focus: async (datas: any) => {
       let map = await this.amap.map;
       map.setFitView(datas, true);
-      map.setZoom(17);
       let center = map.getCenter();
       return [center.lng, center.lat] as [number, number];
     },

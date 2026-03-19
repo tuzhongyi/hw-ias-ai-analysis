@@ -25,25 +25,32 @@ export class AMapHelper {
     });
   }
 
-  async init(plugins = this.plugins, loca = false) {
+  async init(plugins: string[] = [], loca = false) {
+    let plugs = [...this.plugins, ...plugins];
     (window as any)._AMapSecurityConfig = {
       securityJsCode: this.code,
     };
-    return this.load(plugins, loca);
+    return this.load(plugs, loca);
   }
 
   async get(
     id: string,
     plugins: string[] = [],
     loca = false,
-    opts: any = {}
+    opts: any = {},
+    first?: () => any
   ): Promise<AMap.Map> {
-    let plugs = [...this.plugins, ...plugins];
     return new Promise<AMap.Map>((resolve) => {
       wait(() => {
         return !!document.getElementById(id);
       }).then(() => {
-        this.init(plugs, loca).then((AMap) => {
+        this.init(plugins, loca).then((AMap) => {
+          if (first) {
+            opts = {
+              ...opts,
+              ...first(),
+            };
+          }
           let map = new AMap.Map(id, {
             mapStyle: this.style,
             resizeEnable: true,

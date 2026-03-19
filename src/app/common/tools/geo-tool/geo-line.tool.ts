@@ -71,4 +71,35 @@ export class GeoLineTool {
       },
     },
   };
+
+  // 找到垂足
+  foot(line: GeoLine, P: GeoPoint): GeoPoint {
+    const [[ax, ay], [bx, by]] = line;
+    const [px, py] = P;
+
+    const ABx = bx - ax;
+    const ABy = by - ay;
+    const APx = px - ax;
+    const APy = py - ay;
+
+    const ab2 = ABx * ABx + ABy * ABy;
+
+    if (ab2 === 0) {
+      // return { point: [ax, ay], t: 0 };
+      return [ax, ay];
+    }
+
+    let t = (APx * ABx + APy * ABy) / ab2;
+
+    // ✅ 关键：限制在线段内
+    t = Math.max(0, Math.min(1, t));
+
+    let result = [ax + ABx * t, ay + ABy * t];
+
+    // return {
+    //   t,
+    //   point: [ax + ABx * t, ay + ABy * t],
+    // };
+    return result as GeoPoint;
+  }
 }

@@ -11,9 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AngleControlComponent } from '../../../../../../../common/components/angle-control/angle-control.component';
+import { SegmentWeekComponent } from '../../../../../../../common/components/segment/segment-week/segment-week.component';
 import { GisType } from '../../../../../../../common/data-core/enums/gis-type.enum';
 import { RoadObjectState } from '../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
+import { WeekTimeSegment } from '../../../../../../../common/data-core/models/arm/analysis/segment/week-time-segment.model';
 import { ObjectImageSamplingConfig } from '../../../../../../../common/data-core/models/arm/geographic/object-image-sampling-config.model';
 import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import {
@@ -42,6 +44,7 @@ import { SystemModuleRoadObjectDetailsManagerWindow } from './system-module-road
     SystemModuleRoadObjectDetailsImageComponent,
     WindowComponent,
     AngleControlComponent,
+    SegmentWeekComponent,
   ],
   templateUrl: './system-module-road-object-details-manager.component.html',
   styleUrl: './system-module-road-object-details-manager.component.less',
@@ -173,7 +176,8 @@ export class SystemModuleRoadObjectDetailsManagerComponent
           let point = GisPoint.create(
             this.map.wgs84.Longitude,
             this.map.wgs84.Latitude,
-            GisType.WGS84
+            GisType.WGS84,
+            this.map.wgs84
           );
           this.model.Location.set(point, GisType.WGS84);
         }
@@ -203,7 +207,8 @@ export class SystemModuleRoadObjectDetailsManagerComponent
           let point = GisPoint.create(
             this.map.wgs84.Longitude,
             this.map.wgs84.Latitude,
-            GisType.WGS84
+            GisType.WGS84,
+            this.map.wgs84
           );
           this.model.Location.set(point, GisType.WGS84);
         }
@@ -284,6 +289,20 @@ export class SystemModuleRoadObjectDetailsManagerComponent
     },
     open: () => {
       this.picture.emit(this.model);
+    },
+  };
+
+  schedule = {
+    data: new WeekTimeSegment(),
+    enable: () => {
+      if (this.model.BlockScheduleEnabled) {
+        if (!this.model.BlockSchedule) {
+          this.model.BlockSchedule = new WeekTimeSegment();
+        }
+      }
+    },
+    change: () => {
+      this.model.BlockSchedule = this.schedule.data;
     },
   };
 }

@@ -23,4 +23,41 @@ export class SystemModuleRoadObjectManagerBusiness {
       faults,
     };
   }
+
+  async disable(datas: RoadObject[]) {
+    let faults = [];
+    let success = [];
+    for (let i = 0; i < datas.length; i++) {
+      let item = datas[i];
+      item.Disable = true;
+      try {
+        let result = await this.service.road.object.update(item);
+        success.push(item);
+      } catch (error) {
+        faults.push(item);
+      }
+    }
+    return {
+      success,
+      faults,
+    };
+  }
+  async enable(datas: RoadObject[]) {
+    let faults = [];
+    let success = [];
+    for (let i = 0; i < datas.length; i++) {
+      let item = datas[i];
+      item.Disable = false;
+      try {
+        let result = await this.service.road.object.update(item);
+        success.push(item);
+      } catch (error) {
+        faults.push(item);
+      }
+    }
+    return {
+      success,
+      faults,
+    };
+  }
 }

@@ -72,8 +72,8 @@ export class GisPoints {
     }
   }
 
-  static create(data: [number, number], type: GisType) {
-    let point = GisPoint.create(data[0], data[1], type);
+  static create(data: [number, number], type: GisType, source?: GisPoint) {
+    let point = GisPoint.create(data[0], data[1], type, source);
     let points = new GisPoints();
     points.set(point, type);
     return points;
@@ -95,7 +95,8 @@ export class GisPoints {
         this.GCJ02 = GisPoint.create(
           position.gcj02[0],
           position.gcj02[1],
-          GisType.GCJ02
+          GisType.GCJ02,
+          value
         );
         position.bd09 = GeoTool.point.convert.gcj02.to.bd09(
           position.gcj02[0],
@@ -104,7 +105,8 @@ export class GisPoints {
         this.BD09 = GisPoint.create(
           position.bd09[0],
           position.bd09[1],
-          GisType.BD09
+          GisType.BD09,
+          value
         );
       },
       gcj02: (value: GisPoint) => {
@@ -121,7 +123,8 @@ export class GisPoints {
         this.WGS84 = GisPoint.create(
           position.wgs84[0],
           position.wgs84[1],
-          GisType.WGS84
+          GisType.WGS84,
+          value
         );
         position.bd09 = GeoTool.point.convert.gcj02.to.bd09(
           value.Longitude,
@@ -130,7 +133,8 @@ export class GisPoints {
         this.BD09 = GisPoint.create(
           position.bd09[0],
           position.bd09[1],
-          GisType.BD09
+          GisType.BD09,
+          value
         );
       },
       bd09: (value: GisPoint) => {
@@ -148,7 +152,8 @@ export class GisPoints {
         this.GCJ02 = GisPoint.create(
           position.gcj02[0],
           position.gcj02[1],
-          GisType.GCJ02
+          GisType.GCJ02,
+          value
         );
         position.wgs84 = GeoTool.point.convert.gcj02.to.wgs84(
           position.gcj02[0],
@@ -157,7 +162,8 @@ export class GisPoints {
         this.WGS84 = GisPoint.create(
           position.wgs84[0],
           position.wgs84[1],
-          GisType.WGS84
+          GisType.WGS84,
+          value
         );
       },
     },

@@ -16,7 +16,7 @@ import { VideoPathMapComponent } from '../video-path-map/video-path-map.componen
 
 import { CommonModule } from '@angular/common';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
-import { IIASMapArgs, MapMarker } from '../../map/ias-map.model';
+import { IIASMapArgs, MapMarkerStyle } from '../../map/ias-map.model';
 
 @Component({
   selector: 'howell-video-path',
@@ -27,7 +27,7 @@ import { IIASMapArgs, MapMarker } from '../../map/ias-map.model';
 export class VideoPathComponent implements OnChanges {
   @Input() src?: string;
   @Input() path: FileGpsItem[] = [];
-  @Input() args: IIASMapArgs = new MapMarker();
+  @Input() args: IIASMapArgs = new MapMarkerStyle();
   @Input() loading = false;
   @Input() points: GisPoint[] = [];
   @Input() rectified = false;

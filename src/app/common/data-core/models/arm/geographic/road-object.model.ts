@@ -1,6 +1,7 @@
 import { Transform, Type } from 'class-transformer';
 import { IIdNameModel, ILocation } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
+import { WeekTimeSegment } from '../analysis/segment/week-time-segment.model';
 import { GisPoints } from '../gis-point.model';
 import { ObjectImageSamplingConfig } from './object-image-sampling-config.model';
 
@@ -48,4 +49,11 @@ export class RoadObject implements IIdNameModel, ILocation {
   ImageSampling!: ObjectImageSamplingConfig;
   /**	Int32	部件状态	M	*/
   ObjectState!: number;
+
+  /**	Boolean	禁用	O	RW */
+  Disable?: boolean;
+  /**	Boolean	是否启用屏蔽工作表，默认False	O	RW */
+  BlockScheduleEnabled?: boolean;
+  /**	WeekTimeSegment	屏蔽工作表，默认：不启动	O	RW */
+  BlockSchedule?: WeekTimeSegment;
 }

@@ -67,10 +67,7 @@ export class IASMapAMapPathWayController {
       }
     }
   }
-  load(positions: [number, number][], test: [number, number][]) {
-    if (this.polyline) {
-      this.map.remove(this.polyline);
-    }
+  load(positions: [number, number][]) {
     if (positions.length < 2) {
       return;
     }
@@ -101,5 +98,12 @@ export class IASMapAMapPathWayController {
     });
 
     this.map.add(this.polyline);
+  }
+
+  clear() {
+    if (this.polyline) {
+      this.map.remove(this.polyline);
+      this.polyline = undefined;
+    }
   }
 }

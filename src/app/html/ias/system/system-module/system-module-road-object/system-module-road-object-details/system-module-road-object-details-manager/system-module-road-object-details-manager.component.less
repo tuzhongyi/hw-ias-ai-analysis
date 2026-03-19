@@ -42,8 +42,10 @@
     flex-direction: column;
     gap: @gap;
 
+    overflow-y: auto;
+
     &-base {
-      height: calc(100% - @gap - 157px);
+      min-height: 400px;
 
       .panel-head {
         height: 28px;
@@ -56,6 +58,10 @@
 
     &-config {
       height: max-content;
+    }
+
+    &-segment {
+      min-height: 300px;
     }
   }
 

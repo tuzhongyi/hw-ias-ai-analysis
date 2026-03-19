@@ -43,9 +43,14 @@ export class SystemEventTableBusiness {
     return paged;
   }
 
-  download(filter: SystemEventTableFilter, total: number) {
-    this.service.table.download(filter, total);
-  }
+  download = {
+    to: async (filter: SystemEventTableFilter, total: number) => {
+      return this.service.table.download.to(filter, total);
+    },
+    do: async (ids: string[]) => {
+      return this.service.table.download.do(ids);
+    },
+  };
 
   convert(source: MobileEventRecord) {
     let plain = instanceToPlain(source);

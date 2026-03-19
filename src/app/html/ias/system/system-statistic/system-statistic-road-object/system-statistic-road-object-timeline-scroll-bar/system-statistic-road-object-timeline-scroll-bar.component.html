@@ -1,0 +1,16 @@
+<div class="system-statistic-road-object-timeline-scroll-bar">
+  <div class="system-statistic-road-object-timeline-scroll-bar-container">
+    <div
+      class="system-statistic-road-object-timeline-scroll-bar-tag begin"
+    ></div>
+    <div class="system-statistic-road-object-timeline-scroll-bar-inner"></div>
+    <div class="system-statistic-road-object-timeline-scroll-bar-tag end"></div>
+  </div>
+
+  <div class="system-statistic-road-object-timeline-scroll-bar-time begin">
+    {{ begin | date : "HH:mm" }}
+  </div>
+  <div class="system-statistic-road-object-timeline-scroll-bar-time end">
+    {{ end | date : "HH:mm" }}
+  </div>
+</div>

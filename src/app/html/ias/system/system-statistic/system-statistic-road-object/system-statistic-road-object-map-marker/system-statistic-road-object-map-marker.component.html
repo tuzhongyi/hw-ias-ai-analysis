@@ -1,0 +1,27 @@
+<div
+  class="system-statistic-road-object-map-marker"
+  [style.width]="size + 'px'"
+  [style.height]="size + 'px'"
+>
+  <div
+    class="system-statistic-road-object-map-marker-border"
+    [style.border-color]="color.value"
+  >
+    <!-- [style.background]="
+        'linear-gradient(135deg,' +
+        (selected ? color.value : color.value + '55') +
+        ',' +
+        (selected ? color.value + 'aa' : color.value + '22') +
+        ')'
+      " -->
+    <div
+      class="system-statistic-road-object-map-marker-background"
+      [style.background]="color.background"
+    >
+      <div
+        class="system-statistic-road-object-map-marker-icon"
+        #container
+      ></div>
+    </div>
+  </div>
+</div>

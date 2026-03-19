@@ -93,6 +93,8 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
           this.map.out.emit(item);
         },
       },
+      disable: () => {},
+      enable: () => {},
     },
   };
 

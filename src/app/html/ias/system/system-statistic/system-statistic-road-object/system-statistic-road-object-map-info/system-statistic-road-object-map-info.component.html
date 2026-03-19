@@ -1,0 +1,75 @@
+<div class="system-statistic-road-object-map-info root-router">
+  <div class="system-statistic-road-object-map-info-operation">
+    <div class="button" (click)="on.details()" [style.color]="color">
+      <i class="howell-icon-details"></i>
+    </div>
+    <div class="button" (click)="on.close()" [style.color]="color">
+      <i class="howell-icon-Close"></i>
+    </div>
+  </div>
+  <div
+    class="system-statistic-road-object-map-info-container"
+    [style.border-color]="color"
+    *ngIf="data"
+  >
+    <div
+      class="system-statistic-road-object-map-info-head"
+      [style.color]="color"
+    >
+      <i class="howell-icon-point"></i>
+      {{ name.event }}
+    </div>
+    <div
+      class="system-statistic-road-object-map-info-border"
+      [style.border-image-source]="
+        'linear-gradient(to right, ' + color + ', transparent)'
+      "
+    ></div>
+    <div
+      class="system-statistic-road-object-map-info-body"
+      [style.color]="color"
+    >
+      <div class="system-statistic-road-object-map-info-body-content type">
+        <div
+          class="system-statistic-road-object-map-info-body-content-icon"
+          #icon
+        ></div>
+        <div>
+          {{ name.type }}
+        </div>
+      </div>
+      <div class="system-statistic-road-object-map-info-body-content name">
+        <div class="system-statistic-road-object-map-info-body-content-icon">
+          <i class="mdi mdi-map-marker-circle"></i>
+        </div>
+        <div>
+          {{ data.Address || data.RoadObjectName }}
+        </div>
+      </div>
+      <div class="system-statistic-road-object-map-info-body-content time">
+        <div class="system-statistic-road-object-map-info-body-content-icon">
+          <i class="mdi mdi-clock"></i>
+        </div>
+        <div>
+          {{ data.EventTime | date : "yyyy-MM-dd HH:mm:ss" }}
+        </div>
+      </div>
+    </div>
+    <div
+      class="system-statistic-road-object-map-info-border"
+      [style.border-image-source]="
+        'linear-gradient(to right, ' + color + ', transparent)'
+      "
+    ></div>
+    <div class="system-statistic-road-object-map-info-foot">
+      {{ data.Description }}
+    </div>
+  </div>
+
+  <div class="system-statistic-road-object-map-info-point">
+    <div
+      class="system-statistic-road-object-map-info-point-inner"
+      [style.background-color]="color"
+    ></div>
+  </div>
+</div>

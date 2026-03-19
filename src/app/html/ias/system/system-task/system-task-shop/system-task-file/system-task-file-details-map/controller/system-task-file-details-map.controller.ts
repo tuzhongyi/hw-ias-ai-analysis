@@ -241,7 +241,7 @@ export class SystemTaskFileDetailsMapController {
         }
 
         this.amap.way.get().then((x) => {
-          x.load(way, line);
+          x.load(way);
         });
 
         this.amap.arrow.get().then((x) => {

@@ -69,6 +69,20 @@
       >
         删除
       </button>
+      <button
+        class="button-clip-gradient"
+        [disabled]="table.selected.all.length == 0"
+        (click)="delete.confirm()"
+      >
+        启用
+      </button>
+      <button
+        class="button-clip-gradient"
+        [disabled]="table.selected.all.length == 0"
+        (click)="delete.confirm()"
+      >
+        禁用
+      </button>
     </div>
   </div>
   <div class="system-module-road-object-manager-body">

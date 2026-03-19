@@ -23,13 +23,13 @@ import { LanguageTool } from '../../../../../../../common/tools/language-tool/la
 })
 export class SystemEventRoadObjectDetailsInfoComponent implements OnChanges {
   @Input() data = new RoadObjectEventRecord();
-  @Input() resourceindex = 1;
+  @Input() resource?: EventResourceContent;
 
   constructor(
     private _language: LanguageTool,
     private division: ArmDivisionRequestService
   ) {}
-  resource?: EventResourceContent;
+
   language = {
     event: '',
     type: '',
@@ -42,32 +42,15 @@ export class SystemEventRoadObjectDetailsInfoComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.change.data(changes['data']);
-    this.change.resource.index(changes['resourceindex']);
   }
 
   private change = {
     data: (change: SimpleChange) => {
       if (change) {
         if (this.data) {
-          if (this.data.Resources && this.data.Resources.length > 0) {
-            this.resource = this.data.Resources[this.resourceindex - 1];
-          }
           this.init(this.data);
         }
       }
-    },
-    resource: {
-      index: (simple: SimpleChange) => {
-        if (simple && !simple.firstChange) {
-          if (
-            this.data &&
-            this.data.Resources &&
-            this.data.Resources.length > 0
-          ) {
-            this.resource = this.data.Resources[simple.currentValue - 1];
-          }
-        }
-      },
     },
   };
 

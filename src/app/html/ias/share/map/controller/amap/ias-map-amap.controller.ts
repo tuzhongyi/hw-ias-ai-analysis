@@ -4,7 +4,7 @@ import { MapHelper } from '../../../../../../common/helper/map/map.helper';
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PromiseValue } from '../../../../../../common/view-models/value.promise';
-import { IIASMapArgs } from '../../ias-map.model';
+import { IIASMapArgs, MapMarker } from '../../ias-map.model';
 import { IASMapAMapPointController } from './marker/ias-map-amap-point.controller';
 import { IASMapAMapMarkerController } from './shop/marker/ias-map-amap-shop-marker.controller';
 
@@ -20,6 +20,7 @@ export class IASMapAMapController {
 
   private map = new PromiseValue<AMap.Map>();
   private marker = new IASMapAMapMarkerController();
+  private shops: IASMapAMapPointController[] = [];
   private points: IASMapAMapPointController[] = [];
 
   private _load(data: GisPoint, args: IIASMapArgs, center: boolean) {
@@ -45,14 +46,11 @@ export class IASMapAMapController {
   }
 
   point = {
-    load: async (datas: GisPoint[], focus?: boolean) => {
+    load: async (datas: MapMarker[], focus?: boolean) => {
       let map = await this.map.get();
       this.points = datas.map((x) => {
         let point = new IASMapAMapPointController();
-        let marker = point.set(x, {
-          path: PathTool.image.map.shop.blue,
-          size: SizeTool.map.shop.get(),
-        });
+        let marker = point.set(x.location, x);
         map.add(marker);
         return point;
       });
@@ -75,10 +73,42 @@ export class IASMapAMapController {
     },
   };
 
-  destroy() {
-    this.map.get().then((x) => {
-      x.destroy();
-      this.map.clear();
-    });
+  shop = {
+    load: async (datas: GisPoint[], focus?: boolean) => {
+      let map = await this.map.get();
+      this.shops = datas.map((x) => {
+        let point = new IASMapAMapPointController();
+        let marker = point.set(x, {
+          path: PathTool.image.map.shop.blue,
+          size: SizeTool.map.shop.get(),
+        });
+        map.add(marker);
+        return point;
+      });
+      if (focus) {
+        setTimeout(() => {
+          map.setFitView(undefined, false);
+        }, 1000);
+      }
+    },
+    clear: async () => {
+      let map = await this.map.get();
+
+      for (let i = 0; i < this.shops.length; i++) {
+        const point = this.shops[i];
+        let marker = await point.marker.get();
+        map.remove(marker);
+      }
+
+      this.shops = [];
+    },
+  };
+
+  async destroy() {
+    await this.shop.clear();
+    await this.point.clear();
+    let map = await this.map.get();
+    map.destroy();
+    this.map.clear();
   }
 }

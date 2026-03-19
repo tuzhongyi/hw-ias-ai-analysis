@@ -23,6 +23,7 @@ import { SegmentWeekWindow } from './segment-week.window';
 export class SegmentWeekComponent implements OnInit {
   @Input('data') data = new WeekTimeSegment();
   @Output() dataChange = new EventEmitter<WeekTimeSegment>();
+  @Input() disabled?: boolean = false;
 
   times: TimeSegment[] = [];
   weeks = [1, 2, 3, 4, 5, 6, 0];

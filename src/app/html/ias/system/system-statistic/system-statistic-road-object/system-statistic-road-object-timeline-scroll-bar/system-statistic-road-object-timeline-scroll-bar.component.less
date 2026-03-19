@@ -1,0 +1,65 @@
+.system-statistic-road-object-timeline-scroll-bar {
+  height: 100%;
+  pointer-events: none;
+
+  box-sizing: border-box;
+  position: relative;
+
+  &-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: linear-gradient(rgba(30, 144, 255, 0.25), rgba(0, 100, 200, 0.18));
+    border: 1px solid rgba(30, 144, 255, 0.5);
+    box-shadow: rgba(30, 144, 255, 0.15) 0px 0px 10px, rgba(30, 144, 255, 0.2) 0px 1px 0px inset;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+
+  &-tag {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    background: rgba(30, 144, 255, 0.55);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    box-shadow: rgba(30, 144, 255, 0.4) 0px 0px 6px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    top: 50%;
+
+    &.begin {
+      left: 0;
+    }
+
+    &.end {
+      left: 100%;
+    }
+  }
+
+  &-inner {
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.65), transparent);
+    border-radius: 1px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+
+    transform: translateY(-50%);
+  }
+
+  &-time {
+    position: absolute;
+    top: 100%;
+    color: rgba(142, 197, 255, 0.8);
+    font-family: Orbitron;
+    font-size: 14px;
+
+    &.begin {
+      left: 0;
+    }
+
+    &.end {
+      right: 0;
+    }
+  }
+}

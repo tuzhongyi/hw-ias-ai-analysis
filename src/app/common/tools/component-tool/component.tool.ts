@@ -15,7 +15,7 @@ export class ComponentTool {
   ) {}
 
   // 把 Angular 组件转成 string
-  public toHtmlString<T>(component: any, inputs: Partial<T>): string {
+  public toHtmlString<T>(component: any, inputs: Partial<T> = {}): string {
     // 创建组件工厂
     const factory = this.cfr.resolveComponentFactory(component);
     const componentRef = factory.create(this.injector);
@@ -35,7 +35,7 @@ export class ComponentTool {
     // 返回字符串
     return domElem.outerHTML;
   }
-  public create<T>(component: any, inputs: Partial<T>): ComponentRef<T> {
+  public create<T>(component: any, inputs: Partial<T> = {}): ComponentRef<T> {
     // 创建组件
     const factory = this.cfr.resolveComponentFactory(component);
     const componentRef: ComponentRef<T> = factory.create(

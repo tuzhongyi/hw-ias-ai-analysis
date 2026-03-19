@@ -33,6 +33,8 @@ export class DateTimePickerDirective
   @Input('minView') minView: DateTimePickerView = DateTimePickerView.month;
   @Input('week') week: boolean = false;
   @Input() zindex: number = 10;
+  @Input() position: 'bottom-left' | 'bottom-right' | 'top-right' | 'top-left' =
+    'bottom-right';
 
   private _date: Date = new Date();
   public get date(): Date {
@@ -138,6 +140,7 @@ export class DateTimePickerDirective
         forceParse: false,
         initialDate: value,
         zIndex: this.zindex,
+        pickerPosition: this.position,
       })
       .on('changeDate', (ev: { date: Date }) => {
         this.date = ev.date;
@@ -186,6 +189,7 @@ export class DateTimePickerDirective
         forceParse: false,
         initialDate: value,
         zIndex: this.zindex,
+        pickerPosition: this.position,
       })
       .on('changeDate', (ev: { date: Date | undefined }) => {
         this.changing = true;

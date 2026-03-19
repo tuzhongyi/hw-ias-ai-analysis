@@ -30,6 +30,7 @@ class TrashCanColor {
 }
 
 export class ColorTool {
+  static white = '#ffffff';
   static green = '#21e452';
   static red = '#f73d3d';
   static redlight = '#ff762c';
@@ -38,6 +39,9 @@ export class ColorTool {
   static yellow = '#fde546';
   static blue = '#1e90ff';
   static gray = '#666';
+  static pink = '#e879f9';
+  static purple = '#a78bfa'; //'#ddf4ff';
+  static sky = '#38bdf8';
 
   static map = new ColorMapTool();
   static chart = new ColorChartTool();

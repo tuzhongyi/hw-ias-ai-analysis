@@ -5,6 +5,7 @@ import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.to
 export class IASMapAMapIconController {
   path: string | IMapMarkerPath;
   size: [number, number];
+
   constructor(
     path: string | IMapMarkerPath = PathTool.image.map.point.red,
     size: [number, number] = [
@@ -14,6 +15,14 @@ export class IASMapAMapIconController {
   ) {
     this.path = path;
     this.size = size;
+  }
+
+  private _offset?: AMap.Pixel;
+  get offset(): AMap.Pixel {
+    if (this._offset) {
+      return this._offset;
+    }
+    return new AMap.Pixel(-this.size[0] / 2, -this.size[1]);
   }
 
   private is = {
@@ -56,8 +65,13 @@ export class IASMapAMapIconController {
     path: (path: string | IMapMarkerPath) => {
       this.path = path;
     },
-    size: (size: [number, number]) => {
+    size: (size: [number, number], offset?: [number, number]) => {
       this.size = size;
+      if (offset) {
+        this._offset = new AMap.Pixel(offset[0], offset[1]);
+      } else {
+        this._offset = new AMap.Pixel(-this.size[0] / 2, -this.size[1]);
+      }
     },
   };
 
@@ -75,9 +89,5 @@ export class IASMapAMapIconController {
   select(selected: boolean) {
     this.is.selected = selected;
     return this._get.icon();
-  }
-
-  get offset() {
-    return new AMap.Pixel(-this.size[0] / 2, -this.size[1]);
   }
 }

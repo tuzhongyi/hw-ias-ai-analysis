@@ -15,7 +15,7 @@ import { RoadObjectEventRecord } from '../../../../../common/data-core/models/ar
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { PathTool } from '../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../common/tools/size-tool/size.tool';
-import { MapMarker } from '../../../share/map/ias-map.model';
+import { MapMarkerStyle } from '../../../share/map/ias-map.model';
 import { VideoPathComponent } from '../../../share/video-path/component/video-path.component';
 import { SystemEventVideoBusiness } from './business/system-event-video.business';
 import { SystemEventVideoArgs } from './system-event-video.model';
@@ -37,7 +37,7 @@ export class SystemEventVideoComponent implements OnInit, OnChanges {
     items: [] as FileGpsItem[],
     loading: false,
     points: [] as GisPoint[],
-    args: new MapMarker(),
+    args: new MapMarkerStyle(),
     rectified: {
       value: false,
       change: (value: boolean) => {
@@ -69,7 +69,7 @@ export class SystemEventVideoComponent implements OnInit, OnChanges {
 
   load = {
     point: (data: MobileEventRecord | RoadObjectEventRecord) => {
-      let args = new MapMarker();
+      let args = new MapMarkerStyle();
 
       if (data instanceof MobileEventRecord) {
         args.size = SizeTool.map.shop.get();

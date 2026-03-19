@@ -34,7 +34,8 @@
           (click)="on.select.item(item)"
           [ngClass]="{
             selected: item && selecteds.includes(item),
-            nodata: !item
+            nodata: !item,
+            disabled: item && item.Disable
           }"
           [ngStyle]="{
             height: item ? 100 / page.PageSize + '%' : 0
@@ -50,7 +51,7 @@
               [checked]="selecteds.includes(item)"
             />
           </td>
-          <td class="center">
+          <td class="center text">
             <span *ngIf="item">{{
               page.PageSize * (page.PageIndex - 1) + index + 1
             }}</span>
@@ -70,12 +71,12 @@
               ></div>
             </div>
           </td>
-          <td [title]="item?.Name ?? ''">
+          <td class="text" [title]="item?.Name ?? ''">
             @if(item){
             <div>{{ item?.Name ?? "-" }}</div>
             }
           </td>
-          <td>
+          <td class="text">
             @if(item){
             {{ (item?.ObjectTypeName | async) ?? "-" }}
             }
@@ -85,12 +86,12 @@
             {{ item?.Category ?? "-" }}
             }
           </td> -->
-          <td [title]="(item?.Division | async)?.Name ?? ''">
+          <td class="text" [title]="(item?.Division | async)?.Name ?? ''">
             @if(item){
             {{ (item?.Division | async)?.Name ?? "-" }}
             }
           </td>
-          <td [title]="(item?.GridCell | async)?.Name ?? ''">
+          <td class="text" [title]="(item?.GridCell | async)?.Name ?? ''">
             @if(item){
             {{ (item?.GridCell | async)?.Name ?? "-" }}
             }
@@ -100,12 +101,13 @@
             {{ item?.Health ?? "-" }}
             }
           </td> -->
-          <td [title]="item?.Address ?? ''">
+          <td class="text" [title]="item?.Address ?? ''">
             @if(item){
             {{ (item?.AddressSubed | async) ?? "-" }}
             }
           </td>
           <td
+            class="text"
             [title]="(item?.ObjectStateName | async) ?? ''"
             [ngClass]="{
               'text-green': item?.ObjectState == State.None,

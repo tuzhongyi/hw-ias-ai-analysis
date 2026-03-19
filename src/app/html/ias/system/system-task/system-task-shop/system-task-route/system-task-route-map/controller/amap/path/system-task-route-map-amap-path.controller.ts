@@ -60,7 +60,7 @@ export class SystemTaskRouteMapAMapPathController {
       [e.lnglat.lng, e.lnglat.lat],
       [...this.points]
     ) as [number, number];
-    return GeoTool.point.closest(this.points, point);
+    return GeoTool.point.closest(this.points, point)?.point;
   }
   async load(positions: [number, number][]) {
     if (positions.length === 0) return;

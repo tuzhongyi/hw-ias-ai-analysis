@@ -32,9 +32,16 @@ export class SystemModuleRoadObjectTableBusiness {
     item.ObjectTypeName = this.language.road.object.ObjectTypes(
       item.ObjectType
     );
-    item.ObjectStateName = this.language.road.object.ObjectStates(
-      item.ObjectState
-    );
+    if (item.Disable) {
+      item.ObjectStateName = new Promise<string>((resolve) => {
+        resolve('禁用');
+      });
+    } else {
+      item.ObjectStateName = this.language.road.object.ObjectStates(
+        item.ObjectState
+      );
+    }
+
     if (item.DivisionId) {
       item.Division = this.division.cache.get(item.DivisionId);
       if (item.Address) {

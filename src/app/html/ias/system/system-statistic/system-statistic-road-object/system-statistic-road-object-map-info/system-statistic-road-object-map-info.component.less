@@ -1,0 +1,92 @@
+.system-statistic-road-object-map-info {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+
+
+
+  &-container {
+    width: 100%;
+    height: calc(100% - 10px);
+    padding: 12px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(3, 7, 18, 0.94), rgba(0, 10, 25, 0.97));
+  }
+
+  &-operation {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+
+    &>button {
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    box-sizing: border-box;
+  }
+
+  &-border {
+    margin: 10px 0;
+    border: 1px solid;
+    border-image-slice: 1;
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &-content {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      &-icon {
+        width: 22px;
+        height: 10px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  &-foot {}
+
+  &-point {
+    height: 10px;
+    position: relative;
+
+    &-inner {
+      position: absolute;
+      clip-path: polygon(0 0, 100% 0, 50% 100%, 0 0);
+
+      height: 10px;
+      aspect-ratio: 1.1547/1;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+
+  }
+}

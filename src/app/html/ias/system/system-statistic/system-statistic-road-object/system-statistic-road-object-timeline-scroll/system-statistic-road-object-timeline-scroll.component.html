@@ -1,0 +1,37 @@
+<div class="system-statistic-road-object-timeline-scroll root-router">
+  <div class="system-statistic-road-object-timeline-scroll-time">
+    {{ time.begin | date : "HH:mm" }}
+  </div>
+  <div class="system-statistic-road-object-timeline-scroll-container">
+    <div
+      class="system-statistic-road-object-timeline-scroll-point-list"
+      (click)="on.click($event)"
+    >
+      <div
+        class="system-statistic-road-object-timeline-scroll-point-item"
+        *ngFor="let item of datas"
+        [style.left]="item.position + '%'"
+        [style.backgroundColor]="item.color"
+        [class.selected]="selected?.Id === item.id"
+        [title]="item.title"
+      ></div>
+
+      <div
+        scroll-bar
+        (positionChange)="on.position($event)"
+        class="system-statistic-road-object-timeline-scroll-bar"
+        [style.width]="bar.width + '%'"
+        [style.left]="position + '%'"
+        [barPercent]="bar.width / 100"
+      >
+        <ias-system-statistic-road-object-timeline-scroll-bar
+          [begin]="bar.begin"
+          [end]="bar.end"
+        ></ias-system-statistic-road-object-timeline-scroll-bar>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-road-object-timeline-scroll-time">
+    {{ time.end | date : "HH:mm" }}
+  </div>
+</div>

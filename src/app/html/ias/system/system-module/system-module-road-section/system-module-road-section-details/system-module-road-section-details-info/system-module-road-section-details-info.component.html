@@ -36,16 +36,23 @@
       <div
         class="form-item-text"
         text-space-between
-        [class.disabled]="data.SectionType != 1"
+        [class.disabled]="data.SectionType == 0"
       >
         事件类型
       </div>
       <div class="form-item-value fill">
         <howell-select-multiple
-          [disabled]="data.SectionType != 1"
+          *ngIf="data.SectionType == 1"
           [datas]="source.events"
-          [selecteds]="event.selected"
-          (selectedsChange)="event.change($event)"
+          [selecteds]="event.mobile.selected"
+          (selectedsChange)="event.mobile.change($event)"
+          [searchable]="false"
+        ></howell-select-multiple>
+        <howell-select-multiple
+          *ngIf="data.SectionType == 2"
+          [datas]="source.roadobjectevents"
+          [selecteds]="event.roadobject.selected"
+          (selectedsChange)="event.roadobject.change($event)"
           [searchable]="false"
         ></howell-select-multiple>
       </div>

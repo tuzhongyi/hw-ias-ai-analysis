@@ -34,6 +34,7 @@ export class TimeControlComponent implements OnChanges, OnInit, AfterViewInit {
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
   @Input() begin?: Date;
   @Input() end?: Date;
+  @Input() disabled?: boolean = false;
 
   constructor() {}
 

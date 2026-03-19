@@ -20,7 +20,7 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
     if (point) {
       let closest = GeoTool.point.closest(this.points, point);
       if (closest) {
-        this.mouseover.emit(closest);
+        this.mouseover.emit(closest.point);
       }
     }
   }
@@ -34,7 +34,7 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
     ) as unknown as [number, number];
     let closest = GeoTool.point.closest(this.points, point);
     if (closest) {
-      this.click.emit(closest);
+      this.click.emit(closest.point);
     }
   }
 

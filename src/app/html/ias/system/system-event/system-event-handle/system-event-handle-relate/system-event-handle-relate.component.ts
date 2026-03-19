@@ -5,10 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Shop } from '../../../../../../common/data-core/models/arm/analysis/shop.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
-import {
-  MapMarkerColor,
-  MapMarkerType,
-} from '../../../../share/map/ias-map.model';
+
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { PictureComponent } from '../../../../share/picture/component/picture.component';
 import { SystemEventHandleRelateManagerComponent } from '../system-event-handle-relate-manager/system-event-handle-relate-manager.component';
 
@@ -34,8 +33,8 @@ export class SystemEventHandleRelateComponent {
   selected?: ShopRegistration;
   map = {
     marker: {
-      type: MapMarkerType.shop,
-      color: MapMarkerColor.blue,
+      path: PathTool.image.map.shop.blue,
+      size: SizeTool.map.shop.get(),
     },
   };
 

@@ -1,0 +1,24 @@
+<div class="system-statistic-road-object-map-state-group root-router">
+  <div class="system-statistic-road-object-map-state-group-container">
+    <ias-system-statistic-road-object-map-state-item
+      *ngFor="let item of eventtype.datas"
+      [data]="item"
+      [selected]="item.type === eventtype.selected?.type"
+      (click)="eventtype.on(item)"
+      [style.opacity]="
+        eventtype.selected && eventtype.selected.type != item.type ? 0.6 : 1
+      "
+    ></ias-system-statistic-road-object-map-state-item>
+  </div>
+  <div class="system-statistic-road-object-map-state-group-container">
+    <ias-system-statistic-road-object-map-state-item
+      *ngFor="let item of objecttype.datas"
+      [data]="item"
+      [selected]="item.type === objecttype.selected?.type"
+      (click)="objecttype.on(item)"
+      [style.opacity]="
+        objecttype.selected && objecttype.selected.type != item.type ? 0.6 : 1
+      "
+    ></ias-system-statistic-road-object-map-state-item>
+  </div>
+</div>

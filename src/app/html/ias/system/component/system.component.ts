@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { ConfigRequestService } from '../../../../common/data-core/requests/services/config/config.service';
 import { GlobalStorage } from '../../../../common/storage/global.storage';
 import { LocalStorage } from '../../../../common/storage/local.storage';
-import { wait } from '../../../../common/tools/wait';
 import { RoutePath } from '../../../app.route.path';
 import { SystemHeadComponent } from '../system-head/system-head.component';
 import { SystemBusiness } from './system.business';
@@ -28,6 +27,12 @@ export class SystemComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   ngOnInit(): void {
+    this.config.version.then((version) => {
+      if (this.global.version !== version) {
+        location.replace(window.location.href);
+        return;
+      }
+    });
     this.regist();
     this.load();
     this.init();
@@ -89,18 +94,6 @@ export class SystemComponent implements OnInit, OnDestroy {
       this.local.unload.set(new Date());
     });
     this.subscription.add(sub);
-
-    wait(
-      () => {
-        this.config.version.then((version) => {
-          if (this.global.version !== version) {
-            location.replace(window.location.href);
-          }
-        });
-        return false;
-      },
-      { interval: 60 * 1000 }
-    );
   }
   private load() {
     let now = new Date();

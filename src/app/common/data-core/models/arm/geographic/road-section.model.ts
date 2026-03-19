@@ -14,6 +14,8 @@ export class RoadSection implements IIdNameModel {
   SectionType!: number;
   /**	Int32[]	事件类型	O	*/
   EventTypes?: number[];
+  /**	Int32[]	道路部件类型	O	RW */
+  RoadObjectTypes?: number[];
   /**	Double	屏蔽半径范围，单位：米，0-100米	O	*/
   Raduis?: number;
   /**	GisPoint[]	GPS坐标，根据方向优先经过的位置在数组最前面，下标最小。	O	*/

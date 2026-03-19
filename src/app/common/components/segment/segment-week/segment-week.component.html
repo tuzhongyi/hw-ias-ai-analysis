@@ -16,12 +16,17 @@
           cyan: !has(item),
           yellow: has(item)
         }"
+        [disabled]="disabled"
       >
         {{ Language.Week(item) }}
       </button>
     </div>
     <div class="segment-week-copy">
-      <button class="button-clip-blue" (click)="on.copy.open()">
+      <button
+        class="button-clip-blue"
+        (click)="on.copy.open()"
+        [disabled]="disabled"
+      >
         <i class="mdi mdi-content-copy"></i>复制
       </button>
     </div>
@@ -30,6 +35,7 @@
     <ias-segment-day
       [(datas)]="times"
       (datasChange)="on.change()"
+      [disabled]="disabled"
     ></ias-segment-day>
   </div>
 </div>

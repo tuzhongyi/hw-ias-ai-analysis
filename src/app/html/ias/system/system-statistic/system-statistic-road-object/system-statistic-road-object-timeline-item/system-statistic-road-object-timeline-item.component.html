@@ -1,8 +1,29 @@
-<div class="system-statistic-road-object-timeline-item" *ngIf="data">
+<div
+  class="system-statistic-road-object-timeline-item root-router"
+  [class.selected]="selected"
+  *ngIf="data"
+>
+  <div
+    class="system-statistic-road-object-timeline-item-type"
+    [style.color]="event.color"
+  >
+    {{ event.name }}
+  </div>
   <div class="system-statistic-road-object-timeline-item-image">
     <div
-      class="system-statistic-road-object-timeline-item-image-background"
-    ></div>
+      class="system-statistic-road-object-timeline-item-image-container"
+      [style.borderColor]="selected ? event.color : ''"
+    >
+      <div
+        class="system-statistic-road-object-timeline-item-image-container-inner"
+        [style.backgroundColor]="selected ? event.color : ''"
+      >
+        <div
+          class="system-statistic-road-object-timeline-item-image-icon"
+          [style.backgroundImage]="type.icon"
+        ></div>
+      </div>
+    </div>
     <div
       class="system-statistic-road-object-timeline-item-image-line left"
       *ngIf="!first"
@@ -13,12 +34,9 @@
     ></div>
   </div>
   <div class="system-statistic-road-object-timeline-item-type">
-    {{ type }}
-  </div>
-  <div class="system-statistic-road-object-timeline-item-name">
-    {{ data.Address }}
+    {{ type.name }}
   </div>
   <div class="system-statistic-road-object-timeline-item-time">
-    {{ data.EventTime | date : "mm:ss" }}
+    {{ data.EventTime | date : "HH:mm" }}
   </div>
 </div>

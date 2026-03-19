@@ -18,7 +18,8 @@ export class IASMapAMapPointController {
       position: this.position,
       draggable: false,
       icon: icon,
-      offset: this.icon.offset,
+      offset: args.offset ?? this.icon.offset,
+      rotate: data.Course,
     });
     this.regist(marker);
 

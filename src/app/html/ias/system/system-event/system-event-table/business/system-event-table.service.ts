@@ -34,26 +34,36 @@ export class SystemEventTableService {
     return this.service.event.list(params);
   }
 
-  async download(filter: SystemEventTableFilter, total: number) {
-    let size = 200;
-    let count = Math.ceil(total / size);
-    for (let index = 0; index < count; index++) {
-      let params = this.get.params(index + 1, size, filter);
-      let id = await this.service.event.excel.export(params);
-      let blob = await this.service.event.excel.download(id);
-      let link = document.createElement('a');
-      link.style.display = 'none';
-      link.href = URL.createObjectURL(blob);
-      link.download = `AI事件_${formatDate(
-        new Date(),
-        'YYYYMMdd_HHmmss',
-        'en'
-      )}.xlsx`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  }
+  download = {
+    to: async (filter: SystemEventTableFilter, total: number) => {
+      let size = 200;
+      let count = Math.ceil(total / size);
+      let ids = [];
+      for (let index = 0; index < count; index++) {
+        let params = this.get.params(index + 1, size, filter);
+        let id = await this.service.event.excel.export(params);
+        ids.push(id);
+      }
+      return ids;
+    },
+    do: async (ids: string[]) => {
+      for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        let blob = await this.service.event.excel.download(id);
+        let link = document.createElement('a');
+        link.style.display = 'none';
+        link.href = URL.createObjectURL(blob);
+        link.download = `AI事件_${formatDate(
+          new Date(),
+          'YYYYMMdd_HHmmss',
+          'en'
+        )}.xlsx`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    },
+  };
 
   private get = {
     params: (index: number, size: number, filter: SystemEventTableFilter) => {

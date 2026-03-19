@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { GisPoint } from '../../../../common/data-core/models/arm/gis-point.model';
 import { IASMapAMapController } from './controller/amap/ias-map-amap.controller';
-import { IIASMapArgs, MapMarker } from './ias-map.model';
+import { IIASMapArgs, MapMarker, MapMarkerStyle } from './ias-map.model';
 
 @Component({
   selector: 'ias-map',
@@ -21,8 +21,9 @@ import { IIASMapArgs, MapMarker } from './ias-map.model';
 export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() location?: GisPoint;
   @Input() move = false;
-  @Input() marker = new MapMarker();
-  @Input() points: GisPoint[] = [];
+  @Input() marker = new MapMarkerStyle();
+  @Input() shops: GisPoint[] = [];
+  @Input() points: MapMarker[] = [];
 
   constructor(private amap: IASMapAMapController) {}
 
@@ -56,6 +57,12 @@ export class IASMapComponent implements OnInit, OnChanges, OnDestroy {
         } else {
           this.hasdata = false;
         }
+      });
+    }
+    if (changes['shops']) {
+      this.amap.shop.clear().then((x) => {
+        this.amap.shop.load(this.shops, this.move);
+        this.hasdata = true;
       });
     }
     if (changes['points']) {

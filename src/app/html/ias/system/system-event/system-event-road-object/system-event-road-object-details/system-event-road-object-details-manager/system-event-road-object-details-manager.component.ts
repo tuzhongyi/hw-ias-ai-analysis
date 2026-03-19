@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContainerPageComponent } from '../../../../../../../common/components/container-page/container-page.component';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
-import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { HowellPoint } from '../../../../../../../common/data-core/models/arm/point.model';
 import {
   Page,
@@ -18,6 +17,7 @@ import { RoadObject } from '../../../../../../../common/data-core/models/arm/geo
 import { IMapMarkerPath } from '../../../../../../../common/tools/path-tool/path-map/marker/map-marker.interface';
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
+import { MapMarker } from '../../../../../share/map/ias-map.model';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
 import { PicturePolygonMultipleComponent } from '../../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRoadObjectDetailsInfoComponent } from '../system-event-road-object-details-info/system-event-road-object-details-info.component';
@@ -80,9 +80,10 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
       path: PathTool.image.map.object.unknow.gray as IMapMarkerPath,
       size: SizeTool.map.shop.get(),
     },
-    point: undefined as GisPoint | undefined,
+    point: undefined as MapMarker | undefined,
   };
   record = {
+    resource: undefined as EventResourceContent | undefined,
     picture: {
       src: '',
       reset: false,
@@ -97,10 +98,18 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
             this.data.Resources.length >= page.PageIndex
           ) {
             let index = page.PageIndex - 1;
-            let resource = this.data.Resources[index];
-            this.record.picture.src = resource.ImageUrl ?? '';
-            if (resource.Objects) {
-              this.record.picture.polygon = resource.Objects.map(
+            this.record.resource = this.data.Resources[index];
+            if (this.record.resource.Location) {
+              this.map.point = {
+                path: PathTool.image.map.arrow_2,
+                size: [36, 36],
+                location: this.record.resource.Location?.GCJ02,
+                offset: [-18, -18],
+              };
+            }
+            this.record.picture.src = this.record.resource.ImageUrl ?? '';
+            if (this.record.resource.Objects) {
+              this.record.picture.polygon = this.record.resource.Objects.map(
                 (x) => x.Polygon ?? []
               );
             }

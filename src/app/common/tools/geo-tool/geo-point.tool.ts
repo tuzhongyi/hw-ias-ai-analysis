@@ -63,21 +63,28 @@ export class GeoPointTool {
   }
 
   /** 最近点 */
-  closest(points: GeoPoint[], target: GeoPoint): GeoPoint | null {
+  closest(
+    points: GeoPoint[],
+    target: GeoPoint
+  ): { point: GeoPoint; index: number } | null {
     if (points.length === 0) return null;
 
     let closestPoint = points[0];
     let minDistance = this.math_distance(points[0], target);
-
+    let index = 0;
     for (let i = 1; i < points.length; i++) {
       const distance = this.math_distance(points[i], target);
       if (distance < minDistance) {
         closestPoint = points[i];
         minDistance = distance;
+        index = i;
       }
     }
 
-    return closestPoint;
+    return {
+      point: closestPoint,
+      index: index,
+    };
   }
 
   check(point?: [number, number]): boolean;

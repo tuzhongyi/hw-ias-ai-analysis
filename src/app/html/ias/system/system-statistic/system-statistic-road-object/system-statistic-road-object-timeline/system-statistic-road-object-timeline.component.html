@@ -1,12 +1,32 @@
-<div class="system-statistic-road-object-timeline" wheel-horizontal-scroll>
+<div class="system-statistic-road-object-timeline">
   <div
-    class="system-statistic-road-object-timeline-item"
-    *ngFor="let item of datas; let index = index"
+    class="system-statistic-road-object-timeline-content"
+    wheel-horizontal-scroll
+    #timeline
+    [position]="position"
+    (positionChange)="on.position($event)"
   >
-    <ias-system-statistic-road-object-timeline-item
-      [data]="item"
-      [first]="index == 0"
-      [last]="index == datas.length - 1"
-    ></ias-system-statistic-road-object-timeline-item>
+    <div
+      class="system-statistic-road-object-timeline-item"
+      *ngFor="let item of datas; let index = index"
+    >
+      <ias-system-statistic-road-object-timeline-item
+        [data]="item"
+        [first]="index == 0"
+        [last]="index == datas.length - 1"
+        [selected]="!!(selected && selected.Id == item.Id)"
+        (click)="on.click(item)"
+      ></ias-system-statistic-road-object-timeline-item>
+    </div>
+  </div>
+  <div class="system-statistic-road-object-timeline-scroll">
+    <ias-system-statistic-road-object-timeline-scroll
+      *ngIf="timeline.scrollWidth > timeline.clientWidth"
+      [datas]="datas"
+      [selected]="selected"
+      [container]="timeline"
+      [position]="position"
+      (positionChange)="on.drag($event)"
+    ></ias-system-statistic-road-object-timeline-scroll>
   </div>
 </div>

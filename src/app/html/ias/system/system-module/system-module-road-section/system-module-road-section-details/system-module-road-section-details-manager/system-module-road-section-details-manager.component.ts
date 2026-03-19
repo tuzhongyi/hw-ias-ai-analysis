@@ -55,7 +55,7 @@ export class SystemModuleRoadSectionDetailsManagerComponent implements OnInit {
   private init() {
     let data = new RoadSection();
     data.Raduis = 30;
-    data.SectionType = 0;
+    data.SectionType = 1;
     return data;
   }
 

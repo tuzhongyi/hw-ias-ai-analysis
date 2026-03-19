@@ -69,10 +69,10 @@ export class IASMapAMapPathController {
     }
   }
 
-  load(positions: [number, number][], focus: boolean) {
+  load(positions: [number, number][], focus: boolean, tostart = true) {
     if (positions.length === 0) return;
     this.points = positions;
-    if (positions.length > 0) {
+    if (positions.length > 0 && tostart) {
       this.map.setCenter(positions[0]);
     }
     this.polyline = new AMap.Polyline({
@@ -101,7 +101,9 @@ export class IASMapAMapPathController {
     });
 
     this.map.add(this.polyline);
+
     if (focus) {
+      console.log('focus');
       this.map.setFitView(this.polyline, true);
       setTimeout(() => {
         this.map.setFitView(this.polyline, true);

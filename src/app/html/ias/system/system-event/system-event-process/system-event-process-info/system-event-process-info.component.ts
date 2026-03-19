@@ -13,7 +13,7 @@ import {
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 import { IASMapComponent } from '../../../../share/map/ias-map.component';
-import { MapMarker } from '../../../../share/map/ias-map.model';
+import { MapMarkerStyle } from '../../../../share/map/ias-map.model';
 import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
 
@@ -74,7 +74,7 @@ export class SystemEventProcessInfoComponent implements OnInit {
   };
 
   map = {
-    marker: new MapMarker(),
+    marker: new MapMarkerStyle(),
     point: undefined as GisPoint | undefined,
   };
   record = {

@@ -25,6 +25,17 @@
       <div class="system-module-road-object-details-info-base panel panel-flex">
         <div class="panel-head">
           <div class="panel-title">基本信息</div>
+          <div>
+            <label for="road_object_disable">
+              启用
+              <input
+                id="road_object_disable"
+                type="checkbox"
+                [checked]="!model.Disable"
+                (change)="model.Disable = !model.Disable"
+              />
+            </label>
+          </div>
         </div>
         <div class="panel-body">
           <ias-system-module-road-object-details-info
@@ -39,9 +50,10 @@
       </div>
       <div class="system-module-road-object-details-info-config panel">
         <div class="panel-head">
-          <div class="panel-title">
+          <div class="panel-title">目标图片采样配置</div>
+          <div>
             <label for="image_sampling_enabled"
-              >目标图片采样配置
+              >启用
               <input
                 type="checkbox"
                 id="image_sampling_enabled"
@@ -55,6 +67,30 @@
             [operable]="operable"
             (course)="window.course.show = true"
           ></ias-system-module-road-object-details-config>
+        </div>
+      </div>
+      <div
+        class="system-module-road-object-details-info-segment panel panel-flex"
+      >
+        <div class="panel-head">
+          <div class="panel-title">工作表</div>
+          <div>
+            <label for="road_object_details_segment"
+              >启用<input
+                type="checkbox"
+                id="road_section_details_segment"
+                [(ngModel)]="model.BlockScheduleEnabled"
+                (change)="schedule.enable()"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="panel-body">
+          <ias-segment-week
+            [(data)]="schedule.data"
+            (dataChange)="schedule.change()"
+            [disabled]="!model.BlockScheduleEnabled"
+          ></ias-segment-week>
         </div>
       </div>
     </div>
