@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { GisType } from '../../../../../../common/data-core/enums/gis-type.enum';
+import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { GisPoints } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { GetRoadObjectEventsParams } from '../../../../../../common/data-core/requests/services/geographic/road/road-object/event/geographic-road-object-event.params';
-import { GetMobileDeviceRoutesParams } from '../../../../../../common/data-core/requests/services/system/mobile/system-mobile-device.params';
+import {
+  GetMobileDeviceRoutesParams,
+  GetMobileDevicesParams,
+} from '../../../../../../common/data-core/requests/services/system/mobile/system-mobile-device.params';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
 import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
@@ -29,9 +33,29 @@ export class SystemStatisticRoadObjectManagerBusiness {
     // return this.test.load();
     return this.data.record(args);
   }
-  path(deviceId: string, args: SystemStatisticRoadObjectArgs) {
-    let duration = DateTimeTool.all.day(args.date);
-    return this.data.path(deviceId, duration);
+  async path(
+    deviceId: string,
+    records: RoadObjectEventRecord[]
+  ): Promise<FileGpsItem[]> {
+    if (records.length == 0) {
+      return [];
+    } else if (records.length == 1) {
+      let record = records[0];
+      let duration = DateTimeTool.beforeOrAfter(record.EventTime, 30);
+      return this.data.path(deviceId, duration);
+    } else {
+      let begin = records[0].EventTime;
+      begin.setMinutes(begin.getMinutes() - 1);
+      let end = records[records.length - 1].EventTime;
+      end.setMinutes(end.getMinutes() + 1);
+      let duration = { begin, end };
+      return this.data.path(deviceId, duration);
+    }
+  }
+  devices(deviceIds: string[]) {
+    let params = new GetMobileDevicesParams();
+    params.Ids = deviceIds;
+    return this.service.system.mobile.device.cache.array(params);
   }
 
   private test = {

@@ -56,6 +56,7 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
   @Output() video = new EventEmitter<MobileEventRecord>();
   @Output() details = new EventEmitter<MobileEventRecord>();
   @Output() task = new EventEmitter<MobileEventRecord>();
+  @Output() blocked = new EventEmitter<MobileEventRecord>();
 
   constructor(
     private business: SystemEventTableBusiness,
@@ -245,5 +246,12 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
       this.filter.desc = sort.active;
     }
     this.load(this.page.PageIndex, this.page.PageSize, this.filter);
+  }
+
+  onblocked(e: Event, item: MobileEventRecord) {
+    this.blocked.emit(item);
+    if (this.selected === item) {
+      e.stopImmediatePropagation();
+    }
   }
 }

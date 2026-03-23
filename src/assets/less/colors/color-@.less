@@ -1,7 +1,189 @@
-@green: #23e353;
-@red: #ff5151;
-@orange: #ff762c;
-@yellow: #fde546;
+// @green: #23e353;
+// @red: #ff5151;
+// @orange: #ff762c;
+// @yellow: #fde546;
+// @normal: #ddf4ff;
+// @blue: #2d76ce;
+// @cyan: #00f5ff;
+
 @normal: #ddf4ff;
-@blue: #2d76ce;
-@cyan: #00f5ff;
+@white :#ffffff;
+@green :#21e452;
+@red :#f73d3d;
+@redlight :#ff762c;
+@orange :#ffba00;
+@cyan :#00f5ff;
+@yellow :#fde546;
+@blue :#1e90ff;
+@gray :#666;
+@pink :#e879f9;
+@purple :#a78bfa;
+@sky :#38bdf8;
+
+html {
+  --white: @white;
+  --green: @green;
+  --red: @red;
+  --redlight: @redlight;
+  --orange: @orange;
+  --cyan: @cyan;
+  --yellow: @yellow;
+  --blue: @blue;
+  --gray: @gray;
+  --pink: @pink;
+  --purple: @purple;
+  --sky: @sky;
+
+
+  --color: var(--white);
+  --color-r: 255;
+  --color-g: 255;
+  --color-b: 255;
+
+
+  /* RGB 分量变量 */
+  --normal-r: 221;
+  --normal-g: 244;
+  --normal-b: 255;
+
+  --white-r: 255;
+  --white-g: 255;
+  --white-b: 255;
+
+  --green-r: 33;
+  --green-g: 228;
+  --green-b: 82;
+
+  --red-r: 247;
+  --red-g: 61;
+  --red-b: 61;
+
+  --redlight-r: 255;
+  --redlight-g: 118;
+  --redlight-b: 44;
+
+  --orange-r: 255;
+  --orange-g: 186;
+  --orange-b: 0;
+
+  --cyan-r: 0;
+  --cyan-g: 245;
+  --cyan-b: 255;
+
+  --yellow-r: 253;
+  --yellow-g: 229;
+  --yellow-b: 70;
+
+  --blue-r: 30;
+  --blue-g: 144;
+  --blue-b: 255;
+
+  --gray-r: 102;
+  --gray-g: 102;
+  --gray-b: 102;
+
+  --pink-r: 232;
+  --pink-g: 121;
+  --pink-b: 249;
+
+  --purple-r: 167;
+  --purple-g: 139;
+  --purple-b: 250;
+
+  --sky-r: 56;
+  --sky-g: 189;
+  --sky-b: 248;
+
+
+  /* ========== 颜色工具类 ========== */
+  .normal {
+    --color: var(--normal);
+    --color-r: var(--normal-r);
+    --color-g: var(--normal-g);
+    --color-b: var(--normal-b);
+  }
+
+  .white {
+    --color: var(--white);
+    --color-r: var(--white-r);
+    --color-g: var(--white-g);
+    --color-b: var(--white-b);
+  }
+
+  .green {
+    --color: var(--green);
+    --color-r: var(--green-r);
+    --color-g: var(--green-g);
+    --color-b: var(--green-b);
+  }
+
+  .red {
+    --color: var(--red);
+    --color-r: var(--red-r);
+    --color-g: var(--red-g);
+    --color-b: var(--red-b);
+  }
+
+  .redlight {
+    --color: var(--redlight);
+    --color-r: var(--redlight-r);
+    --color-g: var(--redlight-g);
+    --color-b: var(--redlight-b);
+  }
+
+  .orange {
+    --color: var(--orange);
+    --color-r: var(--orange-r);
+    --color-g: var(--orange-g);
+    --color-b: var(--orange-b);
+  }
+
+  .cyan {
+    --color: var(--cyan);
+    --color-r: var(--cyan-r);
+    --color-g: var(--cyan-g);
+    --color-b: var(--cyan-b);
+  }
+
+  .yellow {
+    --color: var(--yellow);
+    --color-r: var(--yellow-r);
+    --color-g: var(--yellow-g);
+    --color-b: var(--yellow-b);
+  }
+
+  .blue {
+    --color: var(--blue);
+    --color-r: var(--blue-r);
+    --color-g: var(--blue-g);
+    --color-b: var(--blue-b);
+  }
+
+  .gray {
+    --color: var(--gray);
+    --color-r: var(--gray-r);
+    --color-g: var(--gray-g);
+    --color-b: var(--gray-b);
+  }
+
+  .pink {
+    --color: var(--pink);
+    --color-r: var(--pink-r);
+    --color-g: var(--pink-g);
+    --color-b: var(--pink-b);
+  }
+
+  .purple {
+    --color: var(--purple);
+    --color-r: var(--purple-r);
+    --color-g: var(--purple-g);
+    --color-b: var(--purple-b);
+  }
+
+  .sky {
+    --color: var(--sky);
+    --color-r: var(--sky-r);
+    --color-g: var(--sky-g);
+    --color-b: var(--sky-b);
+  }
+}

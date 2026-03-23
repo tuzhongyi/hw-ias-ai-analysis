@@ -100,11 +100,15 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
             let index = page.PageIndex - 1;
             this.record.resource = this.data.Resources[index];
             if (this.record.resource.Location) {
+              let gcj02 = this.record.resource.Location.GCJ02;
               this.map.point = {
-                path: PathTool.image.map.arrow_2,
-                size: [36, 36],
-                location: this.record.resource.Location?.GCJ02,
-                offset: [-18, -18],
+                path:
+                  gcj02.Course == undefined
+                    ? PathTool.image.map.location.point
+                    : PathTool.image.map.location.arrow,
+                size: [56, 56],
+                location: gcj02,
+                offset: [-28, -28],
               };
             }
             this.record.picture.src = this.record.resource.ImageUrl ?? '';

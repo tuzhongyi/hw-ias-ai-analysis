@@ -1,0 +1,102 @@
+<div
+  class="system-statistic-road-object-map-info-details root-router"
+  [class]="color.name"
+>
+  <div class="system-statistic-road-object-map-info-details-operation">
+    <div class="button" (click)="on.details()">
+      <i class="howell-icon-details"></i>
+    </div>
+    <div class="button" (click)="on.close()">
+      <i class="howell-icon-Close"></i>
+    </div>
+  </div>
+  <div class="system-statistic-road-object-map-info-details-border">
+    <div
+      class="system-statistic-road-object-map-info-details-border-corner left"
+    ></div>
+    <div
+      class="system-statistic-road-object-map-info-details-border-corner right"
+    ></div>
+    <div
+      class="system-statistic-road-object-map-info-details-container"
+      *ngIf="data"
+    >
+      <div class="system-statistic-road-object-map-info-details-head">
+        <div class="system-statistic-road-object-map-info-details-head-text">
+          <i class="howell-icon-point"></i>
+          {{ name.event }}
+        </div>
+      </div>
+
+      <div class="system-statistic-road-object-map-info-details-hr"></div>
+      <div
+        class="system-statistic-road-object-map-info-details-picture"
+        *ngIf="picture.url"
+      >
+        <howell-container-page
+          [page]="picture.page"
+          (pageChange)="picture.change($event)"
+          [small]="true"
+          [loop]="true"
+        >
+          <div
+            class="system-statistic-road-object-map-info-details-picture-content"
+            [style.background-image]="'url(' + picture.url + ')'"
+          ></div>
+        </howell-container-page>
+      </div>
+      <div class="system-statistic-road-object-map-info-details-body">
+        <div
+          class="system-statistic-road-object-map-info-details-body-content type"
+        >
+          <div
+            class="system-statistic-road-object-map-info-details-body-content-icon"
+            #icon
+          ></div>
+          <div
+            class="system-statistic-road-object-map-info-details-body-content-value"
+          >
+            {{ name.type }}
+          </div>
+        </div>
+        <div
+          class="system-statistic-road-object-map-info-details-body-content name"
+        >
+          <div
+            class="system-statistic-road-object-map-info-details-body-content-icon"
+          >
+            <i class="mdi mdi-map-marker-circle"></i>
+          </div>
+          <div
+            class="system-statistic-road-object-map-info-details-body-content-value"
+          >
+            {{ data.Address || data.RoadObjectName }}
+          </div>
+        </div>
+        <div
+          class="system-statistic-road-object-map-info-details-body-content time"
+        >
+          <div
+            class="system-statistic-road-object-map-info-details-body-content-icon"
+          >
+            <i class="mdi mdi-clock"></i>
+          </div>
+          <div
+            class="system-statistic-road-object-map-info-details-body-content-value"
+          >
+            {{ data.EventTime | date : "yyyy-MM-dd HH:mm:ss" }}
+          </div>
+        </div>
+      </div>
+      <div class="system-statistic-road-object-map-info-details-foot">
+        {{ data.Description }}
+      </div>
+    </div>
+  </div>
+
+  <div class="system-statistic-road-object-map-info-details-point">
+    <div
+      class="system-statistic-road-object-map-info-details-point-inner"
+    ></div>
+  </div>
+</div>

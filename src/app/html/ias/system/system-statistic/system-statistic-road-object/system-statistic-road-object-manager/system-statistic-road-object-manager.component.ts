@@ -7,6 +7,7 @@ import { EventResourceContent } from '../../../../../../common/data-core/models/
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { EnumNameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import {
   Page,
@@ -20,6 +21,8 @@ import { PictureListComponent } from '../../../../share/picture/picture-list/pic
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventRoadObjectDetailsManagerComponent } from '../../../system-event/system-event-road-object/system-event-road-object-details/system-event-road-object-details-manager/system-event-road-object-details-manager.component';
 import { SystemEventVideoComponent } from '../../../system-event/system-event-video/system-event-video.component';
+import { SystemStatisticRoadObjectMapInfoDetailsComponent } from '../system-statistic-road-object-map-info/system-statistic-road-object-map-info-details/system-statistic-road-object-map-info-details.component';
+import { SystemStatisticRoadObjectMapInfoSimpleComponent } from '../system-statistic-road-object-map-info/system-statistic-road-object-map-info-simple/system-statistic-road-object-map-info-simple.component';
 import { SystemStatisticRoadObjectMapMarkerComponent } from '../system-statistic-road-object-map-marker/system-statistic-road-object-map-marker.component';
 import { SystemStatisticRoadObjectMapStateGroupComponent } from '../system-statistic-road-object-map-state/system-statistic-road-object-map-state-group/system-statistic-road-object-map-state-group.component';
 import { SystemStatisticRoadObjectMapComponent } from '../system-statistic-road-object-map/system-statistic-road-object-map.component';
@@ -40,10 +43,13 @@ import { SystemStatisticRoadObjectManagerWindow } from './system-statistic-road-
     PictureListComponent,
     HowellSelectComponent,
     SystemStatisticRoadObjectMapComponent,
-    SystemStatisticRoadObjectMapMarkerComponent,
+
     SystemStatisticRoadObjectTimelineComponent,
     SystemStatisticRoadObjectMapStateGroupComponent,
     SystemEventRoadObjectDetailsManagerComponent,
+    SystemStatisticRoadObjectMapMarkerComponent,
+    SystemStatisticRoadObjectMapInfoDetailsComponent,
+    SystemStatisticRoadObjectMapInfoSimpleComponent,
   ],
   templateUrl: './system-statistic-road-object-manager.component.html',
   styleUrl: './system-statistic-road-object-manager.component.less',
@@ -69,32 +75,79 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
     record: {
       source: [] as RoadObjectEventRecord[],
       view: [] as RoadObjectEventRecord[],
+      selected: undefined as RoadObjectEventRecord | undefined,
     },
     path: [] as FileGpsItem[],
     channels: [] as EnumNameValue<number>[],
+    device: {
+      data: [] as MobileDevice[],
+      selected: undefined as MobileDevice | undefined,
+    },
   };
 
-  selected?: RoadObjectEventRecord;
-
   ngOnInit(): void {
-    this.load();
+    this.load.ing();
   }
 
-  load() {
-    this.business.record(this.args).then((x) => {
-      this.data.record.source = x;
-      this.data.record.view = x;
-
+  load = {
+    ing: async () => {
+      await this.load.record();
       let deviceIds = this.data.record.source.map((x) => x.DeviceId);
       deviceIds = ArrayTool.distinct(deviceIds);
-      console.log('deviceIds', deviceIds);
       if (deviceIds.length > 0) {
-        this.business.path(deviceIds[0], this.args).then((y) => {
-          this.data.path = y;
-        });
+        let selectedId = deviceIds[0];
+
+        this.load.device(deviceIds, selectedId);
+        await this.load.view(deviceIds, selectedId);
+        this.load.path(selectedId);
+      } else {
+        this.data.record.view = [];
+        this.data.path = [];
+        this.data.device.data = [];
       }
-    });
-  }
+    },
+    record: async () => {
+      this.data.record.source = await this.business.record(this.args);
+    },
+    view: (deviceIds: string[], selectedId: string) => {
+      if (deviceIds.length > 1) {
+        this.data.record.view = this.data.record.source.filter(
+          (x) => x.DeviceId === selectedId
+        );
+      } else {
+        this.data.record.view = [...this.data.record.source];
+      }
+      return this.data.record.view;
+    },
+    device: async (deviceIds: string[], selectedId?: string) => {
+      this.data.device.data = await this.business.devices(deviceIds);
+      if (selectedId) {
+        this.data.device.selected = this.data.device.data.find(
+          (x) => x.Id === selectedId
+        );
+      }
+    },
+    path: (deviceId: string) => {
+      this.business.path(deviceId, this.data.record.view).then((y) => {
+        this.data.path = y;
+      });
+    },
+  };
+
+  // async load() {
+  //   this.data.record.source = await this.business.record(this.args);
+
+  //   this.data.record.view = [...this.data.record.source];
+  //   let deviceIds = this.data.record.source.map((x) => x.DeviceId);
+  //   deviceIds = ArrayTool.distinct(deviceIds);
+
+  //   if (deviceIds.length > 0) {
+  //     let selectedId = deviceIds[0];
+  //     this.business.path(selectedId, this.args).then((y) => {
+  //       this.data.path = y;
+  //     });
+  //   }
+  // }
 
   picture = {
     datas: [] as Array<
@@ -127,12 +180,20 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
   };
 
   on = {
+    device: async () => {
+      if (this.data.device.selected) {
+        let selectedId = this.data.device.selected.Id;
+        let deviceIds = this.data.record.source.map((x) => x.DeviceId);
+        await this.load.view(deviceIds, selectedId);
+        this.load.path(selectedId);
+      }
+    },
     details: (data: RoadObjectEventRecord) => {
       this.window.details.data = data;
       this.window.details.show = true;
     },
     select: (data: RoadObjectEventRecord) => {
-      this.selected = data;
+      this.data.record.selected = data;
     },
     filter: (args: { EventType?: number; RoadObjectType?: number }) => {
       this.data.record.view = this.data.record.source.filter((item) => {
@@ -146,7 +207,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
         // 两个条件同时满足（空参数自动满足）
         return isEventMatch && isObjectMatch;
       });
-      this.selected = undefined;
+      this.data.record.selected = undefined;
     },
     video: async (data: RoadObjectEventRecord) => {
       let name = await this.language.event.EventType(data.EventType);

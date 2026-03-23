@@ -40,8 +40,9 @@ export class ColorTool {
   static blue = '#1e90ff';
   static gray = '#666';
   static pink = '#e879f9';
-  static purple = '#a78bfa'; //'#ddf4ff';
+  static purple = '#a78bfa';
   static sky = '#38bdf8';
+  static normal = '#ddf4ff';
 
   static map = new ColorMapTool();
   static chart = new ColorChartTool();

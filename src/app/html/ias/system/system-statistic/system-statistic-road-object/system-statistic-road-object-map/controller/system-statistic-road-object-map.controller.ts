@@ -22,18 +22,33 @@ export class SystemStatisticRoadObjectMapController {
     let marker = await amap.record.marker;
     marker.event.click = (data) => {
       this.event.record.click && this.event.record.click(data);
+      this.amap.record.info.simple.then((simple) => {
+        simple.remove();
+      });
     };
     marker.event.dblclick = (data) => {
       this.event.record.dblclick && this.event.record.dblclick(data);
+      this.amap.record.info.simple.then((simple) => {
+        simple.remove();
+      });
     };
     marker.event.mouseover = (data) => {
       this.event.record.mouseover && this.event.record.mouseover(data);
+      this.amap.record.info.details.then((details) => {
+        if (!details.opened(data))
+          this.amap.record.info.simple.then((simple) => {
+            simple.add(data);
+          });
+      });
     };
     marker.event.mouseout = (data) => {
       this.event.record.mouseout && this.event.record.mouseout(data);
+      this.amap.record.info.simple.then((x) => {
+        x.remove();
+      });
     };
 
-    let info = await amap.record.info;
+    let info = await amap.record.info.details;
     info.details = (data) => {
       this.event.record.dblclick && this.event.record.dblclick(data);
     };
@@ -62,7 +77,7 @@ export class SystemStatisticRoadObjectMapController {
     select: async (data: RoadObjectEventRecord) => {
       let marker = await this.amap.record.marker;
       marker.select(data);
-      let info = await this.amap.record.info;
+      let info = await this.amap.record.info.details;
       info.open(data);
       if (data.Location) {
         let position: [number, number] = [
@@ -73,7 +88,7 @@ export class SystemStatisticRoadObjectMapController {
       }
     },
     blur: async () => {
-      let info = await this.amap.record.info;
+      let info = await this.amap.record.info.details;
       info.close();
     },
   };
@@ -88,8 +103,8 @@ export class SystemStatisticRoadObjectMapController {
       path.load(positions, focus, false);
     },
     to: async (datas: FileGpsItem[], record: RoadObjectEventRecord) => {
-      console.log('to');
       let way = await this.amap.way;
+      way.clear();
       let closest = ObjectTool.model.RoadObjectEventRecord.findMatchWithFoot(
         datas,
         record,

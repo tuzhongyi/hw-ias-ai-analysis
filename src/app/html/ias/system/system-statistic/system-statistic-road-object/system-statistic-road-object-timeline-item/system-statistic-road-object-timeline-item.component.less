@@ -1,11 +1,13 @@
 .system-statistic-road-object-timeline-item {
+  @item-width: 100px;
   display: flex;
   flex-direction: column;
   padding: 0 10px;
-  width: 100px;
+  width: @item-width;
   align-items: center;
   cursor: pointer;
   opacity: 0.9;
+  gap: 5px;
 
   &:hover {
     opacity: 1;
@@ -17,7 +19,7 @@
 
 
   &-image {
-    width: 65px;
+    width: 50%;
     aspect-ratio: 1;
     display: flex;
     justify-content: center;
@@ -26,9 +28,9 @@
 
     &-container {
       border: 2px solid white;
-      width: 32px;
+      width: 50%;
 
-      height: 32px;
+      height: 50%;
       background-color: #050D15;
 
       transform: rotate(45deg);
@@ -57,16 +59,18 @@
       border: 1px solid white;
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
-      width: calc(50% + 30px);
+      width: 100%;
       z-index: 0;
 
       &.left {
         right: 50%;
+        transform: translateX(-15.5%);
+
       }
 
       &.right {
         left: 50%;
+        transform: translateX(15.5%);
       }
     }
 
@@ -82,10 +86,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+    color: white;
   }
 
   &-time {
     text-align: center;
     font-family: Orbitron;
+    font-size: 0.88rem;
+    color: white;
   }
 }

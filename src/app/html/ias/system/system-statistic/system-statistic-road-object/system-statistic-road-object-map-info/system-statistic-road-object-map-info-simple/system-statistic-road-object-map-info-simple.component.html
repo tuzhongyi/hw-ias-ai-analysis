@@ -1,0 +1,44 @@
+<div
+  class="system-statistic-road-object-map-info-simple"
+  [class]="color"
+  *ngIf="data"
+>
+  <div class="system-statistic-road-object-map-info-simple-container">
+    <div class="system-statistic-road-object-map-info-simple-head">
+      <i class="howell-icon-point"></i>
+      {{ name.event }}
+    </div>
+    <div class="system-statistic-road-object-map-info-simple-body">
+      <div
+        class="system-statistic-road-object-map-info-simple-body-content type"
+      >
+        <div
+          class="system-statistic-road-object-map-info-simple-body-content-icon"
+          #icon
+        ></div>
+        <div
+          class="system-statistic-road-object-map-info-simple-body-content-value"
+        >
+          {{ name.type }}
+        </div>
+      </div>
+      <div
+        class="system-statistic-road-object-map-info-simple-body-content time"
+      >
+        <div
+          class="system-statistic-road-object-map-info-simple-body-content-icon"
+        >
+          <i class="mdi mdi-clock"></i>
+        </div>
+        <div
+          class="system-statistic-road-object-map-info-simple-body-content-value"
+        >
+          {{ data.EventTime | date : "HH:mm:ss" }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-road-object-map-info-simple-point">
+    <div class="system-statistic-road-object-map-info-simple-point-inner"></div>
+  </div>
+</div>

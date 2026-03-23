@@ -12,7 +12,7 @@ export class SystemModuleRoadObjectVideoAMapArrowController {
     if (!this._arrow) {
       this._arrow = new AMap.Marker({
         map: this.map,
-        icon: PathTool.image.map.arrow,
+        icon: PathTool.image.map.arrow._1,
         offset: new AMap.Pixel(-18, -18),
       });
     }

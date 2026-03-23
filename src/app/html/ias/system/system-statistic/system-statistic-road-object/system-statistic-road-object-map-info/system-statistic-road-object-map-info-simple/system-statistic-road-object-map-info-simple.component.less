@@ -1,0 +1,86 @@
+@import url(../../../../../../../../assets/less/colors/color-@.less);
+
+.system-statistic-road-object-map-info-simple {
+
+  display: block;
+  width: max-content;
+  height: max-content;
+
+  &-container {
+    width: 100%;
+    height: calc(100% - 10px);
+    padding: 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    gap: 10px;
+    border: 1px solid rgba(var(--color-r), var(--color-g), var(--color-b), 0.3);
+    background: linear-gradient(135deg, rgba(3, 7, 18, 0.94), rgba(0, 10, 25, 0.97));
+  }
+
+
+
+
+  &-point {
+    height: 10px;
+    position: relative;
+
+
+    &-inner {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      clip-path: polygon(0 0, 100% 0, 50% 100%, 0 0);
+
+      height: 10px;
+      aspect-ratio: 1.1547/1;
+
+      background-color: rgba(var(--color-r), var(--color-g), var(--color-b), 0.3);
+    }
+
+
+  }
+
+
+  &-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    box-sizing: border-box;
+    color: var(--color);
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &-content {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 14px;
+
+      color: var(--color);
+
+      &-icon {
+        width: 22px;
+        height: 10px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &-value {
+        width: calc(100% - 10px - 22px);
+      }
+    }
+  }
+}

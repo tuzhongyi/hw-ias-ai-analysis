@@ -37,6 +37,7 @@
         [page]="record.picture.page.data"
         (pageChange)="record.picture.page.change($event)"
         [small]="true"
+        [loop]="true"
       >
         <ias-picture-polygon-multiple
           [id]="record.picture.src"

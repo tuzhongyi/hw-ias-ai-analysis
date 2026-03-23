@@ -2,10 +2,17 @@
   <div class="system-statistic-road-object-head">
     <ias-content-header [title]="title"></ias-content-header>
     <div class="forms">
+      <div class="form-item" *ngIf="data.device.data.length > 1">
+        <select [(ngModel)]="data.device.selected" (change)="on.device()">
+          <option *ngFor="let item of data.device.data" [ngValue]="item">
+            {{ item.Name }}
+          </option>
+        </select>
+      </div>
       <div class="form-item">
         <date-time-control
           [(date)]="args.date"
-          (dateChange)="load()"
+          (dateChange)="load.ing()"
           [position]="'bottom-left'"
         ></date-time-control>
       </div>
@@ -14,7 +21,7 @@
   <div class="system-statistic-road-object-timeline panel">
     <ias-system-statistic-road-object-timeline
       [datas]="data.record.view"
-      [(selected)]="selected"
+      [(selected)]="data.record.selected"
     ></ias-system-statistic-road-object-timeline>
   </div>
 
@@ -28,10 +35,18 @@
         [selected]="true"
       ></ias-system-statistic-road-object-map-marker>
     </ng-container> -->
+    <!-- <ng-container *ngIf="data.record.source.length > 0">
+      <ias-system-statistic-road-object-map-info-details
+        [data]="data.record.source[0]"
+      ></ias-system-statistic-road-object-map-info-details>
+      <ias-system-statistic-road-object-map-info-simple
+        [data]="data.record.source[0]"
+      ></ias-system-statistic-road-object-map-info-simple>
+    </ng-container> -->
     <ias-system-statistic-road-object-map
       [records]="data.record.view"
       [path]="data.path"
-      [selected]="selected"
+      [selected]="data.record.selected"
       (selectedChange)="on.select($event)"
       (recorddblclick)="on.details($event)"
     ></ias-system-statistic-road-object-map>

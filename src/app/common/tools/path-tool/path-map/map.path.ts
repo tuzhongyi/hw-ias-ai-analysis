@@ -37,9 +37,16 @@ export class MapPath {
   }
 
   get arrow() {
-    return `${this.base}/arrow_1.png`;
+    return {
+      _1: `${this.base}/arrow_1.png`,
+      _2: `${this.base}/arrow_2.png`,
+    };
   }
-  get arrow_2() {
-    return `${this.base}/arrow_2.png`;
+
+  get location() {
+    return {
+      point: `${this.base}/location.png`,
+      arrow: `${this.base}/location-arrow.png`,
+    };
   }
 }

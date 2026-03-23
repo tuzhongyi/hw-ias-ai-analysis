@@ -187,9 +187,9 @@ export class RoadObjectEventRecordTool {
           case RoadObjectEventType.Inspection:
             return ColorTool.green;
           case RoadObjectEventType.Breakage:
-            return ColorTool.orange;
+            return ColorTool.yellow;
           case RoadObjectEventType.Disappear:
-            return ColorTool.red;
+            return ColorTool.redlight;
           default:
             return '';
         }

@@ -9,6 +9,7 @@
     <div
       class="system-statistic-road-object-timeline-item"
       *ngFor="let item of datas; let index = index"
+      #timelineitem
     >
       <ias-system-statistic-road-object-timeline-item
         [data]="item"
@@ -21,7 +22,7 @@
   </div>
   <div class="system-statistic-road-object-timeline-scroll">
     <ias-system-statistic-road-object-timeline-scroll
-      *ngIf="timeline.scrollWidth > timeline.clientWidth"
+      *ngIf="scroll.display"
       [datas]="datas"
       [selected]="selected"
       [container]="timeline"

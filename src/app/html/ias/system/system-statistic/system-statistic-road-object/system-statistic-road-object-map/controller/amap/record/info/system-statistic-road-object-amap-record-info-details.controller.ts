@@ -2,10 +2,16 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RoadObjectEventRecord } from '../../../../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { ComponentTool } from '../../../../../../../../../../common/tools/component-tool/component.tool';
-import { SystemStatisticRoadObjectMapInfoComponent } from '../../../../../system-statistic-road-object-map-info/system-statistic-road-object-map-info.component';
+import { SystemStatisticRoadObjectMapInfoDetailsComponent } from '../../../../../system-statistic-road-object-map-info/system-statistic-road-object-map-info-details/system-statistic-road-object-map-info-details.component';
 
-export class SystemStatisticRoadObjectAMapRecordInfoController {
+export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
   details?: (data: RoadObjectEventRecord) => void;
+  opened(data: RoadObjectEventRecord) {
+    if (this.data && this.data.Id === data.Id) {
+      return this.window.getIsOpen();
+    }
+    return false;
+  }
   constructor(
     private map: AMap.Map,
     private tool: ComponentTool,
@@ -19,12 +25,13 @@ export class SystemStatisticRoadObjectAMapRecordInfoController {
     close: new EventEmitter<void>(),
     details: new EventEmitter<RoadObjectEventRecord>(),
   };
+  private data?: RoadObjectEventRecord;
 
   private init() {
     let window = new AMap.InfoWindow({
       isCustom: true,
-      anchor: 'bottom-center',
-      offset: [0, -20],
+      anchor: 'middle-left',
+      offset: [20, 0],
       autoMove: false,
     });
     window.hide();
@@ -44,7 +51,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoController {
   private get = {
     html: (data: RoadObjectEventRecord) => {
       let component = this.tool.create(
-        SystemStatisticRoadObjectMapInfoComponent,
+        SystemStatisticRoadObjectMapInfoDetailsComponent,
         { data: data, close: this.event.close, details: this.event.details }
       );
       let html = this.tool.get.html(component);
@@ -53,6 +60,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoController {
   };
 
   open(data: RoadObjectEventRecord) {
+    this.data = data;
     if (data.Location) {
       let position = [
         data.Location.GCJ02.Longitude,

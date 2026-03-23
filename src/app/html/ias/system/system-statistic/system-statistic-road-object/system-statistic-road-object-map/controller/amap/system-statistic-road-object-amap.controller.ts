@@ -5,7 +5,8 @@ import { PromiseValue } from '../../../../../../../../common/view-models/value.p
 import { IASMapAMapPathWayController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path-way.controller';
 import { IASMapAMapPathController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path.controller';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
-import { SystemStatisticRoadObjectAMapRecordInfoController } from './record/info/system-statistic-road-object-amap-record-info.controller';
+import { SystemStatisticRoadObjectAMapRecordInfoDetailsController } from './record/info/system-statistic-road-object-amap-record-info-details.controller';
+import { SystemStatisticRoadObjectAMapRecordInfoSimpleController } from './record/info/system-statistic-road-object-amap-record-info-simple.controller';
 import { SystemStatisticRoadObjectAMapRecordMarkerLayerController } from './record/marker/system-statistic-road-object-amap-record-marker-layer.controller';
 
 export class SystemStatisticRoadObjectAMapController {
@@ -18,7 +19,10 @@ export class SystemStatisticRoadObjectAMapController {
   get record() {
     return {
       marker: this.controller.record.marker.get(),
-      info: this.controller.record.info.get(),
+      info: {
+        details: this.controller.record.info.details.get(),
+        simple: this.controller.record.info.simple.get(),
+      },
     };
   }
   get path() {
@@ -63,7 +67,12 @@ export class SystemStatisticRoadObjectAMapController {
     record: {
       marker:
         new PromiseValue<SystemStatisticRoadObjectAMapRecordMarkerLayerController>(),
-      info: new PromiseValue<SystemStatisticRoadObjectAMapRecordInfoController>(),
+      info: {
+        details:
+          new PromiseValue<SystemStatisticRoadObjectAMapRecordInfoDetailsController>(),
+        simple:
+          new PromiseValue<SystemStatisticRoadObjectAMapRecordInfoSimpleController>(),
+      },
     },
     path: new PromiseValue<IASMapAMapPathController>(),
     way: new PromiseValue<IASMapAMapPathWayController>(),
@@ -75,8 +84,11 @@ export class SystemStatisticRoadObjectAMapController {
       this.controller.map.set(map);
 
       map.on('click', (e) => {
-        this.record.info.then((x) => {
+        this.record.info.details.then((x) => {
           x.close();
+        });
+        this.record.info.simple.then((x) => {
+          x.remove();
         });
       });
     },
@@ -98,13 +110,18 @@ export class SystemStatisticRoadObjectAMapController {
         map,
         tool
       );
+
       this.controller.record.marker.set(marker);
-      let info = new SystemStatisticRoadObjectAMapRecordInfoController(
-        map,
-        tool,
-        subscription
-      );
-      this.controller.record.info.set(info);
+      let info_details =
+        new SystemStatisticRoadObjectAMapRecordInfoDetailsController(
+          map,
+          tool,
+          subscription
+        );
+      this.controller.record.info.details.set(info_details);
+      let info_simple =
+        new SystemStatisticRoadObjectAMapRecordInfoSimpleController(map, tool);
+      this.controller.record.info.simple.set(info_simple);
     },
     path: (map: AMap.Map) => {
       let ctr = new IASMapAMapPathController(map);
