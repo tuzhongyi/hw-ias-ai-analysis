@@ -13,6 +13,7 @@ import {
   Page,
   PagedList,
 } from '../../../../../../common/data-core/models/interface/page-list.model';
+import { ScrollSnapDirective } from '../../../../../../common/directives/scroll/scroll-snap.directive';
 import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
@@ -21,11 +22,9 @@ import { PictureListComponent } from '../../../../share/picture/picture-list/pic
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventRoadObjectDetailsManagerComponent } from '../../../system-event/system-event-road-object/system-event-road-object-details/system-event-road-object-details-manager/system-event-road-object-details-manager.component';
 import { SystemEventVideoComponent } from '../../../system-event/system-event-video/system-event-video.component';
-import { SystemStatisticRoadObjectMapInfoDetailsComponent } from '../system-statistic-road-object-map-info/system-statistic-road-object-map-info-details/system-statistic-road-object-map-info-details.component';
-import { SystemStatisticRoadObjectMapInfoSimpleComponent } from '../system-statistic-road-object-map-info/system-statistic-road-object-map-info-simple/system-statistic-road-object-map-info-simple.component';
-import { SystemStatisticRoadObjectMapMarkerComponent } from '../system-statistic-road-object-map-marker/system-statistic-road-object-map-marker.component';
 import { SystemStatisticRoadObjectMapStateGroupComponent } from '../system-statistic-road-object-map-state/system-statistic-road-object-map-state-group/system-statistic-road-object-map-state-group.component';
 import { SystemStatisticRoadObjectMapComponent } from '../system-statistic-road-object-map/system-statistic-road-object-map.component';
+import { SystemStatisticRoadObjectTimelineSimpleComponent } from '../system-statistic-road-object-timeline-simple/system-statistic-road-object-timeline-simple.component';
 import { SystemStatisticRoadObjectTimelineComponent } from '../system-statistic-road-object-timeline/system-statistic-road-object-timeline.component';
 import { SystemStatisticRoadObjectManagerBusiness } from './system-statistic-road-object-manager.business';
 import { SystemStatisticRoadObjectArgs } from './system-statistic-road-object-manager.model';
@@ -36,6 +35,7 @@ import { SystemStatisticRoadObjectManagerWindow } from './system-statistic-road-
   imports: [
     CommonModule,
     FormsModule,
+    ScrollSnapDirective,
     ContentHeaderComponent,
     DateTimeControlComponent,
     WindowComponent,
@@ -47,9 +47,10 @@ import { SystemStatisticRoadObjectManagerWindow } from './system-statistic-road-
     SystemStatisticRoadObjectTimelineComponent,
     SystemStatisticRoadObjectMapStateGroupComponent,
     SystemEventRoadObjectDetailsManagerComponent,
-    SystemStatisticRoadObjectMapMarkerComponent,
-    SystemStatisticRoadObjectMapInfoDetailsComponent,
-    SystemStatisticRoadObjectMapInfoSimpleComponent,
+    SystemStatisticRoadObjectTimelineSimpleComponent,
+    // SystemStatisticRoadObjectMapMarkerComponent,
+    // SystemStatisticRoadObjectMapInfoDetailsComponent,
+    // SystemStatisticRoadObjectMapInfoSimpleComponent,
   ],
   templateUrl: './system-statistic-road-object-manager.component.html',
   styleUrl: './system-statistic-road-object-manager.component.less',
@@ -82,6 +83,12 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
     device: {
       data: [] as MobileDevice[],
       selected: undefined as MobileDevice | undefined,
+    },
+  };
+
+  map = {
+    timeline: {
+      simple: false,
     },
   };
 
@@ -134,21 +141,6 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
     },
   };
 
-  // async load() {
-  //   this.data.record.source = await this.business.record(this.args);
-
-  //   this.data.record.view = [...this.data.record.source];
-  //   let deviceIds = this.data.record.source.map((x) => x.DeviceId);
-  //   deviceIds = ArrayTool.distinct(deviceIds);
-
-  //   if (deviceIds.length > 0) {
-  //     let selectedId = deviceIds[0];
-  //     this.business.path(selectedId, this.args).then((y) => {
-  //       this.data.path = y;
-  //     });
-  //   }
-  // }
-
   picture = {
     datas: [] as Array<
       RoadObjectEventRecord | EventResourceContent | RoadObject
@@ -197,15 +189,15 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
     },
     filter: (args: { EventType?: number; RoadObjectType?: number }) => {
       this.data.record.view = this.data.record.source.filter((item) => {
-        // 处理eventtype：如果参数为空，则不参与筛选；否则匹配对应字段
-        const isEventMatch =
-          !args.EventType || item.EventType === args.EventType;
-        // 处理objecttype：如果参数为空，则不参与筛选；否则匹配对应字段
-        const isObjectMatch =
-          !args.RoadObjectType || item.RoadObjectType === args.RoadObjectType;
-
-        // 两个条件同时满足（空参数自动满足）
-        return isEventMatch && isObjectMatch;
+        let is = {
+          event: !args.EventType || item.EventType === args.EventType,
+          object:
+            !args.RoadObjectType || item.RoadObjectType === args.RoadObjectType,
+          device:
+            !this.data.device.selected ||
+            item.DeviceId === this.data.device.selected.Id,
+        };
+        return is.event && is.object && is.device;
       });
       this.data.record.selected = undefined;
     },
@@ -226,6 +218,40 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
       }
       this.window.video.data = data;
       this.window.video.show = true;
+    },
+    wheel: {
+      change: (e: WheelEvent) => {
+        let element = e.currentTarget as HTMLDivElement;
+        // 滚轮向下滚动（deltaY > 0）
+        if (e.deltaY > 0) {
+          element.scrollTo({
+            top: element.scrollHeight, // 页面总高度
+            behavior: 'smooth', // instant = 瞬间滚动，smooth = 平滑滚动
+          });
+        }
+        // 滚轮向上滚动（deltaY < 0）
+        else if (e.deltaY < 0) {
+          element.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          });
+        } else {
+        }
+      },
+      stop: (e: WheelEvent) => {
+        e.stopPropagation();
+      },
+    },
+    scroll: (e: Event) => {
+      let element = e.currentTarget as HTMLDivElement;
+
+      let max = element.scrollHeight - element.clientHeight;
+
+      if (element.scrollTop <= 0) {
+        this.map.timeline.simple = false;
+      } else if (element.scrollTop >= max) {
+        this.map.timeline.simple = true;
+      }
     },
   };
 }

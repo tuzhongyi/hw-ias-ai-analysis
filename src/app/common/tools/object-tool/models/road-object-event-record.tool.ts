@@ -2,7 +2,6 @@ import { RoadObjectEventType } from '../../../data-core/enums/road/road-object/r
 import { RoadObjectType } from '../../../data-core/enums/road/road-object/road-object-type.enum';
 import { FileGpsItem } from '../../../data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../data-core/models/arm/geographic/road-object-event-record.model';
-import { ColorTool } from '../../color/color.tool';
 import { GeoLine, GeoPoint } from '../../geo-tool/geo.model';
 import { GeoTool } from '../../geo-tool/geo.tool';
 import { MathTool } from '../../math-tool/math.tool';
@@ -185,11 +184,11 @@ export class RoadObjectEventRecordTool {
       event: (type: RoadObjectEventType) => {
         switch (type) {
           case RoadObjectEventType.Inspection:
-            return ColorTool.green;
+            return 'green';
           case RoadObjectEventType.Breakage:
-            return ColorTool.yellow;
+            return 'yellow';
           case RoadObjectEventType.Disappear:
-            return ColorTool.redlight;
+            return 'redlight';
           default:
             return '';
         }
@@ -197,15 +196,15 @@ export class RoadObjectEventRecordTool {
       object: (type: RoadObjectType) => {
         switch (type) {
           case RoadObjectType.FireHydrant:
-            return ColorTool.sky;
+            return 'sky';
           case RoadObjectType.BusStation:
-            return ColorTool.cyan;
+            return 'cyan';
           case RoadObjectType.Passage:
-            return ColorTool.pink;
+            return 'pink';
           case RoadObjectType.TelephoneBooth:
-            return ColorTool.purple;
+            return 'purple';
           case RoadObjectType.TrashCan:
-            return ColorTool.white;
+            return 'white';
           default:
             return '';
         }
@@ -223,18 +222,18 @@ export class RoadObjectEventRecordTool {
         color:${color};filter:drop-shadow(0 0 3px ${color}66);
       ">${icon}</svg>`;
       },
-      path: (type: RoadObjectType) => {
+      classname: (type: RoadObjectType) => {
         switch (type) {
           case RoadObjectType.FireHydrant:
-            return PathTool.image.svg.firehydrant.path;
+            return 'howell-icon-fire-hydrant';
           case RoadObjectType.BusStation:
-            return PathTool.image.svg.busstation.path;
+            return 'howell-icon-bus_stop';
           case RoadObjectType.Passage:
-            return PathTool.image.svg.passage.path;
+            return 'howell-icon-exit';
           case RoadObjectType.TelephoneBooth:
-            return PathTool.image.svg.telephonebooth.path;
+            return 'howell-icon-telephone';
           case RoadObjectType.TrashCan:
-            return PathTool.image.svg.trashcan.path;
+            return 'howell-icon-delete-bin';
           default:
             return '';
         }

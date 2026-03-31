@@ -1,0 +1,126 @@
+<div class="system-module-road-point-details-info">
+  <div class="forms">
+    <div class="form-item full">
+      <div class="form-item-text">
+        <div class="name" text-space-between>屏蔽点名称</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Name" (change)="on.change()" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>屏蔽点类型</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="data.PointType" [nullable]="false">
+          <select [(ngModel)]="data.PointType" (change)="on.change()">
+            <option [ngValue]="item.Id" *ngFor="let item of source.type.point">
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>过期时间</div>
+      </div>
+      <div class="form-item-value fill">
+        <date-time-control
+          [(date)]="data.ExpiredTime"
+          [position]="'bottom-left'"
+          [zindex]="9000"
+        ></date-time-control>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>输入坐标系</div>
+      </div>
+      <div class="form-item-value fill">
+        <select
+          [(ngModel)]="location.type.value"
+          (change)="location.type.change()"
+        >
+          <option [ngValue]="GisType.WGS84">WGS84</option>
+          <option [ngValue]="GisType.GCJ02">GCJ02</option>
+          <option [ngValue]="GisType.BD09">BD09</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text">
+        <div class="name" text-space-between>屏蔽半径</div>
+      </div>
+      <div class="form-item-value unit">
+        <input
+          type="number"
+          min="0"
+          max="100"
+          step="1"
+          [(ngModel)]="data.Raduis"
+          (change)="on.change()"
+        />
+        <i class="text">米</i>
+      </div>
+    </div>
+
+    <div class="form-item full">
+      <div class="form-item-text">
+        <div class="name" text-space-between>坐标</div>
+        <div class="must">*</div>
+      </div>
+      <div class="form-item-value fill">
+        <input
+          type="text"
+          [(ngModel)]="location.value"
+          (input)="location.set()"
+          [readOnly]="!operable"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="form-item full">
+    <div class="form-item-text">
+      <div class="name" text-space-between>事件类型</div>
+    </div>
+    <div class="form-item-value fill">
+      <howell-select-multiple
+        [datas]="source.type.event"
+        [selecteds]="selected.event.values"
+        (selectedsChange)="selected.event.change($event)"
+        [searchable]="false"
+      ></howell-select-multiple>
+    </div>
+  </div>
+  <div class="form-item full">
+    <div class="form-item-text">
+      <div class="name" text-space-between>道路固件类型</div>
+    </div>
+    <div class="form-item-value fill">
+      <howell-select-multiple
+        [datas]="source.type.roadobject"
+        [selecteds]="selected.roadobject.values"
+        (selectedsChange)="selected.roadobject.change($event)"
+        [searchable]="false"
+      ></howell-select-multiple>
+    </div>
+  </div>
+
+  <div class="forms textarea">
+    <div class="form-item full">
+      <div class="form-item-text baseline textarea" text-space-between>
+        描述
+      </div>
+      <div class="form-item-value">
+        <textarea
+          [(ngModel)]="data.Description"
+          (change)="on.change()"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+</div>

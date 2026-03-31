@@ -1,0 +1,34 @@
+<div class="system-statistic-road-object-timeline-simple root-router">
+  <div class="system-statistic-road-object-timeline-simple-time">
+    {{ time.begin | date : "HH:mm" }}
+  </div>
+  <div class="system-statistic-road-object-timeline-simple-point-list">
+    <div
+      class="system-statistic-road-object-timeline-simple-point-item"
+      *ngFor="let item of datas"
+      [class.selected]="selected?.Id === item.id"
+      [title]="item.title"
+      [style.width]="datas.length > 0 ? 100 / datas.length + '%' : '100%'"
+      (mouseover)="on.mouseover(item)"
+      (mouseout)="on.mouseout(item)"
+      (click)="on.click(item)"
+    >
+      <div
+        class="system-statistic-road-object-timeline-simple-point-item-inner"
+        [style.backgroundColor]="item.color"
+      ></div>
+      <div
+        class="system-statistic-road-object-timeline-simple-point-item-info"
+        *ngIf="!!hover && hover.id === item.id"
+      >
+        <ias-system-statistic-road-object-map-info-simple
+          [data]="hover.data"
+          [anchor]="'top'"
+        ></ias-system-statistic-road-object-map-info-simple>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-road-object-timeline-simple-time">
+    {{ time.end | date : "HH:mm" }}
+  </div>
+</div>

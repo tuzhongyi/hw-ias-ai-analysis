@@ -85,3 +85,10 @@ export class GetMobileEventFileGpsItemsParams implements IParams {
     },
   };
 }
+
+export class EventBlockedParams implements IParams {
+  /**	Int32	屏蔽时长，单位：天，如果为0表示永久屏蔽。	M */
+  TotalDays!: number;
+  /**	Double	半径，单位：米，默认：15米	O */
+  Raduis?: number;
+}

@@ -13,7 +13,6 @@ import { RoadObjectEventType } from '../../../../../../../common/data-core/enums
 import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { Manager } from '../../../../../../../common/data-core/requests/managers/manager';
-import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
 import { SystemStatisticRoadObjectMapStateItemComponent } from '../system-statistic-road-object-map-state-item/system-statistic-road-object-map-state-item.component';
 import { SystemStatisticRoadObjectMapStateItem } from '../system-statistic-road-object-map-state-item/system-statistic-road-object-map-state-item.model';
@@ -29,6 +28,7 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
 {
   @Input() source: RoadObjectEventRecord[] = [];
   @Input() view: RoadObjectEventRecord[] = [];
+  @Input() deviceId?: string;
   @Output() selected = new EventEmitter<{
     EventType?: number;
     RoadObjectType?: number;
@@ -85,7 +85,9 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
         let _enum = enums[i];
         let item = await this.eventtype.create.item(_enum.Value, _enum.Name);
         item.value = this.source.filter(
-          (x) => x.EventType == _enum.Value
+          (x) =>
+            x.EventType == _enum.Value &&
+            (!this.deviceId || x.DeviceId == this.deviceId)
         ).length;
         this.eventtype.datas.push(item);
       }
@@ -93,12 +95,19 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
     },
     refresh: () => {
       if (this.eventtype.selected) {
-        this.eventtype.selected.value = this.view.filter(
-          (x) => x.EventType == this.eventtype.selected?.type
-        ).length;
+        this.eventtype.selected.value = this.view.filter((x) => {
+          return (
+            x.EventType == this.eventtype.selected?.type &&
+            (!this.deviceId || x.DeviceId == this.deviceId)
+          );
+        }).length;
       } else {
         this.eventtype.datas.forEach((item) => {
-          item.value = this.view.filter((x) => x.EventType == item.type).length;
+          item.value = this.view.filter(
+            (x) =>
+              x.EventType == item.type &&
+              (!this.deviceId || x.DeviceId == this.deviceId)
+          ).length;
         });
       }
     },
@@ -119,19 +128,19 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
         item.type = type;
 
         item.icon = this.eventtype.create.icon(type);
-        let color =
+        item.color =
           ObjectTool.model.RoadObjectEventRecord.get.color.event(type);
-        item.color = ColorTool.hex.to.rgb(color);
+
         return item;
       },
       icon: (type: RoadObjectEventType) => {
         switch (type) {
           case RoadObjectEventType.Inspection:
-            return `<i class="mdi mdi-checkbox-marked-circle-outline"></i>`;
+            return `mdi mdi-checkbox-marked-circle-outline`;
           case RoadObjectEventType.Breakage:
-            return `<i class="mdi mdi-alert-outline"></i>`;
+            return `mdi mdi-alert-outline`;
           case RoadObjectEventType.Disappear:
-            return `<i class="mdi mdi-help-circle-outline"></i>`;
+            return `mdi mdi-help-circle-outline`;
 
           default:
             return '';
@@ -151,7 +160,9 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
         let item = await this.objecttype.create.item(_enum.Value, _enum.Name);
         item.name = _enum.Name;
         item.value = this.source.filter(
-          (x) => x.RoadObjectType == _enum.Value
+          (x) =>
+            x.RoadObjectType == _enum.Value &&
+            (!this.deviceId || x.DeviceId == this.deviceId)
         ).length;
         this.objecttype.datas.push(item);
       }
@@ -160,12 +171,16 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
     refresh: () => {
       if (this.objecttype.selected) {
         this.objecttype.selected.value = this.view.filter(
-          (x) => x.RoadObjectType == this.objecttype.selected?.type
+          (x) =>
+            x.RoadObjectType == this.objecttype.selected?.type &&
+            (!this.deviceId || x.DeviceId == this.deviceId)
         ).length;
       } else {
         this.objecttype.datas.forEach((item) => {
           item.value = this.view.filter(
-            (x) => x.RoadObjectType == item.type
+            (x) =>
+              x.RoadObjectType == item.type &&
+              (!this.deviceId || x.DeviceId == this.deviceId)
           ).length;
         });
       }
@@ -185,22 +200,13 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
         item.name = name;
         item.type = type;
 
-        let color =
+        item.color =
           ObjectTool.model.RoadObjectEventRecord.get.color.object(type);
-        item.color = ColorTool.hex.to.rgb(color);
 
-        item.icon = this.objecttype.create.icon(type, color);
+        item.icon =
+          ObjectTool.model.RoadObjectEventRecord.get.icon.classname(type);
 
         return item;
-      },
-      icon: (type: RoadObjectType, color: string) => {
-        let path = ObjectTool.model.RoadObjectEventRecord.get.icon.inner(type);
-        let icon = ObjectTool.model.RoadObjectEventRecord.get.icon.svg(
-          14,
-          color,
-          path
-        );
-        return icon;
       },
     },
   };

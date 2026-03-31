@@ -31,7 +31,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
     let window = new AMap.InfoWindow({
       isCustom: true,
       anchor: 'middle-left',
-      offset: [20, 0],
+      offset: [25, -32],
       autoMove: false,
     });
     window.hide();

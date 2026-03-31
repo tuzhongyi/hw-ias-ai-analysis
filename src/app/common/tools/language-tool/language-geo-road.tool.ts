@@ -1,18 +1,21 @@
 import { SourceRoadObjectManager } from '../../data-core/requests/managers/source/source-road-object.manager';
+import { SourceRoadPointManager } from '../../data-core/requests/managers/source/source-road-point.manager';
 import { SourceRoadSectionManager } from '../../data-core/requests/managers/source/source-road-section.manager';
 import { LanguageAbstract } from './language.abstract';
 
 export class LanguageRoadTool extends LanguageAbstract {
   constructor(
     section: SourceRoadSectionManager,
+    point: SourceRoadPointManager,
     object: SourceRoadObjectManager
   ) {
     super();
-    this.manager = { section, object };
+    this.manager = { section, point, object };
   }
 
   private manager: {
     section: SourceRoadSectionManager;
+    point: SourceRoadPointManager;
     object: SourceRoadObjectManager;
   };
 
@@ -33,6 +36,12 @@ export class LanguageRoadTool extends LanguageAbstract {
   section = {
     RoadSectionTypes: async (value?: number, def = '') => {
       let values = await this.manager.section.RoadSectionTypes.get();
+      return this.get(values, value, def);
+    },
+  };
+  point = {
+    RoadPointTypes: async (value?: number, def = '') => {
+      let values = await this.manager.point.RoadPointTypes.get();
       return this.get(values, value, def);
     },
   };

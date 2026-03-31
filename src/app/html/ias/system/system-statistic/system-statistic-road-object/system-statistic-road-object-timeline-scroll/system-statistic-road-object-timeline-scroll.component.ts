@@ -161,7 +161,7 @@ export class SystemStatisticRoadObjectTimelineScrollComponent
     // item.position = ((current - begin) / (end - begin)) * 100;
 
     item.id = data.Id;
-    item.position = (index / count) * 100;
+    item.position = (index / (count - 1)) * 100;
     item.time = data.EventTime;
     item.title = `${data.RoadObjectName}\n${formatDate(
       data.EventTime,

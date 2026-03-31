@@ -65,5 +65,6 @@ export class WheelHorizontalScrollDirective
     this.positionChange.emit(
       (this.ele.scrollLeft / this.ele.scrollWidth) * 100
     );
+    e.stopImmediatePropagation();
   }
 }

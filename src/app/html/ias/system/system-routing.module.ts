@@ -18,6 +18,7 @@ import { SystemMainManagerComponent } from './system-main/system-main-manager/sy
 import { SystemModuleFileManagerComponent } from './system-module/system-module-file/system-module-file-manager/system-module-file-manager.component';
 import { SystemModuleMobileDeviceRouteManagerComponent } from './system-module/system-module-mobile-device-route/system-module-mobile-device-route-manager/system-module-mobile-device-route-manager.component';
 import { SystemModuleRoadObjectManagerComponent } from './system-module/system-module-road-object/system-module-road-object-manager/system-module-road-object-manager.component';
+import { SystemModuleRoadPointManagerComponent } from './system-module/system-module-road-point/system-module-road-point-manager/system-module-road-point-manager.component';
 import { SystemModuleRoadSectionManagerComponent } from './system-module/system-module-road-section/system-module-road-section-manager/system-module-road-section-manager.component';
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
@@ -105,6 +106,10 @@ const routes: Routes = [
           {
             path: 'road-section',
             component: SystemModuleRoadSectionManagerComponent,
+          },
+          {
+            path: 'road-point',
+            component: SystemModuleRoadPointManagerComponent,
           },
           {
             path: 'road-object',

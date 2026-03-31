@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ContainerPageComponent } from '../../../../../../common/components/container-page/container-page.component';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
@@ -8,11 +9,13 @@ import {
   Page,
   Paged,
 } from '../../../../../../common/data-core/models/interface/page-list.model';
+import { EventBlockedParams } from '../../../../../../common/data-core/requests/services/system/event/system-event.params';
 import { AudioButtonComponent } from '../../../../share/audio/audio-button/audio-button.component';
 import { AudioSubtitleComponent } from '../../../../share/audio/audio-subtitle/audio-subtitle.component';
-import { IASMapComponent } from '../../../../share/map/ias-map.component';
 import { PicturePolygonMultipleComponent } from '../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
 import { SystemEventRecordDetailsComponent } from '../../system-event-record/system-event-record-details/system-event-record-details.component';
+import { SystemEventProcessBlockedComponent } from '../system-event-process-blocked/system-event-process-blocked.component';
+import { SystemEventProcessMapComponent } from '../system-event-process-map/system-event-process-map.component';
 
 @Component({
   selector: 'ias-system-event-process-realtime',
@@ -20,10 +23,13 @@ import { SystemEventRecordDetailsComponent } from '../../system-event-record/sys
     CommonModule,
     ContainerPageComponent,
     PicturePolygonMultipleComponent,
-    IASMapComponent,
+    // IASMapComponent,
     SystemEventRecordDetailsComponent,
     AudioButtonComponent,
     AudioSubtitleComponent,
+    SystemEventProcessBlockedComponent,
+    FormsModule,
+    SystemEventProcessMapComponent,
   ],
   templateUrl: './system-event-process-realtime.component.html',
   styleUrl: './system-event-process-realtime.component.less',
@@ -32,14 +38,25 @@ export class SystemEventProcessRealtimeComponent implements OnInit {
   @Input() data?: MobileEventRecord;
   @Output() close = new EventEmitter<void>();
   @Output('picture') _picture = new EventEmitter<Paged<MobileEventRecord>>();
+  @Output('blocked') _blocked = new EventEmitter<{
+    eventId: string;
+    params: EventBlockedParams;
+  }>();
 
-  constructor() {}
+  constructor() {
+    this.init();
+  }
 
   ngOnInit(): void {
     if (this.data) {
       this.picture.load(this.data);
       this.map.load(this.data);
     }
+  }
+
+  private init() {
+    this.blocked.params.TotalDays = 7;
+    this.blocked.params.Raduis = 15;
   }
 
   picture = {
@@ -105,5 +122,19 @@ export class SystemEventProcessRealtimeComponent implements OnInit {
       this.close.emit();
     },
     ok: () => {},
+    blocked: () => {
+      if (this.data) {
+        let args = {
+          eventId: this.data.Id,
+          params: this.blocked.params,
+        };
+        this._blocked.emit(args);
+      }
+    },
+  };
+
+  blocked = {
+    enabled: false,
+    params: new EventBlockedParams(),
   };
 }

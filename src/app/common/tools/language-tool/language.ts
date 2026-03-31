@@ -7,6 +7,7 @@ import { IOState } from '../../data-core/enums/io/io-state.enum';
 import { LensType } from '../../data-core/enums/lens-type.enum';
 import { ProcessState } from '../../data-core/enums/process-state.enum';
 import { ProxyChannelState } from '../../data-core/enums/proxy-channel-state.enum';
+import { RoadPointType } from '../../data-core/enums/road/road-point/road-point-type.enum';
 import { CoverState } from '../../data-core/enums/robot/cover-state.enum';
 import { MajorType } from '../../data-core/enums/robot/major-type.enum';
 import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model';
@@ -540,5 +541,16 @@ export class Language {
     }
 
     return result;
+  }
+
+  static RoadPointType(value: RoadPointType, def = '未知') {
+    switch (value) {
+      case RoadPointType.EventBlocked:
+        return '事件屏蔽路段';
+      case RoadPointType.RoadObjectBlocked:
+        return '道路部件屏蔽路段';
+      default:
+        return def;
+    }
   }
 }

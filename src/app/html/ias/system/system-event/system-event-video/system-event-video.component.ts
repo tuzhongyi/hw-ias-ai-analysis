@@ -102,7 +102,9 @@ export class SystemEventVideoComponent implements OnInit, OnChanges {
             break;
         }
 
-        args.path = PathTool.image.map.object.get(data.RoadObjectType, state);
+        args.path = PathTool.image.map.object.get(data.RoadObjectType, {
+          state: state,
+        });
       }
       this.map.args = args;
 

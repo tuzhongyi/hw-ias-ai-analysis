@@ -5,7 +5,9 @@ import { IASMapAMapRoadObjectIconController } from '../../../../../../../../../s
 
 export class SystemMainMapAMapRoadObjectIconController extends IASMapAMapRoadObjectIconController {
   override get(type?: RoadObjectType) {
-    let image = PathTool.image.map.object.get(type, RoadObjectState.Normal);
+    let image = PathTool.image.map.object.get(type, {
+      state: RoadObjectState.Normal,
+    });
     return {
       normal: {
         ...this.opts,

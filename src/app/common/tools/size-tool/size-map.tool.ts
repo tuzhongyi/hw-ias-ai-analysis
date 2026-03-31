@@ -1,42 +1,26 @@
 export class SizeMapTool {
-  shop = {
-    width: 76 * 0.7,
-    height: 86 * 0.7,
-    get: (): [number, number] => {
-      return [this.shop.width, this.shop.height];
-    },
-  };
+  shop = new Size(76 * 0.7, 86 * 0.7);
   point = {
-    normal: {
-      width: 48 * 0.7,
-      height: 48 * 0.7,
-    },
-    small: {
-      width: 48 * 0.5,
-      height: 48 * 0.5,
-    },
+    normal: new Size(48 * 0.7, 48 * 0.7),
+    small: new Size(48 * 0.5, 48 * 0.5),
   };
   alarm = {
-    small: {
-      width: 60 * 0.1,
-      height: 60 * 0.1,
-    },
-    normal: {
-      width: 60 * 0.5,
-      height: 60 * 0.5,
-    },
+    small: new Size(60 * 0.1, 60 * 0.1),
+    normal: new Size(60 * 0.5, 60 * 0.5),
   };
   device = {
-    mobile: {
-      width: 60 * 0.5,
-      height: 60 * 0.5,
-    },
+    mobile: new Size(60 * 0.5, 60 * 0.5),
   };
-  object = {
-    width: 76 * 0.7,
-    height: 86 * 0.7,
-    get: (): [number, number] => {
-      return [this.object.width, this.object.height];
-    },
-  };
+  object = new Size(76 * 0.7, 86 * 0.7);
+}
+class Size {
+  constructor(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+  }
+  width: number;
+  height: number;
+  get() {
+    return [this.width, this.height] as [number, number];
+  }
 }

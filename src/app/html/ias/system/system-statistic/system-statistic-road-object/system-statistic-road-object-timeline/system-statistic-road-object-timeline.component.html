@@ -1,6 +1,8 @@
 <div class="system-statistic-road-object-timeline">
+  <div class="no-data" *ngIf="datas.length == 0">无统计数据</div>
   <div
     class="system-statistic-road-object-timeline-content"
+    [class.full]="!scroll_display"
     wheel-horizontal-scroll
     #timeline
     [position]="position"
@@ -20,9 +22,11 @@
       ></ias-system-statistic-road-object-timeline-item>
     </div>
   </div>
-  <div class="system-statistic-road-object-timeline-scroll">
+  <div
+    class="system-statistic-road-object-timeline-scroll"
+    *ngIf="scroll_display"
+  >
     <ias-system-statistic-road-object-timeline-scroll
-      *ngIf="scroll.display"
       [datas]="datas"
       [selected]="selected"
       [container]="timeline"

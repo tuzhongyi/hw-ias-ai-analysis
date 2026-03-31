@@ -68,7 +68,7 @@ export class SystemStatisticRoadObjectMapComponent
     path: async () => {
       await this.controller.record.blur();
       await this.controller.path.clear();
-      this.controller.path.load(this.path, false);
+      this.controller.path.load(this.path, true);
     },
   };
 

@@ -18,7 +18,7 @@ export class IASMapAMapRoadObjectIconController {
     return icon;
   }
   get(type?: RoadObjectType, state?: RoadObjectState) {
-    let image = PathTool.image.map.object.get(type, state);
+    let image = PathTool.image.map.object.get(type, { state });
     return {
       normal: {
         ...this.opts,

@@ -1,5 +1,5 @@
 export class SystemStatisticRoadObjectMapStateItem {
-  color = { R: 255, G: 255, B: 255 };
+  color = '';
   name = '';
   value = 0;
   icon = '';

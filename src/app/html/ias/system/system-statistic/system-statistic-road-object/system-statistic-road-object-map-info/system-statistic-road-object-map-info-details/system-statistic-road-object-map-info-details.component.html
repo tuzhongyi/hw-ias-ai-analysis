@@ -1,6 +1,6 @@
 <div
   class="system-statistic-road-object-map-info-details root-router"
-  [class]="color.name"
+  [class]="color"
 >
   <div class="system-statistic-road-object-map-info-details-operation">
     <div class="button" (click)="on.details()">
@@ -51,8 +51,9 @@
         >
           <div
             class="system-statistic-road-object-map-info-details-body-content-icon"
-            #icon
-          ></div>
+          >
+            <i [class]="icon"></i>
+          </div>
           <div
             class="system-statistic-road-object-map-info-details-body-content-value"
           >

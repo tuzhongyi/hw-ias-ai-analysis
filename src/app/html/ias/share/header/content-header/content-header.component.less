@@ -8,11 +8,21 @@
   border-image-slice: 1;
   box-sizing: border-box;
   transition: all 0.5s;
-  pointer-events: none;
-  user-select: none;
 
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &-plugin {
+
+    height: 100%;
+    width: 10%;
+  }
 
   &-title {
+    pointer-events: none;
+
     margin-left: 50px;
     height: 100%;
     width: max-content;

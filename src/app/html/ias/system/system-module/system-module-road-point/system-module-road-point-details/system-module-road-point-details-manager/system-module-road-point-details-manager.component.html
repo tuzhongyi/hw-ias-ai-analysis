@@ -1,0 +1,64 @@
+<div class="system-module-road-point-details-manager">
+  <div class="system-module-road-point-details-manager-body">
+    <div class="system-module-road-point-details-manager-body-container">
+      <div class="system-module-road-point-details-manager-map panel">
+        <ias-system-module-road-point-details-map
+          [(raduis)]="model.Raduis"
+          [(location)]="map.gcj02"
+          (locationChange)="map.on.gcj02($event, true)"
+        ></ias-system-module-road-point-details-map>
+      </div>
+    </div>
+    <div class="system-module-road-point-details-manager-body-container">
+      <div
+        class="system-module-road-point-details-manager-info panel panel-flex"
+      >
+        <div class="panel-head">
+          <div class="panel-title">屏蔽点信息</div>
+        </div>
+        <div class="panel-body">
+          <ias-system-module-road-point-details-info
+            [data]="model"
+            [(wgs84)]="map.wgs84"
+            (wgs84Change)="map.on.wgs84($event)"
+          ></ias-system-module-road-point-details-info>
+        </div>
+      </div>
+      <div
+        class="system-module-road-point-details-manager-segment panel panel-flex"
+      >
+        <div class="panel-head">
+          <div class="panel-title">
+            <label for="road_section_details_segment"
+              >工作表<input
+                type="checkbox"
+                id="road_section_details_segment"
+                [(ngModel)]="model.ScheduleEnabled"
+                (change)="schedule.enable()"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="panel-body">
+          <ias-segment-week
+            [(data)]="schedule.data"
+            (dataChange)="schedule.change()"
+            [disabled]="!model.ScheduleEnabled"
+          ></ias-segment-week>
+        </div>
+      </div>
+      <div
+        class="system-module-road-point-details-manager-body-border top"
+      ></div>
+      <div
+        class="system-module-road-point-details-manager-body-border bottom"
+      ></div>
+    </div>
+  </div>
+  <div class="system-module-road-point-details-manager-foot">
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+      <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+    </div>
+  </div>
+</div>

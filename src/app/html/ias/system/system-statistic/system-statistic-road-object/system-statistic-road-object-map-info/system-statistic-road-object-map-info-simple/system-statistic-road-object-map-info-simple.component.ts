@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RoadObjectEventType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-event-type.enum';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
-import { wait } from '../../../../../../../common/tools/wait';
 
 @Component({
   selector: 'ias-system-statistic-road-object-map-info-simple',
@@ -14,10 +13,12 @@ import { wait } from '../../../../../../../common/tools/wait';
 })
 export class SystemStatisticRoadObjectMapInfoSimpleComponent implements OnInit {
   @Input() data?: RoadObjectEventRecord;
+  @Input() anchor: 'top' | 'bottom' = 'bottom';
 
   constructor(private language: LanguageTool) {}
-  @ViewChild('icon') icon?: ElementRef<HTMLDivElement>;
+
   color = '';
+  icon = '';
   name = {
     type: '',
     event: '',
@@ -53,25 +54,10 @@ export class SystemStatisticRoadObjectMapInfoSimpleComponent implements OnInit {
   }
 
   private load = {
-    icon: async (data: RoadObjectEventRecord) => {
-      await wait(() => {
-        return !!this.icon;
-      });
-
-      if (this.icon) {
-        let color = ObjectTool.model.RoadObjectEventRecord.get.color.event(
-          data.EventType
-        );
-        let icon = ObjectTool.model.RoadObjectEventRecord.get.icon.inner(
-          data.RoadObjectType
-        );
-        let svg = ObjectTool.model.RoadObjectEventRecord.get.icon.svg(
-          14,
-          color,
-          icon
-        );
-        this.icon.nativeElement.insertAdjacentHTML('beforeend', svg);
-      }
+    icon: (data: RoadObjectEventRecord) => {
+      this.icon = ObjectTool.model.RoadObjectEventRecord.get.icon.classname(
+        data.RoadObjectType
+      );
     },
   };
 }

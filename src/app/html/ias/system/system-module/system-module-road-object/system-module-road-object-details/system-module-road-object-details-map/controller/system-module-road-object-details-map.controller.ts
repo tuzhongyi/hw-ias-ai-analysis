@@ -83,6 +83,8 @@ export class SystemModuleRoadObjectDetailsMapController {
     destroy: async () => {
       await this.object.clear();
       await this.road.clear();
+      let map = await this.amap.map;
+      map.destroy();
     },
   };
 }

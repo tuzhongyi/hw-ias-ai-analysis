@@ -1,0 +1,83 @@
+<div
+  class="system-module-road-point-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-module-road-point-manager-head">
+    <div class="system-module-road-point-manager-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">屏蔽点类型</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="table.args.type" [nullable]="true">
+              <select [(ngModel)]="table.args.type">
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.pointtypes"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">屏蔽点名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="table.args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient" (click)="search()">查找</button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="system-module-road-point-manager-head-operation"
+      *ngIf="operable"
+    >
+      <button class="button-clip-gradient" (click)="window.details.open()">
+        添加
+      </button>
+    </div>
+  </div>
+  <div class="system-module-road-point-manager-body">
+    <div class="system-module-road-point-manager-body-table">
+      <ias-system-module-road-point-table
+        [operable]="operable"
+        [args]="table.args"
+        [load]="table.load"
+        [(selected)]="table.selected"
+        (loaded)="table.on.load($event)"
+        (delete)="delete.confirm($event)"
+        (modify)="window.details.open($event)"
+      ></ias-system-module-road-point-table>
+    </div>
+    <div class="system-module-road-point-manager-body-map">
+      <ias-system-module-road-point-map
+        [datas]="table.datas"
+        [selected]="table.selected"
+      ></ias-system-module-road-point-map>
+    </div>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="delete.ok()"
+    (cancel)="delete.cancel()"
+  >
+  </confirm-window>
+  <ias-window
+    [Model]="window.details"
+    *ngIf="window.details.show"
+    [style]="window.details.style"
+    [title]="window.details.title"
+  >
+    <ias-system-module-road-point-details-manager
+      [data]="window.details.data"
+      (ok)="window.details.on.ok($event)"
+      (cancel)="window.details.on.cancel()"
+    ></ias-system-module-road-point-details-manager>
+  </ias-window>
+</div>

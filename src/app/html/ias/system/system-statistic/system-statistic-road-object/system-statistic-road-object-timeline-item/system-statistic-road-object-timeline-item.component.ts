@@ -28,10 +28,10 @@ export class SystemStatisticRoadObjectTimelineItemComponent implements OnInit {
     icon: '',
     name: '',
     load: (data: RoadObjectEventRecord) => {
-      let icon = ObjectTool.model.RoadObjectEventRecord.get.icon.path(
-        data.RoadObjectType
-      );
-      this.type.icon = `url(${icon})`;
+      this.type.icon =
+        ObjectTool.model.RoadObjectEventRecord.get.icon.classname(
+          data.RoadObjectType
+        );
       this.language.road.object.ObjectTypes(data.RoadObjectType).then((x) => {
         this.type.name = x;
       });

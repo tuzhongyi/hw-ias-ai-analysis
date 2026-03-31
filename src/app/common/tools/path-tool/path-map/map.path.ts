@@ -49,4 +49,11 @@ export class MapPath {
       arrow: `${this.base}/location-arrow.png`,
     };
   }
+
+  get range() {
+    return {
+      yellow: `${this.base}/range-yellow.png`,
+      wall: `${this.base}/range-wall-yellow.png`,
+    };
+  }
 }

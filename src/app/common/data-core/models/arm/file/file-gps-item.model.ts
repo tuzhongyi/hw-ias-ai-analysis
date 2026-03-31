@@ -1,4 +1,5 @@
 import { Transform } from 'class-transformer';
+import { GPSHighPrecision } from '../../../enums/gps/gps-high-precision.enum';
 import { Time } from '../../common/time.model';
 import { IModel } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
@@ -35,6 +36,10 @@ export class FileGpsItem implements IModel {
   RoadId?: string;
   /**	String	道路名称	O	R */
   RoadName?: string;
+  /**	Int64	相对毫秒	O	R */
+  OffsetMilliseconds?: bigint;
+  /**	Int32	是否为高精度数值，0-普通，1-次高精度，2-高精度	O	R */
+  HighPrecision?: GPSHighPrecision;
 
   static position(a: FileGpsItem): number[] {
     return [a.Longitude, a.Latitude];

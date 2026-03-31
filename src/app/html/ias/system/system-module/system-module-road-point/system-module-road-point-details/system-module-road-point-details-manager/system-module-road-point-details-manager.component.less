@@ -1,0 +1,104 @@
+.system-module-road-point-details-manager {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @foot-height: 36px;
+  @gap: 10px;
+
+  gap: @gap;
+
+
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @foot-height);
+    display: flex;
+    gap: @gap;
+    position: relative;
+
+
+    &-container {
+      height: 100%;
+      width: calc((100% - @gap) *0.5);
+      display: flex;
+      flex-direction: column;
+      gap: @gap;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    &-border {
+      width: calc((100% - @gap) *0.5 - 8px);
+      height: 0;
+      position: absolute;
+
+
+      right: 8px;
+
+      &.top {
+        border-top: 1px solid #2d76ce;
+        top: 0;
+      }
+
+      &.bottom {
+        border-bottom: 1px solid #2d76ce;
+        bottom: 0;
+      }
+    }
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+
+  &-map {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &-info {}
+
+  &-segment {
+    min-height: 300px;
+
+
+    .panel-body {
+      position: relative;
+      height: calc(100% - 28px - 10px);
+
+      .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 10;
+      }
+
+
+
+      ::ng-deep {
+        .segment-day-body {
+          height: calc(100% - 46px);
+        }
+
+        .segment-day-foot {
+          height: 46px;
+        }
+      }
+    }
+
+
+
+  }
+
+
+}

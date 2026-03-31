@@ -7,6 +7,7 @@ import { SourceAnalysisShopManager } from './source-analysis-shop.manager';
 import { SourceDeviceManager } from './source-device.manager';
 import { SourceEventManager } from './source-event.manager';
 import { SourceRoadObjectManager } from './source-road-object.manager';
+import { SourceRoadPointManager } from './source-road-point.manager';
 import { SourceRoadSectionManager } from './source-road-section.manager';
 import { SourceSecurityManager } from './source-security.manager';
 
@@ -26,6 +27,7 @@ export class SourceManager {
   road: {
     section: SourceRoadSectionManager;
     object: SourceRoadObjectManager;
+    point: SourceRoadPointManager;
   };
   constructor(capability: CapabilityManager) {
     this.analysis = {
@@ -39,6 +41,7 @@ export class SourceManager {
     this.road = {
       section: new SourceRoadSectionManager(capability),
       object: new SourceRoadObjectManager(capability),
+      point: new SourceRoadPointManager(capability),
     };
   }
 }

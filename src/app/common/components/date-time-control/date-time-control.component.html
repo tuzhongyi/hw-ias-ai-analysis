@@ -9,7 +9,9 @@
   [date]="date"
   (dateChange)="ondatechange($event)"
   (change)="onchange($event)"
+  (input)="onchange($event)"
   [disabled]="disabled"
   [zindex]="zindex"
   [position]="position"
+  readonly
 />

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewChecked,
   Component,
   ElementRef,
   EventEmitter,
@@ -26,9 +25,7 @@ import { SystemStatisticRoadObjectTimelineScrollComponent } from '../system-stat
   templateUrl: './system-statistic-road-object-timeline.component.html',
   styleUrl: './system-statistic-road-object-timeline.component.less',
 })
-export class SystemStatisticRoadObjectTimelineComponent
-  implements AfterViewChecked
-{
+export class SystemStatisticRoadObjectTimelineComponent {
   @Input() datas: RoadObjectEventRecord[] = [];
   @Input() selected?: RoadObjectEventRecord;
   @Output() selectedChange = new EventEmitter<RoadObjectEventRecord>();
@@ -44,20 +41,17 @@ export class SystemStatisticRoadObjectTimelineComponent
   @ViewChild('timeline')
   container?: ElementRef<HTMLDivElement>;
 
-  ngAfterViewChecked(): void {
-    setTimeout(() => {
-      if (this.container) {
-        this.scroll.display =
-          this.container.nativeElement.scrollWidth >
-          this.container.nativeElement.clientWidth;
-      }
-    }, 0);
-  }
-
   items: HTMLDivElement[] = [];
-  scroll = {
-    display: false,
-  };
+
+  get scroll_display() {
+    if (this.container) {
+      return (
+        this.container.nativeElement.scrollWidth >
+        this.container.nativeElement.clientWidth
+      );
+    }
+    return false;
+  }
 
   on = {
     click: (data: RoadObjectEventRecord) => {

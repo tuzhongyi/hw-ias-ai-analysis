@@ -4,7 +4,24 @@
   &-manager {
     height: 100%;
     width: 100%;
+    display: block;
+  }
 
+  &-head {
+    height: 60px;
+    width: 100%;
+    padding-right: calc(25px + 8px);
+    box-sizing: border-box;
+
+    &-filter {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &-body {
+    height: calc(100% - 60px);
     padding: 25px;
     padding-top: 12px;
     box-sizing: border-box;
@@ -13,33 +30,44 @@
     flex-direction: column;
 
     gap: @gap;
-
     overflow-y: auto;
-  }
-
-  &-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
   }
 
   &-map {
     padding: 0;
-    height: calc(608px);
+    height: 100%;
     position: relative;
     flex-shrink: 0;
+    @timeline-height: 60px;
 
     &-state {
       position: absolute;
       left: 20px;
       top: 20px;
+      transition: top 0.2s;
+
+      &.timeline {
+        top: calc(@timeline-height + 20px);
+      }
+    }
+
+    &-timeline {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: @timeline-height;
+      z-index: 1;
+      box-sizing: border-box;
+      transition: all 0.2s;
     }
   }
 
   &-timeline {
     width: 100%;
-    min-height: 209px;
     flex-shrink: 0;
+    min-height: 150px;
+    transition: all 0.5s;
   }
 
 

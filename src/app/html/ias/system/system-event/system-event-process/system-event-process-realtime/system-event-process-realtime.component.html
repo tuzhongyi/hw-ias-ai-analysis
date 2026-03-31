@@ -15,7 +15,12 @@
       </howell-container-page>
     </div>
     <div class="system-event-process-realtime-map panel">
-      <ias-map [location]="map.location" [shops]="map.points"></ias-map>
+      <!-- <ias-map [location]="map.location" [shops]="map.points"></ias-map> -->
+      <ias-system-event-process-map
+        [data]="data"
+        [(raduis)]="blocked.params.Raduis"
+        [changing]="blocked.enabled"
+      ></ias-system-event-process-map>
     </div>
     <div class="system-event-process-realtime-info panel">
       <ias-system-event-record-details
@@ -43,11 +48,38 @@
         ></ias-audio-subtitle>
       </div>
     </div>
+    <div class="system-event-process-realtime-blocked panel">
+      <div class="panel-head">
+        <div class="panel-title">快速屏蔽</div>
+        <div>
+          <input type="checkbox" [(ngModel)]="blocked.enabled" />
+        </div>
+      </div>
+      <div class="panel-body">
+        <ias-system-event-process-blocked
+          [params]="blocked.params"
+          [enabled]="blocked.enabled"
+        ></ias-system-event-process-blocked>
+      </div>
+    </div>
   </div>
   <div class="system-event-process-realtime-foot">
     <div class="audio"></div>
     <div class="button-group">
-      <button class="button-clip-gradient" (click)="on.ok()">处置</button>
+      <button
+        class="button-clip-gradient"
+        *ngIf="!blocked.enabled"
+        (click)="on.ok()"
+      >
+        处置
+      </button>
+      <button
+        class="button-clip-gradient"
+        *ngIf="blocked.enabled"
+        (click)="on.blocked()"
+      >
+        屏蔽
+      </button>
       <button class="button-clip-blue" (click)="on.close()">取消</button>
     </div>
   </div>

@@ -81,4 +81,13 @@ export class MobileEventRecord
   IsTimeout?: boolean;
   /**	String[]	关联的事件ID列表	O */
   AssociationRecordIds?: string[];
+  /**	DateTime	首次关联事件时间	O */
+  @Transform(Transformer.DateTime)
+  FirstAssociationTime?: Date;
+  /**	Boolean	是否为重复案件	O */
+  IsRepeated?: boolean;
+  /**	Double	重复相似度，0-1	O */
+  RepeatedSimilarityScore?: number;
+  /**	Boolean	是否已添加到过快速屏蔽功能	O */
+  Blocked?: boolean;
 }

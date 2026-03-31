@@ -75,6 +75,12 @@ export class SystemBreadcrumbBusiness {
           this.module.index(),
           this.module.roadsection(),
         ];
+      } else if (location.pathname.indexOf(SystemPath.module_road_point) >= 0) {
+        return [
+          this.home.index(),
+          this.module.index(),
+          this.module.roadpoint(),
+        ];
       } else if (
         location.pathname.indexOf(SystemPath.module_road_object) >= 0
       ) {
@@ -135,6 +141,12 @@ export class SystemBreadcrumbBusiness {
       let item = new SystemBreadcrumbItem();
       item.path = SystemPath.module_road_section;
       item.text = '屏蔽路段';
+      return item;
+    },
+    roadpoint: () => {
+      let item = new SystemBreadcrumbItem();
+      item.path = SystemPath.module_road_point;
+      item.text = '道路屏蔽点';
       return item;
     },
 
@@ -310,7 +322,7 @@ export class SystemBreadcrumbBusiness {
       },
       roadobject: () => {
         let item = new SystemBreadcrumbItem();
-        item.text = '部件监测';
+        item.text = '部件检索';
         item.path = SystemPath.event_gps_task_manager;
         return item;
       },

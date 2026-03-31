@@ -1,32 +1,43 @@
 <div class="system-statistic-road-object-manager root-router">
   <div class="system-statistic-road-object-head">
-    <ias-content-header [title]="title"></ias-content-header>
-    <div class="forms">
-      <div class="form-item" *ngIf="data.device.data.length > 1">
-        <select [(ngModel)]="data.device.selected" (change)="on.device()">
-          <option *ngFor="let item of data.device.data" [ngValue]="item">
-            {{ item.Name }}
-          </option>
-        </select>
+    <ias-content-header [title]="title">
+      <div class="system-statistic-road-object-head-filter forms">
+        <div class="form-item" *ngIf="data.device.data.length > 1">
+          <select [(ngModel)]="data.device.selected" (change)="on.device()">
+            <option *ngFor="let item of data.device.data" [ngValue]="item">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+        <div class="form-item">
+          <date-time-control
+            [(date)]="args.date"
+            (dateChange)="load.ing()"
+            [position]="'bottom-left'"
+          ></date-time-control>
+        </div>
       </div>
-      <div class="form-item">
-        <date-time-control
-          [(date)]="args.date"
-          (dateChange)="load.ing()"
-          [position]="'bottom-left'"
-        ></date-time-control>
-      </div>
+    </ias-content-header>
+  </div>
+  <div
+    class="system-statistic-road-object-body"
+    (wheel)="on.wheel.change($event)"
+    scroll-snap
+    [snapPercent]="39"
+    (scroll)="on.scroll($event)"
+  >
+    <div class="system-statistic-road-object-timeline panel">
+      <ias-system-statistic-road-object-timeline
+        [datas]="data.record.view"
+        [(selected)]="data.record.selected"
+      ></ias-system-statistic-road-object-timeline>
     </div>
-  </div>
-  <div class="system-statistic-road-object-timeline panel">
-    <ias-system-statistic-road-object-timeline
-      [datas]="data.record.view"
-      [(selected)]="data.record.selected"
-    ></ias-system-statistic-road-object-timeline>
-  </div>
 
-  <div class="system-statistic-road-object-map panel">
-    <!-- <ng-container *ngIf="datas.length > 0">
+    <div
+      class="system-statistic-road-object-map panel"
+      (wheel)="on.wheel.stop($event)"
+    >
+      <!-- <ng-container *ngIf="datas.length > 0">
       <ias-system-statistic-road-object-map-marker
         [data]="datas[0]"
       ></ias-system-statistic-road-object-map-marker>
@@ -35,7 +46,7 @@
         [selected]="true"
       ></ias-system-statistic-road-object-map-marker>
     </ng-container> -->
-    <!-- <ng-container *ngIf="data.record.source.length > 0">
+      <!-- <ng-container *ngIf="data.record.source.length > 0">
       <ias-system-statistic-road-object-map-info-details
         [data]="data.record.source[0]"
       ></ias-system-statistic-road-object-map-info-details>
@@ -43,20 +54,36 @@
         [data]="data.record.source[0]"
       ></ias-system-statistic-road-object-map-info-simple>
     </ng-container> -->
-    <ias-system-statistic-road-object-map
-      [records]="data.record.view"
-      [path]="data.path"
-      [selected]="data.record.selected"
-      (selectedChange)="on.select($event)"
-      (recorddblclick)="on.details($event)"
-    ></ias-system-statistic-road-object-map>
 
-    <div class="system-statistic-road-object-map-state">
-      <ias-system-statistic-road-object-map-state-group
-        [source]="data.record.source"
-        [view]="data.record.view"
-        (selected)="on.filter($event)"
-      ></ias-system-statistic-road-object-map-state-group>
+      <div
+        class="system-statistic-road-object-map-timeline panel-map"
+        *ngIf="map.timeline.simple"
+      >
+        <ias-system-statistic-road-object-timeline-simple
+          [datas]="data.record.view"
+          [(selected)]="data.record.selected"
+        ></ias-system-statistic-road-object-timeline-simple>
+      </div>
+
+      <ias-system-statistic-road-object-map
+        [records]="data.record.view"
+        [path]="data.path"
+        [selected]="data.record.selected"
+        (selectedChange)="on.select($event)"
+        (recorddblclick)="on.details($event)"
+      ></ias-system-statistic-road-object-map>
+
+      <div
+        class="system-statistic-road-object-map-state"
+        [class.timeline]="map.timeline.simple"
+      >
+        <ias-system-statistic-road-object-map-state-group
+          [source]="data.record.source"
+          [view]="data.record.view"
+          [deviceId]="data.device.selected?.Id"
+          (selected)="on.filter($event)"
+        ></ias-system-statistic-road-object-map-state-group>
+      </div>
     </div>
   </div>
 </div>

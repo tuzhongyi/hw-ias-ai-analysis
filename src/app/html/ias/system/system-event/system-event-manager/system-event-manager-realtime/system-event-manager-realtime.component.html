@@ -241,6 +241,7 @@
       [data]="window.process.data"
       (close)="window.process.show = false"
       (picture)="table.on.picture($event)"
+      (blocked)="on.blocked($event)"
     ></ias-system-event-process-realtime>
   </ias-window>
 

@@ -10,26 +10,36 @@ export class SystemAMapCircleController {
   constructor(private map: AMap.Map) {}
   private circle?: AMap.Circle;
 
-  create() {
+  private option: AMap.CircleOptions = {
+    radius: 100, //半径
+    borderWeight: 3,
+    strokeColor: '#FF33FF',
+    strokeWeight: 6,
+    strokeOpacity: 0.2,
+    fillOpacity: 0.4,
+    strokeStyle: 'dashed',
+    strokeDasharray: [10, 10],
+    // 线样式还支持 'dashed'
+    fillColor: '#1791fc',
+    zIndex: 50,
+  };
+
+  create(args?: { radius?: number; center?: [number, number] }) {
     let center = this.map.getCenter();
     this.circle = new AMap.Circle({
-      center: [center.lng, center.lat], // 圆心位置
-      radius: 100, //半径
-      borderWeight: 3,
-      strokeColor: '#FF33FF',
-      strokeWeight: 6,
-      strokeOpacity: 0.2,
-      fillOpacity: 0.4,
-      strokeStyle: 'dashed',
-      strokeDasharray: [10, 10],
-      // 线样式还支持 'dashed'
-      fillColor: '#1791fc',
-      zIndex: 50,
+      ...this.option,
+      center: args?.center ?? [center.lng, center.lat], // 圆心位置
+      radius: args?.radius ?? 100, //半径
     });
     this.map.add(this.circle);
     this.map.setFitView([this.circle]);
-    this.event.move.emit([center.lng, center.lat]);
-    this.event.change.emit(100);
+    if (!args?.center) {
+      this.event.move.emit([center.lng, center.lat]);
+    }
+    if (!args?.radius) {
+      this.event.change.emit(100);
+    }
+
     return this.circle;
   }
 
@@ -50,6 +60,22 @@ export class SystemAMapCircleController {
   remove() {
     if (this.circle) {
       this.map.remove(this.circle);
+      this.circle = undefined;
+    }
+  }
+
+  select() {
+    if (this.circle) {
+      let option = {
+        ...this.option,
+        fillColor: '#FF0000',
+      };
+      this.circle.setOptions(option);
+    }
+  }
+  blur() {
+    if (this.circle) {
+      this.circle.setOptions(this.option);
     }
   }
 }

@@ -3,7 +3,7 @@ import { SystemAMapCircleController } from './system-map-amap-circle.controller'
 
 export class SystemAMapCircleEditorEvent {
   change = new EventEmitter<number>();
-  move = new EventEmitter<number[]>();
+  move = new EventEmitter<[number, number]>();
   opened = new EventEmitter<number[]>();
 }
 export class SystemAMapCircleEditorController {
@@ -16,14 +16,16 @@ export class SystemAMapCircleEditorController {
 
   open() {
     let circle = this.circle.get();
-    if (circle) {
-      this.editor = new AMap.CircleEditor(this.map, circle);
-      this.regist(this.editor);
-      this.editor.open();
-      let center = circle.getCenter();
-      let radius = circle.getRadius();
-      this.event.opened.emit([center.lng, center.lat, radius]);
+    if (!circle) {
+      throw new Error('SystemAMapCircleEditorController circel is not created');
     }
+
+    this.editor = new AMap.CircleEditor(this.map, circle);
+    this.regist(this.editor);
+    this.editor.open();
+    let center = circle.getCenter();
+    let radius = circle.getRadius();
+    this.event.opened.emit([center.lng, center.lat, radius]);
   }
 
   close() {
@@ -47,7 +49,7 @@ export class SystemAMapCircleEditorController {
       this.event.move.emit([center.lng, center.lat]);
     });
     this.circle.event.move.subscribe((x) => {
-      this.event.move.emit(x);
+      this.event.move.emit(x as [number, number]);
     });
     this.circle.event.change.subscribe((x) => {
       this.event.change.emit(x);

@@ -1505,12 +1505,27 @@ import jQuery from '../jquery.min.js';
       if (/^\d{4}\-\d{1,2}\-\d{1,2}$/.test(date)) {
         format = this.parseFormat('yyyy-mm-dd', type);
       }
+
+      if (/^(\d{4})年(0[1-9]|1[0-2])月(0[1-9]|[12]\d|3[01])日$/.test(date)) {
+        format = this.parseFormat('yyyy年mm月dd日', type);
+        const match = date.match(/^(\d{4})年(0[1-9]|1[0-2])月(0[1-9]|[12]\d|3[01])日$/);
+        const year = parseInt(match[1], 10);
+        const month = parseInt(match[2], 10);
+        const day = parseInt(match[3], 10);
+        let current = new Date(year, month - 1, day);
+        let dateUTC = new Date(current.valueOf() - current.getTimezoneOffset() * 60000);
+        dateUTC.setMilliseconds(0);
+        return dateUTC;
+      }
       if (/^\d{4}\-\d{1,2}\-\d{1,2}[T ]\d{1,2}\:\d{1,2}$/.test(date)) {
         format = this.parseFormat('yyyy-mm-dd hh:ii', type);
       }
       if (/^\d{4}\-\d{1,2}\-\d{1,2}[T ]\d{1,2}\:\d{1,2}\:\d{1,2}[Z]{0,1}$/.test(date)) {
         format = this.parseFormat('yyyy-mm-dd hh:ii:ss', type);
       }
+
+
+
       if (/^[-+]\d+[dmwy]([\s,]+[-+]\d+[dmwy])*$/.test(date)) {
         var part_re = /([-+]\d+)([dmwy])/,
           parts = date.match(/([-+]\d+)([dmwy])/g),
@@ -1536,69 +1551,69 @@ import jQuery from '../jquery.min.js';
         }
         return UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), 0);
       }
-      var parts = date && date.toString().match(this.nonpunctuation) || [],
-        date = new Date(0, 0, 0, 0, 0, 0, 0),
-        parsed = {},
-        setters_order = ['hh', 'h', 'ii', 'i', 'ss', 's', 'yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'D', 'DD', 'd', 'dd', 'H', 'HH', 'p', 'P'],
-        setters_map = {
-          hh: function (d, v) {
-            return d.setUTCHours(v == 12 ? 0 : v);
-            return d.setUTCHours(v);
-          },
-          h: function (d, v) {
-            return d.setUTCHours(v == 12 ? 0 : v);
-            return d.setUTCHours(v);
-          },
-          HH: function (d, v) {
-
-            return d.setUTCHours(v);
-            return d.setUTCHours(v == 12 ? 0 : v);
-          },
-          H: function (d, v) {
-            return d.setUTCHours(v);
-            return d.setUTCHours(v == 12 ? 0 : v);
-          },
-          ii: function (d, v) {
-            return d.setUTCMinutes(v);
-          },
-          i: function (d, v) {
-            return d.setUTCMinutes(v);
-          },
-          mm: function (d, v) {
-            return d.setUTCMinutes(v);
-          },
-          ss: function (d, v) {
-            return d.setUTCSeconds(v);
-          },
-          s: function (d, v) {
-            return d.setUTCSeconds(v);
-          },
-          yyyy: function (d, v) {
-            return d.setUTCFullYear(v);
-          },
-          yy: function (d, v) {
-            return d.setUTCFullYear(2000 + v);
-          },
-          m: function (d, v) {
-            v -= 1;
-            while (v < 0) v += 12;
-            v %= 12;
-            d.setUTCMonth(v);
-            while (d.getUTCMonth() != v)
-              if (isNaN(d.getUTCMonth()))
-                return d;
-              else
-                d.setUTCDate(d.getUTCDate() - 1);
-            return d;
-          },
-          d: function (d, v) {
-            return d.setUTCDate(v);
-          },
-          p: function (d, v) {
-            return d.setUTCHours(v == 1 ? d.getUTCHours() + 12 : d.getUTCHours());
-          }
+      var parts = date && date.toString().match(this.nonpunctuation) || []
+      var date = new Date(0, 0, 0, 0, 0, 0, 0)
+      var parsed = {}
+      var setters_order = ['hh', 'h', 'ii', 'i', 'ss', 's', 'yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'D', 'DD', 'd', 'dd', 'H', 'HH', 'p', 'P']
+      var setters_map = {
+        hh: function (d, v) {
+          return d.setUTCHours(v == 12 ? 0 : v);
+          return d.setUTCHours(v);
         },
-        val, filtered, part;
+        h: function (d, v) {
+          return d.setUTCHours(v == 12 ? 0 : v);
+          return d.setUTCHours(v);
+        },
+        HH: function (d, v) {
+
+          return d.setUTCHours(v);
+          return d.setUTCHours(v == 12 ? 0 : v);
+        },
+        H: function (d, v) {
+          return d.setUTCHours(v);
+          return d.setUTCHours(v == 12 ? 0 : v);
+        },
+        ii: function (d, v) {
+          return d.setUTCMinutes(v);
+        },
+        i: function (d, v) {
+          return d.setUTCMinutes(v);
+        },
+        mm: function (d, v) {
+          return d.setUTCMinutes(v);
+        },
+        ss: function (d, v) {
+          return d.setUTCSeconds(v);
+        },
+        s: function (d, v) {
+          return d.setUTCSeconds(v);
+        },
+        yyyy: function (d, v) {
+          return d.setUTCFullYear(v);
+        },
+        yy: function (d, v) {
+          return d.setUTCFullYear(2000 + v);
+        },
+        m: function (d, v) {
+          v -= 1;
+          while (v < 0) v += 12;
+          v %= 12;
+          d.setUTCMonth(v);
+          while (d.getUTCMonth() != v)
+            if (isNaN(d.getUTCMonth()))
+              return d;
+            else
+              d.setUTCDate(d.getUTCDate() - 1);
+          return d;
+        },
+        d: function (d, v) {
+          return d.setUTCDate(v);
+        },
+        p: function (d, v) {
+          return d.setUTCHours(v == 1 ? d.getUTCHours() + 12 : d.getUTCHours());
+        }
+      }
+      var val; var filtered; var part;
       setters_map['M'] = setters_map['MM'] = setters_map['mm'] = setters_map['m'];
       setters_map['dd'] = setters_map['d'];
       setters_map['P'] = setters_map['p'];

@@ -13,11 +13,15 @@ export class SystemMainMapAMapRoadObjectMarkerLabelController extends IASMapAMap
 
   init() {
     return {
-      normal: this._icon.get(this.data.ObjectType, this.data.ObjectState)
-        .normal,
-      hover: this._icon.get(this.data.ObjectType, this.data.ObjectState).hover,
-      selected: this._icon.get(this.data.ObjectType, this.data.ObjectState)
-        .selected,
+      normal: this._icon.get(this.data.ObjectType, {
+        state: this.data.ObjectState,
+      }).normal,
+      hover: this._icon.get(this.data.ObjectType, {
+        state: this.data.ObjectState,
+      }).hover,
+      selected: this._icon.get(this.data.ObjectType, {
+        state: this.data.ObjectState,
+      }).selected,
     };
   }
 

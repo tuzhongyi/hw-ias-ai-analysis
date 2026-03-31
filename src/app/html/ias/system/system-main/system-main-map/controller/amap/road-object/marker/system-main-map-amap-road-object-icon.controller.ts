@@ -1,5 +1,7 @@
+import { RoadObjectEventType } from '../../../../../../../../../common/data-core/enums/road/road-object/road-object-event-type.enum';
 import { RoadObjectState } from '../../../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
+import { RoadObjectEventRecord } from '../../../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { PathTool } from '../../../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../../../common/tools/size-tool/size.tool';
 
@@ -17,8 +19,11 @@ export class SystemMainMapAMapRoadObjectIconController {
     };
     return icon;
   }
-  get(type?: RoadObjectType, state?: RoadObjectState) {
-    let image = PathTool.image.map.object.get(type, state);
+  get(
+    type?: RoadObjectType,
+    args?: { state?: RoadObjectState; event?: RoadObjectEventType }
+  ) {
+    let image = PathTool.image.map.object.get(type, args);
     return {
       normal: {
         ...this.opts,
@@ -34,4 +39,6 @@ export class SystemMainMapAMapRoadObjectIconController {
       },
     };
   }
+
+  icon(data: RoadObjectEventRecord) {}
 }

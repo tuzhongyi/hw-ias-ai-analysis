@@ -17,6 +17,8 @@ export class SystemModuleBusiness {
       title = '道路部件管理';
     } else if (location.pathname.indexOf(SystemPath.module_road_section) >= 0) {
       title = '屏蔽路段管理';
+    } else if (location.pathname.indexOf(SystemPath.module_road_point) >= 0) {
+      title = '道路屏蔽点管理';
     } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
       title = '道路管理';
     } else if (

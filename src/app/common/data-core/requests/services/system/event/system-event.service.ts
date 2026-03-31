@@ -10,6 +10,7 @@ import { HowellResponseProcess } from '../../../service-process';
 import { SystemEventHandleRequestService } from './handle/system-event-handle.service';
 import { SystemEventNumberRequestService } from './number/system-event-number.service';
 import {
+  EventBlockedParams,
   GetMobileEventFileGpsItemsParams,
   GetMobileEventFileParams,
   GetMobileEventsParams,
@@ -65,6 +66,15 @@ export class SystemEventRequestService {
     return this.http.get<HowellResponse<EventCapability>>(url).then((x) => {
       return HowellResponseProcess.item(x, EventCapability);
     });
+  }
+  blocked(eventId: string, params: EventBlockedParams) {
+    let url = ArmSystemUrl.event.blocked(eventId);
+    let plain = instanceToPlain(params);
+    return this.http
+      .post<HowellResponse<MobileEventRecord>, any>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, MobileEventRecord);
+      });
   }
 
   excel = {

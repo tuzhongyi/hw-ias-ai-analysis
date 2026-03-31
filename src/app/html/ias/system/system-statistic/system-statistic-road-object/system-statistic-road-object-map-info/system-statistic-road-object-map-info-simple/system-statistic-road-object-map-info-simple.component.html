@@ -1,8 +1,14 @@
 <div
-  class="system-statistic-road-object-map-info-simple"
+  class="system-statistic-road-object-map-info-simple root-router"
   [class]="color"
   *ngIf="data"
 >
+  <div
+    class="system-statistic-road-object-map-info-simple-point top"
+    *ngIf="anchor == 'top'"
+  >
+    <div class="system-statistic-road-object-map-info-simple-point-inner"></div>
+  </div>
   <div class="system-statistic-road-object-map-info-simple-container">
     <div class="system-statistic-road-object-map-info-simple-head">
       <i class="howell-icon-point"></i>
@@ -14,8 +20,9 @@
       >
         <div
           class="system-statistic-road-object-map-info-simple-body-content-icon"
-          #icon
-        ></div>
+        >
+          <i [class]="icon"></i>
+        </div>
         <div
           class="system-statistic-road-object-map-info-simple-body-content-value"
         >
@@ -38,7 +45,10 @@
       </div>
     </div>
   </div>
-  <div class="system-statistic-road-object-map-info-simple-point">
+  <div
+    class="system-statistic-road-object-map-info-simple-point bottom"
+    *ngIf="anchor == 'bottom'"
+  >
     <div class="system-statistic-road-object-map-info-simple-point-inner"></div>
   </div>
 </div>

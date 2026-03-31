@@ -1,82 +1,113 @@
+import { Subscription } from 'rxjs';
 import { RoadObjectEventRecord } from '../../../../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
-import { ComponentTool } from '../../../../../../../../../../common/tools/component-tool/component.tool';
-import { IIASMapMarkerEvent } from '../../../../../../../../share/map/ias-map.model';
-import { SystemStatisticRoadObjectAMapRecordMarkerController } from './system-statistic-road-object-amap-record-marker.controller';
+import { IIASMapAMapInfo } from '../../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
+import { IASMapAMapMarkerEvent } from '../../../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
+import { SystemStatisticRoadObjectAMapRecordMarkerLabelController } from './system-statistic-road-object-amap-record-marker-label.controller';
 
 export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
-  event: IIASMapMarkerEvent<RoadObjectEventRecord> = {};
-  constructor(private map: AMap.Map, private tool: ComponentTool) {}
+  event = new IASMapAMapMarkerEvent<RoadObjectEventRecord>();
 
-  private markers: AMap.Marker[] = [];
-  private controllers: SystemStatisticRoadObjectAMapRecordMarkerController[] =
+  constructor(map: AMap.Map, private subscription: Subscription) {
+    this.layer = this.init(map);
+  }
+
+  private layer: AMap.LabelsLayer;
+  private points: SystemStatisticRoadObjectAMapRecordMarkerLabelController[] =
     [];
-  private selected?: SystemStatisticRoadObjectAMapRecordMarkerController;
 
-  load(datas: RoadObjectEventRecord[]) {
-    datas.forEach((x) => {
-      let controller = new SystemStatisticRoadObjectAMapRecordMarkerController(
-        this.tool,
-        x
-      );
-      this.regist(controller);
-      this.controllers.push(controller);
-      this.markers.push(controller.marker);
+  private init(map: AMap.Map) {
+    let layer = new AMap.LabelsLayer({
+      collision: false,
+      allowCollision: false,
+      zooms: [0, 50],
     });
-
-    this.map.add(this.markers);
+    map.add(layer);
+    return layer;
   }
 
   private regist(
-    controller: SystemStatisticRoadObjectAMapRecordMarkerController
+    point: SystemStatisticRoadObjectAMapRecordMarkerLabelController
   ) {
-    controller.event.click = (data) => {
-      this.event.click && this.event.click(data);
-    };
-    controller.event.dblclick = (data) => {
-      this.event.dblclick && this.event.dblclick(data);
-    };
-    controller.event.mouseover = (data) => {
-      this.event.mouseover && this.event.mouseover(data);
-    };
-    controller.event.mouseout = (data) => {
-      this.event.mouseout && this.event.mouseout(data);
-    };
+    let sub1 = point.event.mouseover.subscribe((data) => {
+      this.event.mouseover.emit(data);
+    });
+    this.subscription.add(sub1);
+    let sub2 = point.event.mouseout.subscribe((data) => {
+      this.event.mouseout.emit(data);
+    });
+    this.subscription.add(sub2);
+    let sub3 = point.event.click.subscribe((data) => {
+      this.select(data);
+      this.event.click.emit(data);
+    });
+    this.subscription.add(sub3);
+    let sub4 = point.event.dblclick.subscribe((data) => {
+      this.select(data);
+      this.event.dblclick.emit(data);
+    });
+    this.subscription.add(sub4);
+  }
+
+  async load(datas: RoadObjectEventRecord[]) {
+    let markers = [];
+    for (let i = 0; i < datas.length; i++) {
+      const data = datas[i];
+      if (data.Location) {
+        let point =
+          new SystemStatisticRoadObjectAMapRecordMarkerLabelController(
+            data as any
+          );
+        this.regist(point);
+        let marker = await point.marker;
+        markers.push(marker);
+        this.points.push(point);
+      }
+    }
+    this.layer.add(markers);
+    return markers;
   }
 
   clear() {
-    if (this.markers.length > 0) {
-      this.map.remove(this.markers);
-      this.markers = [];
+    this.layer.clear();
+    this.points = [];
+  }
+
+  mouseover(data: RoadObjectEventRecord) {
+    let info: IIASMapAMapInfo = {
+      Name: data.RoadObjectName,
+    };
+    if (data.Location) {
+      info.Location = [
+        data.Location.GCJ02.Longitude,
+        data.Location.GCJ02.Latitude,
+      ];
     }
-    if (this.controllers.length > 0) {
-      this.controllers = [];
+
+    let point = this.points.find((x) => x.data.Id === data.Id);
+    if (point) {
+      point.hover();
+    }
+  }
+  mouseout(data: RoadObjectEventRecord) {
+    let point = this.points.find((x) => x.data.Id === data.Id);
+    if (point) {
+      point.out();
     }
   }
 
   select(data: RoadObjectEventRecord) {
-    if (this.selected) {
-      if (this.selected.data.Id === data.Id) {
-        return;
-      } else {
-        this.selected.select(false);
-      }
+    this.blur();
+    let point = this.points.find((x) => x.data.Id === data.Id);
+    if (point) {
+      point.select();
     }
-    let selected = this.controllers.find((x) => {
-      return x.data.Id === data.Id;
-    });
-
-    if (selected) {
-      selected.select(true);
-      this.map.setCenter(selected.marker.getPosition()!);
-    }
-
-    this.selected = selected;
   }
 
   blur() {
-    if (this.selected) {
-      this.selected.select(false);
-      this.selected = undefined;
-    }
+    this.points.forEach((x) => {
+      if (x.selected) {
+        x.blur();
+      }
+    });
   }
 }

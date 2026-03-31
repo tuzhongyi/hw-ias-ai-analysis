@@ -12,7 +12,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoSimpleController {
   private init() {
     return new AMap.Marker({
       anchor: 'bottom-center',
-      offset: [0, -30],
+      offset: [0, -62],
     });
   }
 
@@ -39,7 +39,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoSimpleController {
     html: (data: RoadObjectEventRecord) => {
       let component = this.tool.create(
         SystemStatisticRoadObjectMapInfoSimpleComponent,
-        { data: data }
+        { data: data, anchor: 'bottom' }
       );
       let html = this.tool.get.html(component);
       return html.firstElementChild as HTMLElement;

@@ -1,3 +1,4 @@
+import { RoadObjectEventType } from '../../../../../data-core/enums/road/road-object/road-object-event-type.enum';
 import { RoadObjectState } from '../../../../../data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../data-core/enums/road/road-object/road-object-type.enum';
 import { IMapMarkerPath } from '../map-marker.interface';
@@ -35,21 +36,40 @@ export class MapMarkerObjectPath {
     return new MapMarkerObjectTelephoneBoothPath(this.basic);
   }
 
-  get(type?: RoadObjectType, state?: RoadObjectState) {
+  get(
+    type?: RoadObjectType,
+    args?: { state?: RoadObjectState; event?: RoadObjectEventType }
+  ) {
     let path = this.from.type(type);
 
     if (path instanceof IMapMarkerObjectPath) {
-      switch (state) {
-        case RoadObjectState.Normal:
-          return path.cyan;
-        case RoadObjectState.Breakage:
-          return path.orange;
-        case RoadObjectState.Disappear:
-          return path.red;
-        case RoadObjectState.None:
-          return path.green;
-        default:
-          return path.green;
+      if (args) {
+        if (args.state != undefined) {
+          switch (args.state) {
+            case RoadObjectState.Normal:
+              return path.cyan;
+            case RoadObjectState.Breakage:
+              return path.orange;
+            case RoadObjectState.Disappear:
+              return path.red;
+            case RoadObjectState.None:
+              return path.green;
+            default:
+              return path.green;
+          }
+        }
+        if (args.event != undefined) {
+          switch (args.event) {
+            case RoadObjectEventType.Inspection:
+              return path.green;
+            case RoadObjectEventType.Breakage:
+              return path.orange;
+            case RoadObjectEventType.Disappear:
+              return path.red;
+            default:
+              return path.gray;
+          }
+        }
       }
     }
 

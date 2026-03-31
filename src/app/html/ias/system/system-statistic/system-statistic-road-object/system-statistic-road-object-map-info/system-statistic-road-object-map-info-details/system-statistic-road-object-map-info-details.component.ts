@@ -1,23 +1,12 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ContainerPageComponent } from '../../../../../../../common/components/container-page/container-page.component';
-import { RoadObjectEventType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-event-type.enum';
 import { EventResourceContent } from '../../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { MediumRequestService } from '../../../../../../../common/data-core/requests/services/medium/medium.service';
-import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
-import { wait } from '../../../../../../../common/tools/wait';
 
 @Component({
   selector: 'ias-system-statistic-road-object-map-info-details',
@@ -37,13 +26,9 @@ export class SystemStatisticRoadObjectMapInfoDetailsComponent
     private medium: MediumRequestService
   ) {}
 
-  color = {
-    hex: '#fff',
-    rgb: { R: 255, G: 255, B: 255 },
-    name: '',
-  };
+  color = '';
+  icon = '';
 
-  @ViewChild('icon') icon?: ElementRef<HTMLDivElement>;
   resource?: EventResourceContent;
 
   name = {
@@ -53,26 +38,9 @@ export class SystemStatisticRoadObjectMapInfoDetailsComponent
 
   ngOnInit(): void {
     if (this.data) {
-      this.color.hex = ObjectTool.model.RoadObjectEventRecord.get.color.event(
+      this.color = ObjectTool.model.RoadObjectEventRecord.get.color.event(
         this.data.EventType
       );
-      this.color.rgb = ColorTool.hex.to.rgb(this.color.hex);
-
-      switch (this.data.EventType) {
-        case RoadObjectEventType.Inspection:
-          this.color.name = 'green';
-          break;
-        case RoadObjectEventType.Breakage:
-          this.color.name = 'yellow';
-          break;
-        case RoadObjectEventType.Disappear:
-          this.color.name = 'redlight';
-          break;
-
-        default:
-          this.color.name = '';
-          break;
-      }
 
       this.load.icon(this.data);
       this.language.road.object.EventTypes(this.data.EventType).then((x) => {
@@ -86,28 +54,15 @@ export class SystemStatisticRoadObjectMapInfoDetailsComponent
 
       this.picture.load(this.data);
     } else {
-      this.color.hex = '#fff';
-      this.color.rgb = ColorTool.hex.to.rgb(this.color.hex);
+      this.color = '';
     }
   }
 
   private load = {
     icon: async (data: RoadObjectEventRecord) => {
-      await wait(() => {
-        return !!this.icon;
-      });
-
-      if (this.icon) {
-        let icon = ObjectTool.model.RoadObjectEventRecord.get.icon.inner(
-          data.RoadObjectType
-        );
-        let svg = ObjectTool.model.RoadObjectEventRecord.get.icon.svg(
-          14,
-          ColorTool.normal,
-          icon
-        );
-        this.icon.nativeElement.insertAdjacentHTML('beforeend', svg);
-      }
+      this.icon = ObjectTool.model.RoadObjectEventRecord.get.icon.classname(
+        data.RoadObjectType
+      );
     },
   };
 

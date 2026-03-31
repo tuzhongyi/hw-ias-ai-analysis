@@ -1,27 +1,20 @@
 <div
   class="system-statistic-road-object-timeline-item root-router"
   [class.selected]="selected"
+  [class]="event.color"
   *ngIf="data"
 >
-  <div
-    class="system-statistic-road-object-timeline-item-type"
-    [style.color]="event.color"
-  >
+  <div class="system-statistic-road-object-timeline-item-type">
     {{ event.name }}
   </div>
   <div class="system-statistic-road-object-timeline-item-image">
-    <div
-      class="system-statistic-road-object-timeline-item-image-container"
-      [style.borderColor]="selected ? event.color : ''"
-    >
+    <div class="system-statistic-road-object-timeline-item-image-container">
       <div
         class="system-statistic-road-object-timeline-item-image-container-inner"
-        [style.backgroundColor]="selected ? event.color : ''"
       >
-        <div
-          class="system-statistic-road-object-timeline-item-image-icon"
-          [style.backgroundImage]="type.icon"
-        ></div>
+        <div class="system-statistic-road-object-timeline-item-image-icon">
+          <i [class]="type.icon"></i>
+        </div>
       </div>
     </div>
     <div

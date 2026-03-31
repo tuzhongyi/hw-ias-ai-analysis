@@ -1,41 +1,21 @@
 <div
-  class="system-statistic-road-object-map-state-item"
-  [style.border-color]="selected ? color.selected.border : color.normal.border"
-  [style.background-color]="
-    selected ? color.selected.background : color.normal.background
-  "
-  [style.box-shadow]="selected ? color.selected.shadow : color.normal.none"
+  class="system-statistic-road-object-map-state-item root-router"
+  [class.selected]="selected"
+  [class]="data.color"
 >
-  <div
-    class="system-statistic-road-object-map-state-item-icon"
-    [style.background-color]="
-      selected ? color.selected.icon.background : color.normal.icon.background
-    "
-    [style.color]="selected ? color.selected.icon.text : color.normal.icon.text"
-    #icon
-  ></div>
+  <div class="system-statistic-road-object-map-state-item-icon">
+    <i [class]="data.icon"></i>
+  </div>
   <div class="system-statistic-road-object-map-state-item-info">
-    <div
-      class="system-statistic-road-object-map-state-item-info-name"
-      [style.color]="selected ? color.selected.name : color.normal.name"
-    >
+    <div class="system-statistic-road-object-map-state-item-info-name">
       {{ data.name }}
     </div>
-    <div
-      class="system-statistic-road-object-map-state-item-info-value"
-      [style.color]="selected ? color.selected.value : color.normal.value"
-    >
+    <div class="system-statistic-road-object-map-state-item-info-value">
       {{ data.value }}
     </div>
   </div>
   <div
     class="system-statistic-road-object-map-state-item-line"
     *ngIf="selected"
-    [style.background-color]="
-      selected ? color.selected.line.background : color.normal.line.background
-    "
-    [style.box-shadow]="
-      selected ? color.selected.line.shadow : color.normal.line.shadow
-    "
   ></div>
 </div>

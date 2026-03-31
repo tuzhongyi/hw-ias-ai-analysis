@@ -13,26 +13,28 @@ export class SystemStatisticRoadObjectMapController {
   };
   private amap: SystemStatisticRoadObjectAMapController;
 
-  constructor(tool: ComponentTool, subscription: Subscription) {
+  constructor(tool: ComponentTool, private subscription: Subscription) {
     this.amap = new SystemStatisticRoadObjectAMapController(tool, subscription);
     this.regist(this.amap);
   }
 
   private async regist(amap: SystemStatisticRoadObjectAMapController) {
     let marker = await amap.record.marker;
-    marker.event.click = (data) => {
+    let sub_click = marker.event.click.subscribe((data) => {
       this.event.record.click && this.event.record.click(data);
       this.amap.record.info.simple.then((simple) => {
         simple.remove();
       });
-    };
-    marker.event.dblclick = (data) => {
+    });
+    this.subscription.add(sub_click);
+    let sub_dblclick = marker.event.dblclick.subscribe((data) => {
       this.event.record.dblclick && this.event.record.dblclick(data);
       this.amap.record.info.simple.then((simple) => {
         simple.remove();
       });
-    };
-    marker.event.mouseover = (data) => {
+    });
+    this.subscription.add(sub_dblclick);
+    let sub_mouseover = marker.event.mouseover.subscribe((data) => {
       this.event.record.mouseover && this.event.record.mouseover(data);
       this.amap.record.info.details.then((details) => {
         if (!details.opened(data))
@@ -40,13 +42,15 @@ export class SystemStatisticRoadObjectMapController {
             simple.add(data);
           });
       });
-    };
-    marker.event.mouseout = (data) => {
+    });
+    this.subscription.add(sub_mouseover);
+    let sub_mouseout = marker.event.mouseout.subscribe((data) => {
       this.event.record.mouseout && this.event.record.mouseout(data);
       this.amap.record.info.simple.then((x) => {
         x.remove();
       });
-    };
+    });
+    this.subscription.add(sub_mouseout);
 
     let info = await amap.record.info.details;
     info.details = (data) => {

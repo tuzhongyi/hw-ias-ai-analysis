@@ -19,6 +19,9 @@ export class SystemEventUrl extends AbstractUrl {
   capability() {
     return `${this.basic()}/Capability`;
   }
+  blocked(id: string) {
+    return `${this.item(id)}/Blocked`;
+  }
   excel = {
     export: () => {
       return `${this.basic()}/Excels/Export`;

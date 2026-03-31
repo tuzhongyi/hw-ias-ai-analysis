@@ -66,7 +66,10 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
       }
     },
     map: (data: RoadObjectEventRecord) => {
-      this.map.marker.path = PathTool.image.map.object.get(data.RoadObjectType);
+      this.map.marker.path = PathTool.image.map.object.get(
+        data.RoadObjectType,
+        { event: data.EventType }
+      );
     },
     object: (data: RoadObjectEventRecord) => {
       this.business.get(data.RoadObjectId).then((x) => {

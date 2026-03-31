@@ -9,6 +9,7 @@ import { AnalysisShopCapability } from '../../models/arm/analysis/analysis-shop-
 import { AnalysisLLMCapability } from '../../models/arm/analysis/llm/analysis-llm-capability.model';
 import { EventCapability } from '../../models/capabilities/arm/event/event-capability.model';
 import { RoadObjectCapability } from '../../models/capabilities/arm/geographic/road-object-capability.model';
+import { RoadPointCapability } from '../../models/capabilities/arm/geographic/road-point-capability.model';
 import { RoadSectionCapability } from '../../models/capabilities/arm/geographic/road-section-capability.model';
 import { ArmAnalysisRequestService } from '../services/analysis/analysis.service';
 import { ArmGeographicRequestService } from '../services/geographic/geographic.service';
@@ -29,6 +30,7 @@ export class CapabilityManager {
   event = new PromiseValue<EventCapability>();
   road = {
     section: new PromiseValue<RoadSectionCapability>(),
+    point: new PromiseValue<RoadPointCapability>(),
     object: new PromiseValue<RoadObjectCapability>(),
   };
 
@@ -80,6 +82,9 @@ export class CapabilityManager {
     });
     this.service.geo.road.section.capability().then((x) => {
       this.road.section.set(x);
+    });
+    this.service.geo.road.point.capability().then((x) => {
+      this.road.point.set(x);
     });
     this.service.geo.road.object.capability().then((x) => {
       this.road.object.set(x);

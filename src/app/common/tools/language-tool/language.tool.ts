@@ -37,6 +37,7 @@ export class LanguageTool {
     this.event = new LanguageEventTool(this.manager.source.event);
     this.road = new LanguageRoadTool(
       this.manager.source.road.section,
+      this.manager.source.road.point,
       this.manager.source.road.object
     );
   }

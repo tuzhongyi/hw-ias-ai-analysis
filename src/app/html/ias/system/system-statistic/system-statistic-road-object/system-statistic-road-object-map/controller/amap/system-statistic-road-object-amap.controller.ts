@@ -36,16 +36,12 @@ export class SystemStatisticRoadObjectAMapController {
     MapHelper.amap
       .get('system-statistic-road-object-map', [], true, {
         showLabel: false, // 隐藏所有标签
-        viewMode: '2D',
+        viewMode: '3D',
 
         layers: [], // 彻底移除所有瓦片/格栅
         resizeEnable: true,
         dragEnable: true, // 保留拖拽功能
         zoomEnable: true, // 保留缩放功能
-
-        showIndoorMap: false,
-        // 核心：地图容器背景透明（兜底）
-        mapStyle: 'amap://styles/transparent', // 高德官方透明样式
       })
       .then((map) => {
         this.init.map(map);
@@ -80,7 +76,6 @@ export class SystemStatisticRoadObjectAMapController {
 
   private init = {
     map: (map: AMap.Map) => {
-      map.setFeatures([]);
       this.controller.map.set(map);
 
       map.on('click', (e) => {
@@ -108,7 +103,7 @@ export class SystemStatisticRoadObjectAMapController {
     ) => {
       let marker = new SystemStatisticRoadObjectAMapRecordMarkerLayerController(
         map,
-        tool
+        subscription
       );
 
       this.controller.record.marker.set(marker);

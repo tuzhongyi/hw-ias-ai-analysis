@@ -23,6 +23,7 @@ import {
   Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/interface/page-list.model';
+import { EventBlockedParams } from '../../../../../../common/data-core/requests/services/system/event/system-event.params';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
@@ -34,6 +35,7 @@ import { SystemEventTableArgs } from '../../system-event-table/business/system-e
 import { SystemEventTableRealtimeComponent } from '../../system-event-table/system-event-table-realtime/system-event-table-realtime.component';
 import { SystemEventTaskComponent } from '../../system-event-task/component/system-event-task.component';
 import { SystemEventVideoComponent } from '../../system-event-video/system-event-video.component';
+import { SystemEventManagerRealtimeBusiness } from './business/system-event-manager-realtime.business';
 import { SystemEventManagerRealtimeController } from './controller/system-event-manager-realtime.controller';
 import { SystemEventManagerRealtimeSource } from './system-event-manager-realtime.soiurce';
 import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtime.window';
@@ -59,7 +61,7 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
   styleUrl: './system-event-manager-realtime.component.less',
   providers: [
     SystemEventManagerRealtimeSource,
-
+    SystemEventManagerRealtimeBusiness,
     SystemEventManagerRealtimeController,
     SystemEventManagerRealtimeWindow,
   ],
@@ -74,7 +76,8 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
     private language: LanguageTool,
     private toastr: ToastrService,
     public controller: SystemEventManagerRealtimeController,
-    public window: SystemEventManagerRealtimeWindow
+    public window: SystemEventManagerRealtimeWindow,
+    private business: SystemEventManagerRealtimeBusiness
   ) {}
 
   Language = Language;
@@ -217,6 +220,19 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
   on = {
     download: () => {
       this.table.download.emit(this.table.args);
+    },
+    blocked: (args: { eventId: string; params: EventBlockedParams }) => {
+      this.business
+        .blocked(args.eventId, args.params)
+        .then((x) => {
+          this.toastr.success('操作成功');
+          this.table.args.first = false;
+          this.table.load.emit(this.table.args);
+          this.window.process.show = false;
+        })
+        .catch((e) => {
+          this.toastr.error('操作失败');
+        });
     },
   };
 }
