@@ -1,5 +1,5 @@
 export enum GPSHighPrecision {
-  normal = 1,
-  secondary = 2,
-  high = 3,
+  normal = 0,
+  secondary = 1,
+  high = 2,
 }

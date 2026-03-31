@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GPSHighPrecision } from '../../../../../../common/data-core/enums/gps/gps-high-precision.enum';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GetMobileDeviceRoutesParams } from '../../../../../../common/data-core/requests/services/system/mobile/system-mobile-device.params';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
@@ -18,7 +19,6 @@ export class SystemModuleMobileDeviceRouteMapBusiness {
   async load(args: SystemModuleMobileDeviceRouteArgs, rectified?: boolean) {
     let datas = await this.data.load(args, rectified);
     let paths = this.convert(datas);
-
     console.log(paths);
     return paths;
     // return datas;
@@ -49,9 +49,22 @@ export class SystemModuleMobileDeviceRouteMapBusiness {
       params.BeginTime = args.duration.begin;
       params.EndTime = args.duration.end;
       params.Rectified = rectified;
-      return this.service.mobile.device.route.all(params).catch((x) => {
-        return [];
-      });
+      return this.service.mobile.device.route
+        .all(params)
+        .catch((x) => {
+          return [];
+        })
+        .then((datas) => {
+          if (args.precision == undefined) {
+            return datas;
+          }
+          if (args.precision == GPSHighPrecision.normal) {
+            return datas.filter(
+              (x) => !x.HighPrecision || x.HighPrecision == args.precision
+            );
+          }
+          return datas.filter((x) => x.HighPrecision == args.precision);
+        });
     },
     device: (deviceId: string) => {
       return this.service.mobile.device.cache.get(deviceId);
