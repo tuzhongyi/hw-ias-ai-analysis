@@ -1,3 +1,5 @@
+import { ColorTool } from '../../../../../../common/tools/color/color.tool';
+
 export class IASMapAMapConfig {
   static icon = {
     zooms: [16.8, 50] as [number, number],
@@ -12,5 +14,9 @@ export class IASMapAMapConfig {
       normal: '#aaaaaa',
       selected: '#ff6600',
     },
+  };
+
+  static path = {
+    color: ['#32b33e', ColorTool.orange, ColorTool.yellow, ColorTool.cyan],
   };
 }

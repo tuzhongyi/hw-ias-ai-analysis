@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
-import { ColorTool } from '../../../../../../../../common/tools/color/color.tool';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
+import { IASMapAMapConfig } from '../../../../../../share/map/controller/amap/ias-map-amap.config';
 
 export class SystemModuleMobileDeviceRouteAMapPathController {
   mouseover = new EventEmitter<[number, number]>();
@@ -48,8 +48,7 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
       path: [...positions],
       showDir: true,
       strokeWeight: 6,
-      strokeColor:
-        this.index == 0 ? '#32b33e' : ColorTool.get.index(this.index - 1),
+      strokeColor: IASMapAMapConfig.path.color[this.index],
       lineJoin: 'round',
       lineCap: 'round',
       cursor: 'pointer',
