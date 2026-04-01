@@ -29,7 +29,7 @@ import { SystemMainCardDeviceRouteStatisticChartBusiness } from './system-main-c
 })
 export class SystemMainCardDeviceRouteStatisticComponent {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.month(new Date());
+  @Input() duration = DateTimeTool.last.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
   @Output() itemclick = new EventEmitter<string>();
   constructor(
@@ -89,17 +89,13 @@ export class SystemMainCardDeviceRouteStatisticComponent {
       let today = new Date();
       let language = '';
       switch (this.unit.value) {
-        case DurationUnit.year:
-          language = '今年';
-          this.duration = DateTimeTool.all.year(today);
-          break;
         case DurationUnit.month:
-          language = '本月';
-          this.duration = DateTimeTool.all.month(today);
+          language = '近一月';
+          this.duration = DateTimeTool.last.month(today);
           break;
         case DurationUnit.week:
-          language = '本周';
-          this.duration = DateTimeTool.all.week(today);
+          language = '近一周';
+          this.duration = DateTimeTool.last.week(today);
           break;
         case DurationUnit.day:
           language = '今日';

@@ -15,8 +15,8 @@ export class IASMapAMapConfig {
       selected: '#ff6600',
     },
   };
-
+  // '#32b33e' '#38daff'
   static path = {
-    color: ['#32b33e', ColorTool.orange, ColorTool.yellow, ColorTool.cyan],
+    color: [ColorTool.redlight, ColorTool.green],
   };
 }

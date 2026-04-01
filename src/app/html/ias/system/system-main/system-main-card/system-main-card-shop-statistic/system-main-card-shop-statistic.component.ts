@@ -27,7 +27,7 @@ import { SystemMainCardShopStatisticBusiness } from './business/system-main-card
 })
 export class SystemMainCardShopStatisticComponent implements OnInit, OnDestroy {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.month(new Date());
+  @Input() duration = DateTimeTool.last.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
 
   constructor(private business: SystemMainCardShopStatisticBusiness) {}
@@ -68,10 +68,10 @@ export class SystemMainCardShopStatisticComponent implements OnInit, OnDestroy {
           this.duration = DateTimeTool.all.year(today);
           break;
         case DurationUnit.month:
-          this.duration = DateTimeTool.all.month(today);
+          this.duration = DateTimeTool.last.month(today);
           break;
         case DurationUnit.week:
-          this.duration = DateTimeTool.all.week(today);
+          this.duration = DateTimeTool.last.week(today);
           break;
         case DurationUnit.day:
           this.duration = DateTimeTool.all.day(today);

@@ -6,7 +6,7 @@
     <div class="system-module-road-object-manager-head-filter">
       <div class="forms">
         <div class="form-item">
-          <div class="form-item-text">部件类型</div>
+          <div class="form-item-text">类型</div>
           <div class="form-item-value fill">
             <hw-select [(selected)]="table.args.type" [nullable]="true">
               <select [(ngModel)]="table.args.type">
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-text">部件状态</div>
+          <div class="form-item-text">状态</div>
           <div class="form-item-value fill">
             <hw-select [(selected)]="table.args.state" [nullable]="true">
               <select [(ngModel)]="table.args.state">
@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-text">部件名称</div>
+          <div class="form-item-text">名称</div>
           <div class="form-item-value">
             <input type="text" [(ngModel)]="table.args.name" />
           </div>
@@ -71,15 +71,19 @@
       </button>
       <button
         class="button-clip-gradient"
-        [disabled]="table.selected.all.length == 0"
-        (click)="delete.confirm()"
+        [disabled]="
+          table.selected.all.length == 0 || table.selected.count.disabled == 0
+        "
+        (click)="table.on.enable()"
       >
         启用
       </button>
       <button
         class="button-clip-gradient"
-        [disabled]="table.selected.all.length == 0"
-        (click)="delete.confirm()"
+        [disabled]="
+          table.selected.all.length == 0 || table.selected.count.enabled == 0
+        "
+        (click)="table.on.disable()"
       >
         禁用
       </button>

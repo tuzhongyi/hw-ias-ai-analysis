@@ -6,7 +6,7 @@ import { SystemMainManagerComponent } from '../../system-main-manager.component'
 /** 商铺任务统计 */
 export class SystemMainManagerCardShopStatisticPie {
   show = false;
-  duration = DateTimeTool.all.month(new Date());
+  duration = DateTimeTool.last.month(new Date());
   constructor(private that: SystemMainManagerComponent) {}
   on = {
     item: (type: ArmEventType) => {

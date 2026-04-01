@@ -21,6 +21,7 @@ import { DurationUnit } from '../../../../../../common/tools/date-time-tool/dura
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { SystemModuleMobileDeviceRouteChartContainerComponent } from '../system-module-mobile-device-route-chart-container/system-module-mobile-device-route-chart-container.component';
 import { SystemModuleMobileDeviceRouteInfoComponent } from '../system-module-mobile-device-route-info/system-module-mobile-device-route-info.component';
+import { SystemModuleMobileDeviceRouteMapPathStateComponent } from '../system-module-mobile-device-route-map-path-state/system-module-mobile-device-route-map-path-state.component';
 import { SystemModuleMobileDeviceRouteMapSettingsComponent } from '../system-module-mobile-device-route-map-settings/system-module-mobile-device-route-map-settings.component';
 import { SystemModuleMobileDeviceRouteMapComponent } from '../system-module-mobile-device-route-map/system-module-mobile-device-route-map.component';
 import {
@@ -42,6 +43,7 @@ import { SystemModuleMobileDeviceRouteManagerSource } from './system-module-mobi
     SystemModuleMobileDeviceRouteMapSettingsComponent,
     SystemModuleMobileDeviceRouteInfoComponent,
     SystemModuleMobileDeviceRouteChartContainerComponent,
+    SystemModuleMobileDeviceRouteMapPathStateComponent,
   ],
   templateUrl: './system-module-mobile-device-route-manager.component.html',
   styleUrl: './system-module-mobile-device-route-manager.component.less',

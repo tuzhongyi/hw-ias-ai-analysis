@@ -36,7 +36,7 @@ export class SystemMainCardStatisticNumberDivisionListComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.month(new Date());
+  @Input() duration = DateTimeTool.last.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
 
   constructor(
@@ -78,7 +78,21 @@ export class SystemMainCardStatisticNumberDivisionListComponent
     value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
-      this.duration = DateTimeTool.all.unit(new Date(), this.unit.value);
+      switch (this.unit.value) {
+        case DurationUnit.day:
+          this.duration = DateTimeTool.all.day(new Date());
+          break;
+        case DurationUnit.week:
+          this.duration = DateTimeTool.last.week(new Date());
+          break;
+        case DurationUnit.month:
+          this.duration = DateTimeTool.last.month(new Date());
+          break;
+
+        default:
+          break;
+      }
+
       this.load();
       this.durationChange.emit(this.duration);
     },

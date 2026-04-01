@@ -36,7 +36,7 @@ export class SystemMainCardEventChartLineShopComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.month(new Date());
+  @Input() duration = DateTimeTool.last.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
   constructor(private business: SystemMainCardEventChartLineShopBusiness) {}
 
@@ -82,9 +82,9 @@ export class SystemMainCardEventChartLineShopComponent
       case DurationUnit.day:
         return `今日${name}`;
       case DurationUnit.week:
-        return `本周${name}`;
+        return `近一周${name}`;
       case DurationUnit.month:
-        return `本月${name}`;
+        return `近一月${name}`;
       case DurationUnit.year:
         return `今年${name}`;
       default:
@@ -104,7 +104,20 @@ export class SystemMainCardEventChartLineShopComponent
     value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
-      this.duration = DateTimeTool.all.unit(this.date, this.unit.value);
+      switch (this.unit.value) {
+        case DurationUnit.day:
+          this.duration = DateTimeTool.all.day(this.date);
+          break;
+        case DurationUnit.week:
+          this.duration = DateTimeTool.last.week(this.date);
+          break;
+        case DurationUnit.month:
+          this.duration = DateTimeTool.last.month(this.date);
+          break;
+
+        default:
+          break;
+      }
       this.durationChange.emit(this.duration);
       this.load();
     },

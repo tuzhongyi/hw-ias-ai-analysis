@@ -72,7 +72,7 @@ export class SystemStatisticRoadObjectMapController {
   record = {
     load: async (datas: RoadObjectEventRecord[]) => {
       let record = await this.amap.record.marker;
-      record.load(datas);
+      return record.load(datas);
     },
     clear: async () => {
       let record = await this.amap.record.marker;

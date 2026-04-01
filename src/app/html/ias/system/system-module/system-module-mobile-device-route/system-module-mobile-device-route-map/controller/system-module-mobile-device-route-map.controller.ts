@@ -24,14 +24,18 @@ export class SystemModuleMobileDeviceRouteMapController {
 
       let map = await this.amap.map.get();
 
-      let polylines = positions
-        .map((paths, i) => {
+      let polylines = datas
+        .map((items, i) => {
+          let positions = items.map(
+            (x) => [x.Longitude, x.Latitude] as [number, number]
+          );
+          let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
           let path = new SystemModuleMobileDeviceRouteAMapPathController(
             map,
-            i
+            type
           );
           this.controller.path.push(path);
-          return path.load(paths)!;
+          return path.load(positions)!;
         })
         .filter((x) => !!x);
 

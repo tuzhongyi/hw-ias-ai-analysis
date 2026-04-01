@@ -52,9 +52,9 @@ export class SystemStatisticRoadObjectMapComponent
 
   private load = {
     road: async () => {
-      let datas = await this.business.road();
-      let polylines = await this.controller.road.load(datas);
-      let center = await this.controller.map.focus(polylines);
+      // let datas = await this.business.road();
+      // let polylines = await this.controller.road.load(datas);
+      // let center = await this.controller.map.focus(polylines);
 
       this.inited = true;
     },

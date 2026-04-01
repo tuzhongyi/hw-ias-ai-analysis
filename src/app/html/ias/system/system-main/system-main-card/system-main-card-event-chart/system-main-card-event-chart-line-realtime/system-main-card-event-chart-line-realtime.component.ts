@@ -36,7 +36,7 @@ export class SystemMainCardEventChartLineRealtimeComponent
   implements OnInit, OnDestroy
 {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.all.month(new Date());
+  @Input() duration = DateTimeTool.last.month(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
   constructor(private business: SystemMainCardEventChartLineRealtimeBusiness) {}
 
@@ -45,7 +45,11 @@ export class SystemMainCardEventChartLineRealtimeComponent
   private load() {
     this.business.load(this.duration).then((data) => {
       this.chart.datas = data ? [data] : [];
-      this.chart.axis.x = ChartTool.axis.x.unit(this.unit.value);
+      this.chart.axis.x = ChartTool.axis.x.last.unit(
+        this.unit.value,
+        this.duration
+      );
+
       switch (this.unit.value) {
         case DurationUnit.week:
           this.chart.interval = 0;
@@ -82,11 +86,9 @@ export class SystemMainCardEventChartLineRealtimeComponent
       case DurationUnit.day:
         return '今日实时事件统计';
       case DurationUnit.week:
-        return '本周实时事件统计';
+        return '近一周实时事件统计';
       case DurationUnit.month:
-        return '本月实时事件统计';
-      case DurationUnit.year:
-        return '本年实时事件统计';
+        return '近一月实时事件统计';
       default:
         return '实时事件统计';
     }
@@ -104,7 +106,17 @@ export class SystemMainCardEventChartLineRealtimeComponent
     value: DurationUnit.month,
     Type: DurationUnit,
     change: () => {
-      this.duration = DateTimeTool.all.unit(this.date, this.unit.value);
+      switch (this.unit.value) {
+        case DurationUnit.week:
+          this.duration = DateTimeTool.last.week(this.date);
+          break;
+        case DurationUnit.month:
+          this.duration = DateTimeTool.last.month(this.date);
+          break;
+
+        default:
+          break;
+      }
       this.durationChange.emit(this.duration);
       this.load();
     },

@@ -70,6 +70,10 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
     selected: {
       all: [] as RoadObject[],
       current: undefined as RoadObject | undefined,
+      count: {
+        enabled: 0,
+        disabled: 0,
+      },
     },
     picture: {
       page: new EventEmitter<number>(),
@@ -80,6 +84,11 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
       },
       select: (data: RoadObject[]) => {
         this.table.selected.all = [...data];
+        this.table.selected.count.disabled = data.filter(
+          (x) => x.Disable
+        ).length;
+        this.table.selected.count.enabled =
+          data.length - this.table.selected.count.disabled;
       },
       position: (data: RoadObject) => {
         this.table.selected.current = data;
@@ -93,8 +102,20 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
           this.map.out.emit(item);
         },
       },
-      disable: () => {},
-      enable: () => {},
+      disable: () => {
+        this.business.disable(this.table.selected.all).then((x) => {
+          this.toastr.success('批量禁用成功');
+          this.table.args.first = false;
+          this.table.load.emit(this.table.args);
+        });
+      },
+      enable: () => {
+        this.business.enable(this.table.selected.all).then((x) => {
+          this.toastr.success('批量启用成功');
+          this.table.args.first = false;
+          this.table.load.emit(this.table.args);
+        });
+      },
     },
   };
 

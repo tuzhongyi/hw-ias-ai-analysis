@@ -4,8 +4,8 @@
     class="system-main-card-container-operation"
   >
     <select class="noborder" [(ngModel)]="unit.value" (change)="unit.change()">
-      <option [ngValue]="unit.Type.week">本周</option>
-      <option [ngValue]="unit.Type.month">本月</option>
+      <option [ngValue]="unit.Type.week">近一周</option>
+      <option [ngValue]="unit.Type.month">近一月</option>
     </select>
   </div>
   <div class="system-main-card-event-chart-line-realtime">

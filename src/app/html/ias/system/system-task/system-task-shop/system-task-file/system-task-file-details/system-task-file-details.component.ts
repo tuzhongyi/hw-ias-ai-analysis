@@ -55,6 +55,7 @@ export class SystemTaskFileDetailsComponent implements OnInit {
     this.business
       .path(data.FileName)
       .then((url) => {
+        console.log(url);
         this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       })
       .catch((e) => {

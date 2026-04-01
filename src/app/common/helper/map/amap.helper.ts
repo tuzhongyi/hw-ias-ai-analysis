@@ -6,8 +6,16 @@ import { AMapConverter } from './amap.converter';
 import { AMapInputTip, AMapInputTipItem, AMapInputTips } from './amap.model';
 
 export class AMapHelper {
-  styleid = 'e8fb567a2f05a53b39e088f6fe186991';
-  style = `amap://styles/${this.styleid}`;
+  style = {
+    url: (key: string) => {
+      return `amap://styles/${key}`;
+    },
+    key: {
+      normal: 'e8fb567a2f05a53b39e088f6fe186991',
+      road: 'be4678d793744ca76bf7c5b90049fee3',
+    },
+  };
+
   code = 'e1f1eeaee1b77531fa46d5230e2dfe20';
   key = {
     web: '6c2282c244333c7994d8465fd251ab63',
@@ -52,7 +60,7 @@ export class AMapHelper {
             };
           }
           let map = new AMap.Map(id, {
-            mapStyle: this.style,
+            mapStyle: this.style.url(this.style.key.normal),
             resizeEnable: true,
             showIndoorMap: false,
             zooms: [3, 26],

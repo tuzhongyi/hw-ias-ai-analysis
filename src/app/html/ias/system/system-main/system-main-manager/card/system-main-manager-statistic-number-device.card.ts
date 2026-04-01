@@ -3,5 +3,5 @@ import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/date
 export class SystemMainManagerCardStatisticNumberDevice {
   constructor() {}
 
-  duration = DateTimeTool.all.month(new Date());
+  duration = DateTimeTool.last.month(new Date());
 }

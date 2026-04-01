@@ -5,9 +5,8 @@
   >
     <select class="noborder" [(ngModel)]="unit.value" (change)="unit.change()">
       <option [ngValue]="unit.Type.day">今日</option>
-      <option [ngValue]="unit.Type.week">本周</option>
-      <option [ngValue]="unit.Type.month">本月</option>
-      <option [ngValue]="unit.Type.year">今年</option>
+      <option [ngValue]="unit.Type.week">近一周</option>
+      <option [ngValue]="unit.Type.month">近一月</option>
     </select>
   </div>
   <div class="system-main-card-statistic-event">

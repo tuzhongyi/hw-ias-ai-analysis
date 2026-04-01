@@ -49,6 +49,7 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
       showDir: true,
       strokeWeight: 6,
       strokeColor: IASMapAMapConfig.path.color[this.index],
+      strokeOpacity: 0.6,
       lineJoin: 'round',
       lineCap: 'round',
       cursor: 'pointer',
