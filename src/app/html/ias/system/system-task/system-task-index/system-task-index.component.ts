@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalStorage } from '../../../../../common/storage/global.storage';
+import { PathTool } from '../../../../../common/tools/path-tool/path.tool';
 import { SystemPath } from '../../system.model';
 
 @Component({
@@ -17,12 +18,17 @@ export class SystemTaskIndexComponent {
     return this.global.display.task;
   }
 
+  Path = PathTool;
+
   on = {
     shop: () => {
       this.router.navigateByUrl(SystemPath.task_shop);
     },
     gps: () => {
       this.router.navigateByUrl(SystemPath.task_gps);
+    },
+    road_object: () => {
+      this.router.navigateByUrl(SystemPath.task_road_object);
     },
   };
 }

@@ -191,6 +191,12 @@ export class SystemBreadcrumbBusiness {
         return [this.home.index(), this.task.index(), this.task.shop.manager()];
       } else if (location.pathname.indexOf(SystemPath.task_gps) >= 0) {
         return [this.home.index(), this.task.index(), this.task.gps.manager()];
+      } else if (location.pathname.indexOf(SystemPath.task_road_object) >= 0) {
+        return [
+          this.home.index(),
+          this.task.index(),
+          this.task.road_object.manager(),
+        ];
       } else if (location.pathname.indexOf(SystemPath.task_index) >= 0) {
         return [this.home.index(), this.task.index()];
       } else {
@@ -222,6 +228,14 @@ export class SystemBreadcrumbBusiness {
         let item = new SystemBreadcrumbItem();
         item.text = '定制场景任务';
         item.path = SystemPath.task_shop;
+        return item;
+      },
+    },
+    road_object: {
+      manager: () => {
+        let item = new SystemBreadcrumbItem();
+        item.text = '道路固件任务';
+        item.path = SystemPath.task_road_object;
         return item;
       },
     },
@@ -322,7 +336,7 @@ export class SystemBreadcrumbBusiness {
       },
       roadobject: () => {
         let item = new SystemBreadcrumbItem();
-        item.text = '部件检索';
+        item.text = '部件扫描';
         item.path = SystemPath.event_gps_task_manager;
         return item;
       },

@@ -32,9 +32,14 @@ export class SystemTaskRouteMapAMapController {
   };
   constructor() {
     MapHelper.amap
-      .get('system-task-route-map-container', MapHelper.amap.plugins, true)
+      .get(
+        'system-task-route-map-container',
+        MapHelper.amap.plugins,
+        true,
+        { showLabel: false },
+        false
+      )
       .then((x) => {
-        x.setFeatures(['bg', 'road', 'building']);
         this.amap.set(x);
         let container: Loca.Container | undefined = undefined;
         try {

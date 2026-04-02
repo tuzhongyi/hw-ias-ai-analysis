@@ -28,6 +28,7 @@ import { SystemStatisticRoadObjectManagerComponent } from './system-statistic/sy
 import { SystemTaskComponent } from './system-task/component/system-task.component';
 import { SystemModuleGpsTaskManagerComponent } from './system-task/system-module-gps-task/system-module-gps-task-manager/system-module-gps-task-manager.component';
 import { SystemTaskIndexComponent } from './system-task/system-task-index/system-task-index.component';
+import { SystemTaskRoadObjectManagerComponent } from './system-task/system-task-road-object/system-task-road-object-manager/system-task-road-object-manager.component';
 import { SystemTaskFileManagerComponent } from './system-task/system-task-shop/system-task-file/system-task-file-manager/system-task-file-manager.component';
 import { SystemTaskManagerComponent } from './system-task/system-task-shop/system-task-manager/system-task-manager.component';
 
@@ -71,6 +72,10 @@ const routes: Routes = [
           {
             path: 'gps-task',
             component: SystemModuleGpsTaskManagerComponent,
+          },
+          {
+            path: 'road-object',
+            component: SystemTaskRoadObjectManagerComponent,
           },
         ],
       },

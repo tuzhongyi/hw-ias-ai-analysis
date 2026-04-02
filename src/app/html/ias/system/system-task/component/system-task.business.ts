@@ -19,9 +19,12 @@ export class SystemTaskBusiness {
       title = '商铺分析任务';
     } else if (location.pathname.indexOf(SystemPath.task_gps) >= 0) {
       title = '定制场景任务';
+    } else if (location.pathname.indexOf(SystemPath.task_road_object) >= 0) {
+      title = '道路固件任务';
     } else if (location.pathname.indexOf(SystemPath.task_index) >= 0) {
       title = 'AI分析任务';
     }
+
     return title;
   }
 }

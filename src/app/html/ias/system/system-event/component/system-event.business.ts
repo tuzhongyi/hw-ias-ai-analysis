@@ -27,7 +27,7 @@ export class SystemEventBusiness {
     } else if (
       location.pathname.indexOf(SystemPath.event_road_object_manager) >= 0
     ) {
-      title = '部件检测';
+      title = '部件扫描';
     } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
       title = 'AI分析事件';
     }

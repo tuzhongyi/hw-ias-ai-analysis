@@ -16,7 +16,6 @@ export class SystemModuleMobileDeviceRouteAMapController {
   private init() {
     let key = 'route_map_container';
     MapHelper.amap.get(key, [], false, { viewMode: '2D' }).then((x) => {
-      x.setFeatures(['bg', 'road', 'point']);
       this.map.set(x);
 
       let device = new SystemModuleMobileDeviceRouteAMapMarkerController(x);

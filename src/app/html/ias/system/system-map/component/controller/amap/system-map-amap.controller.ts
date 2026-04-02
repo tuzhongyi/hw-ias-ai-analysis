@@ -35,7 +35,6 @@ export class SystemMapAMapController {
         true
       )
       .then((x) => {
-        x.setFeatures(['bg', 'road', 'building']);
         this.amap.set(x);
         let container = new Loca.Container({ map: x });
         this.loca.set(container);

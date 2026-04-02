@@ -46,19 +46,13 @@ export class AMapHelper {
     plugins: string[] = [],
     loca = false,
     opts: any = {},
-    first?: () => any
+    road = true
   ): Promise<AMap.Map> {
     return new Promise<AMap.Map>((resolve) => {
       wait(() => {
         return !!document.getElementById(id);
       }).then(() => {
         this.init(plugins, loca).then((AMap) => {
-          if (first) {
-            opts = {
-              ...opts,
-              ...first(),
-            };
-          }
           let map = new AMap.Map(id, {
             mapStyle: this.style.url(this.style.key.normal),
             resizeEnable: true,
@@ -67,6 +61,18 @@ export class AMapHelper {
             zoom: 17,
             ...opts,
           });
+          if (road) {
+            map.setFeatures([
+              'bg',
+              'road',
+              'building',
+              'point:none',
+              'text:none',
+            ]);
+          } else {
+            map.setFeatures(['bg', 'road', 'building']);
+          }
+
           resolve(map);
         });
       });

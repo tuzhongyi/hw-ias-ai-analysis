@@ -78,7 +78,6 @@ export class SystemMainMapAMapController {
         viewMode: '3D',
       })
       .then((map) => {
-        map.setFeatures(['bg', 'road', 'building']);
         this.init.map(map);
         let container = new Loca.Container({ map: map });
         this.loca.set(container);

@@ -3,6 +3,7 @@ export enum SystemPath {
   task_index = 'system/task/index',
   task_shop = 'system/task/shop',
   task_gps = 'system/task/gps-task',
+  task_road_object = 'system/task/road-object',
   task_file = 'system/task/shop/file',
   module = 'system/module',
   module_shop = 'system/module/shop',

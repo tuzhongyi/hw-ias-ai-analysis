@@ -35,7 +35,7 @@ export class SystemStatisticRoadObjectAMapController {
   constructor(tool: ComponentTool, subscription: Subscription) {
     MapHelper.amap
       .get('system-statistic-road-object-map', [], true, {
-        showLabel: false, // 隐藏所有标签
+        showLabel: true, // 隐藏所有标签
         viewMode: '3D',
         // mapStyle: MapHelper.amap.style.url(MapHelper.amap.style.key.road),
         layers: [], // 彻底移除所有瓦片/格栅

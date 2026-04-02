@@ -16,14 +16,13 @@ import { RoadObjectEventRecord } from '../../../../../../common/data-core/models
 import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
 import { wait } from '../../../../../../common/tools/wait';
 import { SystemStatisticRoadObjectMapController } from './controller/system-statistic-road-object-map.controller';
-import { SystemStatisticRoadObjectMapBusiness } from './system-statistic-road-object-map.business';
 
 @Component({
   selector: 'ias-system-statistic-road-object-map',
   imports: [CommonModule],
   templateUrl: './system-statistic-road-object-map.component.html',
   styleUrl: './system-statistic-road-object-map.component.less',
-  providers: [ComponentTool, SystemStatisticRoadObjectMapBusiness],
+  providers: [ComponentTool],
 })
 export class SystemStatisticRoadObjectMapComponent
   implements OnInit, OnChanges, OnDestroy
@@ -36,10 +35,7 @@ export class SystemStatisticRoadObjectMapComponent
 
   @Output() recorddblclick = new EventEmitter<RoadObjectEventRecord>();
 
-  constructor(
-    private business: SystemStatisticRoadObjectMapBusiness,
-    tool: ComponentTool
-  ) {
+  constructor(tool: ComponentTool) {
     this.controller = new SystemStatisticRoadObjectMapController(
       tool,
       this.subscription
@@ -53,6 +49,7 @@ export class SystemStatisticRoadObjectMapComponent
   private load = {
     road: async () => {
       // let datas = await this.business.road();
+
       // let polylines = await this.controller.road.load(datas);
       // let center = await this.controller.map.focus(polylines);
 
