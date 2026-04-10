@@ -4,6 +4,7 @@ import { AbstractService } from '../../../../../cache/cache.interface';
 
 import { ServiceTool } from '../../../../../../tools/service-tool/service.tool';
 
+import { ObjectTool } from '../../../../../../tools/object-tool/object.tool';
 import { RoadPoint } from '../../../../../models/arm/geographic/road-point.model';
 import { RoadPointCapability } from '../../../../../models/capabilities/arm/geographic/road-point-capability.model';
 import { PagedList } from '../../../../../models/interface/page-list.model';
@@ -27,7 +28,8 @@ export class ArmGeographicRoadPointRequestService extends AbstractService<RoadPo
 
   async create(data: RoadPoint) {
     let url = ArmGeographicUrl.road.point.basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, RoadPoint);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<RoadPoint>, any>(url, plain)
       .then((x) => {
@@ -37,7 +39,8 @@ export class ArmGeographicRoadPointRequestService extends AbstractService<RoadPo
 
   async update(data: RoadPoint) {
     let url = ArmGeographicUrl.road.point.item(data.Id);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, RoadPoint);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<RoadPoint>>(url, plain)
       .then((x) => {

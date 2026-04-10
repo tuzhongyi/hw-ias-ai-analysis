@@ -1,8 +1,148 @@
 <div class="system-task-road-object-manager">
-  <div class="system-task-road-object-filter">
-    <ias-system-task-road-object-operation></ias-system-task-road-object-operation>
+  <div class="system-task-road-object-manager-head">
+    <ias-content-header [title]="'道路物件任务'">
+      <div class="button-group-border blue">
+        <div
+          class="button"
+          *ngFor="let item of types"
+          [ngClass]="{
+            selected: type == item.Value
+          }"
+          (click)="on.type(item.Value)"
+        >
+          {{ item.Name }}
+        </div>
+      </div>
+    </ias-content-header>
   </div>
-  <div class="system-task-road-object-map">
-    <ias-system-task-road-object-map></ias-system-task-road-object-map>
+  <div class="system-task-road-object-manager-body">
+    <div
+      class="system-task-road-object-filter"
+      [class.show]="type != undefined"
+    >
+      <ias-system-task-road-object-filter
+        [type]="type"
+        [(args)]="args"
+        (search)="on.search()"
+      ></ias-system-task-road-object-filter>
+    </div>
+    <div class="system-task-road-object-map">
+      <ias-system-task-road-object-map
+        [objects]="road.object.datas"
+        [objectable]="road.object.enabled"
+        [(object_selected)]="road.object.selected"
+        [(object_loaded)]="road.object.loaded"
+        [points]="road.point.datas"
+        [pointable]="road.point.enabled"
+        [(point_selected)]="road.point.selected"
+        [(point_loaded)]="road.point.loaded"
+        [sections]="road.section.datas"
+        [sectionable]="road.section.enabled"
+        [(section_selected)]="road.section.selected"
+        [(section_loaded)]="road.section.loaded"
+        [(focus)]="focus"
+      ></ias-system-task-road-object-map>
+    </div>
+    <div class="system-task-road-object-list" [class.show]="type != undefined">
+      <ias-system-task-road-object-list-container
+        [type]="type"
+        [objects]="road.object.datas"
+        [points]="road.point.datas"
+        [sections]="road.section.datas"
+        (close)="on.type()"
+        (details)="window.details.open($event)"
+      ></ias-system-task-road-object-list-container>
+    </div>
   </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="window.confirm.on.ok()"
+    (cancel)="window.confirm.on.cancel()"
+  >
+  </confirm-window>
+
+  <ias-window
+    [Model]="window.file"
+    *ngIf="window.file.show"
+    [style]="window.file.style"
+    [title]="window.file.title"
+  >
+    <ias-system-module-file-manager
+      [iswindow]="true"
+      [videoable]="false"
+      (video)="window.video.open($event)"
+      [(folder)]="window.file.folder"
+      [next]="window.file.next"
+    ></ias-system-module-file-manager>
+  </ias-window>
+  <ias-window
+    [Model]="window.video"
+    *ngIf="window.video.show"
+    [style]="window.video.style"
+    [title]="window.video.title"
+  >
+    <ias-system-module-road-object-video-manager
+      [data]="window.video.data"
+      [objects]="road.object.datas"
+      (pickup)="file.on.pickup($event)"
+      (details)="window.details.open($event)"
+      (close)="window.video.show = false"
+      (next)="window.file.on.next($event)"
+    ></ias-system-module-road-object-video-manager>
+  </ias-window>
+  <ias-window
+    [Model]="window.details.object"
+    *ngIf="window.details.object.show"
+    [style]="window.details.object.style"
+    [title]="window.details.object.title"
+  >
+    <ias-system-module-road-object-details-manager
+      [data]="window.details.object.data"
+      [pickup]="window.details.object.pickup"
+      (picture)="window.details.object.picture($event)"
+      (ok)="load(Type.object)"
+      (close)="window.details.object.show = false"
+    ></ias-system-module-road-object-details-manager>
+  </ias-window>
+  <ias-window
+    [Model]="window.details.point"
+    *ngIf="window.details.point.show"
+    [style]="window.details.point.style"
+    [title]="window.details.point.title"
+  >
+    <ias-system-module-road-point-details-manager
+      [data]="window.details.point.data"
+      (ok)="window.details.point.on.ok($event)"
+      (cancel)="window.details.point.on.cancel()"
+    ></ias-system-module-road-point-details-manager>
+  </ias-window>
+  <ias-window
+    [Model]="window.details.section"
+    *ngIf="window.details.section.show"
+    [style]="window.details.section.style"
+    [title]="window.details.section.title"
+  >
+    <ias-system-module-road-section-details-manager
+      [data]="window.details.section.data"
+      (ok)="window.details.section.on.ok($event)"
+      (cancel)="window.details.section.on.cancel()"
+    ></ias-system-module-road-section-details-manager>
+  </ias-window>
+  <ias-window
+    *ngIf="window.picture.show"
+    [Model]="window.picture"
+    [style]="window.picture.style"
+    [title]="window.picture.title"
+    [mask]="!window.opened"
+  >
+    <ias-picture-list
+      [id]="window.picture.id"
+      [zoom]="false"
+      [page]="window.picture.page"
+      (pageChange)="window.picture.change($event)"
+    ></ias-picture-list>
+  </ias-window>
 </div>

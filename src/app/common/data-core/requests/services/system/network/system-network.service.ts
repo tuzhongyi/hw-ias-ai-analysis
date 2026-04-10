@@ -1,4 +1,5 @@
 import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { NetworkInterface } from '../../../../models/arm/network-interface.model';
 import { SSH } from '../../../../models/arm/ssh.model';
 import { NetworkCapability } from '../../../../models/capabilities/arm/network-capability.model';
@@ -64,8 +65,9 @@ class SystemNetworkSSHRequestService {
     return plainToInstance(SSH, response.Data);
   }
   async update(data: SSH) {
-    let plain = instanceToPlain(data);
     let url = ArmSystemUrl.network.ssh();
+    let _data = ObjectTool.serialize(data, SSH);
+    let plain = instanceToPlain(_data);
     let response = await this.http.put<any, HowellResponse<SSH>>(url, plain);
     return plainToInstance(SSH, response.Data);
   }

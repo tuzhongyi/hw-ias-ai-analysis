@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
+import { IconTool } from '../../../../../../common/tools/icon-tool/icon.tool';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { ObjectTool } from '../../../../../../common/tools/object-tool/object.tool';
 
@@ -28,10 +29,7 @@ export class SystemStatisticRoadObjectTimelineItemComponent implements OnInit {
     icon: '',
     name: '',
     load: (data: RoadObjectEventRecord) => {
-      this.type.icon =
-        ObjectTool.model.RoadObjectEventRecord.get.icon.classname(
-          data.RoadObjectType
-        );
+      this.type.icon = IconTool.RoadObjectType(data.RoadObjectType);
       this.language.road.object.ObjectTypes(data.RoadObjectType).then((x) => {
         this.type.name = x;
       });

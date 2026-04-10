@@ -1,4 +1,5 @@
 import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { Authentication } from '../../../../models/arm/authentication.model';
 import { SecurityCapability } from '../../../../models/capabilities/arm/security-capability.model';
 import { HowellResponse } from '../../../../models/response';
@@ -23,8 +24,9 @@ export class SystemSecurityRequestService {
       return this.http.get<HowellResponse<Authentication>>(url);
     },
     update: async (data: Authentication) => {
-      let plain = instanceToPlain(data);
       let url = ArmSystemUrl.security.authentication();
+      let _data = ObjectTool.serialize(data, Authentication);
+      let plain = instanceToPlain(_data);
       let response = await this.http.put<any, HowellResponse<Authentication>>(
         url,
         plain

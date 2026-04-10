@@ -13,6 +13,7 @@ import { RoadObjectEventType } from '../../../../../../../common/data-core/enums
 import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { Manager } from '../../../../../../../common/data-core/requests/managers/manager';
+import { IconTool } from '../../../../../../../common/tools/icon-tool/icon.tool';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
 import { SystemStatisticRoadObjectMapStateItemComponent } from '../system-statistic-road-object-map-state-item/system-statistic-road-object-map-state-item.component';
 import { SystemStatisticRoadObjectMapStateItem } from '../system-statistic-road-object-map-state-item/system-statistic-road-object-map-state-item.model';
@@ -203,8 +204,7 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
         item.color =
           ObjectTool.model.RoadObjectEventRecord.get.color.object(type);
 
-        item.icon =
-          ObjectTool.model.RoadObjectEventRecord.get.icon.classname(type);
+        item.icon = IconTool.RoadObjectType(type);
 
         return item;
       },

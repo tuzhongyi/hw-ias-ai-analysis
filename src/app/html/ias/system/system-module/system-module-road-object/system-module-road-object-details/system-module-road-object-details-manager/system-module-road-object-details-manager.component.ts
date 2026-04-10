@@ -294,7 +294,8 @@ export class SystemModuleRoadObjectDetailsManagerComponent
 
   schedule = {
     data: new WeekTimeSegment(),
-    enable: () => {
+    enable: (enabled: boolean) => {
+      this.model.BlockScheduleEnabled = enabled;
       if (this.model.BlockScheduleEnabled) {
         if (!this.model.BlockSchedule) {
           this.model.BlockSchedule = new WeekTimeSegment();

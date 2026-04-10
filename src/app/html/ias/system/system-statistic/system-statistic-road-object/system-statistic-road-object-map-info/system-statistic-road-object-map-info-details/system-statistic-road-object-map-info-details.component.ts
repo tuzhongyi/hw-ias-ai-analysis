@@ -5,6 +5,7 @@ import { EventResourceContent } from '../../../../../../../common/data-core/mode
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { MediumRequestService } from '../../../../../../../common/data-core/requests/services/medium/medium.service';
+import { IconTool } from '../../../../../../../common/tools/icon-tool/icon.tool';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
 
@@ -60,9 +61,7 @@ export class SystemStatisticRoadObjectMapInfoDetailsComponent
 
   private load = {
     icon: async (data: RoadObjectEventRecord) => {
-      this.icon = ObjectTool.model.RoadObjectEventRecord.get.icon.classname(
-        data.RoadObjectType
-      );
+      this.icon = IconTool.RoadObjectType(data.RoadObjectType);
     },
   };
 

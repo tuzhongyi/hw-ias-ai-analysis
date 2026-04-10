@@ -11,7 +11,7 @@ export class SystemModuleRoadPointManagerDetailsWindow extends WindowViewModel {
   style = {
     ...SizeTool.window.video.path,
   };
-  title = '路段信息';
+  title = '道路屏蔽点信息';
 
   data?: RoadPoint;
 

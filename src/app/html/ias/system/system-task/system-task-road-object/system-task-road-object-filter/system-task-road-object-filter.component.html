@@ -1,0 +1,114 @@
+<div class="system-task-road-object-filter panel-map root-router">
+  <div class="forms" *ngIf="type == Type.point">
+    <div class="form-item">
+      <div class="form-item-text" text-space-between>屏蔽点类型</div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="args.point.type" [nullable]="true">
+          <select [(ngModel)]="args.point.type">
+            <option
+              [ngValue]="item.Value"
+              *ngFor="let item of source.point.types"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between>屏蔽点名称</div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="args.point.name" />
+      </div>
+    </div>
+    <div class="form-item">
+      <button class="button-clip-gradient" (click)="on.search()">查找</button>
+    </div>
+  </div>
+  <div class="forms" *ngIf="type == Type.section">
+    <div class="form-item">
+      <div class="form-item-text" text-space-between>路段类型</div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="args.section.type" [nullable]="true">
+          <select [(ngModel)]="args.section.type">
+            <option
+              [ngValue]="item.Value"
+              *ngFor="let item of source.section.types"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between>路段名称</div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="args.section.name" />
+      </div>
+    </div>
+    <div class="form-item">
+      <button class="button-clip-gradient" (click)="on.search()">查找</button>
+    </div>
+  </div>
+  <div class="forms" *ngIf="type == Type.object">
+    <div class="form-item">
+      <div class="form-item-text" text-space-between>物件类型</div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="args.object.type" [nullable]="true">
+          <select [(ngModel)]="args.object.type">
+            <option
+              [ngValue]="item.Value"
+              *ngFor="let item of source.object.types"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between>物件状态</div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="args.object.state" [nullable]="true">
+          <select [(ngModel)]="args.object.state">
+            <option
+              [ngValue]="item.Value"
+              *ngFor="let item of source.object.states"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between>物件名称</div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="args.object.name" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between>物件地址</div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="args.object.address" />
+      </div>
+    </div>
+    <div class="form-item">
+      <button class="button-clip-gradient" (click)="on.search()">查找</button>
+    </div>
+  </div>
+
+  <div class="forms">
+    <div class="form-item button-group" *ngIf="type == Type.object">
+      <button class="button-clip-gradient">视频添加</button>
+      <button class="button-clip-gradient">手动添加</button>
+    </div>
+    <div class="form-item button-group" *ngIf="type == Type.point">
+      <button class="button-clip-gradient">添加</button>
+    </div>
+    <div class="form-item button-group" *ngIf="type == Type.section">
+      <button class="button-clip-gradient">添加</button>
+    </div>
+  </div>
+</div>

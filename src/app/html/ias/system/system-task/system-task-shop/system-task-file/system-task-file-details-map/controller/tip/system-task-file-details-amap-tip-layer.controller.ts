@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { AMapInputTipItem } from '../../../../../../../../../common/helper/map/amap.model';
 import { IASMapAMapInfoController } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
@@ -9,7 +10,7 @@ import {
 export class SystemTaskFileDetailsAMapTipLayerController {
   event = new SystemTaskFileDetailsAMapTipEvent();
 
-  constructor(map: AMap.Map) {
+  constructor(map: AMap.Map, private subscription: Subscription) {
     this.zoom = map.getZoom();
     this.layer = this.init(map);
     this.info = new IASMapAMapInfoController(map);
@@ -30,7 +31,7 @@ export class SystemTaskFileDetailsAMapTipLayerController {
   }
 
   private regist(point: SystemTaskFileDetailsAMapSearchPointController) {
-    point.event.mouseover.subscribe((data) => {
+    let sub_mouseover = point.event.mouseover.subscribe((data) => {
       let info: IIASMapAMapInfo = {
         Name: data.name,
         Location: data.location,
@@ -39,14 +40,17 @@ export class SystemTaskFileDetailsAMapTipLayerController {
       this.info.add(info, this.zoom, [0, -40]);
       this.event.mouseover.emit(data);
     });
-    point.event.mouseout.subscribe((data) => {
+    this.subscription.add(sub_mouseover);
+    let sub_mouseout = point.event.mouseout.subscribe((data) => {
       this.info.remove();
       this.event.mouseout.emit(data);
     });
-    point.event.click.subscribe((data) => {
+    this.subscription.add(sub_mouseout);
+    let sub_click = point.event.click.subscribe((data) => {
       this.select(data);
       this.event.click.emit(data);
     });
+    this.subscription.add(sub_click);
   }
 
   async load(datas: AMapInputTipItem[]) {

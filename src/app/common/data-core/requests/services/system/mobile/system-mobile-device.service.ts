@@ -1,5 +1,6 @@
 import { instanceToPlain } from 'class-transformer';
 import { UploadControlFile } from '../../../../../components/upload-control/upload-control.model';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { EventUploadContent } from '../../../../models/arm/event/event-upload-content.model';
@@ -35,7 +36,8 @@ export class SystemMobileDeviceRequestService extends AbstractService<MobileDevi
 
   async create(data: MobileDevice) {
     let url = ArmSystemUrl.mobile.device.basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, MobileDevice);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<MobileDevice>, any>(url, plain)
       .then((x) => {
@@ -57,7 +59,8 @@ export class SystemMobileDeviceRequestService extends AbstractService<MobileDevi
 
   async update(data: MobileDevice) {
     let url = ArmSystemUrl.mobile.device.item(data.Id);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, MobileDevice);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<MobileDevice>>(url, plain)
       .then((x) => {

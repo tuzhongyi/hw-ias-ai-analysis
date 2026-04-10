@@ -74,13 +74,23 @@
       >
         <div class="panel-head">
           <div class="panel-title">工作表</div>
-          <div>
+          <div
+            class="system-module-road-object-details-info-segment-enabled button-group"
+          >
+            <label for="road_object_details_all_day">
+              全天<input
+                type="radio"
+                id="road_object_details_all_day"
+                [checked]="!model.BlockScheduleEnabled"
+                (change)="schedule.enable(false)"
+              />
+            </label>
             <label for="road_object_details_segment"
-              >启用<input
-                type="checkbox"
-                id="road_section_details_segment"
-                [(ngModel)]="model.BlockScheduleEnabled"
-                (change)="schedule.enable()"
+              >分时段<input
+                type="radio"
+                id="road_object_details_segment"
+                [checked]="model.BlockScheduleEnabled"
+                (change)="schedule.enable(true)"
               />
             </label>
           </div>

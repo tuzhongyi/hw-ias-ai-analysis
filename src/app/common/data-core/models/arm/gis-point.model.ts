@@ -1,6 +1,7 @@
 import { Transform } from 'class-transformer';
 import { GeoTool } from '../../../tools/geo-tool/geo.tool';
 import { GisType } from '../../enums/gis-type.enum';
+import { GPSHighPrecision } from '../../enums/gps/gps-high-precision.enum';
 import { IGisPoint } from '../interface/model.interface';
 import { Transformer } from '../transformer';
 
@@ -22,6 +23,8 @@ export class GisPoint implements IGisPoint {
   Speed?: number;
   /**	Double	偏北角方向，0-360	O */
   Course?: number;
+
+  HighPrecision?: GPSHighPrecision;
 
   static create(
     longitude: number,

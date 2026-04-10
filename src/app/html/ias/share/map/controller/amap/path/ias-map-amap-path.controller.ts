@@ -4,6 +4,7 @@ import {
   GeoPoint,
 } from '../../../../../../../common/tools/geo-tool/geo.model';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
+import { IASMapAMapConfig } from '../ias-map-amap.config';
 
 export class IASMapAMapPathController {
   mouseover = new EventEmitter<{
@@ -18,7 +19,7 @@ export class IASMapAMapPathController {
     percent: number;
   }>();
 
-  constructor(private map: AMap.Map) {}
+  constructor(private map: AMap.Map, private index = 0) {}
 
   private polyline?: AMap.Polyline;
   private points: [number, number][] = [];
@@ -79,7 +80,8 @@ export class IASMapAMapPathController {
       path: [...positions],
       showDir: true,
       strokeWeight: 6,
-      strokeColor: '#32b33e',
+      strokeColor: IASMapAMapConfig.path.color[this.index], //'#32b33e',
+      strokeOpacity: 0.6,
       lineJoin: 'round',
       lineCap: 'round',
       cursor: 'pointer',

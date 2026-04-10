@@ -26,7 +26,7 @@ import { IIASMapArgs, MapMarkerStyle } from '../../map/ias-map.model';
 })
 export class VideoPathComponent implements OnChanges {
   @Input() src?: string;
-  @Input() path: FileGpsItem[] = [];
+  @Input() path: FileGpsItem[][] = [];
   @Input() args: IIASMapArgs = new MapMarkerStyle();
   @Input() loading = false;
   @Input() points: GisPoint[] = [];
@@ -73,7 +73,7 @@ export class VideoPathComponent implements OnChanges {
       time: {
         update: (e: Event) => {
           let target = e.currentTarget as HTMLVideoElement;
-          this.video.event.time.emit(target.currentTime * 1000);
+          this.video.event.time.emit(target.currentTime);
         },
       },
       seek: (data: {

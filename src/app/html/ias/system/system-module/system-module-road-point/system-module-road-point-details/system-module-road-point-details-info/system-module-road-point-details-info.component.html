@@ -16,7 +16,7 @@
       </div>
       <div class="form-item-value fill">
         <hw-select [(selected)]="data.PointType" [nullable]="false">
-          <select [(ngModel)]="data.PointType" (change)="on.change()">
+          <select [(ngModel)]="data.PointType" (change)="on.type()">
             <option [ngValue]="item.Id" *ngFor="let item of source.type.point">
               {{ item.Name }}
             </option>
@@ -83,7 +83,7 @@
       </div>
     </div>
   </div>
-  <div class="form-item full">
+  <div class="form-item full" *ngIf="data.PointType == 1">
     <div class="form-item-text">
       <div class="name" text-space-between>事件类型</div>
     </div>
@@ -96,9 +96,9 @@
       ></howell-select-multiple>
     </div>
   </div>
-  <div class="form-item full">
+  <div class="form-item full" *ngIf="data.PointType == 2">
     <div class="form-item-text">
-      <div class="name" text-space-between>道路固件类型</div>
+      <div class="name" text-space-between>道路物件类型</div>
     </div>
     <div class="form-item-value fill">
       <howell-select-multiple

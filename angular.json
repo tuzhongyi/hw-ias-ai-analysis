@@ -40,7 +40,12 @@
             "styles": [
               "src/styles.less"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/jquery/jquery-page/jquery.page.js",
+              "src/assets/js/jquery/bootstrap/bootstrap-datetimepicker.js",
+              "src/assets/js/jquery/jquery-tablesorter/jquery.tablesorter.js"
+            ]
           },
           "configurations": {
             "production": {

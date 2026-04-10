@@ -11,7 +11,7 @@ export class SystemModuleRoadSectionManagerDetailsWindow extends WindowViewModel
   style = {
     ...SizeTool.window.video.path,
   };
-  title = '路段信息';
+  title = '屏蔽路段信息';
 
   data?: RoadSection;
 

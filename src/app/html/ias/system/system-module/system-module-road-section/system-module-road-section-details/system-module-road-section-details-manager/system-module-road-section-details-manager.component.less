@@ -20,7 +20,7 @@
     grid-gap: @gap;
 
     grid-template-areas: "map info""map segment";
-    grid-template-rows: calc((100% - @gap) * 0.45) calc((100% - @gap) * 0.55);
+    grid-template-rows: calc((100% - @gap) * 0.5) calc((100% - @gap) * 0.5);
     grid-template-columns: calc((100% - @gap) * 0.6) calc((100% - @gap) * 0.4);
   }
 
@@ -46,6 +46,12 @@
 
     width: 100%;
     height: 100%;
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     .panel-body {
       position: relative;

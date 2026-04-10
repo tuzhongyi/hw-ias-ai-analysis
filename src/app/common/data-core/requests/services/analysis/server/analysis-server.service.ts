@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { AnalysisServerCapability } from '../../../../models/arm/analysis/analysis-server-capability.model';
@@ -33,7 +34,8 @@ export class ArmAnalysisServerRequestService {
   }
   async create(data: AnalysisServer) {
     let url = ArmAnalysisUrl.server.basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, AnalysisServer);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<AnalysisServer>, any>(url, plain)
       .then((x) => {
@@ -55,7 +57,8 @@ export class ArmAnalysisServerRequestService {
   }
   async update(data: AnalysisServer) {
     let url = ArmAnalysisUrl.server.item(data.Id);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, AnalysisServer);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<AnalysisServer>>(url, plain)
       .then((x) => {
@@ -102,7 +105,8 @@ class ArmAnalysisServerTaskRequestService extends AbstractService<AnalysisTask> 
 
   async create(data: AnalysisTask) {
     let url = ArmAnalysisUrl.server.task.basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, AnalysisTask);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<AnalysisTask>, any>(url, plain)
       .then((x) => {

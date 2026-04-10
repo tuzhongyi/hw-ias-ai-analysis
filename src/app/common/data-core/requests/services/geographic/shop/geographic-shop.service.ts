@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { ShopTaskCompareResult } from '../../../../models/arm/analysis/shop-task-compare-result.model';
@@ -41,7 +42,8 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
 
   async create(data: ShopRegistration) {
     let url = ArmGeographicUrl.shop.basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, ShopRegistration);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<ShopRegistration>, any>(url, plain)
       .then((x) => {
@@ -51,7 +53,8 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
 
   async update(data: ShopRegistration) {
     let url = ArmGeographicUrl.shop.item(data.Id);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, ShopRegistration);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<ShopRegistration>>(url, plain)
       .then((x) => {

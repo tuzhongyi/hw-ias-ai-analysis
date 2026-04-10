@@ -23,7 +23,7 @@ export class SystemTaskVideoComponent implements OnChanges {
 
   src?: string;
   map = {
-    items: [] as FileGpsItem[],
+    items: [] as FileGpsItem[][],
     loading: false,
     points: [] as GisPoint[],
     rectified: {

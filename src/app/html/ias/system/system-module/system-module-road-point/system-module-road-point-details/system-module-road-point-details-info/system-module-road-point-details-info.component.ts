@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChange,
   SimpleChanges,
@@ -36,7 +37,9 @@ import { SystemModuleRoadPointDetailsInfoSource } from './system-module-road-poi
   styleUrl: './system-module-road-point-details-info.component.less',
   providers: [SystemModuleRoadPointDetailsInfoSource],
 })
-export class SystemModuleRoadPointDetailsInfoComponent implements OnChanges {
+export class SystemModuleRoadPointDetailsInfoComponent
+  implements OnChanges, OnInit
+{
   @Input() operable = true;
   @Input() data = new RoadPoint();
   @Output() dataChange = new EventEmitter<RoadPoint>();
@@ -47,6 +50,7 @@ export class SystemModuleRoadPointDetailsInfoComponent implements OnChanges {
     public source: SystemModuleRoadPointDetailsInfoSource,
     private toastr: ToastrService
   ) {}
+
   GisType = GisType;
 
   private change = {
@@ -66,8 +70,26 @@ export class SystemModuleRoadPointDetailsInfoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.change.wgs84(changes['wgs84']);
   }
+  ngOnInit(): void {
+    this.selected.event.load(this.data.EventTypes);
+    this.selected.roadobject.load(this.data.RoadObjectTypes);
+  }
 
   on = {
+    type: () => {
+      switch (this.data.PointType) {
+        case 1:
+          this.data.RoadObjectTypes = [];
+          break;
+        case 2:
+          this.data.EventTypes = [];
+          break;
+
+        default:
+          break;
+      }
+      this.on.change();
+    },
     change: () => {
       if (!this.data) {
         this.data = new RoadPoint();
@@ -159,7 +181,7 @@ export class SystemModuleRoadPointDetailsInfoComponent implements OnChanges {
             this.selected.event.values = [];
             for (let i = 0; i < types.length; i++) {
               const type = types[i];
-              let item = this.selected.event.values.find((x) => x.Id == type);
+              let item = this.source.type.event.find((x) => x.Id == type);
               if (item) {
                 this.selected.event.values.push(item);
               }
@@ -180,9 +202,7 @@ export class SystemModuleRoadPointDetailsInfoComponent implements OnChanges {
             this.selected.roadobject.values = [];
             for (let i = 0; i < types.length; i++) {
               const type = types[i];
-              let item = this.selected.roadobject.values.find(
-                (x) => x.Id == type
-              );
+              let item = this.source.type.roadobject.find((x) => x.Id == type);
               if (item) {
                 this.selected.roadobject.values.push(item);
               }

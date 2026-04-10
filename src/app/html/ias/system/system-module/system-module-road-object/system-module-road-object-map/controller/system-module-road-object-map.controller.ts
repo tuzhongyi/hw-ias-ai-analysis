@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
+import { IASMapAMapConfig } from '../../../../../share/map/controller/amap/ias-map-amap.config';
 import { SystemModuleRoadObjectAMapController } from './amap/system-module-road-object-amap.controller';
 
 export class SystemModuleRoadObjectMapController {
@@ -47,8 +48,22 @@ export class SystemModuleRoadObjectMapController {
       marker.select(data);
     },
     over: async (data: RoadObject) => {
-      let marker = await this.amap.roadobject.marker;
-      marker.mouseover(data);
+      let zoom = IASMapAMapConfig.icon.zooms[0];
+
+      let map = await this.amap.map;
+      let current = map.getZoom();
+      if (current >= zoom) {
+        let marker = await this.amap.roadobject.marker;
+        marker.mouseover(data);
+      } else {
+        let point = await this.amap.roadobject.point;
+        let gcj02 = data.Location.GCJ02;
+        let position = [gcj02.Longitude, gcj02.Latitude] as [number, number];
+        let pixel = map.lngLatToContainer(position);
+        if (pixel) {
+          point.moving([pixel.x, pixel.y]);
+        }
+      }
     },
     out: async (data: RoadObject) => {
       let marker = await this.amap.roadobject.marker;

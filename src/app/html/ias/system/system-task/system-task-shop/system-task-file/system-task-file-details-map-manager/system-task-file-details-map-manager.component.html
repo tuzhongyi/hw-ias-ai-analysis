@@ -19,9 +19,24 @@
     (current)="on.current($event)"
   ></ias-system-task-file-details-map>
   <div class="system-task-file-details-map-manager-speed" *ngIf="speedable">
-    <ias-system-task-file-details-map-panel-speed
-      [speed]="speed"
-    ></ias-system-task-file-details-map-panel-speed>
+    <ias-system-task-file-details-map-panel-speed [speed]="speed">
+      <ng-container *ngIf="current">
+        <div
+          class="precision"
+          *ngIf="current.HighPrecision"
+          [style.color]="colors[1]"
+        >
+          RTK
+        </div>
+        <div
+          class="precision"
+          *ngIf="!current.HighPrecision"
+          [style.color]="colors[0]"
+        >
+          SPS
+        </div>
+      </ng-container>
+    </ias-system-task-file-details-map-panel-speed>
   </div>
   <div
     class="system-task-file-details-map-manager-road panel-map"

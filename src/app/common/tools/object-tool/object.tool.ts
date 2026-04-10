@@ -105,4 +105,22 @@ export class ObjectTool {
 
     return clone as T;
   }
+
+  static serialize<T>(source: Record<string, any>, clazz: new () => T): T {
+    // 1. 创建 Class 实例（保留原始类型）
+    const instance = new clazz();
+
+    // 2. 安全获取 Class 自身的所有属性名
+    const classKeys = Object.keys(instance as object);
+
+    // 3. 只赋值 Class 中存在的字段
+    for (const key of classKeys) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        (instance as Record<string, any>)[key] = source[key];
+      }
+    }
+
+    // ✅ 返回的是 真正的 Class 实例，不是普通 object
+    return instance;
+  }
 }

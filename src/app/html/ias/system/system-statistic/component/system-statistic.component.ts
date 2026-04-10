@@ -20,7 +20,9 @@ export class SystemStatisticComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  head = true;
+  get head() {
+    return this.business.headable;
+  }
   private subscription = new Subscription();
 
   ngOnInit(): void {
@@ -32,10 +34,6 @@ export class SystemStatisticComponent implements OnInit, OnDestroy {
   }
 
   private regist() {
-    let sub1 = this.business.headable.subscribe((x) => {
-      this.head = x;
-    });
-    this.subscription.add(sub1);
     let sub2 = (
       this.router.events.pipe(
         filter((event) => event instanceof NavigationEnd)

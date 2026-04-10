@@ -17,6 +17,7 @@ import { RoadObject } from '../../../../../../../common/data-core/models/arm/geo
 import { IMapMarkerPath } from '../../../../../../../common/tools/path-tool/path-map/marker/map-marker.interface';
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
+import { IASMapAMapConfig } from '../../../../../share/map/controller/amap/ias-map-amap.config';
 import { MapMarker } from '../../../../../share/map/ias-map.model';
 import { PictureComponent } from '../../../../../share/picture/component/picture.component';
 import { PicturePolygonMultipleComponent } from '../../../../../share/picture/picture-polygon-multiple/picture-polygon-multiple.component';
@@ -48,6 +49,8 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
   >();
 
   constructor(private business: SystemEventRoadObjectDetailsManagerBusiness) {}
+
+  Colors = IASMapAMapConfig.path.color;
 
   ngOnInit(): void {
     console.log(this.data);

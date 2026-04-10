@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { ServiceTool } from '../../../../../tools/service-tool/service.tool';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { AnalysisGpsTask } from '../../../../models/arm/analysis/llm/analysis-gps-task.model';
@@ -17,7 +18,8 @@ export class ArmAnalysisLLMGpsTaskRequestService extends AbstractService<Analysi
 
   create(data: AnalysisGpsTask): Promise<AnalysisGpsTask> {
     let url = ArmAnalysisUrl.llm.gps().task().basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, AnalysisGpsTask);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<AnalysisGpsTask>, any>(url, plain)
       .then((x) => {
@@ -27,7 +29,8 @@ export class ArmAnalysisLLMGpsTaskRequestService extends AbstractService<Analysi
 
   update(data: AnalysisGpsTask): Promise<AnalysisGpsTask> {
     let url = ArmAnalysisUrl.llm.gps().task().item(data.Id);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, AnalysisGpsTask);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<AnalysisGpsTask>>(url, plain)
       .then((x) => {

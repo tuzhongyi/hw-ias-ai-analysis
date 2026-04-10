@@ -1,0 +1,64 @@
+<ias-system-main-card-container [title]="title">
+  <div
+    ngProjectAs="system-main-card-container-operation"
+    class="system-main-card-container-operation"
+  >
+    <button (click)="on.close()"><i class="howell-icon-Close"></i></button>
+  </div>
+  <div class="system-task-road-object-list-container root-router">
+    <div class="system-task-road-object-list-container-body">
+      <ng-container *ngIf="type == Type.object">
+        <div
+          class="system-task-road-object-list-item"
+          *ngFor="let item of data.object"
+          [style.height]="'calc(100% / ' + page.PageSize + ')'"
+        >
+          <ias-system-task-road-object-list-item-object
+            [data]="item"
+            (position)="on.position($event)"
+            (details)="on.details($event)"
+            (delete)="on.delete($event)"
+          ></ias-system-task-road-object-list-item-object>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="type == Type.point">
+        <div
+          class="system-task-road-object-list-item"
+          *ngFor="let item of data.point"
+          [style.height]="'calc(100% / ' + page.PageSize + ')'"
+        >
+          <ias-system-task-road-object-list-item-point
+            [data]="item"
+            (position)="on.position($event)"
+            (details)="on.details($event)"
+            (delete)="on.delete($event)"
+          ></ias-system-task-road-object-list-item-point>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="type == Type.section">
+        <div
+          class="system-task-road-object-list-item"
+          *ngFor="let item of data.section"
+          [style.height]="'calc(100% / ' + page.PageSize + ')'"
+        >
+          <ias-system-task-road-object-list-item-section
+            [data]="item"
+            (position)="on.position($event)"
+            (details)="on.details($event)"
+            (delete)="on.delete($event)"
+          ></ias-system-task-road-object-list-item-section>
+        </div>
+      </ng-container>
+    </div>
+    <div class="system-task-road-object-list-container-foot">
+      <paginator
+        [page]="page"
+        [jump]="false"
+        [total]="false"
+        [gapable]="page.PageCount > 6"
+        (change)="on.page($event)"
+      >
+      </paginator>
+    </div>
+  </div>
+</ias-system-main-card-container>

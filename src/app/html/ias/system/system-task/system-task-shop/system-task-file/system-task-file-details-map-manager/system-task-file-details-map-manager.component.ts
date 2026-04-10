@@ -4,6 +4,7 @@ import { AnalysisTask } from '../../../../../../../common/data-core/models/arm/a
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../../../../common/data-core/models/arm/file/file-info.model';
 import { AMapInputTipItem } from '../../../../../../../common/helper/map/amap.model';
+import { IASMapAMapConfig } from '../../../../../share/map/controller/amap/ias-map-amap.config';
 import { SystemMapSearchComponent } from '../../../../system-map/system-map-search/system-map-search.component';
 import { SystemTaskFileDetailsMapPanelPositionComponent } from '../system-task-file-details-map-panel/system-task-file-details-map-panel-position/system-task-file-details-map-panel-position.component';
 import { SystemTaskFileDetailsMapPanelSearchResultListComponent } from '../system-task-file-details-map-panel/system-task-file-details-map-panel-search-result-list/system-task-file-details-map-panel-search-result-list.component';
@@ -49,7 +50,9 @@ export class SystemTaskFileDetailsMapManagerComponent {
   @Input() speedable = true;
 
   @Output('current') _current = new EventEmitter<FileGpsItem>();
+  constructor() {}
 
+  colors = IASMapAMapConfig.path.color;
   speed = 0;
   rectified = false;
   position = {
@@ -92,7 +95,7 @@ export class SystemTaskFileDetailsMapManagerComponent {
     }) => {
       this.trigger.emit(data);
     },
-    loaded: (datas: FileGpsItem[]) => {
+    loaded: (datas: FileGpsItem[][]) => {
       this.loaded.emit();
     },
     error: (e: Error) => {
@@ -101,6 +104,7 @@ export class SystemTaskFileDetailsMapManagerComponent {
 
     current: (item: FileGpsItem) => {
       this.current = item;
+      this.speed = item.Speed ?? 0;
       this._current.emit(item);
     },
   };

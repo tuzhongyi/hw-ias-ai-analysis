@@ -1,4 +1,5 @@
 import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { InputProxyChannel } from '../../../../models/arm/input-proxy-channel.model';
 import { VideoSourceDescriptor } from '../../../../models/arm/video-source-descriptor.model';
 import { InputProxyCapability } from '../../../../models/capabilities/arm/input-proxy-capability.model';
@@ -43,8 +44,10 @@ class SystemInputProxyChannelRequestService {
     return plainToInstance(InputProxyChannel, response.Data);
   }
   async create(data: InputProxyChannel) {
-    let plain = instanceToPlain(data);
     let url = ArmSystemUrl.input.proxy.channel.basic();
+    let _data = ObjectTool.serialize(data, InputProxyChannel);
+    let plain = instanceToPlain(_data);
+
     let response = await this.http.post<HowellResponse<InputProxyChannel>, any>(
       url,
       plain
@@ -60,8 +63,9 @@ class SystemInputProxyChannelRequestService {
     return plainToInstance(InputProxyChannel, response.Data);
   }
   async update(data: InputProxyChannel) {
-    let plain = instanceToPlain(data);
     let url = ArmSystemUrl.input.proxy.channel.item(data.Id);
+    let _data = ObjectTool.serialize(data, InputProxyChannel);
+    let plain = instanceToPlain(_data);
     let response = await this.http.put<any, HowellResponse<InputProxyChannel>>(
       url,
       plain

@@ -1,0 +1,60 @@
+<div
+  class="system-task-road-object-list-item root-router yellow"
+  *ngIf="!!data"
+>
+  <div class="system-task-road-object-list-item-head">
+    <div class="system-task-road-object-list-item-title">
+      <div class="system-task-road-object-list-item-title-name">
+        {{ data.title }}
+      </div>
+      <div class="system-task-road-object-list-item-title-state">
+        {{ data.type.value | async }}
+      </div>
+    </div>
+    <div class="system-task-road-object-list-item-operation button-group">
+      <div class="button" title="定位" (click)="on.position()">
+        <i class="mdi mdi-map-marker"></i>
+      </div>
+
+      <div class="button" title="编辑" (click)="on.details()">
+        <i class="howell-icon-modification"></i>
+      </div>
+      <div class="button" title="删除" (click)="on.delete()">
+        <i class="howell-icon-delete2"></i>
+      </div>
+    </div>
+  </div>
+  <div class="system-task-road-object-list-item-body">
+    <div class="system-task-road-object-list-item-info">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">工作表：</div>
+          <div class="form-item-value">
+            {{ data.schedule }}
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">半径：</div>
+          <div class="form-item-value">{{ data.raduis }}米</div>
+        </div>
+        <div class="form-item full types" *ngIf="data.object_types.length > 0">
+          <div
+            *ngFor="let item of data.object_types; let index = index"
+            [style.border-color]="color.object_types[index]"
+          >
+            {{ item.value | async }}
+          </div>
+        </div>
+        <div class="form-item full types" *ngIf="data.event_types.length > 0">
+          <div
+            *ngFor="let item of data.event_types; let index = index"
+            [style.border-color]="color.event_types[index]"
+            [style.background-color]="color.event_types[index] + '4d'"
+          >
+            {{ item.value | async }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

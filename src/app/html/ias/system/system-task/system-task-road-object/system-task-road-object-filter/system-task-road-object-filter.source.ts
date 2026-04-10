@@ -5,7 +5,7 @@ import { EnumTool } from '../../../../../../common/tools/enum-tool/enum.tool';
 import { SystemTaskRoadObjectType } from '../system-task-road-object-manager/system-task-road-object-manager.model';
 
 @Injectable()
-export class SystemTaskRoadObjectOperationSource {
+export class SystemTaskRoadObjectFilterSource {
   types: EnumNameValue<number>[] = [];
   point = {
     types: [] as EnumNameValue<number>[],
@@ -32,7 +32,7 @@ export class SystemTaskRoadObjectOperationSource {
         let name = '';
         switch (x) {
           case SystemTaskRoadObjectType.object:
-            name = '道路固件';
+            name = '道路物件';
             break;
           case SystemTaskRoadObjectType.section:
             name = '屏蔽路段';

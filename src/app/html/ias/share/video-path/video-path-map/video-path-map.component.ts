@@ -9,11 +9,12 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPoint } from '../../../../../common/data-core/models/arm/gis-point.model';
 import { IASMapPanelSettingsComponent } from '../../map-panel/ias-map-panel-settings/ias-map-panel-settings.component';
+import { IASMapAMapConfig } from '../../map/controller/amap/ias-map-amap.config';
 import { IIASMapArgs, MapMarkerStyle } from '../../map/ias-map.model';
-import { VideoPathMapAMapController } from './controller/amap/video-path-map-amap.controller';
 import { VideoPathMapController } from './controller/video-path-map.controller';
 import { IVideoPathMapTriggerArgs } from './video-path-map.model';
 
@@ -22,10 +23,9 @@ import { IVideoPathMapTriggerArgs } from './video-path-map.model';
   imports: [CommonModule, IASMapPanelSettingsComponent],
   templateUrl: './video-path-map.component.html',
   styleUrl: './video-path-map.component.less',
-  providers: [VideoPathMapAMapController, VideoPathMapController],
 })
 export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
-  @Input() datas: FileGpsItem[] = [];
+  @Input() datas: FileGpsItem[][] = [];
   @Input() points: GisPoint[] = [];
   @Input() args: IIASMapArgs = new MapMarkerStyle();
   @Input('to') _to?: EventEmitter<number>;
@@ -36,10 +36,13 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
   @Input() rectified = false;
   @Output() rectifiedChange = new EventEmitter<boolean>();
 
-  constructor(private controller: VideoPathMapController) {}
+  constructor() {}
 
+  colors = IASMapAMapConfig.path.color;
   speed = 0;
   current?: FileGpsItem;
+  private subscription = new Subscription();
+  private controller = new VideoPathMapController(this.subscription);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['datas'] && !changes['datas'].firstChange) {
@@ -67,18 +70,22 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this._to) {
-      this._to.subscribe((time) => {
+      let sub_to = this._to.subscribe((time) => {
         this.controller.to(time).then((x) => {
           this.current = x;
         });
       });
+      this.subscription.add(sub_to);
     }
-    this.controller.trigger.subscribe((x) => {
+    let sub_trigger = this.controller.trigger.subscribe((x) => {
       this.trigger.emit(x);
     });
-    this.controller.speed.subscribe((x) => {
+    this.subscription.add(sub_trigger);
+    let sub_speed = this.controller.speed.subscribe((x) => {
       this.speed = x ?? 0;
     });
+    this.subscription.add(sub_speed);
+
     if (this.datas.length > 0) {
       this.load.path(this.datas);
     }
@@ -88,7 +95,7 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   load = {
-    path: async (datas: FileGpsItem[]) => {
+    path: async (datas: FileGpsItem[][]) => {
       this.controller.path
         .load(datas, true)
         .then((x) => {
@@ -122,5 +129,6 @@ export class VideoPathMapComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.controller.destroy();
+    this.subscription.unsubscribe;
   }
 }

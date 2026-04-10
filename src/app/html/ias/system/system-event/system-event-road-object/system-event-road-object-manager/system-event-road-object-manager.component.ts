@@ -24,6 +24,7 @@ import {
 } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
+import { IASMapAMapConfig } from '../../../../share/map/controller/amap/ias-map-amap.config';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventVideoComponent } from '../../system-event-video/system-event-video.component';
@@ -70,6 +71,7 @@ export class SystemEventRoadObjectManagerComponent
   ) {}
 
   Language = Language;
+  Colors = IASMapAMapConfig.path.color;
 
   private change = {
     args: (simple: SimpleChange) => {

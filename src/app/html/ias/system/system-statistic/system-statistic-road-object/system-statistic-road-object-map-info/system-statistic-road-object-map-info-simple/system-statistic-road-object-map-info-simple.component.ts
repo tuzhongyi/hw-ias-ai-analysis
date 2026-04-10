@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RoadObjectEventType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-event-type.enum';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
+import { IconTool } from '../../../../../../../common/tools/icon-tool/icon.tool';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
-import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
 
 @Component({
   selector: 'ias-system-statistic-road-object-map-info-simple',
@@ -55,9 +55,7 @@ export class SystemStatisticRoadObjectMapInfoSimpleComponent implements OnInit {
 
   private load = {
     icon: (data: RoadObjectEventRecord) => {
-      this.icon = ObjectTool.model.RoadObjectEventRecord.get.icon.classname(
-        data.RoadObjectType
-      );
+      this.icon = IconTool.RoadObjectType(data.RoadObjectType);
     },
   };
 }

@@ -133,6 +133,20 @@
             <div class="operation" *ngIf="item">
               <div
                 class="button"
+                title="事件视频"
+                (click)="onvideo($event, item)"
+                [class.disabled]="item.EmergencyType != 10"
+              >
+                <i class="mdi mdi-youtube-play"></i>
+              </div>
+
+              <ias-audio-button
+                *ngIf="item"
+                [id]="item.AudioUrl"
+                title="现场录音"
+              ></ias-audio-button>
+              <div
+                class="button"
                 title="事件处置"
                 (click)="onprocess($event, item)"
               >
@@ -157,22 +171,10 @@
               >
                 <i class="mdi mdi-map-marker"></i>
               </div> -->
-              <div
-                class="button"
-                title="事件视频"
-                (click)="onvideo($event, item)"
-              >
-                <i class="mdi mdi-youtube-play"></i>
-              </div>
 
               <!-- <div class="button" title="现场录音" (click)="audio.play(item)">
                 <i class="mdi mdi-volume-high"></i>
               </div> -->
-              <ias-audio-button
-                *ngIf="item"
-                [id]="item.AudioUrl"
-                title="现场录音"
-              ></ias-audio-button>
               <div
                 class="button"
                 title="事件详情"

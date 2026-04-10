@@ -48,7 +48,7 @@ export class SystemModuleRoadSectionDetailsInfoComponent implements OnChanges {
     data: (simple: SimpleChange) => {
       if (simple) {
         this.event.mobile.load(this.data.EventTypes);
-        this.event.roadobject.load(this.data.EventTypes);
+        this.event.roadobject.load(this.data.RoadObjectTypes);
       }
     },
   };
@@ -82,12 +82,12 @@ export class SystemModuleRoadSectionDetailsInfoComponent implements OnChanges {
     roadobject: {
       selected: [] as IIdNameModel<number>[],
       load: async (types?: number[]) => {
-        wait(() => this.source.events.length > 0).then(() => {
+        wait(() => this.source.type.object.length > 0).then(() => {
           if (types) {
             this.event.roadobject.selected = [];
             for (let i = 0; i < types.length; i++) {
               const type = types[i];
-              let item = this.source.events.find((x) => x.Id == type);
+              let item = this.source.type.object.find((x) => x.Id == type);
               if (item) {
                 this.event.roadobject.selected.push(item);
               }
@@ -96,7 +96,7 @@ export class SystemModuleRoadSectionDetailsInfoComponent implements OnChanges {
         });
       },
       change: (items: IIdNameModel<number>[]) => {
-        this.data.EventTypes = items.map((x) => x.Id);
+        this.data.RoadObjectTypes = items.map((x) => x.Id);
         this.on.change();
       },
     },

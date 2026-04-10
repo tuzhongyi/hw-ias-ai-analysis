@@ -19,7 +19,6 @@ import { AMapInputTipItem } from '../../../../../../../common/helper/map/amap.mo
 import { SystemTaskFileDetailsMapGPSBusiness } from './business/system-task-file-details-map-gps.business';
 import { SystemTaskFileDetailsMapShopBusiness } from './business/system-task-file-details-map-shop.business';
 import { SystemTaskFileDetailsMapBusiness } from './business/system-task-file-details-map.business.js';
-import { SystemTaskFileDetailsAMapController } from './controller/system-task-file-details-amap.controller';
 import { SystemTaskFileDetailsMapController } from './controller/system-task-file-details-map.controller';
 
 @Component({
@@ -28,8 +27,6 @@ import { SystemTaskFileDetailsMapController } from './controller/system-task-fil
   templateUrl: './system-task-file-details-map.component.html',
   styleUrl: './system-task-file-details-map.component.less',
   providers: [
-    SystemTaskFileDetailsAMapController,
-    SystemTaskFileDetailsMapController,
     SystemTaskFileDetailsMapGPSBusiness,
     SystemTaskFileDetailsMapShopBusiness,
     SystemTaskFileDetailsMapBusiness,
@@ -46,7 +43,7 @@ export class SystemTaskFileDetailsMapComponent
     end: FileGpsItem;
     percent: number;
   }>();
-  @Output() loaded = new EventEmitter<FileGpsItem[]>();
+  @Output() loaded = new EventEmitter<FileGpsItem[][]>();
   @Output() error = new EventEmitter<Error>();
 
   @Input() speed = 0;
@@ -71,10 +68,7 @@ export class SystemTaskFileDetailsMapComponent
 
   @Output() current = new EventEmitter<FileGpsItem>();
 
-  constructor(
-    private business: SystemTaskFileDetailsMapBusiness,
-    private controller: SystemTaskFileDetailsMapController
-  ) {}
+  constructor(private business: SystemTaskFileDetailsMapBusiness) {}
 
   loading = false;
   hasdata = false;
@@ -82,31 +76,39 @@ export class SystemTaskFileDetailsMapComponent
     current: 0,
   };
   private subscription = new Subscription();
+  private controller = new SystemTaskFileDetailsMapController(
+    this.subscription
+  );
 
   ngOnInit(): void {
     if (this._to) {
-      this._to.subscribe((time) => {
+      let sub_to = this._to.subscribe((time) => {
         this.time.current = time;
         this.controller.to(time).then((x) => {
           this.current.emit(x);
         });
       });
+      this.subscription.add(sub_to);
     }
-    this.controller.event.trigger.subscribe((x) => {
+    let sub_trigger = this.controller.event.trigger.subscribe((x) => {
       this.trigger.emit(x);
     });
-    this.controller.event.speed.subscribe((x) => {
+    this.subscription.add(sub_trigger);
+    let sub_speed = this.controller.event.speed.subscribe((x) => {
       this.speed = x ?? 0;
       this.speedChange.emit(this.speed);
     });
-    this.controller.event.position.subscribe((x) => {
+    this.subscription.add(sub_speed);
+    let sub_position = this.controller.event.position.subscribe((x) => {
       this.location = x;
       this.locationChange.emit(this.location);
     });
-    this.controller.event.point.subscribe((x) => {
+    this.subscription.add(sub_position);
+    let sub_point = this.controller.event.point.subscribe((x) => {
       this.pickup = x;
       this.pickupChange.emit(this.pickup);
     });
+    this.subscription.add(sub_point);
 
     if (this.data) {
       this.load.gps(this.data, this.rectified);

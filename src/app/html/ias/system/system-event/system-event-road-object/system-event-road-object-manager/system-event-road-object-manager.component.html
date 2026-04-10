@@ -7,7 +7,7 @@
       <div class="forms">
         <div class="form-item">
           <div class="form-item-text">开始时间</div>
-          <div class="form-item-value fill">
+          <div class="form-item-value fill time">
             <date-time-control
               [(date)]="table.args.duration.begin"
               [zindex]="iswindow ? 9000 : 10"
@@ -16,7 +16,7 @@
         </div>
         <div class="form-item">
           <div class="form-item-text">结束时间</div>
-          <div class="form-item-value fill">
+          <div class="form-item-value fill time">
             <date-time-control
               [(date)]="table.args.duration.end"
               [zindex]="iswindow ? 9000 : 10"
@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">事件类型</div>
           <div class="form-item-value fill">
             <hw-select
@@ -43,7 +43,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">部件类型</div>
           <div class="form-item-value fill">
             <hw-select
@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">是否确认</div>
           <div class="form-item-value fill">
             <hw-select
@@ -83,7 +83,7 @@
           </div>
         </div>
 
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">是否忽略</div>
           <div class="form-item-value fill">
             <hw-select
@@ -98,7 +98,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">是否派单</div>
           <div class="form-item-value fill">
             <hw-select
@@ -114,7 +114,7 @@
           </div>
         </div>
 
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">处置状态</div>
           <div class="form-item-value fill">
             <hw-select
@@ -129,7 +129,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item division">
+        <div class="form-item division flex-grow">
           <div class="form-item-text">行政区划</div>
           <div class="form-item-value fill">
             <hw-select [(selected)]="table.args.divisionId" [nullable]="true">
@@ -144,7 +144,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item division">
+        <div class="form-item division flex-grow">
           <div class="form-item-text">责任网格</div>
           <div class="form-item-value fill">
             <hw-select [(selected)]="table.args.gridCellId" [nullable]="true">
@@ -160,7 +160,7 @@
           </div>
         </div>
 
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">名称</div>
           <div class="form-item-value fill">
             <input type="text" [(ngModel)]="table.args.name" />
@@ -240,7 +240,26 @@
     [style]="window.picture.style"
     [title]="window.picture.title"
     [mask]="!window.opened"
+    [CloseButton]="false"
   >
+    <div ngProjectAs="window-head-operation" class="window-picture-operation">
+      <div class="forms">
+        <div
+          class="form-item"
+          *ngIf="window.picture.precision != undefined"
+          [ngStyle]="{
+            color: window.picture.precision ? Colors[1] : Colors[0],            
+          }"
+        >
+          @if(window.picture.precision){RTK} @else { SPS }
+        </div>
+        <div class="form-item">
+          <div class="button" (click)="window.picture.show = false">
+            <i class="howell-icon-Close"></i>
+          </div>
+        </div>
+      </div>
+    </div>
     <ias-picture-list
       [id]="window.picture.args.id"
       [polygon]="window.picture.args.polygon"

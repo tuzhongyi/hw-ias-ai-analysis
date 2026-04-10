@@ -8,18 +8,18 @@ export class SystemModuleRoadSectionDetailsInfoSource {
   type = {
     section: new Map<number, string>(),
     event: new Map<number, string>(),
+    object: [] as IIdNameModel<number>[],
   };
 
   sections: EnumNameValue<number>[] = [];
   events: IIdNameModel<number>[] = [];
-  roadobjectevents: IIdNameModel<number>[] = [];
 
   constructor(private manager: Manager) {
     this.init.section();
     this.init.event();
     this.init.sections();
     this.init.events();
-    this.init.roadobjectevents();
+    this.init.object_types();
   }
 
   private init = {
@@ -47,9 +47,9 @@ export class SystemModuleRoadSectionDetailsInfoSource {
         Name: x.Name,
       }));
     },
-    roadobjectevents: async () => {
-      let events = await this.manager.source.road.object.EventTypes.get();
-      this.roadobjectevents = events.map((x) => ({
+    object_types: async () => {
+      let types = await this.manager.source.road.object.ObjectTypes.get();
+      this.type.object = types.map((x) => ({
         Id: x.Value,
         Name: x.Name,
       }));

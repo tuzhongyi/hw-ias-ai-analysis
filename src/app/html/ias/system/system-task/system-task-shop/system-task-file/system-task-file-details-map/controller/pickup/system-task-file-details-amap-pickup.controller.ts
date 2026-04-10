@@ -1,4 +1,5 @@
 import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PathTool } from '../../../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../../../common/tools/size-tool/size.tool';
 import { IASMapAMapIconController } from '../../../../../../../share/map/controller/amap/shop/marker/ias-map-amap-shop-icon.controller';
@@ -9,8 +10,8 @@ export class SystemTaskFileDetailsAMapPickupController {
     dragend: new EventEmitter<[number, number]>(),
   };
 
-  constructor(private map: AMap.Map) {
-    this.regist();
+  constructor(private map: AMap.Map, subscription: Subscription) {
+    this.regist(subscription);
   }
 
   icon = new IASMapAMapIconController();
@@ -32,9 +33,10 @@ export class SystemTaskFileDetailsAMapPickupController {
     }
   }
 
-  private regist() {
-    this.marker.event.dragend.subscribe((x) => {
+  private regist(subscription: Subscription) {
+    let sub = this.marker.event.dragend.subscribe((x) => {
       this.event.dragend.emit(x);
     });
+    subscription.add(sub);
   }
 }

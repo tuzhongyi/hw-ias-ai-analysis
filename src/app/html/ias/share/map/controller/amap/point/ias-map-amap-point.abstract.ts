@@ -50,6 +50,7 @@ export abstract class IASMapAMapPointAbstract {
     this.layer.setSource(geo);
     this.layer.setStyle(this.style);
     this.container.add(this.layer);
+    return geo;
   }
 
   clear() {

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Observable, filter } from 'rxjs';
@@ -6,7 +7,7 @@ import { SystemTaskBusiness } from './system-task.business';
 
 @Component({
   selector: 'ias-system-task',
-  imports: [RouterOutlet, ContentHeaderComponent],
+  imports: [RouterOutlet, CommonModule, ContentHeaderComponent],
   templateUrl: './system-task.component.html',
   styleUrl: './system-task.component.less',
   providers: [SystemTaskBusiness],
@@ -15,6 +16,10 @@ export class SystemTaskComponent implements OnInit {
   @Input() title: string = '';
 
   constructor(private business: SystemTaskBusiness, private router: Router) {}
+
+  get head() {
+    return this.business.headable;
+  }
 
   ngOnInit(): void {
     this.regist();

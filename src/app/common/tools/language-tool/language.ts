@@ -14,6 +14,7 @@ import { MeshNodeType } from '../../data-core/enums/robot/mesh-node-type.model';
 import { RobotBatteryState } from '../../data-core/enums/robot/robot-battery-state.enum';
 import { CanType } from '../../data-core/enums/robot/robot-can-type.model';
 import { RobotState } from '../../data-core/enums/robot/robot-state.enum';
+import { DayTimeSegment } from '../../data-core/models/arm/analysis/segment/day-time-segment.model';
 import { IAssignment } from '../../data-core/models/arm/event/assignment.model';
 
 export class Language {
@@ -552,5 +553,55 @@ export class Language {
       default:
         return def;
     }
+  }
+
+  /**
+   * 一行显示工作表：自动处理多天、多时段
+   * 示例：
+   * 工作日 09:00-12:00 等
+   * 周一、二 09:00-18:00
+   * 每日 10:00-22:00
+   */
+  static ScheduleSummary(days: DayTimeSegment[]): string {
+    if (!days?.length) return '无安排';
+
+    // 过滤：有配置时间段的天
+    const validDays = days.filter((d) => d.Segments && d.Segments.length > 0);
+    if (validDays.length === 0) return '无安排';
+
+    // ==========================================
+    // 关键：判断是否存在【多个时间段】
+    // ==========================================
+    let hasMultipleSegments = false;
+    let mainTimeText = '';
+
+    for (const day of validDays) {
+      if (day.Segments!.length > 1) {
+        hasMultipleSegments = true; // 只要有一天多段，就标记
+      }
+    }
+
+    // 取第一个时段显示
+    const firstSeg = validDays[0].Segments![0];
+    mainTimeText = `${firstSeg.StartTime}-${firstSeg.StopTime}`;
+
+    // ==========================================
+    // 生成星期描述
+    // ==========================================
+    let dayText = '';
+    if (validDays.length === 7) {
+      dayText = '每日';
+    } else if (validDays.length >= 5) {
+      dayText = '工作日';
+    } else {
+      dayText = validDays.map((d) => this.Week(d.DayOfWeek)).join('、');
+    }
+
+    // ==========================================
+    // 多时段 → 加“等”
+    // ==========================================
+    return hasMultipleSegments
+      ? `${dayText} ${mainTimeText} 等`
+      : `${dayText} ${mainTimeText}`;
   }
 }

@@ -113,7 +113,7 @@ export class ColorTool {
   }
 
   static get = {
-    index: (index: number, level = 5) => {
+    index: (index: number, level = 10) => {
       // 鲜明度参数范围：1-10，默认5
       const vividLevel = Math.max(1, Math.min(10, level));
 

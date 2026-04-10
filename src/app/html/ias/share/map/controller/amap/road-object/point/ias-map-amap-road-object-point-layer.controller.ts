@@ -92,7 +92,7 @@ export class IASMapAMapRoadObjectPointLayerController {
         case RoadObjectState.Disappear:
           return ColorTool.map.red;
         case RoadObjectState.Breakage:
-          return ColorTool.map.yellow;
+          return ColorTool.map.orange;
         case RoadObjectState.None:
           return ColorTool.map.green;
         default:

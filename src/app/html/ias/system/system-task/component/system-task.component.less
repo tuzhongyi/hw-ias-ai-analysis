@@ -3,7 +3,8 @@
   height: 100%;
   transition: all 0.5s;
   @head-height: 60px;
-  display: block;
+  display: flex;
+  flex-direction: column;
 
   &-head {
     width: 100%;
@@ -14,5 +15,6 @@
     width: 100%;
     height: calc(100% - @head-height);
     box-sizing: border-box;
+    flex-grow: 1;
   }
 }

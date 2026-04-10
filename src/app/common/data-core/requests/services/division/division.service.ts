@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../tools/object-tool/object.tool';
 import { ServiceTool } from '../../../../tools/service-tool/service.tool';
 import { Cache } from '../../../cache/cache';
 import { AbstractService } from '../../../cache/cache.interface';
@@ -22,7 +23,8 @@ export class ArmDivisionRequestService extends AbstractService<Division> {
 
   async create(data: Division) {
     let url = ArmDivisionUrl.basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, Division);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<Division>, any>(url, plain)
       .then((x) => {
@@ -43,7 +45,8 @@ export class ArmDivisionRequestService extends AbstractService<Division> {
   }
   async update(data: Division) {
     let url = ArmDivisionUrl.item(data.Id);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, Division);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<Division>>(url, plain)
       .then((x) => {

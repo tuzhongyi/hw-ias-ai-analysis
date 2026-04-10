@@ -1,4 +1,5 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { ShopRegistrationTaskDetectedResult } from '../../../../../../../../common/data-core/models/arm/geographic/shop-registration-task-detected-result.model';
 import { Time } from '../../../../../../../../common/data-core/models/common/time.model';
@@ -13,7 +14,6 @@ import {
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
 import { SystemTaskFileDetailsAMapController } from './system-task-file-details-amap.controller';
 
-@Injectable()
 export class SystemTaskFileDetailsMapController {
   event = {
     trigger: new EventEmitter<{
@@ -26,9 +26,11 @@ export class SystemTaskFileDetailsMapController {
     point: new EventEmitter<[number, number]>(),
   };
 
-  constructor(private amap: SystemTaskFileDetailsAMapController) {
+  constructor(private subscription: Subscription) {
+    this.amap = new SystemTaskFileDetailsAMapController(subscription);
     this.regist();
   }
+  private amap: SystemTaskFileDetailsAMapController;
 
   map = {
     center: (position: [number, number]) => {
@@ -63,18 +65,14 @@ export class SystemTaskFileDetailsMapController {
 
   path = {
     datas: [] as FileGpsItem[],
-    load: async (datas: FileGpsItem[], focus: boolean) => {
-      this.path.datas = datas;
-      let ll = this.path.datas.map<[number, number]>((x) => {
-        return [x.Longitude, x.Latitude];
-      });
-      let path = await this.amap.path.get();
-      path.load(ll, focus);
+    load: async (datas: FileGpsItem[][], focus: boolean) => {
+      this.path.datas = datas.flat(1);
+      this.amap.path.load(datas, focus);
     },
 
     clear: async () => {
-      let path = await this.amap.path.get();
-      path.clear();
+      this.path.datas = [];
+      this.amap.path.clear();
       this.event.point.emit(undefined);
     },
   };
@@ -115,40 +113,62 @@ export class SystemTaskFileDetailsMapController {
   };
 
   private regist() {
-    this.amap.path.get().then((path) => {
-      path.mouseover.subscribe((data) => {
-        this.on.label.show(data);
-      });
-      path.mouseout.subscribe(() => {
-        this.amap.label.get().then((label) => {
-          label.hide();
-        });
-      });
-      path.click.subscribe((data) => {
-        this.amap.label.get().then((label) => {
-          label.hide();
-          this.onclick(data);
-        });
+    let sub_mouseover = this.amap.path.mouseover.subscribe((data) => {
+      this.on.label.show(data);
+    });
+    this.subscription.add(sub_mouseover);
+    let sub_mouseout = this.amap.path.mouseout.subscribe(() => {
+      this.amap.label.get().then((label) => {
+        label.hide();
       });
     });
+    this.subscription.add(sub_mouseout);
+    let sub_click = this.amap.path.click.subscribe((data) => {
+      this.amap.label.get().then((label) => {
+        label.hide();
+        this.onclick(data);
+      });
+    });
+    this.subscription.add(sub_click);
+
+    // this.amap.path.get().then((path) => {
+    //   path.mouseover.subscribe((data) => {
+    //     this.on.label.show(data);
+    //   });
+    //   path.mouseout.subscribe(() => {
+    //     this.amap.label.get().then((label) => {
+    //       label.hide();
+    //     });
+    //   });
+    //   path.click.subscribe((data) => {
+    //     this.amap.label.get().then((label) => {
+    //       label.hide();
+    //       this.onclick(data);
+    //     });
+    //   });
+    // });
 
     this.amap.way.get().then((way) => {
-      way.mouseover.subscribe((point) => {
+      let sub_mouseover = way.mouseover.subscribe((point) => {
         this.on.label.show(point);
       });
-      way.mouseout.subscribe(() => {
+      this.subscription.add(sub_mouseover);
+      let sub_mouseout = way.mouseout.subscribe(() => {
         this.on.label.hide();
       });
-      way.click.subscribe((point) => {
+      this.subscription.add(sub_mouseout);
+      let sub_click = way.click.subscribe((point) => {
         this.amap.label.get().then((label) => {
           label.hide();
           this.onclick(point);
         });
       });
+      this.subscription.add(sub_click);
     });
-    this.amap.event.point.subscribe((x) => {
+    let sub_point = this.amap.event.point.subscribe((x) => {
       this.event.point.emit(x);
     });
+    this.subscription.add(sub_point);
   }
 
   on = {
@@ -241,6 +261,7 @@ export class SystemTaskFileDetailsMapController {
         }
 
         this.amap.way.get().then((x) => {
+          x.clear();
           x.load(way);
         });
 

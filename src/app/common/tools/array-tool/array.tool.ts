@@ -113,6 +113,32 @@ export class ArrayTool {
     return Array.from(new Set<T>(items));
   }
 
+  /**
+   * 数组去重（支持对象数组）
+   * @param {Array} arr 原始数组
+   * @param {String|Function} key 去重依据
+   *   - 字符串：如 'id'，则按 item.id 去重
+   *   - 函数：(a, b) => boolean，返回 true 表示重复
+   * @returns {Array} 去重后的新数组
+   */
+  static unique<T>(arr: Array<T>, compare?: (a: T, b: T) => boolean) {
+    let result: T[] = [];
+    const seen = new Set();
+
+    if (compare) {
+      arr.forEach((item) => {
+        const isDuplicate = result.some((exist) => compare(item, exist));
+        if (!isDuplicate) {
+          result.push(item);
+        }
+      });
+    } else {
+      result = this.distinct(arr);
+    }
+
+    return result;
+  }
+
   static compare<T>(a: T[], b: T[], comparator: (a: T, b: T) => boolean) {
     const duplicates: T[] = [];
     const uniqueInA: T[] = [];

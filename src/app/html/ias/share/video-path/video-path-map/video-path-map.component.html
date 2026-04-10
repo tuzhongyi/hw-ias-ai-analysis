@@ -15,6 +15,22 @@
   </div>
 
   <div class="panel-map speed" *ngIf="speed != undefined">
+    <ng-container *ngIf="current">
+      <span
+        class="precision"
+        *ngIf="current.HighPrecision"
+        [style.color]="colors[1]"
+      >
+        RTK
+      </span>
+      <span
+        class="precision"
+        *ngIf="!current.HighPrecision"
+        [style.color]="colors[0]"
+      >
+        SPS
+      </span>
+    </ng-container>
     {{ speed.toFixed(0) }} <span>km/h</span>
   </div>
   <div class="panel-map road" *ngIf="current">

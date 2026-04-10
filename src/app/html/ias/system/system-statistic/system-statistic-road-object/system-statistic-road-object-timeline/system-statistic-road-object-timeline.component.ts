@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -25,13 +26,16 @@ import { SystemStatisticRoadObjectTimelineScrollComponent } from '../system-stat
   templateUrl: './system-statistic-road-object-timeline.component.html',
   styleUrl: './system-statistic-road-object-timeline.component.less',
 })
-export class SystemStatisticRoadObjectTimelineComponent {
+export class SystemStatisticRoadObjectTimelineComponent
+  implements AfterViewInit
+{
   @Input() datas: RoadObjectEventRecord[] = [];
   @Input() selected?: RoadObjectEventRecord;
   @Output() selectedChange = new EventEmitter<RoadObjectEventRecord>();
 
   constructor() {}
 
+  private inited = false;
   position: number = 0;
 
   @ViewChildren('timelineitem')
@@ -44,13 +48,19 @@ export class SystemStatisticRoadObjectTimelineComponent {
   items: HTMLDivElement[] = [];
 
   get scroll_display() {
-    if (this.container) {
-      return (
-        this.container.nativeElement.scrollWidth >
-        this.container.nativeElement.clientWidth
-      );
+    if (this.inited) {
+      if (this.container) {
+        return (
+          this.container.nativeElement.scrollWidth >
+          this.container.nativeElement.clientWidth
+        );
+      }
     }
     return false;
+  }
+
+  ngAfterViewInit(): void {
+    this.inited = true;
   }
 
   on = {

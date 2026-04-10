@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
+import { GPSHighPrecision } from '../../../../../../common/data-core/enums/gps/gps-high-precision.enum';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
@@ -30,6 +31,7 @@ class PictureWindow extends WindowViewModel {
   title = '';
   page?: Page;
   args?: PicturePolygonArgs;
+  precision?: GPSHighPrecision;
 
   clear() {
     this.title = '';
@@ -59,6 +61,7 @@ class PictureWindow extends WindowViewModel {
       this.title = data.ResourceName;
       this.args.id = data.ImageUrl;
       this.args.polygon = [];
+      this.precision = data.Location?.WGS84.HighPrecision;
       if (data.Objects && data.Objects.length > 0) {
         this.args.polygon = data.Objects[0].Polygon;
       }
@@ -69,6 +72,7 @@ class PictureWindow extends WindowViewModel {
         data.Address || ''
       }`;
       this.args.id = data.ImageUrl;
+      this.precision = undefined;
       this.args.polygon = [];
     },
   };

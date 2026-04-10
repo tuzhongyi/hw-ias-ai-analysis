@@ -1,5 +1,6 @@
 import { instanceToPlain } from 'class-transformer';
 
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { RoadAddress } from '../../../../models/arm/geographic/road-address.model';
@@ -30,7 +31,8 @@ export class ArmGeographicRoadRequestService extends AbstractService<Road> {
 
   async create(data: Road) {
     let url = ArmGeographicUrl.road.basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, Road);
+    let plain = instanceToPlain(_data);
     return this.http.post<HowellResponse<Road>, any>(url, plain).then((x) => {
       return HowellResponseProcess.item(x, Road);
     });
@@ -38,7 +40,8 @@ export class ArmGeographicRoadRequestService extends AbstractService<Road> {
 
   async update(data: Road) {
     let url = ArmGeographicUrl.road.item(data.Id);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, Road);
+    let plain = instanceToPlain(_data);
     return this.http.put<any, HowellResponse<Road>>(url, plain).then((x) => {
       return HowellResponseProcess.item(x, Road);
     });

@@ -222,22 +222,6 @@ export class RoadObjectEventRecordTool {
         color:${color};filter:drop-shadow(0 0 3px ${color}66);
       ">${icon}</svg>`;
       },
-      classname: (type: RoadObjectType) => {
-        switch (type) {
-          case RoadObjectType.FireHydrant:
-            return 'howell-icon-fire-hydrant';
-          case RoadObjectType.BusStation:
-            return 'howell-icon-bus_stop';
-          case RoadObjectType.Passage:
-            return 'howell-icon-exit';
-          case RoadObjectType.TelephoneBooth:
-            return 'howell-icon-telephone';
-          case RoadObjectType.TrashCan:
-            return 'howell-icon-delete-bin';
-          default:
-            return '';
-        }
-      },
       inner: (type: RoadObjectType) => {
         switch (type) {
           case RoadObjectType.FireHydrant:

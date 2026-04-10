@@ -1,0 +1,48 @@
+<div
+  class="system-task-road-object-list-item root-router"
+  *ngIf="!!data"
+  [class]="color"
+>
+  <div class="system-task-road-object-list-item-head">
+    <div class="system-task-road-object-list-item-title">
+      <div
+        class="system-task-road-object-list-item-title-name"
+        [title]="data.title || ''"
+      >
+        {{ data.title }}
+      </div>
+      <div class="system-task-road-object-list-item-title-state">
+        {{ data.state?.value | async }}
+      </div>
+    </div>
+    <div class="system-task-road-object-list-item-operation button-group">
+      <div class="button" title="定位" (click)="on.position()">
+        <i class="mdi mdi-map-marker"></i>
+      </div>
+
+      <div class="button" title="编辑" (click)="on.details()">
+        <i class="howell-icon-modification"></i>
+      </div>
+      <div class="button" title="删除" (click)="on.delete()">
+        <i class="howell-icon-delete2"></i>
+      </div>
+    </div>
+  </div>
+  <div class="system-task-road-object-list-item-body">
+    <div
+      class="system-task-road-object-list-item-picture"
+      [style.background-image]="'url(' + data.picture + ')'"
+    ></div>
+    <div class="system-task-road-object-list-item-info">
+      <div class="forms">
+        <div class="form-item">
+          {{ data.type?.value | async }}
+        </div>
+
+        <div class="form-item full">
+          {{ data.address }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

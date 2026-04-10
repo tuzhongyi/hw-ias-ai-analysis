@@ -32,7 +32,7 @@
     </div>
     <div class="form-item">
       <div class="form-item-text">
-        <div class="name" text-space-between>方向</div>
+        <div class="name" text-space-between>行驶方向</div>
         <div class="must">*</div>
       </div>
       <div class="form-item-value input_button">
@@ -45,7 +45,7 @@
           [disabled]="!operable || !data.Enabled"
           (valueChange)="on.change()"
         />
-        <button class="button-border-blue" (click)="on.course()">
+        <button class="button-border blue" (click)="on.course()">
           <i class="mdi mdi-av-timer"></i>
         </button>
       </div>

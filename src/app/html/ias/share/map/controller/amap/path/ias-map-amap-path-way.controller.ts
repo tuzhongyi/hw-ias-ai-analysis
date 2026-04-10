@@ -77,6 +77,7 @@ export class IASMapAMapPathWayController {
       showDir: true,
       strokeWeight: 6,
       strokeColor: '#4196ff',
+      strokeOpacity: 1,
       lineJoin: 'round',
       lineCap: 'round',
       cursor: 'pointer',

@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { AnalysisShopCapability } from '../../../../models/arm/analysis/analysis-shop-capability.model';
 import { LabelResultStatistic } from '../../../../models/arm/analysis/label-result-statistic.model';
 import { ShopSign } from '../../../../models/arm/analysis/shop-sign.model';
@@ -26,7 +27,8 @@ export class ArmAnalysisShopRequestService {
 
   async create(data: Shop, createToServer?: boolean) {
     let url = ArmAnalysisUrl.shop.create(createToServer);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, Shop);
+    let plain = instanceToPlain(_data);
     return this.http.post<HowellResponse<Shop>, any>(url, plain).then((x) => {
       return HowellResponseProcess.item(x, Shop);
     });
@@ -34,8 +36,8 @@ export class ArmAnalysisShopRequestService {
 
   async update(data: Shop) {
     let url = ArmAnalysisUrl.shop.item(data.Id);
-    let plain = instanceToPlain(data);
-    console.log('update:', plain);
+    let _data = ObjectTool.serialize(data, Shop);
+    let plain = instanceToPlain(_data);
     return this.http.put<any, HowellResponse<Shop>>(url, plain).then((x) => {
       return HowellResponseProcess.item(x, Shop);
     });

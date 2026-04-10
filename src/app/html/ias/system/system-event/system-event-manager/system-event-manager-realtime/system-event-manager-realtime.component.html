@@ -7,16 +7,16 @@
       <div class="forms">
         <div class="form-item">
           <div class="form-item-text">开始时间</div>
-          <div class="form-item-value fill">
+          <div class="form-item-value fill time">
             <date-time-control
               [(date)]="table.args.duration.begin"
               [zindex]="iswindow ? 9000 : 10"
             ></date-time-control>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item duration">
           <div class="form-item-text">结束时间</div>
-          <div class="form-item-value fill">
+          <div class="form-item-value fill time">
             <date-time-control
               [(date)]="table.args.duration.end"
               [zindex]="iswindow ? 9000 : 10"
@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">事件类型</div>
           <div class="form-item-value fill">
             <hw-select
@@ -43,7 +43,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">是否确认</div>
           <div class="form-item-value fill">
             <hw-select
@@ -59,7 +59,7 @@
           </div>
         </div>
 
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">是否误报</div>
           <div class="form-item-value fill">
             <hw-select
@@ -78,7 +78,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">处置状态</div>
           <div class="form-item-value fill">
             <hw-select
@@ -97,7 +97,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">是否高频</div>
           <div class="form-item-value fill">
             <hw-select
@@ -112,7 +112,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">是否重复</div>
           <div class="form-item-value fill">
             <hw-select
@@ -128,7 +128,7 @@
           </div>
         </div>
 
-        <div class="form-item division">
+        <div class="form-item division flex-grow">
           <div class="form-item-text">行政区划</div>
           <div class="form-item-value fill">
             <hw-select [(selected)]="table.args.division" [nullable]="true">
@@ -143,7 +143,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">责任网格</div>
           <div class="form-item-value fill">
             <hw-select [(selected)]="table.args.gridcell" [nullable]="true">
@@ -158,7 +158,7 @@
             </hw-select>
           </div>
         </div>
-        <div class="form-item">
+        <div class="form-item flex-grow">
           <div class="form-item-text">触发源名称</div>
           <div class="form-item-value fill">
             <input type="text" [(ngModel)]="table.args.resource" />

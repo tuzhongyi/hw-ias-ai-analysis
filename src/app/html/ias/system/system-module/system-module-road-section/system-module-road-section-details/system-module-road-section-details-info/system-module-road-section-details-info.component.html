@@ -1,9 +1,22 @@
 <div class="system-module-road-info">
   <div class="forms">
-    <div class="form-item single">
+    <div class="form-item full">
       <div class="form-item-text" text-space-between>路段名称</div>
       <div class="form-item-value">
         <input type="text" [(ngModel)]="data.Name" (change)="on.change()" />
+      </div>
+    </div>
+
+    <div class="form-item single">
+      <div class="form-item-text" text-space-between>路段类型</div>
+      <div class="form-item-value fill">
+        <hw-select [(selected)]="data.SectionType" [nullable]="false">
+          <select [(ngModel)]="data.SectionType" (change)="on.type()">
+            <option [ngValue]="item.Value" *ngFor="let item of source.sections">
+              {{ item.Name }}
+            </option>
+          </select>
+        </hw-select>
       </div>
     </div>
     <div class="form-item single">
@@ -20,43 +33,30 @@
         <i class="text">米</i>
       </div>
     </div>
-    <div class="form-item single">
-      <div class="form-item-text" text-space-between>路段类型</div>
-      <div class="form-item-value fill">
-        <hw-select [(selected)]="data.SectionType" [nullable]="false">
-          <select [(ngModel)]="data.SectionType" (change)="on.type()">
-            <option [ngValue]="item.Value" *ngFor="let item of source.sections">
-              {{ item.Name }}
-            </option>
-          </select>
-        </hw-select>
-      </div>
-    </div>
-    <div class="form-item single">
-      <div
-        class="form-item-text"
-        text-space-between
-        [class.disabled]="data.SectionType == 0"
-      >
-        事件类型
-      </div>
+    <div class="form-item full" *ngIf="data.SectionType == 1">
+      <div class="form-item-text" text-space-between>事件类型</div>
       <div class="form-item-value fill">
         <howell-select-multiple
-          *ngIf="data.SectionType == 1"
           [datas]="source.events"
           [selecteds]="event.mobile.selected"
           (selectedsChange)="event.mobile.change($event)"
           [searchable]="false"
         ></howell-select-multiple>
+      </div>
+    </div>
+    <div class="form-item full" *ngIf="data.SectionType == 2">
+      <div class="form-item-text" text-space-between>道路物件类型</div>
+      <div class="form-item-value fill">
         <howell-select-multiple
           *ngIf="data.SectionType == 2"
-          [datas]="source.roadobjectevents"
+          [datas]="source.type.object"
           [selecteds]="event.roadobject.selected"
           (selectedsChange)="event.roadobject.change($event)"
           [searchable]="false"
         ></howell-select-multiple>
       </div>
     </div>
+
     <div class="form-item full">
       <div class="form-item-text baseline textarea" text-space-between>
         描述

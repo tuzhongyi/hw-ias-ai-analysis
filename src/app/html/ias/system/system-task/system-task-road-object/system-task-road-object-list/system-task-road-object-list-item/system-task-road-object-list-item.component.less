@@ -1,0 +1,101 @@
+@import url(../../../../../../../../assets/less/colors/color-@.less);
+
+.system-task-road-object-list-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+
+  background-color: rgba(0, 0, 0, 0.08);
+  transition: all 0.5s;
+
+  &:hover {
+    border-color: var(--color);
+    background-color: rgba(@rgb, 0.08);
+  }
+
+  &-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 0;
+    height: 28px;
+  }
+
+  &-body {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: calc(100% - 28px - 10px);
+    flex-grow: 1;
+  }
+
+  &-title {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    white-space: nowrap;
+    max-width: calc(100% - 70px);
+
+    &-name {
+      font-size: 20px;
+      color: white;
+
+      max-width: calc(100% - 48px - 5px);
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &-state {
+      font-size: 14px;
+      min-width: 48px;
+      color: var(--color);
+    }
+
+  }
+
+
+  &-picture {
+    height: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 5px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  &-info {
+    .form {
+      &s {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+
+    }
+
+
+    .types {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 5px;
+
+      &>* {
+        font-size: 14px;
+        padding: 3px 7px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid transparent;
+        background-color: rgba(0, 0, 0, 0.3);
+
+      }
+    }
+  }
+}

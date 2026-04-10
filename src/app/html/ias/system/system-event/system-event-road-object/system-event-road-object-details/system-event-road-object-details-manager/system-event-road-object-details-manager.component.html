@@ -49,6 +49,15 @@
     <div class="panel-foot">
       <div class="panel-foot-title">匹配结果</div>
       <div class="button-group">
+        <div
+          *ngIf="record.resource?.Location?.WGS84?.HighPrecision !== undefined"
+          [ngStyle]="{
+          color: record.resource?.Location?.WGS84?.HighPrecision ? Colors[1] : Colors[0],            
+        }"
+        >
+          @if(record.resource?.Location?.WGS84?.HighPrecision){RTK} @else { SPS
+          }
+        </div>
         <div title="播放视频" class="button" (click)="on.video()">
           <i class="mdi mdi-youtube-play"></i>
         </div>

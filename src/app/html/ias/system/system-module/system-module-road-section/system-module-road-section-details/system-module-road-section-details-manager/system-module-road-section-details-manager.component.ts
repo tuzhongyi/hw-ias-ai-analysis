@@ -94,7 +94,8 @@ export class SystemModuleRoadSectionDetailsManagerComponent implements OnInit {
 
   schedule = {
     data: new WeekTimeSegment(),
-    enable: () => {
+    enable: (enabled: boolean) => {
+      this.model.ScheduleEnabled = enabled;
       if (this.model.ScheduleEnabled) {
         if (!this.model.Schedule) {
           this.model.Schedule = new WeekTimeSegment();

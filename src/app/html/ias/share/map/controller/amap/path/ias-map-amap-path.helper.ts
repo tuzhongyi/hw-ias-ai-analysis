@@ -56,6 +56,7 @@ export class IASMapAMapPathHelper {
         }
 
         controller.way.then((x) => {
+          x.clear();
           x.load(way);
         });
 

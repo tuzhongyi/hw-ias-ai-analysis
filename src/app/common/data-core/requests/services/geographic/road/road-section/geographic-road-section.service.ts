@@ -3,6 +3,7 @@ import { instanceToPlain } from 'class-transformer';
 import { Cache } from '../../../../../cache/cache';
 import { AbstractService } from '../../../../../cache/cache.interface';
 
+import { ObjectTool } from '../../../../../../tools/object-tool/object.tool';
 import { ServiceTool } from '../../../../../../tools/service-tool/service.tool';
 import { RoadSection } from '../../../../../models/arm/geographic/road-section.model';
 import { RoadSectionCapability } from '../../../../../models/capabilities/arm/geographic/road-section-capability.model';
@@ -28,7 +29,8 @@ export class ArmGeographicRoadSectionRequestService extends AbstractService<Road
 
   async create(data: RoadSection) {
     let url = ArmGeographicUrl.road.section.basic();
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, RoadSection);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<RoadSection>, any>(url, plain)
       .then((x) => {
@@ -38,7 +40,8 @@ export class ArmGeographicRoadSectionRequestService extends AbstractService<Road
 
   async update(data: RoadSection) {
     let url = ArmGeographicUrl.road.section.item(data.Id);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, RoadSection);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<RoadSection>>(url, plain)
       .then((x) => {
