@@ -1,12 +1,12 @@
 <div class="system-task-road-object-manager">
   <div class="system-task-road-object-manager-head">
-    <ias-content-header [title]="'道路物件任务'">
+    <ias-content-header [title]="'道路部件任务'">
       <div class="button-group-border blue">
         <div
           class="button"
           *ngFor="let item of types"
           [ngClass]="{
-            selected: type == item.Value
+            selected: map.type == item.Value
           }"
           (click)="on.type(item.Value)"
         >
@@ -18,39 +18,55 @@
   <div class="system-task-road-object-manager-body">
     <div
       class="system-task-road-object-filter"
-      [class.show]="type != undefined"
+      [class.show]="map.type != undefined"
     >
       <ias-system-task-road-object-filter
-        [type]="type"
-        [(args)]="args"
+        [type]="map.type"
+        [(args)]="map.args"
         (search)="on.search()"
+        (create)="on.create($event)"
+        (file)="window.file.open()"
       ></ias-system-task-road-object-filter>
     </div>
     <div class="system-task-road-object-map">
+      <!-- <ias-system-task-road-object-map-info
+        *ngIf="map.road.object.datas.length > 0"
+        [data]="map.road.object.datas[0]"
+      ></ias-system-task-road-object-map-info> -->
       <ias-system-task-road-object-map
-        [objects]="road.object.datas"
-        [objectable]="road.object.enabled"
-        [(object_selected)]="road.object.selected"
-        [(object_loaded)]="road.object.loaded"
-        [points]="road.point.datas"
-        [pointable]="road.point.enabled"
-        [(point_selected)]="road.point.selected"
-        [(point_loaded)]="road.point.loaded"
-        [sections]="road.section.datas"
-        [sectionable]="road.section.enabled"
-        [(section_selected)]="road.section.selected"
-        [(section_loaded)]="road.section.loaded"
-        [(focus)]="focus"
+        [itemover]="map.event.itemover"
+        [itemleave]="map.event.itemleave"
+        [objects]="map.road.object.datas"
+        [objectable]="map.road.object.enabled"
+        [(object_selected)]="map.road.object.selected"
+        [(object_loaded)]="map.road.object.loaded"
+        (object_dblclick)="window.details.open($event)"
+        [points]="map.road.point.datas"
+        [pointable]="map.road.point.enabled"
+        [(point_selected)]="map.road.point.selected"
+        [(point_loaded)]="map.road.point.loaded"
+        [sections]="map.road.section.datas"
+        [sectionable]="map.road.section.enabled"
+        [(section_selected)]="map.road.section.selected"
+        [(section_loaded)]="map.road.section.loaded"
+        [(focus)]="map.focus"
       ></ias-system-task-road-object-map>
     </div>
-    <div class="system-task-road-object-list" [class.show]="type != undefined">
+    <div
+      class="system-task-road-object-list"
+      [class.show]="map.type != undefined"
+    >
       <ias-system-task-road-object-list-container
-        [type]="type"
-        [objects]="road.object.datas"
-        [points]="road.point.datas"
-        [sections]="road.section.datas"
+        [type]="map.type"
+        [objects]="map.road.object.datas"
+        [points]="map.road.point.datas"
+        [sections]="map.road.section.datas"
         (close)="on.type()"
         (details)="window.details.open($event)"
+        (position)="on.select($event)"
+        (itemover)="on.mouse.hover($event)"
+        (itemleave)="on.mouse.leave($event)"
+        (selectedChange)="on.select($event)"
       ></ias-system-task-road-object-list-container>
     </div>
   </div>
@@ -86,7 +102,7 @@
   >
     <ias-system-module-road-object-video-manager
       [data]="window.video.data"
-      [objects]="road.object.datas"
+      [objects]="map.road.object.datas"
       (pickup)="file.on.pickup($event)"
       (details)="window.details.open($event)"
       (close)="window.video.show = false"

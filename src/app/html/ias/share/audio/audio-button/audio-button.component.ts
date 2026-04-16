@@ -27,6 +27,7 @@ export class AudioButtonComponent implements OnChanges, OnInit, OnDestroy {
   @Output() playing = new EventEmitter<number>();
   @Output() stoped = new EventEmitter<void>();
   @Output() inited = new EventEmitter<void>();
+  @Input() disabled = false;
 
   constructor(
     private medium: MediumRequestService,

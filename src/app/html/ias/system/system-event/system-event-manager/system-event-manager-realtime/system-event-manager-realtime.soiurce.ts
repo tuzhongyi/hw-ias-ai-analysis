@@ -18,7 +18,7 @@ export class SystemEventManagerRealtimeSource {
   ) {
     this.handle = this.init.handle();
     this.misinform = this.init.misinform();
-    this.type = source.event.LiveEventTypes.get();
+    this.type = source.event.EventTypes.get();
     this.init.division();
   }
 

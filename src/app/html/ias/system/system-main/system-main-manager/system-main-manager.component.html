@@ -40,9 +40,10 @@
 
   <div
     class="system-main-manager-heatmap-filter panel-map"
-    *ngIf="panel.navigation.index == Navigation.heatmap"
+    [class.show]="panel.navigation.index == Navigation.heatmap"
   >
     <ias-system-main-map-heatmap-filter
+      *ngIf="panel.navigation.index == Navigation.heatmap"
       (loaded)="map.on.heatmap($event)"
     ></ias-system-main-map-heatmap-filter>
   </div>

@@ -56,7 +56,16 @@
       class="system-module-road-object-manager-head-operation"
       *ngIf="operable"
     >
-      <button class="button-clip-gradient" (click)="window.file.open()">
+      <button
+        class="button-clip-gradient"
+        (click)="window.file.open(OptionMode.update)"
+      >
+        视频修改
+      </button>
+      <button
+        class="button-clip-gradient"
+        (click)="window.file.open(OptionMode.create)"
+      >
         视频添加
       </button>
       <button class="button-clip-gradient" (click)="window.details.open()">
@@ -148,10 +157,12 @@
     <ias-system-module-road-object-video-manager
       [data]="window.video.data"
       [objects]="table.datas"
+      [mode]="window.file.mode"
       (pickup)="file.on.pickup($event)"
       (details)="window.details.open($event)"
       (close)="window.video.show = false"
       (next)="window.file.on.next($event)"
+      (reload)="search()"
     ></ias-system-module-road-object-video-manager>
   </ias-window>
   <ias-window

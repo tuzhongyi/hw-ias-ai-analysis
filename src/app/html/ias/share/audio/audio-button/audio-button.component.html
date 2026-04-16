@@ -1,4 +1,4 @@
-<button class="button" (click)="on.play()">
+<button class="button" (click)="on.play()" [disabled]="disabled">
   <i
     [class.playing]="audio.playing"
     class="mdi"

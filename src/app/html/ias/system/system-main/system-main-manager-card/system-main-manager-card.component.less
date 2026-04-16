@@ -10,9 +10,15 @@
     flex-direction: column;
     gap: @card-gap;
     position: absolute;
-    width: @card-width;
+
     height: calc(100% - 2 * @card-margin);
     top: @card-margin;
+    transition: all 0.5s;
+    width: 0;
+
+    &.show {
+      width: @card-width;
+    }
 
     &.left {
       left: @card-margin;
@@ -20,6 +26,7 @@
 
     &.right {
       right: @card-margin;
+      width: @card-width;
     }
   }
 

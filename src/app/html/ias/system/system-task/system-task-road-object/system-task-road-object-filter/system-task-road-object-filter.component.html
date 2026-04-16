@@ -53,7 +53,7 @@
   </div>
   <div class="forms" *ngIf="type == Type.object">
     <div class="form-item">
-      <div class="form-item-text" text-space-between>物件类型</div>
+      <div class="form-item-text" text-space-between>部件类型</div>
       <div class="form-item-value fill">
         <hw-select [(selected)]="args.object.type" [nullable]="true">
           <select [(ngModel)]="args.object.type">
@@ -68,7 +68,7 @@
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text" text-space-between>物件状态</div>
+      <div class="form-item-text" text-space-between>部件状态</div>
       <div class="form-item-value fill">
         <hw-select [(selected)]="args.object.state" [nullable]="true">
           <select [(ngModel)]="args.object.state">
@@ -83,13 +83,13 @@
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text" text-space-between>物件名称</div>
+      <div class="form-item-text" text-space-between>部件名称</div>
       <div class="form-item-value">
         <input type="text" [(ngModel)]="args.object.name" />
       </div>
     </div>
     <div class="form-item">
-      <div class="form-item-text" text-space-between>物件地址</div>
+      <div class="form-item-text" text-space-between>部件地址</div>
       <div class="form-item-value">
         <input type="text" [(ngModel)]="args.object.address" />
       </div>
@@ -101,14 +101,16 @@
 
   <div class="forms">
     <div class="form-item button-group" *ngIf="type == Type.object">
-      <button class="button-clip-gradient">视频添加</button>
-      <button class="button-clip-gradient">手动添加</button>
+      <button class="button-clip-gradient" (click)="on.file()">视频添加</button>
+      <button class="button-clip-gradient" (click)="on.create()">
+        手动添加
+      </button>
     </div>
     <div class="form-item button-group" *ngIf="type == Type.point">
-      <button class="button-clip-gradient">添加</button>
+      <button class="button-clip-gradient" (click)="on.create()">添加</button>
     </div>
     <div class="form-item button-group" *ngIf="type == Type.section">
-      <button class="button-clip-gradient">添加</button>
+      <button class="button-clip-gradient" (click)="on.create()">添加</button>
     </div>
   </div>
 </div>

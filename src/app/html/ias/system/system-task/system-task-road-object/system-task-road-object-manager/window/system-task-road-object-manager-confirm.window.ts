@@ -12,7 +12,7 @@ export class SystemTaskRoadObjectManagerConfirmWindow extends WindowViewModel {
   get content() {
     let type = '';
     if (this.data instanceof RoadObject) {
-      type = '道路物件';
+      type = '道路部件';
     } else if (this.data instanceof RoadPoint) {
       type = '道路屏蔽点';
     } else if (this.data instanceof RoadSection) {

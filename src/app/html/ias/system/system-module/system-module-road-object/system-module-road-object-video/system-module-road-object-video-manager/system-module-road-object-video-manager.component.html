@@ -14,23 +14,47 @@
       <div class="video-info-marker center"></div>
       <div class="video-info-marker right"></div>
     </div>
-    <div class="panel map">
-      <ias-system-module-road-object-video-map-manager
-        [objects]="objects"
-        [data]="data"
-        [to]="video.event.time"
-        [roadable]="true"
-        (trigger)="map.on.seek($event)"
-        (loaded)="map.on.loaded($event)"
-        (error)="map.on.error($event)"
-        [pickupable]="false"
-        (objectdblclick)="map.on.object.dblclick($event)"
-        (current)="map.on.current($event)"
-        (course)="map.on.course($event)"
-      ></ias-system-module-road-object-video-map-manager>
+    <div class="map-info">
+      <div
+        class="panel map"
+        [class.hide]="mode == OptionMode.update && selected"
+      >
+        <ias-system-module-road-object-video-map-manager
+          [objects]="objects"
+          [data]="data"
+          [to]="video.event.time"
+          [roadable]="true"
+          (trigger)="map.on.seek($event)"
+          (loaded)="map.on.loaded($event)"
+          (error)="map.on.error($event)"
+          [pickupable]="false"
+          (objectdblclick)="map.on.object.dblclick($event)"
+          (objectclick)="map.on.object.click($event)"
+          (current)="map.on.current($event)"
+          (course)="map.on.course($event)"
+        ></ias-system-module-road-object-video-map-manager>
+      </div>
+      <div
+        class="update-info"
+        [class.show]="mode == OptionMode.update && selected"
+        *ngIf="mode == OptionMode.update && selected"
+      >
+        <ias-system-module-road-object-details-simple
+          [data]="selected"
+          [gcj02]="map.current"
+          [course]="map.course"
+          [picture]="on.simple.picture"
+          (close)="selected = undefined"
+          (capture)="on.simple.capture()"
+          (saved)="on.simple.saved()"
+        ></ias-system-module-road-object-details-simple>
+      </div>
     </div>
   </div>
-  <div class="system-module-road-object-video-manager-foot">
+  <div
+    class="system-module-road-object-video-manager-foot"
+    *ngIf="mode == OptionMode.create"
+  >
     <div>
       <button (click)="video.on.next()" [disabled]="last">下一个视频</button>
     </div>

@@ -51,8 +51,8 @@ export class SystemTaskFileDetailsAMapDetectController {
     this.undetected.load(detect.un, { zooms: [0, 50] });
   }
 
-  moving(position: [number, number]) {
-    this.detected.moving(position);
-    this.undetected.moving(position);
+  moving(position: [number, number], pixel = true) {
+    this.detected.moving(position, pixel);
+    this.undetected.moving(position, pixel);
   }
 }

@@ -14,7 +14,7 @@ export class SystemMainMapAMapRoadObjectMarkerLayerController extends IASMapAMap
     info: IASMapAMapInfoController,
     subscription: Subscription
   ) {
-    super(map, info, subscription);
+    super(map, subscription, info);
   }
   protected override create(data: RoadObject) {
     return new SystemMainMapAMapRoadObjectMarkerLabelController(data);

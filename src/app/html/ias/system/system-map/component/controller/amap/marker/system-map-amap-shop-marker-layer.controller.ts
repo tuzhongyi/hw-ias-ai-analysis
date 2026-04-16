@@ -116,7 +116,11 @@ export class SystemAMapShopMarkerLayerController {
   set = {
     zoom: (zoom: number) => {
       this.zoom = zoom;
-      this.info.set.offset(zoom);
+      let y = -70;
+      if (zoom < 19) {
+        y = -10;
+      }
+      this.info.set.offset([0, y]);
     },
   };
 }

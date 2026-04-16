@@ -13,6 +13,7 @@ import { ArmSystemRequestService } from '../../../../../../common/data-core/requ
 import { LocaleCompare } from '../../../../../../common/tools/compare-tool/compare.tool';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
+import { ObjectTool } from '../../../../../../common/tools/object-tool/object.tool';
 import { SystemStatisticRoadObjectArgs } from './system-statistic-road-object-manager.model';
 
 @Injectable()
@@ -36,20 +37,22 @@ export class SystemStatisticRoadObjectManagerBusiness {
   async path(
     deviceId: string,
     records: RoadObjectEventRecord[]
-  ): Promise<FileGpsItem[]> {
+  ): Promise<FileGpsItem[][]> {
     if (records.length == 0) {
       return [];
     } else if (records.length == 1) {
       let record = records[0];
       let duration = DateTimeTool.beforeOrAfter(record.EventTime, 30);
-      return this.data.path(deviceId, duration);
+      let path = await this.data.path(deviceId, duration);
+      return ObjectTool.model.FileGpsItem.split(path);
     } else {
       let begin = records[0].EventTime;
       begin.setMinutes(begin.getMinutes() - 1);
       let end = records[records.length - 1].EventTime;
       end.setMinutes(end.getMinutes() + 1);
       let duration = { begin, end };
-      return this.data.path(deviceId, duration);
+      let path = await this.data.path(deviceId, duration);
+      return ObjectTool.model.FileGpsItem.split(path);
     }
   }
   devices(deviceIds: string[]) {
@@ -123,7 +126,11 @@ export class SystemStatisticRoadObjectManagerBusiness {
       params.Asc = 'EventTime';
       return this.service.geo.road.object.event.all(params);
     },
-    path: (deviceId: string, duration: Duration, rectified = false) => {
+    path: (
+      deviceId: string,
+      duration: Duration,
+      rectified = false
+    ): Promise<FileGpsItem[]> => {
       let params = new GetMobileDeviceRoutesParams();
       params.MobileDeviceId = deviceId;
       params.BeginTime = duration.begin;

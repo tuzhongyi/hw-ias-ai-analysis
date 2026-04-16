@@ -12,9 +12,13 @@
           class="system-task-road-object-list-item"
           *ngFor="let item of data.object"
           [style.height]="'calc(100% / ' + page.PageSize + ')'"
+          (click)="on.select(item)"
+          (mouseover)="on.mouse.hover(item)"
+          (mouseleave)="on.mouse.leave(item)"
         >
           <ias-system-task-road-object-list-item-object
             [data]="item"
+            [selected]="item == selected"
             (position)="on.position($event)"
             (details)="on.details($event)"
             (delete)="on.delete($event)"
@@ -26,9 +30,13 @@
           class="system-task-road-object-list-item"
           *ngFor="let item of data.point"
           [style.height]="'calc(100% / ' + page.PageSize + ')'"
+          (click)="on.select(item)"
+          (mouseover)="on.mouse.hover(item)"
+          (mouseleave)="on.mouse.leave(item)"
         >
           <ias-system-task-road-object-list-item-point
             [data]="item"
+            [selected]="item == selected"
             (position)="on.position($event)"
             (details)="on.details($event)"
             (delete)="on.delete($event)"
@@ -40,9 +48,13 @@
           class="system-task-road-object-list-item"
           *ngFor="let item of data.section"
           [style.height]="'calc(100% / ' + page.PageSize + ')'"
+          (click)="on.select(item)"
+          (mouseover)="on.mouse.hover(item)"
+          (mouseleave)="on.mouse.leave(item)"
         >
           <ias-system-task-road-object-list-item-section
             [data]="item"
+            [selected]="item == selected"
             (position)="on.position($event)"
             (details)="on.details($event)"
             (delete)="on.delete($event)"

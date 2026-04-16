@@ -22,7 +22,7 @@ export class IASMapAMapPathController {
   constructor(private map: AMap.Map, private index = 0) {}
 
   private polyline?: AMap.Polyline;
-  private points: [number, number][] = [];
+  public points: [number, number][] = [];
   private hover = false;
 
   private onmouseover(e: any) {

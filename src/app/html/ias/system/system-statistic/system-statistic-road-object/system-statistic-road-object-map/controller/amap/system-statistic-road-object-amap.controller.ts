@@ -1,4 +1,5 @@
 import { Subscription } from 'rxjs';
+import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { ComponentTool } from '../../../../../../../../common/tools/component-tool/component.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
@@ -24,9 +25,6 @@ export class SystemStatisticRoadObjectAMapController {
         simple: this.controller.record.info.simple.get(),
       },
     };
-  }
-  get path() {
-    return this.controller.path.get();
   }
   get way() {
     return this.controller.way.get();
@@ -125,6 +123,39 @@ export class SystemStatisticRoadObjectAMapController {
     way: (map: AMap.Map) => {
       let ctr = new IASMapAMapPathWayController(map);
       this.controller.way.set(ctr);
+    },
+  };
+
+  private _path: IASMapAMapPathController[] = [];
+  path = {
+    load: async (datas: FileGpsItem[][], focus: boolean) => {
+      let map = await this.controller.map.get();
+
+      let polylines = datas
+        .map((items, i) => {
+          let positions = items.map(
+            (x) => [x.Longitude, x.Latitude] as [number, number]
+          );
+          let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
+          let path = new IASMapAMapPathController(map, type);
+
+          this._path.push(path);
+          return path.load(positions, false)!;
+        })
+        .filter((x) => !!x);
+
+      if (focus) {
+        map.setFitView(polylines, true);
+        setTimeout(() => {
+          map.setFitView(polylines, true);
+        }, 2 * 1000);
+      }
+    },
+    clear: () => {
+      this._path.forEach((x) => {
+        x.clear();
+      });
+      this._path = [];
     },
   };
 }

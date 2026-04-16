@@ -38,6 +38,7 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
   @Output('current') _current = new EventEmitter<[number, number]>();
   @Output('closest') _closest = new EventEmitter<FileGpsItem>();
   @Output() objectdblclick = new EventEmitter<RoadObject>();
+  @Output() objectclick = new EventEmitter<RoadObject>();
   @Output() course = new EventEmitter<number>();
 
   rectified = false;
@@ -85,6 +86,9 @@ export class SystemModuleRoadObjectVideoMapManagerComponent {
     object: {
       dblclick: (data: RoadObject) => {
         this.objectdblclick.emit(data);
+      },
+      click: (data: RoadObject) => {
+        this.objectclick.emit(data);
       },
     },
   };

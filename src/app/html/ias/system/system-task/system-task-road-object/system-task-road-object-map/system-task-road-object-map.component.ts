@@ -5,6 +5,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   Output,
   SimpleChange,
   SimpleChanges,
@@ -23,13 +24,16 @@ import { SystemTaskRoadObjectMapController } from './controller/system-task-road
   styleUrl: './system-task-road-object-map.component.less',
   providers: [ComponentTool],
 })
-export class SystemTaskRoadObjectMapComponent implements OnChanges, OnDestroy {
+export class SystemTaskRoadObjectMapComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @Input() objects: RoadObject[] = [];
   @Input() objectable = true;
   @Input() object_selected?: RoadObject;
   @Output() object_selectedChange = new EventEmitter<RoadObject>();
   @Input() object_loaded = false;
   @Output() object_loadedChange = new EventEmitter<boolean>();
+  @Output() object_dblclick = new EventEmitter<RoadObject>();
 
   @Input() sections: RoadSection[] = [];
   @Input() sectionable = true;
@@ -37,6 +41,7 @@ export class SystemTaskRoadObjectMapComponent implements OnChanges, OnDestroy {
   @Output() section_selectedChange = new EventEmitter<RoadSection>();
   @Input() section_loaded = false;
   @Output() section_loadedChange = new EventEmitter<boolean>();
+  @Output() section_dblclick = new EventEmitter<RoadSection>();
 
   @Input() points: RoadPoint[] = [];
   @Input() pointable = true;
@@ -44,9 +49,13 @@ export class SystemTaskRoadObjectMapComponent implements OnChanges, OnDestroy {
   @Output() point_selectedChange = new EventEmitter<RoadPoint>();
   @Input() point_loaded = false;
   @Output() point_loadedChange = new EventEmitter<boolean>();
+  @Output() point_dblclick = new EventEmitter<RoadPoint>();
 
   @Input() focus = false;
   @Output() focusChange = new EventEmitter<boolean>();
+
+  @Input() itemover?: EventEmitter<RoadObject | RoadPoint | RoadSection>;
+  @Input() itemleave?: EventEmitter<RoadObject | RoadPoint | RoadSection>;
 
   constructor(tool: ComponentTool) {
     this.controller = new SystemTaskRoadObjectMapController(
@@ -115,7 +124,9 @@ export class SystemTaskRoadObjectMapComponent implements OnChanges, OnDestroy {
       },
       selected: (simple: SimpleChange) => {
         if (simple && !simple.firstChange) {
-          console.log('change object selected', this.object_selected);
+          if (this.object_selected) {
+            this.controller.road.object.select(this.object_selected);
+          }
         }
       },
       enable: (simple: SimpleChange) => {
@@ -170,7 +181,10 @@ export class SystemTaskRoadObjectMapComponent implements OnChanges, OnDestroy {
       }
     },
   };
-
+  ngOnInit(): void {
+    this.regist.input();
+    this.regist.output();
+  }
   ngOnChanges(changes: SimpleChanges): void {
     this.change.object.datas(changes['objects']);
     this.change.object.selected(changes['object_selected']);
@@ -187,4 +201,41 @@ export class SystemTaskRoadObjectMapComponent implements OnChanges, OnDestroy {
     this.subscription.unsubscribe();
     this.controller.map.destroy();
   }
+
+  private regist = {
+    input: () => {
+      if (this.itemover) {
+        let sub_itemover = this.itemover.subscribe((x) => {
+          if (x instanceof RoadObject) {
+            this.controller.road.object.hover(x);
+          }
+        });
+        this.subscription.add(sub_itemover);
+      }
+      if (this.itemleave) {
+        let sub_itemleave = this.itemleave.subscribe((x) => {
+          if (x instanceof RoadObject) {
+            this.controller.road.object.leave(x);
+          }
+        });
+        this.subscription.add(sub_itemleave);
+      }
+    },
+    output: () => {
+      let sub_object_click = this.controller.road.event.click.subscribe(
+        (data) => {
+          this.object_selected = data;
+          this.object_selectedChange.emit(this.object_selected);
+        }
+      );
+      this.subscription.add(sub_object_click);
+
+      let sub_object_dblclick = this.controller.road.event.dblclick.subscribe(
+        (data) => {
+          this.object_dblclick.emit(data);
+        }
+      );
+      this.subscription.add(sub_object_dblclick);
+    },
+  };
 }

@@ -300,8 +300,8 @@ export class SystemMainMapAMapController {
       marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
         let ctr = new IASMapAMapRoadObjectMarkerLayerController(
           map,
-          info,
-          this.subscription
+          this.subscription,
+          info
         );
         let sub1 = ctr.event.click.subscribe((x) => {
           this.event.road.object.click.emit(x);

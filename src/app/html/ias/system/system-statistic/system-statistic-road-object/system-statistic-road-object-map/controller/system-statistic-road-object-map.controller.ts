@@ -98,13 +98,8 @@ export class SystemStatisticRoadObjectMapController {
   };
 
   path = {
-    load: async (datas: FileGpsItem[], focus: boolean) => {
-      let path = await this.amap.path;
-      let positions = datas.map<[number, number]>((x) => {
-        return [x.Longitude, x.Latitude];
-      });
-
-      path.load(positions, focus, false);
+    load: async (datas: FileGpsItem[][], focus: boolean) => {
+      this.amap.path.load(datas, focus);
     },
     to: async (datas: FileGpsItem[], record: RoadObjectEventRecord) => {
       let way = await this.amap.way;
@@ -127,8 +122,7 @@ export class SystemStatisticRoadObjectMapController {
       }
     },
     clear: async () => {
-      let path = await this.amap.path;
-      path.clear();
+      this.amap.path.clear();
       let way = await this.amap.way;
       way.clear();
     },

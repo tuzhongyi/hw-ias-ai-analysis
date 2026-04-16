@@ -59,6 +59,7 @@ export class GeoLineTool {
 
   get = {
     by: {
+      /** 两点之间的百分比位置 */
       percent: (line: GeoLine, percent: number): GeoPoint => {
         // 防御一下
         if (percent <= 0) return [...line[0]];

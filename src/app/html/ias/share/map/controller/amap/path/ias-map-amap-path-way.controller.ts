@@ -21,7 +21,7 @@ export class IASMapAMapPathWayController {
   constructor(private map: AMap.Map) {}
 
   private polyline?: AMap.Polyline;
-  private points: [number, number][] = [];
+  points: [number, number][] = [];
   private hover = false;
 
   private onmouseover(e: any) {

@@ -28,13 +28,22 @@
         class="system-module-road-point-details-manager-segment panel panel-flex"
       >
         <div class="panel-head">
-          <div class="panel-title">
+          <div class="panel-title">工作表</div>
+          <div class="button-group">
+            <label for="road_section_details_all_day"
+              >全天<input
+                type="radio"
+                id="road_section_details_all_day"
+                [checked]="!model.ScheduleEnabled"
+                (change)="schedule.enable(false)"
+              />
+            </label>
             <label for="road_section_details_segment"
-              >工作表<input
-                type="checkbox"
+              >分时段<input
+                type="radio"
                 id="road_section_details_segment"
-                [(ngModel)]="model.ScheduleEnabled"
-                (change)="schedule.enable()"
+                [checked]="model.ScheduleEnabled"
+                (change)="schedule.enable(true)"
               />
             </label>
           </div>

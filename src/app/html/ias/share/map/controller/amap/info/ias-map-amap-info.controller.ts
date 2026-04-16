@@ -1,6 +1,9 @@
-import { IIASMapAMapInfo } from './ias-map-amap-info.model';
+import {
+  IIASMapAMapInfo,
+  IIASMapAMapInfoController,
+} from './ias-map-amap-info.model';
 
-export class IASMapAMapInfoController {
+export class IASMapAMapInfoController implements IIASMapAMapInfoController {
   constructor(private map: AMap.Map) {
     this.marker = this.init();
   }
@@ -21,8 +24,11 @@ export class IASMapAMapInfoController {
                         <div class="amap-info-sharp"></div>
                     </div>`;
       this.marker.setContent(content);
-
-      this.set.offset(zoom ?? 50);
+      let y = -70;
+      if (zoom ?? 50 < 19) {
+        y = -10;
+      }
+      this.set.offset([0, y]);
       if (offset) {
         let pixel = new AMap.Pixel(...offset);
         this.marker.setOffset(pixel);
@@ -31,18 +37,13 @@ export class IASMapAMapInfoController {
       this.marker.setPosition(data.Location);
       this.map.add(this.marker);
     }
-    return undefined;
   }
   remove() {
     this.map.remove(this.marker);
   }
 
   set = {
-    offset: (zoom: number) => {
-      let offset: [number, number] = [0, -70];
-      if (zoom < 19) {
-        offset = [0, -10];
-      }
+    offset: (offset: [number, number]) => {
       let pixel = new AMap.Pixel(...offset);
       this.marker.setOffset(pixel);
     },

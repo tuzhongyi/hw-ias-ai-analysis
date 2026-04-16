@@ -78,9 +78,9 @@ export class IASMapAMapRoadObjectPointLayerController {
     });
   }
 
-  moving(position: [number, number]) {
+  moving(position: [number, number], pixel = true) {
     this.controllers.forEach((controller) => {
-      controller.moving(position);
+      controller.moving(position, pixel);
     });
   }
 

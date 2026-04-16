@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
+import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool';
 import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
 import { wait } from '../../../../../../common/tools/wait';
 import { SystemStatisticRoadObjectMapController } from './controller/system-statistic-road-object-map.controller';
@@ -31,7 +32,7 @@ export class SystemStatisticRoadObjectMapComponent
   @Input() selected?: RoadObjectEventRecord;
   @Output() selectedChange = new EventEmitter<RoadObjectEventRecord>();
 
-  @Input() path: FileGpsItem[] = [];
+  @Input() path: FileGpsItem[][] = [];
 
   @Output() recorddblclick = new EventEmitter<RoadObjectEventRecord>();
 
@@ -83,7 +84,9 @@ export class SystemStatisticRoadObjectMapComponent
       if (simple && !simple.firstChange) {
         if (this.selected) {
           this.controller.record.select(this.selected);
-          this.controller.path.to(this.path, this.selected);
+          let path = this.path.flat(1);
+          path = ArrayTool.unique(path, (a, b) => a.No == b.No);
+          this.controller.path.to(path, this.selected);
         } else {
           this.controller.record.blur();
         }

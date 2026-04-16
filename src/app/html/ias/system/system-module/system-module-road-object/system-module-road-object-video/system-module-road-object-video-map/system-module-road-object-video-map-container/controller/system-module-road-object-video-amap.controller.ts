@@ -1,7 +1,14 @@
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { FileGpsItem } from '../../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { RoadObject } from '../../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { MapHelper } from '../../../../../../../../../common/helper/map/map.helper';
+import {
+  GeoLine,
+  GeoPoint,
+} from '../../../../../../../../../common/tools/geo-tool/geo.model';
+import { GeoTool } from '../../../../../../../../../common/tools/geo-tool/geo.tool';
+import { ObjectTool } from '../../../../../../../../../common/tools/object-tool/object.tool';
 import { PromiseValue } from '../../../../../../../../../common/view-models/value.promise';
 import { IASMapAMapInfoController } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
@@ -26,7 +33,6 @@ export class SystemModuleRoadObjectVideoAMapController {
   pickupable = false;
   map = new PromiseValue<AMap.Map>();
   arrow = new PromiseValue<IASMapAMapPathArrowController>();
-  path = new PromiseValue<IASMapAMapPathController>();
   way = new PromiseValue<IASMapAMapPathWayController>();
   label = new PromiseValue<IASMapAMapPathLabelController>();
   pickup = new PromiseValue<SystemTaskFileDetailsAMapPickupController>();
@@ -44,7 +50,7 @@ export class SystemModuleRoadObjectVideoAMapController {
         let container = this.init.map(x);
         let info = this.init.info(x);
         this.init.path(x);
-        this.init.pickup(x);
+        this.init.pickup(x, subscription);
 
         this.init.roadobject.point(container);
         this.init.roadobject.marker(x, info);
@@ -70,12 +76,14 @@ export class SystemModuleRoadObjectVideoAMapController {
     },
     path: (map: AMap.Map) => {
       this.arrow.set(new IASMapAMapPathArrowController(map));
-      this.path.set(new IASMapAMapPathController(map));
       this.way.set(new IASMapAMapPathWayController(map));
       this.label.set(new IASMapAMapPathLabelController(map));
     },
-    pickup: (map: AMap.Map) => {
-      let point = new SystemTaskFileDetailsAMapPickupController(map);
+    pickup: (map: AMap.Map, subscription: Subscription) => {
+      let point = new SystemTaskFileDetailsAMapPickupController(
+        map,
+        subscription
+      );
       this.pickup.set(point);
       this.regist.point(point);
     },
@@ -96,6 +104,25 @@ export class SystemModuleRoadObjectVideoAMapController {
         );
         let sub1 = ctr.event.click.subscribe((x) => {
           this.event.road.object.click.emit(x);
+
+          let gcj02 = x.Location.GCJ02;
+          let point: GeoPoint = [gcj02.Longitude, gcj02.Latitude];
+          let closests = this._path.map((x) => {
+            return GeoTool.polyline.closest.get(x.points, point);
+          });
+          closests = closests.sort((a, b) => {
+            let _a = a?.distance ?? 0;
+            let _b = b?.distance ?? 0;
+            return _a - _b;
+          });
+          let closest = closests[0];
+          if (closest) {
+            this.path.click.emit({
+              line: closest.line,
+              point: closest.foot,
+              percent: closest.percent.segment,
+            });
+          }
         });
         this.subscription.add(sub1);
         let sub2 = ctr.event.dblclick.subscribe((x) => {
@@ -129,9 +156,10 @@ export class SystemModuleRoadObjectVideoAMapController {
       });
     },
     point: (controller: SystemTaskFileDetailsAMapPickupController) => {
-      controller.event.dragend.subscribe((x) => {
+      let sub = controller.event.dragend.subscribe((x) => {
         this.event.point.emit(x);
       });
+      this.subscription.add(sub);
     },
 
     roadobject: {
@@ -170,4 +198,60 @@ export class SystemModuleRoadObjectVideoAMapController {
       this.map.clear();
     });
   }
+
+  private _path: IASMapAMapPathController[] = [];
+  path = {
+    mouseover: new EventEmitter<{
+      line: GeoLine;
+      point: GeoPoint;
+      percent: number;
+    }>(),
+    mouseout: new EventEmitter<void>(),
+    click: new EventEmitter<{
+      line: GeoLine;
+      point: GeoPoint;
+      percent: number;
+    }>(),
+    load: async (datas: FileGpsItem[], focus: boolean) => {
+      let map = await this.map.get();
+      let splited = ObjectTool.model.FileGpsItem.split(datas);
+      let polylines = splited
+        .map((items, i) => {
+          let positions = items.map(
+            (x) => [x.Longitude, x.Latitude] as [number, number]
+          );
+          let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
+          let path = new IASMapAMapPathController(map, type);
+          let sub1 = path.mouseover.subscribe((x) => {
+            this.path.mouseover.emit(x);
+          });
+          this.subscription.add(sub1);
+          let sub2 = path.mouseout.subscribe((x) => {
+            this.path.mouseout.emit(x);
+          });
+          this.subscription.add(sub2);
+          let sub3 = path.click.subscribe((x) => {
+            this.path.click.emit(x);
+          });
+          this.subscription.add(sub3);
+
+          this._path.push(path);
+          return path.load(positions, false)!;
+        })
+        .filter((x) => !!x);
+
+      if (focus) {
+        map.setFitView(polylines, true);
+        setTimeout(() => {
+          map.setFitView(polylines, true);
+        }, 2 * 1000);
+      }
+    },
+    clear: () => {
+      this._path.forEach((x) => {
+        x.clear();
+      });
+      this._path = [];
+    },
+  };
 }

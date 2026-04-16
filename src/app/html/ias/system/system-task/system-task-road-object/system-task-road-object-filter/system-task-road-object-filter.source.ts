@@ -32,7 +32,7 @@ export class SystemTaskRoadObjectFilterSource {
         let name = '';
         switch (x) {
           case SystemTaskRoadObjectType.object:
-            name = '道路物件';
+            name = '道路部件';
             break;
           case SystemTaskRoadObjectType.section:
             name = '屏蔽路段';

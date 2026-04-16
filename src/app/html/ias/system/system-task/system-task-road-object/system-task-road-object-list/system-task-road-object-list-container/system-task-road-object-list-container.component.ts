@@ -53,6 +53,16 @@ export class SystemTaskRoadObjectListContainerComponent
   @Output() delete = new EventEmitter<RoadObject | RoadPoint | RoadSection>();
   @Output() close = new EventEmitter<void>();
 
+  @Input() selected?: RoadObject | RoadPoint | RoadSection;
+  @Output() selectedChange = new EventEmitter<
+    RoadObject | RoadPoint | RoadSection
+  >();
+
+  @Output() itemover = new EventEmitter<RoadObject | RoadPoint | RoadSection>();
+  @Output() itemleave = new EventEmitter<
+    RoadObject | RoadPoint | RoadSection
+  >();
+
   constructor() {}
 
   get title() {
@@ -150,15 +160,29 @@ export class SystemTaskRoadObjectListContainerComponent
 
     position: (data: RoadObject | RoadPoint | RoadSection) => {
       this.position.emit(data);
+      this.on.select(data);
     },
     details: (data: RoadObject | RoadPoint | RoadSection) => {
       this.details.emit(data);
+      this.on.select(data);
     },
     delete: (data: RoadObject | RoadPoint | RoadSection) => {
       this.delete.emit(data);
     },
+    select: (data: RoadObject | RoadPoint | RoadSection) => {
+      this.selected = data;
+      this.selectedChange.emit(this.selected);
+    },
     close: () => {
       this.close.emit();
+    },
+    mouse: {
+      hover: (data: RoadObject | RoadPoint | RoadSection) => {
+        this.itemover.emit(data);
+      },
+      leave: (data: RoadObject | RoadPoint | RoadSection) => {
+        this.itemleave.emit(data);
+      },
     },
   };
 

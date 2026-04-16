@@ -32,7 +32,7 @@ export class SystemModuleRoadObjectVideoMapController {
       this.amap,
       subscription
     );
-    this.regist();
+    this.regist(subscription);
   }
 
   map = {
@@ -54,55 +54,55 @@ export class SystemModuleRoadObjectVideoMapController {
     datas: [] as FileGpsItem[],
     load: async (datas: FileGpsItem[], focus: boolean) => {
       this.path.datas = datas;
-      let ll = this.path.datas.map<[number, number]>((x) => {
-        return [x.Longitude, x.Latitude];
-      });
-      let path = await this.amap.path.get();
-      path.load(ll, focus);
+      this.amap.path.load(datas, focus);
     },
-
     clear: async () => {
-      let path = await this.amap.path.get();
-      path.clear();
+      this.path.datas = [];
+      this.amap.path.clear();
       this.event.point.emit(undefined);
     },
   };
 
-  private regist() {
-    this.amap.path.get().then((path) => {
-      path.mouseover.subscribe((data) => {
-        this.on.label.show(data);
-      });
-      path.mouseout.subscribe(() => {
-        this.amap.label.get().then((label) => {
-          label.hide();
-        });
-      });
-      path.click.subscribe((data) => {
-        this.amap.label.get().then((label) => {
-          label.hide();
-          this.onclick(data);
-        });
+  private regist(subscription: Subscription) {
+    let sub_mouseover = this.amap.path.mouseover.subscribe((data) => {
+      this.on.label.show(data);
+    });
+    subscription.add(sub_mouseover);
+    let sub_mouseout = this.amap.path.mouseout.subscribe(() => {
+      this.amap.label.get().then((label) => {
+        label.hide();
       });
     });
+    subscription.add(sub_mouseout);
+    let sub_click = this.amap.path.click.subscribe((data) => {
+      this.amap.label.get().then((label) => {
+        label.hide();
+        this.onclick(data);
+      });
+    });
+    subscription.add(sub_click);
 
     this.amap.way.get().then((way) => {
-      way.mouseover.subscribe((point) => {
+      let sub_way_mouseover = way.mouseover.subscribe((point) => {
         this.on.label.show(point);
       });
-      way.mouseout.subscribe(() => {
+      subscription.add(sub_way_mouseover);
+      let sub_way_mouseout = way.mouseout.subscribe(() => {
         this.on.label.hide();
       });
-      way.click.subscribe((point) => {
+      subscription.add(sub_way_mouseout);
+      let sub_way_click = way.click.subscribe((point) => {
         this.amap.label.get().then((label) => {
           label.hide();
           this.onclick(point);
         });
       });
+      subscription.add(sub_way_click);
     });
-    this.amap.event.point.subscribe((x) => {
+    let sub_point = this.amap.event.point.subscribe((x) => {
       this.event.point.emit(x);
     });
+    subscription.add(sub_point);
   }
 
   on = {

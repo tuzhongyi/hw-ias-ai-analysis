@@ -25,7 +25,7 @@ export class SystemTaskFileDetailsMapGPSBusiness {
     return paths;
   }
 
-  private convert(datas: FileGpsItem[]) {
+  convert(datas: FileGpsItem[]) {
     if (!Array.isArray(datas) || datas.length === 0) {
       return [];
     }

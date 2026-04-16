@@ -57,8 +57,14 @@ export abstract class IASMapAMapPointAbstract {
     this.layer.remove();
   }
 
-  moving(position: [number, number]) {
-    let point = this.layer.queryFeature(position);
+  moving(position: [number, number], pixel = true) {
+    let point: any;
+    if (pixel) {
+      point = this.layer.queryFeature(position);
+    } else {
+      point = this.query(position);
+    }
+
     if (point) {
       this.over = point.properties as ILocation;
       this.event.move.emit(this.over);
@@ -68,5 +74,19 @@ export abstract class IASMapAMapPointAbstract {
         this.event.move.emit();
       }
     }
+  }
+
+  query(position: [number, number]) {
+    let layer = this.layer as any;
+    let source = layer.source;
+    let dataset = source.dataset;
+    let geo = dataset[0];
+    let features = geo.features;
+    let points = features.points as any[];
+    return points.find((point) => {
+      let x = point.coordinates[0];
+      let y = point.coordinates[1];
+      return x == position[0] && y == position[1];
+    });
   }
 }

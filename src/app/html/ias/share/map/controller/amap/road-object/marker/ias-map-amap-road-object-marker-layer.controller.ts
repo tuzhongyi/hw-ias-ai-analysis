@@ -2,8 +2,10 @@ import { Subscription } from 'rxjs';
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
 import { IASMapAMapConfig } from '../../ias-map-amap.config';
-import { IASMapAMapInfoController } from '../../info/ias-map-amap-info.controller';
-import { IIASMapAMapInfo } from '../../info/ias-map-amap-info.model';
+import {
+  IIASMapAMapInfo,
+  IIASMapAMapInfoController,
+} from '../../info/ias-map-amap-info.model';
 import { IASMapAMapMarkerEvent } from '../../marker/ias-map-amap-marker.model';
 import { IASMapAMapRoadObjectIconController } from './ias-map-amap-road-object-icon.controller';
 import { IASMapAMapRoadObjectMarkerLabelController } from './ias-map-amap-road-object-marker-label.controller';
@@ -15,9 +17,9 @@ export class IASMapAMapRoadObjectMarkerLayerController<
   event = new IASMapAMapMarkerEvent<RoadObject>();
 
   constructor(
-    map: AMap.Map,
-    private info: IASMapAMapInfoController,
-    private subscription: Subscription
+    private map: AMap.Map,
+    private subscription: Subscription,
+    private info?: IIASMapAMapInfoController
   ) {
     this.layer = this.init(map);
   }
@@ -41,22 +43,27 @@ export class IASMapAMapRoadObjectMarkerLayerController<
 
   private regist(point: TMarker, subscription: Subscription) {
     let sub1 = point.event.mouseover.subscribe((data) => {
-      let info: IIASMapAMapInfo = {
-        Name: data.Name,
-      };
-      if (data.Location) {
-        info.Location = [
-          data.Location.GCJ02.Longitude,
-          data.Location.GCJ02.Latitude,
-        ];
-      }
-      this.info.add(info, undefined, [0, -SizeTool.map.shop.height]);
       this.event.mouseover.emit(data);
+
+      if (this.info) {
+        let info: IIASMapAMapInfo = {
+          Name: data.Name,
+        };
+        if (data.Location) {
+          info.Location = [
+            data.Location.GCJ02.Longitude,
+            data.Location.GCJ02.Latitude,
+          ];
+        }
+        this.info.add(info, undefined, [0, -SizeTool.map.shop.height]);
+      }
     });
     subscription.add(sub1);
     let sub2 = point.event.mouseout.subscribe((data) => {
-      this.info.remove();
       this.event.mouseout.emit(data);
+      if (this.info) {
+        this.info.remove();
+      }
     });
     subscription.add(sub2);
     let sub3 = point.event.click.subscribe((data) => {
@@ -84,6 +91,20 @@ export class IASMapAMapRoadObjectMarkerLayerController<
       }
     }
     this.layer.add(markers);
+
+    // let circles = datas.map((x) => {
+    //   return new AMap.Circle({
+    //     center: [x.Location.GCJ02.Longitude, x.Location.GCJ02.Latitude],
+    //     radius: 2,
+    //     strokeColor: '#FF33FF',
+    //     strokeOpacity: 1,
+    //     strokeWeight: 2,
+    //     fillColor: '#FF33FF',
+    //     fillOpacity: 0.5,
+    //   });
+    // });
+    // this.map.add(circles);
+
     return markers;
   }
 
@@ -102,14 +123,19 @@ export class IASMapAMapRoadObjectMarkerLayerController<
         data.Location.GCJ02.Latitude,
       ];
     }
-    this.info.add(info, undefined, [0, -50]);
+    if (this.info) {
+      this.info.add(info, undefined, [0, -SizeTool.map.shop.height]);
+    }
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {
       point.hover();
     }
   }
   mouseout(data: RoadObject) {
-    this.info.remove();
+    if (this.info) {
+      this.info.remove();
+    }
+
     let point = this.points.find((x) => x.data.Id === data.Id);
     if (point) {
       point.out();

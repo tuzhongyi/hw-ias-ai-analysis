@@ -1,0 +1,30 @@
+<div
+  class="system-task-road-object-map-info root-router"
+  #info
+  [class]="model.color"
+>
+  <div class="system-task-road-object-map-info-container">
+    <div class="system-task-road-object-map-info-head">
+      <i class="howell-icon-point"></i>
+      {{ model.title }}
+    </div>
+    <div class="system-task-road-object-map-info-body">
+      <div class="forms" *ngFor="let item of model.items">
+        <div class="form-item">
+          <div
+            class="form-item-text system-task-road-object-map-info-icon"
+            [class]="item.classname"
+          >
+            <i [class]="item.icon"></i>
+          </div>
+          <div class="form-item-value system-task-road-object-map-info-value">
+            {{ item.value }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-task-road-object-map-info-point bottom">
+    <div class="system-task-road-object-map-info-point-inner"></div>
+  </div>
+</div>

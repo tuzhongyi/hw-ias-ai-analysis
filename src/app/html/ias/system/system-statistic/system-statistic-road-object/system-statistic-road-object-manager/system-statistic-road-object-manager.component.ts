@@ -78,7 +78,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
       view: [] as RoadObjectEventRecord[],
       selected: undefined as RoadObjectEventRecord | undefined,
     },
-    path: [] as FileGpsItem[],
+    path: [] as FileGpsItem[][],
     channels: [] as EnumNameValue<number>[],
     device: {
       data: [] as MobileDevice[],

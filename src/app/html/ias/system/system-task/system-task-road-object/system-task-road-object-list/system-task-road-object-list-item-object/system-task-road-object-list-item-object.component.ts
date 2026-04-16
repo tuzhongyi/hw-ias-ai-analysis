@@ -20,6 +20,7 @@ export class SystemTaskRoadObjectListItemObjectComponent implements OnInit {
   @Output() position = new EventEmitter<RoadObject>();
   @Output() details = new EventEmitter<RoadObject>();
   @Output() delete = new EventEmitter<RoadObject>();
+  @Input() selected = false;
   constructor(
     private medium: MediumRequestService,
     private language: LanguageTool

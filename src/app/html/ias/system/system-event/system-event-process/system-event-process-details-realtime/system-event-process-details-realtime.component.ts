@@ -44,10 +44,16 @@ export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
   }
 
   load = {
-    picture: (data: MobileEventRecord) => {
-      if (data && data.Resources) {
-        let page = Page.create(1, 1, data.Resources.length);
-        this.record.picture.page.change(page);
+    picture: (data?: MobileEventRecord) => {
+      if (data) {
+        if (data.Resources) {
+          let page = Page.create(1, 1, data.Resources.length);
+          this.record.picture.page.change(page);
+        }
+        if (data.Assignment?.HandledImageUrls) {
+          let page = Page.create(1, 1, data.Assignment.HandledImageUrls.length);
+          this.handle.picture.page.change(page);
+        }
       }
     },
     map: (data: MobileEventRecord) => {
@@ -91,6 +97,28 @@ export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
                 (x) => x.Polygon ?? []
               );
             }
+          }
+        },
+      },
+    },
+  };
+  handle = {
+    picture: {
+      src: '',
+      polygon: [] as HowellPoint[][],
+      page: {
+        data: Page.create(1),
+        change: (page: Page) => {
+          this.handle.picture.page.data = page;
+          if (
+            this.data &&
+            this.data.Assignment &&
+            this.data.Assignment.HandledImageUrls &&
+            this.data.Assignment.HandledImageUrls.length >= page.PageIndex
+          ) {
+            let index = page.PageIndex - 1;
+            let image = this.data.Assignment.HandledImageUrls[index];
+            this.handle.picture.src = image;
           }
         },
       },

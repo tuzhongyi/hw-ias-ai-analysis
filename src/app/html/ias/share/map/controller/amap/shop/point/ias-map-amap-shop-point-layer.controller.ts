@@ -58,9 +58,9 @@ export class IASMapAMapPointLayerController {
     this.existed.clear();
   }
 
-  moving(position: [number, number]) {
-    this.created.moving(position);
-    this.disappeared.moving(position);
-    this.existed.moving(position);
+  moving(position: [number, number], pixel = true) {
+    this.created.moving(position, pixel);
+    this.disappeared.moving(position, pixel);
+    this.existed.moving(position, pixel);
   }
 }

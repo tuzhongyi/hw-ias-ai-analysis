@@ -1,5 +1,5 @@
 <div
-  class="system-event-record-details"
+  class="system-event-record-details root-router"
   *ngIf="data"
   [ngClass]="{
     red: data.EventType === 8,
@@ -8,11 +8,47 @@
 >
   <div class="system-event-record-details-head-body forms">
     <ng-container *ngIf="resource">
-      <div class="form-item">
-        <div class="form-item-text baseline" text-space-between [suffix]="':'">
+      <div class="form-item full">
+        <div class="form-item-text" text-space-between [suffix]="':'">
           触发源名称
         </div>
         <div class="form-item-value name">{{ resource.ResourceName }}</div>
+      </div>
+    </ng-container>
+
+    <div class="form-item">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        实时事件
+      </div>
+      <div class="form-item-value">{{ language.live }}</div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between [suffix]="':'">置信度</div>
+      <div class="form-item-value">
+        @if(data.Confidence == undefined){ - }@else{
+        <span [style.color]="data.Confidence < 60 ? Color.orange : Color.green"
+          >{{ data.Confidence }}%</span
+        >
+        }
+      </div>
+    </div>
+    <ng-container *ngIf="data.PeriodRepeatTimes != undefined">
+      <div class="form-item">
+        <div class="form-item-text" text-space-between [suffix]="':'">
+          重复次数
+        </div>
+        <div class="form-item-value">{{ data.PeriodRepeatTimes }}次</div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between [suffix]="':'">
+          高频事件
+        </div>
+        <div
+          class="form-item-value"
+          [style.color]="data.IsTimeout ? Color.red : Color.green"
+        >
+          {{ data.IsTimeout ? "是" : "否" }}
+        </div>
       </div>
     </ng-container>
 
@@ -22,29 +58,37 @@
       </div>
       <div class="form-item-value important">{{ language.event }}</div>
     </div>
-
     <div class="form-item">
       <div class="form-item-text" text-space-between [suffix]="':'">
-        实时事件
-      </div>
-      <div class="form-item-value">{{ language.live }}</div>
-    </div>
-
-    <div class="form-item">
-      <div class="form-item-text baseline" text-space-between [suffix]="':'">
         事件时间
       </div>
       <div class="form-item-value">
         {{ data.EventTime | date : Language.YearMonthDayHHmmss }}
       </div>
     </div>
-    <div class="form-item" *ngIf="data.Address">
+    <div class="form-item">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        行政区划
+      </div>
+      <div class="form-item-value">
+        {{ name.division || "-" }}
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        责任网格
+      </div>
+      <div class="form-item-value">
+        {{ name.gridcell || "-" }}
+      </div>
+    </div>
+    <div class="form-item full" *ngIf="data.Address">
       <div class="form-item-text baseline" text-space-between [suffix]="':'">
         地址
       </div>
       <div class="form-item-value important">{{ data.Address }}</div>
     </div>
-    <div class="form-item" *ngIf="data.Description">
+    <div class="form-item full" *ngIf="data.Description">
       <div class="form-item-text baseline" text-space-between [suffix]="':'">
         描述内容
       </div>
@@ -59,7 +103,7 @@
     </div>
 
     <ng-container *ngIf="data.Assignment && data.Assignment.Handled">
-      <div class="form-item">
+      <div class="form-item full">
         <div class="form-item-text" text-space-between [suffix]="':'">
           处置状态
         </div>
@@ -79,12 +123,39 @@
           }}
         </div>
       </div>
-      <div class="form-item" *ngIf="data.Assignment?.AssociationDescription">
+      <div class="form-item" *ngIf="data.Assignment.Handler">
+        <div class="form-item-text" text-space-between [suffix]="':'">
+          处置人
+        </div>
+        <div class="form-item-value">
+          {{ data.Assignment.Handler }}
+        </div>
+      </div>
+      <div class="form-item" *ngIf="data.Assignment.HandledTime">
+        <div class="form-item-text" text-space-between [suffix]="':'">
+          处置时间
+        </div>
+        <div class="form-item-value">
+          {{ data.Assignment.HandledTime | date : Language.YearMonthDayHHmmss }}
+        </div>
+      </div>
+      <div
+        class="form-item full"
+        *ngIf="data.Assignment.AssociationDescription"
+      >
         <div class="form-item-text" text-space-between [suffix]="':'">
           处置描述
         </div>
         <div class="form-item-value">
           {{ data.Assignment.AssociationDescription }}
+        </div>
+      </div>
+      <div class="form-item full" *ngIf="data.Assignment.HandleDescription">
+        <div class="form-item-text" text-space-between [suffix]="':'">
+          处置描述
+        </div>
+        <div class="form-item-value">
+          {{ data.Assignment.HandleDescription }}
         </div>
       </div>
     </ng-container>

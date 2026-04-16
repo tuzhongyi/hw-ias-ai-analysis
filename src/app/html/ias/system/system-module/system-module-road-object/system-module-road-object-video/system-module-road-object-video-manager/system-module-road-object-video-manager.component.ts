@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { OptionMode } from '../../../../../../../common/data-core/enums/option.enum';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../../../../common/data-core/models/arm/file/file-info.model';
 import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
-import { VideoDirective } from '../../../../../../../common/directives/video/video.directive';
+import {
+  VideoCaptureModel,
+  VideoDirective,
+} from '../../../../../../../common/directives/video/video.directive';
 import { VideoTagsComponent } from '../../../../../share/video-tags/video-tags.component';
+import { SystemModuleRoadObjectDetailsSimpleComponent } from '../../system-module-road-object-details/system-module-road-object-details-simple/system-module-road-object-details-simple.component';
 import { SystemModuleRoadObjectVideoMapManagerComponent } from '../system-module-road-object-video-map/system-module-road-object-video-map-manager/system-module-road-object-video-map-manager.component';
 import { SystemModuleRoadObjectVideoManagerBusiness } from './system-module-road-object-video-manager.business';
 import { PickupModel } from './system-module-road-object-video-manager.model';
@@ -16,6 +21,7 @@ import { PickupModel } from './system-module-road-object-video-manager.model';
     CommonModule,
     VideoTagsComponent,
     SystemModuleRoadObjectVideoMapManagerComponent,
+    SystemModuleRoadObjectDetailsSimpleComponent,
   ],
   templateUrl: './system-module-road-object-video-manager.component.html',
   styleUrl: './system-module-road-object-video-manager.component.less',
@@ -26,13 +32,16 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   @Input() objects: RoadObject[] = [];
   @Output() pickup = new EventEmitter<PickupModel>();
   @Output() close = new EventEmitter<void>();
+  @Input() mode = OptionMode.create;
 
   @Output() details = new EventEmitter<RoadObject>();
   @Input() last = false;
   @Output() next = new EventEmitter<FileInfo>();
+  @Output() reload = new EventEmitter<void>();
 
   constructor(private toastr: ToastrService) {}
-
+  OptionMode = OptionMode;
+  selected?: RoadObject;
   ngOnInit(): void {}
 
   video = {
@@ -79,7 +88,15 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
         let start = data.start.OffsetTime.toSeconds();
         let end = data.end.OffsetTime.toSeconds();
         let timestamp = start + (end - start) * data.percent;
-        this.video.time = timestamp;
+        if (this.video.time == timestamp) {
+          this.video.time = 0;
+          setTimeout(() => {
+            this.video.time = timestamp;
+          }, 0);
+        } else {
+          this.video.time = timestamp;
+        }
+        this.video.element?.pause();
       },
       error: (e: Error) => {
         this.toastr.error(e.message);
@@ -87,6 +104,9 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
       object: {
         dblclick: (data: RoadObject) => {
           this.details.emit(data);
+        },
+        click: (data: RoadObject) => {
+          this.selected = data;
         },
       },
       current: (data: [number, number]) => {
@@ -118,6 +138,16 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
     },
     close: () => {
       this.close.emit();
+    },
+    simple: {
+      picture: undefined as VideoCaptureModel | undefined,
+      capture: async () => {
+        this.on.simple.picture = await this.video.element?.capture();
+      },
+      saved: () => {
+        this.selected = undefined;
+        this.reload.emit();
+      },
     },
   };
 }

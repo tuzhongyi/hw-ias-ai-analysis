@@ -1,0 +1,87 @@
+<div
+  class="system-module-road-object-details-simple panel panel-flex"
+  *ngIf="data"
+>
+  <div class="system-module-road-object-details-simple-head panel-head">
+    <div class="panel-title">道路部件信息</div>
+    <div>
+      <div class="button" (click)="on.close()">
+        <i class="howell-icon-Close"></i>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-road-object-details-simple-body panel-body">
+    <div class="system-module-road-object-details-simple-picture">
+      <ias-picture [id]="data.ImageUrl" *ngIf="!picture"></ias-picture>
+      <ias-picture [src]="picture.src" *ngIf="picture"></ias-picture>
+    </div>
+    <div class="system-module-road-object-details-simple-info">
+      <div class="forms">
+        <div class="form-item full">
+          <div class="form-item-text" text-space-between>部件名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="data.Name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text" text-space-between>坐标系</div>
+          <div class="form-item-value fill">
+            <select
+              [(ngModel)]="location.type.value"
+              (change)="location.type.change()"
+              [disabled]="!!data.Disable"
+            >
+              <option [ngValue]="GisType.WGS84">WGS84</option>
+              <option [ngValue]="GisType.GCJ02">GCJ02</option>
+              <option [ngValue]="GisType.BD09">BD09</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text" text-space-between>行驶方向</div>
+          <div class="form-item-value input_button">
+            <input
+              type="number"
+              min="0"
+              max="360"
+              wheel-input-number
+              [(value)]="data.ImageSampling.Course"
+            />
+            <!-- <button class="button-border blue" (click)="on.course()">
+              <i class="mdi mdi-av-timer"></i>
+            </button> -->
+          </div>
+        </div>
+        <div class="form-item full">
+          <div class="form-item-text" text-space-between>坐标</div>
+          <div class="form-item-value fill">
+            <input
+              type="text"
+              [(ngModel)]="location.value"
+              (input)="location.set()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="system-module-road-object-details-simple-foot panel-foot button-group"
+  >
+    <button
+      class="button-clip-gradient"
+      title="从视频中截图"
+      (click)="on.capture()"
+    >
+      截图
+    </button>
+    <button
+      class="button-clip-gradient"
+      title="保存修改信息"
+      (click)="on.save()"
+    >
+      保存
+    </button>
+    <button class="button-clip-blue" (click)="on.close()">取消</button>
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { ComponentTool } from '../../../../../../../../common/tools/component-tool/component.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
-import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
+import { SystemTaskRoadObjectAMapInfoController } from './info/system-task-road-object-amap-info.controller';
 import { SystemTaskRoadObjectAMapObjectController } from './road-object/system-task-road-object-amap-object.controller';
 import { SystemTaskRoadObjectAMapPointController } from './road-point/system-task-road-object-amap-point.controller';
 import { SystemTaskRoadObjectAMapSectionController } from './road-section/system-task-road-object-amap-section.controller';
@@ -18,6 +18,9 @@ export class SystemTaskRoadObjectAMapController {
       point: this.controller.point.get(),
     };
   }
+  get info() {
+    return this.controller.info.get();
+  }
   constructor(tool: ComponentTool, subscription: Subscription) {
     MapHelper.amap
       .get('system-task-road-object-map', [], true, {
@@ -31,7 +34,7 @@ export class SystemTaskRoadObjectAMapController {
       })
       .then((map) => {
         let container = this.init.map(map);
-        let info = this.init.info(map);
+        let info = this.init.info(map, tool);
         this.init.road.object(map, container, info, subscription);
         this.init.road.section(map);
         this.init.road.point(map, container);
@@ -40,7 +43,7 @@ export class SystemTaskRoadObjectAMapController {
 
   private controller = {
     map: new PromiseValue<AMap.Map>(),
-    info: new PromiseValue<IASMapAMapInfoController>(),
+    info: new PromiseValue<SystemTaskRoadObjectAMapInfoController>(),
     object: new PromiseValue<SystemTaskRoadObjectAMapObjectController>(),
     section: new PromiseValue<SystemTaskRoadObjectAMapSectionController>(),
     point: new PromiseValue<SystemTaskRoadObjectAMapPointController>(),
@@ -52,8 +55,8 @@ export class SystemTaskRoadObjectAMapController {
       let container = new Loca.Container({ map });
       return container;
     },
-    info: (map: AMap.Map) => {
-      let ctr = new IASMapAMapInfoController(map);
+    info: (map: AMap.Map, tool: ComponentTool) => {
+      let ctr = new SystemTaskRoadObjectAMapInfoController(map, tool);
       this.controller.info.set(ctr);
       return ctr;
     },
@@ -61,7 +64,7 @@ export class SystemTaskRoadObjectAMapController {
       object: (
         map: AMap.Map,
         container: Loca.Container,
-        info: IASMapAMapInfoController,
+        info: SystemTaskRoadObjectAMapInfoController,
         subscription: Subscription
       ) => {
         let ctr = new SystemTaskRoadObjectAMapObjectController(

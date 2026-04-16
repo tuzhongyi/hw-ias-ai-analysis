@@ -88,8 +88,8 @@ export class SystemModuleRoadObjectAMapController {
       ) => {
         let ctr = new IASMapAMapRoadObjectMarkerLayerController(
           map,
-          info,
-          subscription
+          subscription,
+          info
         );
         let sub1 = ctr.event.click.subscribe((x) => {
           this.event.road.object.click.emit(x);

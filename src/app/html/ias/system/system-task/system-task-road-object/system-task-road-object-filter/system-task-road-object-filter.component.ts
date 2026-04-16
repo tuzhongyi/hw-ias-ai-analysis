@@ -26,11 +26,20 @@ export class SystemTaskRoadObjectFilterComponent {
   @Input() args = new SystemTaskRoadObjectManagerArgs();
   @Output() argsChange = new EventEmitter<SystemTaskRoadObjectManagerArgs>();
   @Output() search = new EventEmitter<SystemTaskRoadObjectManagerArgs>();
+  @Output() create = new EventEmitter<SystemTaskRoadObjectType>();
+  @Output() file = new EventEmitter<void>();
+
   constructor(public source: SystemTaskRoadObjectFilterSource) {}
   Type = SystemTaskRoadObjectType;
   on = {
     search: () => {
       this.search.emit(this.args);
+    },
+    create: () => {
+      this.create.emit(this.type);
+    },
+    file: () => {
+      this.file.emit();
     },
   };
 }

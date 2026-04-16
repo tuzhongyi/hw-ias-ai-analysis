@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
+import { OptionMode } from '../../../../../../../common/data-core/enums/option.enum';
 import { FileInfo } from '../../../../../../../common/data-core/models/arm/file/file-info.model';
 import { SizeTool } from '../../../../../../../common/tools/size-tool/size.tool';
 import { SystemModuleRoadObjectManagerComponent } from '../system-module-road-object-manager.component';
@@ -17,8 +18,10 @@ export class SystemModuleRoadObjectManagerFileWindow extends WindowViewModel {
 
   folder?: FileInfo;
   next = new EventEmitter<FileInfo>(true);
+  mode = OptionMode.create;
 
-  open() {
+  open(mode: OptionMode) {
+    this.mode = mode;
     this.show = true;
   }
 

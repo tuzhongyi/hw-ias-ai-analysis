@@ -31,7 +31,7 @@ export class SystemModuleShopRegistrationMapAMapPointController {
     this.container.clear();
   }
 
-  moving(position: [number, number]) {
-    this.existed.moving(position);
+  moving(position: [number, number], pixel = true) {
+    this.existed.moving(position, pixel);
   }
 }

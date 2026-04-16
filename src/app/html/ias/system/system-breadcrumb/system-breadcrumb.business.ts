@@ -234,7 +234,7 @@ export class SystemBreadcrumbBusiness {
     road_object: {
       manager: () => {
         let item = new SystemBreadcrumbItem();
-        item.text = '道路物件任务';
+        item.text = '道路部件任务';
         item.path = SystemPath.task_road_object;
         return item;
       },

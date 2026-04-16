@@ -27,8 +27,8 @@ export class SystemTaskRoadObjectAMapPointLayerController {
     this.point.clear();
   }
 
-  moving(position: [number, number]) {
-    this.point.moving(position);
+  moving(position: [number, number], pixel = true) {
+    this.point.moving(position, pixel);
   }
 }
 

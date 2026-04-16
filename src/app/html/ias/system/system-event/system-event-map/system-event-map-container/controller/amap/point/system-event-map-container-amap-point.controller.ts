@@ -63,9 +63,9 @@ export class SystemEventMapContainerAMapPointController {
     this.container.clear();
   }
 
-  moving(position: [number, number]) {
-    this.handled.moving(position);
-    this.unhandle.moving(position);
-    this.misinform.moving(position);
+  moving(position: [number, number], pixel = true) {
+    this.handled.moving(position, pixel);
+    this.unhandle.moving(position, pixel);
+    this.misinform.moving(position, pixel);
   }
 }

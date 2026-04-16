@@ -166,6 +166,7 @@ export class SystemTaskFileDetailsMapComponent
           await this.controller.path.load(datas, true);
         }
       } catch (e: any) {
+        this.loaded.emit([]);
         this.error.emit(e);
       } finally {
         this.loading = false;

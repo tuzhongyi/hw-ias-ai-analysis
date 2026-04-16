@@ -18,6 +18,15 @@
     background-color: rgba(@rgb, 0.08);
   }
 
+  &.selected {
+    border-color: rgba(@rgb, 0.5);
+    background-color: rgba(@rgb, 0.08);
+
+    &:hover {
+      border-color: var(--color);
+    }
+  }
+
   &-head {
     display: flex;
     justify-content: space-between;

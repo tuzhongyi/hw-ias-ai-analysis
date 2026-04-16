@@ -26,7 +26,7 @@ export class SystemTaskBusiness {
       title = '定制场景任务';
     } else if (location.pathname.indexOf(SystemPath.task_road_object) >= 0) {
       this.headable = false;
-      title = '道路物件任务';
+      title = '道路部件任务';
     } else if (location.pathname.indexOf(SystemPath.task_index) >= 0) {
       this.headable = true;
       title = 'AI分析任务';

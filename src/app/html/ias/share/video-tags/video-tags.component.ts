@@ -30,8 +30,8 @@ import { VideoTagsBusiness } from './video-tags.business';
 export class VideoTagsComponent implements OnInit, OnChanges, OnDestroy {
   @Input('load') _load?: EventEmitter<FileInfo>;
   @Input() capture?: EventEmitter<void>;
-  @Input() time = 0;
   @Input() pluginable = false;
+  @Input() time = 0;
   @Output() timeChange = new EventEmitter<number>();
   @Output() loaded = new EventEmitter<VideoDirective>();
   @Output() picture = new EventEmitter<ArrayBuffer>();

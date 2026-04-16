@@ -18,6 +18,7 @@ export class SystemTaskRoadObjectListItemPointComponent {
   @Output() position = new EventEmitter<RoadPoint>();
   @Output() details = new EventEmitter<RoadPoint>();
   @Output() delete = new EventEmitter<RoadPoint>();
+  @Input() selected = false;
 
   constructor(private language: LanguageTool) {}
   Language = Language;
