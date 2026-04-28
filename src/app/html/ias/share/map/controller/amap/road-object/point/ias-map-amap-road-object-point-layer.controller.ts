@@ -4,6 +4,7 @@ import { RoadObject } from '../../../../../../../../common/data-core/models/arm/
 import { ArrayTool } from '../../../../../../../../common/tools/array-tool/array.tool';
 import { ColorTool } from '../../../../../../../../common/tools/color/color.tool';
 import { EnumTool } from '../../../../../../../../common/tools/enum-tool/enum.tool';
+import { IASMapAMapPathHelper } from '../../path/ias-map-amap-path.helper';
 import { IASMapAMapRoadObjectPointController } from './ias-map-amap-road-object-point.controller';
 
 export class IASMapAMapRoadObjectPointLayerController {
@@ -86,18 +87,7 @@ export class IASMapAMapRoadObjectPointLayerController {
 
   protected get = {
     color: (state: RoadObjectState) => {
-      switch (state) {
-        case RoadObjectState.Normal:
-          return ColorTool.map.cyan;
-        case RoadObjectState.Disappear:
-          return ColorTool.map.red;
-        case RoadObjectState.Breakage:
-          return ColorTool.map.orange;
-        case RoadObjectState.None:
-          return ColorTool.map.green;
-        default:
-          return ColorTool.map.gray;
-      }
+      return IASMapAMapPathHelper.color.from.road.object.state(state);
     },
   };
 }

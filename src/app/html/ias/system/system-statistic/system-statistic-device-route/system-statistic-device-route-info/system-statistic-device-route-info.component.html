@@ -1,0 +1,62 @@
+<div class="system-statistic-device-route-info" *ngIf="data">
+  <div class="system-statistic-device-route-info-meter-total">
+    <div class="statistic-item">
+      <div class="statistic-item-name">总里程</div>
+      <div class="statistic-item-content">
+        <div class="statistic-item-content-value">{{ data.TotalMeters }}</div>
+        <div class="statistic-item-content-unit">公里</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="system-statistic-device-route-info-speed:fastest">
+    <div class="statistic-item">
+      <div class="statistic-item-name">覆盖率</div>
+      <div class="statistic-item-content">
+        <div class="statistic-item-content-value">
+          {{ data.CoveragePercent }}
+        </div>
+        <div class="statistic-item-content-unit">%</div>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-device-route-info-speed-avg">
+    <div class="statistic-item">
+      <div class="statistic-item-name">平均时速</div>
+      <div class="statistic-item-content">
+        <div class="statistic-item-content-value">{{ data.AvgSpeed }}</div>
+        <div class="statistic-item-content-unit">公里/小时</div>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-device-route-info-moving">
+    <div class="statistic-item">
+      <div class="statistic-item-name">行驶时长</div>
+      <div class="statistic-item-content">
+        <div class="statistic-item-content-value">
+          {{ data.MovingTime || "-" }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-device-route-info-stay">
+    <div class="statistic-item">
+      <div class="statistic-item-name">停留时长</div>
+      <div class="statistic-item-content">
+        <div class="statistic-item-content-value">
+          {{ data.StayTime || "-" }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-device-route-info-stay" *ngIf="unit != Unit.day">
+    <div class="statistic-item">
+      <div class="statistic-item-name">出勤天数</div>
+      <div class="statistic-item-content">
+        <div class="statistic-item-content-value">
+          {{ data.Attendance ?? "-" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

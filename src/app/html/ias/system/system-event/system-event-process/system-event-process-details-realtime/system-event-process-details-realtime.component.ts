@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContainerPageComponent } from '../../../../../../common/components/container-page/container-page.component';
+import { Assignment } from '../../../../../../common/data-core/models/arm/event/assignment.model';
+import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { GisPoint } from '../../../../../../common/data-core/models/arm/gis-point.model';
 import { HowellPoint } from '../../../../../../common/data-core/models/arm/point.model';
@@ -32,7 +34,10 @@ import { SystemEventRecordDetailsComponent } from '../../system-event-record/sys
 })
 export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
   @Input() data?: MobileEventRecord;
-  @Output() picture = new EventEmitter<PagedList<MobileEventRecord>>();
+  @Output() picture = new EventEmitter<
+    PagedList<EventResourceContent | Assignment>
+  >();
+  @Output() video = new EventEmitter<MobileEventRecord>();
 
   constructor() {}
 
@@ -40,6 +45,7 @@ export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
     if (this.data) {
       this.load.picture(this.data);
       this.load.map(this.data);
+      this.disabled.load(this.data);
     }
   }
 
@@ -79,18 +85,17 @@ export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
   record = {
     picture: {
       src: '',
+      reset: false,
       polygon: [] as HowellPoint[][],
       page: {
         data: Page.create(1),
         change: (page: Page) => {
           this.record.picture.page.data = page;
-          if (
-            this.data &&
-            this.data.Resources &&
-            this.data.Resources.length >= page.PageIndex
-          ) {
+          let resources =
+            this.data?.Resources?.filter((x) => !!x.ImageUrl) ?? [];
+          if (resources && resources.length >= page.PageIndex) {
             let index = page.PageIndex - 1;
-            let resource = this.data.Resources[index];
+            let resource = resources[index];
             this.record.picture.src = resource.ImageUrl ?? '';
             if (resource.Objects) {
               this.record.picture.polygon = resource.Objects.map(
@@ -100,11 +105,23 @@ export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
           }
         },
       },
+      open: () => {
+        if (this.data && this.data.Resources) {
+          let resources = this.data.Resources.filter((x) => !!x.ImageUrl);
+          let paged = PagedList.create(
+            resources,
+            this.record.picture.page.data.PageIndex,
+            resources.length
+          );
+          this.picture.emit(paged);
+        }
+      },
     },
   };
   handle = {
     picture: {
       src: '',
+      reset: false,
       polygon: [] as HowellPoint[][],
       page: {
         data: Page.create(1),
@@ -122,6 +139,54 @@ export class SystemEventProcessDetailsRealtimeComponent implements OnInit {
           }
         },
       },
+      open: () => {
+        if (this.data && this.data.Assignment) {
+          let paged = PagedList.create(
+            [this.data.Assignment],
+            this.handle.picture.page.data.PageIndex,
+            this.data.Assignment.HandledImageUrls?.length ?? 0
+          );
+          this.picture.emit(paged);
+        }
+      },
+    },
+  };
+
+  disabled = {
+    load: (data: MobileEventRecord) => {
+      let task =
+        data.Resources && data.Resources.findIndex((x) => !!x.ImageUrl) >= 0;
+      this.disabled.task.full = !task;
+      this.disabled.task.reset = !task;
+
+      let result =
+        data.Assignment &&
+        data.Assignment.HandledImageUrls &&
+        data.Assignment.HandledImageUrls.length > 0;
+
+      this.disabled.result.full = !result;
+      this.disabled.result.reset = !result;
+
+      let resource =
+        data.Resources && data.Resources.findIndex((x) => !x.RecordUrl) >= 0;
+      this.disabled.result.video = !!resource;
+    },
+    task: {
+      full: false,
+      reset: false,
+    },
+    result: {
+      full: false,
+      reset: false,
+      video: false,
+    },
+  };
+
+  on = {
+    video: () => {
+      if (this.data) {
+        this.video.emit(this.data);
+      }
     },
   };
 }

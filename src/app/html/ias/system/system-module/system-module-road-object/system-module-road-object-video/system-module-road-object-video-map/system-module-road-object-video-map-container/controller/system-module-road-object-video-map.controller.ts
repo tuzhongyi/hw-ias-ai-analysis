@@ -9,29 +9,34 @@ import {
   GeoPoint,
 } from '../../../../../../../../../common/tools/geo-tool/geo.model';
 import { IASMapAMapPathHelper } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path.helper';
+import { IIASMapCurrent } from '../../../../../../../share/map/ias-map.model';
+import { FileGpsItemPercent } from '../../system-module-road-object-video-map.model';
 import { SystemModuleRoadObjectVideoAMapController } from './system-module-road-object-video-amap.controller';
-import { SystemMainMapRoadObjectController } from './system-module-road-object-video-objects.controller';
+import { SystemMainMapRoadObjectLineController } from './system-module-road-object-video-object-line.controller';
+import { SystemMainMapRoadObjectPointController } from './system-module-road-object-video-object-point.controller';
 
 export class SystemModuleRoadObjectVideoMapController {
   event = {
-    trigger: new EventEmitter<{
-      start: FileGpsItem;
-      end: FileGpsItem;
-      percent: number;
-    }>(),
+    trigger: new EventEmitter<FileGpsItemPercent>(),
     position: new EventEmitter<[number, number]>(),
     point: new EventEmitter<[number, number]>(),
     course: new EventEmitter<number>(),
-    current: new EventEmitter<[number, number]>(),
+    current: new EventEmitter<IIASMapCurrent>(),
   };
-  object: SystemMainMapRoadObjectController;
+  object: {
+    point: SystemMainMapRoadObjectPointController;
+    line: SystemMainMapRoadObjectLineController;
+  };
   private amap: SystemModuleRoadObjectVideoAMapController;
   constructor(subscription: Subscription) {
     this.amap = new SystemModuleRoadObjectVideoAMapController(subscription);
-    this.object = new SystemMainMapRoadObjectController(
-      this.amap,
-      subscription
-    );
+    this.object = {
+      point: new SystemMainMapRoadObjectPointController(
+        this.amap,
+        subscription
+      ),
+      line: new SystemMainMapRoadObjectLineController(this.amap, subscription),
+    };
     this.regist(subscription);
   }
 
@@ -41,13 +46,29 @@ export class SystemModuleRoadObjectVideoMapController {
     },
   };
   pickup = {
-    can: (enabled: boolean) => {
-      this.amap.pickupable = enabled;
+    point: {
+      can: (enabled: boolean) => {
+        this.amap.pickupable = enabled;
+      },
+      clear: () => {
+        this.amap.pickup.point.get().then((x) => {
+          x.remove();
+        });
+      },
     },
-    clear: () => {
-      this.amap.pickup.get().then((x) => {
-        x.remove();
-      });
+    line: {
+      create: async (datas: [number, number][]) => {
+        let line = await this.amap.pickup.line.get();
+        line.creation.clear();
+        line.creation.load(datas);
+      },
+      clear: () => {},
+    },
+  };
+  arrow = {
+    center: async (position: [number, number]) => {
+      let ctr = await this.amap.arrow.get();
+      ctr.center(position);
     },
   };
   path = {
@@ -60,6 +81,12 @@ export class SystemModuleRoadObjectVideoMapController {
       this.path.datas = [];
       this.amap.path.clear();
       this.event.point.emit(undefined);
+    },
+    show: () => {
+      this.amap.path.load(this.path.datas, false);
+    },
+    hide: () => {
+      this.amap.path.clear();
     },
   };
 
@@ -168,7 +195,7 @@ export class SystemModuleRoadObjectVideoMapController {
     }
   }
 
-  async to(stamp: number) {
+  async to(stamp: number, displayroute = true) {
     return new Promise<FileGpsItem>((resolve) => {
       IASMapAMapPathHelper.to(
         this.path.datas,
@@ -187,12 +214,16 @@ export class SystemModuleRoadObjectVideoMapController {
           current: async (current) => {
             this.event.current.emit(current);
           },
-        }
+        },
+        displayroute
       );
     });
   }
 
-  destroy() {
+  async destroy() {
+    await this.object.point.clear();
+    await this.object.line.clear();
+    await this.path.clear();
     this.amap.destroy();
   }
 }

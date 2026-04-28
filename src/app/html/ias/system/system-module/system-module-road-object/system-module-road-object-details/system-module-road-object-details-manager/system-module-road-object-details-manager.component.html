@@ -1,7 +1,10 @@
 <div class="system-module-road-object-details-manager">
   <div class="system-module-road-object-details-manager-body">
     <div class="system-module-road-object-details-medium">
-      <div class="system-module-road-object-details-image panel">
+      <div
+        class="system-module-road-object-details-image panel"
+        [class.hide]="image.hidden"
+      >
         <ias-system-module-road-object-details-image
           [url]="model.ImageUrl"
           [load]="image.load"
@@ -10,15 +13,40 @@
         ></ias-system-module-road-object-details-image>
       </div>
       <div class="system-module-road-object-details-map panel">
-        <ias-system-module-road-object-details-map
-          [(position)]="map.gcj02"
-          (positionChange)="map.on.gcj02($event)"
-          [state]="map.state"
-          [type]="map.type"
-          [get]="map.get"
-          (address)="map.on.address($event)"
-          (error)="on.error($event)"
-        ></ias-system-module-road-object-details-map>
+        <ng-container *ngIf="In.point">
+          <ias-system-module-road-object-details-map
+            [(position)]="map.point.gcj02"
+            (positionChange)="map.point.on.gcj02($event)"
+            [state]="map.state"
+            [type]="map.type"
+            [get]="map.point.get"
+            (error)="on.error($event)"
+          ></ias-system-module-road-object-details-map>
+        </ng-container>
+        <ng-container *ngIf="In.line">
+          <ias-system-module-road-object-details-map-line
+            [datas]="map.line.datas"
+            [creating]="map.line.creating"
+            [editing]="map.line.editing"
+          >
+          </ias-system-module-road-object-details-map-line>
+        </ng-container>
+        <div class="system-module-road-object-details-map-buttons">
+          <div
+            class="button panel-map"
+            *ngIf="!image.hidden"
+            (click)="image.hidden = true"
+          >
+            <i class="mdi mdi-arrow-expand"></i>
+          </div>
+          <div
+            class="button panel-map"
+            *ngIf="image.hidden"
+            (click)="image.hidden = false"
+          >
+            <i class="mdi mdi-arrow-collapse"></i>
+          </div>
+        </div>
       </div>
     </div>
     <div class="system-module-road-object-details-info">
@@ -41,10 +69,12 @@
           <ias-system-module-road-object-details-info
             [data]="model"
             (dataChange)="on.change($event)"
-            [(wgs84)]="map.wgs84"
-            (wgs84Change)="map.on.wgs84($event)"
+            [(wgs84)]="map.point.wgs84"
+            (wgs84Change)="map.point.on.wgs84($event)"
             [operable]="operable"
-            (getaddress)="on.address()"
+            [(linestep)]="map.line.step"
+            (linestepChange)="map.line.on.step($event)"
+            [linestepeditable]="linestepeditable"
           ></ias-system-module-road-object-details-info>
         </div>
       </div>

@@ -77,7 +77,7 @@ export class ArmGeographicRoadRequestService extends AbstractService<Road> {
 
   address(location: GisPoint) {
     let url = ArmGeographicUrl.road.address();
-    let plain = instanceToPlain({ Location: location });
+    let plain = { Location: location };
     return this.http
       .post<HowellResponse<RoadAddress>, any>(url, plain)
       .then((x) => {

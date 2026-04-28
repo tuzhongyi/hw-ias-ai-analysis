@@ -37,10 +37,33 @@
 
   &-info {
     width: calc((100% - @gap) * 0.5);
+
     height: 100%;
     display: flex;
     flex-direction: column;
+    border: 1px solid #2d76ce;
+    border-width: 1px 0;
     gap: @gap;
+    border-image: linear-gradient(to right,
+        /* 开始画边框 */
+        #2d76ce 0px,
+        /* 结束位置 */
+        #2d76ce calc(100% - 9px),
+        /* 右边空 8px */
+        transparent calc(100% - 9px));
+    border-image-slice: 1;
+
+
+    .panel {
+      &:first-child {
+        border-top: none;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
 
     overflow-y: auto;
 
@@ -68,13 +91,39 @@
   &-image {
     width: 100%;
     aspect-ratio: 16 / 9;
+    flex-shrink: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: all 0.5s;
+    max-height: 1000px;
+
+    &.hide {
+      max-height: 0;
+      border: none;
+      margin-bottom: -@gap;
+
+    }
   }
 
   &-map {
     flex-grow: 1;
     padding: 0;
     box-sizing: border-box;
+    position: relative;
+    transition: all 0.5s ease;
+
+    &-buttons {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+
+      &>* {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+      }
+    }
   }
 }

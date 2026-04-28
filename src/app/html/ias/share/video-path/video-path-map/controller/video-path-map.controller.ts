@@ -44,7 +44,20 @@ export class VideoPathMapController {
 
   path = {
     load: async (datas: FileGpsItem[][], focus: boolean) => {
-      this.data.path = ArrayTool.unique(datas.flat(1), (a, b) => a.No == b.No);
+      this.data.path = ArrayTool.unique(datas.flat(1), (a, b) => {
+        if (a.OSDTime && b.OSDTime) {
+          return a.OSDTime.getTime() == b.OSDTime.getTime();
+        }
+        if (a.OffsetMilliseconds && b.OffsetMilliseconds) {
+          return a.OffsetMilliseconds == b.OffsetMilliseconds;
+        }
+        if (a.OffsetTime && b.OffsetTime) {
+          return (
+            a.OffsetTime.toDate().getTime() == b.OffsetTime.toDate().getTime()
+          );
+        }
+        return a.Longitude == b.Longitude && a.Latitude == b.Latitude;
+      });
 
       this.amap.path.load(datas, focus);
     },

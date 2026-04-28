@@ -32,6 +32,11 @@
           (objectclick)="map.on.object.click($event)"
           (current)="map.on.current($event)"
           (course)="map.on.course($event)"
+          [linepickbegin]="line.pick.begin"
+          [linepickend]="line.pick.end"
+          [linepick]="line.pick.up"
+          (linepickup)="line.pickup($event)"
+          (lineclick)="line.on.click($event)"
         ></ias-system-module-road-object-video-map-manager>
       </div>
       <div
@@ -58,15 +63,72 @@
     <div>
       <button (click)="video.on.next()" [disabled]="last">下一个视频</button>
     </div>
-    <div class="button-group">
-      <button
-        class="button-clip-gradient"
-        [disabled]="!video.element"
-        (click)="on.ok()"
-      >
-        拾取
-      </button>
-      <button class="button-clip-blue" (click)="on.close()">关闭</button>
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">选择类型</div>
+        <div class="form-item-value">
+          <select [(ngModel)]="type" (change)="on.type()">
+            <option
+              *ngFor="let item of source.types | async"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item button-group">
+        <button
+          class="button-clip-gradient"
+          [disabled]="!button.line.auto.begin.enabled"
+          *ngIf="button.line.auto.begin.display"
+          (click)="line.auto.begin()"
+        >
+          自动拾取
+        </button>
+
+        <button
+          class="button-clip-gradient"
+          [disabled]="!button.line.auto.end.enabled"
+          *ngIf="button.line.auto.end.display"
+          (click)="line.auto.end()"
+        >
+          结束拾取
+        </button>
+        <button
+          class="button-clip-gradient"
+          [disabled]="!button.line.manual.begin.enabled"
+          *ngIf="button.line.manual.begin.display"
+          (click)="line.manual.begin()"
+        >
+          手动拾取
+        </button>
+        <button
+          class="button-clip-gradient"
+          [disabled]="!button.line.manual.end.enabled"
+          *ngIf="button.line.manual.end.display"
+          (click)="line.manual.end()"
+        >
+          结束拾取
+        </button>
+        <button
+          class="button-clip-gradient"
+          [disabled]="!button.line.manual.pickup.enabled"
+          *ngIf="button.line.manual.pickup.display"
+          (click)="line.manual.pick()"
+        >
+          拾取
+        </button>
+        <button
+          class="button-clip-gradient"
+          [disabled]="!button.point.enabled"
+          *ngIf="button.point.display"
+          (click)="on.ok()"
+        >
+          拾取
+        </button>
+        <button class="button-clip-blue" (click)="on.close()">关闭</button>
+      </div>
     </div>
   </div>
 </div>

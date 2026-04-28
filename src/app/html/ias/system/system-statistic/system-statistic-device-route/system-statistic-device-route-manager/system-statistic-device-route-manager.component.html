@@ -1,0 +1,74 @@
+<div
+  class="system-statistic-device-route-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-statistic-device-route-manager-head">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">选择日期:</div>
+        <div class="form-item-value">
+          <date-time-control
+            [week]="date.week"
+            [format]="date.format"
+            [minView]="date.view.min"
+            [startView]="date.view.min"
+            [zindex]="iswindow ? 9000 : 10"
+            [(date)]="args.date"
+          ></date-time-control>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-text">巡逻车辆:</div>
+        <div class="form-item-value fill">
+          <hw-select [(selected)]="args.deviceId" [nullable]="false">
+            <select [(ngModel)]="args.deviceId">
+              <option [ngValue]="item.Id" *ngFor="let item of source.devices">
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+      <div class="form-item submit">
+        <button class="button-clip-gradient" (click)="on.search()">查找</button>
+      </div>
+    </div>
+    <div class="forms">
+      <div class="form-item">
+        <select [(ngModel)]="args.unit" (change)="on.unit()">
+          <option [ngValue]="Unit.day">日报表</option>
+          <option [ngValue]="Unit.week">周报表</option>
+          <option [ngValue]="Unit.month">月报表</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <select [(ngModel)]="chart.type">
+          <option [ngValue]="chart.Type.bar">柱状图</option>
+          <option [ngValue]="chart.Type.line">折线图</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-device-route-manager-body">
+    <ng-container *ngIf="load.ed">
+      <div class="system-statistic-device-route-manager-body-info">
+        <ias-system-statistic-device-route-info
+          [datas]="datas"
+          [unit]="args.unit"
+        ></ias-system-statistic-device-route-info>
+      </div>
+
+      <div class="system-statistic-device-route-manager-body-chart">
+        <ias-system-statistic-device-route-chart-container
+          [type]="chart.type"
+          [datas]="datas"
+          [args]="args"
+        ></ias-system-statistic-device-route-chart-container>
+      </div>
+    </ng-container>
+
+    <div class="loading" *ngIf="load.ing"></div>
+    <div class="please" *ngIf="!load.ed && !load.ing">请选择巡逻车</div>
+  </div>
+</div>

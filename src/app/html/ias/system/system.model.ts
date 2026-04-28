@@ -29,4 +29,5 @@ export enum SystemPath {
   statistic = 'system/statistic',
   statistic_index = 'system/statistic/index',
   statistic_road_object = 'system/statistic/road-object',
+  statistic_device_route = 'system/statistic/device-route',
 }

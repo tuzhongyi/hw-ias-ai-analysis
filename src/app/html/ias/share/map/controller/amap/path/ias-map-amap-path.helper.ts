@@ -1,7 +1,10 @@
+import { RoadObjectState } from '../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { ArrayTool } from '../../../../../../../common/tools/array-tool/array.tool';
+import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
 import { GeoLine } from '../../../../../../../common/tools/geo-tool/geo.model';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
+import { IIASMapCurrent } from '../../../ias-map.model';
 import { IASMapAMapPathArrowController } from './ias-map-amap-path-arrow.controller';
 import { IASMapAMapPathWayController } from './ias-map-amap-path-way.controller';
 
@@ -12,13 +15,13 @@ export class IASMapAMapPathHelper {
     controller: {
       way: Promise<IASMapAMapPathWayController>;
       arrow: Promise<IASMapAMapPathArrowController>;
-      map?: AMap.Map;
     },
     callback?: {
       course?: (course: number) => Promise<void>;
       closest?: (closest: FileGpsItem) => Promise<void>;
-      current?: (current: [number, number]) => Promise<void>;
-    }
+      current?: (current: IIASMapCurrent) => Promise<void>;
+    },
+    displayroute = true
   ) {
     if (datas.length == 0) return;
     return new Promise<void>((resolve) => {
@@ -41,24 +44,33 @@ export class IASMapAMapPathHelper {
 
         let position = GeoTool.line.get.by.percent(line, closest.percent);
         if (callback?.current) {
-          callback.current(position);
-        }
-        let way = datas
-          .slice(0, closest.right.index)
-          .map<[number, number]>((x) => {
-            return [x.Longitude, x.Latitude];
+          callback.current({
+            position: position,
+            timestamp: stamp,
           });
-        if (closest.percent == 1) {
-          way.push(line[0]);
-          way.push(line[1]);
-        } else {
-          way.push(position);
         }
+        if (displayroute) {
+          let way = datas
+            .slice(0, closest.right.index)
+            .map<[number, number]>((x) => {
+              return [x.Longitude, x.Latitude];
+            });
+          if (closest.percent == 1) {
+            way.push(line[0]);
+            way.push(line[1]);
+          } else {
+            way.push(position);
+          }
 
-        controller.way.then((x) => {
-          x.clear();
-          x.load(way);
-        });
+          controller.way.then((x) => {
+            x.clear();
+            x.load(way);
+          });
+        } else {
+          controller.way.then((x) => {
+            x.clear();
+          });
+        }
 
         controller.arrow.then((x) => {
           x.set(position);
@@ -75,4 +87,27 @@ export class IASMapAMapPathHelper {
       }
     });
   }
+
+  static color = {
+    from: {
+      road: {
+        object: {
+          state: (value?: RoadObjectState) => {
+            switch (value) {
+              case RoadObjectState.Normal:
+                return ColorTool.map.cyan;
+              case RoadObjectState.Disappear:
+                return ColorTool.map.red;
+              case RoadObjectState.Breakage:
+                return ColorTool.map.orange;
+              case RoadObjectState.None:
+                return ColorTool.map.green;
+              default:
+                return ColorTool.map.gray;
+            }
+          },
+        },
+      },
+    },
+  };
 }

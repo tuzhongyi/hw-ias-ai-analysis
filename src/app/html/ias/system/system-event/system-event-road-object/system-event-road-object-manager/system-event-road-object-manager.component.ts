@@ -94,7 +94,7 @@ export class SystemEventRoadObjectManagerComponent
     load: new EventEmitter<SystemEventRoadObjectTableArgs>(),
     download: new EventEmitter<SystemEventRoadObjectTableArgs>(),
     selected: {
-      channels: [] as EnumNameValue<number>[],
+      channels: [] as EnumNameValue[],
     },
     search: () => {
       this.table.args.first = true;
@@ -102,19 +102,25 @@ export class SystemEventRoadObjectManagerComponent
     },
     on: {
       video: async (data: RoadObjectEventRecord) => {
-        let name = await this.language.event.EventType(data.EventType);
+        let name = await this.language.road.object.EventTypes(data.EventType);
         this.window.video.title = `${name}`;
-        this.table.selected.channels =
-          data.Resources?.map((x) => {
-            let channel = new EnumNameValue<number>();
-            channel.Name = x.ResourceName;
-            channel.Value = x.PositionNo ?? 0;
-            return channel;
-          }) ?? [];
+        this.table.selected.channels = [];
         if (data.Resources && data.Resources.length > 0) {
-          let resource = data.Resources[0];
-          this.window.video.title = `${resource.ResourceName} ${name}`;
-          // this.window.video.args.channel = resource.PositionNo;
+          let resources = data.Resources.filter((x) => !!x.RecordUrl);
+          this.table.selected.channels =
+            resources.map((x) => {
+              let channel = new EnumNameValue();
+              channel.Name = x.ResourceName;
+              channel.Value = `api/ver10/${x.RecordUrl ?? ''}`;
+              return channel;
+            }) ?? [];
+          if (resources.length > 0) {
+            let resource = resources[0];
+            this.window.video.title = `${resource.ResourceName} ${name}`;
+            this.window.video.args.channel = `api/ver10/${
+              resource.RecordUrl ?? ''
+            }`;
+          }
         }
         this.window.video.data = data;
         this.window.video.show = true;

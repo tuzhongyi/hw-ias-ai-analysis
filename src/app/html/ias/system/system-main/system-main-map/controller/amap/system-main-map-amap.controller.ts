@@ -435,12 +435,30 @@ export class SystemMainMapAMapController {
     });
   }
   async destory() {
+    this.controller.shop.point.clear();
+    this.controller.shop.marker.clear();
+    this.controller.device.marker.clear();
+    this.controller.alarm.realtime.info.clear();
+    this.controller.alarm.realtime.marker.clear();
+    this.controller.alarm.realtime.scatter.clear();
+    this.controller.alarm.timeout.info.clear();
+    this.controller.alarm.timeout.marker.clear();
+    this.controller.alarm.timeout.scatter.clear();
+    this.controller.sample.scatter.clear();
+    this.controller.sample.marker.clear();
+    this.controller.road.clear();
+    this.controller.info.clear();
+    this.controller.roadobject.point.clear();
+    this.controller.roadobject.marker.clear();
+
     let loca = await this.loca.get();
     loca.clear();
     loca.animate.stop();
     loca.destroy();
+    this.loca.clear();
 
     let map = await this.map.get();
     map.destroy();
+    this.map.clear();
   }
 }

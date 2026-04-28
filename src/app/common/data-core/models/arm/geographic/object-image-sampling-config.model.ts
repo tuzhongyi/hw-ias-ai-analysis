@@ -24,4 +24,15 @@ export class ObjectImageSamplingConfig implements IModel {
   /**	DateTime	最后一次巡查时间	M	*/
   @Transform(Transformer.DateTime)
   LatestInspectionTime!: Date;
+
+  /**
+   * 	String[]
+   * 	机位方向:
+   *  Left：左侧
+   *  Right：右侧
+   *  Front：前方
+   *  Back：后方
+   * 	O
+   */
+  CameraSides?: string[];
 }

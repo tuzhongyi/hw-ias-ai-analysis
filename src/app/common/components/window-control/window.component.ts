@@ -16,6 +16,7 @@ export class WindowComponent implements OnInit {
 
   @Input() CloseButton = true;
   @Input() mask = true;
+  @Input() pointer_events = true;
   @Input() zindex?: number;
 
   protected _style: any = {

@@ -11,3 +11,9 @@ export class IASMapAMapMarkerEvent<T extends IIdModel & ILocation = IShop> {
   click = new EventEmitter<T>();
   dblclick = new EventEmitter<T>();
 }
+
+export class IASMapAMapPolylineEvent<
+  T extends IIdModel & ILocation
+> extends IASMapAMapMarkerEvent<T> {
+  move = new EventEmitter<T>();
+}

@@ -141,7 +141,7 @@ export class SystemMainManagerComponent implements OnInit {
   realtime = {
     datas: [] as MobileEventRecord[],
     load: () => {
-      this.business.mobile.load(this.duration, EventMode.gpstask).then((x) => {
+      this.business.mobile.load(this.duration, EventMode.realtime).then((x) => {
         this.realtime.datas = x;
         this.map.data.realtime = x.filter((y) => !y.Assignment?.Assigned);
         this.map.data.timeout = x.filter(

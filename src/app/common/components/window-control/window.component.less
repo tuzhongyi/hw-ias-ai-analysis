@@ -9,9 +9,14 @@
   top: 0;
   left: 0;
   z-index: 9000;
+  pointer-events: none;
 
   &.none {
     background-color: transparent;
+  }
+
+  &.pointer-events {
+    pointer-events: all;
   }
 }
 

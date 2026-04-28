@@ -37,7 +37,7 @@ export class FileGpsItem implements IModel {
   /**	String	道路名称	O	R */
   RoadName?: string;
   /**	Int64	相对毫秒	O	R */
-  OffsetMilliseconds?: bigint;
+  OffsetMilliseconds?: number;
   /**	Int32	是否为高精度数值，0-普通，1-次高精度，2-高精度	O	R */
   HighPrecision?: GPSHighPrecision;
 

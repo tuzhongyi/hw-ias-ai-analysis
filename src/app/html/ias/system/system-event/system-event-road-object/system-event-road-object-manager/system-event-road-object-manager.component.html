@@ -280,20 +280,6 @@
     <div ngProjectAs="window-head-operation" class="window-video-operation">
       <div class="forms">
         <div class="form-item">
-          <div class="form-item-text">前后时长</div>
-          <div class="form-item-value">
-            <select
-              [(ngModel)]="window.video.args.duration"
-              (change)="window.video.change()"
-            >
-              <option [ngValue]="5">5秒</option>
-              <option [ngValue]="10">10秒</option>
-              <option [ngValue]="15">15秒</option>
-              <option [ngValue]="30">30秒</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-item">
           <div class="form-item-text">摄像机:</div>
           <div class="form-item-value">
             <hw-select
@@ -319,9 +305,10 @@
         </div>
       </div>
     </div>
-    <ias-system-event-video
-      [data]="window.video.data"
-      [args]="window.video.args"
-    ></ias-system-event-video>
+    <video
+      [src]="window.video.args.channel"
+      autoplay="autoplay"
+      controls
+    ></video>
   </ias-window>
 </div>

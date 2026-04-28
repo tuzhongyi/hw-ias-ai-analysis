@@ -10,6 +10,8 @@ export class SystemModuleRoadObjectDetailsInfoSource {
   states: EnumNameValue<number>[] = [];
   divisions: Promise<IIdNameModel[]>;
   gridcells: Promise<IIdNameModel[]>;
+  lines: EnumNameValue<number>[] = [];
+  points: EnumNameValue<number>[] = [];
 
   constructor(
     private manager: Manager,
@@ -33,6 +35,9 @@ export class SystemModuleRoadObjectDetailsInfoSource {
   private init = {
     types: async () => {
       this.types = await this.manager.source.road.object.ObjectTypes.get();
+      this.lines = await this.manager.source.road.object.LineObjectTypes.get();
+      this.points =
+        await this.manager.source.road.object.PointObjectTypes.get();
     },
     states: async () => {
       this.states = await this.manager.source.road.object.ObjectStates.get();

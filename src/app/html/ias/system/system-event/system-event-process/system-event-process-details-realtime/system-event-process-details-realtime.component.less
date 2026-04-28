@@ -18,9 +18,32 @@
 
   &-picture {
     width: 100%;
-    aspect-ratio: 16/9;
+    height: max-content;
     flex-grow: 0;
     padding: 0;
+
+    &.panel {
+      gap: 0;
+
+      .panel {
+        &-body {
+          aspect-ratio: 16/9;
+        }
+
+        &-foot {
+          padding: 0 10px;
+          box-sizing: border-box;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          &-title {
+            color: white;
+            font-weight: bold;
+          }
+        }
+      }
+    }
   }
 
   &-info {

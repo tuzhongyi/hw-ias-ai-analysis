@@ -67,6 +67,12 @@ export class SystemEventRoadObjectTableBusiness {
         .get(data.GridCellId)
         .then((x) => x.Name);
     }
+
+    if (data.Resources) {
+      let resources = data.Resources.filter((x) => !!x.ImageUrl);
+      item.hasvideo = resources.length > 0;
+    }
+
     return item;
   }
 

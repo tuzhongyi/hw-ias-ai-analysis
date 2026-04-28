@@ -7,10 +7,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DeviceRoutesStatistic } from '../../../../../../common/data-core/models/arm/mobile-device/device-routes-statistic.model';
+import { ChartType } from '../../../../../../common/tools/chart-tool/chart.model';
 import { SystemModuleMobileDeviceRouteChartComponent } from '../system-module-mobile-device-route-chart/system-module-mobile-device-route-chart.component';
 import {
   SystemModuleMobileDeviceRouteArgs,
+  SystemModuleMobileDeviceRouteModel,
   SystemModuleMobileDeviceRouteType,
 } from '../system-module-mobile-device-route.model';
 import { SystemModuleMobileDeviceRouteChartContainerBusiness } from './system-module-mobile-device-route-chart-container.business';
@@ -29,13 +30,14 @@ export class SystemModuleMobileDeviceRouteChartContainerComponent
 {
   @Input()
   load?: EventEmitter<SystemModuleMobileDeviceRouteArgs>;
+  @Input() type = ChartType.line;
 
   constructor(
     private business: SystemModuleMobileDeviceRouteChartContainerBusiness
   ) {}
 
   args = new SystemModuleMobileDeviceRouteArgs();
-  datas: DeviceRoutesStatistic[] = [];
+  datas: SystemModuleMobileDeviceRouteModel[] = [];
   loading = false;
   loaded = false;
   RouteStatisticType = SystemModuleMobileDeviceRouteType;

@@ -21,5 +21,8 @@ export class SystemStatisticIndexComponent {
     road_object: () => {
       this.router.navigateByUrl(SystemPath.statistic_road_object);
     },
+    device_route: () => {
+      this.router.navigateByUrl(SystemPath.statistic_device_route);
+    },
   };
 }

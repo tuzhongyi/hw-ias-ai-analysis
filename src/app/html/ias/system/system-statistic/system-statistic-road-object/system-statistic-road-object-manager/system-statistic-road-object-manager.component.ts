@@ -73,6 +73,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
   }
 
   data = {
+    reset: false,
     record: {
       source: [] as RoadObjectEventRecord[],
       view: [] as RoadObjectEventRecord[],
@@ -98,6 +99,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
 
   load = {
     ing: async () => {
+      this.data.reset = true;
       await this.load.record();
       let deviceIds = this.data.record.source.map((x) => x.DeviceId);
       deviceIds = ArrayTool.distinct(deviceIds);

@@ -35,6 +35,10 @@ class SystemMobileDeviceUrl extends AbstractUrl {
     },
   };
 
+  statements() {
+    return `${this.basic()}/Statements`;
+  }
+
   get route() {
     return new SystemMobileDeviceRouteUrl(this.basic());
   }

@@ -15,6 +15,11 @@
     (objectdblclick)="on.object.dblclick($event)"
     (objectclick)="on.object.click($event)"
     (closest)="on.closest($event)"
+    [displaypoint]="display.point"
+    [displayline]="display.line"
+    [displayroute]="display.route"
+    [linecreate]="line.create"
+    (lineclick)="line.on.click($event)"
   ></ias-system-module-road-object-video-map-container>
   <div
     class="system-task-file-details-map-manager-info osd panel-map"
@@ -34,6 +39,9 @@
     <ias-system-module-road-object-video-map-settings
       [(rectified)]="rectified"
       [(pickupable)]="pickupable"
+      [(displaypoint)]="display.point"
+      [(displayline)]="display.line"
+      [(displayroute)]="display.route"
     ></ias-system-module-road-object-video-map-settings>
   </div>
   <div

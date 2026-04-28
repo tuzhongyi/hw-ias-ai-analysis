@@ -20,6 +20,7 @@ export class SystemMainManagerMobileBusiness {
     params.Confirmed = true;
     params.IsMisInfo = false;
     params.Assigned = false;
+    params.IsRepeated = false;
     switch (mode) {
       case EventMode.realtime:
         let types = await this.source.event.LiveEventTypes.get();

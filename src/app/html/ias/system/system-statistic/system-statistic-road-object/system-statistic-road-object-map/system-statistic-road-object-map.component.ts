@@ -85,7 +85,21 @@ export class SystemStatisticRoadObjectMapComponent
         if (this.selected) {
           this.controller.record.select(this.selected);
           let path = this.path.flat(1);
-          path = ArrayTool.unique(path, (a, b) => a.No == b.No);
+          path = ArrayTool.unique(path, (a, b) => {
+            if (a.OSDTime && b.OSDTime) {
+              return a.OSDTime.getTime() == b.OSDTime.getTime();
+            }
+            if (a.OffsetMilliseconds && b.OffsetMilliseconds) {
+              return a.OffsetMilliseconds == b.OffsetMilliseconds;
+            }
+            if (a.OffsetTime && b.OffsetTime) {
+              return (
+                a.OffsetTime.toDate().getTime() ==
+                b.OffsetTime.toDate().getTime()
+              );
+            }
+            return a.Longitude == b.Longitude && a.Latitude == b.Latitude;
+          });
           this.controller.path.to(path, this.selected);
         } else {
           this.controller.record.blur();

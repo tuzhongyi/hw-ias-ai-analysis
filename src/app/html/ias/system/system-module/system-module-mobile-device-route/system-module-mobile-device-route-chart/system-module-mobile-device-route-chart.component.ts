@@ -7,7 +7,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { DeviceRoutesStatistic } from '../../../../../../common/data-core/models/arm/mobile-device/device-routes-statistic.model';
 import {
   ChartType,
   IChartData,
@@ -17,6 +16,7 @@ import { DurationUnit } from '../../../../../../common/tools/date-time-tool/dura
 import { SystemMainCardEventChartLineMultipleComponent } from '../../../system-main/system-main-card/system-main-card-event-chart/system-main-card-event-chart-line-multiple/system-main-card-event-chart-line-multiple.component';
 import {
   SystemModuleMobileDeviceRouteArgs,
+  SystemModuleMobileDeviceRouteModel,
   SystemModuleMobileDeviceRouteType,
 } from '../system-module-mobile-device-route.model';
 import { SystemModuleMobileDeviceRouteChartBusiness } from './system-module-mobile-device-route-chart.business';
@@ -31,7 +31,7 @@ import { SystemModuleMobileDeviceRouteChartBusiness } from './system-module-mobi
 export class SystemModuleMobileDeviceRouteChartComponent implements OnChanges {
   @Input() charttype = ChartType.line;
   @Input() statistictype = SystemModuleMobileDeviceRouteType.Meter;
-  @Input('datas') source: DeviceRoutesStatistic[] = [];
+  @Input('datas') source: SystemModuleMobileDeviceRouteModel[] = [];
   @Input() args = new SystemModuleMobileDeviceRouteArgs();
 
   constructor(private business: SystemModuleMobileDeviceRouteChartBusiness) {}
@@ -42,7 +42,7 @@ export class SystemModuleMobileDeviceRouteChartComponent implements OnChanges {
 
   private data = {
     load: (
-      datas: DeviceRoutesStatistic[],
+      datas: SystemModuleMobileDeviceRouteModel[],
       args: SystemModuleMobileDeviceRouteArgs,
       type: SystemModuleMobileDeviceRouteType
     ) => {

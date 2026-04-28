@@ -29,7 +29,7 @@ export class SystemTaskRoadObjectAMapInfoController
       let y = -size.Height; // + 62
       let zoom = this.map.getZoom();
       if (zoom < IASMapAMapConfig.icon.zooms[0]) {
-        y = y + 47;
+        y = y + (62 - 15);
       }
 
       this.set.offset([x, y]);

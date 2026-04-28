@@ -82,6 +82,7 @@
           [view]="data.record.view"
           [deviceId]="data.device.selected?.Id"
           (selected)="on.filter($event)"
+          [(reset)]="data.reset"
         ></ias-system-statistic-road-object-map-state-group>
       </div>
     </div>

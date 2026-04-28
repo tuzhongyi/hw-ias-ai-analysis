@@ -81,6 +81,7 @@ export class IASMapAMapPathWayController {
       lineJoin: 'round',
       lineCap: 'round',
       cursor: 'pointer',
+      zIndex: 101,
     });
 
     this.polyline.on('mouseover', (e: any) => {

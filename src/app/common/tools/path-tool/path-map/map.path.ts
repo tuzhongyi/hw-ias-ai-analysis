@@ -56,4 +56,11 @@ export class MapPath {
       wall: `${this.base}/range-wall-yellow.png`,
     };
   }
+
+  get start() {
+    return `${this.base}/start.png`;
+  }
+  get end() {
+    return `${this.base}/end.png`;
+  }
 }

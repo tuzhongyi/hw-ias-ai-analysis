@@ -30,11 +30,20 @@ export class SystemModuleRoadObjectMapController {
       dblclick: new EventEmitter<RoadObject>(),
     },
     load: (datas: RoadObject[]) => {
+      let lines = datas.filter((x) => x.IsGeoLine && !!x.GeoLine);
+      let points = datas.filter((x) => !x.IsGeoLine || !x.GeoLine);
+
+      this.amap.roadobject.polyline.then((x) => {
+        x.load(lines);
+        // this.amap.map.then((map) => {
+        //   x.test(map, lines);
+        // });
+      });
       this.amap.roadobject.marker.then((x) => {
-        x.load(datas);
+        x.load(points);
       });
       this.amap.roadobject.point.then((x) => {
-        x.load(datas);
+        x.load(points);
       });
     },
     clear: async () => {

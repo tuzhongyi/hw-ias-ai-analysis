@@ -4,6 +4,7 @@ import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { EventUploadContent } from '../../../../models/arm/event/event-upload-content.model';
+import { DeviceStatement } from '../../../../models/arm/mobile-device/device-statement.model';
 import { MobileDevice } from '../../../../models/arm/mobile-device/mobile-device.model';
 import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
@@ -11,7 +12,10 @@ import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
 import { SystemMobileDeviceRouteRequestService } from './route/system-mobile-device-route.service';
-import { GetMobileDevicesParams } from './system-mobile-device.params';
+import {
+  GetDeviceStatementParams,
+  GetMobileDevicesParams,
+} from './system-mobile-device.params';
 
 @Cache(ArmSystemUrl.mobile.device.basic(), MobileDevice)
 export class SystemMobileDeviceRequestService extends AbstractService<MobileDevice> {
@@ -110,6 +114,16 @@ export class SystemMobileDeviceRequestService extends AbstractService<MobileDevi
         });
     },
   };
+
+  statements(params: GetDeviceStatementParams) {
+    let url = ArmSystemUrl.mobile.device.statements();
+    let plain = instanceToPlain(params);
+    return this.http
+      .post<HowellResponse<DeviceStatement>, any>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, DeviceStatement);
+      });
+  }
 
   private _route?: SystemMobileDeviceRouteRequestService;
   public get route(): SystemMobileDeviceRouteRequestService {

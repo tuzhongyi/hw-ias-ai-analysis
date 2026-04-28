@@ -2,7 +2,7 @@ import { Transform, Type } from 'class-transformer';
 import { IIdNameModel, ILocation } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { WeekTimeSegment } from '../analysis/segment/week-time-segment.model';
-import { GisPoints } from '../gis-point.model';
+import { GisPoint, GisPoints } from '../gis-point.model';
 import { ObjectImageSamplingConfig } from './object-image-sampling-config.model';
 
 /**	RoadObject (道路固件)	*/
@@ -56,4 +56,9 @@ export class RoadObject implements IIdNameModel, ILocation {
   BlockScheduleEnabled?: boolean;
   /**	WeekTimeSegment	屏蔽工作表，默认：不启动	O	RW */
   BlockSchedule?: WeekTimeSegment;
+  /**	Boolean	是否为线段坐标，默认：false	O	RW */
+  IsGeoLine?: boolean;
+  /**	GisPoint[]	GPS线段坐标，目前只有部件类型为：机非隔离栏的会使用。	O	RW */
+  @Type(() => GisPoint)
+  GeoLine?: GisPoint[];
 }

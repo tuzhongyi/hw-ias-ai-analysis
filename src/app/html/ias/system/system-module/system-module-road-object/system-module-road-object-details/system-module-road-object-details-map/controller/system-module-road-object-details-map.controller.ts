@@ -49,12 +49,12 @@ export class SystemModuleRoadObjectDetailsMapController {
       point.clear();
     },
   };
-  geocoder = {
-    address: async (position: [number, number]) => {
-      let geocoder = await this.amap.geocoder;
-      return geocoder.get(position);
-    },
-  };
+  // geocoder = {
+  //   address: async (position: [number, number]) => {
+  //     let geocoder = await this.amap.geocoder;
+  //     return geocoder.get(position);
+  //   },
+  // };
 
   road = {
     load: async (datas: Road[]) => {
@@ -85,6 +85,8 @@ export class SystemModuleRoadObjectDetailsMapController {
       await this.road.clear();
       let map = await this.amap.map;
       map.destroy();
+
+      this.amap.destroy();
     },
   };
 }

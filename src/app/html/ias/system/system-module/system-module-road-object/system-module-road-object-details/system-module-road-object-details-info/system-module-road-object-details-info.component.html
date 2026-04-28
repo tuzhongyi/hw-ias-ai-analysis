@@ -96,7 +96,7 @@
       </div>
     </div>
 
-    <div class="form-item">
+    <div class="form-item" *ngIf="In.point">
       <div class="form-item-text">
         <div class="name" text-space-between>输入坐标系</div>
       </div>
@@ -110,6 +110,23 @@
           <option [ngValue]="GisType.GCJ02">GCJ02</option>
           <option [ngValue]="GisType.BD09">BD09</option>
         </select>
+      </div>
+    </div>
+    <div class="form-item" *ngIf="In.line">
+      <div class="form-item-text">
+        <div class="name" text-space-between>点间隔</div>
+      </div>
+      <div class="form-item-value fill unit">
+        <input
+          type="number"
+          min="1"
+          step="1"
+          wheel-input-number
+          [(value)]="linestep"
+          (valueChange)="on.line.step()"
+          [disabled]="!!data.Disable || !linestepeditable"
+        />
+        <i class="text">米</i>
       </div>
     </div>
     <div class="form-item">
@@ -138,7 +155,7 @@
         </hw-select>
       </div>
     </div>
-    <div class="form-item full">
+    <div class="form-item full" *ngIf="In.point">
       <div class="form-item-text">
         <div class="name" text-space-between>坐标</div>
         <div class="must">*</div>

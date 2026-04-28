@@ -1,8 +1,11 @@
+import { Transform } from 'class-transformer';
 import {
   DurationParams,
+  IParams,
   PagedDurationParams,
   PagedParams,
 } from '../../../../models/interface/params.interface';
+import { Transformer } from '../../../../models/transformer';
 
 export class GetMobileDevicesParams extends PagedParams {
   /**	String[]	设备ID列表	O	*/
@@ -38,4 +41,16 @@ export class GetMobileDeviceRoutesStatisticParams extends DurationParams {
   MinSpeed?: number;
   /**	String	设备ID	M	*/
   MobileDeviceId!: string;
+}
+export class GetDeviceStatementParams implements IParams {
+  /**	Int32	报表类型，1-周，2-月	M	*/
+  StatementType!: number;
+  /**	Date	开始时间，周的日期不要填错	M	*/
+  @Transform(Transformer.Date)
+  BeginDate!: Date;
+  /**	Date	结束时间	M	*/
+  @Transform(Transformer.Date)
+  EndDate!: Date;
+  /**	String	设备ID	M	*/
+  DeviceId!: string;
 }

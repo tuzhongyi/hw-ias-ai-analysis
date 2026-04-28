@@ -79,11 +79,11 @@ class PictureWindow extends WindowViewModel {
 }
 class VideoWindow extends WindowViewModel {
   style = {
-    ...SizeTool.window.video.path,
+    ...SizeTool.window.large,
   };
   data?: RoadObjectEventRecord;
   title = '';
-  args: SystemEventVideoArgs = {
+  args: SystemEventVideoArgs<string> = {
     duration: 5,
   };
 

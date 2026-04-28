@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { DeviceRoutesStatistic } from '../../../../../../common/data-core/models/arm/mobile-device/device-routes-statistic.model';
 import { IChartData } from '../../../../../../common/tools/chart-tool/chart.model';
 import { ColorTool } from '../../../../../../common/tools/color/color.tool';
 import { Language } from '../../../../../../common/tools/language-tool/language';
-import { SystemModuleMobileDeviceRouteType } from '../system-module-mobile-device-route.model';
+import {
+  SystemModuleMobileDeviceRouteModel,
+  SystemModuleMobileDeviceRouteType,
+} from '../system-module-mobile-device-route.model';
 
 @Injectable()
 export class SystemModuleMobileDeviceRouteChartBusiness {
   async load(
-    datas: DeviceRoutesStatistic[],
+    datas: SystemModuleMobileDeviceRouteModel[],
     type: SystemModuleMobileDeviceRouteType
   ) {
     switch (type) {
@@ -18,13 +20,15 @@ export class SystemModuleMobileDeviceRouteChartBusiness {
         return this.convert.speed(datas);
       case SystemModuleMobileDeviceRouteType.Time:
         return this.convert.time(datas);
+      case SystemModuleMobileDeviceRouteType.CoveragePercent:
+        return this.convert.coverage(datas);
       default:
         return [];
     }
   }
 
   private convert = {
-    meter: (datas: DeviceRoutesStatistic[]) => {
+    meter: (datas: SystemModuleMobileDeviceRouteModel[]) => {
       let data: IChartData = {
         Id: 'meter',
         Name: '总里程',
@@ -34,13 +38,13 @@ export class SystemModuleMobileDeviceRouteChartBusiness {
           return {
             index: i,
             value: parseFloat((x.TotalMeters / 1000).toFixed(2)),
-            time: x.BeginTime,
+            time: x.Date,
           };
         }),
       };
       return [data];
     },
-    speed: (datas: DeviceRoutesStatistic[]) => {
+    speed: (datas: SystemModuleMobileDeviceRouteModel[]) => {
       let fastest: IChartData = {
         Id: 'FastestSpeed',
         Name: '最高时速',
@@ -50,7 +54,7 @@ export class SystemModuleMobileDeviceRouteChartBusiness {
           return {
             index: i,
             value: parseFloat(x.FastestSpeed.toFixed(2)),
-            time: x.BeginTime,
+            time: x.Date,
           };
         }),
       };
@@ -64,13 +68,13 @@ export class SystemModuleMobileDeviceRouteChartBusiness {
             index: i,
             value: parseFloat(x.AvgSpeed.toFixed(2)),
 
-            time: x.BeginTime,
+            time: x.Date,
           };
         }),
       };
       return [avg, fastest];
     },
-    time: (datas: DeviceRoutesStatistic[]) => {
+    time: (datas: SystemModuleMobileDeviceRouteModel[]) => {
       let move: IChartData = {
         Id: 'MovingSeconds',
         Name: '行驶时长',
@@ -80,7 +84,7 @@ export class SystemModuleMobileDeviceRouteChartBusiness {
           return {
             index: i,
             value: x.MovingSeconds,
-            time: x.BeginTime,
+            time: x.Date,
           };
         }),
       };
@@ -97,7 +101,7 @@ export class SystemModuleMobileDeviceRouteChartBusiness {
             index: i,
             value: x.StaySeconds,
 
-            time: x.BeginTime,
+            time: x.Date,
           };
         }),
       };
@@ -105,6 +109,22 @@ export class SystemModuleMobileDeviceRouteChartBusiness {
         return `${Language.Time(value, 'second')}`;
       };
       return [move, stay];
+    },
+    coverage: (datas: SystemModuleMobileDeviceRouteModel[]) => {
+      let percent: IChartData = {
+        Id: 'CoveragePercent',
+        Name: '覆盖率',
+        unit: '%',
+        color: ColorTool.chart.line.get(0, 246, 255),
+        datas: datas.map((x, i) => {
+          return {
+            index: i,
+            value: x.CoveragePercent ?? 0,
+            time: x.Date,
+          };
+        }),
+      };
+      return [percent];
     },
   };
 }

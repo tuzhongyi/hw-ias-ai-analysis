@@ -1,0 +1,86 @@
+import { EventEmitter, Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
+import { MapHelper } from '../../../../../../../common/helper/map/map.helper';
+import {
+  GeoLine,
+  GeoPoint,
+} from '../../../../../../../common/tools/geo-tool/geo.model';
+import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
+import { IASMapAMapConfig } from '../../../../map/controller/amap/ias-map-amap.config';
+import { IASMapAMapPathArrowController } from '../../../../map/controller/amap/path/ias-map-amap-path-arrow.controller';
+import { IASMapAMapPathLabelController } from '../../../../map/controller/amap/path/ias-map-amap-path-label.controller';
+import { IASMapAMapPathPulseController } from '../../../../map/controller/amap/path/ias-map-amap-path-pulse.controller';
+import { IASMapAMapPathWayController } from '../../../../map/controller/amap/path/ias-map-amap-path-way.controller';
+import { VideoPathMapAMapPointController } from './point/video-path-map-amap-point.controller';
+
+@Injectable()
+export class VideoPathMapAMapController {
+  arrow = new PromiseValue<IASMapAMapPathArrowController>();
+  way = new PromiseValue<IASMapAMapPathWayController>();
+  label = new PromiseValue<IASMapAMapPathLabelController>();
+  point = new PromiseValue<VideoPathMapAMapPointController>();
+
+  constructor(private subscription: Subscription) {
+    MapHelper.amap.get('video-path-map-container').then((x) => {
+      this.map.set(x);
+      let container = new Loca.Container({ map: x });
+      this.arrow.set(new IASMapAMapPathArrowController(x));
+      this.way.set(new IASMapAMapPathWayController(x));
+      this.label.set(new IASMapAMapPathLabelController(x));
+      this.point.set(new VideoPathMapAMapPointController(x));
+      this._path.set(new IASMapAMapPathPulseController(x, container));
+    });
+  }
+
+  private map = new PromiseValue<AMap.Map>();
+
+  destroy() {
+    this.map.get().then((x) => {
+      x.destroy();
+      this.map.clear();
+    });
+  }
+
+  fit = {
+    view: (immediately?: boolean) => {
+      this.map.get().then((x) => {
+        x.setFitView(undefined, immediately);
+      });
+    },
+  };
+
+  private _path = new PromiseValue<IASMapAMapPathPulseController>();
+  path = {
+    mouseover: new EventEmitter<{
+      line: GeoLine;
+      point: GeoPoint;
+      percent: number;
+    }>(),
+    mouseout: new EventEmitter<void>(),
+    click: new EventEmitter<{
+      line: GeoLine;
+      point: GeoPoint;
+      percent: number;
+    }>(),
+    load: async (datas: FileGpsItem[][], focus: boolean) => {
+      let ctr = await this._path.get();
+      let colors: string[] = [];
+      let polylines = datas.map((items, i) => {
+        let positions = items.map(
+          (x) => [x.Longitude, x.Latitude] as [number, number]
+        );
+        let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
+        colors.push(IASMapAMapConfig.path.color[type]);
+
+        return positions;
+      });
+
+      ctr.load(polylines, colors);
+    },
+    clear: async () => {
+      let ctr = await this._path.get();
+      ctr.clear();
+    },
+  };
+}

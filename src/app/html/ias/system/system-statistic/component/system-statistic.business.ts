@@ -12,6 +12,11 @@ export class SystemStatisticBusiness {
     if (location.pathname.indexOf(SystemPath.statistic_road_object) >= 0) {
       this.headable = false;
       title = '道路部件统计';
+    } else if (
+      location.pathname.indexOf(SystemPath.statistic_device_route) >= 0
+    ) {
+      this.headable = true;
+      title = '巡检车辆行驶统计';
     } else if (location.pathname.indexOf(SystemPath.statistic) >= 0) {
       this.headable = true;
       title = '分析统计';

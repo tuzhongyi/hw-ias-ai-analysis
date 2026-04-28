@@ -14,6 +14,7 @@ import { DateTimeControlComponent } from '../../../../../../common/components/da
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
+import { Assignment } from '../../../../../../common/data-core/models/arm/event/assignment.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
@@ -178,11 +179,19 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
 
   picture = {
     datas: [] as Array<
-      MobileEventRecord | EventResourceContent | ShopRegistration | ShopSign
+      | MobileEventRecord
+      | EventResourceContent
+      | ShopRegistration
+      | ShopSign
+      | Assignment
     >,
     open: (
       paged: PagedList<
-        MobileEventRecord | EventResourceContent | ShopRegistration | ShopSign
+        | MobileEventRecord
+        | EventResourceContent
+        | ShopRegistration
+        | ShopSign
+        | Assignment
       >,
       opened: boolean = false
     ) => {
@@ -193,7 +202,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
       this.window.picture.page = paged.Page;
       let index = paged.Page.PageIndex - 1;
       let data = paged.Data[index];
-      this.window.picture.set(data);
+      this.window.picture.set(data, index);
       if (!opened) {
         this.window.picture.show = true;
       }
@@ -202,7 +211,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
       this.window.picture.page = page;
       let index = page.PageIndex - 1;
       let data = this.picture.datas[index];
-      this.window.picture.set(data);
+      this.window.picture.set(data, index);
     },
   };
 

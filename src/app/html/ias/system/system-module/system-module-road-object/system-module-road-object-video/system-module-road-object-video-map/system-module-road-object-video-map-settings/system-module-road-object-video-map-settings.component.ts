@@ -15,12 +15,32 @@ export class SystemModuleRoadObjectVideoMapSettingsComponent {
   @Input() pickupable = false;
   @Output() pickupableChange = new EventEmitter<boolean>();
 
+  @Input() displaypoint = true;
+  @Output() displaypointChange = new EventEmitter<boolean>();
+
+  @Input() displayline = true;
+  @Output() displaylineChange = new EventEmitter<boolean>();
+
+  @Input() displayroute = true;
+  @Output() displayrouteChange = new EventEmitter<boolean>();
+
   @Input() top = true;
   @Input() left = false;
 
   on = {
     rectified: () => {
       this.rectifiedChange.emit(this.rectified);
+    },
+    display: {
+      point: () => {
+        this.displaypointChange.emit(this.displaypoint);
+      },
+      line: () => {
+        this.displaylineChange.emit(this.displayline);
+      },
+      route: () => {
+        this.displayrouteChange.emit(this.displayroute);
+      },
     },
     pickup: {
       enabled: () => {

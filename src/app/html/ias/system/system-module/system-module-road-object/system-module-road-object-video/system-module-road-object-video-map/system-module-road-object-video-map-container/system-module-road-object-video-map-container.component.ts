@@ -15,6 +15,8 @@ import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm
 import { FileInfo } from '../../../../../../../../common/data-core/models/arm/file/file-info.model';
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { wait } from '../../../../../../../../common/tools/wait';
+import { IIASMapCurrent } from '../../../../../../share/map/ias-map.model';
+import { FileGpsItemPercent } from '../system-module-road-object-video-map.model';
 import { SystemModuleRoadObjectVideoMapController } from './controller/system-module-road-object-video-map.controller';
 import { SystemModuleRoadObjectVideoMapBusiness } from './system-module-road-object-video-map-container.business';
 
@@ -31,11 +33,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   @Input() objects: RoadObject[] = [];
   @Input() data?: FileInfo;
   @Input('to') _to?: EventEmitter<number>;
-  @Output() trigger = new EventEmitter<{
-    start: FileGpsItem;
-    end: FileGpsItem;
-    percent: number;
-  }>();
+  @Output() trigger = new EventEmitter<FileGpsItemPercent>();
   @Output() loaded = new EventEmitter<FileGpsItem[]>();
   @Output() error = new EventEmitter<Error>();
 
@@ -53,7 +51,14 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   @Output() course = new EventEmitter<number>();
   @Output() objectdblclick = new EventEmitter<RoadObject>();
   @Output() objectclick = new EventEmitter<RoadObject>();
-  @Output() current = new EventEmitter<[number, number]>();
+  @Output() current = new EventEmitter<IIASMapCurrent>();
+
+  @Input() displaypoint = true;
+  @Input() displayline = true;
+  @Input() displayroute = true;
+
+  @Input() linecreate?: EventEmitter<[number, number][]>;
+  @Output() lineclick = new EventEmitter<RoadObject>();
 
   constructor(private business: SystemModuleRoadObjectVideoMapBusiness) {}
 
@@ -79,6 +84,9 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
     this.change.rectified(changes['rectified']);
     this.change.pickup(changes['pickupable']);
     this.change.objects(changes['objects']);
+    this.change.display.point(changes['displaypoint']);
+    this.change.display.line(changes['displayline']);
+    this.change.display.route(changes['displayroute']);
   }
 
   ngOnDestroy(): void {
@@ -89,25 +97,37 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   private regist = {
     load: () => {
       this.regist.input.to();
+      this.regist.input.line.create();
       this.regist.output.course();
       this.regist.output.trigger();
       this.regist.output.location();
       this.regist.output.pickup();
       this.regist.output.current();
-      this.regist.output.object.dblclick();
-      this.regist.output.object.click();
+      this.regist.output.object.point.dblclick();
+      this.regist.output.object.point.click();
+      this.regist.output.object.line.click();
     },
     input: {
       to: () => {
         if (this._to) {
           let sub = this._to.subscribe((time) => {
             this.time.current = time;
-            this.controller.to(time).then((x) => {
+            this.controller.to(time, this.displayroute).then((x) => {
               this.closest.emit(x);
             });
           });
           this.subscription.add(sub);
         }
+      },
+      line: {
+        create: () => {
+          if (this.linecreate) {
+            let sub = this.linecreate.subscribe((line) => {
+              this.controller.pickup.line.create(line);
+            });
+            this.subscription.add(sub);
+          }
+        },
       },
     },
     output: {
@@ -144,17 +164,42 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
         this.subscription.add(sub);
       },
       object: {
-        dblclick: () => {
-          let sub = this.controller.object.event.dblclick.subscribe((x) => {
-            this.objectdblclick.emit(x);
-          });
-          this.subscription.add(sub);
+        point: {
+          dblclick: () => {
+            let sub_point =
+              this.controller.object.point.event.dblclick.subscribe((x) => {
+                this.objectdblclick.emit(x);
+              });
+            this.subscription.add(sub_point);
+            let sub_line = this.controller.object.line.event.dblclick.subscribe(
+              (x) => {
+                this.objectdblclick.emit(x);
+              }
+            );
+            this.subscription.add(sub_line);
+          },
+          click: () => {
+            let sub_point = this.controller.object.point.event.click.subscribe(
+              (x) => {
+                this.objectclick.emit(x);
+              }
+            );
+            this.subscription.add(sub_point);
+          },
         },
-        click: () => {
-          let sub = this.controller.object.event.click.subscribe((x) => {
-            this.objectclick.emit(x);
-          });
-          this.subscription.add(sub);
+        line: {
+          click: () => {
+            let sub_line = this.controller.object.line.event.click.subscribe(
+              (x) => {
+                if (x.GeoLine) {
+                  let end = x.GeoLine[x.GeoLine.length - 1];
+                  this.controller.arrow.center([end.Longitude, end.Latitude]);
+                  this.lineclick.emit(x);
+                }
+              }
+            );
+            this.subscription.add(sub_line);
+          },
         },
       },
     },
@@ -188,9 +233,9 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
     },
     pickup: (simple: SimpleChange) => {
       if (simple) {
-        this.controller.pickup.can(this.pickupable);
+        this.controller.pickup.point.can(this.pickupable);
         if (!this.pickupable) {
-          this.controller.pickup.clear();
+          this.controller.pickup.point.clear();
         }
       }
     },
@@ -198,6 +243,37 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
       if (simple) {
         this.load.objects(this.objects);
       }
+    },
+    display: {
+      point: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.displaypoint) {
+            let points = this.objects.filter((x) => !x.IsGeoLine || !x.GeoLine);
+            this.controller.object.point.load(points);
+          } else {
+            this.controller.object.point.clear();
+          }
+        }
+      },
+      line: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.displayline) {
+            let lines = this.objects.filter((x) => x.IsGeoLine && !!x.GeoLine);
+            this.controller.object.line.load(lines);
+          } else {
+            this.controller.object.line.clear();
+          }
+        }
+      },
+      route: (simple: SimpleChange) => {
+        if (simple && !simple.firstChange) {
+          if (this.displayroute) {
+            this.controller.path.show();
+          } else {
+            this.controller.path.hide();
+          }
+        }
+      },
     },
   };
 
@@ -224,10 +300,16 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
       }
     },
     objects: (datas: RoadObject[]) => {
-      this.controller.object.clear().then(() => {
-        this.controller.object.load(datas);
+      let points = datas.filter((x) => !x.IsGeoLine || !x.GeoLine);
+      this.controller.object.point.clear().then(() => {
+        this.controller.object.point.load(points);
       });
-      this.controller.pickup.clear();
+
+      let lines = datas.filter((x) => x.IsGeoLine && !!x.GeoLine);
+      this.controller.object.line.clear().then(() => {
+        this.controller.object.line.load(lines);
+      });
+      this.controller.pickup.point.clear();
     },
   };
 }

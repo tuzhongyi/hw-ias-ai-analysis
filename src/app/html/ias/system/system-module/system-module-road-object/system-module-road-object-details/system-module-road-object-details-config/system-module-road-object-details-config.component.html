@@ -86,5 +86,18 @@
         <i class="text">米</i>
       </div>
     </div>
+    <div class="form-item full">
+      <div class="form-item-text">
+        <div class="name" text-space-between>摄像机方向</div>
+      </div>
+      <div class="form-item-value fill">
+        <howell-select-multiple
+          [datas]="camera.sides"
+          [selecteds]="camera.selected"
+          (selectedsChange)="camera.change($event)"
+          [searchable]="false"
+        ></howell-select-multiple>
+      </div>
+    </div>
   </div>
 </div>

@@ -2,11 +2,13 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
+import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapRoadObjectMarkerLayerController } from '../../../../../../share/map/controller/amap/road-object/marker/ias-map-amap-road-object-marker-layer.controller';
 import { IASMapAMapRoadObjectPointLayerController } from '../../../../../../share/map/controller/amap/road-object/point/ias-map-amap-road-object-point-layer.controller';
+import { IASMapAMapRoadObjectPolylineController } from '../../../../../../share/map/controller/amap/road-object/pollyline/ias-map-amap-road-object-polyline.controller';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 
 export class SystemModuleRoadObjectAMapController {
@@ -29,6 +31,7 @@ export class SystemModuleRoadObjectAMapController {
     return {
       point: this.controller.roadobject.point.get(),
       marker: this.controller.roadobject.marker.get(),
+      polyline: this.controller.roadobject.polyline.get(),
     };
   }
   constructor(subscription: Subscription) {
@@ -50,6 +53,7 @@ export class SystemModuleRoadObjectAMapController {
 
         this.init.roadobject.point(container, subscription);
         this.init.roadobject.marker(map, info, subscription);
+        this.init.roadobject.polyline(map, container, subscription);
       });
   }
 
@@ -101,6 +105,18 @@ export class SystemModuleRoadObjectAMapController {
         subscription.add(sub2);
         this.controller.roadobject.marker.set(ctr);
       },
+      polyline: (
+        map: AMap.Map,
+        container: Loca.Container,
+        subscription: Subscription
+      ) => {
+        let ctr = new IASMapAMapRoadObjectPolylineController(map, container);
+        let sub = ctr.event.move.subscribe((data) => {
+          this.regist.line.over(data);
+        });
+        subscription.add(sub);
+        this.controller.roadobject.polyline.set(ctr);
+      },
     },
   };
 
@@ -112,6 +128,7 @@ export class SystemModuleRoadObjectAMapController {
     roadobject: {
       point: new PromiseValue<IASMapAMapRoadObjectPointLayerController>(),
       marker: new PromiseValue<IASMapAMapRoadObjectMarkerLayerController>(),
+      polyline: new PromiseValue<IASMapAMapRoadObjectPolylineController>(),
     },
   };
 
@@ -120,6 +137,9 @@ export class SystemModuleRoadObjectAMapController {
       map.on('mousemove', (e: any) => {
         let position: [number, number] = [e.pixel.x, e.pixel.y];
         this.controller.roadobject.point.get().then((x) => {
+          x.moving(position);
+        });
+        this.controller.roadobject.polyline.get().then((x) => {
           x.moving(position);
         });
       });
@@ -136,6 +156,29 @@ export class SystemModuleRoadObjectAMapController {
                 data.Location.GCJ02.Longitude,
                 data.Location.GCJ02.Latitude,
               ];
+            }
+            ctr.add(info, undefined, [0, -15]);
+          } else {
+            ctr.remove();
+          }
+        });
+      },
+    },
+    line: {
+      over: async (data?: RoadObject) => {
+        let map = await this.map;
+        this.controller.info.get().then((ctr) => {
+          if (data && data.GeoLine) {
+            let line = data.GeoLine.map<[number, number]>((x) => [
+              x.Longitude,
+              x.Latitude,
+            ]);
+            let center = GeoTool.polyline.center(line);
+            let info: IIASMapAMapInfo = {
+              Name: data.Name,
+            };
+            if (data.Location) {
+              info.Location = center;
             }
             ctr.add(info, undefined, [0, -15]);
           } else {

@@ -34,12 +34,15 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
     EventType?: number;
     RoadObjectType?: number;
   }>();
+  @Input() reset = false;
+  @Output() resetChange = new EventEmitter<boolean>();
   constructor(private manager: Manager) {}
 
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {
     this.change.source(changes['source']);
     this.change.view(changes['view']);
+    this.change.reset(changes['reset']);
   }
 
   private change = {
@@ -53,6 +56,18 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
       if (simple && !simple.firstChange) {
         this.objecttype.refresh();
         this.eventtype.refresh();
+      }
+    },
+    reset: (simple: SimpleChange) => {
+      if (simple) {
+        if (this.reset) {
+          this.objecttype.selected = undefined;
+          this.objecttype.refresh();
+          this.eventtype.selected = undefined;
+          this.eventtype.refresh();
+          this.reset = false;
+          this.resetChange.emit(false);
+        }
       }
     },
   };
@@ -155,7 +170,7 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
     selected: undefined as SystemStatisticRoadObjectMapStateItem | undefined,
     load: async () => {
       this.objecttype.datas = [];
-      let enums = await this.manager.source.road.object.ObjectTypes.get();
+      let enums = await this.manager.source.road.object.PointObjectTypes.get();
       for (let i = 0; i < enums.length; i++) {
         let _enum = enums[i];
         let item = await this.objecttype.create.item(_enum.Value, _enum.Name);

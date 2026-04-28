@@ -7,6 +7,8 @@ export class SourceRoadObjectManager {
   EventTypes = new PromiseValue<EnumNameValue<number>[]>();
   ImageSamplingPlans = new PromiseValue<EnumNameValue<number>[]>();
   ObjectStates = new PromiseValue<EnumNameValue<number>[]>();
+  LineObjectTypes = new PromiseValue<EnumNameValue<number>[]>();
+  PointObjectTypes = new PromiseValue<EnumNameValue<number>[]>();
 
   constructor(private capability: CapabilityManager) {
     this.init();
@@ -25,6 +27,12 @@ export class SourceRoadObjectManager {
       }
       if (x.ObjectStates) {
         this.ObjectStates.set(x.ObjectStates);
+      }
+      if (x.LineObjectTypes) {
+        this.LineObjectTypes.set(x.LineObjectTypes);
+      }
+      if (x.PointObjectTypes) {
+        this.PointObjectTypes.set(x.PointObjectTypes);
       }
     });
   }

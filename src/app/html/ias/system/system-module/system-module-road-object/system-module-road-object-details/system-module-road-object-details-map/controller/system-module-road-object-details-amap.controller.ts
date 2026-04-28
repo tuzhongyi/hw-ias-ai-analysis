@@ -1,6 +1,6 @@
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
-import { IASMapAMapGeocoderController } from '../../../../../../share/map/controller/amap/geocoder/ias-map-amap-geocoder.controller';
+// import { IASMapAMapGeocoderController } from '../../../../../../share/map/controller/amap/geocoder/ias-map-amap-geocoder.controller';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 import { SystemModuleRoadObjectDetailsAMapObjectController } from './object/system-module-road-object-details-amap-object.controller';
 
@@ -15,13 +15,13 @@ export class SystemModuleRoadObjectDetailsAMapController {
     return this.controller.map.get();
   }
 
-  get geocoder() {
-    if (!this.controller.geocoder.existed) {
-      let geocoder = new IASMapAMapGeocoderController();
-      this.controller.geocoder.set(geocoder);
-    }
-    return this.controller.geocoder.get();
-  }
+  // get geocoder() {
+  //   if (!this.controller.geocoder.existed) {
+  //     let geocoder = new IASMapAMapGeocoderController();
+  //     this.controller.geocoder.set(geocoder);
+  //   }
+  //   return this.controller.geocoder.get();
+  // }
   constructor() {
     MapHelper.amap
       .get('system-module-road-object-details-map', [], true, {
@@ -49,6 +49,13 @@ export class SystemModuleRoadObjectDetailsAMapController {
     road: new PromiseValue<IASMapAMapRoadController>(),
     point:
       new PromiseValue<SystemModuleRoadObjectDetailsAMapObjectController>(),
-    geocoder: new PromiseValue<IASMapAMapGeocoderController>(),
+    // geocoder: new PromiseValue<IASMapAMapGeocoderController>(),
   };
+
+  destroy() {
+    this.controller.point.clear();
+    this.controller.road.clear();
+    this.controller.container.clear();
+    this.controller.map.clear();
+  }
 }

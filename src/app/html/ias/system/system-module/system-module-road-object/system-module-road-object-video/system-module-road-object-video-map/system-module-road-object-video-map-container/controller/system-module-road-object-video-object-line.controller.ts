@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { RoadObject } from '../../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { SystemModuleRoadObjectVideoAMapController } from './system-module-road-object-video-amap.controller';
 
-export class SystemMainMapRoadObjectController {
+export class SystemMainMapRoadObjectLineController {
   inited = false;
   event = {
     click: new EventEmitter<RoadObject>(),
@@ -17,35 +17,31 @@ export class SystemMainMapRoadObjectController {
     this.regist(subscription);
   }
   private regist(subscription: Subscription) {
-    let sub1 = this.amap.event.road.object.click.subscribe((x) => {
+    let sub1 = this.amap.event.road.object.line.click.subscribe((x) => {
       this.event.click.emit(x);
     });
     subscription.add(sub1);
-    let sub2 = this.amap.event.road.object.dblclick.subscribe((x) => {
-      this.event.dblclick.emit(x);
-    });
-    subscription.add(sub2);
   }
 
   private datas?: RoadObject[];
+
   private loaded = false;
 
   async load(datas: RoadObject[]) {
     this.datas = datas;
-    let point = await this.amap.roadobject.point.get();
-    point.load(datas);
-    let marker = await this.amap.roadobject.marker.get();
-    marker.load(datas);
+    let polyline = await this.amap.roadobject.polyline.get();
+    polyline.load(datas);
+
     this.loaded = true;
     this.inited = true;
   }
   async clear() {
-    let point = await this.amap.roadobject.point.get();
-    point.clear();
-    let marker = await this.amap.roadobject.marker.get();
-    marker.clear();
+    let polyline = await this.amap.roadobject.polyline.get();
+    polyline.clear();
+
     this.loaded = false;
   }
+
   reload() {
     if (this.loaded) return;
     if (this.datas) {

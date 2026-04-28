@@ -351,6 +351,14 @@ export class SystemBreadcrumbBusiness {
           this.statistic.index(),
           this.statistic.road_object(),
         ];
+      } else if (
+        location.pathname.indexOf(SystemPath.statistic_device_route) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.statistic.index(),
+          this.statistic.device_route(),
+        ];
       } else if (location.pathname.indexOf(SystemPath.statistic_index) >= 0) {
         return [this.home.index(), this.statistic.index()];
       } else {
@@ -361,6 +369,12 @@ export class SystemBreadcrumbBusiness {
       let item = new SystemBreadcrumbItem();
       item.text = '道路部件统计';
       item.path = SystemPath.statistic_road_object;
+      return item;
+    },
+    device_route: () => {
+      let item = new SystemBreadcrumbItem();
+      item.text = '巡检车辆行驶统计';
+      item.path = SystemPath.statistic_device_route;
       return item;
     },
     index: () => {

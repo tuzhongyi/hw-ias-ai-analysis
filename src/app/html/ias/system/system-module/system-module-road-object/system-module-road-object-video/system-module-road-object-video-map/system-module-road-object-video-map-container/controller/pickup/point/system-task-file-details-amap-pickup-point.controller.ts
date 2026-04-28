@@ -1,11 +1,11 @@
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PathTool } from '../../../../../../../../../../common/tools/path-tool/path.tool';
-import { SizeTool } from '../../../../../../../../../../common/tools/size-tool/size.tool';
-import { IASMapAMapIconController } from '../../../../../../../../share/map/controller/amap/shop/marker/ias-map-amap-shop-icon.controller';
-import { SystemTaskFileDetailsAMapPickupMarkerController } from './system-task-file-details-amap-pickup-marker.controller';
+import { PathTool } from '../../../../../../../../../../../common/tools/path-tool/path.tool';
+import { SizeTool } from '../../../../../../../../../../../common/tools/size-tool/size.tool';
+import { IASMapAMapIconController } from '../../../../../../../../../share/map/controller/amap/shop/marker/ias-map-amap-shop-icon.controller';
+import { SystemTaskFileDetailsAMapPickupPointMarkerController } from './system-task-file-details-amap-pickup-point-marker.controller';
 
-export class SystemTaskFileDetailsAMapPickupController {
+export class SystemTaskFileDetailsAMapPickupPointController {
   event = {
     dragend: new EventEmitter<[number, number]>(),
   };
@@ -15,7 +15,7 @@ export class SystemTaskFileDetailsAMapPickupController {
   }
 
   icon = new IASMapAMapIconController();
-  marker = new SystemTaskFileDetailsAMapPickupMarkerController();
+  marker = new SystemTaskFileDetailsAMapPickupPointMarkerController();
 
   create(position: [number, number]) {
     let args = {

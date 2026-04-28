@@ -40,6 +40,45 @@
           />
         </div>
       </div>
+      <div class="form-item">
+        <div class="form-item-text">
+          <label for="map-panel-settings-display-route">显示行驶路径</label>
+        </div>
+        <div class="form-item-value">
+          <input
+            type="checkbox"
+            id="map-panel-settings-display-route"
+            [(ngModel)]="displayroute"
+            (change)="on.display.route()"
+          />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">
+          <label for="map-panel-settings-display-point">显示点位物件</label>
+        </div>
+        <div class="form-item-value">
+          <input
+            type="checkbox"
+            id="map-panel-settings-display-point"
+            [(ngModel)]="displaypoint"
+            (change)="on.display.point()"
+          />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">
+          <label for="map-panel-settings-display-line">显示线性物件</label>
+        </div>
+        <div class="form-item-value">
+          <input
+            type="checkbox"
+            id="map-panel-settings-display-line"
+            [(ngModel)]="displayline"
+            (change)="on.display.line()"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </div>

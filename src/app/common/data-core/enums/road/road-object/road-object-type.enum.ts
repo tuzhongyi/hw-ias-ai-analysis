@@ -10,4 +10,6 @@ export enum RoadObjectType {
   Passage = 4,
   /**	电话亭	*/
   TelephoneBooth = 5,
+  /** 机非隔离栏 */
+  CycleLaneSeparator = 6,
 }

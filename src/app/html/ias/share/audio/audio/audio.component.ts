@@ -3,6 +3,7 @@ import {
   ElementRef,
   Input,
   OnChanges,
+  OnDestroy,
   SimpleChange,
   SimpleChanges,
   ViewChild,
@@ -16,7 +17,7 @@ import { PromiseValue } from '../../../../../common/view-models/value.promise';
   templateUrl: './audio.component.html',
   styleUrl: './audio.component.less',
 })
-export class AudioComponent implements OnChanges {
+export class AudioComponent implements OnChanges, OnDestroy {
   @Input() id?: string;
   @Input() src?: string;
 
@@ -41,4 +42,7 @@ export class AudioComponent implements OnChanges {
       }
     },
   };
+  ngOnDestroy(): void {
+    this.player.clear();
+  }
 }

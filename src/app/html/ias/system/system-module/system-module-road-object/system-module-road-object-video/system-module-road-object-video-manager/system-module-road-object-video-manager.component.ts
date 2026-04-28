@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { OptionMode } from '../../../../../../../common/data-core/enums/option.enum';
+import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { FileInfo } from '../../../../../../../common/data-core/models/arm/file/file-info.model';
 import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
@@ -13,19 +15,29 @@ import { VideoTagsComponent } from '../../../../../share/video-tags/video-tags.c
 import { SystemModuleRoadObjectDetailsSimpleComponent } from '../../system-module-road-object-details/system-module-road-object-details-simple/system-module-road-object-details-simple.component';
 import { SystemModuleRoadObjectVideoMapManagerComponent } from '../system-module-road-object-video-map/system-module-road-object-video-map-manager/system-module-road-object-video-map-manager.component';
 import { SystemModuleRoadObjectVideoManagerBusiness } from './system-module-road-object-video-manager.business';
-import { PickupModel } from './system-module-road-object-video-manager.model';
+import {
+  PickupLineModel,
+  PickupModel,
+  PickupPointModel,
+  SystemModuleRoadObjectVideoManagerButton,
+} from './system-module-road-object-video-manager.model';
+import { SystemModuleRoadObjectVideoManagerSource } from './system-module-road-object-video-manager.source';
 
 @Component({
   selector: 'ias-system-module-road-object-video-manager',
   imports: [
     CommonModule,
+    FormsModule,
     VideoTagsComponent,
     SystemModuleRoadObjectVideoMapManagerComponent,
     SystemModuleRoadObjectDetailsSimpleComponent,
   ],
   templateUrl: './system-module-road-object-video-manager.component.html',
   styleUrl: './system-module-road-object-video-manager.component.less',
-  providers: [SystemModuleRoadObjectVideoManagerBusiness],
+  providers: [
+    SystemModuleRoadObjectVideoManagerSource,
+    SystemModuleRoadObjectVideoManagerBusiness,
+  ],
 })
 export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   @Input() data?: FileInfo;
@@ -39,10 +51,17 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   @Output() next = new EventEmitter<FileInfo>();
   @Output() reload = new EventEmitter<void>();
 
-  constructor(private toastr: ToastrService) {}
+  constructor(
+    public source: SystemModuleRoadObjectVideoManagerSource,
+    private toastr: ToastrService
+  ) {}
+
   OptionMode = OptionMode;
   selected?: RoadObject;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.on.type();
+  }
+  type = RoadObjectType.FireHydrant;
 
   video = {
     time: 0,
@@ -62,6 +81,22 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
         if (this.data) {
           this.next.emit(this.data);
         }
+      },
+    },
+  };
+
+  button = {
+    type: new SystemModuleRoadObjectVideoManagerButton(),
+    point: new SystemModuleRoadObjectVideoManagerButton(),
+    line: {
+      auto: {
+        begin: new SystemModuleRoadObjectVideoManagerButton(),
+        end: new SystemModuleRoadObjectVideoManagerButton(),
+      },
+      manual: {
+        begin: new SystemModuleRoadObjectVideoManagerButton(),
+        end: new SystemModuleRoadObjectVideoManagerButton(),
+        pickup: new SystemModuleRoadObjectVideoManagerButton(),
       },
     },
   };
@@ -122,16 +157,39 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   };
 
   on = {
+    type: async () => {
+      this.button.point.enabled =
+        (await this.source.points).findIndex((x) => x.Value == this.type) >= 0;
+      let line_enabled =
+        (await this.source.lines).findIndex((x) => x.Value == this.type) >= 0;
+      this.button.line.auto.begin.enabled = line_enabled;
+      this.button.line.auto.end.enabled = line_enabled;
+      this.button.line.manual.begin.enabled = line_enabled;
+      this.button.line.manual.end.enabled = line_enabled;
+      this.button.line.manual.pickup.enabled = line_enabled;
+
+      this.button.point.display = true;
+
+      this.button.line.auto.begin.display = true;
+      this.button.line.auto.end.display = false;
+
+      this.button.line.manual.begin.display = true;
+      this.button.line.manual.end.display = false;
+      this.button.line.manual.pickup.display = false;
+    },
     ok: () => {
       if (this.video.element) {
         this.video.element.capture().then((x) => {
           if (this.map.current) {
-            this.pickup.emit({
-              position: this.map.current,
+            let point: PickupPointModel = {
+              objecttype: this.type,
+              type: 'point',
+              point: this.map.current,
               capture: x,
               address: this.map.closest?.RoadName,
               course: this.map.course,
-            });
+            };
+            this.pickup.emit(point);
           }
         });
       }
@@ -147,6 +205,99 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
       saved: () => {
         this.selected = undefined;
         this.reload.emit();
+      },
+    },
+  };
+
+  line = {
+    pick: {
+      begin: new EventEmitter<boolean>(),
+      end: new EventEmitter<void>(),
+      up: new EventEmitter<void>(),
+    },
+
+    auto: {
+      begin: () => {
+        this.button.line.auto.begin.display = false;
+        this.button.line.auto.end.display = true;
+
+        this.button.line.manual.begin.display = true;
+        this.button.line.manual.end.display = false;
+        this.button.line.manual.pickup.display = false;
+
+        this.button.line.manual.begin.enabled = false;
+
+        this.video.element?.pause();
+
+        this.line.pick.begin.emit(true);
+      },
+      end: async () => {
+        this.button.line.auto.begin.display = true;
+        this.button.line.auto.end.display = false;
+
+        this.button.line.manual.begin.display = true;
+        this.button.line.manual.end.display = false;
+        this.button.line.manual.pickup.display = false;
+
+        this.button.line.manual.begin.enabled = true;
+
+        this.line.pick.end.emit();
+      },
+    },
+    manual: {
+      begin: () => {
+        this.button.line.auto.begin.display = true;
+        this.button.line.auto.end.display = false;
+
+        this.button.line.manual.begin.display = false;
+        this.button.line.manual.end.display = true;
+        this.button.line.manual.pickup.display = true;
+
+        this.button.line.auto.begin.enabled = false;
+
+        this.button.point.display = false;
+        this.video.element?.pause();
+        this.line.pick.begin.emit(false);
+      },
+      end: async () => {
+        this.button.line.auto.begin.display = true;
+        this.button.line.auto.end.display = false;
+
+        this.button.line.manual.begin.display = true;
+        this.button.line.manual.end.display = false;
+        this.button.line.manual.pickup.display = false;
+
+        this.button.line.auto.begin.enabled = true;
+
+        this.button.point.display = true;
+
+        this.line.pick.end.emit();
+      },
+      pick: () => {
+        this.line.pick.up.emit();
+      },
+    },
+
+    pickup: async (args: { points: [number, number][]; auto: boolean }) => {
+      if (this.video.element) {
+        let line: PickupLineModel = {
+          auto: args.auto,
+          objecttype: this.type,
+          type: 'line',
+          line: args.points,
+          capture: await this.video.element.capture(),
+          address: this.map.closest?.RoadName,
+          course: this.map.course,
+        };
+        this.pickup.emit(line);
+      }
+    },
+
+    on: {
+      click: (data: RoadObject) => {
+        if (this.video.element) {
+          this.video.element.pause();
+        }
       },
     },
   };

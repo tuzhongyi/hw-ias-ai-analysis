@@ -16,7 +16,9 @@ import { IASMapAMapPathArrowController } from '../../../../../../../share/map/co
 import { IASMapAMapPathLabelController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path-label.controller';
 import { IASMapAMapPathWayController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path-way.controller';
 import { IASMapAMapPathController } from '../../../../../../../share/map/controller/amap/path/ias-map-amap-path.controller';
-import { SystemTaskFileDetailsAMapPickupController } from './pickup/system-task-file-details-amap-pickup.controller';
+import { IASMapAMapRoadObjectPolylineController } from '../../../../../../../share/map/controller/amap/road-object/pollyline/ias-map-amap-road-object-polyline.controller';
+import { SystemTaskFileDetailsAMapPickupLineController } from './pickup/line/system-task-file-details-amap-pickup-line.controller';
+import { SystemTaskFileDetailsAMapPickupPointController } from './pickup/point/system-task-file-details-amap-pickup-point.controller';
 import { SystemMainMapAMapRoadObjectMarkerLayerController } from './road-object/marker/system-main-map-amap-road-object-marker-layer.controller';
 import { SystemMainMapAMapRoadObjectPointLayerController } from './road-object/point/system-main-map-amap-road-object-point-layer.controller';
 
@@ -25,8 +27,13 @@ export class SystemModuleRoadObjectVideoAMapController {
     point: new EventEmitter<[number, number]>(),
     road: {
       object: {
-        click: new EventEmitter<RoadObject>(),
-        dblclick: new EventEmitter<RoadObject>(),
+        point: {
+          click: new EventEmitter<RoadObject>(),
+          dblclick: new EventEmitter<RoadObject>(),
+        },
+        line: {
+          click: new EventEmitter<RoadObject>(),
+        },
       },
     },
   };
@@ -35,11 +42,15 @@ export class SystemModuleRoadObjectVideoAMapController {
   arrow = new PromiseValue<IASMapAMapPathArrowController>();
   way = new PromiseValue<IASMapAMapPathWayController>();
   label = new PromiseValue<IASMapAMapPathLabelController>();
-  pickup = new PromiseValue<SystemTaskFileDetailsAMapPickupController>();
+  pickup = {
+    point: new PromiseValue<SystemTaskFileDetailsAMapPickupPointController>(),
+    line: new PromiseValue<SystemTaskFileDetailsAMapPickupLineController>(),
+  };
   roadobject = {
     point: new PromiseValue<SystemMainMapAMapRoadObjectPointLayerController>(),
     marker:
       new PromiseValue<SystemMainMapAMapRoadObjectMarkerLayerController>(),
+    polyline: new PromiseValue<IASMapAMapRoadObjectPolylineController>(),
   };
   private info = new PromiseValue<IASMapAMapInfoController>();
 
@@ -50,10 +61,11 @@ export class SystemModuleRoadObjectVideoAMapController {
         let container = this.init.map(x);
         let info = this.init.info(x);
         this.init.path(x);
-        this.init.pickup(x, subscription);
-
+        this.init.pickup.point(x, subscription);
+        this.init.pickup.line(x, subscription);
         this.init.roadobject.point(container);
         this.init.roadobject.marker(x, info);
+        this.init.roadobject.polyline(x, container);
       });
   }
 
@@ -79,13 +91,19 @@ export class SystemModuleRoadObjectVideoAMapController {
       this.way.set(new IASMapAMapPathWayController(map));
       this.label.set(new IASMapAMapPathLabelController(map));
     },
-    pickup: (map: AMap.Map, subscription: Subscription) => {
-      let point = new SystemTaskFileDetailsAMapPickupController(
-        map,
-        subscription
-      );
-      this.pickup.set(point);
-      this.regist.point(point);
+    pickup: {
+      point: (map: AMap.Map, subscription: Subscription) => {
+        let point = new SystemTaskFileDetailsAMapPickupPointController(
+          map,
+          subscription
+        );
+        this.pickup.point.set(point);
+        this.regist.point(point);
+      },
+      line: (map: AMap.Map, subscription: Subscription) => {
+        let line = new SystemTaskFileDetailsAMapPickupLineController(map);
+        this.pickup.line.set(line);
+      },
     },
     roadobject: {
       point: (loca: Loca.Container) => {
@@ -103,7 +121,7 @@ export class SystemModuleRoadObjectVideoAMapController {
           this.subscription
         );
         let sub1 = ctr.event.click.subscribe((x) => {
-          this.event.road.object.click.emit(x);
+          this.event.road.object.point.click.emit(x);
 
           let gcj02 = x.Location.GCJ02;
           let point: GeoPoint = [gcj02.Longitude, gcj02.Latitude];
@@ -126,10 +144,22 @@ export class SystemModuleRoadObjectVideoAMapController {
         });
         this.subscription.add(sub1);
         let sub2 = ctr.event.dblclick.subscribe((x) => {
-          this.event.road.object.dblclick.emit(x);
+          this.event.road.object.point.dblclick.emit(x);
         });
         this.subscription.add(sub2);
         this.roadobject.marker.set(ctr);
+      },
+      polyline: (map: AMap.Map, container: Loca.Container) => {
+        let ctr = new IASMapAMapRoadObjectPolylineController(map, container);
+        let sub_move = ctr.event.move.subscribe((data) => {
+          this.regist.roadobject.line.over(data);
+        });
+        this.subscription.add(sub_move);
+        let sub_click = ctr.event.click.subscribe((data) => {
+          this.event.road.object.line.click.emit(data);
+        });
+        this.subscription.add(sub_click);
+        this.roadobject.polyline.set(ctr);
       },
     },
   };
@@ -142,10 +172,13 @@ export class SystemModuleRoadObjectVideoAMapController {
         this.roadobject.point.get().then((x) => {
           x.moving(position);
         });
+        this.roadobject.polyline.get().then((x) => {
+          x.moving(position);
+        });
       });
-      map.on('click', (x) => {
-        this.pickup.get().then((point) => {
-          let position: [number, number] = [x.lnglat.lng, x.lnglat.lat];
+      map.on('click', (e) => {
+        this.pickup.point.get().then((point) => {
+          let position: [number, number] = [e.lnglat.lng, e.lnglat.lat];
           point.remove().then((x) => {
             if (this.pickupable) {
               point.create(position);
@@ -153,9 +186,13 @@ export class SystemModuleRoadObjectVideoAMapController {
             }
           });
         });
+        this.roadobject.polyline.get().then((polyline) => {
+          let position: [number, number] = [e.pixel.x, e.pixel.y];
+          polyline.click(position);
+        });
       });
     },
-    point: (controller: SystemTaskFileDetailsAMapPickupController) => {
+    point: (controller: SystemTaskFileDetailsAMapPickupPointController) => {
       let sub = controller.event.dragend.subscribe((x) => {
         this.event.point.emit(x);
       });
@@ -183,6 +220,29 @@ export class SystemModuleRoadObjectVideoAMapController {
           });
         },
       },
+      line: {
+        over: async (data?: RoadObject) => {
+          let map = await this.map;
+          this.info.get().then((ctr) => {
+            if (data && data.GeoLine) {
+              let line = data.GeoLine.map<[number, number]>((x) => [
+                x.Longitude,
+                x.Latitude,
+              ]);
+              let center = GeoTool.polyline.center(line);
+              let info: IIASMapAMapInfo = {
+                Name: data.Name,
+              };
+              if (data.Location) {
+                info.Location = center;
+              }
+              ctr.add(info, undefined, [0, -15]);
+            } else {
+              ctr.remove();
+            }
+          });
+        },
+      },
     },
   };
 
@@ -192,11 +252,24 @@ export class SystemModuleRoadObjectVideoAMapController {
     });
   }
 
-  destroy() {
-    this.map.get().then((x) => {
-      x.destroy();
-      this.map.clear();
-    });
+  async destroy() {
+    this.arrow.clear();
+    this.way.clear();
+    this.label.clear();
+    this.pickup.point.clear();
+    this.pickup.line.clear();
+    this.roadobject.point.clear();
+    this.roadobject.marker.clear();
+    this.roadobject.polyline.clear();
+    this.info.clear();
+
+    let loca = await this.loca.get();
+    loca.clear();
+    this.loca.clear();
+
+    let map = await this.map.get();
+    map.destroy();
+    this.map.clear();
   }
 
   private _path: IASMapAMapPathController[] = [];

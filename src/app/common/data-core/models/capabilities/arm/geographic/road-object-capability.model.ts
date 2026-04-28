@@ -16,4 +16,12 @@ export class RoadObjectCapability implements IModel {
   /**	EnumNameValue[]	道路部件状态	M	R */
   @Type(() => EnumNameValue)
   ObjectStates!: EnumNameValue<number>[];
+  /**	Int32	最小的部件消失次数	M	R */
+  MinDisappearTimes!: number;
+  /**	EnumNameValue[]	线段道路部件类型	M	R */
+  @Type(() => EnumNameValue)
+  LineObjectTypes!: EnumNameValue<number>[];
+  /**	EnumNameValue[]	点道路部件类型	M	R */
+  @Type(() => EnumNameValue)
+  PointObjectTypes!: EnumNameValue<number>[];
 }

@@ -2,7 +2,8 @@
   class="fill-height fill-width window-mask"
   *ngIf="Model.show"
   [ngClass]="{
-    none: !mask
+    none: !mask,
+    'pointer-events': pointer_events
   }"
   [ngStyle]="{
     zIndex: content.style.zIndex

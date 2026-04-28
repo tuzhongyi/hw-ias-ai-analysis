@@ -23,6 +23,7 @@ import { SystemModuleRoadSectionManagerComponent } from './system-module/system-
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemStatisticComponent } from './system-statistic/component/system-statistic.component';
+import { SystemStatisticDeviceRouteManagerComponent } from './system-statistic/system-statistic-device-route/system-statistic-device-route-manager/system-statistic-device-route-manager.component';
 import { SystemStatisticIndexComponent } from './system-statistic/system-statistic-index/system-statistic-index.component';
 import { SystemStatisticRoadObjectManagerComponent } from './system-statistic/system-statistic-road-object/system-statistic-road-object-manager/system-statistic-road-object-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
@@ -209,6 +210,10 @@ const routes: Routes = [
           {
             path: 'road-object',
             component: SystemStatisticRoadObjectManagerComponent,
+          },
+          {
+            path: 'device-route',
+            component: SystemStatisticDeviceRouteManagerComponent,
           },
         ],
       },

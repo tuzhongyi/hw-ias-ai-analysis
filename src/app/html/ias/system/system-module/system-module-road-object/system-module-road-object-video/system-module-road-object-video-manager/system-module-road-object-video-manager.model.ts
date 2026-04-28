@@ -4,5 +4,19 @@ export interface PickupModel {
   address?: string;
   course: number;
   capture: VideoCaptureModel;
-  position: [number, number];
+  objecttype: number;
+  type: 'point' | 'line';
+}
+
+export interface PickupPointModel extends PickupModel {
+  point: [number, number];
+}
+export interface PickupLineModel extends PickupModel {
+  line: [number, number][];
+  auto: boolean;
+}
+
+export class SystemModuleRoadObjectVideoManagerButton {
+  enabled = false;
+  display = true;
 }

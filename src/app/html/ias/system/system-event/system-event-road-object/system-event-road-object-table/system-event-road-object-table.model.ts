@@ -68,4 +68,6 @@ export class SystemEventRoadObjectTableItem extends RoadObjectEventRecord {
   DivisionName?: Promise<string>;
   EventTypeName!: Promise<string>;
   RoadObjectTypeName!: Promise<string>;
+
+  hasvideo?: boolean;
 }
