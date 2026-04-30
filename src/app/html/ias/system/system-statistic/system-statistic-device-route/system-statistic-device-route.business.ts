@@ -11,6 +11,7 @@ import {
   Duration,
   DurationUnit,
 } from '../../../../../common/tools/date-time-tool/duration.model';
+import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
 import { ISystemStatisticDeviceRouteModel } from './system-statistic-device-route.model';
 
 @Injectable()
@@ -20,11 +21,19 @@ export class SystemStatisticDeviceRouteBusiness {
   async load(deviceId: string, unit: DurationUnit, date: Date) {
     switch (unit) {
       case DurationUnit.day:
-        return this.by.day(deviceId, date);
+        return this.history.day(deviceId, date);
       case DurationUnit.week:
-        return this.by.week(deviceId, date);
+        let week = DateTimeTool.all.week(new Date());
+        if (DateTimeTool.math.in(date, week)) {
+          return this.current.week(deviceId, date);
+        }
+        return this.history.week(deviceId, date);
       case DurationUnit.month:
-        return this.by.month(deviceId, date);
+        let month = DateTimeTool.all.month(new Date());
+        if (DateTimeTool.math.in(date, month)) {
+          return this.current.month(deviceId, date);
+        }
+        return this.history.month(deviceId, date);
       // case DurationUnit.year:
       //   return this.by.year(deviceId, date);
       default:
@@ -32,7 +41,32 @@ export class SystemStatisticDeviceRouteBusiness {
     }
   }
 
-  private by = {
+  private current = {
+    week: async (deviceId: string, date: Date) => {
+      let datas: ISystemStatisticDeviceRouteModel[] = [];
+      let days = DateTimeTool.full.week(date);
+
+      for (let i = 0; i < days.length; i++) {
+        let duration = DateTimeTool.all.day(days[i]);
+        let item = await this.data.statistic(deviceId, duration);
+        datas.push(this.convert.statistic(item));
+      }
+      return datas;
+    },
+    month: async (deviceId: string, date: Date) => {
+      let datas: ISystemStatisticDeviceRouteModel[] = [];
+      let days = DateTimeTool.full.month(date);
+
+      for (let i = 0; i < days.length; i++) {
+        let duration = DateTimeTool.all.day(days[i]);
+        let item = await this.data.statistic(deviceId, duration);
+        datas.push(this.convert.statistic(item));
+      }
+      return datas;
+    },
+  };
+
+  private history = {
     day: async (deviceId: string, date: Date) => {
       let datas: ISystemStatisticDeviceRouteModel[] = [];
       for (let i = 0; i < 24; i++) {
@@ -79,7 +113,7 @@ export class SystemStatisticDeviceRouteBusiness {
   };
 
   convert = {
-    statistic: (data: DeviceRoutesStatistic) => {
+    statistic: (data: DeviceRoutesStatisticModel) => {
       let model: ISystemStatisticDeviceRouteModel = {
         MovingSeconds: data.MovingSeconds,
         StaySeconds: data.StaySeconds,
@@ -89,6 +123,7 @@ export class SystemStatisticDeviceRouteBusiness {
         DailyMeters: data.DailyMeters,
         CoveragePercent: data.CoveragePercent,
         Date: data.BeginTime,
+        Attendance: data.Attendance,
       };
       return model;
     },
@@ -115,19 +150,27 @@ export class SystemStatisticDeviceRouteBusiness {
       params.BeginTime = duration.begin;
       params.EndTime = duration.end;
       params.MinSpeed = 3;
-      return this.service.mobile.device.route.statistic(params).catch((e) => {
-        let statistic = new DeviceRoutesStatistic();
-        statistic.BeginTime = duration.begin;
-        statistic.EndTime = duration.end;
-        statistic.AvgSpeed = 0;
-        statistic.FastestSpeed = 0;
-        statistic.MovingSeconds = 0;
-        statistic.StaySeconds = 0;
-        statistic.TotalMeters = 0;
-        statistic.DailyMeters = 0;
-        statistic.CoveragePercent = 0;
-        return statistic;
-      });
+      return this.service.mobile.device.route
+        .statistic(params)
+        .then((x) => {
+          let model = ObjectTool.assign(x, DeviceRoutesStatisticModel);
+          model.Attendance = true;
+          return model;
+        })
+        .catch((e) => {
+          let statistic = new DeviceRoutesStatisticModel();
+          statistic.BeginTime = duration.begin;
+          statistic.EndTime = duration.end;
+          statistic.AvgSpeed = 0;
+          statistic.FastestSpeed = 0;
+          statistic.MovingSeconds = 0;
+          statistic.StaySeconds = 0;
+          statistic.TotalMeters = 0;
+          statistic.DailyMeters = 0;
+          statistic.CoveragePercent = 0;
+          statistic.Attendance = false;
+          return statistic;
+        });
     },
     statements: async (deviceId: string, type: number, duration: Duration) => {
       let params = new GetDeviceStatementParams();
@@ -152,9 +195,14 @@ export class SystemStatisticDeviceRouteBusiness {
           statistic.TotalMeters = 0;
           statistic.DailyMeters = 0;
           statistic.CoveragePercent = 0;
+          statistic.Attendance = false;
           return statistic;
         });
       }
     },
   };
+}
+
+class DeviceRoutesStatisticModel extends DeviceRoutesStatistic {
+  Attendance?: boolean;
 }

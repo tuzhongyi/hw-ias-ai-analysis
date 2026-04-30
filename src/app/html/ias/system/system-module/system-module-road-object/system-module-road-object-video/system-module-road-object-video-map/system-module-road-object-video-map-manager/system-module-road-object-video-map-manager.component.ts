@@ -55,10 +55,12 @@ export class SystemModuleRoadObjectVideoMapManagerComponent
   @Input() linepickend?: EventEmitter<void>;
   @Input() linepick?: EventEmitter<void>;
   @Output() linepickup = new EventEmitter<{
+    source?: RoadObject;
     points: [number, number][];
     auto: boolean;
   }>();
   @Output() lineclick = new EventEmitter<RoadObject>();
+  @Output() linedblclick = new EventEmitter<RoadObject>();
 
   constructor() {}
 
@@ -80,6 +82,7 @@ export class SystemModuleRoadObjectVideoMapManagerComponent
     line: true,
     route: true,
   };
+  selected?: RoadObject;
 
   Language = Language;
 
@@ -95,13 +98,23 @@ export class SystemModuleRoadObjectVideoMapManagerComponent
       pick: {
         begin: () => {
           if (this.linepickbegin) {
-            let sub = this.linepickbegin.subscribe((x) => {
+            let sub = this.linepickbegin.subscribe((auto) => {
               this.display.line = false;
               this.display.point = false;
               this.display.route = false;
-              this.line.auto = x;
+              this.line.auto = auto;
               this.line.creation = [];
               this.line.datas = [];
+              if (this.selected && this.selected.GeoLine) {
+                this.line.creation = this.selected.GeoLine.map((x) => [
+                  x.Longitude,
+                  x.Latitude,
+                ]);
+                this.line.datas = this.line.creation.map((x) => ({
+                  timestamp: 0,
+                  position: x,
+                }));
+              }
               this.line.picking = true;
               if (!this.line.auto) {
                 this.line.up = true;
@@ -118,6 +131,7 @@ export class SystemModuleRoadObjectVideoMapManagerComponent
               this.display.route = true;
               this.line.picking = false;
               this.linepickup.emit({
+                source: this.selected,
                 points: this.line.creation,
                 auto: this.line.auto,
               });
@@ -181,12 +195,23 @@ export class SystemModuleRoadObjectVideoMapManagerComponent
         }
       }
     },
-    object: {
-      dblclick: (data: RoadObject) => {
-        this.objectdblclick.emit(data);
+    map: {
+      click: (position: [number, number]) => {
+        this.selected = undefined;
       },
-      click: (data: RoadObject) => {
-        this.objectclick.emit(data);
+    },
+    object: {
+      dblclick: (data?: RoadObject) => {
+        this.selected = data;
+        if (this.selected) {
+          this.objectdblclick.emit(this.selected);
+        }
+      },
+      click: (data?: RoadObject) => {
+        this.selected = data;
+        if (this.selected) {
+          this.objectclick.emit(this.selected);
+        }
       },
     },
   };
@@ -198,6 +223,7 @@ export class SystemModuleRoadObjectVideoMapManagerComponent
     creation: [] as [number, number][],
     datas: [] as IIASMapCurrent[],
     create: new EventEmitter<[number, number][]>(),
+
     push: (data: IIASMapCurrent) => {
       this.line.datas = this.line.datas.filter((item) => {
         const time = Number(item.timestamp);
@@ -212,8 +238,17 @@ export class SystemModuleRoadObjectVideoMapManagerComponent
       this.line.create.emit(this.line.creation);
     },
     on: {
-      click: (data: RoadObject) => {
-        this.lineclick.emit(data);
+      click: (data?: RoadObject) => {
+        this.selected = data;
+        if (this.selected) {
+          this.lineclick.emit(this.selected);
+        }
+      },
+      dblclick: (data?: RoadObject) => {
+        this.selected = data;
+        if (this.selected) {
+          this.linedblclick.emit(this.selected);
+        }
       },
     },
   };

@@ -48,7 +48,10 @@ export class SystemModuleRoadObjectTableComponent
   @Output() itemover = new EventEmitter<RoadObject>();
   @Output() itemout = new EventEmitter<RoadObject>();
 
-  @Input('page') _page = new EventEmitter<number>();
+  @Input('page') _page = new EventEmitter<{
+    index: number;
+    picture: boolean;
+  }>();
   @Output() picture = new EventEmitter<Paged<RoadObject>>();
 
   constructor(private business: SystemModuleRoadObjectTableBusiness) {}
@@ -98,15 +101,17 @@ export class SystemModuleRoadObjectTableComponent
       this.subscription.add(sub);
     }
     if (this._page) {
-      let sub = this._page.subscribe((index) => {
-        if (0 < index && index <= this.source.length) {
-          let data = this.source[index - 1];
+      let sub = this._page.subscribe((args) => {
+        if (0 < args.index && args.index <= this.source.length) {
+          let data = this.source[args.index - 1];
           let paged = new Paged<RoadObject>();
-          paged.Page = Page.create(index, 1, this.source.length);
+          paged.Page = Page.create(args.index, 1, this.source.length);
           paged.Data = data;
-          this.picture.emit(paged);
+          if (args.picture) {
+            this.picture.emit(paged);
+          }
 
-          let pageindex = Math.floor((index - 1) / this.page.PageSize) + 1;
+          let pageindex = Math.floor((args.index - 1) / this.page.PageSize) + 1;
           this.on.page(pageindex);
 
           this.selecteds = [data];

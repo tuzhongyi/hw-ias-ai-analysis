@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
+import { RoadObjectGeometryType } from '../../../../../../common/data-core/enums/road/road-object/road-object-geometry-type.enum';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
@@ -24,10 +25,10 @@ import {
 } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { IASMapAMapConfig } from '../../../../share/map/controller/amap/ias-map-amap.config';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
-import { SystemEventVideoComponent } from '../../system-event-video/system-event-video.component';
 import { SystemEventRoadObjectDetailsManagerComponent } from '../system-event-road-object-details/system-event-road-object-details-manager/system-event-road-object-details-manager.component';
 import { SystemEventRoadObjectTableComponent } from '../system-event-road-object-table/system-event-road-object-table.component';
 import { SystemEventRoadObjectTableArgs } from '../system-event-road-object-table/system-event-road-object-table.model';
@@ -42,7 +43,6 @@ import { SystemEventManagerRealtimeWindow } from './system-event-road-object-man
     DateTimeControlComponent,
     HowellSelectComponent,
     SystemEventRoadObjectTableComponent,
-    SystemEventVideoComponent,
     PictureListComponent,
     WindowComponent,
     WindowConfirmComponent,
@@ -62,6 +62,7 @@ export class SystemEventRoadObjectManagerComponent
   @Input() args?: SystemEventRoadObjectTableArgs;
   @Input() mapable = true;
   @Input() iswindow = false;
+  @Input() type = RoadObjectGeometryType.point;
 
   constructor(
     public source: SystemEventRoadObjectManagerSource,
@@ -69,7 +70,7 @@ export class SystemEventRoadObjectManagerComponent
     private language: LanguageTool,
     public window: SystemEventManagerRealtimeWindow
   ) {}
-
+  GeometryType = RoadObjectGeometryType;
   Language = Language;
   Colors = IASMapAMapConfig.path.color;
 
@@ -87,7 +88,11 @@ export class SystemEventRoadObjectManagerComponent
     this.change.args(changes['args']);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.source.load(this.type).then((types) => {
+      this.table.args.types = types.map((x) => x.Value);
+    });
+  }
 
   table = {
     args: new SystemEventRoadObjectTableArgs(),
@@ -111,15 +116,15 @@ export class SystemEventRoadObjectManagerComponent
             resources.map((x) => {
               let channel = new EnumNameValue();
               channel.Name = x.ResourceName;
-              channel.Value = `api/ver10/${x.RecordUrl ?? ''}`;
+              channel.Value = PathTool.record(x.RecordUrl);
               return channel;
             }) ?? [];
           if (resources.length > 0) {
             let resource = resources[0];
             this.window.video.title = `${resource.ResourceName} ${name}`;
-            this.window.video.args.channel = `api/ver10/${
-              resource.RecordUrl ?? ''
-            }`;
+            this.window.video.args.channel = PathTool.record(
+              resource.RecordUrl
+            );
           }
         }
         this.window.video.data = data;

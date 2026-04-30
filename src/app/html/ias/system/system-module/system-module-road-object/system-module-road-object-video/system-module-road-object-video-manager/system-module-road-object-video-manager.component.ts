@@ -11,6 +11,7 @@ import {
   VideoCaptureModel,
   VideoDirective,
 } from '../../../../../../../common/directives/video/video.directive';
+import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 import { VideoTagsComponent } from '../../../../../share/video-tags/video-tags.component';
 import { SystemModuleRoadObjectDetailsSimpleComponent } from '../../system-module-road-object-details/system-module-road-object-details-simple/system-module-road-object-details-simple.component';
 import { SystemModuleRoadObjectVideoMapManagerComponent } from '../system-module-road-object-video-map/system-module-road-object-video-map-manager/system-module-road-object-video-map-manager.component';
@@ -278,9 +279,14 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
       },
     },
 
-    pickup: async (args: { points: [number, number][]; auto: boolean }) => {
+    pickup: async (args: {
+      points: [number, number][];
+      auto: boolean;
+      source?: RoadObject;
+    }) => {
       if (this.video.element) {
         let line: PickupLineModel = {
+          source: args.source,
           auto: args.auto,
           objecttype: this.type,
           type: 'line',
@@ -295,9 +301,37 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
 
     on: {
       click: (data: RoadObject) => {
-        if (this.video.element) {
-          this.video.element.pause();
+        if (!this.video.element) return;
+        if (!data.GeoLine) return;
+
+        this.selected = data;
+        this.type = data.ObjectType;
+        this.on.type();
+
+        this.video.element.pause();
+        let polyline = this.map.datas.map<[number, number]>((x) => [
+          x.Longitude,
+          x.Latitude,
+        ]);
+        let end = data.GeoLine[data.GeoLine.length - 1];
+
+        let closest = GeoTool.polyline.closest.get(polyline, [
+          end.Longitude,
+          end.Latitude,
+        ]);
+
+        if (closest) {
+          let prov = this.map.datas[closest.segmentIndex];
+          let next = this.map.datas[closest.segmentIndex + 1];
+          let duration =
+            next.OffsetTime.toSeconds() - prov.OffsetTime.toSeconds();
+          let current =
+            prov.OffsetTime.toSeconds() + duration * closest.percent.segment;
+          this.video.time = current;
         }
+      },
+      dblclick: (data: RoadObject) => {
+        this.details.emit(data);
       },
     },
   };

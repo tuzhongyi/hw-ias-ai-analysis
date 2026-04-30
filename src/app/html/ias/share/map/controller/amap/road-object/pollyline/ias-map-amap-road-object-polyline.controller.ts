@@ -130,6 +130,13 @@ export class IASMapAMapRoadObjectPolylineController {
       this.event.click.emit(data);
     }
   }
+  dblclick(position: [number, number]) {
+    let data = this.query(position);
+
+    if (data) {
+      this.event.dblclick.emit(data);
+    }
+  }
 
   moving(position: [number, number]) {
     let data = this.query(position);

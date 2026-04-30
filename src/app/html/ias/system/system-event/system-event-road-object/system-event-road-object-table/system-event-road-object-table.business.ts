@@ -6,6 +6,7 @@ import { ArmGeographicRequestService } from '../../../../../../common/data-core/
 import { GetRoadObjectEventsParams } from '../../../../../../common/data-core/requests/services/geographic/road/road-object/event/geographic-road-object-event.params';
 import { MediumRequestService } from '../../../../../../common/data-core/requests/services/medium/medium.service';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import {
   SystemEventRoadObjectTableFilter,
   SystemEventRoadObjectTableItem,
@@ -69,8 +70,10 @@ export class SystemEventRoadObjectTableBusiness {
     }
 
     if (data.Resources) {
-      let resources = data.Resources.filter((x) => !!x.ImageUrl);
-      item.hasvideo = resources.length > 0;
+      let resource = data.Resources.find((x) => !!x.RecordUrl);
+      if (resource) {
+        item.VideoUrl = PathTool.record(resource.RecordUrl);
+      }
     }
 
     return item;
@@ -87,9 +90,12 @@ export class SystemEventRoadObjectTableBusiness {
       params.PageSize = size;
       params.BeginTime = filter.duration.begin;
       params.EndTime = filter.duration.end;
+
+      params.RoadObjectTypes = filter.types;
       if (filter.type != undefined) {
         params.RoadObjectType = filter.type;
       }
+
       if (filter.confirmed != undefined) {
         params.Confirmed = filter.confirmed;
       }

@@ -1,10 +1,12 @@
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
+import { ObjectTool } from '../../../../../../common/tools/object-tool/object.tool';
 
 export interface ISystemEventRoadObjectTableArgs {
   duration: Duration;
   type?: number;
+  types: number[];
   confirmed?: boolean;
   assigned?: boolean;
   event?: number;
@@ -20,6 +22,7 @@ export class SystemEventRoadObjectTableArgs
 {
   duration = DateTimeTool.last.month(new Date());
   type?: number;
+  types: number[] = [];
   confirmed?: boolean;
   assigned?: boolean;
   event?: number;
@@ -35,6 +38,7 @@ export class SystemEventRoadObjectTableFilter
 {
   duration = DateTimeTool.all.month(new Date());
   type?: number;
+  types: number[] = [];
   confirmed?: boolean;
   assigned?: boolean;
   event?: number;
@@ -49,17 +53,7 @@ export class SystemEventRoadObjectTableFilter
   static from(
     args: SystemEventRoadObjectTableArgs
   ): SystemEventRoadObjectTableFilter {
-    let filter = new SystemEventRoadObjectTableFilter();
-    filter.duration = args.duration;
-    filter.type = args.type;
-    filter.confirmed = args.confirmed;
-    filter.event = args.event;
-    filter.misinform = args.misinform;
-    filter.handled = args.handled;
-    filter.divisionId = args.divisionId;
-    filter.gridCellId = args.gridCellId;
-    filter.name = args.name;
-    filter.assigned = args.assigned;
+    let filter = ObjectTool.assign(args, SystemEventRoadObjectTableFilter);
     return filter;
   }
 }
@@ -69,5 +63,5 @@ export class SystemEventRoadObjectTableItem extends RoadObjectEventRecord {
   EventTypeName!: Promise<string>;
   RoadObjectTypeName!: Promise<string>;
 
-  hasvideo?: boolean;
+  VideoUrl?: string;
 }

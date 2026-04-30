@@ -59,6 +59,8 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
 
   @Input() linecreate?: EventEmitter<[number, number][]>;
   @Output() lineclick = new EventEmitter<RoadObject>();
+  @Output() linedblclick = new EventEmitter<RoadObject>();
+  @Output() mapclick = new EventEmitter<[number, number]>();
 
   constructor(private business: SystemModuleRoadObjectVideoMapBusiness) {}
 
@@ -106,6 +108,8 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
       this.regist.output.object.point.dblclick();
       this.regist.output.object.point.click();
       this.regist.output.object.line.click();
+      this.regist.output.object.line.dblclick();
+      this.regist.output.map.click();
     },
     input: {
       to: () => {
@@ -163,6 +167,14 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
         });
         this.subscription.add(sub);
       },
+      map: {
+        click: () => {
+          let sub = this.controller.event.map.click.subscribe((x) => {
+            this.mapclick.emit(x);
+          });
+          this.subscription.add(sub);
+        },
+      },
       object: {
         point: {
           dblclick: () => {
@@ -191,11 +203,15 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
           click: () => {
             let sub_line = this.controller.object.line.event.click.subscribe(
               (x) => {
-                if (x.GeoLine) {
-                  let end = x.GeoLine[x.GeoLine.length - 1];
-                  this.controller.arrow.center([end.Longitude, end.Latitude]);
-                  this.lineclick.emit(x);
-                }
+                this.lineclick.emit(x);
+              }
+            );
+            this.subscription.add(sub_line);
+          },
+          dblclick: () => {
+            let sub_line = this.controller.object.line.event.dblclick.subscribe(
+              (x) => {
+                this.linedblclick.emit(x);
               }
             );
             this.subscription.add(sub_line);
@@ -268,7 +284,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
       route: (simple: SimpleChange) => {
         if (simple && !simple.firstChange) {
           if (this.displayroute) {
-            this.controller.path.show();
+            this.controller.path.show(this.time.current);
           } else {
             this.controller.path.hide();
           }

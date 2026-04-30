@@ -297,6 +297,14 @@ export class SystemBreadcrumbBusiness {
           this.event.index(),
           this.event.manager.roadobject(),
         ];
+      } else if (
+        location.pathname.indexOf(SystemPath.event_road_line_manager) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.event.index(),
+          this.event.manager.roadline(),
+        ];
       } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
         return [this.home.index(), this.event.index()];
       } else {
@@ -337,7 +345,13 @@ export class SystemBreadcrumbBusiness {
       roadobject: () => {
         let item = new SystemBreadcrumbItem();
         item.text = '部件扫描';
-        item.path = SystemPath.event_gps_task_manager;
+        item.path = SystemPath.event_road_object_manager;
+        return item;
+      },
+      roadline: () => {
+        let item = new SystemBreadcrumbItem();
+        item.text = '路段扫描';
+        item.path = SystemPath.event_road_line_manager;
         return item;
       },
     },
@@ -345,7 +359,18 @@ export class SystemBreadcrumbBusiness {
 
   private statistic = {
     load: () => {
-      if (location.pathname.indexOf(SystemPath.statistic_road_object) >= 0) {
+      if (
+        location.pathname.indexOf(SystemPath.statistic_road_object_statement) >=
+        0
+      ) {
+        return [
+          this.home.index(),
+          this.statistic.index(),
+          this.statistic.road_object_statement(),
+        ];
+      } else if (
+        location.pathname.indexOf(SystemPath.statistic_road_object) >= 0
+      ) {
         return [
           this.home.index(),
           this.statistic.index(),
@@ -364,6 +389,12 @@ export class SystemBreadcrumbBusiness {
       } else {
         return [];
       }
+    },
+    road_object_statement: () => {
+      let item = new SystemBreadcrumbItem();
+      item.text = '道路部件月报表';
+      item.path = SystemPath.statistic_road_object_statement;
+      return item;
     },
     road_object: () => {
       let item = new SystemBreadcrumbItem();

@@ -30,6 +30,6 @@ export class SystemModuleRoadObjectManagerPictureWindow extends WindowViewModel 
     this.show = true;
   }
   change(page: Page) {
-    this.that.table.picture.page.emit(page.PageIndex);
+    this.that.table.page.emit({ index: page.PageIndex, picture: true });
   }
 }

@@ -17,10 +17,17 @@ export class SystemMainMapRoadObjectLineController {
     this.regist(subscription);
   }
   private regist(subscription: Subscription) {
-    let sub1 = this.amap.event.road.object.line.click.subscribe((x) => {
+    let sub_click = this.amap.event.road.object.line.click.subscribe((x) => {
       this.event.click.emit(x);
     });
-    subscription.add(sub1);
+    subscription.add(sub_click);
+
+    let sub_dblclick = this.amap.event.road.object.line.dblclick.subscribe(
+      (x) => {
+        this.event.dblclick.emit(x);
+      }
+    );
+    subscription.add(sub_dblclick);
   }
 
   private datas?: RoadObject[];

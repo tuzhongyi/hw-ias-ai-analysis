@@ -109,7 +109,7 @@
         (modify)="window.details.open($event)"
         (itemover)="table.on.item.over($event)"
         (itemout)="table.on.item.out($event)"
-        [page]="table.picture.page"
+        [page]="table.page"
         (picture)="window.picture.open($event)"
         (position)="table.on.position($event)"
       ></ias-system-module-road-object-table>
@@ -120,6 +120,7 @@
         [selected]="table.selected.current"
         [itemover]="map.over"
         [itemout]="map.out"
+        (selectedChange)="map.select($event)"
         (itemdblclick)="window.details.open($event)"
       ></ias-system-module-road-object-map>
     </div>

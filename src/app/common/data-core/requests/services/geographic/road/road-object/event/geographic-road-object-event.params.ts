@@ -29,6 +29,8 @@ export class GetRoadObjectEventsParams extends PagedDurationParams {
   RoadObjectIds?: string[];
   /**	Int32	道路固件类型	O	*/
   RoadObjectType?: RoadObjectType;
+  /**	Int32	道路固件类型	O	*/
+  RoadObjectTypes?: RoadObjectType[];
   /**	String	名称，LIKE	O	*/
   RoadObjectName?: string;
   /**	String	升序属性，不区分大小写	O	*/

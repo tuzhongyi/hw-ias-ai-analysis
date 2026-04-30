@@ -11,8 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
-import { TimeControlComponent } from '../../../../../../common/components/time-control/time-control.component';
-import { TimelineComponent } from '../../../../../../common/components/timeline/timeline.component';
 import { DateTimePickerView } from '../../../../../../common/directives/date-time-picker/date-time-picker.directive';
 import { ChartType } from '../../../../../../common/tools/chart-tool/chart.model';
 import { DurationUnit } from '../../../../../../common/tools/date-time-tool/duration.model';
@@ -32,8 +30,6 @@ import { SystemStatisticDeviceRouteSource } from '../system-statistic-device-rou
     CommonModule,
     FormsModule,
     DateTimeControlComponent,
-    TimeControlComponent,
-    TimelineComponent,
     HowellSelectComponent,
     SystemStatisticDeviceRouteInfoComponent,
     SystemStatisticDeviceRouteChartContainerComponent,

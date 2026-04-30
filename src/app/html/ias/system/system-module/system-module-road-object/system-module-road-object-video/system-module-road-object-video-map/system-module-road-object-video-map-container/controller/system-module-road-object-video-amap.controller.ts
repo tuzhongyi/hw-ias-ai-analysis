@@ -24,6 +24,9 @@ import { SystemMainMapAMapRoadObjectPointLayerController } from './road-object/p
 
 export class SystemModuleRoadObjectVideoAMapController {
   event = {
+    map: {
+      click: new EventEmitter<[number, number]>(),
+    },
     point: new EventEmitter<[number, number]>(),
     road: {
       object: {
@@ -33,6 +36,7 @@ export class SystemModuleRoadObjectVideoAMapController {
         },
         line: {
           click: new EventEmitter<RoadObject>(),
+          dblclick: new EventEmitter<RoadObject>(),
         },
       },
     },
@@ -159,6 +163,12 @@ export class SystemModuleRoadObjectVideoAMapController {
           this.event.road.object.line.click.emit(data);
         });
         this.subscription.add(sub_click);
+
+        let sub_dblclick = ctr.event.dblclick.subscribe((data) => {
+          this.event.road.object.line.dblclick.emit(data);
+        });
+        this.subscription.add(sub_dblclick);
+
         this.roadobject.polyline.set(ctr);
       },
     },
@@ -166,6 +176,12 @@ export class SystemModuleRoadObjectVideoAMapController {
 
   private regist = {
     map: (map: AMap.Map) => {
+      map.on('dblclick', (e) => {
+        this.roadobject.polyline.get().then((polyline) => {
+          let position: [number, number] = [e.pixel.x, e.pixel.y];
+          polyline.dblclick(position);
+        });
+      });
       map.on('mousemove', (e: any) => {
         let position: [number, number] = [e.pixel.x, e.pixel.y];
 
@@ -177,6 +193,7 @@ export class SystemModuleRoadObjectVideoAMapController {
         });
       });
       map.on('click', (e) => {
+        this.event.map.click.emit([e.lnglat.lng, e.lnglat.lat]);
         this.pickup.point.get().then((point) => {
           let position: [number, number] = [e.lnglat.lng, e.lnglat.lat];
           point.remove().then((x) => {
@@ -320,7 +337,7 @@ export class SystemModuleRoadObjectVideoAMapController {
         }, 2 * 1000);
       }
     },
-    clear: () => {
+    clear: async () => {
       this._path.forEach((x) => {
         x.clear();
       });

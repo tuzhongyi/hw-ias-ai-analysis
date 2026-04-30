@@ -43,7 +43,7 @@ export class GeoPolylineTool {
    * @param {number} deg - 角度
    * @returns {number} 弧度
    */
-  toRadians(deg: number) {
+  private toRadians(deg: number) {
     return (deg * Math.PI) / 180;
   }
 
@@ -107,5 +107,20 @@ export class GeoPolylineTool {
     }
 
     return result;
+  }
+
+  length(line: GeoPolyline) {
+    if (!line || line.length < 2) return 0;
+
+    let total = 0;
+
+    // 遍历所有点，累加每一段的距离
+    for (let i = 0; i < line.length - 1; i++) {
+      const p1 = line[i];
+      const p2 = line[i + 1];
+      total += GeoTool.point.distance(p1, p2);
+    }
+
+    return total;
   }
 }

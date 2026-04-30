@@ -40,26 +40,42 @@
             nodata: !item,
             selected: item === selected,
           }"
+          [style.height]="page.PageSize ? 100 / page.PageSize + '%' : 'auto'"
         >
           <td class="center">
             <ng-container *ngIf="item">
               {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
             </ng-container>
+            <ng-container *ngIf="item"> &nbsp; </ng-container>
           </td>
 
           <td>
-            <div [ngClass]="{ noimage: !item.Resources }" *ngIf="item">
+            <ng-container *ngIf="item">
               <div
-                *ngFor="let resource of item.Resources; let i = index"
-                class="image"
-                [ngStyle]="{
-                  backgroundImage: resource.ImageUrl
-                    ? 'url(' + picture.get(resource.ImageUrl) + ')'
-                    : 'none'
-                }"
-                (click)="picture.on($event, item, i)"
-              ></div>
-            </div>
+                [ngClass]="{ noimage: !item.Resources }"
+                *ngIf="!item.VideoUrl"
+              >
+                <div
+                  *ngFor="let resource of item.Resources; let i = index"
+                  class="image"
+                  [ngStyle]="{
+                    backgroundImage: resource.ImageUrl
+                      ? 'url(' + picture.get(resource.ImageUrl) + ')'
+                      : 'none'
+                  }"
+                  (click)="picture.on($event, item, i)"
+                ></div>
+              </div>
+              <div>
+                <div
+                  *ngIf="item.VideoUrl"
+                  class="video"
+                  (click)="on.video($event, item)"
+                >
+                  <video [src]="item.VideoUrl" preload="auto" muted></video>
+                </div>
+              </div>
+            </ng-container>
           </td>
           <td [title]="item?.RoadObjectName ?? ''">
             {{ item?.RoadObjectName }}
@@ -116,14 +132,14 @@
 
           <td class="center">
             <div class="operation" *ngIf="item">
-              <div
+              <!-- <div
                 class="button"
                 title="事件视频"
                 [class.disabled]="item.hasvideo"
                 (click)="on.video($event, item)"
               >
                 <i class="mdi mdi-youtube-play"></i>
-              </div>
+              </div> -->
 
               <div
                 class="button"

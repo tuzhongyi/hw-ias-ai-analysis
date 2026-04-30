@@ -111,10 +111,18 @@ export class SystemModuleRoadObjectMapComponent
         this.regist.output.roadobject();
       },
       roadobject: () => {
-        let sub = this.controller.object.event.dblclick.subscribe((x) => {
-          this.itemdblclick.emit(x);
+        let sub_dblclick = this.controller.object.event.dblclick.subscribe(
+          (x) => {
+            this.itemdblclick.emit(x);
+          }
+        );
+        this.subscription.add(sub_dblclick);
+
+        let sub_click = this.controller.object.event.click.subscribe((x) => {
+          this.selected = x;
+          this.selectedChange.emit(x);
         });
-        this.subscription.add(sub);
+        this.subscription.add(sub_click);
       },
     },
   };

@@ -38,6 +38,14 @@
         <div class="system-event-index-body-list-item-icon road-object"></div>
         <div class="system-event-index-body-list-item-name">部件扫描</div>
       </div>
+      <div
+        class="system-event-index-body-list-item"
+        (click)="on.road.line()"
+        *ngIf="display.roadobject"
+      >
+        <div class="system-event-index-body-list-item-icon road"></div>
+        <div class="system-event-index-body-list-item-name">路段扫描</div>
+      </div>
     </div>
   </div>
 </div>

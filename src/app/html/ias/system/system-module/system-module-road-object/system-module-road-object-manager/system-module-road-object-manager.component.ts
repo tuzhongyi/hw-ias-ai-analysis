@@ -77,9 +77,7 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
         disabled: 0,
       },
     },
-    picture: {
-      page: new EventEmitter<number>(),
-    },
+    page: new EventEmitter<{ index: number; picture: boolean }>(),
     on: {
       load: (x: RoadObject[]) => {
         this.table.datas = x;
@@ -124,6 +122,14 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
   map = {
     over: new EventEmitter<RoadObject>(),
     out: new EventEmitter<RoadObject>(),
+    select: (data: RoadObject) => {
+      this.table.selected.current = data;
+      this.table.selected.all = [data];
+      let index = this.table.datas.findIndex((x) => x.Id == data.Id);
+      if (index >= 0) {
+        this.table.page.emit({ index: index + 1, picture: false });
+      }
+    },
   };
 
   delete = {

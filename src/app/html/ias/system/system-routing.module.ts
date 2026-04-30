@@ -13,6 +13,7 @@ import { SystemEventIndexComponent } from './system-event/system-event-index/sys
 import { SystemEventManagerAnalysisComponent } from './system-event/system-event-manager/system-event-manager-analysis/system-event-manager-analysis.component';
 import { SystemEventManagerRealtimeComponent } from './system-event/system-event-manager/system-event-manager-realtime/system-event-manager-realtime.component';
 import { SystemEventManagerShopComponent } from './system-event/system-event-manager/system-event-manager-shop/system-event-manager-shop.component';
+import { SystemEventRoadLineManagerComponent } from './system-event/system-event-road-line/system-event-road-line-manager/system-event-road-line-manager.component';
 import { SystemEventRoadObjectManagerComponent } from './system-event/system-event-road-object/system-event-road-object-manager/system-event-road-object-manager.component';
 import { SystemMainManagerComponent } from './system-main/system-main-manager/system-main-manager.component';
 import { SystemModuleFileManagerComponent } from './system-module/system-module-file/system-module-file-manager/system-module-file-manager.component';
@@ -25,6 +26,7 @@ import { SystemModuleShopRegistrationManagerComponent } from './system-module/sy
 import { SystemStatisticComponent } from './system-statistic/component/system-statistic.component';
 import { SystemStatisticDeviceRouteManagerComponent } from './system-statistic/system-statistic-device-route/system-statistic-device-route-manager/system-statistic-device-route-manager.component';
 import { SystemStatisticIndexComponent } from './system-statistic/system-statistic-index/system-statistic-index.component';
+import { SystemStatisticRoadObjectStatementManagerComponent } from './system-statistic/system-statistic-road-object-statement/system-statistic-road-object-statement-manager/system-statistic-road-object-statement-manager.component';
 import { SystemStatisticRoadObjectManagerComponent } from './system-statistic/system-statistic-road-object/system-statistic-road-object-manager/system-statistic-road-object-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
 import { SystemModuleGpsTaskManagerComponent } from './system-task/system-module-gps-task/system-module-gps-task-manager/system-module-gps-task-manager.component';
@@ -190,6 +192,10 @@ const routes: Routes = [
                 path: 'road-object',
                 component: SystemEventRoadObjectManagerComponent,
               },
+              {
+                path: 'road-line',
+                component: SystemEventRoadLineManagerComponent,
+              },
             ],
           },
         ],
@@ -210,6 +216,10 @@ const routes: Routes = [
           {
             path: 'road-object',
             component: SystemStatisticRoadObjectManagerComponent,
+          },
+          {
+            path: 'road-object-statement',
+            component: SystemStatisticRoadObjectStatementManagerComponent,
           },
           {
             path: 'device-route',

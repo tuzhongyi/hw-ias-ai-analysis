@@ -111,10 +111,21 @@ export class SystemModuleRoadObjectAMapController {
         subscription: Subscription
       ) => {
         let ctr = new IASMapAMapRoadObjectPolylineController(map, container);
-        let sub = ctr.event.move.subscribe((data) => {
+        let sub_move = ctr.event.move.subscribe((data) => {
           this.regist.line.over(data);
         });
-        subscription.add(sub);
+        subscription.add(sub_move);
+
+        let sub_click = ctr.event.click.subscribe((x) => {
+          this.event.road.object.click.emit(x);
+        });
+        subscription.add(sub_click);
+
+        let sub_dblclick = ctr.event.dblclick.subscribe((x) => {
+          this.event.road.object.dblclick.emit(x);
+        });
+        subscription.add(sub_dblclick);
+
         this.controller.roadobject.polyline.set(ctr);
       },
     },
@@ -141,6 +152,18 @@ export class SystemModuleRoadObjectAMapController {
         });
         this.controller.roadobject.polyline.get().then((x) => {
           x.moving(position);
+        });
+      });
+      map.on('click', (e: any) => {
+        let position: [number, number] = [e.pixel.x, e.pixel.y];
+        this.controller.roadobject.polyline.get().then((x) => {
+          x.click(position);
+        });
+      });
+      map.on('dblclick', (e: any) => {
+        let position: [number, number] = [e.pixel.x, e.pixel.y];
+        this.controller.roadobject.polyline.get().then((x) => {
+          x.dblclick(position);
         });
       });
     },

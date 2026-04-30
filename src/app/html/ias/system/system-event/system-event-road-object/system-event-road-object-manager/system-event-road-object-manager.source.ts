@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { RoadObjectGeometryType } from '../../../../../../common/data-core/enums/road/road-object/road-object-geometry-type.enum';
 import { EnumNameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import { IIdNameModel } from '../../../../../../common/data-core/models/interface/model.interface';
 import { Manager } from '../../../../../../common/data-core/requests/managers/manager';
@@ -6,7 +7,11 @@ import { ArmDivisionRequestService } from '../../../../../../common/data-core/re
 
 @Injectable()
 export class SystemEventRoadObjectManagerSource {
-  types: EnumNameValue<number>[] = [];
+  type = {
+    point: [] as EnumNameValue<number>[],
+    line: [] as EnumNameValue<number>[],
+  };
+
   events: EnumNameValue<number>[] = [];
   divisions: IIdNameModel[] = [];
   gridcells: IIdNameModel[] = [];
@@ -14,14 +19,35 @@ export class SystemEventRoadObjectManagerSource {
     private manager: Manager,
     private service: ArmDivisionRequestService
   ) {
-    this.init.types();
     this.init.events();
     this.init.divisions();
   }
 
+  async load(type: RoadObjectGeometryType) {
+    switch (type) {
+      case RoadObjectGeometryType.point:
+        return this.init.types.point();
+
+      case RoadObjectGeometryType.line:
+        return this.init.types.line();
+
+      default:
+        return [];
+    }
+  }
+
   private init = {
-    types: async () => {
-      this.types = await this.manager.source.road.object.ObjectTypes.get();
+    types: {
+      point: async () => {
+        this.type.point =
+          await this.manager.source.road.object.PointObjectTypes.get();
+        return this.type.point;
+      },
+      line: async () => {
+        this.type.line =
+          await this.manager.source.road.object.LineObjectTypes.get();
+        return this.type.line;
+      },
     },
     events: async () => {
       this.events = await this.manager.source.road.object.EventTypes.get();

@@ -1,3 +1,4 @@
+import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { VideoCaptureModel } from '../../../../../../../common/directives/video/video.directive';
 
 export interface PickupModel {
@@ -14,6 +15,7 @@ export interface PickupPointModel extends PickupModel {
 export interface PickupLineModel extends PickupModel {
   line: [number, number][];
   auto: boolean;
+  source?: RoadObject;
 }
 
 export class SystemModuleRoadObjectVideoManagerButton {

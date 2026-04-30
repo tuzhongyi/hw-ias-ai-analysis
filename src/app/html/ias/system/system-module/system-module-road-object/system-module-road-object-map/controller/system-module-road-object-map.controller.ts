@@ -12,16 +12,15 @@ export class SystemModuleRoadObjectMapController {
   }
   private amap: SystemModuleRoadObjectAMapController;
   private regist(subscription: Subscription) {
-    this.amap.roadobject.marker.then((marker) => {
-      let sub1 = marker.event.click.subscribe((x) => {
-        this.object.event.click.emit(x);
-      });
-      subscription.add(sub1);
-      let sub2 = marker.event.dblclick.subscribe((x) => {
-        this.object.event.dblclick.emit(x);
-      });
-      subscription.add(sub2);
+    let sub1 = this.amap.event.road.object.click.subscribe((x) => {
+      this.object.event.click.emit(x);
     });
+    subscription.add(sub1);
+
+    let sub2 = this.amap.event.road.object.dblclick.subscribe((x) => {
+      this.object.event.dblclick.emit(x);
+    });
+    subscription.add(sub2);
   }
 
   object = {

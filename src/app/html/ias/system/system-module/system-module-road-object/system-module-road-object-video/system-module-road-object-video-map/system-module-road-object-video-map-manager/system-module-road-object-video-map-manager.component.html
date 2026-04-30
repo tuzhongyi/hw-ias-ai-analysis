@@ -20,12 +20,20 @@
     [displayroute]="display.route"
     [linecreate]="line.create"
     (lineclick)="line.on.click($event)"
+    (linedblclick)="line.on.dblclick($event)"
+    (mapclick)="on.map.click($event)"
   ></ias-system-module-road-object-video-map-container>
   <div
     class="system-task-file-details-map-manager-info osd panel-map"
     *ngIf="roadable"
   >
     {{ closest?.OSDTime | date : Language.yyyyMMddHHmmss }}
+  </div>
+  <div
+    class="system-task-file-details-map-manager-selected panel-map"
+    *ngIf="!!selected"
+  >
+    {{ selected.Name }}
   </div>
   <div
     class="system-task-file-details-map-manager-info position"

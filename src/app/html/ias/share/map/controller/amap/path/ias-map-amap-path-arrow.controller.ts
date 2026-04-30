@@ -33,10 +33,6 @@ export class IASMapAMapPathArrowController {
     this.arrow.setPosition(position);
   }
 
-  center(position: [number, number]) {
-    this.map.setCenter(position);
-  }
-
   direction1(position: [number, number][]) {
     let angle = GeoTool.point.direction(position[0], position[1]);
     this.arrow.setAngle(angle);

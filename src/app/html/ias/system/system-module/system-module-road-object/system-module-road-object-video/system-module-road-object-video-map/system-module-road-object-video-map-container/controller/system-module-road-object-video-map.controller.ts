@@ -22,6 +22,9 @@ export class SystemModuleRoadObjectVideoMapController {
     point: new EventEmitter<[number, number]>(),
     course: new EventEmitter<number>(),
     current: new EventEmitter<IIASMapCurrent>(),
+    map: {
+      click: new EventEmitter<[number, number]>(),
+    },
   };
   object: {
     point: SystemMainMapRoadObjectPointController;
@@ -68,7 +71,7 @@ export class SystemModuleRoadObjectVideoMapController {
   arrow = {
     center: async (position: [number, number]) => {
       let ctr = await this.amap.arrow.get();
-      ctr.center(position);
+      ctr.set(position);
     },
   };
   path = {
@@ -82,25 +85,35 @@ export class SystemModuleRoadObjectVideoMapController {
       this.amap.path.clear();
       this.event.point.emit(undefined);
     },
-    show: () => {
+    show: async (timestamp: number) => {
       this.amap.path.load(this.path.datas, false);
+      this.to(timestamp, true);
     },
-    hide: () => {
-      this.amap.path.clear();
+    hide: async () => {
+      await this.amap.path.clear();
+      let way = await this.amap.way.get();
+      way.clear();
     },
   };
 
   private regist(subscription: Subscription) {
+    let sub_map_click = this.amap.event.map.click.subscribe((position) => {
+      this.event.map.click.emit(position);
+    });
+    subscription.add(sub_map_click);
+
     let sub_mouseover = this.amap.path.mouseover.subscribe((data) => {
       this.on.label.show(data);
     });
     subscription.add(sub_mouseover);
+
     let sub_mouseout = this.amap.path.mouseout.subscribe(() => {
       this.amap.label.get().then((label) => {
         label.hide();
       });
     });
     subscription.add(sub_mouseout);
+
     let sub_click = this.amap.path.click.subscribe((data) => {
       this.amap.label.get().then((label) => {
         label.hide();

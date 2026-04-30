@@ -3,6 +3,7 @@ import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { ComponentTool } from '../../../../../../../../common/tools/component-tool/component.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
+import { IASMapAMapPathPulseItemController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path-pulse-item.controller';
 import { IASMapAMapPathWayController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path-way.controller';
 import { IASMapAMapPathController } from '../../../../../../share/map/controller/amap/path/ias-map-amap-path.controller';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
@@ -50,7 +51,7 @@ export class SystemStatisticRoadObjectAMapController {
 
         this.init.record(map, tool, subscription);
 
-        this.init.path(map);
+        this.init.path(map, container);
         this.init.way(map);
       });
   }
@@ -68,7 +69,7 @@ export class SystemStatisticRoadObjectAMapController {
           new PromiseValue<SystemStatisticRoadObjectAMapRecordInfoSimpleController>(),
       },
     },
-    path: new PromiseValue<IASMapAMapPathController>(),
+    path: new PromiseValue<IASMapAMapPathPulseItemController>(),
     way: new PromiseValue<IASMapAMapPathWayController>(),
   };
 
@@ -116,8 +117,8 @@ export class SystemStatisticRoadObjectAMapController {
         new SystemStatisticRoadObjectAMapRecordInfoSimpleController(map, tool);
       this.controller.record.info.simple.set(info_simple);
     },
-    path: (map: AMap.Map) => {
-      let ctr = new IASMapAMapPathController(map);
+    path: (map: AMap.Map, container: Loca.Container) => {
+      let ctr = new IASMapAMapPathPulseItemController(map, container);
       this.controller.path.set(ctr);
     },
     way: (map: AMap.Map) => {
@@ -131,18 +132,26 @@ export class SystemStatisticRoadObjectAMapController {
     load: async (datas: FileGpsItem[][], focus: boolean) => {
       let map = await this.controller.map.get();
 
+      let container = await this.controller.container.get();
+      let points: [number, number][] = [];
       let polylines = datas
         .map((items, i) => {
           let positions = items.map(
             (x) => [x.Longitude, x.Latitude] as [number, number]
           );
+          points.push(...positions);
           let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
           let path = new IASMapAMapPathController(map, type);
 
           this._path.push(path);
-          return path.load(positions, false)!;
+          return path.load(positions, false, false, true)!;
         })
         .filter((x) => !!x);
+
+      this.controller.path.get().then((head) => {
+        head.load(points);
+        container.animate.start();
+      });
 
       if (focus) {
         map.setFitView(polylines, true);
@@ -151,11 +160,16 @@ export class SystemStatisticRoadObjectAMapController {
         }, 2 * 1000);
       }
     },
-    clear: () => {
+    clear: async () => {
       this._path.forEach((x) => {
         x.clear();
       });
       this._path = [];
+
+      let head = await this.controller.path.get();
+      head.clear();
+      let container = await this.controller.container.get();
+      container.animate.stop();
     },
   };
 }

@@ -123,25 +123,49 @@ export class SystemModuleRoadObjectDetailsManagerComponent
 
         if (picked.type == 'point') {
           let data = picked as PickupPointModel;
-          this.model.Location = GisPoints.create(data.point, GisType.GCJ02);
+          this.load.pickup.point(data);
         } else if (picked.type == 'line') {
           let data = picked as PickupLineModel;
-          this.linestepeditable = data.auto;
-          this.model.ImageSampling.SamplePlan = 2;
-          this.model.IsGeoLine = true;
-          this.map.line.editing = true;
-          let first = data.line[0];
-          this.map.point.gcj02 = first;
-          this.model.Location = GisPoints.create(first, GisType.GCJ02);
-          console.log(this.model.Location.WGS84);
-          this.map.line.source = [...data.line];
-          this.map.line.on.step(this.map.line.step);
+          this.load.pickup.line(data);
         }
-        this.map.point.load(this.model);
       });
       this.subscription.add(sub);
     }
   }
+
+  load = {
+    pickup: {
+      point: (data: PickupPointModel) => {
+        this.model = this.init();
+        this.model.ObjectType = data.objecttype;
+        this.model.Address = data.address;
+        this.model.ImageSampling.Course = data.course;
+        this.image.data = data.capture.buffer;
+        this.image.load.emit(data.capture.src);
+        this.model.Location = GisPoints.create(data.point, GisType.GCJ02);
+        this.map.point.load(this.model);
+      },
+      line: (data: PickupLineModel) => {
+        this.data = data.source;
+        this.linestepeditable = data.auto;
+        if (data.source) {
+          this.model = Object.assign(this.init(), data.source);
+        } else {
+          this.model.ImageSampling.SamplePlan = 2;
+          this.model.IsGeoLine = true;
+        }
+        this.map.load(this.model);
+
+        this.map.line.editing = true;
+
+        let first = data.line[0];
+        this.map.point.gcj02 = first;
+        this.model.Location = GisPoints.create(first, GisType.GCJ02);
+        this.map.line.source = [...data.line];
+        this.map.line.on.step(this.map.line.step);
+      },
+    },
+  };
 
   ngOnInit(): void {
     if (this.data) {

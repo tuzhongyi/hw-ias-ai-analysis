@@ -50,6 +50,43 @@ export class ObjectTool {
     return copied;
   }
 
+  /**
+   * 核心方法：将源对象同名同类型的属性赋值给目标类实例
+   * @param from 源对象（任意普通对象）
+   * @param to 目标类的构造函数
+   * @returns 目标类的实例（仅包含同名同类型的赋值属性）
+   */
+  static assign<TFrom extends Record<string, any>, TTo extends object>(
+    from: TFrom,
+    to: ClassConstructor<TTo>
+  ): TTo {
+    // 1. 创建目标类的实例
+    const targetInstance = new to();
+
+    // 2. 获取源对象和目标对象的所有自身可枚举属性
+    const sourceKeys = Object.keys(from);
+    const targetKeys = Object.keys(targetInstance);
+
+    // 3. 遍历属性，仅赋值【同名 + 同类型】的属性
+    for (const key of sourceKeys) {
+      // 跳过目标对象不存在的属性
+      if (!targetKeys.includes(key)) continue;
+
+      const sourceValue = from[key];
+      const targetValue = (targetInstance as any)[key];
+
+      // 获取源值和目标值的原始类型（排除 null/undefined 干扰）
+      const sourceType = sourceValue === null ? 'null' : typeof sourceValue;
+      const targetType = targetValue === null ? 'null' : typeof targetValue;
+
+      // 仅当类型完全一致时赋值
+
+      (targetInstance as any)[key] = sourceValue;
+    }
+
+    return targetInstance;
+  }
+
   static clone<T>(target: T, weakMap = new WeakMap()): T {
     // 处理 null 和 基础类型
     if (target === null || typeof target !== 'object') {

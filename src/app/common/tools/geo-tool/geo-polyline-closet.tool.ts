@@ -20,11 +20,14 @@ export class GeoPolylineClosestTool {
       return {
         point: [x1, y1],
         t: 0,
+        on: true,
         distanceSq: dpx * dpx + dpy * dpy,
       };
     }
 
     let t = ((px - x1) * dx + (py - y1) * dy) / lenSq;
+
+    let on = t >= 0 && t <= 1;
 
     // 限制在线段范围内
     t = Math.max(0, Math.min(1, t));
@@ -38,6 +41,7 @@ export class GeoPolylineClosestTool {
     return {
       point: [cx, cy],
       t,
+      on: on,
       distanceSq: distX * distX + distY * distY,
     };
   }
@@ -85,6 +89,7 @@ export class GeoPolylineClosestTool {
           line,
           foot: res.point,
           t: res.t,
+          on: res.on,
           percent: {
             segment: res.t,
             global: globalPercent,
@@ -103,6 +108,7 @@ interface ClosestPointOnLineResult {
   point: GeoPoint;
   /** 垂足参数：0~1 在线段内 */
   t: number;
+  on: boolean;
   /** 点到线段的平方距离 */
   distanceSq: number;
 }
@@ -115,6 +121,7 @@ interface ClosestPointOnPolylineResult {
   foot: GeoPoint;
   /** 垂足参数 0~1 */
   t: number;
+  on: boolean;
   /** 在线段中的位置百分比（0~100） */
   percent: {
     global: number;

@@ -51,10 +51,24 @@
               [nullable]="true"
               [nulltext]="'全部'"
             >
-              <select [(ngModel)]="table.args.type">
+              <select
+                [(ngModel)]="table.args.type"
+                *ngIf="type == GeometryType.point"
+              >
                 <option
                   [ngValue]="item.Value"
-                  *ngFor="let item of source.types"
+                  *ngFor="let item of source.type.point"
+                >
+                  {{ item.Name }}
+                </option>
+              </select>
+              <select
+                [(ngModel)]="table.args.type"
+                *ngIf="type == GeometryType.line"
+              >
+                <option
+                  [ngValue]="item.Value"
+                  *ngFor="let item of source.type.line"
                 >
                   {{ item.Name }}
                 </option>
@@ -179,6 +193,7 @@
   </div>
   <div class="system-event-manager-realtime-body">
     <ias-system-event-road-object-table
+      *ngIf="table.args.types.length > 0"
       [args]="table.args"
       [load]="table.load"
       [download]="table.download"

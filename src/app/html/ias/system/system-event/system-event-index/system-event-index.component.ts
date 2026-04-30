@@ -34,6 +34,9 @@ export class SystemEventIndexComponent {
       object: () => {
         this.router.navigateByUrl(SystemPath.event_road_object_manager);
       },
+      line: () => {
+        this.router.navigateByUrl(SystemPath.event_road_line_manager);
+      },
     },
   };
 }
