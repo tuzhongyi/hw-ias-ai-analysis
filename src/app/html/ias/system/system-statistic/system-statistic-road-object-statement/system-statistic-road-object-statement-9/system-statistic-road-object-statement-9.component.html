@@ -1,0 +1,32 @@
+<ias-system-statistic-road-object-statement-container *ngIf="statement">
+  <div class="system-statistic-road-object-statement-9">
+    <div class="system-statistic-road-object-statement-9-head">建议</div>
+    <div
+      class="system-statistic-road-object-statement-9-body"
+      *ngIf="comments.length > 0"
+    >
+      <div>
+        <div
+          class="system-statistic-road-object-statement-9-items"
+          scale-font-fit
+          [maxFontSize]="20"
+        >
+          <div
+            class="system-statistic-road-object-statement-9-item"
+            *ngFor="let item of comments; let index = index"
+            [ngClass]="{
+              full: index == comments.length - 1 && comments.length % 2 != 0
+            }"
+          >
+            <div
+              class="system-statistic-road-object-statement-9-item-head"
+            ></div>
+            <div class="system-statistic-road-object-statement-9-item-body">
+              {{ item }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ias-system-statistic-road-object-statement-container>

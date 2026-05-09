@@ -22,6 +22,11 @@ export class Language {
   static Month = 'MM月';
   static Day = 'dd日';
 
+  static month = 'M月';
+  static day = 'd日';
+  static year_month = `${this.Year}${this.month}`;
+  static year_month_day = `${this.Year}${this.month}${this.day}`;
+
   static yyyy = 'yyyy';
   static MM = 'MM';
   static dd = 'dd';
@@ -244,6 +249,68 @@ export class Language {
       default:
         return def;
     }
+  }
+
+  static Hour(
+    time: number = 0,
+    unit: 'second' | 'minute' = 'second',
+    view = {
+      minute: true,
+      second: true,
+    }
+  ) {
+    if (time === 0) return '';
+    if (unit === 'second') {
+      return this.HourFromSecond(time, view);
+    } else {
+      return this.HourFromMinute(time, view);
+    }
+  }
+
+  private static HourFromSecond(
+    time?: number,
+    view = {
+      minute: true,
+      second: true,
+    }
+  ) {
+    if (time === undefined) return undefined;
+    let hour = Math.floor(time / 60 / 60);
+    let _time = time - hour * 60 * 60;
+    let minute = Math.floor(_time / 60);
+    _time -= minute * 60;
+    let second = Math.floor(_time);
+    if (time < 60) {
+      return second.toString().padStart(2, '0') + '秒';
+    }
+    if (time < 60 * 60) {
+      return (
+        minute.toString().padStart(2, '0') +
+        '分钟' +
+        (second ? second.toString().padStart(2, '0') + '秒' : '')
+      );
+    }
+    let result = hour.toString().padStart(2, '0') + '小时';
+    if (view.minute) {
+      result += minute ? minute.toString().padStart(2, '0') + '分钟' : '';
+    }
+    if (view.second) {
+      result += second ? second.toString().padStart(2, '0') + '秒' : '';
+    }
+    return result;
+  }
+  private static HourFromMinute(time?: number, view = { minute: true }) {
+    if (time === undefined) return undefined;
+    let hour = Math.floor(time / 60);
+    let minute = Math.ceil(time - hour * 60);
+    if (time < 60) {
+      return minute + '分钟';
+    }
+    let result = hour + '小时';
+    if (view.minute) {
+      result += minute ? minute + '分钟' : '';
+    }
+    return result;
   }
 
   static Time(time: number = 0, unit: 'second' | 'minute' = 'second') {

@@ -9,7 +9,14 @@ export class SystemStatisticBusiness {
 
   load(): string {
     let title = '';
-    if (location.pathname.indexOf(SystemPath.statistic_road_object) >= 0) {
+    if (
+      location.pathname.indexOf(SystemPath.statistic_road_object_statement) >= 0
+    ) {
+      this.headable = false;
+      title = '道路部件月报表';
+    } else if (
+      location.pathname.indexOf(SystemPath.statistic_road_object) >= 0
+    ) {
       this.headable = false;
       title = '道路部件统计';
     } else if (

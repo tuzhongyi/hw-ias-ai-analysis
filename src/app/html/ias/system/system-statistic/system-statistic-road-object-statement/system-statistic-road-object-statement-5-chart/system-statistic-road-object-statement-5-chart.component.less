@@ -1,0 +1,66 @@
+@import url(../system-statistic-road-object-statement.less);
+
+.system-statistic-road-object-statement-5-chart {
+  /* 必须是正方形 */
+  width: 100%;
+  aspect-ratio: 1;
+
+  @line-width: 20px;
+
+  &-border {
+    width: 100%;
+    height: 100%;
+    /* 边框 = 圆环宽度 */
+    border: 10px solid @color-3;
+
+    /* 圆角 = 圆 */
+    border-radius: 50%;
+
+    /* 中间透明 */
+    background: transparent;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  &-line {
+    width: calc(100% + @line-width);
+    height: calc(100% + @line-width);
+    border-radius: 50%;
+    margin: -@line-width;
+    background: conic-gradient(transparent, @color);
+    z-index: 0;
+  }
+
+  &-mask {
+    position: absolute;
+    width: calc(90%);
+    height: calc(90%);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background-color: #191A1E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+  }
+
+  &-end {
+    position: absolute;
+    width: 5px;
+    height: @line-width;
+    /* 和圆环宽度一致 */
+    background: @color;
+    /* 精准旋转定位到 30° 渐变收尾位置 */
+    left: 50%;
+    top: 0px;
+    transform-origin: center 70px;
+    transform: translateX(-50%) rotate(0deg);
+    z-index: 2;
+  }
+}

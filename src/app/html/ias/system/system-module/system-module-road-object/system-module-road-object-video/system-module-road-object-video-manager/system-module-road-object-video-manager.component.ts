@@ -211,6 +211,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
   };
 
   line = {
+    capture: undefined as Promise<VideoCaptureModel> | undefined,
     pick: {
       begin: new EventEmitter<boolean>(),
       end: new EventEmitter<void>(),
@@ -231,6 +232,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
         this.video.element?.pause();
 
         this.line.pick.begin.emit(true);
+        this.line.capture = this.video.element?.capture();
       },
       end: async () => {
         this.button.line.auto.begin.display = true;
@@ -259,6 +261,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
         this.button.point.display = false;
         this.video.element?.pause();
         this.line.pick.begin.emit(false);
+        this.line.capture = this.video.element?.capture();
       },
       end: async () => {
         this.button.line.auto.begin.display = true;
@@ -291,7 +294,7 @@ export class SystemModuleRoadObjectVideoManagerComponent implements OnInit {
           objecttype: this.type,
           type: 'line',
           line: args.points,
-          capture: await this.video.element.capture(),
+          capture: await (this.line.capture ?? this.video.element.capture()),
           address: this.map.closest?.RoadName,
           course: this.map.course,
         };

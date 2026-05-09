@@ -22,7 +22,6 @@ import { SystemModuleRoadSectionTableBusiness } from '../../../system-module/sys
 import { SystemModuleRoadSectionTableSource } from '../../../system-module/system-module-road-section/system-module-road-section-table/system-module-road-section-table.source';
 import { SystemTaskRoadObjectFilterComponent } from '../system-task-road-object-filter/system-task-road-object-filter.component';
 import { SystemTaskRoadObjectListContainerComponent } from '../system-task-road-object-list/system-task-road-object-list-container/system-task-road-object-list-container.component';
-import { SystemTaskRoadObjectMapInfoComponent } from '../system-task-road-object-map-info/system-task-road-object-map-info.component';
 import { SystemTaskRoadObjectMapComponent } from '../system-task-road-object-map/system-task-road-object-map.component';
 import { SystemTaskRoadObjectManagerBusiness } from './system-task-road-object-manager.business';
 import { SystemTaskRoadObjectHelper } from './system-task-road-object-manager.helper';
@@ -50,7 +49,6 @@ import { SystemTaskRoadObjectManagerWindow } from './window/system-task-road-obj
     SystemModuleRoadObjectDetailsManagerComponent,
     SystemModuleRoadPointDetailsManagerComponent,
     SystemModuleRoadSectionDetailsManagerComponent,
-    SystemTaskRoadObjectMapInfoComponent,
   ],
   templateUrl: './system-task-road-object-manager.component.html',
   styleUrl: './system-task-road-object-manager.component.less',

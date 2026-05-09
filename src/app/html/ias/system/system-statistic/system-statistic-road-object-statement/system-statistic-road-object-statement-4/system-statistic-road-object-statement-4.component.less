@@ -1,0 +1,71 @@
+@import url(../system-statistic-road-object-statement.less);
+
+.system-statistic-road-object-statement-4 {
+  width: 100%;
+  height: 100%;
+  color: white;
+  background-image: @background-3;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  padding: @padding;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  &-head {
+    font-size: @head-font-size;
+    background-image:
+      linear-gradient(@color, @color);
+    background-size: 150px 4px;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    padding-bottom: 30px;
+  }
+
+  &-body {
+    height: calc(100% - 100px);
+    width: 100%;
+    display: grid;
+
+    grid-template-columns: 1fr 400px 1fr;
+    /* 左 中 右 */
+    grid-template-rows: repeat(min-content, auto-fill);
+
+
+  }
+
+  &-chart {
+    grid-column: 2;
+    grid-row: 1/ span 2;
+  }
+
+  &-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+
+    &-head {
+      font-size: 36px;
+      color: @color;
+
+    }
+
+    &-body {
+      font-size: 20px;
+    }
+
+    &:nth-child(odd) {
+      grid-column: 1;
+      text-align: right;
+    }
+
+    &:nth-child(even) {
+      grid-column: 3;
+    }
+  }
+
+
+
+}

@@ -1,0 +1,15 @@
+<ias-system-statistic-road-object-statement-container *ngIf="statement">
+  <div class="system-statistic-road-object-statement-5">
+    <div class="system-statistic-road-object-statement-5-head">部件统计</div>
+    <div class="system-statistic-road-object-statement-5-body">
+      <div
+        class="system-statistic-road-object-statement-5-item"
+        *ngFor="let item of datas"
+      >
+        <ias-system-statistic-road-object-statement-5-item
+          [data]="item"
+        ></ias-system-statistic-road-object-statement-5-item>
+      </div>
+    </div>
+  </div>
+</ias-system-statistic-road-object-statement-container>

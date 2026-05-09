@@ -1,0 +1,101 @@
+<div class="system-statistic-road-object-statement-manager">
+  <div class="system-statistic-road-object-statement-head">
+    <ias-content-header [title]="title">
+      <div class="system-statistic-road-object-statement-head-filter forms">
+        <div class="form-item">
+          <select [(ngModel)]="date.year.value" (change)="date.year.change()">
+            <option [ngValue]="item" *ngFor="let item of date.year.datas">
+              {{ item }}年
+            </option>
+          </select>
+        </div>
+        <div class="form-item">
+          <select [(ngModel)]="date.month.value" (change)="load()">
+            <option [ngValue]="item" *ngFor="let item of date.month.datas">
+              {{ item.toString().padStart(2, "0") }}月
+            </option>
+          </select>
+        </div>
+        <div class="from-item">
+          <button class="button-clip-gradient" (click)="on.download(container)">
+            导出
+          </button>
+        </div>
+      </div>
+    </ias-content-header>
+  </div>
+  <div class="system-statistic-road-object-statement-body">
+    <div class="system-statistic-road-object-statement-directory">
+      <div *ngFor="let item of directory.datas; let index = index">
+        <div
+          class="button"
+          [class.selected]="index == directory.index"
+          (click)="directory.to(index)"
+        >
+          {{ item }}
+        </div>
+      </div>
+    </div>
+    <div
+      class="system-statistic-road-object-statement-overflow"
+      scroll-full
+      [(index)]="directory.index"
+      #container
+    >
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-1
+          [statement]="statement.object"
+        >
+        </ias-system-statistic-road-object-statement-1>
+      </div>
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-2
+          [statement]="statement.object"
+        >
+        </ias-system-statistic-road-object-statement-2>
+      </div>
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-3
+          [statement]="statement.object"
+        >
+        </ias-system-statistic-road-object-statement-3>
+      </div>
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-4
+          [statement]="statement.object"
+        >
+        </ias-system-statistic-road-object-statement-4>
+      </div>
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-5
+          [statement]="statement.object"
+        >
+        </ias-system-statistic-road-object-statement-5>
+      </div>
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-6
+          [statement]="statement.object"
+        >
+        </ias-system-statistic-road-object-statement-6>
+      </div>
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-7
+          [statement]="statement.device"
+        >
+        </ias-system-statistic-road-object-statement-7>
+      </div>
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-8
+          [statement]="statement.device"
+        >
+        </ias-system-statistic-road-object-statement-8>
+      </div>
+      <div class="system-statistic-road-object-statement-item">
+        <ias-system-statistic-road-object-statement-9
+          [statement]="statement.object"
+        >
+        </ias-system-statistic-road-object-statement-9>
+      </div>
+    </div>
+  </div>
+</div>

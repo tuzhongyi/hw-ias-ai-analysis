@@ -1,0 +1,45 @@
+<div class="system-statistic-road-object-statement-8-chart">
+  <div
+    class="system-statistic-road-object-statement-8-chart-item"
+    *ngFor="let item of datas"
+  >
+    <div class="system-statistic-road-object-statement-8-chart-item-bars">
+      <div class="system-statistic-road-object-statement-8-chart-item-bar">
+        <div
+          class="system-statistic-road-object-statement-8-chart-item-bar-number"
+        >
+          {{ item.attendance.count }}
+        </div>
+        <div
+          class="system-statistic-road-object-statement-8-chart-item-bar-view _1"
+          [style.height]="(item.attendance.count / max.attendance) * 100 + '%'"
+        ></div>
+      </div>
+      <div class="system-statistic-road-object-statement-8-chart-item-bar">
+        <div
+          class="system-statistic-road-object-statement-8-chart-item-bar-number"
+        >
+          {{ (item.distance.total / 1000).toFixed(1) }}
+        </div>
+        <div
+          class="system-statistic-road-object-statement-8-chart-item-bar-view _2"
+          [style.height]="(item.distance.total / max.distance) * 100 + '%'"
+        ></div>
+      </div>
+      <div class="system-statistic-road-object-statement-8-chart-item-bar">
+        <div
+          class="system-statistic-road-object-statement-8-chart-item-bar-number"
+        >
+          {{ (item.duration.total / 60 / 60).toFixed(0) }}
+        </div>
+        <div
+          class="system-statistic-road-object-statement-8-chart-item-bar-view _3"
+          [style.height]="(item.duration.total / max.duration) * 100 + '%'"
+        ></div>
+      </div>
+    </div>
+    <div class="system-statistic-road-object-statement-8-chart-item-name">
+      {{ item.name }}
+    </div>
+  </div>
+</div>

@@ -84,10 +84,24 @@ export class DateTimeFullTool {
     }
     return dates;
   }
-  year(date: Date): Date[] {
+  year(date: Date, all = true, current = true): Date[] {
     let dates: Date[] = [];
     let year = date.getFullYear();
-    for (let i = 0; i < 12; i++) {
+
+    let last = 12;
+
+    if (!all) {
+      let today = new Date();
+      if (year == today.getFullYear()) {
+        if (current) {
+          last = today.getMonth() + 1;
+        } else {
+          last = today.getMonth();
+        }
+      }
+    }
+
+    for (let i = 0; i < last; i++) {
       let month = new Date(year, i, 1);
       month.setHours(0, 0, 0, 0);
       dates.push(month);

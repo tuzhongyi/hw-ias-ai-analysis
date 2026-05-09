@@ -1,0 +1,25 @@
+<ias-system-statistic-road-object-statement-container *ngIf="statement">
+  <div class="system-statistic-road-object-statement-4">
+    <div class="system-statistic-road-object-statement-4-head">部件状态</div>
+    <div class="system-statistic-road-object-statement-4-body">
+      <div
+        class="system-statistic-road-object-statement-4-item"
+        *ngFor="let item of datas"
+      >
+        <div class="system-statistic-road-object-statement-4-item-head">
+          {{ item.name }}部件
+        </div>
+        <div class="system-statistic-road-object-statement-4-item-body">
+          <div>{{ item.name }}部件{{ item.value }}个</div>
+          <div>占总量的{{ item.ratio }}%</div>
+        </div>
+      </div>
+
+      <div class="system-statistic-road-object-statement-4-chart">
+        <ias-system-statistic-road-object-statement-4-chart
+          [datas]="datas"
+        ></ias-system-statistic-road-object-statement-4-chart>
+      </div>
+    </div>
+  </div>
+</ias-system-statistic-road-object-statement-container>

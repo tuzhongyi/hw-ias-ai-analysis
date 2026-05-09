@@ -1,0 +1,68 @@
+@import url(../system-statistic-road-object-statement.less);
+
+.system-statistic-road-object-statement-8-chart {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+
+  &-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+
+
+    &-name {
+      height: 22px;
+    }
+
+    &-bar {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 5px;
+
+
+      &s {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 5px;
+        height: calc(100% - 22px - 10px);
+        flex-grow: 1;
+      }
+
+      &-view {
+        height: calc(100% - 22px - 5px);
+        width: 45px;
+
+
+
+        &._1 {
+          border: 1px solid @color-1;
+          background-color: @color-1;
+        }
+
+        &._2 {
+          border: 1px solid @color-2;
+          background-color: @color-2;
+        }
+
+        &._3 {
+          border: 1px solid @color-3;
+          background-color: @color-3;
+        }
+      }
+
+      &-number {
+        text-align: center;
+      }
+
+    }
+  }
+}

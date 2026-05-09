@@ -7,4 +7,9 @@ export class PathImageChartTool {
       cyan: '/assets/image/main/card/chart/system-main-card-chart-cyan.png',
     },
   };
+  graphic = {
+    circle: {
+      stroke: '/assets/image/statistic/statement/statement-chart-progress.png',
+    },
+  };
 }

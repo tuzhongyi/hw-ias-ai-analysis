@@ -1,0 +1,36 @@
+<ias-system-statistic-road-object-statement-container *ngIf="statement">
+  <div class="system-statistic-road-object-statement-1">
+    <div class="system-statistic-road-object-statement-1-title">
+      <div class="system-statistic-road-object-statement-1-date">
+        {{ (statement | async)?.BeginDate | date : Language.year_month }}
+      </div>
+      <!-- <div class="system-statistic-road-object-statement-1-name">
+        道路部件月报表
+       
+      </div> -->
+      <svg width="600" height="120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="textGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="40%" stop-color="#ffffff" />
+            <stop offset="70%" stop-color="#f3b447" />
+          </linearGradient>
+        </defs>
+        <text
+          x="0"
+          y="80"
+          font-size="85"
+          font-weight="bold"
+          font-style="italic"
+          fill="url(#textGrad)"
+        >
+          道路部件月报表
+        </text>
+      </svg>
+    </div>
+    <div class="system-statistic-road-object-statement-1-duration">
+      {{ (statement | async)?.BeginDate | date : Language.year_month_day }}-{{
+        (statement | async)?.EndDate | date : Language.year_month_day
+      }}
+    </div>
+  </div>
+</ias-system-statistic-road-object-statement-container>

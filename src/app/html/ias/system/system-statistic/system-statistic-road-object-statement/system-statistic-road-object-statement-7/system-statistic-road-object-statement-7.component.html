@@ -1,0 +1,56 @@
+<ias-system-statistic-road-object-statement-container *ngIf="statement">
+  <div class="system-statistic-road-object-statement-7">
+    <div class="system-statistic-road-object-statement-7-head">巡逻车总览</div>
+    <div class="system-statistic-road-object-statement-7-body">
+      <div class="system-statistic-road-object-statement-7-item">
+        <div class="system-statistic-road-object-statement-7-item-icon">01</div>
+        <div class="system-statistic-road-object-statement-7-item-head">
+          覆盖率
+        </div>
+        <div class="system-statistic-road-object-statement-7-item-body">
+          本月巡逻车巡逻覆盖{{ data.coverage }}%区域
+        </div>
+      </div>
+      <div class="system-statistic-road-object-statement-7-item">
+        <div class="system-statistic-road-object-statement-7-item-icon">02</div>
+        <div class="system-statistic-road-object-statement-7-item-head">
+          出勤天数
+        </div>
+        <div class="system-statistic-road-object-statement-7-item-body">
+          本月巡逻车出勤{{ data.attendance.count }}天
+        </div>
+      </div>
+      <div class="system-statistic-road-object-statement-7-item">
+        <div class="system-statistic-road-object-statement-7-item-icon">03</div>
+        <div class="system-statistic-road-object-statement-7-item-head">
+          巡逻里程
+        </div>
+        <div class="system-statistic-road-object-statement-7-item-body">
+          本月巡逻车巡逻里程{{ (data.distance.total / 1000).toFixed(2) }}公里
+        </div>
+      </div>
+      <div class="system-statistic-road-object-statement-7-item">
+        <div class="system-statistic-road-object-statement-7-item-icon">04</div>
+        <div class="system-statistic-road-object-statement-7-item-head">
+          每日巡逻里程
+        </div>
+        <div class="system-statistic-road-object-statement-7-item-body">
+          本月巡逻车平均每日行驶里程{{
+            (data.distance.average / 1000).toFixed(2)
+          }}公里
+        </div>
+      </div>
+      <div class="system-statistic-road-object-statement-7-item">
+        <div class="system-statistic-road-object-statement-7-item-icon">05</div>
+        <div class="system-statistic-road-object-statement-7-item-head">
+          每日行驶时长
+        </div>
+        <div class="system-statistic-road-object-statement-7-item-body">
+          本月巡逻车平均每日行驶时长<br />{{
+            Language.Time(data.duration.average, "second")
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ias-system-statistic-road-object-statement-container>

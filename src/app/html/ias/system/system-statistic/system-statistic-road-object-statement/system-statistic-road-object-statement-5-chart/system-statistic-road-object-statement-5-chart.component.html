@@ -1,0 +1,19 @@
+<div class="system-statistic-road-object-statement-5-chart">
+  <div class="system-statistic-road-object-statement-5-chart-border" #container>
+    <div
+      class="system-statistic-road-object-statement-5-chart-line"
+      [style.background]="
+        'conic-gradient(transparent 0deg,rgb(243, 180, 71, 0.8) ' +
+        (angle - 5) +
+        'deg ,rgb(243, 180, 71, 1) ' +
+        (angle - 4) +
+        'deg ,rgb(243, 180, 71, 1) ' +
+        angle +
+        'deg, transparent 0)'
+      "
+    ></div>
+    <div class="system-statistic-road-object-statement-5-chart-mask">
+      {{ value }}%
+    </div>
+  </div>
+</div>

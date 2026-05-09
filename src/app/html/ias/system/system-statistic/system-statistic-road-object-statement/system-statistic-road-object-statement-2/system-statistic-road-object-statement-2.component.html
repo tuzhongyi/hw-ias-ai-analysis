@@ -1,0 +1,10 @@
+<ias-system-statistic-road-object-statement-container *ngIf="statement">
+  <div class="system-statistic-road-object-statement-2">
+    <div class="system-statistic-road-object-statement-2-head">报表总结</div>
+    <div class="system-statistic-road-object-statement-2-body">
+      <div class="system-statistic-road-object-statement-2-content">
+        {{ (statement | async)?.Summarize }}
+      </div>
+    </div>
+  </div>
+</ias-system-statistic-road-object-statement-container>

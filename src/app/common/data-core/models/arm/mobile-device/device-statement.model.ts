@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IIdModel } from '../../interface/model.interface';
 import { DeviceDailyRouteStatistic } from './device-daily-route-statistic.model';
 
@@ -20,6 +21,7 @@ export class DeviceStatement implements IIdModel {
   /**	String	区划名称	O	*/
   DivisionName?: string;
   /**	DeviceDailyRouteStatistic[]	设备每日的统计内容	O	*/
+  @Type(() => DeviceDailyRouteStatistic)
   DailyRoutes?: DeviceDailyRouteStatistic[];
   /**	Int32	出勤天数	M	*/
   AttendanceNumber!: number;

@@ -1,0 +1,53 @@
+<ias-system-statistic-road-object-statement-container *ngIf="statement">
+  <div class="system-statistic-road-object-statement-8">
+    <div class="system-statistic-road-object-statement-8-head">巡逻车统计</div>
+    <div class="system-statistic-road-object-statement-8-body">
+      <div class="system-statistic-road-object-statement-8-chart">
+        <ias-system-statistic-road-object-statement-8-chart
+          [datas]="items"
+        ></ias-system-statistic-road-object-statement-8-chart>
+      </div>
+      <div class="system-statistic-road-object-statement-8-total">
+        <div class="system-statistic-road-object-statement-8-info">
+          <div class="system-statistic-road-object-statement-8-info-head">
+            <div
+              class="system-statistic-road-object-statement-8-info-icon _1"
+            ></div>
+            巡逻天数
+          </div>
+          <div class="system-statistic-road-object-statement-8-info-body">
+            本月巡逻共{{ total.attendance.count }}天
+          </div>
+        </div>
+
+        <div class="system-statistic-road-object-statement-8-info">
+          <div class="system-statistic-road-object-statement-8-info-head">
+            <div
+              class="system-statistic-road-object-statement-8-info-icon _2"
+            ></div>
+            行驶里程
+          </div>
+          <div class="system-statistic-road-object-statement-8-info-body">
+            本月共行驶{{ (total.distance.total / 1000).toFixed(2) }}公里
+          </div>
+        </div>
+        <div class="system-statistic-road-object-statement-8-info">
+          <div class="system-statistic-road-object-statement-8-info-head">
+            <div
+              class="system-statistic-road-object-statement-8-info-icon _3"
+            ></div>
+            行驶时长
+          </div>
+          <div class="system-statistic-road-object-statement-8-info-body">
+            本月共行驶{{
+              Language.Hour(total.duration.total, "second", {
+                minute: true,
+                second: false
+              })
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ias-system-statistic-road-object-statement-container>

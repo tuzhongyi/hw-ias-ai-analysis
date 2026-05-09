@@ -5,6 +5,7 @@ import { AbstractService } from '../../../../../cache/cache.interface';
 
 import { ObjectTool } from '../../../../../../tools/object-tool/object.tool';
 import { ServiceTool } from '../../../../../../tools/service-tool/service.tool';
+import { RoadObjectStatement } from '../../../../../models/arm/geographic/road-object-statement.model';
 import { RoadObject } from '../../../../../models/arm/geographic/road-object.model';
 import { RoadObjectCapability } from '../../../../../models/capabilities/arm/geographic/road-object-capability.model';
 import { PagedList } from '../../../../../models/interface/page-list.model';
@@ -13,7 +14,10 @@ import { ArmGeographicUrl } from '../../../../../urls/arm/geographic/geographic.
 import { HowellHttpClient } from '../../../../howell-http.client';
 import { HowellResponseProcess } from '../../../../service-process';
 import { ArmGeographicRoadObjectEventRequestService } from './event/geographic-road-object-event.service';
-import { GetRoadObjectsParams } from './geographic-road-object.params';
+import {
+  GetRoadObjectReportParams,
+  GetRoadObjectsParams,
+} from './geographic-road-object.params';
 
 @Cache(ArmGeographicUrl.road.object.basic(), RoadObject)
 export class ArmGeographicRoadObjectRequestService extends AbstractService<RoadObject> {
@@ -77,6 +81,16 @@ export class ArmGeographicRoadObjectRequestService extends AbstractService<RoadO
       .get<HowellResponse<RoadObjectCapability>>(url)
       .then((x) => {
         return HowellResponseProcess.item(x, RoadObjectCapability);
+      });
+  }
+
+  async statements(params: GetRoadObjectReportParams) {
+    let url = ArmGeographicUrl.road.object.statements();
+    let plain = instanceToPlain(params);
+    return this.http
+      .post<HowellResponse<RoadObjectStatement>, any>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, RoadObjectStatement);
       });
   }
 

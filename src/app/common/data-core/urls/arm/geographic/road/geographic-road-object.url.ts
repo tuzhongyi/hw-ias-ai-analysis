@@ -10,6 +10,10 @@ export class GeographicRoadObjectUrl extends AbstractUrl {
     return `${this.basic()}/Capability`;
   }
 
+  statements() {
+    return `${this.basic()}/Statements`;
+  }
+
   event() {
     return new GeographicRoadObjectEventUrl(this.basic());
   }

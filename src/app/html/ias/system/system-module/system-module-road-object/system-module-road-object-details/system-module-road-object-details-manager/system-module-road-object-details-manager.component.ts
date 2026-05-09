@@ -151,10 +151,15 @@ export class SystemModuleRoadObjectDetailsManagerComponent
         if (data.source) {
           this.model = Object.assign(this.init(), data.source);
         } else {
+          this.model = this.init();
+          this.model.ObjectType = data.objecttype;
+          this.model.Address = data.address;
+          this.model.ImageSampling.Course = data.course;
+          this.image.data = data.capture.buffer;
+          this.image.load.emit(data.capture.src);
           this.model.ImageSampling.SamplePlan = 2;
           this.model.IsGeoLine = true;
         }
-        this.map.load(this.model);
 
         this.map.line.editing = true;
 
@@ -163,6 +168,7 @@ export class SystemModuleRoadObjectDetailsManagerComponent
         this.model.Location = GisPoints.create(first, GisType.GCJ02);
         this.map.line.source = [...data.line];
         this.map.line.on.step(this.map.line.step);
+        this.map.point.load(this.model);
       },
     },
   };

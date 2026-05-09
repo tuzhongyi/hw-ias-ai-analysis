@@ -1,0 +1,52 @@
+.system-statistic-road-object-statement {
+
+  @corner-color: #f3b447;
+  @corner-size: 15px; // 拐角长度
+  @corner-width: 2px; // 拐角粗细
+  @border-color: rgba(243, 180, 71, 0.5);
+
+  &-corner {
+    width: 100%;
+    height: 100%;
+    // 四个角：纯background实现
+    background-image:
+      linear-gradient(@corner-color, @corner-color),
+      linear-gradient(@corner-color, @corner-color),
+      linear-gradient(@corner-color, @corner-color),
+      linear-gradient(@corner-color, @corner-color),
+      linear-gradient(@corner-color, @corner-color),
+      linear-gradient(@corner-color, @corner-color),
+      linear-gradient(@corner-color, @corner-color),
+      linear-gradient(@corner-color, @corner-color);
+
+    background-size:
+      @corner-size @corner-width, // 上左
+      @corner-width @corner-size, // 左
+      @corner-size @corner-width, // 上右
+      @corner-width @corner-size, // 右
+      @corner-size @corner-width, // 下左
+      @corner-width @corner-size, // 左
+      @corner-size @corner-width, // 下右
+      @corner-width @corner-size; // 右
+
+    background-position:
+      left top, left top,
+      right top, right top,
+      left bottom, left bottom,
+      right bottom, right bottom;
+    background-repeat: no-repeat;
+
+
+    box-sizing: border-box;
+
+  }
+
+  &-border {
+    width: 100%;
+    height: 100%;
+    border: 1px solid @border-color;
+    box-sizing: border-box;
+
+
+  }
+}

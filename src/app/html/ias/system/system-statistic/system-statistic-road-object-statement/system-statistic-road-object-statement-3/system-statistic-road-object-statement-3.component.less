@@ -1,0 +1,46 @@
+@import url(../system-statistic-road-object-statement.less);
+
+.system-statistic-road-object-statement-3 {
+  width: 100%;
+  height: 100%;
+  color: white;
+  background-image: @background-3;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  padding: @padding;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  @item-gap: 40px;
+  @item-column: 4;
+
+
+  &-head {
+    font-size: @head-font-size;
+    background-image:
+      linear-gradient(@color, @color);
+    background-size: 150px 4px;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    padding-bottom: 30px;
+  }
+
+  &-body {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: min-content;
+    align-items: center;
+    justify-content: space-between;
+    gap: @item-gap;
+
+    flex-shrink: 0;
+  }
+
+  &-item {
+    width: calc((100% - @item-gap * (@item-column - 1)) / @item-column);
+    height: min-content;
+  }
+}

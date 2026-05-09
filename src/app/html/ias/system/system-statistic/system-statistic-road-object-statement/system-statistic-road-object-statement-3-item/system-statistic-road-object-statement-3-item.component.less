@@ -1,0 +1,46 @@
+@import url(../system-statistic-road-object-statement.less);
+
+.system-statistic-road-object-statement-3-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  @clip-size: 20%;
+  gap: 15px;
+
+  &-icon {
+    color: black;
+    font-size: 50px;
+    background-color: @color;
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(@clip-size 0,
+        100% 0,
+        100% calc(100% - @clip-size),
+        calc(100% - @clip-size) 100%,
+        0 100%,
+        0 @clip-size );
+  }
+
+  &-name {
+    color: @color;
+    font-size: 20px;
+    white-space: nowrap;
+    margin-bottom: 5px;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    overflow: visible;
+
+    &>* {
+      white-space: nowrap;
+    }
+  }
+}
