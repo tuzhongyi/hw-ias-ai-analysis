@@ -2,7 +2,7 @@
   <div class="system-statistic-road-object-statement-1">
     <div class="system-statistic-road-object-statement-1-title">
       <div class="system-statistic-road-object-statement-1-date">
-        {{ (statement | async)?.BeginDate | date : Language.year_month }}
+        {{ statement.BeginDate | date : Language.year_month }}
       </div>
       <!-- <div class="system-statistic-road-object-statement-1-name">
         道路部件月报表
@@ -28,8 +28,8 @@
       </svg>
     </div>
     <div class="system-statistic-road-object-statement-1-duration">
-      {{ (statement | async)?.BeginDate | date : Language.year_month_day }}-{{
-        (statement | async)?.EndDate | date : Language.year_month_day
+      {{ statement.BeginDate | date : Language.year_month_day }}-{{
+        statement.EndDate | date : Language.year_month_day
       }}
     </div>
   </div>

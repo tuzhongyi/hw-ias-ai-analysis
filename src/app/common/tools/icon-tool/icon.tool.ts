@@ -13,6 +13,12 @@ export class IconTool {
         return 'howell-icon-telephone';
       case RoadObjectType.TrashCan:
         return 'howell-icon-delete-bin';
+      case RoadObjectType.CycleLaneSeparator:
+        return 'howell-icon-barrier';
+      case RoadObjectType.NoParking:
+        return 'howell-icon-no_parking';
+      case RoadObjectType.PublicityWall:
+        return 'howell-icon-publicity_wall';
       default:
         return '';
     }

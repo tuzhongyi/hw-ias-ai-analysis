@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RoadObjectStatement } from '../../../../../../common/data-core/models/arm/geographic/road-object-statement.model';
+import { EnumNameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { wait } from '../../../../../../common/tools/wait';
 import { SystemStatisticRoadObjectStatement5ItemComponent } from '../system-statistic-road-object-statement-5-item/system-statistic-road-object-statement-5-item.component';
@@ -23,7 +24,7 @@ import { SystemStatisticRoadObjectStatementSource } from '../system-statistic-ro
   providers: [SystemStatisticRoadObjectStatementSource],
 })
 export class SystemStatisticRoadObjectStatement5Component implements OnChanges {
-  @Input() statement?: Promise<RoadObjectStatement>;
+  @Input() statement?: RoadObjectStatement;
 
   constructor(private source: SystemStatisticRoadObjectStatementSource) {}
 
@@ -37,13 +38,16 @@ export class SystemStatisticRoadObjectStatement5Component implements OnChanges {
       return this.source.object.states.length > 0;
     }).then((x) => {
       if (this.statement) {
-        this.statement.then((x) => this.load(x));
+        this.load(this.statement, this.source.object.states);
       }
     });
   }
 
-  private async load(source: RoadObjectStatement) {
-    let states = this.source.object.states.filter((x) => x.Value != 0);
+  private async load(
+    source: RoadObjectStatement,
+    _states: EnumNameValue<number>[]
+  ) {
+    let states = _states.filter((x) => x.Value != 0);
     this.total = 0;
     source.ObjectStateNumbers.forEach((x) => {
       if (x.Value == 0) return;

@@ -176,7 +176,7 @@ export class SystemModuleRoadObjectVideoAMapController {
           x.moving(position);
         });
         this.roadobject.polyline.get().then((x) => {
-          x.moving(position);
+          x.move(position);
         });
       });
       map.on('click', (e) => {

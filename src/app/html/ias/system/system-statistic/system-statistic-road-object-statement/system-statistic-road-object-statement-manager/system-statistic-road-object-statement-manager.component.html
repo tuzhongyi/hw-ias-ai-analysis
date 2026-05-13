@@ -1,4 +1,4 @@
-<div class="system-statistic-road-object-statement-manager">
+<div class="system-statistic-road-object-statement-manager root-router">
   <div class="system-statistic-road-object-statement-head">
     <ias-content-header [title]="title">
       <div class="system-statistic-road-object-statement-head-filter forms">
@@ -17,7 +17,7 @@
           </select>
         </div>
         <div class="from-item">
-          <button class="button-clip-gradient" (click)="on.download(container)">
+          <button class="button-clip-gradient" (click)="on.download()">
             导出
           </button>
         </div>
@@ -25,77 +25,85 @@
     </ias-content-header>
   </div>
   <div class="system-statistic-road-object-statement-body">
-    <div class="system-statistic-road-object-statement-directory">
-      <div *ngFor="let item of directory.datas; let index = index">
-        <div
-          class="button"
-          [class.selected]="index == directory.index"
-          (click)="directory.to(index)"
-        >
-          {{ item }}
+    <ng-container *ngIf="statement.object">
+      <div class="system-statistic-road-object-statement-directory">
+        <div *ngFor="let item of directory.datas; let index = index">
+          <div
+            class="button"
+            [class.selected]="index == directory.index"
+            (click)="directory.to(index)"
+          >
+            {{ item }}
+          </div>
         </div>
       </div>
+      <div
+        class="system-statistic-road-object-statement-overflow"
+        scroll-full
+        [(index)]="directory.index"
+        #container
+      >
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-1
+            [statement]="statement.object"
+          >
+          </ias-system-statistic-road-object-statement-1>
+        </div>
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-2
+            [statement]="statement.object"
+          >
+          </ias-system-statistic-road-object-statement-2>
+        </div>
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-3
+            [statement]="statement.object"
+          >
+          </ias-system-statistic-road-object-statement-3>
+        </div>
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-4
+            [statement]="statement.object"
+          >
+          </ias-system-statistic-road-object-statement-4>
+        </div>
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-5
+            [statement]="statement.object"
+          >
+          </ias-system-statistic-road-object-statement-5>
+        </div>
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-6
+            [statement]="statement.object"
+          >
+          </ias-system-statistic-road-object-statement-6>
+        </div>
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-7
+            [statement]="statement.device"
+          >
+          </ias-system-statistic-road-object-statement-7>
+        </div>
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-8
+            [statement]="statement.device"
+          >
+          </ias-system-statistic-road-object-statement-8>
+        </div>
+        <div class="system-statistic-road-object-statement-item">
+          <ias-system-statistic-road-object-statement-9
+            [statement]="statement.object"
+          >
+          </ias-system-statistic-road-object-statement-9>
+        </div>
+      </div>
+    </ng-container>
+    <div class="mask" *ngIf="loading">
+      <div class="loading"></div>
     </div>
-    <div
-      class="system-statistic-road-object-statement-overflow"
-      scroll-full
-      [(index)]="directory.index"
-      #container
-    >
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-1
-          [statement]="statement.object"
-        >
-        </ias-system-statistic-road-object-statement-1>
-      </div>
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-2
-          [statement]="statement.object"
-        >
-        </ias-system-statistic-road-object-statement-2>
-      </div>
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-3
-          [statement]="statement.object"
-        >
-        </ias-system-statistic-road-object-statement-3>
-      </div>
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-4
-          [statement]="statement.object"
-        >
-        </ias-system-statistic-road-object-statement-4>
-      </div>
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-5
-          [statement]="statement.object"
-        >
-        </ias-system-statistic-road-object-statement-5>
-      </div>
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-6
-          [statement]="statement.object"
-        >
-        </ias-system-statistic-road-object-statement-6>
-      </div>
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-7
-          [statement]="statement.device"
-        >
-        </ias-system-statistic-road-object-statement-7>
-      </div>
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-8
-          [statement]="statement.device"
-        >
-        </ias-system-statistic-road-object-statement-8>
-      </div>
-      <div class="system-statistic-road-object-statement-item">
-        <ias-system-statistic-road-object-statement-9
-          [statement]="statement.object"
-        >
-        </ias-system-statistic-road-object-statement-9>
-      </div>
+    <div class="mask" *ngIf="!statement.object && !loading">
+      本月没有统计数据
     </div>
   </div>
 </div>

@@ -13,7 +13,7 @@ import { IconTool } from '../../../../../../common/tools/icon-tool/icon.tool';
 export class SystemStatisticRoadObjectStatement3ItemComponent
   implements OnInit
 {
-  @Input() statement?: Promise<RoadObjectStatement>;
+  @Input() statement?: RoadObjectStatement;
   @Input() type?: EnumNameValue<number>;
 
   constructor() {}
@@ -21,12 +21,8 @@ export class SystemStatisticRoadObjectStatement3ItemComponent
   model = new RoadObjectModel();
 
   ngOnInit(): void {
-    if (this.statement) {
-      this.statement.then((x) => {
-        if (this.type) {
-          this.load(x, this.type.Value, this.type.Name);
-        }
-      });
+    if (this.statement && this.type) {
+      this.load(this.statement, this.type.Value, this.type.Name);
     }
   }
 

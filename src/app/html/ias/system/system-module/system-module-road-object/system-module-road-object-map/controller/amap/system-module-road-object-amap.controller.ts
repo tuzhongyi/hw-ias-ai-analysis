@@ -151,7 +151,7 @@ export class SystemModuleRoadObjectAMapController {
           x.moving(position);
         });
         this.controller.roadobject.polyline.get().then((x) => {
-          x.moving(position);
+          x.move(position);
         });
       });
       map.on('click', (e: any) => {

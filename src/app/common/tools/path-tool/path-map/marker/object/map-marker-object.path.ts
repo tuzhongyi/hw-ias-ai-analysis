@@ -3,8 +3,11 @@ import { RoadObjectState } from '../../../../../data-core/enums/road/road-object
 import { RoadObjectType } from '../../../../../data-core/enums/road/road-object/road-object-type.enum';
 import { IMapMarkerPath } from '../map-marker.interface';
 import { MapMarkerObjectBusStationPath } from './map-marker-object-bus-station.path';
+import { MapMarkerObjectCycleLaneSeparatorPath } from './map-marker-object-cycle-lane-separator.path';
 import { MapMarkerObjectFireHydrantPath } from './map-marker-object-fire-hydrant.path';
+import { MapMarkerObjectNoParkingPath } from './map-marker-object-no-parking.path';
 import { MapMarkerObjectPassagePath } from './map-marker-object-passage.path';
+import { MapMarkerObjectPublicityWallPath } from './map-marker-object-publicity-wall.path';
 import { MapMarkerObjectTelephoneBoothPath } from './map-marker-object-telephone-booth.path';
 import { MapMarkerObjectTrashCanPath } from './map-marker-object-trash-can.path';
 import { MapMarkerObjectUnknowPath } from './map-marker-object-unknow.path';
@@ -35,12 +38,25 @@ export class MapMarkerObjectPath {
   get telephonebooth() {
     return new MapMarkerObjectTelephoneBoothPath(this.basic);
   }
+  get cyclelaneseparator() {
+    return new MapMarkerObjectCycleLaneSeparatorPath(this.basic);
+  }
+  get noparking() {
+    return new MapMarkerObjectNoParkingPath(this.basic);
+  }
+  get publicitywall() {
+    return new MapMarkerObjectPublicityWallPath(this.basic);
+  }
 
   get(
     type?: RoadObjectType,
-    args?: { state?: RoadObjectState; event?: RoadObjectEventType }
+    args?: {
+      state?: RoadObjectState;
+      event?: RoadObjectEventType;
+      start?: boolean;
+    }
   ) {
-    let path = this.from.type(type);
+    let path = this.from.type(type, args?.start);
 
     if (path instanceof IMapMarkerObjectPath) {
       if (args) {
@@ -77,7 +93,10 @@ export class MapMarkerObjectPath {
   }
 
   private from = {
-    type: (type?: RoadObjectType): IMapMarkerObjectPath | IMapMarkerPath => {
+    type: (
+      type?: RoadObjectType,
+      start?: boolean
+    ): IMapMarkerObjectPath | IMapMarkerPath => {
       switch (type) {
         case RoadObjectType.BusStation:
           return this.busstation;
@@ -89,6 +108,14 @@ export class MapMarkerObjectPath {
           return this.trashcan;
         case RoadObjectType.TelephoneBooth:
           return this.telephonebooth;
+        case RoadObjectType.CycleLaneSeparator:
+          return start
+            ? this.cyclelaneseparator.start
+            : this.cyclelaneseparator.end;
+        case RoadObjectType.NoParking:
+          return start ? this.noparking.start : this.noparking.end;
+        case RoadObjectType.PublicityWall:
+          return start ? this.publicitywall.start : this.publicitywall.end;
         default:
           return this.unknow.gray;
       }

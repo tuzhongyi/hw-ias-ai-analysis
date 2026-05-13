@@ -2635,3 +2635,15 @@ a .howell-icon-flip-vertical:before {
 .howell-icon-bus_stop:before {
     content: "\f414";
 }
+
+.howell-icon-barrier:before {
+    content: "\f415";
+}
+
+.howell-icon-no_parking:before {
+    content: "\f416";
+}
+
+.howell-icon-publicity_wall:before {
+    content: "\f417";
+}

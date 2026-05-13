@@ -183,14 +183,16 @@ export class SystemModuleRoadObjectVideoAMapController {
         });
       });
       map.on('mousemove', (e: any) => {
-        let position: [number, number] = [e.pixel.x, e.pixel.y];
+        if (e.pixel.x && e.pixel.y) {
+          let position: [number, number] = [e.pixel.x, e.pixel.y];
 
-        this.roadobject.point.get().then((x) => {
-          x.moving(position);
-        });
-        this.roadobject.polyline.get().then((x) => {
-          x.moving(position);
-        });
+          this.roadobject.point.get().then((x) => {
+            x.moving(position);
+          });
+          this.roadobject.polyline.get().then((x) => {
+            x.move(position);
+          });
+        }
       });
       map.on('click', (e) => {
         this.event.map.click.emit([e.lnglat.lng, e.lnglat.lat]);

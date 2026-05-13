@@ -98,8 +98,14 @@
       </button>
     </div>
   </div>
-  <div class="system-module-road-object-manager-body">
-    <div class="system-module-road-object-manager-body-table">
+  <div
+    class="system-module-road-object-manager-body"
+    [style.gap]="map.full ? 0 : undefined"
+  >
+    <div
+      class="system-module-road-object-manager-body-table"
+      [style.width]="map.full ? '0%' : undefined"
+    >
       <ias-system-module-road-object-table
         [operable]="operable"
         [args]="table.args"
@@ -114,7 +120,10 @@
         (position)="table.on.position($event)"
       ></ias-system-module-road-object-table>
     </div>
-    <div class="system-module-road-object-manager-body-map">
+    <div
+      class="system-module-road-object-manager-body-map"
+      [style.width]="map.full ? '100%' : undefined"
+    >
       <ias-system-module-road-object-map
         [datas]="table.datas"
         [selected]="table.selected.current"
@@ -123,6 +132,11 @@
         (selectedChange)="map.select($event)"
         (itemdblclick)="window.details.open($event)"
       ></ias-system-module-road-object-map>
+      <div class="system-module-road-object-manager-body-map-buttons">
+        <div class="button panel-map" (click)="map.full = !map.full">
+          <i class="mdi mdi-arrow-expand"></i>
+        </div>
+      </div>
     </div>
   </div>
 

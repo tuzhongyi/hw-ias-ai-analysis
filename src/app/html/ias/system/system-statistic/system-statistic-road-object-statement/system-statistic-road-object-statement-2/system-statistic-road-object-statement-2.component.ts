@@ -16,7 +16,7 @@ import { SystemStatisticRoadObjectStatementContainerComponent } from '../system-
   styleUrl: './system-statistic-road-object-statement-2.component.less',
 })
 export class SystemStatisticRoadObjectStatement2Component {
-  @Input() statement?: Promise<RoadObjectStatement>;
+  @Input() statement?: RoadObjectStatement;
 
   constructor() {}
 

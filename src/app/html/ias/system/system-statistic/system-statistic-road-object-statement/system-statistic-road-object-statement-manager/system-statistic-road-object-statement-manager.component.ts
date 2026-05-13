@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RoadObjectStatement } from '../../../../../../common/data-core/models/arm/geographic/road-object-statement.model';
 import { DeviceStatement } from '../../../../../../common/data-core/models/arm/mobile-device/device-statement.model';
@@ -47,9 +47,10 @@ export class SystemStatisticRoadObjectStatementManagerComponent
   title = '道路部件月报表';
 
   statement: {
-    object?: Promise<RoadObjectStatement>;
+    object?: RoadObjectStatement;
     device?: Promise<DeviceStatement[]>;
   } = {};
+  loading = false;
 
   directory = {
     datas: [
@@ -70,15 +71,28 @@ export class SystemStatisticRoadObjectStatementManagerComponent
   };
 
   load() {
+    this.loading = true;
     let date = this.date.get();
 
-    this.statement.object = this.business.object(date);
-    this.statement.object.then((x) => {
-      if (x.DeviceIds) {
-        this.statement.device = this.business.device(x.DeviceIds, date);
-      }
-    });
+    this.statement.object = undefined;
+    this.statement.device = undefined;
+
+    this.business
+      .object(date)
+
+      .then((x) => {
+        this.statement.object = x;
+        if (x.DeviceIds) {
+          this.statement.device = this.business.device(x.DeviceIds, date);
+        }
+      })
+      .catch((x) => {})
+      .finally(() => {
+        this.loading = false;
+      });
   }
+
+  @ViewChild('container') container?: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
     this.date.init();
@@ -101,6 +115,9 @@ export class SystemStatisticRoadObjectStatementManagerComponent
       value: 0,
       change: () => {
         this.date.month.init(this.date.year.value);
+
+        this.statement.object = undefined;
+        this.statement.device = undefined;
         this.load();
       },
       init: () => {
@@ -117,6 +134,8 @@ export class SystemStatisticRoadObjectStatementManagerComponent
       datas: [] as number[],
       value: 0,
       change: () => {
+        this.statement.object = undefined;
+        this.statement.device = undefined;
         this.load();
       },
       init: (year: number) => {
@@ -131,12 +150,16 @@ export class SystemStatisticRoadObjectStatementManagerComponent
   };
 
   on = {
-    download: (element: HTMLElement) => {
-      this.business.export.save(
-        element,
+    download: () => {
+      if (this.container) {
+        this.loading = true;
 
-        this.date.get()
-      );
+        this.business.export
+          .save(this.container.nativeElement, this.date.get())
+          .finally(() => {
+            this.loading = false;
+          });
+      }
     },
   };
 }

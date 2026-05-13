@@ -36,12 +36,30 @@
 
     &-table {
       width: calc((100% - 10px) * 0.618);
+
     }
 
     &-map {
       width: calc((100% - 10px) * 0.382);
       border: 1px solid #2d76ce;
       box-sizing: border-box;
+      position: relative;
+
+      background-color: #050D15;
+
+      &-buttons {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+
+        &>* {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
+        }
+      }
     }
 
     &-info {

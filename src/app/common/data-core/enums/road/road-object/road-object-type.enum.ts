@@ -12,4 +12,6 @@ export enum RoadObjectType {
   TelephoneBooth = 5,
   /** 机非隔离栏 */
   CycleLaneSeparator = 6,
+  NoParking = 7,
+  PublicityWall = 8,
 }

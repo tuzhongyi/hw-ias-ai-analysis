@@ -20,7 +20,7 @@ import { SystemStatisticRoadObjectStatementSource } from '../system-statistic-ro
   providers: [SystemStatisticRoadObjectStatementSource],
 })
 export class SystemStatisticRoadObjectStatement3Component {
-  @Input() statement?: Promise<RoadObjectStatement>;
+  @Input() statement?: RoadObjectStatement;
 
   Language = Language;
 

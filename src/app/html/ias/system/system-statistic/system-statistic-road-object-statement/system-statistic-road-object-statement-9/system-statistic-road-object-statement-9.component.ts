@@ -18,12 +18,12 @@ import { SystemStatisticRoadObjectStatementContainerComponent } from '../system-
   styleUrl: './system-statistic-road-object-statement-9.component.less',
 })
 export class SystemStatisticRoadObjectStatement9Component implements OnInit {
-  @Input() statement?: Promise<RoadObjectStatement>;
+  @Input() statement?: RoadObjectStatement;
 
   comments: string[] = [];
   ngOnInit(): void {
     if (this.statement) {
-      this.statement.then((x) => this.load(x));
+      this.load(this.statement);
     }
   }
   private load(data: RoadObjectStatement) {

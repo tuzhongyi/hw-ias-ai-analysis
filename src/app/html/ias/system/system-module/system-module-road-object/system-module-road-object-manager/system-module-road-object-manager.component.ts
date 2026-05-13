@@ -120,6 +120,7 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
   };
 
   map = {
+    full: false,
     over: new EventEmitter<RoadObject>(),
     out: new EventEmitter<RoadObject>(),
     select: (data: RoadObject) => {

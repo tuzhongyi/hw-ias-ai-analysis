@@ -22,7 +22,7 @@ import { SystemStatisticRoadObjectStatementContainerComponent } from '../system-
   styleUrl: './system-statistic-road-object-statement-6.component.less',
 })
 export class SystemStatisticRoadObjectStatement6Component implements OnInit {
-  @Input() statement?: Promise<RoadObjectStatement>;
+  @Input() statement?: RoadObjectStatement;
 
   max?: ITimeData<number>;
   datas: IChartData[] = [];
@@ -32,9 +32,7 @@ export class SystemStatisticRoadObjectStatement6Component implements OnInit {
 
   ngOnInit(): void {
     if (this.statement) {
-      this.statement.then((x) => {
-        this.load(x);
-      });
+      this.load(this.statement);
     }
   }
 
