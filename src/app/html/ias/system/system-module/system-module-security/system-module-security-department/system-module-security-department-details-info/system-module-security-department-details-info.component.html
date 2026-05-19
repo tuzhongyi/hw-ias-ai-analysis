@@ -1,0 +1,109 @@
+<div
+  class="system-module-security-department-details-info"
+  [class.column]="option != OptionMode.create"
+>
+  <div class="panel panel-flex">
+    <div class="panel-head">
+      <div class="panel-title">基本信息</div>
+    </div>
+    <div class="panel-body">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text" text-space-between>部门名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="data.Name" />
+          </div>
+        </div>
+        <div class="form-item select">
+          <div class="form-item-text">部门类型</div>
+          <div class="form-item-value fill">
+            <select [(ngModel)]="data.DepartmentType">
+              <option [ngValue]="1">{{ Language.DepartmentType(1) }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-item select">
+          <div class="form-item-text" text-space-between>行政区划</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="data.DivisionId" [nullable]="false">
+              <select [(ngModel)]="data.DivisionId">
+                <ng-container *ngFor="let item of source.divisions">
+                  <option [ngValue]="item.Id">
+                    {{ item.Name }}
+                  </option>
+                </ng-container>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item select">
+          <div class="form-item-text" text-space-between>责任网格</div>
+          <div class="form-item-value fill">
+            <hw-select [(selected)]="data.GridCellId" [nullable]="false">
+              <select [(ngModel)]="data.GridCellId">
+                <ng-container *ngFor="let item of source.gridcells">
+                  <option [ngValue]="item.Id">
+                    {{ item.Name }}
+                  </option>
+                </ng-container>
+              </select>
+            </hw-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text baseline" text-space-between>描述信息</div>
+          <div class="form-item-value">
+            <textarea [(ngModel)]="data.Description"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="data.AssignmentRule" class="panel panel-flex">
+    <div class="panel-head">
+      <div class="panel-title">事件自动分配</div>
+      <label for="AssignmentRule_Enabled">
+        启用
+        <input
+          id="AssignmentRule_Enabled"
+          type="checkbox"
+          [(ngModel)]="data.AssignmentRule.Enabled"
+        />
+      </label>
+    </div>
+    <div class="panel-body">
+      <div class="forms">
+        <div class="form-item events">
+          <div
+            class="form-item-text baseline"
+            text-space-between
+            [class.disabled]="!data.AssignmentRule.Enabled"
+          >
+            事件类型
+          </div>
+          <div class="form-item-value fill panel">
+            <label
+              [for]="'department_assignment_rule_event' + item.Id"
+              *ngFor="let item of selection.event.datas"
+            >
+              <input
+                type="checkbox"
+                [id]="'department_assignment_rule_event' + item.Id"
+                [checked]="selection.event.selected.includes(item.Id)"
+                (change)="selection.event.change(item.Id)"
+              />
+              {{ item.Name }}
+            </label>
+            <!-- <howell-select-multiple
+            [datas]="selection.event.datas"
+            [selecteds]="selection.event.selected"
+            (selectedsChange)="selection.event.change($event)"
+            [searchable]="false"
+            [disabled]="!data.AssignmentRule.Enabled"
+          ></howell-select-multiple> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

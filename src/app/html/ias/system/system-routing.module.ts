@@ -21,6 +21,8 @@ import { SystemModuleMobileDeviceRouteManagerComponent } from './system-module/s
 import { SystemModuleRoadObjectManagerComponent } from './system-module/system-module-road-object/system-module-road-object-manager/system-module-road-object-manager.component';
 import { SystemModuleRoadPointManagerComponent } from './system-module/system-module-road-point/system-module-road-point-manager/system-module-road-point-manager.component';
 import { SystemModuleRoadSectionManagerComponent } from './system-module/system-module-road-section/system-module-road-section-manager/system-module-road-section-manager.component';
+import { SystemModuleSecurityDepartmentManagerComponent } from './system-module/system-module-security/system-module-security-department/system-module-security-department-manager/system-module-security-department-manager.component';
+import { SystemModuleSecurityMemberManagerComponent } from './system-module/system-module-security/system-module-security-member/system-module-security-member-manager/system-module-security-member-manager.component';
 import { SystemModuleShopCompareManagerComponent } from './system-module/system-module-shop-compare/system-module-shop-compare-manager/system-module-shop-compare-manager.component';
 import { SystemModuleShopRegistrationManagerComponent } from './system-module/system-module-shop-registration/system-module-shop-registration-manager/system-module-shop-registration-manager.component';
 import { SystemStatisticComponent } from './system-statistic/component/system-statistic.component';
@@ -134,6 +136,14 @@ const routes: Routes = [
           {
             path: 'file',
             component: SystemModuleFileManagerComponent,
+          },
+          {
+            path: 'security-department',
+            component: SystemModuleSecurityDepartmentManagerComponent,
+          },
+          {
+            path: 'security-member',
+            component: SystemModuleSecurityMemberManagerComponent,
           },
         ],
       },

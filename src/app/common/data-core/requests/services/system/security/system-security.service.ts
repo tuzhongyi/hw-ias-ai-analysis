@@ -6,6 +6,7 @@ import { HowellResponse } from '../../../../models/response';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
+import { SystemSecurityDepartmentRequestService } from './system-security-department.service';
 import { SystemSecurityUserRequestService } from './system-security-user.service';
 
 export class SystemSecurityRequestService {
@@ -40,5 +41,12 @@ export class SystemSecurityRequestService {
       this._user = new SystemSecurityUserRequestService(this.http);
     }
     return this._user;
+  }
+  private _department?: SystemSecurityDepartmentRequestService;
+  public get department(): SystemSecurityDepartmentRequestService {
+    if (!this._department) {
+      this._department = new SystemSecurityDepartmentRequestService(this.http);
+    }
+    return this._department;
   }
 }

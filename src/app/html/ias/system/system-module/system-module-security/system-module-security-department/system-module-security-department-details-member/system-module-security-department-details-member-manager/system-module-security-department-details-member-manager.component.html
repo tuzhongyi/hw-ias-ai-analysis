@@ -1,0 +1,19 @@
+<div class="system-module-security-department-details-member-manager">
+  <div class="panel panel-flex">
+    <div class="panel-head">
+      <div class="panel-title">部门员工</div>
+      <div class="button-group">
+        <button class="button-clip-gradient" (click)="on.create()">添加</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <ias-system-module-security-department-details-member-table
+        [departmentId]="departmentId"
+        [load]="load"
+        (update)="on.update($event)"
+        (delete)="on.delete($event)"
+      >
+      </ias-system-module-security-department-details-member-table>
+    </div>
+  </div>
+</div>

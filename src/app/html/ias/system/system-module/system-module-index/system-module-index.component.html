@@ -69,6 +69,14 @@
       </div>
       <div
         class="system-module-index-body-list-item"
+        (click)="on.department()"
+        *ngIf="display.security"
+      >
+        <div class="system-module-index-body-list-item-icon analysis"></div>
+        <div class="system-module-index-body-list-item-name">部门管理</div>
+      </div>
+      <div
+        class="system-module-index-body-list-item"
         (click)="on.file()"
         *ngIf="display.roadobject"
       >

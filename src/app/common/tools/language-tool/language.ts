@@ -671,4 +671,14 @@ export class Language {
       ? `${dayText} ${mainTimeText} 等`
       : `${dayText} ${mainTimeText}`;
   }
+
+  static DepartmentType(type?: number, def = '未知') {
+    switch (type) {
+      case 1:
+        return '道路巡检';
+
+      default:
+        return def;
+    }
+  }
 }

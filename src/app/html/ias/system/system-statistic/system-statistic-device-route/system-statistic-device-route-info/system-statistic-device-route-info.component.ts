@@ -64,11 +64,13 @@ export class SystemStatisticDeviceRouteInfoComponent implements OnChanges {
     });
     this.data = {
       TotalMeters: `${(total.TotalMeters / 1000).toFixed(2)}`,
-      AvgSpeed: `${total.AvgSpeed.toFixed(2)}`,
+      AvgSpeed: `${(total.AvgSpeed / (total.Attendance || 1)).toFixed(2)}`,
       FastestSpeed: `${total.FastestSpeed.toFixed(2)}`,
       MovingTime: `${Language.Time(total.MovingSeconds)}`,
       StayTime: `${Language.Time(total.StaySeconds)}`,
-      CoveragePercent: `${(total.CoveragePercent ?? 0).toFixed(2)}`,
+      CoveragePercent: `${(
+        (total.CoveragePercent ?? 0) / (total.Attendance || 1)
+      ).toFixed(2)}`,
       Attendance: total.Attendance || undefined,
     };
   }

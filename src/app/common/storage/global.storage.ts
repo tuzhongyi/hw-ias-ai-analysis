@@ -4,7 +4,7 @@ import { EventEmitter, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GlobalStorage {
-  version = '1.0.21.5';
+  version = '1.0.22.1';
   unload = new EventEmitter<void>();
 
   display = {
@@ -18,6 +18,7 @@ export class GlobalStorage {
       road: false,
       route: false,
       roadobject: false,
+      security: false,
     },
     record: {
       shop: false,

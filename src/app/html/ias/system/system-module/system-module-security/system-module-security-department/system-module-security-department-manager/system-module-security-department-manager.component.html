@@ -1,0 +1,74 @@
+<div
+  class="system-module-security-department-manager"
+  [style.padding]="iswindow ? 0 : undefined"
+>
+  <div class="system-module-security-department-manager-head">
+    <div class="system-module-security-department-manager-head-filter">
+      <div class="forms">
+        <div class="form-item flex-grow">
+          <div class="form-item-text">部门名称</div>
+          <div class="form-item-value fill">
+            <input type="text" [(ngModel)]="table.args.name" />
+          </div>
+        </div>
+        <div class="form-item submit">
+          <button class="button-clip-gradient" (click)="table.search()">
+            查找
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="button-clip-gradient" (click)="department.on.create()">
+        添加
+      </button>
+    </div>
+  </div>
+  <div class="system-module-security-department-manager-body">
+    <ias-system-module-security-department-table
+      [args]="table.args"
+      [load]="table.load"
+      (details)="table.on.details($event)"
+      (delete)="confirm.on.open($event)"
+    ></ias-system-module-security-department-table>
+  </div>
+
+  <ias-window
+    *ngIf="window.details.show"
+    [Model]="window.details"
+    [style]="window.details.style"
+    [title]="window.details.title"
+  >
+    <ias-system-module-security-department-details
+      [data]="window.details.data"
+      [confirmok]="confirm.ok"
+      (membercreate)="member.on.create($event)"
+      (memberupdate)="member.on.update($event)"
+      (confirmopen)="confirm.on.open($event)"
+      (confirmclose)="confirm.on.close()"
+      (ok)="department.on.load()"
+      (close)="window.details.show = false"
+    ></ias-system-module-security-department-details>
+  </ias-window>
+  <ias-window
+    *ngIf="window.member.show"
+    [Model]="window.member"
+    [style]="window.member.style"
+    [title]="window.member.title"
+  >
+    <ias-system-module-security-department-details-member-info
+      [data]="window.member.data"
+      [departmentId]="window.member.departmentId"
+      (ok)="member.on.load()"
+      (close)="window.member.show = false"
+    ></ias-system-module-security-department-details-member-info>
+  </ias-window>
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.message"
+    (ok)="confirm.on.ok()"
+    (cancel)="confirm.on.close()"
+  >
+  </confirm-window>
+</div>

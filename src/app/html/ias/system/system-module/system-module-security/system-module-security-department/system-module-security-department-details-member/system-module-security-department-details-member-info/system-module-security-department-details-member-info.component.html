@@ -1,0 +1,24 @@
+<div class="system-module-security-department-details-member-info">
+  <div class="system-module-security-department-details-member-info-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>姓名</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.Name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text" text-space-between>手机号码</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.MobileNo" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-security-department-details-member-info-foot">
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+      <button class="button-clip-blue" (click)="on.close()">取消</button>
+    </div>
+  </div>
+</div>

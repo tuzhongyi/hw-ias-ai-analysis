@@ -1,0 +1,131 @@
+<div class="system-module-security-department-table">
+  <div class="system-module-security-department-table-body table-page">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      TableSorter
+      (sort)="on.sort($event)"
+    >
+      <colgroup>
+        <col
+          [ngStyle]="{ width: width, 'min-width': minwidth[i] }"
+          *ngFor="let width of widths; let i = index"
+        />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">序号</th>
+          <th sort="Name">部门名称</th>
+          <th sort="DepartmentType">部门类型</th>
+          <th sort="DivisionId">行政区划</th>
+          <th sort="GridCellId">责任网格</th>
+          <th sort="AssignmentRule.Enabled">事件自动分配</th>
+          <th center>部门人数</th>
+          <th>描述</th>
+
+          <th class="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="onselect(item)"
+          [ngClass]="{
+            nohover: !item,
+            nodata: !item,
+            selected: item === selected,
+          }"
+          [style.height]="page.PageSize ? 100 / page.PageSize + '%' : 'auto'"
+        >
+          <td class="center">
+            <ng-container *ngIf="item">
+              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+            </ng-container>
+            <ng-container *ngIf="item"> &nbsp; </ng-container>
+          </td>
+
+          <td [title]="item?.Name ?? ''">
+            {{ item?.Name }}
+          </td>
+
+          <td>
+            @if(item){
+            {{ item?.DepartmentTypeName || "-" }}
+            }
+          </td>
+          <td [title]="(item?.DivisionName | async) ?? ''">
+            @if(item){
+            {{ (item.DivisionName | async) ?? "-" }}
+            }
+          </td>
+          <td [title]="(item?.GridCellName | async) ?? ''">
+            @if(item){
+            {{ (item.GridCellName | async) ?? "-" }}
+            }
+          </td>
+
+          <td [title]="item?.EventTypeTitle || ''">
+            @if(item && item.AssignmentRule){
+            <div *ngIf="item.AssignmentRule.Enabled" class="types">
+              <ng-container
+                *ngFor="let type of item.EventTypeNames; let i = index"
+              >
+                <div
+                  [style.border-color]="
+                    Color.get.index(item.AssignmentRule.EventTypes[i])
+                  "
+                  [style.color]="
+                    Color.get.index(item.AssignmentRule.EventTypes[i])
+                  "
+                >
+                  {{ type | async }}
+                </div>
+              </ng-container>
+            </div>
+            <ng-container *ngIf="!item.AssignmentRule.Enabled">
+              {{ Language.YesOrNo(item.AssignmentRule.Enabled) }}
+            </ng-container>
+            }
+          </td>
+
+          <td>
+            @if(item){
+            {{ item.MemberCount | async }}
+            }
+          </td>
+          <td [title]="item?.Description || ''">
+            @if(item){
+            {{ item.Description || "-" }}
+            }
+          </td>
+
+          <td class="center">
+            <div class="operation" *ngIf="item">
+              <div
+                class="button"
+                title="部门详情"
+                (click)="on.details(item, $event)"
+              >
+                <i class="mdi mdi-clipboard-text"></i>
+              </div>
+              <div
+                class="button"
+                title="删除部门"
+                (click)="on.delete(item, $event)"
+              >
+                <i class="howell-icon-delete2"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    class="system-module-security-department-table-foot"
+    *ngIf="page.TotalRecordCount"
+  >
+    <paginator [page]="page" (change)="on.page($event)"> </paginator>
+  </div>
+</div>

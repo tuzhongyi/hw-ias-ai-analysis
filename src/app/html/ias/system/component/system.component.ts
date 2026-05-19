@@ -55,6 +55,7 @@ export class SystemComponent implements OnInit, OnDestroy {
           this.global.display.module.road = true;
           this.global.display.module.route = true;
           this.global.display.module.roadobject = true;
+          this.global.display.module.security = true;
 
           this.global.display.record.shop = true;
           this.global.display.record.realtime = true;
@@ -73,6 +74,7 @@ export class SystemComponent implements OnInit, OnDestroy {
           this.global.display.module.road = true;
           this.global.display.module.route = true;
           this.global.display.module.roadobject = true;
+          this.global.display.module.security = true;
 
           this.global.display.record.shop = false;
           this.global.display.record.realtime = true;

@@ -99,6 +99,22 @@ export class SystemBreadcrumbBusiness {
         return [this.home.index(), this.module.index(), this.module.file()];
       } else if (location.pathname.indexOf(SystemPath.module_gps_task) >= 0) {
         return [this.home.index(), this.module.index(), this.module.gps.task()];
+      } else if (
+        location.pathname.indexOf(SystemPath.module_security_department) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.module.index(),
+          this.module.security.department(),
+        ];
+      } else if (
+        location.pathname.indexOf(SystemPath.module_security_member) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.module.index(),
+          this.module.security.member(),
+        ];
       } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
         return [this.home.index(), this.module.index()];
       } else {
@@ -128,6 +144,20 @@ export class SystemBreadcrumbBusiness {
         let item = new SystemBreadcrumbItem();
         item.path = SystemPath.module_shop_compare;
         item.text = '商铺管理';
+        return item;
+      },
+    },
+    security: {
+      department: () => {
+        let item = new SystemBreadcrumbItem();
+        item.path = SystemPath.module_security_department;
+        item.text = '部门管理';
+        return item;
+      },
+      member: () => {
+        let item = new SystemBreadcrumbItem();
+        item.path = SystemPath.module_security_member;
+        item.text = '人员管理';
         return item;
       },
     },

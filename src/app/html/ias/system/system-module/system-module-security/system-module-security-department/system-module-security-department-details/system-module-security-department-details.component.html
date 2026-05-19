@@ -1,0 +1,32 @@
+<div class="system-module-security-department-details">
+  <div class="system-module-security-department-details-body">
+    <div class="system-module-security-department-details-info">
+      <ias-system-module-security-department-details-info
+        [data]="department.data"
+        [option]="option"
+      ></ias-system-module-security-department-details-info>
+    </div>
+    <div
+      class="system-module-security-department-details-member"
+      *ngIf="department.data.Id"
+    >
+      <ias-system-module-security-department-details-member-manager
+        [departmentId]="department.data.Id"
+        [load]="member.load"
+        (create)="member.on.create(department.data)"
+        (update)="member.on.update($event)"
+        (delete)="member.on.delete($event)"
+      ></ias-system-module-security-department-details-member-manager>
+    </div>
+  </div>
+  <div class="system-module-security-department-details-foot">
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="department.on.ok()">
+        确定
+      </button>
+      <button class="button-clip-blue" (click)="department.on.close()">
+        取消
+      </button>
+    </div>
+  </div>
+</div>
