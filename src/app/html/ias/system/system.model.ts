@@ -16,6 +16,7 @@ export enum SystemPath {
   module_gps_task = 'system/module/gps-task',
   module_file = 'system/module/file',
   module_mobile_device_route = 'system/module/mobile-device-route',
+  module_security = 'system/module/security',
   module_security_member = 'system/module/security-member',
   module_security_department = 'system/module/security-department',
   map = 'system/map',

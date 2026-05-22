@@ -1,0 +1,9 @@
+<div class="input-select-department">
+  <ias-input-select
+    [(text)]="name"
+    (textChange)="oninput($event)"
+    (select)="onselect($event)"
+    (focus)="onfocus()"
+    [results]="departments"
+  ></ias-input-select>
+</div>

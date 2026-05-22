@@ -20,6 +20,7 @@ import { Department } from '../../../../../../../common/data-core/models/arm/sec
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
 import { SystemModuleSecurityDepartmentDetailsInfoComponent } from '../system-module-security-department-details-info/system-module-security-department-details-info.component';
 import { SystemModuleSecurityDepartmentDetailsMemberManagerComponent } from '../system-module-security-department-details-member/system-module-security-department-details-member-manager/system-module-security-department-details-member-manager.component';
+import { SystemModuleSecurityDepartmentDetailsMemberOtherComponent } from '../system-module-security-department-details-member/system-module-security-department-details-member-other/system-module-security-department-details-member-other.component';
 import { SystemModuleSecurityDepartmentSource } from '../system-module-security-department.source';
 import { SystemModuleSecurityDepartmentDetailsBusiness } from './system-module-security-department-details.business';
 
@@ -30,6 +31,7 @@ import { SystemModuleSecurityDepartmentDetailsBusiness } from './system-module-s
     FormsModule,
     SystemModuleSecurityDepartmentDetailsInfoComponent,
     SystemModuleSecurityDepartmentDetailsMemberManagerComponent,
+    SystemModuleSecurityDepartmentDetailsMemberOtherComponent,
   ],
   templateUrl: './system-module-security-department-details.component.html',
   styleUrl: './system-module-security-department-details.component.less',
@@ -92,9 +94,9 @@ export class SystemModuleSecurityDepartmentDetailsComponent
   }
   private regist() {
     if (this.confirmok) {
-      let sub = this.confirmok.subscribe((x) => {
+      let sub = this.confirmok.subscribe((member) => {
         this.business.member
-          .delete(x.Id)
+          .remove(this.department.data.Id, member)
           .then((x) => {
             this.toastr.success('操作成功');
             this.confirmclose.emit();
@@ -131,6 +133,26 @@ export class SystemModuleSecurityDepartmentDetailsComponent
       },
       delete: (data: DepartmentMember) => {
         this.confirmopen.emit(data);
+      },
+    },
+    import: {
+      doing: false,
+      open: () => {
+        this.member.import.doing = true;
+      },
+      todo: async (datas: DepartmentMember[]) => {
+        for (let i = 0; i < datas.length; i++) {
+          let item = datas[i];
+          if (!item.DepartmentIds.includes(this.department.data.Id)) {
+            try {
+              item.DepartmentIds.push(this.department.data.Id);
+              await this.business.member.update(item);
+            } catch (error) {
+              console.error('导入部门成员失败', item, error);
+            }
+          }
+        }
+        this.member.load.emit(this.department.data.Id);
       },
     },
   };

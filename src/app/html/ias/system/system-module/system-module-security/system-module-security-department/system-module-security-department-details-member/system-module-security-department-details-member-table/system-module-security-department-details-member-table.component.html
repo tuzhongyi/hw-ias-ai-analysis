@@ -9,11 +9,21 @@
         </colgroup>
         <thead>
           <tr>
+            <th *ngIf="multiple">
+              <input
+                type="checkbox"
+                class="center"
+                [checked]="
+                  selecteds.length > 0 && selecteds.length === datas.length
+                "
+                (click)="on.select.all()"
+              />
+            </th>
             <th class="center">序号</th>
             <th>姓名</th>
-            <th>手机号码</th>
-            <th>微信绑定</th>
-            <th class="center">操作</th>
+            <th>手机号</th>
+            <th class="center">微信绑定</th>
+            <th class="center" *ngIf="operable">操作</th>
           </tr>
         </thead>
       </table>
@@ -26,11 +36,18 @@
         <tbody>
           <tr
             *ngFor="let item of datas; let index = index"
-            (click)="on.select(item)"
+            (click)="on.select.single(item)"
             [ngClass]="{
-              selected: item === selected
+              selected: selectedIds.includes(item.Id)
             }"
           >
+            <td *ngIf="multiple">
+              <input
+                type="checkbox"
+                class="center"
+                [checked]="selectedIds.includes(item.Id)"
+              />
+            </td>
             <td class="center">
               <div>{{ index + 1 }}</div>
             </td>
@@ -40,14 +57,14 @@
             <td [title]="item.MobileNo || ''">
               <div>{{ item.MobileNo }}</div>
             </td>
-            <td>
+            <td class="center">
               @if(item.WeChatOpenId){
               <span class="text-green">已绑定</span>
               }@else{
               <span class="text-orange">未绑定</span>
               }
             </td>
-            <td class="center">
+            <td class="center" *ngIf="operable">
               <div class="operation">
                 <div
                   class="button"

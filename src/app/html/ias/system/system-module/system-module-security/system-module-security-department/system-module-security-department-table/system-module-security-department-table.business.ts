@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Department } from '../../../../../../../common/data-core/models/arm/security/department.model';
-import { PagedList } from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
 import {
   GetDepartmentMembersParams,
@@ -30,23 +29,10 @@ export class SystemModuleSecurityDepartmentTableBusiness {
     division: ArmDivisionRequestService;
   };
 
-  async load(
-    index: number,
-    size: number,
-    filter: SystemModuleSecurityDepartmentTableFilter
-  ) {
-    let data = await this.data.load(index, size, filter);
-    if (data.Page.RecordCount == 0 && data.Page.PageIndex > 1) {
-      data = await this.data.load(index - 1, size, filter);
-    }
-    let paged = new PagedList<DepartmentModel>();
-    paged.Data = data.Data.map((x) => this.convert(x));
-    paged.Page = data.Page;
-    return paged;
-  }
-
-  delete(id: string) {
-    return this.service.system.security.department.delete(id);
+  async load() {
+    let datas = await this.data.load();
+    let items = datas.map((x) => this.convert(x));
+    return items;
   }
 
   private convert(source: Department) {
@@ -97,13 +83,9 @@ export class SystemModuleSecurityDepartmentTableBusiness {
       params.Desc = filter.desc;
       return params;
     },
-    load: (
-      index: number,
-      size: number,
-      filter: SystemModuleSecurityDepartmentTableFilter
-    ) => {
-      let params = this.data.params(index, size, filter);
-      return this.service.system.security.department.list(params);
+    load: () => {
+      let params = new GetDepartmentsParams();
+      return this.service.system.security.department.all(params);
     },
     member: async (id: string) => {
       let params = new GetDepartmentMembersParams();

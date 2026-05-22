@@ -3,16 +3,14 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChange,
-  SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DepartmentMember } from '../../../../../../../../common/data-core/models/arm/security/department-member.model';
 import { SystemModuleSecurityDepartmentDetailsMemberTableBusiness } from './system-module-security-department-details-member-table.business';
+import { SystemModuleSecurityDepartmentDetailsMemberTableArgs } from './system-module-security-department-details-member-table.model';
 
 @Component({
   selector: 'ias-system-module-security-department-details-member-table',
@@ -24,10 +22,17 @@ import { SystemModuleSecurityDepartmentDetailsMemberTableBusiness } from './syst
   providers: [SystemModuleSecurityDepartmentDetailsMemberTableBusiness],
 })
 export class SystemModuleSecurityDepartmentDetailsMemberTableComponent
-  implements OnChanges, OnInit, OnDestroy
+  implements OnInit, OnDestroy
 {
-  @Input() departmentId: string = '';
-  @Input('load') _load?: EventEmitter<string>;
+  @Input() args = new SystemModuleSecurityDepartmentDetailsMemberTableArgs(
+    false
+  );
+  @Input('load')
+  _load?: EventEmitter<SystemModuleSecurityDepartmentDetailsMemberTableArgs>;
+  @Input() operable = true;
+  @Input() multiple = false;
+  @Input() selecteds: DepartmentMember[] = [];
+  @Output() selectedsChange = new EventEmitter<DepartmentMember[]>();
 
   @Output() update = new EventEmitter<DepartmentMember>();
   @Output() delete = new EventEmitter<DepartmentMember>();
@@ -37,30 +42,31 @@ export class SystemModuleSecurityDepartmentDetailsMemberTableComponent
   ) {}
 
   datas: DepartmentMember[] = [];
-  widths: string[] = ['65px', 'auto', 'auto', '100px', '100px'];
-  selected?: DepartmentMember;
-  private subscription = new Subscription();
-  ngOnChanges(changes: SimpleChanges): void {
-    this.change.department(changes['departmentId']);
+  widths: string[] = ['65px', '65px', 'auto', 'auto', '100px', '100px'];
+  get selectedIds() {
+    return this.selecteds.map((x) => x.Id);
   }
+
+  private subscription = new Subscription();
+
   ngOnInit(): void {
     this.regist();
+    this.load(this.args);
+
+    if (!this.multiple) {
+      this.widths.splice(0, 1);
+    }
+    if (!this.operable) {
+      this.widths.splice(this.widths.length - 1, 1);
+    }
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  private change = {
-    department: (simple: SimpleChange) => {
-      if (simple) {
-        if (this.departmentId) {
-          this.load(this.departmentId);
-        }
-      }
-    },
-  };
-  private load(departmentId: string) {
-    this.business.load(departmentId).then((x) => {
+
+  private load(args: SystemModuleSecurityDepartmentDetailsMemberTableArgs) {
+    this.business.load(args).then((x) => {
       this.datas = x;
     });
   }
@@ -75,8 +81,25 @@ export class SystemModuleSecurityDepartmentDetailsMemberTableComponent
   }
 
   on = {
-    select: (data: DepartmentMember) => {
-      this.selected = data;
+    select: {
+      single: (data: DepartmentMember) => {
+        if (!this.multiple) {
+          this.selecteds = [];
+        }
+        let index = this.selecteds.findIndex((x) => x.Id == data.Id);
+        if (index < 0) {
+          this.selecteds.push(data);
+        } else {
+          this.selecteds.splice(index, 1);
+        }
+      },
+      all: () => {
+        if (this.selecteds.length == this.datas.length) {
+          this.selecteds = [];
+        } else {
+          this.selecteds = [...this.datas];
+        }
+      },
     },
     modify: (data: DepartmentMember, e: Event) => {
       this.update.emit(data);

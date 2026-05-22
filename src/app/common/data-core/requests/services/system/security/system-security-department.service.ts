@@ -1,5 +1,7 @@
 import { instanceToPlain } from 'class-transformer';
 import { ServiceTool } from '../../../../../tools/service-tool/service.tool';
+import { Cache } from '../../../../cache/cache';
+import { AbstractService } from '../../../../cache/cache.interface';
 import { Department } from '../../../../models/arm/security/department.model';
 import { PagedList } from '../../../../models/interface/page-list.model';
 import { HowellResponse } from '../../../../models/response';
@@ -9,8 +11,11 @@ import { HowellResponseProcess } from '../../../service-process';
 import { SystemSecurityDepartmentMemberRequestService } from './system-security-department-member.service';
 import { GetDepartmentsParams } from './system-security.params';
 
-export class SystemSecurityDepartmentRequestService {
-  constructor(private http: HowellHttpClient) {}
+@Cache(ArmSystemUrl.security.department.basic(), Department)
+export class SystemSecurityDepartmentRequestService extends AbstractService<Department> {
+  constructor(private http: HowellHttpClient) {
+    super();
+  }
 
   async create(data: Department) {
     let url = ArmSystemUrl.security.department.basic();
@@ -63,7 +68,7 @@ export class SystemSecurityDepartmentRequestService {
       });
   }
 
-  all(params: GetDepartmentsParams) {
+  all(params = new GetDepartmentsParams()) {
     return ServiceTool.all((p) => {
       return this.list(p);
     }, params);

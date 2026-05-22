@@ -1,24 +1,25 @@
-<div class="system-module-security-department-details-member-manager">
+<div class="system-module-security-department-details-member-other root-router">
   <div class="panel panel-flex">
     <div class="panel-head">
-      <div class="panel-title">部门员工</div>
+      <div class="panel-title">其他部门员工</div>
       <div class="button-group">
         <button
           class="button-clip-gradient"
+          [disabled]="selecteds.length == 0"
           (click)="on.import()"
-          *ngIf="!importing"
         >
           导入
         </button>
-        <button class="button-clip-gradient" (click)="on.create()">新建</button>
+        <button class="button-clip-blue" (click)="on.close()">关闭</button>
       </div>
     </div>
     <div class="panel-body">
       <ias-system-module-security-department-details-member-table
         [args]="args"
         [load]="load"
-        (update)="on.update($event)"
-        (delete)="on.delete($event)"
+        [multiple]="true"
+        [operable]="false"
+        [(selecteds)]="selecteds"
       >
       </ias-system-module-security-department-details-member-table>
     </div>

@@ -10,7 +10,10 @@ import {
 import { Subscription } from 'rxjs';
 import { PaginatorComponent } from '../../../../../../../common/components/paginator/paginator.component';
 import { Department } from '../../../../../../../common/data-core/models/arm/security/department.model';
-import { Page } from '../../../../../../../common/data-core/models/interface/page-list.model';
+import {
+  Page,
+  PagedList,
+} from '../../../../../../../common/data-core/models/interface/page-list.model';
 import { TableSorterDirective } from '../../../../../../../common/directives/table-sorter/table-soater.directive';
 import { Sort } from '../../../../../../../common/directives/table-sorter/table-sorter.model';
 import { ColorTool } from '../../../../../../../common/tools/color/color.tool';
@@ -55,6 +58,7 @@ export class SystemModuleSecurityDepartmentTableComponent
   ];
   minwidth = [];
   datas: (DepartmentModel | undefined)[] = [];
+  source: DepartmentModel[] = [];
   page = Page.create(1, 10);
   selected?: Department;
 
@@ -68,13 +72,9 @@ export class SystemModuleSecurityDepartmentTableComponent
   private regist() {
     if (this.input_load) {
       let sub = this.input_load.subscribe((x) => {
-        this.args = x;
-        this.filter = SystemModuleSecurityDepartmentTableFilter.from(this.args);
-        this.load(
-          this.args.first ? 1 : this.page.PageIndex,
-          this.page.PageSize,
-          this.filter
-        );
+        let index = x.first ? 1 : this.page.PageIndex;
+        this.selected = undefined;
+        this.load(index, this.page.PageSize, this.args);
       });
       this.subscription.add(sub);
     }
@@ -89,20 +89,19 @@ export class SystemModuleSecurityDepartmentTableComponent
     this.subscription.unsubscribe();
   }
 
-  private load(
+  private async load(
     index: number,
     size: number,
     filter: SystemModuleSecurityDepartmentTableFilter
   ) {
+    if (this.source.length == 0) {
+      this.source = await this.business.load();
+    }
     this.business
-      .load(index, size, filter)
+      .load()
       .then((x) => {
-        this.page = x.Page;
-        this.datas = x.Data;
-
-        while (this.datas.length < this.page.PageSize) {
-          this.datas.push(undefined);
-        }
+        this.source = x;
+        this.on.page(index);
       })
       .catch((e) => {
         this.error.emit(e);
@@ -121,7 +120,18 @@ export class SystemModuleSecurityDepartmentTableComponent
 
   on = {
     page: (index: number) => {
-      this.load(index, this.page.PageSize, this.filter);
+      let paged = PagedList.create(this.source, index, this.page.PageSize);
+      if (paged.Data.length == 0 && paged.Page.PageIndex > 1) {
+        this.on.page(paged.Page.PageIndex - 1);
+        return;
+      }
+
+      this.page = paged.Page;
+      this.datas = paged.Data;
+
+      while (this.datas.length < this.page.PageSize) {
+        this.datas.push(undefined);
+      }
     },
     sort: (sort: Sort) => {
       this.filter.asc = undefined;

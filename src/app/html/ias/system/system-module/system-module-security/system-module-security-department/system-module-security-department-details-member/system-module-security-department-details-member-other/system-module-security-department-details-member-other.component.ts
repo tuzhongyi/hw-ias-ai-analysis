@@ -10,41 +10,40 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DepartmentMember } from '../../../../../../../../common/data-core/models/arm/security/department-member.model';
 import { SystemModuleSecurityDepartmentDetailsMemberTableComponent } from '../system-module-security-department-details-member-table/system-module-security-department-details-member-table.component';
 import { SystemModuleSecurityDepartmentDetailsMemberTableArgs } from '../system-module-security-department-details-member-table/system-module-security-department-details-member-table.model';
 
 @Component({
-  selector: 'ias-system-module-security-department-details-member-manager',
+  selector: 'ias-system-module-security-department-details-member-other',
   imports: [
     CommonModule,
+    FormsModule,
     SystemModuleSecurityDepartmentDetailsMemberTableComponent,
   ],
   templateUrl:
-    './system-module-security-department-details-member-manager.component.html',
+    './system-module-security-department-details-member-other.component.html',
   styleUrl:
-    './system-module-security-department-details-member-manager.component.less',
+    './system-module-security-department-details-member-other.component.less',
 })
-export class SystemModuleSecurityDepartmentDetailsMemberManagerComponent
+export class SystemModuleSecurityDepartmentDetailsMemberOtherComponent
   implements OnChanges, OnInit, OnDestroy
 {
   @Input() departmentId: string = '';
   @Input('load') _load = new EventEmitter<string>();
-  @Input() importing = false;
-
-  @Output() create = new EventEmitter<void>();
-  @Output() update = new EventEmitter<DepartmentMember>();
-  @Output() delete = new EventEmitter<DepartmentMember>();
-  @Output() import = new EventEmitter<string>();
+  @Output() close = new EventEmitter<void>();
+  @Output() import = new EventEmitter<DepartmentMember[]>();
 
   constructor() {}
 
-  args = new SystemModuleSecurityDepartmentDetailsMemberTableArgs(false);
+  args = new SystemModuleSecurityDepartmentDetailsMemberTableArgs(true);
   load =
     new EventEmitter<SystemModuleSecurityDepartmentDetailsMemberTableArgs>();
 
   private subscription = new Subscription();
+  selecteds: DepartmentMember[] = [];
   private change = {
     department: (change: SimpleChange) => {
       if (change) {
@@ -71,17 +70,13 @@ export class SystemModuleSecurityDepartmentDetailsMemberManagerComponent
   }
 
   on = {
-    create: () => {
-      this.create.emit();
-    },
-    update: (data: DepartmentMember) => {
-      this.update.emit(data);
-    },
-    delete: (data: DepartmentMember) => {
-      this.delete.emit(data);
+    close: () => {
+      this.close.emit();
     },
     import: () => {
-      this.import.emit(this.departmentId);
+      if (this.selecteds.length > 0) {
+        this.import.emit(this.selecteds);
+      }
     },
   };
 }

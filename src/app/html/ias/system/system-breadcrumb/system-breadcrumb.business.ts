@@ -115,6 +115,12 @@ export class SystemBreadcrumbBusiness {
           this.module.index(),
           this.module.security.member(),
         ];
+      } else if (location.pathname.indexOf(SystemPath.module_security) >= 0) {
+        return [
+          this.home.index(),
+          this.module.index(),
+          this.module.security.all(),
+        ];
       } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
         return [this.home.index(), this.module.index()];
       } else {
@@ -158,6 +164,12 @@ export class SystemBreadcrumbBusiness {
         let item = new SystemBreadcrumbItem();
         item.path = SystemPath.module_security_member;
         item.text = '人员管理';
+        return item;
+      },
+      all: () => {
+        let item = new SystemBreadcrumbItem();
+        item.path = SystemPath.module_security;
+        item.text = '部门管理';
         return item;
       },
     },

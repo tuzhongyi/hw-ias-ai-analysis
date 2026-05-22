@@ -2,9 +2,16 @@
   <div class="system-module-security-department-details-body">
     <div class="system-module-security-department-details-info">
       <ias-system-module-security-department-details-info
+        *ngIf="!member.import.doing"
         [data]="department.data"
         [option]="option"
       ></ias-system-module-security-department-details-info>
+      <ias-system-module-security-department-details-member-other
+        *ngIf="member.import.doing"
+        [departmentId]="department.data.Id"
+        (close)="member.import.doing = false"
+        (import)="member.import.todo($event)"
+      ></ias-system-module-security-department-details-member-other>
     </div>
     <div
       class="system-module-security-department-details-member"
@@ -16,6 +23,8 @@
         (create)="member.on.create(department.data)"
         (update)="member.on.update($event)"
         (delete)="member.on.delete($event)"
+        (import)="member.import.open()"
+        [importing]="member.import.doing"
       ></ias-system-module-security-department-details-member-manager>
     </div>
   </div>

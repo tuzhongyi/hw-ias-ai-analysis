@@ -69,12 +69,20 @@
       </div>
       <div
         class="system-module-index-body-list-item"
-        (click)="on.department()"
+        (click)="on.security()"
         *ngIf="display.security"
       >
         <div class="system-module-index-body-list-item-icon analysis"></div>
         <div class="system-module-index-body-list-item-name">部门管理</div>
       </div>
+      <!-- <div
+        class="system-module-index-body-list-item"
+        (click)="on.member()"
+        *ngIf="display.security"
+      >
+        <div class="system-module-index-body-list-item-icon analysis"></div>
+        <div class="system-module-index-body-list-item-name">人员管理</div>
+      </div> -->
       <div
         class="system-module-index-body-list-item"
         (click)="on.file()"

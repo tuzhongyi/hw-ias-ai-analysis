@@ -33,8 +33,8 @@ export class SystemSecurityDepartmentMemberRequestService {
         throw e;
       });
   }
-  async get(idorusername: string) {
-    let url = ArmSystemUrl.security.department.member.item(idorusername);
+  async get(id: string) {
+    let url = ArmSystemUrl.security.department.member.item(id);
     return this.http
       .get<HowellResponse<DepartmentMember>>(url)
       .then((response) => {
@@ -69,7 +69,7 @@ export class SystemSecurityDepartmentMemberRequestService {
       });
   }
 
-  all(params: GetDepartmentMembersParams) {
+  all(params = new GetDepartmentMembersParams()) {
     return ServiceTool.all((p) => {
       return this.list(p);
     }, params);

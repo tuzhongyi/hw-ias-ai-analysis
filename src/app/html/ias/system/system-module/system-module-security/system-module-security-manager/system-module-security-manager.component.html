@@ -1,0 +1,147 @@
+<div class="system-module-security-manager root-router">
+  <div class="system-module-security-manager-head">
+    <div class="system-module-security-manager-head-tabs tab-group">
+      <div
+        class="tab-item"
+        [class.selected]="department.selected"
+        (click)="on.tab(true)"
+      >
+        <div class="tab-item-inner">部门</div>
+      </div>
+      <div
+        class="tab-item"
+        [class.selected]="member.selected"
+        (click)="on.tab(false)"
+      >
+        <div class="tab-item-inner">员工</div>
+      </div>
+    </div>
+    <div></div>
+    <div
+      class="system-module-security-manager-head-operation"
+      *ngIf="department.selected"
+    >
+      <div class="system-module-security-manager-head-operation-filter forms">
+        <div class="form-item">
+          <div class="form-item-text">部门名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="department.table.args.name" />
+          </div>
+        </div>
+        <div class="form-item submit">
+          <button
+            class="button-clip-gradient"
+            (click)="department.table.search()"
+          >
+            查找
+          </button>
+        </div>
+      </div>
+      <div class="system-module-security-manager-head-operation-buttons">
+        <button class="button-clip-gradient" (click)="department.on.create()">
+          新建
+        </button>
+      </div>
+    </div>
+    <div
+      class="system-module-security-manager-head-operation"
+      *ngIf="member.selected"
+    >
+      <div class="system-module-security-manager-head-operation-filter forms">
+        <div class="form-item">
+          <div class="form-item-text">姓名或手机号</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="member.table.args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-text">部门名称</div>
+          <div class="form-item-value">
+            <ias-input-select-department
+              [auto]="true"
+              [(selected)]="member.table.args.department"
+            ></ias-input-select-department>
+          </div>
+        </div>
+        <div class="form-item submit">
+          <button class="button-clip-gradient" (click)="member.table.search()">
+            查找
+          </button>
+        </div>
+      </div>
+      <div class="system-module-security-manager-head-operation-buttons">
+        <button class="button-clip-gradient" (click)="department.on.create()">
+          新建
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-security-manager-body">
+    <ias-system-module-security-department-table
+      *ngIf="department.selected"
+      [args]="department.table.args"
+      [load]="department.table.load"
+      (details)="department.table.on.details($event)"
+      (delete)="confirm.on.open($event)"
+    ></ias-system-module-security-department-table>
+    <ias-system-module-security-member-table
+      *ngIf="member.selected"
+      [args]="member.table.args"
+      [load]="member.table.load"
+      (details)="member.details.open($event)"
+      (delete)="confirm.on.open($event)"
+    ></ias-system-module-security-member-table>
+  </div>
+
+  <ias-window
+    *ngIf="department.window.details.show"
+    [Model]="department.window.details"
+    [style]="department.window.details.style"
+    [title]="department.window.details.title"
+  >
+    <ias-system-module-security-department-details
+      [data]="department.window.details.data"
+      [confirmok]="confirm.ok.member"
+      (membercreate)="department.member.on.create($event)"
+      (memberupdate)="department.member.on.update($event)"
+      (confirmopen)="confirm.on.open($event)"
+      (confirmclose)="confirm.on.close()"
+      (ok)="department.on.load()"
+      (close)="department.window.details.show = false"
+    ></ias-system-module-security-department-details>
+  </ias-window>
+  <ias-window
+    *ngIf="department.window.member.show"
+    [Model]="department.window.member"
+    [style]="department.window.member.style"
+    [title]="department.window.member.title"
+  >
+    <ias-system-module-security-department-details-member-info
+      [data]="department.window.member.data"
+      [departmentId]="department.window.member.departmentId"
+      (ok)="department.member.on.load()"
+      (close)="department.window.member.show = false"
+    ></ias-system-module-security-department-details-member-info>
+  </ias-window>
+
+  <ias-window
+    *ngIf="member.window.details.show"
+    [Model]="member.window.details"
+    [style]="member.window.details.style"
+    [title]="member.window.details.title"
+  >
+    <ias-system-module-security-member-details
+      [data]="member.window.details.data"
+      (ok)="member.details.changed()"
+      (close)="member.window.details.show = false"
+    ></ias-system-module-security-member-details>
+  </ias-window>
+  <confirm-window
+    *ngIf="confirm.window.show"
+    [model]="confirm.window"
+    [content]="confirm.window.message"
+    (ok)="confirm.on.ok()"
+    (cancel)="confirm.on.close()"
+  >
+  </confirm-window>
+</div>

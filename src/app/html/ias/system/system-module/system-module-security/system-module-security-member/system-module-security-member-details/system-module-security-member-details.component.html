@@ -1,0 +1,49 @@
+<div class="system-module-security-member-details root-router">
+  <div class="system-module-security-member-details-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">员工姓名</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.Name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">手机号码</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.MobileNo" />
+        </div>
+      </div>
+      <div class="form-item textarea">
+        <div class="form-item-text baseline">所属部门</div>
+        <div class="form-item-value fill">
+          <div class="panel panel-flex">
+            <label
+              [for]="'department_item_' + item.key"
+              *ngFor="let item of department.datas | keyvalue"
+            >
+              <input
+                type="checkbox"
+                [id]="'department_item_' + item.key"
+                [checked]="department.selected.includes(item.key)"
+                (change)="department.change(item.value)"
+              />
+              {{ item.value.Name }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-item textarea">
+        <div class="form-item-text baseline">描述信息</div>
+        <div class="form-item-value">
+          <textarea [(ngModel)]="data.Description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-security-member-details-foot">
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+      <button class="button-clip-blue" (click)="on.close()">取消</button>
+    </div>
+  </div>
+</div>

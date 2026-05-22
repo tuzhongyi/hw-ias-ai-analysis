@@ -1,0 +1,86 @@
+.system-module-security-member-table {
+  height: 100%;
+  width: 100%;
+  display: block;
+
+  @foot-height: 60px;
+
+  &-body {
+    height: calc(100% - @foot-height);
+
+    .image {
+      height: 80%;
+      cursor: pointer;
+    }
+
+    .noimage {
+      height: 100%;
+    }
+
+    table {
+      thead {
+        tr {
+          th {
+            white-space: nowrap;
+          }
+        }
+      }
+
+      tbody {
+        height: 100%;
+
+        tr {
+          height: 10%;
+
+          td {
+            height: 10%;
+
+            .datetime {
+              min-width: 200px;
+            }
+
+            .video {
+              cursor: pointer;
+
+              flex-shrink: 0;
+              overflow: hidden;
+              box-sizing: border-box;
+              display: flex;
+              align-items: center;
+              // max-height: 60px;
+              height: 40px;
+              aspect-ratio: 16/9;
+            }
+
+            .types {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+
+              &>* {
+                padding: 1px 5px;
+                white-space: nowrap;
+                border: 1px solid;
+                border-radius: 5px;
+
+              }
+            }
+          }
+        }
+      }
+
+
+
+    }
+
+
+
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

@@ -48,8 +48,14 @@ export class SystemModuleIndexComponent {
     file: () => {
       this.router.navigateByUrl(SystemPath.module_file);
     },
+    security: () => {
+      this.router.navigateByUrl(SystemPath.module_security);
+    },
     department: () => {
       this.router.navigateByUrl(SystemPath.module_security_department);
+    },
+    member: () => {
+      this.router.navigateByUrl(SystemPath.module_security_member);
     },
   };
 }
