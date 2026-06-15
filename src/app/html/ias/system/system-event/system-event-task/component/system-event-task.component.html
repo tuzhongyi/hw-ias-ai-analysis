@@ -3,6 +3,7 @@
     <div class="panel timeline">
       <ias-system-event-task-timeline
         [data]="data"
+        [load]="timeline.load"
       ></ias-system-event-task-timeline>
     </div>
     <div class="panel assgin">
@@ -14,6 +15,7 @@
         <button
           class="button-clip-gradient"
           *ngIf="!data?.Assignment?.Assigned"
+          (click)="on.assgin()"
         >
           派单
         </button>

@@ -71,7 +71,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
   };
   private subscription = new Subscription();
   private controller = new SystemModuleRoadObjectVideoMapController(
-    this.subscription
+    this.subscription,
   );
 
   ngOnInit(): void {
@@ -186,7 +186,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
             let sub_line = this.controller.object.line.event.dblclick.subscribe(
               (x) => {
                 this.objectdblclick.emit(x);
-              }
+              },
             );
             this.subscription.add(sub_line);
           },
@@ -194,7 +194,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
             let sub_point = this.controller.object.point.event.click.subscribe(
               (x) => {
                 this.objectclick.emit(x);
-              }
+              },
             );
             this.subscription.add(sub_point);
           },
@@ -204,7 +204,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
             let sub_line = this.controller.object.line.event.click.subscribe(
               (x) => {
                 this.lineclick.emit(x);
-              }
+              },
             );
             this.subscription.add(sub_line);
           },
@@ -212,7 +212,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
             let sub_line = this.controller.object.line.event.dblclick.subscribe(
               (x) => {
                 this.linedblclick.emit(x);
-              }
+              },
             );
             this.subscription.add(sub_line);
           },
@@ -233,7 +233,7 @@ export class SystemModuleRoadObjectVideoMapContainerComponent
           if (this.data) {
             let datas = await this.business.gps(
               this.data.FileName,
-              this.rectified
+              this.rectified,
             );
             this.controller.path.load(datas, false);
             if (this.time.current) {

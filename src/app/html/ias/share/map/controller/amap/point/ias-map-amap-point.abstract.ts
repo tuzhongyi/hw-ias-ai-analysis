@@ -16,7 +16,7 @@ export abstract class IASMapAMapPointAbstract {
   };
   constructor(
     private container: Loca.Container,
-    zooms: [number, number] = IASMapAMapConfig.point.zooms
+    zooms: [number, number] = IASMapAMapConfig.point.zooms,
   ) {
     this.layer = this.init(zooms);
   }
@@ -43,10 +43,11 @@ export abstract class IASMapAMapPointAbstract {
       (x) =>
         [x.Location!.GCJ02.Longitude, x.Location!.GCJ02.Latitude] as [
           number,
-          number
-        ]
+          number,
+        ],
     );
     let geo = this.converter.geo.point(positions, points);
+
     this.layer.setSource(geo);
     this.layer.setStyle(this.style);
     this.container.add(this.layer);

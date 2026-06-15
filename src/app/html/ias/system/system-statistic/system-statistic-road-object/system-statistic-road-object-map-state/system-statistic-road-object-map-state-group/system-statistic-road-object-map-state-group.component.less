@@ -1,14 +1,17 @@
 .system-statistic-road-object-map-state-group {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   gap: 10px;
   width: 120px;
+  pointer-events: none;
+  width: 100%;
 
   &-container {
+    pointer-events: all;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 100%;
+    width: max-content;
 
     ias-system-statistic-road-object-map-state-item {
       transition: opacity 0.5s;

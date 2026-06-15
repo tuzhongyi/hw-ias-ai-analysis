@@ -60,7 +60,11 @@ export class SystemModuleRoadObjectVideoAMapController {
 
   constructor(private subscription: Subscription) {
     MapHelper.amap
-      .get('system-task-file-details-map-container', undefined, true)
+      .get(
+        'system-module-road-object-video-map-container',
+        MapHelper.amap.plugins,
+        true,
+      )
       .then((x) => {
         let container = this.init.map(x);
         let info = this.init.info(x);
@@ -70,6 +74,9 @@ export class SystemModuleRoadObjectVideoAMapController {
         this.init.roadobject.point(container);
         this.init.roadobject.marker(x, info);
         this.init.roadobject.polyline(x, container);
+      })
+      .catch((e) => {
+        console.error(e);
       });
   }
 
@@ -99,7 +106,7 @@ export class SystemModuleRoadObjectVideoAMapController {
       point: (map: AMap.Map, subscription: Subscription) => {
         let point = new SystemTaskFileDetailsAMapPickupPointController(
           map,
-          subscription
+          subscription,
         );
         this.pickup.point.set(point);
         this.regist.point(point);
@@ -122,7 +129,7 @@ export class SystemModuleRoadObjectVideoAMapController {
         let ctr = new SystemMainMapAMapRoadObjectMarkerLayerController(
           map,
           info,
-          this.subscription
+          this.subscription,
         );
         let sub1 = ctr.event.click.subscribe((x) => {
           this.event.road.object.point.click.emit(x);
@@ -310,7 +317,7 @@ export class SystemModuleRoadObjectVideoAMapController {
       let polylines = splited
         .map((items, i) => {
           let positions = items.map(
-            (x) => [x.Longitude, x.Latitude] as [number, number]
+            (x) => [x.Longitude, x.Latitude] as [number, number],
           );
           let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
           let path = new IASMapAMapPathController(map, type);

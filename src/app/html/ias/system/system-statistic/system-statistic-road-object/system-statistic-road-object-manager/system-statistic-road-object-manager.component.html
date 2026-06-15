@@ -4,6 +4,7 @@
       <div class="system-statistic-road-object-head-filter forms">
         <div class="form-item" *ngIf="data.device.data.length > 1">
           <select [(ngModel)]="data.device.selected" (change)="on.device()">
+            <option [ngValue]="undefined">全部</option>
             <option *ngFor="let item of data.device.data" [ngValue]="item">
               {{ item.Name }}
             </option>
@@ -68,6 +69,7 @@
       <ias-system-statistic-road-object-map
         [records]="data.record.view"
         [path]="data.path"
+        [focus]="map.focus"
         [selected]="data.record.selected"
         (selectedChange)="on.select($event)"
         (recorddblclick)="on.details($event)"
@@ -142,10 +144,10 @@
   ></ias-picture-list>
 </ias-window>
 <ias-window
-  [Model]="window.video"
-  *ngIf="window.video.show"
-  [style]="window.video.style"
-  [title]="window.video.title"
+  [Model]="window.video.event"
+  *ngIf="window.video.event.show"
+  [style]="window.video.event.style"
+  [title]="window.video.event.title"
   [CloseButton]="false"
   [mask]="!window.opened"
 >
@@ -155,8 +157,8 @@
         <div class="form-item-text">前后时长</div>
         <div class="form-item-value">
           <select
-            [(ngModel)]="window.video.args.duration"
-            (change)="window.video.change()"
+            [(ngModel)]="window.video.event.args.duration"
+            (change)="window.video.event.change()"
           >
             <option [ngValue]="5">5秒</option>
             <option [ngValue]="10">10秒</option>
@@ -170,10 +172,10 @@
         <div class="form-item-value">
           <hw-select
             [nullable]="true"
-            [(selected)]="window.video.args.channel"
-            (selectedChange)="window.video.change()"
+            [(selected)]="window.video.event.args.channel"
+            (selectedChange)="window.video.event.change()"
           >
-            <select [(ngModel)]="window.video.args.channel">
+            <select [(ngModel)]="window.video.event.args.channel">
               <option *ngFor="let item of data.channels" [ngValue]="item.Value">
                 {{ item.Name }}
               </option>
@@ -182,14 +184,52 @@
         </div>
       </div>
       <div class="form-item">
-        <div class="button" (click)="window.video.show = false">
+        <div class="button" (click)="window.video.event.show = false">
           <i class="howell-icon-Close"></i>
         </div>
       </div>
     </div>
   </div>
   <ias-system-event-video
-    [data]="window.video.data"
-    [args]="window.video.args"
+    [data]="window.video.event.data"
+    [args]="window.video.event.args"
   ></ias-system-event-video>
+</ias-window>
+<ias-window
+  [Model]="window.video.file"
+  *ngIf="window.video.file.show"
+  [style]="window.video.file.style"
+  [title]="window.video.file.title"
+  [CloseButton]="false"
+  [mask]="!window.opened"
+>
+  <div ngProjectAs="window-head-operation" class="window-video-operation">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">摄像机:</div>
+        <div class="form-item-value">
+          <hw-select
+            [nullable]="false"
+            [(selected)]="window.video.file.selected"
+            (selectedChange)="window.video.file.change()"
+          >
+            <select [(ngModel)]="window.video.file.selected">
+              <option
+                *ngFor="let item of window.video.file.resources"
+                [ngValue]="item"
+              >
+                {{ item.ResourceName }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="button" (click)="window.video.file.show = false">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <video [src]="window.video.file.src" autoplay="autoplay" controls></video>
 </ias-window>

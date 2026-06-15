@@ -6,8 +6,18 @@ import { PathTool } from '../../../../../../../../../common/tools/path-tool/path
 import { SizeTool } from '../../../../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemMainMapAMapRoadObjectIconController {
+  private isline = false;
   private size(): [number, number] {
+    if (this.isline) {
+      return [SizeTool.map.object.width, SizeTool.map.object.width];
+    }
     return [SizeTool.map.object.width, SizeTool.map.object.height];
+  }
+  private anchor() {
+    if (this.isline) {
+      return 'center';
+    }
+    return 'bottom-center';
   }
 
   private get opts(): AMap.LabelMarkerIconOptions {
@@ -15,14 +25,21 @@ export class SystemMainMapAMapRoadObjectIconController {
       type: 'image',
       image: PathTool.image.map.object.unknow.gray.normal,
       size: this.size(),
-      anchor: 'bottom-center',
+      anchor: this.anchor(),
     };
     return icon;
   }
   get(
     type?: RoadObjectType,
-    args?: { state?: RoadObjectState; event?: RoadObjectEventType }
+    args?: {
+      state?: RoadObjectState;
+      event?: RoadObjectEventType;
+      isline?: boolean;
+    },
   ) {
+    if (args?.isline) {
+      this.isline = true;
+    }
     let image = PathTool.image.map.object.get(type, args);
     return {
       normal: {

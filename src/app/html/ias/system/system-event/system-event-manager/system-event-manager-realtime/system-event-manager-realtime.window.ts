@@ -24,6 +24,7 @@ export class SystemEventManagerRealtimeWindow {
   details = new DetailsWindow();
   process = new ProcessWindow();
   map = new MapWindow();
+  assgin = new AssginWindow();
 
   get opened() {
     return this.task.show || this.details.show || this.process.show;
@@ -147,5 +148,13 @@ class MapWindow extends WindowViewModel {
   };
   title = '实时事件';
   args = new SystemEventMapArgs();
+  mode = MobileEventRecordMode.realtime;
+}
+class AssginWindow extends WindowViewModel {
+  style = {
+    ...SizeTool.window.middle,
+  };
+  title = '事件派单';
+  data?: MobileEventRecord;
   mode = MobileEventRecordMode.realtime;
 }

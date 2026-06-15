@@ -12,7 +12,7 @@ export class SystemMainMapRoadObjectPointController {
 
   constructor(
     private amap: SystemModuleRoadObjectVideoAMapController,
-    subscription: Subscription
+    subscription: Subscription,
   ) {
     this.regist(subscription);
   }

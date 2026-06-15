@@ -71,7 +71,7 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
     map: (data: RoadObjectEventRecord) => {
       this.map.marker.path = PathTool.image.map.object.get(
         data.RoadObjectType,
-        { event: data.EventType }
+        { event: data.EventType },
       );
     },
     object: (data: RoadObjectEventRecord) => {
@@ -120,7 +120,7 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
             this.record.picture.src = this.record.resource.ImageUrl ?? '';
             if (this.record.resource.Objects) {
               this.record.picture.polygon = this.record.resource.Objects.map(
-                (x) => x.Polygon ?? []
+                (x) => x.Polygon ?? [],
               );
             }
           }
@@ -150,7 +150,7 @@ export class SystemEventRoadObjectDetailsManagerComponent implements OnInit {
           let paged = PagedList.create(
             this.data.Resources,
             this.record.picture.page.data.PageIndex,
-            1
+            1,
           );
           paged.Data = [...this.data.Resources];
           this.picture.emit(paged);

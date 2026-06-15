@@ -1,0 +1,59 @@
+<div class="system-event-task-assgin-to">
+  <div class="system-event-task-assgin-to-body">
+    <div class="system-event-task-assgin-to-department panel panel-flex blue">
+      <div class="panel-head">
+        <div class="panel-title">部门列表</div>
+      </div>
+      <div class="panel-body system-event-task-assgin-to-departments">
+        <div
+          class="system-event-task-assgin-to-department-item button"
+          (click)="department.select()"
+          [class.selected]="!department.selected"
+        >
+          全部
+        </div>
+        <div
+          class="system-event-task-assgin-to-department-item button"
+          *ngFor="let item of department.datas"
+          (click)="department.select(item)"
+          [class.selected]="department.selected?.Id === item.Id"
+        >
+          {{ item.Name }}
+        </div>
+      </div>
+    </div>
+    <div class="system-event-task-assgin-to-member panel panel-flex">
+      <div class="panel-head">
+        <div class="panel-title">员工列表</div>
+        <div class="forms">
+          <div class="form-item">
+            <div class="form-item-text">姓名或手机号</div>
+            <div class="form-item-value">
+              <input type="text" [(ngModel)]="member.args.name" />
+            </div>
+          </div>
+          <div class="form-item submit">
+            <button class="button-clip-gradient" (click)="member.search()">
+              查找
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <ias-system-module-security-department-details-member-table
+          [multiple]="false"
+          [operable]="false"
+          [args]="member.args"
+          [load]="member.load"
+          [(selected)]="member.selected"
+        ></ias-system-module-security-department-details-member-table>
+      </div>
+    </div>
+  </div>
+  <div class="system-event-task-assgin-to-foot">
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确认</button>
+      <button class="button-clip-blue" (click)="on.close()">取消</button>
+    </div>
+  </div>
+</div>

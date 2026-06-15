@@ -15,9 +15,14 @@ export class SystemModuleSecurityDepartmentDetailsMemberTableBusiness {
       let all = await this.department.all();
       let ids = all.filter((x) => x.Id != args.departmentId).map((x) => x.Id);
       params.DepartmentIds = [...ids];
-    } else {
+    } else if (args.departmentId) {
       params.DepartmentIds = [args.departmentId];
     }
+
+    if (args.name) {
+      params.NameOrMobileNo = args.name;
+    }
+
     return this.service.security.department.member.all(params);
   }
 
@@ -32,7 +37,7 @@ export class SystemModuleSecurityDepartmentDetailsMemberTableBusiness {
     for (let i = 0; i < 100; i++) {
       let item = new DepartmentMember();
       item.CreationTime = new Date();
-      item.DepartmentIds = [args.departmentId];
+      item.DepartmentIds = args.departmentId ? [args.departmentId] : [];
       item.Id = (i + 1).toString();
       item.MobileNo = `13700000${item.Id.padStart(3, '0')}`;
       item.Name = `测试${item.Id.padStart(3, '0')}`;

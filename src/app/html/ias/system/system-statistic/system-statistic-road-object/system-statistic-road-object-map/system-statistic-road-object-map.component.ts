@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
+import { Manager } from '../../../../../../common/data-core/requests/managers/manager';
 import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool';
 import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
 import { wait } from '../../../../../../common/tools/wait';
@@ -35,17 +36,20 @@ export class SystemStatisticRoadObjectMapComponent
   @Input() path: FileGpsItem[][] = [];
 
   @Output() recorddblclick = new EventEmitter<RoadObjectEventRecord>();
+  @Input() focus?: EventEmitter<void>;
 
-  constructor(tool: ComponentTool) {
+  constructor(tool: ComponentTool, manager: Manager) {
     this.controller = new SystemStatisticRoadObjectMapController(
       tool,
-      this.subscription
+      this.subscription,
+      manager,
     );
   }
 
   private subscription = new Subscription();
   private controller: SystemStatisticRoadObjectMapController;
   private inited = false;
+  private focusing = false;
 
   private load = {
     road: async () => {
@@ -60,24 +64,31 @@ export class SystemStatisticRoadObjectMapComponent
       await this.controller.record.blur();
       await this.controller.record.clear();
       if (this.records.length > 0) {
-        this.controller.record.load(this.records);
+        await this.controller.record.load(this.records);
       }
     },
     path: async () => {
       await this.controller.record.blur();
       await this.controller.path.clear();
-      this.controller.path.load(this.path, true);
+      await this.controller.path.load(this.path, true);
     },
   };
 
   private change = {
-    records: (simple: SimpleChange) => {
+    path: async (simple: SimpleChange) => {
       if (simple && !simple.firstChange) {
-        wait(() => {
+        await wait(() => {
           return this.inited;
-        }).then(() => {
-          this.load.records();
         });
+        await this.load.path();
+      }
+    },
+    records: async (simple: SimpleChange) => {
+      if (simple && !simple.firstChange) {
+        await wait(() => {
+          return this.inited;
+        });
+        await this.load.records();
       }
     },
     selected: (simple: SimpleChange) => {
@@ -106,33 +117,40 @@ export class SystemStatisticRoadObjectMapComponent
         }
       }
     },
-    path: (simple: SimpleChange) => {
-      if (simple && !simple.firstChange) {
-        wait(() => {
-          return this.inited;
-        }).then(() => {
-          this.load.path();
-        });
-      }
-    },
   };
 
   ngOnInit(): void {
     this.load.road();
     this.load.records();
     this.regist.record();
+    this.regist.focus();
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.controller.map.destroy();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.change.records(changes['records']);
-    this.change.selected(changes['selected']);
-    this.change.path(changes['path']);
+    Promise.all([
+      this.change.records(changes['records']),
+      this.change.selected(changes['selected']),
+      this.change.path(changes['path']),
+    ]).then((x) => {
+      if (this.focusing) {
+        this.controller.map.focus();
+        this.focusing = false;
+      }
+    });
   }
 
   private regist = {
+    focus: () => {
+      if (this.focus) {
+        let sub = this.focus.subscribe((x) => {
+          this.focusing = true;
+        });
+        this.subscription.add(sub);
+      }
+    },
     record: () => {
       this.controller.event.record.click = (data) => {
         this.selectedChange.emit(data);

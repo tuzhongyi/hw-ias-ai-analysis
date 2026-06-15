@@ -12,7 +12,10 @@ class RoadObjectEventRecordModel
   }
 }
 export class SystemStatisticRoadObjectAMapRecordMarkerLabelController extends IASMapAMapMarkerLabelAbstract<RoadObjectEventRecordModel> {
-  constructor(data: RoadObjectEventRecordModel) {
+  constructor(
+    data: RoadObjectEventRecordModel,
+    private isline: boolean,
+  ) {
     super(data);
     this.icon = this.init();
     this.out();
@@ -24,12 +27,15 @@ export class SystemStatisticRoadObjectAMapRecordMarkerLabelController extends IA
     return {
       normal: this._icon.get(this.data.RoadObjectType, {
         event: this.data.EventType,
+        isline: this.isline,
       }).normal,
       hover: this._icon.get(this.data.RoadObjectType, {
         event: this.data.EventType,
+        isline: this.isline,
       }).hover,
       selected: this._icon.get(this.data.RoadObjectType, {
         event: this.data.EventType,
+        isline: this.isline,
       }).selected,
     };
   }

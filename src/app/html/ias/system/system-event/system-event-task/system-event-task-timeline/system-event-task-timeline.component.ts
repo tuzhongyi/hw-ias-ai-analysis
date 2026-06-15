@@ -32,7 +32,11 @@ export class SystemEventTaskTimelineComponent implements OnInit, AfterViewInit {
   private get element() {
     return new Promise<ElementRef<HTMLDivElement>>((resolve) => {
       wait(() => {
-        return !!this._element;
+        return (
+          !!this._element &&
+          this._element.nativeElement.clientWidth > 0 &&
+          this._element.nativeElement.clientHeight > 0
+        );
       }).then(() => {
         resolve(this._element!);
       });

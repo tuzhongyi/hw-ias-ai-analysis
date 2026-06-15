@@ -229,8 +229,25 @@
     *ngIf="window.task.show"
     [style]="window.task.style"
     [title]="'AI分析工单'"
+    (close)="task.close()"
   >
-    <ias-system-event-task [data]="window.task.data"></ias-system-event-task>
+    <ias-system-event-task
+      [data]="window.task.data"
+      (assgin)="task.assgin.open($event)"
+    ></ias-system-event-task>
+  </ias-window>
+
+  <ias-window
+    [Model]="window.assgin"
+    *ngIf="window.assgin.show"
+    [style]="window.assgin.style"
+    [title]="window.assgin.title"
+  >
+    <ias-system-event-task-assgin-to
+      [data]="window.assgin.data"
+      (ok)="task.assgin.ok($event)"
+      (close)="window.assgin.show = false"
+    ></ias-system-event-task-assgin-to>
   </ias-window>
   <ias-window
     [Model]="window.process"

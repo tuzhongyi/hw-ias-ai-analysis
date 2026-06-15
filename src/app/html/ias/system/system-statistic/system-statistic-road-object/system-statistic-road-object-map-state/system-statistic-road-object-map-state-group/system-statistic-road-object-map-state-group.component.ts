@@ -103,7 +103,7 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
         item.value = this.source.filter(
           (x) =>
             x.EventType == _enum.Value &&
-            (!this.deviceId || x.DeviceId == this.deviceId)
+            (!this.deviceId || x.DeviceId == this.deviceId),
         ).length;
         this.eventtype.datas.push(item);
       }
@@ -122,7 +122,7 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
           item.value = this.view.filter(
             (x) =>
               x.EventType == item.type &&
-              (!this.deviceId || x.DeviceId == this.deviceId)
+              (!this.deviceId || x.DeviceId == this.deviceId),
           ).length;
         });
       }
@@ -170,7 +170,7 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
     selected: undefined as SystemStatisticRoadObjectMapStateItem | undefined,
     load: async () => {
       this.objecttype.datas = [];
-      let enums = await this.manager.source.road.object.PointObjectTypes.get();
+      let enums = await this.manager.source.road.object.ObjectTypes.get();
       for (let i = 0; i < enums.length; i++) {
         let _enum = enums[i];
         let item = await this.objecttype.create.item(_enum.Value, _enum.Name);
@@ -178,7 +178,7 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
         item.value = this.source.filter(
           (x) =>
             x.RoadObjectType == _enum.Value &&
-            (!this.deviceId || x.DeviceId == this.deviceId)
+            (!this.deviceId || x.DeviceId == this.deviceId),
         ).length;
         this.objecttype.datas.push(item);
       }
@@ -189,14 +189,14 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
         this.objecttype.selected.value = this.view.filter(
           (x) =>
             x.RoadObjectType == this.objecttype.selected?.type &&
-            (!this.deviceId || x.DeviceId == this.deviceId)
+            (!this.deviceId || x.DeviceId == this.deviceId),
         ).length;
       } else {
         this.objecttype.datas.forEach((item) => {
           item.value = this.view.filter(
             (x) =>
               x.RoadObjectType == item.type &&
-              (!this.deviceId || x.DeviceId == this.deviceId)
+              (!this.deviceId || x.DeviceId == this.deviceId),
           ).length;
         });
       }

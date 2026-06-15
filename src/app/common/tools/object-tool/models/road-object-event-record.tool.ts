@@ -2,6 +2,7 @@ import { RoadObjectEventType } from '../../../data-core/enums/road/road-object/r
 import { RoadObjectType } from '../../../data-core/enums/road/road-object/road-object-type.enum';
 import { FileGpsItem } from '../../../data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../data-core/models/arm/geographic/road-object-event-record.model';
+import { ColorTool } from '../../color/color.tool';
 import { GeoLine, GeoPoint } from '../../geo-tool/geo.model';
 import { GeoTool } from '../../geo-tool/geo.tool';
 import { MathTool } from '../../math-tool/math.tool';
@@ -11,7 +12,7 @@ export class RoadObjectEventRecordTool {
   findMatchWithFoot(
     list: FileGpsItem[],
     target: RoadObjectEventRecord,
-    timeWindow = 5000
+    timeWindow = 5000,
   ): Result | undefined {
     if (list.length < 2) return;
 
@@ -19,7 +20,7 @@ export class RoadObjectEventRecordTool {
     const gcj02 = target.Location?.GCJ02;
     const targetPosition = [gcj02?.Longitude, gcj02?.Latitude] as [
       number,
-      number
+      number,
     ];
 
     // 1️⃣ 找时间最近点
@@ -58,7 +59,7 @@ export class RoadObjectEventRecordTool {
     for (const item of candidates) {
       const dist = MathTool.distance(
         [item.point.Longitude, item.point.Latitude],
-        targetPosition
+        targetPosition,
       );
       if (dist < minDist) {
         minDist = dist;
@@ -81,11 +82,11 @@ export class RoadObjectEventRecordTool {
     for (const seg of segments) {
       const A = [list[seg.start].Longitude, list[seg.start].Latitude] as [
         number,
-        number
+        number,
       ];
       const B = [list[seg.end].Longitude, list[seg.end].Latitude] as [
         number,
-        number
+        number,
       ];
       const P = targetPosition;
 
@@ -115,7 +116,7 @@ export class RoadObjectEventRecordTool {
   findBestMatch(
     list: FileGpsItem[],
     target: RoadObjectEventRecord,
-    timeWindow = 1000 * 60 // ms
+    timeWindow = 1000 * 60, // ms
   ): MatchResult | undefined {
     if (!list.length) return;
 
@@ -123,7 +124,7 @@ export class RoadObjectEventRecordTool {
     const gcj02 = target.Location?.GCJ02;
     const targetPosition = [gcj02?.Longitude, gcj02?.Latitude] as [
       number,
-      number
+      number,
     ];
 
     // 1️⃣ 找时间最接近的点
@@ -164,7 +165,7 @@ export class RoadObjectEventRecordTool {
     for (const item of candidates) {
       const dist = GeoTool.point.distance(
         [item.point.Longitude, item.point.Latitude],
-        targetPosition
+        targetPosition,
       );
 
       if (dist < minDist) {
@@ -194,20 +195,39 @@ export class RoadObjectEventRecordTool {
         }
       },
       object: (type: RoadObjectType) => {
-        switch (type) {
-          case RoadObjectType.FireHydrant:
-            return 'sky';
-          case RoadObjectType.BusStation:
-            return 'cyan';
-          case RoadObjectType.Passage:
-            return 'pink';
-          case RoadObjectType.TelephoneBooth:
-            return 'purple';
-          case RoadObjectType.TrashCan:
-            return 'white';
-          default:
-            return '';
+        let index = type;
+
+        if (index >= 1) {
+          index++;
         }
+        if (index >= 3) {
+          index++;
+        }
+        if (index >= 6) {
+          index++;
+        }
+
+        let hex = ColorTool.get.index(index, 10);
+        let rgb = ColorTool.hex.to.rgb(hex);
+        return {
+          r: rgb.R,
+          g: rgb.G,
+          b: rgb.B,
+        };
+        // switch (type) {
+        //   case RoadObjectType.FireHydrant:
+        //     return 'sky';
+        //   case RoadObjectType.BusStation:
+        //     return 'cyan';
+        //   case RoadObjectType.Passage:
+        //     return 'pink';
+        //   case RoadObjectType.TelephoneBooth:
+        //     return 'purple';
+        //   case RoadObjectType.TrashCan:
+        //     return 'white';
+        //   default:
+        //     return '';
+        // }
       },
     },
     icon: {

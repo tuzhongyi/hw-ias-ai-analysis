@@ -10,6 +10,7 @@ import { HowellResponseProcess } from '../../../service-process';
 import { SystemEventHandleRequestService } from './handle/system-event-handle.service';
 import { SystemEventNumberRequestService } from './number/system-event-number.service';
 import {
+  EventAssginParams,
   EventBlockedParams,
   GetMobileEventFileGpsItemsParams,
   GetMobileEventFileParams,
@@ -54,11 +55,14 @@ export class SystemEventRequestService {
     });
   }
 
-  async assgin(id: string) {
+  async assgin(id: string, params: EventAssginParams) {
     let url = ArmSystemUrl.event.assgin(id);
-    return this.http.post<HowellResponse<MobileEventRecord>>(url).then((x) => {
-      return HowellResponseProcess.item(x, MobileEventRecord);
-    });
+    let plain = instanceToPlain(params);
+    return this.http
+      .post<HowellResponse<MobileEventRecord>, any>(url, plain)
+      .then((x) => {
+        return HowellResponseProcess.item(x, MobileEventRecord);
+      });
   }
 
   async capability() {

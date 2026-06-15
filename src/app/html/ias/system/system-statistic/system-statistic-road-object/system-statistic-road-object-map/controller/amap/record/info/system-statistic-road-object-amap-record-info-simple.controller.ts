@@ -3,7 +3,10 @@ import { ComponentTool } from '../../../../../../../../../../common/tools/compon
 import { SystemStatisticRoadObjectMapInfoSimpleComponent } from '../../../../../system-statistic-road-object-map-info/system-statistic-road-object-map-info-simple/system-statistic-road-object-map-info-simple.component';
 
 export class SystemStatisticRoadObjectAMapRecordInfoSimpleController {
-  constructor(private map: AMap.Map, private tool: ComponentTool) {
+  constructor(
+    private map: AMap.Map,
+    private tool: ComponentTool,
+  ) {
     this.marker = this.init();
   }
 
@@ -16,7 +19,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoSimpleController {
     });
   }
 
-  add(data: RoadObjectEventRecord) {
+  add(data: RoadObjectEventRecord, isline: boolean) {
     if (data.Location) {
       let content = this.get.html(data);
       this.marker.setContent(content);
@@ -25,7 +28,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoSimpleController {
         data.Location.GCJ02.Longitude,
         data.Location.GCJ02.Latitude,
       ] as [number, number];
-
+      this.marker.setOffset(this.get.offset(isline));
       this.marker.setPosition(position);
       this.map.add(this.marker);
     }
@@ -39,10 +42,16 @@ export class SystemStatisticRoadObjectAMapRecordInfoSimpleController {
     html: (data: RoadObjectEventRecord) => {
       let component = this.tool.create(
         SystemStatisticRoadObjectMapInfoSimpleComponent,
-        { data: data, anchor: 'bottom' }
+        { data: data, anchor: 'bottom' },
       );
       let html = this.tool.get.html(component);
       return html.firstElementChild as HTMLElement;
+    },
+    offset: (isline: boolean) => {
+      if (isline) {
+        return new AMap.Pixel(0, -30);
+      }
+      return new AMap.Pixel(0, -62);
     },
   };
 }

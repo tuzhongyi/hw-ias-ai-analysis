@@ -1,5 +1,6 @@
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
+import { Manager } from '../../../../../../../../common/data-core/requests/managers/manager';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { ComponentTool } from '../../../../../../../../common/tools/component-tool/component.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
@@ -31,7 +32,11 @@ export class SystemStatisticRoadObjectAMapController {
     return this.controller.way.get();
   }
 
-  constructor(tool: ComponentTool, subscription: Subscription) {
+  constructor(
+    tool: ComponentTool,
+    subscription: Subscription,
+    manager: Manager,
+  ) {
     MapHelper.amap
       .get('system-statistic-road-object-map', [], true, {
         showLabel: true, // 隐藏所有标签
@@ -49,7 +54,7 @@ export class SystemStatisticRoadObjectAMapController {
 
         this.init.road(map, container);
 
-        this.init.record(map, tool, subscription);
+        this.init.record(map, tool, subscription, manager);
 
         this.init.path(map, container);
         this.init.way(map);
@@ -98,11 +103,13 @@ export class SystemStatisticRoadObjectAMapController {
     record: (
       map: AMap.Map,
       tool: ComponentTool,
-      subscription: Subscription
+      subscription: Subscription,
+      manager: Manager,
     ) => {
       let marker = new SystemStatisticRoadObjectAMapRecordMarkerLayerController(
         map,
-        subscription
+        subscription,
+        manager,
       );
 
       this.controller.record.marker.set(marker);
@@ -110,7 +117,7 @@ export class SystemStatisticRoadObjectAMapController {
         new SystemStatisticRoadObjectAMapRecordInfoDetailsController(
           map,
           tool,
-          subscription
+          subscription,
         );
       this.controller.record.info.details.set(info_details);
       let info_simple =
@@ -137,7 +144,7 @@ export class SystemStatisticRoadObjectAMapController {
       let polylines = datas
         .map((items, i) => {
           let positions = items.map(
-            (x) => [x.Longitude, x.Latitude] as [number, number]
+            (x) => [x.Longitude, x.Latitude] as [number, number],
           );
           points.push(...positions);
           let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;

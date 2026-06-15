@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
+import { Manager } from '../../../../../../../common/data-core/requests/managers/manager';
 import { ComponentTool } from '../../../../../../../common/tools/component-tool/component.tool';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
 import { IIASMapMarkerEvent } from '../../../../../share/map/ias-map.model';
@@ -13,9 +14,22 @@ export class SystemStatisticRoadObjectMapController {
   };
   private amap: SystemStatisticRoadObjectAMapController;
 
-  constructor(tool: ComponentTool, private subscription: Subscription) {
-    this.amap = new SystemStatisticRoadObjectAMapController(tool, subscription);
+  constructor(
+    tool: ComponentTool,
+    private subscription: Subscription,
+    private manager: Manager,
+  ) {
+    this.amap = new SystemStatisticRoadObjectAMapController(
+      tool,
+      subscription,
+      manager,
+    );
     this.regist(this.amap);
+  }
+
+  private async isline(data: RoadObjectEventRecord) {
+    let lines = await this.manager.source.road.object.LineObjectTypes.get();
+    return lines.some((x) => x.Value == data.RoadObjectType);
   }
 
   private async regist(amap: SystemStatisticRoadObjectAMapController) {
@@ -39,7 +53,9 @@ export class SystemStatisticRoadObjectMapController {
       this.amap.record.info.details.then((details) => {
         if (!details.opened(data))
           this.amap.record.info.simple.then((simple) => {
-            simple.add(data);
+            this.isline(data).then((x) => {
+              simple.add(data, x);
+            });
           });
       });
     });
@@ -82,7 +98,8 @@ export class SystemStatisticRoadObjectMapController {
       let marker = await this.amap.record.marker;
       marker.select(data);
       let info = await this.amap.record.info.details;
-      info.open(data);
+      let isline = await this.isline(data);
+      await info.open(data, isline);
       if (data.Location) {
         let position: [number, number] = [
           data.Location.GCJ02.Longitude,
@@ -107,7 +124,7 @@ export class SystemStatisticRoadObjectMapController {
       let closest = ObjectTool.model.RoadObjectEventRecord.findMatchWithFoot(
         datas,
         record,
-        1000 * 60
+        1000 * 60,
       );
 
       if (closest) {
@@ -129,7 +146,7 @@ export class SystemStatisticRoadObjectMapController {
   };
 
   map = {
-    focus: async (datas: any) => {
+    focus: async (datas?: any) => {
       let map = await this.amap.map;
       map.setFitView(datas, true);
       let center = map.getCenter();

@@ -1,5 +1,5 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
@@ -59,7 +59,7 @@ import { SystemStatisticRoadObjectManagerWindow } from './system-statistic-road-
 export class SystemStatisticRoadObjectManagerComponent implements OnInit {
   constructor(
     private business: SystemStatisticRoadObjectManagerBusiness,
-    private language: LanguageTool
+    private language: LanguageTool,
   ) {}
 
   window = new SystemStatisticRoadObjectManagerWindow();
@@ -68,7 +68,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
     return `${formatDate(
       this.args.date,
       Language.YearMonthDay,
-      'en'
+      'en',
     )}巡检线路统计`;
   }
 
@@ -88,6 +88,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
   };
 
   map = {
+    focus: new EventEmitter<void>(),
     timeline: {
       simple: false,
     },
@@ -104,11 +105,12 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
       let deviceIds = this.data.record.source.map((x) => x.DeviceId);
       deviceIds = ArrayTool.distinct(deviceIds);
       if (deviceIds.length > 0) {
-        let selectedId = deviceIds[0];
-
-        this.load.device(deviceIds, selectedId);
-        await this.load.view(deviceIds, selectedId);
-        this.load.path(selectedId);
+        this.load.device(deviceIds);
+        await this.load.view(deviceIds);
+        if (deviceIds.length == 1) {
+          await this.load.path(deviceIds[0]);
+        }
+        this.map.focus.emit();
       } else {
         this.data.record.view = [];
         this.data.path = [];
@@ -118,10 +120,10 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
     record: async () => {
       this.data.record.source = await this.business.record(this.args);
     },
-    view: (deviceIds: string[], selectedId: string) => {
-      if (deviceIds.length > 1) {
+    view: async (deviceIds: string[], selectedId?: string) => {
+      if (deviceIds.length > 1 && selectedId) {
         this.data.record.view = this.data.record.source.filter(
-          (x) => x.DeviceId === selectedId
+          (x) => x.DeviceId === selectedId,
         );
       } else {
         this.data.record.view = [...this.data.record.source];
@@ -132,14 +134,15 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
       this.data.device.data = await this.business.devices(deviceIds);
       if (selectedId) {
         this.data.device.selected = this.data.device.data.find(
-          (x) => x.Id === selectedId
+          (x) => x.Id === selectedId,
         );
       }
     },
-    path: (deviceId: string) => {
-      this.business.path(deviceId, this.data.record.view).then((y) => {
-        this.data.path = y;
-      });
+    path: async (deviceId: string) => {
+      this.data.path = await this.business.path(
+        deviceId,
+        this.data.record.view,
+      );
     },
   };
 
@@ -151,7 +154,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
       paged: PagedList<
         RoadObjectEventRecord | EventResourceContent | RoadObject
       >,
-      opened: boolean = false
+      opened: boolean = false,
     ) => {
       if (paged.Data.length == 0) return;
 
@@ -175,12 +178,15 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
 
   on = {
     device: async () => {
+      let deviceIds = this.data.record.source.map((x) => x.DeviceId);
       if (this.data.device.selected) {
         let selectedId = this.data.device.selected.Id;
-        let deviceIds = this.data.record.source.map((x) => x.DeviceId);
         await this.load.view(deviceIds, selectedId);
-        this.load.path(selectedId);
+        await this.load.path(selectedId);
+      } else {
+        await this.load.view(deviceIds);
       }
+      this.map.focus.emit();
     },
     details: (data: RoadObjectEventRecord) => {
       this.window.details.data = data;
@@ -205,7 +211,6 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
     },
     video: async (data: RoadObjectEventRecord) => {
       let name = await this.language.event.EventType(data.EventType);
-      this.window.video.title = `${name}`;
       this.data.channels =
         data.Resources?.map((x) => {
           let channel = new EnumNameValue<number>();
@@ -213,13 +218,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
           channel.Value = x.PositionNo ?? 0;
           return channel;
         }) ?? [];
-      if (data.Resources && data.Resources.length > 0) {
-        let resource = data.Resources[0];
-        this.window.video.title = `${resource.ResourceName} ${name}`;
-        // this.window.video.args.channel = resource.PositionNo;
-      }
-      this.window.video.data = data;
-      this.window.video.show = true;
+      this.window.video.open(data, name);
     },
     wheel: {
       change: (e: WheelEvent) => {

@@ -33,6 +33,8 @@ export class SystemModuleSecurityDepartmentDetailsMemberTableComponent
   @Input() multiple = false;
   @Input() selecteds: DepartmentMember[] = [];
   @Output() selectedsChange = new EventEmitter<DepartmentMember[]>();
+  @Input() selected?: DepartmentMember;
+  @Output() selectedChange = new EventEmitter<DepartmentMember>();
 
   @Output() update = new EventEmitter<DepartmentMember>();
   @Output() delete = new EventEmitter<DepartmentMember>();
@@ -92,6 +94,12 @@ export class SystemModuleSecurityDepartmentDetailsMemberTableComponent
         } else {
           this.selecteds.splice(index, 1);
         }
+        if (this.selecteds.length > 0) {
+          this.selected = this.selecteds[0];
+        } else {
+          this.selected = undefined;
+        }
+        this.selectedChange.emit(this.selected);
       },
       all: () => {
         if (this.selecteds.length == this.datas.length) {

@@ -92,3 +92,9 @@ export class EventBlockedParams implements IParams {
   /**	Double	半径，单位：米，默认：15米	O */
   Raduis?: number;
 }
+export class EventAssginParams implements IParams {
+  /**	String[]	分派的部门ID	D */
+  DepartmentIds?: string[];
+  /**	String[]	分派的人员ID	D */
+  MemberIds?: string[];
+}

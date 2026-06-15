@@ -19,7 +19,10 @@ export class IASMapAMapPathController {
     percent: number;
   }>();
 
-  constructor(private map: AMap.Map, private index = 0) {}
+  constructor(
+    private map: AMap.Map,
+    private index = 0,
+  ) {}
 
   private polyline?: AMap.Polyline;
   public points: [number, number][] = [];
@@ -37,7 +40,7 @@ export class IASMapAMapPathController {
   private onmove(e: any) {
     var point = AMap.GeometryUtil.closestOnLine(
       [e.lnglat.lng, e.lnglat.lat],
-      [...this.points]
+      [...this.points],
     ) as [number, number];
 
     if (point) {
@@ -55,7 +58,7 @@ export class IASMapAMapPathController {
   private onclick(e: any) {
     var point = AMap.GeometryUtil.closestOnLine(
       [e.lnglat.lng, e.lnglat.lat],
-      [...this.points]
+      [...this.points],
     ) as [number, number];
 
     if (point) {
@@ -74,7 +77,7 @@ export class IASMapAMapPathController {
     positions: [number, number][],
     focus: boolean,
     tostart = true,
-    pulse = false
+    pulse = false,
   ) {
     if (positions.length === 0) return;
     this.points = positions;
@@ -116,6 +119,7 @@ export class IASMapAMapPathController {
         this.map.setFitView(this.polyline, true);
       }, 2 * 1000);
     }
+    return this.polyline;
   }
 
   clear() {

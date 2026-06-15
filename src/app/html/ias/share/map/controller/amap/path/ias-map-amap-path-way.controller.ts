@@ -32,7 +32,7 @@ export class IASMapAMapPathWayController {
   private onmove(e: any) {
     var point = AMap.GeometryUtil.closestOnLine(
       [e.lnglat.lng, e.lnglat.lat],
-      [...this.points]
+      [...this.points],
     ) as [number, number];
 
     if (point) {
@@ -53,7 +53,7 @@ export class IASMapAMapPathWayController {
   private onclick(e: any) {
     var point = AMap.GeometryUtil.closestOnLine(
       [e.lnglat.lng, e.lnglat.lat],
-      [...this.points]
+      [...this.points],
     ) as [number, number];
 
     if (point) {
@@ -100,6 +100,7 @@ export class IASMapAMapPathWayController {
     });
 
     this.map.add(this.polyline);
+    return this.polyline;
   }
 
   clear() {

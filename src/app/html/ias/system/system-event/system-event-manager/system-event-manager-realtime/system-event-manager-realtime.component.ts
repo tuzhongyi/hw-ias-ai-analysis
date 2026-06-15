@@ -35,6 +35,7 @@ import { SystemEventProcessRealtimeComponent } from '../../system-event-process/
 import { SystemEventTableArgs } from '../../system-event-table/business/system-event-table.model';
 import { SystemEventTableRealtimeComponent } from '../../system-event-table/system-event-table-realtime/system-event-table-realtime.component';
 import { SystemEventTaskComponent } from '../../system-event-task/component/system-event-task.component';
+import { SystemEventTaskAssginToComponent } from '../../system-event-task/system-event-task-assgin-to/system-event-task-assgin-to.component';
 import { SystemEventVideoComponent } from '../../system-event-video/system-event-video.component';
 import { SystemEventManagerRealtimeBusiness } from './business/system-event-manager-realtime.business';
 import { SystemEventManagerRealtimeController } from './controller/system-event-manager-realtime.controller';
@@ -57,6 +58,7 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
     SystemEventProcessDetailsRealtimeComponent,
     SystemEventProcessRealtimeComponent,
     SystemEventMapManagerComponent,
+    SystemEventTaskAssginToComponent,
   ],
   templateUrl: './system-event-manager-realtime.component.html',
   styleUrl: './system-event-manager-realtime.component.less',
@@ -171,8 +173,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
         this.window.process.show = true;
       },
       task: (data: MobileEventRecord) => {
-        this.window.task.data = data;
-        this.window.task.show = true;
+        this.task.open(data);
       },
     },
   };
@@ -242,6 +243,34 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
         .catch((e) => {
           this.toastr.error('操作失败');
         });
+    },
+  };
+
+  task = {
+    open: (data: MobileEventRecord) => {
+      this.window.task.data = data;
+      this.window.task.show = true;
+    },
+    close: () => {
+      this.window.task.show = false;
+      if (this.task.assgin.changed) {
+        this.table.args.first = false;
+        this.table.load.emit(this.table.args);
+        this.task.assgin.changed = false;
+      }
+    },
+    assgin: {
+      changed: false,
+      open: (data: MobileEventRecord) => {
+        this.task.assgin.changed = false;
+        this.window.assgin.data = data;
+        this.window.assgin.show = true;
+      },
+      ok: (data: MobileEventRecord) => {
+        this.task.assgin.changed = true;
+        this.window.task.data = data;
+        this.window.assgin.show = false;
+      },
     },
   };
 }

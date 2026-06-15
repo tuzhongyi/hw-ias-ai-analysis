@@ -1,5 +1,6 @@
 import { Subscription } from 'rxjs';
 import { RoadObjectEventRecord } from '../../../../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
+import { Manager } from '../../../../../../../../../../common/data-core/requests/managers/manager';
 import { IIASMapAMapInfo } from '../../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapMarkerEvent } from '../../../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
 import { SystemStatisticRoadObjectAMapRecordMarkerLabelController } from './system-statistic-road-object-amap-record-marker-label.controller';
@@ -7,7 +8,11 @@ import { SystemStatisticRoadObjectAMapRecordMarkerLabelController } from './syst
 export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
   event = new IASMapAMapMarkerEvent<RoadObjectEventRecord>();
 
-  constructor(map: AMap.Map, private subscription: Subscription) {
+  constructor(
+    map: AMap.Map,
+    private subscription: Subscription,
+    private manager: Manager,
+  ) {
     this.layer = this.init(map);
   }
 
@@ -26,7 +31,7 @@ export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
   }
 
   private regist(
-    point: SystemStatisticRoadObjectAMapRecordMarkerLabelController
+    point: SystemStatisticRoadObjectAMapRecordMarkerLabelController,
   ) {
     let sub1 = point.event.mouseover.subscribe((data) => {
       this.event.mouseover.emit(data);
@@ -50,12 +55,14 @@ export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
 
   async load(datas: RoadObjectEventRecord[]) {
     let markers = [];
+    let lines = await this.manager.source.road.object.LineObjectTypes.get();
     for (let i = 0; i < datas.length; i++) {
       const data = datas[i];
       if (data.Location) {
         let point =
           new SystemStatisticRoadObjectAMapRecordMarkerLabelController(
-            data as any
+            data as any,
+            lines.some((x) => x.Value == data.RoadObjectType),
           );
         this.regist(point);
         let marker = await point.marker;

@@ -15,7 +15,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
   constructor(
     private map: AMap.Map,
     private tool: ComponentTool,
-    private subscription: Subscription
+    private subscription: Subscription,
   ) {
     this.window = this.init();
     this.regist();
@@ -52,21 +52,29 @@ export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
     html: (data: RoadObjectEventRecord) => {
       let component = this.tool.create(
         SystemStatisticRoadObjectMapInfoDetailsComponent,
-        { data: data, close: this.event.close, details: this.event.details }
+        { data: data, close: this.event.close, details: this.event.details },
       );
       let html = this.tool.get.html(component);
       return html.firstElementChild as HTMLElement;
     },
+    offset: (isline: boolean): AMap.Pixel => {
+      if (isline) {
+        return new AMap.Pixel(25, 0);
+      } else {
+        return new AMap.Pixel(25, -32);
+      }
+    },
   };
 
-  open(data: RoadObjectEventRecord) {
+  async open(data: RoadObjectEventRecord, isline: boolean) {
     this.data = data;
     if (data.Location) {
       let position = [
         data.Location.GCJ02.Longitude,
         data.Location.GCJ02.Latitude,
       ] as [number, number];
-
+      let offset = await this.get.offset(isline);
+      this.window.setOffset(offset);
       this.window.setContent(this.get.html(data));
       this.window.open(this.map, position);
     }

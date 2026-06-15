@@ -15,12 +15,15 @@ export class SystemMainMapAMapRoadObjectMarkerLabelController extends IASMapAMap
     return {
       normal: this._icon.get(this.data.ObjectType, {
         state: this.data.ObjectState,
+        isline: this.data.IsGeoLine,
       }).normal,
       hover: this._icon.get(this.data.ObjectType, {
         state: this.data.ObjectState,
+        isline: this.data.IsGeoLine,
       }).hover,
       selected: this._icon.get(this.data.ObjectType, {
         state: this.data.ObjectState,
+        isline: this.data.IsGeoLine,
       }).selected,
     };
   }
