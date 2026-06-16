@@ -36,6 +36,9 @@ export class SystemStatisticRoadObjectMapComponent
   @Input() path: FileGpsItem[][] = [];
 
   @Output() recorddblclick = new EventEmitter<RoadObjectEventRecord>();
+  @Output() recordhover = new EventEmitter<RoadObjectEventRecord>();
+  @Output() recordleave = new EventEmitter<RoadObjectEventRecord>();
+
   @Input() focus?: EventEmitter<void>;
 
   constructor(tool: ComponentTool, manager: Manager) {
@@ -157,6 +160,12 @@ export class SystemStatisticRoadObjectMapComponent
       };
       this.controller.event.record.dblclick = (data) => {
         this.recorddblclick.emit(data);
+      };
+      this.controller.event.record.mouseover = (data) => {
+        this.recordhover.emit(data);
+      };
+      this.controller.event.record.mouseout = (data) => {
+        this.recordleave.emit(data);
       };
     },
   };

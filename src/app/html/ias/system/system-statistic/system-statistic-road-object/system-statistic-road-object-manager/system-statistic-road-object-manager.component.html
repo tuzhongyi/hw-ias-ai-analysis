@@ -63,6 +63,7 @@
         <ias-system-statistic-road-object-timeline-simple
           [datas]="data.record.view"
           [(selected)]="data.record.selected"
+          [hover]="data.record.hover"
         ></ias-system-statistic-road-object-timeline-simple>
       </div>
 
@@ -73,6 +74,8 @@
         [selected]="data.record.selected"
         (selectedChange)="on.select($event)"
         (recorddblclick)="on.details($event)"
+        (recordhover)="on.hover($event)"
+        (recordleave)="on.leave($event)"
       ></ias-system-statistic-road-object-map>
 
       <div

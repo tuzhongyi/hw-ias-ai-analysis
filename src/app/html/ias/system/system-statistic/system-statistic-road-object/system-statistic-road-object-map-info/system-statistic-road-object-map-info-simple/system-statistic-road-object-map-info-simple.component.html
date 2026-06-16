@@ -35,12 +35,26 @@
         <div
           class="system-statistic-road-object-map-info-simple-body-content-icon"
         >
+          <i class="mdi mdi-calendar-blank"></i>
+        </div>
+        <div
+          class="system-statistic-road-object-map-info-simple-body-content-value"
+        >
+          {{ data.EventTime | date: "yyyy-MM-dd" }}
+        </div>
+      </div>
+      <div
+        class="system-statistic-road-object-map-info-simple-body-content time"
+      >
+        <div
+          class="system-statistic-road-object-map-info-simple-body-content-icon"
+        >
           <i class="mdi mdi-clock"></i>
         </div>
         <div
           class="system-statistic-road-object-map-info-simple-body-content-value"
         >
-          {{ data.EventTime | date : "HH:mm:ss" }}
+          {{ data.EventTime | date: "HH:mm:ss" }}
         </div>
       </div>
     </div>

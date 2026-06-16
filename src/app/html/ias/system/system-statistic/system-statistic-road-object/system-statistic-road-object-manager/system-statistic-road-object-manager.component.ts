@@ -78,6 +78,7 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
       source: [] as RoadObjectEventRecord[],
       view: [] as RoadObjectEventRecord[],
       selected: undefined as RoadObjectEventRecord | undefined,
+      hover: undefined as RoadObjectEventRecord | undefined,
     },
     path: [] as FileGpsItem[][],
     channels: [] as EnumNameValue<number>[],
@@ -195,6 +196,16 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
     },
     select: (data: RoadObjectEventRecord) => {
       this.data.record.selected = data;
+    },
+    hover: (data: RoadObjectEventRecord) => {
+      this.data.record.hover = data;
+    },
+    leave: (data: RoadObjectEventRecord) => {
+      if (this.data.record.hover) {
+        if (this.data.record.hover.Id == data.Id) {
+          this.data.record.hover = undefined;
+        }
+      }
     },
     filter: (args: { EventType?: number; RoadObjectType?: number }) => {
       this.data.record.view = this.data.record.source.filter((item) => {

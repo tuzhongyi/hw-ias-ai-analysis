@@ -40,6 +40,7 @@ export class SystemStatisticRoadObjectTimelineDaysComponent implements OnChanges
   @Input() selected?: RoadObjectEventRecord;
   @Output() selectedChange = new EventEmitter<RoadObjectEventRecord>();
   @Output() mousehover = new EventEmitter<RoadObjectEventRecord>();
+  @Input('hover') recordhover?: RoadObjectEventRecord;
 
   constructor() {}
 

@@ -2,6 +2,8 @@ import { RoadObjectEventType } from '../../../../../data-core/enums/road/road-ob
 import { RoadObjectState } from '../../../../../data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../data-core/enums/road/road-object/road-object-type.enum';
 import { IMapMarkerPath } from '../map-marker.interface';
+import { MapMarkerObjectBlankCirclePath } from './blank/map-marker-object-blank-circle.path';
+import { MapMarkerObjectBlankPointPath } from './blank/map-marker-object-blank-point.path';
 import { MapMarkerObjectBusStationPath } from './map-marker-object-bus-station.path';
 import { MapMarkerObjectCycleLaneSeparatorPath } from './map-marker-object-cycle-lane-separator.path';
 import { MapMarkerObjectFireHydrantPath } from './map-marker-object-fire-hydrant.path';
@@ -48,13 +50,20 @@ export class MapMarkerObjectPath {
     return new MapMarkerObjectPublicityWallPath(this.basic);
   }
 
+  get blank() {
+    return {
+      point: new MapMarkerObjectBlankPointPath(this.basic),
+      circle: new MapMarkerObjectBlankCirclePath(this.basic),
+    };
+  }
+
   get(
     type?: RoadObjectType,
     args?: {
       state?: RoadObjectState;
       event?: RoadObjectEventType;
       start?: boolean;
-    }
+    },
   ) {
     let path = this.from.type(type, args?.start);
 
@@ -95,7 +104,7 @@ export class MapMarkerObjectPath {
   private from = {
     type: (
       type?: RoadObjectType,
-      start?: boolean
+      start?: boolean,
     ): IMapMarkerObjectPath | IMapMarkerPath => {
       switch (type) {
         case RoadObjectType.BusStation:

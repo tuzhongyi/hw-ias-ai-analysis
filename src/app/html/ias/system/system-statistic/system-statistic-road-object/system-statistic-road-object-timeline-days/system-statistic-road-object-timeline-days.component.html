@@ -12,6 +12,7 @@
           class="system-statistic-road-object-timeline-day-point-item"
           *ngFor="let item of day.points"
           [class.selected]="selected?.Id === item.id"
+          [class.hover]="recordhover?.Id === item.id"
           [title]="item.title"
           (mouseover)="on.mouseover(item)"
           (mouseout)="on.mouseout(item)"

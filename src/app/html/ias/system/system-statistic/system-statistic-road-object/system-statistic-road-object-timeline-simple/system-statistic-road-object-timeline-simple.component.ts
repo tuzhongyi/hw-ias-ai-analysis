@@ -21,13 +21,12 @@ import { SystemStatisticRoadObjectTimelineScrollItem } from '../system-statistic
   templateUrl: './system-statistic-road-object-timeline-simple.component.html',
   styleUrl: './system-statistic-road-object-timeline-simple.component.less',
 })
-export class SystemStatisticRoadObjectTimelineSimpleComponent
-  implements OnChanges
-{
+export class SystemStatisticRoadObjectTimelineSimpleComponent implements OnChanges {
   @Input('datas') records: RoadObjectEventRecord[] = [];
   @Input() selected?: RoadObjectEventRecord;
   @Output() selectedChange = new EventEmitter<RoadObjectEventRecord>();
   @Output() mousehover = new EventEmitter<RoadObjectEventRecord>();
+  @Input('hover') recordhover?: RoadObjectEventRecord;
 
   constructor() {}
 
@@ -85,7 +84,7 @@ export class SystemStatisticRoadObjectTimelineSimpleComponent
     item.title = `${data.RoadObjectName}\n${formatDate(
       data.EventTime,
       Language.yyyyMMddHHmmss,
-      'en'
+      'en',
     )}`;
     item.data = data;
     return item;
