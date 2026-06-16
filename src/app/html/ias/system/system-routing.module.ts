@@ -29,6 +29,7 @@ import { SystemModuleShopRegistrationManagerComponent } from './system-module/sy
 import { SystemStatisticComponent } from './system-statistic/component/system-statistic.component';
 import { SystemStatisticDeviceRouteManagerComponent } from './system-statistic/system-statistic-device-route/system-statistic-device-route-manager/system-statistic-device-route-manager.component';
 import { SystemStatisticIndexComponent } from './system-statistic/system-statistic-index/system-statistic-index.component';
+import { SystemStatisticRoadObjectDurationManagerComponent } from './system-statistic/system-statistic-road-object-duration/system-statistic-road-object-duration-manager/system-statistic-road-object-duration-manager.component';
 import { SystemStatisticRoadObjectStatementManagerComponent } from './system-statistic/system-statistic-road-object-statement/system-statistic-road-object-statement-manager/system-statistic-road-object-statement-manager.component';
 import { SystemStatisticRoadObjectManagerComponent } from './system-statistic/system-statistic-road-object/system-statistic-road-object-manager/system-statistic-road-object-manager.component';
 import { SystemTaskComponent } from './system-task/component/system-task.component';
@@ -231,6 +232,10 @@ const routes: Routes = [
           {
             path: 'road-object',
             component: SystemStatisticRoadObjectManagerComponent,
+          },
+          {
+            path: 'road-object-duration',
+            component: SystemStatisticRoadObjectDurationManagerComponent,
           },
           {
             path: 'road-object-statement',

@@ -15,10 +15,15 @@ export class SystemStatisticBusiness {
       this.headable = false;
       title = '道路部件月报表';
     } else if (
+      location.pathname.indexOf(SystemPath.statistic_road_object_duration) >= 0
+    ) {
+      this.headable = false;
+      title = '道路部件巡检统计';
+    } else if (
       location.pathname.indexOf(SystemPath.statistic_road_object) >= 0
     ) {
       this.headable = false;
-      title = '道路部件统计';
+      title = '道路部件巡检统计';
     } else if (
       location.pathname.indexOf(SystemPath.statistic_device_route) >= 0
     ) {

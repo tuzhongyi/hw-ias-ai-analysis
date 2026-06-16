@@ -135,8 +135,12 @@ export class SystemStatisticRoadObjectAMapController {
   };
 
   private _path: IASMapAMapPathController[] = [];
+  private _polylines: AMap.Polyline[] = [];
+  get polylines() {
+    return this._polylines;
+  }
   path = {
-    load: async (datas: FileGpsItem[][], focus: boolean) => {
+    load: async (datas: FileGpsItem[][]) => {
       let map = await this.controller.map.get();
 
       let container = await this.controller.container.get();
@@ -155,23 +159,18 @@ export class SystemStatisticRoadObjectAMapController {
         })
         .filter((x) => !!x);
 
-      this.controller.path.get().then((head) => {
-        head.load(points);
-        container.animate.start();
-      });
+      this._polylines = polylines;
 
-      if (focus) {
-        map.setFitView(polylines, true);
-        setTimeout(() => {
-          map.setFitView(polylines, true);
-        }, 2 * 1000);
-      }
+      let head = await this.controller.path.get();
+      head.load(points);
+      container.animate.start();
     },
     clear: async () => {
       this._path.forEach((x) => {
         x.clear();
       });
       this._path = [];
+      this._polylines = [];
 
       let head = await this.controller.path.get();
       head.clear();

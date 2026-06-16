@@ -1,0 +1,87 @@
+.system-statistic-road-object {
+  &-manager {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+
+  &-head {
+    height: 60px;
+    width: 100%;
+    padding: 0 25px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    .forms {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+
+      .form-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        height: 36px;
+
+        &.time {
+          width: 130px;
+        }
+
+        &.fill {
+          flex-grow: 1;
+        }
+
+        &.submit {
+          flex-shrink: 0;
+        }
+
+        &-text {
+          white-space: nowrap;
+        }
+
+        &-value {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+
+  &-body {
+    height: calc(100% - 60px);
+    padding: 25px;
+    padding-top: 12px;
+    box-sizing: border-box;
+  }
+
+  &-map {
+    height: 100%;
+    position: relative;
+    padding: 0;
+    @timeline-height: 60px;
+
+    &-state {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      right: 20px;
+      transition: top 0.2s;
+      pointer-events: none;
+
+      &.timeline {
+        top: calc(@timeline-height + 20px);
+      }
+    }
+
+    &-timeline {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: @timeline-height;
+      z-index: 1;
+      box-sizing: border-box;
+    }
+  }
+}

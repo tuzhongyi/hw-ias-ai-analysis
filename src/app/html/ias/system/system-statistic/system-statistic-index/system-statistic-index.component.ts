@@ -11,18 +11,28 @@ import { SystemPath } from '../../system.model';
   styleUrl: './system-statistic-index.component.less',
 })
 export class SystemStatisticIndexComponent {
-  constructor(private router: Router, private global: GlobalStorage) {}
+  constructor(
+    private router: Router,
+    private global: GlobalStorage,
+  ) {}
 
   get display() {
     return this.global.display.module;
   }
 
   on = {
-    road_object: () => {
-      this.router.navigateByUrl(SystemPath.statistic_road_object);
-    },
-    road_object_statement: () => {
-      this.router.navigateByUrl(SystemPath.statistic_road_object_statement);
+    road: {
+      object: {
+        day: () => {
+          this.router.navigateByUrl(SystemPath.statistic_road_object);
+        },
+        duration: () => {
+          this.router.navigateByUrl(SystemPath.statistic_road_object_duration);
+        },
+        statement: () => {
+          this.router.navigateByUrl(SystemPath.statistic_road_object_statement);
+        },
+      },
     },
     device_route: () => {
       this.router.navigateByUrl(SystemPath.statistic_device_route);

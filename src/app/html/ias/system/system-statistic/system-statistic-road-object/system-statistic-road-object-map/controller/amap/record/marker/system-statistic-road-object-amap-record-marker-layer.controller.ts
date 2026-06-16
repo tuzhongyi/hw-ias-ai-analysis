@@ -19,6 +19,10 @@ export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
   private layer: AMap.LabelsLayer;
   private points: SystemStatisticRoadObjectAMapRecordMarkerLabelController[] =
     [];
+  private _markers: AMap.LabelMarker[] = [];
+  get markers() {
+    return this._markers;
+  }
 
   private init(map: AMap.Map) {
     let layer = new AMap.LabelsLayer({
@@ -71,12 +75,14 @@ export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
       }
     }
     this.layer.add(markers);
+    this._markers = markers;
     return markers;
   }
 
   clear() {
     this.layer.clear();
     this.points = [];
+    this._markers = [];
   }
 
   mouseover(data: RoadObjectEventRecord) {

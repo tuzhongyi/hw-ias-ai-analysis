@@ -411,6 +411,15 @@ export class SystemBreadcrumbBusiness {
           this.statistic.road_object_statement(),
         ];
       } else if (
+        location.pathname.indexOf(SystemPath.statistic_road_object_duration) >=
+        0
+      ) {
+        return [
+          this.home.index(),
+          this.statistic.index(),
+          this.statistic.road_object(),
+        ];
+      } else if (
         location.pathname.indexOf(SystemPath.statistic_road_object) >= 0
       ) {
         return [

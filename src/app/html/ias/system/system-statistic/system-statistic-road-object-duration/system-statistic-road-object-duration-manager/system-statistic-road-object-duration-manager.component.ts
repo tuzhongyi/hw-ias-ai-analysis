@@ -1,10 +1,9 @@
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
-import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
@@ -13,30 +12,24 @@ import {
   Page,
   PagedList,
 } from '../../../../../../common/data-core/models/interface/page-list.model';
-import { ScrollSnapDirective } from '../../../../../../common/directives/scroll/scroll-snap.directive';
 import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool';
-import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
-import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemEventRoadObjectDetailsManagerComponent } from '../../../system-event/system-event-road-object/system-event-road-object-details/system-event-road-object-details-manager/system-event-road-object-details-manager.component';
 import { SystemEventVideoComponent } from '../../../system-event/system-event-video/system-event-video.component';
-import { SystemStatisticRoadObjectMapStateGroupComponent } from '../system-statistic-road-object-map-state/system-statistic-road-object-map-state-group/system-statistic-road-object-map-state-group.component';
-import { SystemStatisticRoadObjectMapComponent } from '../system-statistic-road-object-map/system-statistic-road-object-map.component';
-import { SystemStatisticRoadObjectTimelineSimpleComponent } from '../system-statistic-road-object-timeline-simple/system-statistic-road-object-timeline-simple.component';
-import { SystemStatisticRoadObjectTimelineComponent } from '../system-statistic-road-object-timeline/system-statistic-road-object-timeline.component';
-import { SystemStatisticRoadObjectManagerBusiness } from './system-statistic-road-object-manager.business';
-import { SystemStatisticRoadObjectArgs } from './system-statistic-road-object-manager.model';
-import { SystemStatisticRoadObjectManagerWindow } from './system-statistic-road-object-manager.window';
+import { SystemStatisticRoadObjectManagerWindow } from '../../system-statistic-road-object/system-statistic-road-object-manager/system-statistic-road-object-manager.window';
+import { SystemStatisticRoadObjectMapStateGroupComponent } from '../../system-statistic-road-object/system-statistic-road-object-map-state/system-statistic-road-object-map-state-group/system-statistic-road-object-map-state-group.component';
+import { SystemStatisticRoadObjectMapComponent } from '../../system-statistic-road-object/system-statistic-road-object-map/system-statistic-road-object-map.component';
+import { SystemStatisticRoadObjectTimelineDaysComponent } from '../../system-statistic-road-object/system-statistic-road-object-timeline-days/system-statistic-road-object-timeline-days.component';
+import { SystemStatisticRoadObjectDurationBusiness } from '../system-statistic-road-object-duration.business';
+import { SystemStatisticRoadObjectDurationArgs } from '../system-statistic-road-object-duration.model';
 
 @Component({
-  selector: 'ias-system-statistic-road-object-manager',
+  selector: 'ias-system-statistic-road-object-duration-manager',
   imports: [
     CommonModule,
     FormsModule,
-    ScrollSnapDirective,
-    ContentHeaderComponent,
     DateTimeControlComponent,
     WindowComponent,
     SystemEventVideoComponent,
@@ -44,33 +37,22 @@ import { SystemStatisticRoadObjectManagerWindow } from './system-statistic-road-
     HowellSelectComponent,
     SystemStatisticRoadObjectMapComponent,
 
-    SystemStatisticRoadObjectTimelineComponent,
     SystemStatisticRoadObjectMapStateGroupComponent,
     SystemEventRoadObjectDetailsManagerComponent,
-    SystemStatisticRoadObjectTimelineSimpleComponent,
-    // SystemStatisticRoadObjectMapMarkerComponent,
-    // SystemStatisticRoadObjectMapInfoDetailsComponent,
-    // SystemStatisticRoadObjectMapInfoSimpleComponent,
+    SystemStatisticRoadObjectTimelineDaysComponent,
   ],
-  templateUrl: './system-statistic-road-object-manager.component.html',
-  styleUrl: './system-statistic-road-object-manager.component.less',
-  providers: [SystemStatisticRoadObjectManagerBusiness],
+  templateUrl: './system-statistic-road-object-duration-manager.component.html',
+  styleUrl: './system-statistic-road-object-duration-manager.component.less',
+  providers: [SystemStatisticRoadObjectDurationBusiness],
 })
-export class SystemStatisticRoadObjectManagerComponent implements OnInit {
+export class SystemStatisticRoadObjectDurationManagerComponent implements OnInit {
   constructor(
-    private business: SystemStatisticRoadObjectManagerBusiness,
+    private business: SystemStatisticRoadObjectDurationBusiness,
     private language: LanguageTool,
   ) {}
 
   window = new SystemStatisticRoadObjectManagerWindow();
-  args = new SystemStatisticRoadObjectArgs();
-  get title() {
-    return `${formatDate(
-      this.args.date,
-      Language.YearMonthDay,
-      'en',
-    )}巡检线路统计`;
-  }
+  args = new SystemStatisticRoadObjectDurationArgs();
 
   data = {
     reset: false,
@@ -79,7 +61,6 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
       view: [] as RoadObjectEventRecord[],
       selected: undefined as RoadObjectEventRecord | undefined,
     },
-    path: [] as FileGpsItem[][],
     channels: [] as EnumNameValue<number>[],
     device: {
       data: [] as MobileDevice[],
@@ -89,9 +70,6 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
 
   map = {
     focus: new EventEmitter<void>(),
-    timeline: {
-      simple: false,
-    },
   };
 
   ngOnInit(): void {
@@ -107,13 +85,9 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
       if (deviceIds.length > 0) {
         this.load.device(deviceIds);
         await this.load.view(deviceIds);
-        if (deviceIds.length == 1) {
-          await this.load.path(deviceIds[0]);
-        }
         this.map.focus.emit();
       } else {
         this.data.record.view = [];
-        this.data.path = [];
         this.data.device.data = [];
       }
     },
@@ -137,12 +111,6 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
           (x) => x.Id === selectedId,
         );
       }
-    },
-    path: async (deviceId: string) => {
-      this.data.path = await this.business.path(
-        deviceId,
-        this.data.record.view,
-      );
     },
   };
 
@@ -177,14 +145,15 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
   };
 
   on = {
+    search: () => {
+      this.load.ing();
+    },
     device: async () => {
       let deviceIds = this.data.record.source.map((x) => x.DeviceId);
       if (this.data.device.selected) {
         let selectedId = this.data.device.selected.Id;
         await this.load.view(deviceIds, selectedId);
-        await this.load.path(selectedId);
       } else {
-        this.data.path = [];
         await this.load.view(deviceIds);
       }
       this.map.focus.emit();
@@ -220,40 +189,6 @@ export class SystemStatisticRoadObjectManagerComponent implements OnInit {
           return channel;
         }) ?? [];
       this.window.video.open(data, name);
-    },
-    wheel: {
-      change: (e: WheelEvent) => {
-        let element = e.currentTarget as HTMLDivElement;
-        // 滚轮向下滚动（deltaY > 0）
-        if (e.deltaY > 0) {
-          element.scrollTo({
-            top: element.scrollHeight, // 页面总高度
-            behavior: 'smooth', // instant = 瞬间滚动，smooth = 平滑滚动
-          });
-        }
-        // 滚轮向上滚动（deltaY < 0）
-        else if (e.deltaY < 0) {
-          element.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-          });
-        } else {
-        }
-      },
-      stop: (e: WheelEvent) => {
-        e.stopPropagation();
-      },
-    },
-    scroll: (e: Event) => {
-      let element = e.currentTarget as HTMLDivElement;
-
-      let max = element.scrollHeight - element.clientHeight;
-
-      if (element.scrollTop <= 0) {
-        this.map.timeline.simple = false;
-      } else if (element.scrollTop >= max) {
-        this.map.timeline.simple = true;
-      }
     },
   };
 }

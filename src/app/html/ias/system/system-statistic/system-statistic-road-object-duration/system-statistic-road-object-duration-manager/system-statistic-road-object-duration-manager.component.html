@@ -1,0 +1,210 @@
+<div class="system-statistic-road-object-manager root-router">
+  <div class="system-statistic-road-object-head">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">开始时间:</div>
+        <div class="form-item-value">
+          <date-time-control [(date)]="args.duration.begin"></date-time-control>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">结束时间:</div>
+        <div class="form-item-value">
+          <date-time-control [(date)]="args.duration.end"></date-time-control>
+        </div>
+      </div>
+
+      <div class="form-item" *ngIf="data.device.data.length > 1">
+        <div class="form-item-text">巡逻车辆:</div>
+        <div class="form-item-value fill">
+          <select [(ngModel)]="data.device.selected" (change)="on.device()">
+            <option [ngValue]="undefined">全部</option>
+            <option *ngFor="let item of data.device.data" [ngValue]="item">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item submit">
+        <button class="button-clip-gradient" (click)="on.search()">查找</button>
+      </div>
+    </div>
+  </div>
+  <div class="system-statistic-road-object-body">
+    <div class="system-statistic-road-object-map panel">
+      <div
+        class="system-statistic-road-object-map-timeline panel-map"
+        *ngIf="data.record.view.length > 0"
+      >
+        <ias-system-statistic-road-object-timeline-days
+          [datas]="data.record.view"
+          [(selected)]="data.record.selected"
+        ></ias-system-statistic-road-object-timeline-days>
+      </div>
+
+      <ias-system-statistic-road-object-map
+        [records]="data.record.view"
+        [focus]="map.focus"
+        [selected]="data.record.selected"
+        (selectedChange)="on.select($event)"
+        (recorddblclick)="on.details($event)"
+      ></ias-system-statistic-road-object-map>
+
+      <div
+        class="system-statistic-road-object-map-state"
+        [class.timeline]="data.record.view.length > 0"
+      >
+        <ias-system-statistic-road-object-map-state-group
+          [source]="data.record.source"
+          [view]="data.record.view"
+          [deviceId]="data.device.selected?.Id"
+          (selected)="on.filter($event)"
+          [(reset)]="data.reset"
+        ></ias-system-statistic-road-object-map-state-group>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ias-window
+  [Model]="window.details"
+  *ngIf="window.details.show"
+  [style]="window.details.style"
+  [title]="window.details.title"
+>
+  <ias-system-event-road-object-details-manager
+    [data]="window.details.data"
+    (cancel)="window.details.show = false"
+    (picture)="picture.open($event)"
+    (video)="on.video($event)"
+  >
+  </ias-system-event-road-object-details-manager>
+</ias-window>
+
+<ias-window
+  [Model]="window.task"
+  *ngIf="window.task.show"
+  [style]="window.task.style"
+  [title]="'AI分析工单'"
+>
+  <!-- <ias-system-event-task [data]="window.task.data"></ias-system-event-task> -->
+</ias-window>
+<ias-window
+  [Model]="window.process"
+  *ngIf="window.process.show"
+  [style]="window.process.style"
+  [title]="window.process.title"
+>
+  <!-- <ias-system-event-process-realtime
+  [data]="window.process.data"
+  (close)="window.process.show = false"
+  (picture)="table.on.picture($event)"
+></ias-system-event-process-realtime> -->
+</ias-window>
+
+<ias-window
+  [Model]="window.picture"
+  *ngIf="window.picture.show && window.picture.args"
+  [style]="window.picture.style"
+  [title]="window.picture.title"
+  [mask]="!window.opened"
+>
+  <ias-picture-list
+    [id]="window.picture.args.id"
+    [polygon]="window.picture.args.polygon"
+    [zoom]="window.picture.args.polygon.length > 0"
+    [page]="window.picture.page"
+    (pageChange)="picture.change($event)"
+    [loop]="true"
+  ></ias-picture-list>
+</ias-window>
+<ias-window
+  [Model]="window.video.event"
+  *ngIf="window.video.event.show"
+  [style]="window.video.event.style"
+  [title]="window.video.event.title"
+  [CloseButton]="false"
+  [mask]="!window.opened"
+>
+  <div ngProjectAs="window-head-operation" class="window-video-operation">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">前后时长</div>
+        <div class="form-item-value">
+          <select
+            [(ngModel)]="window.video.event.args.duration"
+            (change)="window.video.event.change()"
+          >
+            <option [ngValue]="5">5秒</option>
+            <option [ngValue]="10">10秒</option>
+            <option [ngValue]="15">15秒</option>
+            <option [ngValue]="30">30秒</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">摄像机:</div>
+        <div class="form-item-value">
+          <hw-select
+            [nullable]="true"
+            [(selected)]="window.video.event.args.channel"
+            (selectedChange)="window.video.event.change()"
+          >
+            <select [(ngModel)]="window.video.event.args.channel">
+              <option *ngFor="let item of data.channels" [ngValue]="item.Value">
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="button" (click)="window.video.event.show = false">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ias-system-event-video
+    [data]="window.video.event.data"
+    [args]="window.video.event.args"
+  ></ias-system-event-video>
+</ias-window>
+<ias-window
+  [Model]="window.video.file"
+  *ngIf="window.video.file.show"
+  [style]="window.video.file.style"
+  [title]="window.video.file.title"
+  [CloseButton]="false"
+  [mask]="!window.opened"
+>
+  <div ngProjectAs="window-head-operation" class="window-video-operation">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">摄像机:</div>
+        <div class="form-item-value">
+          <hw-select
+            [nullable]="false"
+            [(selected)]="window.video.file.selected"
+            (selectedChange)="window.video.file.change()"
+          >
+            <select [(ngModel)]="window.video.file.selected">
+              <option
+                *ngFor="let item of window.video.file.resources"
+                [ngValue]="item"
+              >
+                {{ item.ResourceName }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="button" (click)="window.video.file.show = false">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <video [src]="window.video.file.src" autoplay="autoplay" controls></video>
+</ias-window>

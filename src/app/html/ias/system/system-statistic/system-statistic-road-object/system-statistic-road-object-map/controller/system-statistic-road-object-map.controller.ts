@@ -115,8 +115,8 @@ export class SystemStatisticRoadObjectMapController {
   };
 
   path = {
-    load: async (datas: FileGpsItem[][], focus: boolean) => {
-      this.amap.path.load(datas, focus);
+    load: async (datas: FileGpsItem[][]) => {
+      this.amap.path.load(datas);
     },
     to: async (datas: FileGpsItem[], record: RoadObjectEventRecord) => {
       let way = await this.amap.way;
@@ -146,9 +146,20 @@ export class SystemStatisticRoadObjectMapController {
   };
 
   map = {
-    focus: async (datas?: any) => {
+    focus: async () => {
       let map = await this.amap.map;
-      map.setFitView(datas, true);
+      let overlays: any[] = [];
+
+      // 收集 marker 覆盖物
+      let markerLayer = await this.amap.record.marker;
+      overlays.push(...markerLayer.markers);
+
+      // 收集 path polyline 覆盖物
+      overlays.push(...this.amap.polylines);
+
+      if (overlays.length > 0) {
+        map.setFitView(overlays, true);
+      }
       let center = map.getCenter();
       return [center.lng, center.lat] as [number, number];
     },

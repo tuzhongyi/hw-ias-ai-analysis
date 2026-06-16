@@ -7,11 +7,13 @@ import {
   Input,
   Output,
   QueryList,
+  signal,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { RoadObjectEventRecord } from '../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { WheelHorizontalScrollDirective } from '../../../../../../common/directives/wheel-horizontal-scroll/wheel-horizontal-scroll.directive';
+import { wait } from '../../../../../../common/tools/wait';
 import { SystemStatisticRoadObjectTimelineItemComponent } from '../system-statistic-road-object-timeline-item/system-statistic-road-object-timeline-item.component';
 import { SystemStatisticRoadObjectTimelineScrollComponent } from '../system-statistic-road-object-timeline-scroll/system-statistic-road-object-timeline-scroll.component';
 
@@ -26,9 +28,7 @@ import { SystemStatisticRoadObjectTimelineScrollComponent } from '../system-stat
   templateUrl: './system-statistic-road-object-timeline.component.html',
   styleUrl: './system-statistic-road-object-timeline.component.less',
 })
-export class SystemStatisticRoadObjectTimelineComponent
-  implements AfterViewInit
-{
+export class SystemStatisticRoadObjectTimelineComponent implements AfterViewInit {
   @Input() datas: RoadObjectEventRecord[] = [];
   @Input() selected?: RoadObjectEventRecord;
   @Output() selectedChange = new EventEmitter<RoadObjectEventRecord>();
@@ -43,21 +43,27 @@ export class SystemStatisticRoadObjectTimelineComponent
     this.items = list.toArray().map((x) => x.nativeElement);
   }
   @ViewChild('timeline')
-  container?: ElementRef<HTMLDivElement>;
+  set container(value: ElementRef<HTMLDivElement>) {
+    if (value) {
+      wait(() => {
+        if (this.inited) {
+          if (this.container) {
+            return (
+              this.container.nativeElement.scrollWidth >
+              this.container.nativeElement.clientWidth
+            );
+          }
+        }
+        return false;
+      }).then(() => {
+        this.scroll_display.set(true);
+      });
+    }
+  }
 
   items: HTMLDivElement[] = [];
 
-  get scroll_display() {
-    if (this.inited) {
-      if (this.container) {
-        return (
-          this.container.nativeElement.scrollWidth >
-          this.container.nativeElement.clientWidth
-        );
-      }
-    }
-    return false;
-  }
+  scroll_display = signal<boolean>(false);
 
   ngAfterViewInit(): void {
     this.inited = true;
