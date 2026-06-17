@@ -19,12 +19,29 @@
     ></div>
     <div
       class="system-statistic-road-object-map-info-details-container"
-      *ngIf="data"
+      *ngIf="current"
     >
       <div class="system-statistic-road-object-map-info-details-head">
         <div class="system-statistic-road-object-map-info-details-head-text">
           <i class="howell-icon-point"></i>
           {{ name.event }}
+        </div>
+        <div
+          class="system-statistic-road-object-map-info-details-head-paged"
+          *ngIf="datas.length > 1"
+        >
+          <div
+            class="system-statistic-road-object-map-info-details-head-paged-item button"
+            *ngFor="let item of datas"
+            [class]="
+              ObjectTool.model.RoadObjectEventRecord.get.color.name.event(
+                item.EventType
+              )
+            "
+            [class.selected]="current && current.Id == item.Id"
+            [title]="item.EventTime | date: 'yyyy-MM-dd HH:mm:ss'"
+            (click)="on.page(item)"
+          ></div>
         </div>
       </div>
 
@@ -71,7 +88,7 @@
           <div
             class="system-statistic-road-object-map-info-details-body-content-value"
           >
-            {{ data.Address || data.RoadObjectName }}
+            {{ current.Address || current.RoadObjectName }}
           </div>
         </div>
         <div
@@ -85,12 +102,12 @@
           <div
             class="system-statistic-road-object-map-info-details-body-content-value"
           >
-            {{ data.EventTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ current.EventTime | date: "yyyy-MM-dd HH:mm:ss" }}
           </div>
         </div>
       </div>
       <div class="system-statistic-road-object-map-info-details-foot">
-        {{ data.Description }}
+        {{ current.Description }}
       </div>
     </div>
   </div>

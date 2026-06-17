@@ -32,6 +32,12 @@ export interface IIASMapMarkerEvent<T> {
   mouseover?: (data: T) => void;
   mouseout?: (data?: T) => void;
 }
+export interface IIASMapMarkerClusterEvent<T> {
+  click?: (data: T[]) => void;
+  dblclick?: (data: T[]) => void;
+  mouseover?: (data: T[]) => void;
+  mouseout?: (data?: T[]) => void;
+}
 export interface IIASMapCurrent {
   position: [number, number];
   timestamp: number;

@@ -145,7 +145,7 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
 
         item.icon = this.eventtype.create.icon(type);
         item.color =
-          ObjectTool.model.RoadObjectEventRecord.get.color.event(type);
+          ObjectTool.model.RoadObjectEventRecord.get.color.name.event(type);
 
         return item;
       },

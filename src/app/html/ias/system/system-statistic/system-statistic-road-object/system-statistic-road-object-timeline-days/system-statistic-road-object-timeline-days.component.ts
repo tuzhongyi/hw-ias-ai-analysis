@@ -19,6 +19,7 @@ class TimelineDayPoint {
   position = 0;
   color = '';
   title = '';
+  objectId = '';
   data?: RoadObjectEventRecord;
 }
 
@@ -92,6 +93,7 @@ export class SystemStatisticRoadObjectTimelineDaysComponent implements OnChanges
         let point = new TimelineDayPoint();
         point.id = record.Id;
         point.data = record;
+        point.objectId = record.RoadObjectId;
 
         point.position = items.length > 1 ? (i / (items.length - 1)) * 100 : 50;
 

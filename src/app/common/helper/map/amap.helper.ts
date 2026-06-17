@@ -11,16 +11,16 @@ export class AMapHelper {
       return `amap://styles/${key}`;
     },
     key: {
-      normal: 'e8fb567a2f05a53b39e088f6fe186991',
+      normal: '4819287f21893b7d328eefad497a657c', //'e8fb567a2f05a53b39e088f6fe186991',
       road: 'be4678d793744ca76bf7c5b90049fee3',
     },
   };
 
-  code = 'e1f1eeaee1b77531fa46d5230e2dfe20';
+  code = '7f8af6733625597350dbd0d83ca39a40';
   key = {
     web: '6c2282c244333c7994d8465fd251ab63',
-    js: '12be1c6c0ea1645659e2b7dcb2e263c5',
-    geocoder: '934aadcc25bdb5e08929e5087a020448',
+    js: 'f0d455989b00a228c72c08d6a7837889',
+    geocoder: '934aadcc25bdb5e08929e5087a020448', //
   };
   plugins = ['AMap.GeoLocation', 'AMap.GeometryUtil'];
 
@@ -46,7 +46,7 @@ export class AMapHelper {
     plugins: string[] = [],
     loca = false,
     opts: any = {},
-    road = true
+    road = true,
   ): Promise<AMap.Map> {
     return new Promise<AMap.Map>((resolve) => {
       wait(() => {
@@ -189,12 +189,12 @@ export class AMapHelper {
 
   async search(
     name: string,
-    position: [number, number]
+    position: [number, number],
   ): Promise<AMapInputTipItem[]> {
     // return this.test();
     return new Promise<AMapInputTipItem[]>((resolve, reject) => {
       fetch(
-        `https://restapi.amap.com/v3/assistant/inputtips?key=${this.key.web}&location=${position[0]},${position[1]}&keywords=${name}`
+        `https://restapi.amap.com/v3/assistant/inputtips?key=${this.key.web}&location=${position[0]},${position[1]}&keywords=${name}`,
       ).then((response) => {
         response
           .json()
@@ -217,7 +217,7 @@ export class AMapHelper {
     return new Promise<string>((resolve, reject) => {
       let location = position.join(',');
       fetch(
-        `https://restapi.amap.com/v3/geocode/regeo?output=json&location=${location}&key=${this.key.geocoder}&radius=5&extensions=base`
+        `https://restapi.amap.com/v3/geocode/regeo?output=json&location=${location}&key=${this.key.geocoder}&radius=5&extensions=base`,
       ).then((response) => {
         response
           .json()

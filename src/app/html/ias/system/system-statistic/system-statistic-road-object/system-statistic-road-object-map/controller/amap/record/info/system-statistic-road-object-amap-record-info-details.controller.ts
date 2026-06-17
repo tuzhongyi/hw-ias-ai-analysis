@@ -7,8 +7,11 @@ import { SystemStatisticRoadObjectMapInfoDetailsComponent } from '../../../../..
 export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
   details?: (data: RoadObjectEventRecord) => void;
   opened(data: RoadObjectEventRecord) {
-    if (this.data && this.data.Id === data.Id) {
-      return this.window.getIsOpen();
+    if (this.datas.length > 0) {
+      let index = this.datas.findIndex((x) => x.Id == data.Id);
+      if (index >= 0) {
+        return this.window.getIsOpen();
+      }
     }
     return false;
   }
@@ -25,7 +28,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
     close: new EventEmitter<void>(),
     details: new EventEmitter<RoadObjectEventRecord>(),
   };
-  private data?: RoadObjectEventRecord;
+  private datas: RoadObjectEventRecord[] = [];
 
   private init() {
     let window = new AMap.InfoWindow({
@@ -49,10 +52,10 @@ export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
   }
 
   private get = {
-    html: (data: RoadObjectEventRecord) => {
+    html: (datas: RoadObjectEventRecord[]) => {
       let component = this.tool.create(
         SystemStatisticRoadObjectMapInfoDetailsComponent,
-        { data: data, close: this.event.close, details: this.event.details },
+        { datas: datas, close: this.event.close, details: this.event.details },
       );
       let html = this.tool.get.html(component);
       return html.firstElementChild as HTMLElement;
@@ -66,17 +69,20 @@ export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
     },
   };
 
-  async open(data: RoadObjectEventRecord, isline: boolean) {
-    this.data = data;
-    if (data.Location) {
-      let position = [
-        data.Location.GCJ02.Longitude,
-        data.Location.GCJ02.Latitude,
-      ] as [number, number];
-      let offset = await this.get.offset(isline);
-      this.window.setOffset(offset);
-      this.window.setContent(this.get.html(data));
-      this.window.open(this.map, position);
+  async open(datas: RoadObjectEventRecord[], isline: boolean) {
+    this.datas = [...datas];
+    if (datas.length > 0) {
+      let last = datas[datas.length - 1];
+      if (last.Location) {
+        let position = [
+          last.Location.GCJ02.Longitude,
+          last.Location.GCJ02.Latitude,
+        ] as [number, number];
+        let offset = await this.get.offset(isline);
+        this.window.setOffset(offset);
+        this.window.setContent(this.get.html(datas));
+        this.window.open(this.map, position);
+      }
     }
   }
 

@@ -182,14 +182,28 @@ export class RoadObjectEventRecordTool {
 
   get = {
     color: {
+      name: {
+        event: (type: RoadObjectEventType) => {
+          switch (type) {
+            case RoadObjectEventType.Inspection:
+              return 'green';
+            case RoadObjectEventType.Breakage:
+              return 'yellow';
+            case RoadObjectEventType.Disappear:
+              return 'redlight';
+            default:
+              return '';
+          }
+        },
+      },
       event: (type: RoadObjectEventType) => {
         switch (type) {
           case RoadObjectEventType.Inspection:
-            return 'green';
+            return '#21e452';
           case RoadObjectEventType.Breakage:
-            return 'yellow';
+            return '#fde546';
           case RoadObjectEventType.Disappear:
-            return 'redlight';
+            return '#ff762c';
           default:
             return '';
         }
@@ -233,7 +247,7 @@ export class RoadObjectEventRecordTool {
     icon: {
       load: (data: RoadObjectEventRecord, size: number) => {
         let icon = this.get.icon.inner(data.RoadObjectType);
-        let color = this.get.color.event(data.EventType);
+        let color = this.get.color.name.event(data.EventType);
         return this.get.icon.svg(size, color, icon);
       },
       svg: (size: number, color: string, icon: string) => {

@@ -10,6 +10,7 @@ import { IASMapAMapPathController } from '../../../../../../share/map/controller
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 import { SystemStatisticRoadObjectAMapRecordInfoDetailsController } from './record/info/system-statistic-road-object-amap-record-info-details.controller';
 import { SystemStatisticRoadObjectAMapRecordInfoSimpleController } from './record/info/system-statistic-road-object-amap-record-info-simple.controller';
+import { SystemStatisticRoadObjectAMapRecordMarkerClusterController } from './record/marker/system-statistic-road-object-amap-record-marker-cluster.controller';
 import { SystemStatisticRoadObjectAMapRecordMarkerLayerController } from './record/marker/system-statistic-road-object-amap-record-marker-layer.controller';
 
 export class SystemStatisticRoadObjectAMapController {
@@ -22,6 +23,7 @@ export class SystemStatisticRoadObjectAMapController {
   get record() {
     return {
       marker: this.controller.record.marker.get(),
+      cluster: this.controller.record.cluster.get(),
       info: {
         details: this.controller.record.info.details.get(),
         simple: this.controller.record.info.simple.get(),
@@ -73,6 +75,8 @@ export class SystemStatisticRoadObjectAMapController {
         simple:
           new PromiseValue<SystemStatisticRoadObjectAMapRecordInfoSimpleController>(),
       },
+      cluster:
+        new PromiseValue<SystemStatisticRoadObjectAMapRecordMarkerClusterController>(),
     },
     path: new PromiseValue<IASMapAMapPathPulseItemController>(),
     way: new PromiseValue<IASMapAMapPathWayController>(),
@@ -106,10 +110,15 @@ export class SystemStatisticRoadObjectAMapController {
       subscription: Subscription,
       manager: Manager,
     ) => {
+      let cluster =
+        new SystemStatisticRoadObjectAMapRecordMarkerClusterController(manager);
+      this.controller.record.cluster.set(cluster);
+
       let marker = new SystemStatisticRoadObjectAMapRecordMarkerLayerController(
         map,
         subscription,
         manager,
+        cluster,
       );
 
       this.controller.record.marker.set(marker);

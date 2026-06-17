@@ -1,16 +1,21 @@
 import { Subscription } from 'rxjs';
+import { RoadObjectEventType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-event-type.enum';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { RoadObjectEventRecord } from '../../../../../../../common/data-core/models/arm/geographic/road-object-event-record.model';
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { Manager } from '../../../../../../../common/data-core/requests/managers/manager';
 import { ComponentTool } from '../../../../../../../common/tools/component-tool/component.tool';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
-import { IIASMapMarkerEvent } from '../../../../../share/map/ias-map.model';
+import {
+  IIASMapMarkerClusterEvent,
+  IIASMapMarkerEvent,
+} from '../../../../../share/map/ias-map.model';
 import { SystemStatisticRoadObjectAMapController } from './amap/system-statistic-road-object-amap.controller';
 
 export class SystemStatisticRoadObjectMapController {
   event = {
     record: {} as IIASMapMarkerEvent<RoadObjectEventRecord>,
+    cluster: {} as IIASMapMarkerClusterEvent<RoadObjectEventRecord>,
   };
   private amap: SystemStatisticRoadObjectAMapController;
 
@@ -24,7 +29,7 @@ export class SystemStatisticRoadObjectMapController {
       subscription,
       manager,
     );
-    this.regist(this.amap);
+    this.regist.all(this.amap);
   }
 
   private async isline(data: RoadObjectEventRecord) {
@@ -32,47 +37,114 @@ export class SystemStatisticRoadObjectMapController {
     return lines.some((x) => x.Value == data.RoadObjectType);
   }
 
-  private async regist(amap: SystemStatisticRoadObjectAMapController) {
-    let marker = await amap.record.marker;
-    let sub_click = marker.event.click.subscribe((data) => {
-      this.event.record.click && this.event.record.click(data);
-      this.amap.record.info.simple.then((simple) => {
-        simple.remove();
+  private regist = {
+    all: (amap: SystemStatisticRoadObjectAMapController) => {
+      this.regist.marker(amap);
+      this.regist.info(amap);
+      this.regist.cluster(amap);
+    },
+    info: async (amap: SystemStatisticRoadObjectAMapController) => {
+      let info = await amap.record.info.details;
+      info.details = (data) => {
+        this.event.record.dblclick && this.event.record.dblclick(data);
+      };
+    },
+    marker: async (amap: SystemStatisticRoadObjectAMapController) => {
+      let marker = await amap.record.marker;
+      let sub_click = marker.event.click.subscribe((data) => {
+        this.event.record.click && this.event.record.click(data);
+        this.amap.record.info.simple.then((simple) => {
+          simple.remove();
+        });
       });
-    });
-    this.subscription.add(sub_click);
-    let sub_dblclick = marker.event.dblclick.subscribe((data) => {
-      this.event.record.dblclick && this.event.record.dblclick(data);
-      this.amap.record.info.simple.then((simple) => {
-        simple.remove();
+      this.subscription.add(sub_click);
+      let sub_dblclick = marker.event.dblclick.subscribe((data) => {
+        this.event.record.dblclick && this.event.record.dblclick(data);
+        this.amap.record.info.simple.then((simple) => {
+          simple.remove();
+        });
       });
-    });
-    this.subscription.add(sub_dblclick);
-    let sub_mouseover = marker.event.mouseover.subscribe((data) => {
-      this.event.record.mouseover && this.event.record.mouseover(data);
-      this.amap.record.info.details.then((details) => {
-        if (!details.opened(data))
-          this.amap.record.info.simple.then((simple) => {
-            this.isline(data).then((x) => {
-              simple.add(data, x);
+      this.subscription.add(sub_dblclick);
+      let sub_mouseover = marker.event.mouseover.subscribe((data) => {
+        this.event.record.mouseover && this.event.record.mouseover(data);
+        this.amap.record.info.details.then((details) => {
+          if (!details.opened(data))
+            this.amap.record.info.simple.then((simple) => {
+              this.isline(data).then((x) => {
+                simple.add(data, x);
+              });
             });
-          });
+        });
       });
-    });
-    this.subscription.add(sub_mouseover);
-    let sub_mouseout = marker.event.mouseout.subscribe((data) => {
-      this.event.record.mouseout && this.event.record.mouseout(data);
-      this.amap.record.info.simple.then((x) => {
-        x.remove();
+      this.subscription.add(sub_mouseover);
+      let sub_mouseout = marker.event.mouseout.subscribe((data) => {
+        this.event.record.mouseout && this.event.record.mouseout(data);
+        this.amap.record.info.simple.then((x) => {
+          x.remove();
+        });
       });
-    });
-    this.subscription.add(sub_mouseout);
-
-    let info = await amap.record.info.details;
-    info.details = (data) => {
-      this.event.record.dblclick && this.event.record.dblclick(data);
-    };
-  }
+      this.subscription.add(sub_mouseout);
+    },
+    cluster: async (amap: SystemStatisticRoadObjectAMapController) => {
+      let cluster = await amap.record.cluster;
+      let sub_click = cluster.event.click.subscribe(async (datas) => {
+        this.event.cluster.click && this.event.cluster.click(datas);
+        this.amap.record.info.simple.then((simple) => {
+          simple.remove();
+        });
+        if (datas.length > 0) {
+          let info = await this.amap.record.info.details;
+          let last = datas[datas.length - 1];
+          let isline = await this.isline(last);
+          await info.open(datas, isline);
+          if (last.Location) {
+            let position: [number, number] = [
+              last.Location.GCJ02.Longitude,
+              last.Location.GCJ02.Latitude,
+            ];
+            this.map.move(position);
+          }
+        }
+      });
+      this.subscription.add(sub_click);
+      let sub_dblclick = cluster.event.dblclick.subscribe((datas) => {
+        if (datas.length > 0) {
+          let last = datas[datas.length - 1];
+          this.event.record.dblclick && this.event.record.dblclick(last);
+        }
+        this.amap.record.info.simple.then((simple) => {
+          simple.remove();
+        });
+      });
+      this.subscription.add(sub_dblclick);
+      let sub_mouseover = cluster.event.mouseover.subscribe((datas) => {
+        this.event.cluster.mouseover && this.event.cluster.mouseover(datas);
+        this.amap.record.info.details.then((details) => {
+          if (datas.length > 0) {
+            let last =
+              datas.find((x) => x.EventType === RoadObjectEventType.Breakage) ??
+              datas.reduce((latest, item) =>
+                item.EventTime > latest.EventTime ? item : latest,
+              );
+            if (!details.opened(last))
+              this.amap.record.info.simple.then((simple) => {
+                this.isline(last).then((x) => {
+                  simple.add(last, x);
+                });
+              });
+          }
+        });
+      });
+      this.subscription.add(sub_mouseover);
+      let sub_mouseout = cluster.event.mouseout.subscribe((data) => {
+        this.event.cluster.mouseout && this.event.cluster.mouseout(data);
+        this.amap.record.info.simple.then((x) => {
+          x.remove();
+        });
+      });
+      this.subscription.add(sub_mouseout);
+    },
+  };
 
   road = {
     load: async (datas: Road[]) => {
@@ -99,7 +171,7 @@ export class SystemStatisticRoadObjectMapController {
       marker.select(data);
       let info = await this.amap.record.info.details;
       let isline = await this.isline(data);
-      await info.open(data, isline);
+      await info.open([data], isline);
       if (data.Location) {
         let position: [number, number] = [
           data.Location.GCJ02.Longitude,

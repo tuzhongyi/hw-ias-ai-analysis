@@ -40,9 +40,10 @@ export class SystemStatisticRoadObjectTimelineItemComponent implements OnInit {
     color: '',
     name: '',
     load: (data: RoadObjectEventRecord) => {
-      this.event.color = ObjectTool.model.RoadObjectEventRecord.get.color.event(
-        data.EventType
-      );
+      this.event.color =
+        ObjectTool.model.RoadObjectEventRecord.get.color.name.event(
+          data.EventType,
+        );
       this.language.road.object.EventTypes(data.EventType).then((x) => {
         this.event.name = x;
       });

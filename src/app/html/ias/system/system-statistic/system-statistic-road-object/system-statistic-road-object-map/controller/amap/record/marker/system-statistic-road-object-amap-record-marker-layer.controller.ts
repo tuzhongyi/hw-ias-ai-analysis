@@ -3,6 +3,8 @@ import { RoadObjectEventRecord } from '../../../../../../../../../../common/data
 import { Manager } from '../../../../../../../../../../common/data-core/requests/managers/manager';
 import { IIASMapAMapInfo } from '../../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapMarkerEvent } from '../../../../../../../../share/map/controller/amap/marker/ias-map-amap-marker.model';
+// [聚合] 引入聚合控制器，将坐标相同的点位合并为一个标记
+import { SystemStatisticRoadObjectAMapRecordMarkerClusterController } from './system-statistic-road-object-amap-record-marker-cluster.controller';
 import { SystemStatisticRoadObjectAMapRecordMarkerLabelController } from './system-statistic-road-object-amap-record-marker-label.controller';
 
 export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
@@ -12,6 +14,7 @@ export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
     map: AMap.Map,
     private subscription: Subscription,
     private manager: Manager,
+    private cluster: SystemStatisticRoadObjectAMapRecordMarkerClusterController,
   ) {
     this.layer = this.init(map);
   }
@@ -58,22 +61,20 @@ export class SystemStatisticRoadObjectAMapRecordMarkerLayerController {
   }
 
   async load(datas: RoadObjectEventRecord[]) {
-    let markers = [];
-    let lines = await this.manager.source.road.object.LineObjectTypes.get();
-    for (let i = 0; i < datas.length; i++) {
-      const data = datas[i];
-      if (data.Location) {
-        let point =
-          new SystemStatisticRoadObjectAMapRecordMarkerLabelController(
-            data as any,
-            lines.some((x) => x.Value == data.RoadObjectType),
-          );
+    // [聚合] 使用 ClusterController 将坐标相同的点位聚合为一个标记
+    // lines 的获取已移至 ClusterController 内部（通过注入的 Manager）
+
+    let result = await this.cluster.load(
+      datas,
+      this.event,
+      // [聚合] 普通标记仍沿用原有 regist 逻辑进行事件转发
+      (point) => {
         this.regist(point);
-        let marker = await point.marker;
-        markers.push(marker);
-        this.points.push(point);
-      }
-    }
+      },
+    );
+    this.points = result.points;
+    let markers = result.markers;
+
     this.layer.add(markers);
     this._markers = markers;
     return markers;

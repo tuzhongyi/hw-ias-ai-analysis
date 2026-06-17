@@ -176,7 +176,24 @@ export class SystemStatisticRoadObjectDurationManagerComponent implements OnInit
         }
       }
     },
+    cluster: {
+      hover: (datas: RoadObjectEventRecord[]) => {
+        if (datas.length > 0) {
+          this.data.record.hover = datas[0];
+        }
+      },
+      leave: (datas: RoadObjectEventRecord[]) => {
+        if (this.data.record.hover) {
+          let index = datas.findIndex(
+            (x) => x.Id == this.data.record.hover?.Id,
+          );
 
+          if (index >= 0) {
+            this.data.record.hover = undefined;
+          }
+        }
+      },
+    },
     filter: (args: { EventType?: number; RoadObjectType?: number }) => {
       this.data.record.view = this.data.record.source.filter((item) => {
         let is = {
