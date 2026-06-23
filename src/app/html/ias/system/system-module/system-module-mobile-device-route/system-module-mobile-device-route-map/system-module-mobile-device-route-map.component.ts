@@ -21,29 +21,27 @@ import { SystemModuleMobileDeviceRouteMapBusiness } from './system-module-mobile
   imports: [CommonModule],
   templateUrl: './system-module-mobile-device-route-map.component.html',
   styleUrl: './system-module-mobile-device-route-map.component.less',
-  providers: [
-    SystemModuleMobileDeviceRouteMapBusiness,
-    SystemModuleMobileDeviceRouteMapController,
-  ],
+  providers: [SystemModuleMobileDeviceRouteMapBusiness],
 })
 export class SystemModuleMobileDeviceRouteMapComponent
   implements OnInit, OnChanges, OnDestroy
 {
-  @Input()
-  load?: EventEmitter<SystemModuleMobileDeviceRouteArgs>;
+  @Input() load?: EventEmitter<SystemModuleMobileDeviceRouteArgs>;
+  @Input() init?: EventEmitter<string>;
   @Input() rectified = false;
   @Output('loaded') _loaded = new EventEmitter<FileGpsItem[]>();
   @Input() gps?: FileGpsItem;
+  @Output() devicedblclick = new EventEmitter<void>();
 
-  constructor(
-    private business: SystemModuleMobileDeviceRouteMapBusiness,
-    private controller: SystemModuleMobileDeviceRouteMapController
-  ) {}
+  constructor(private business: SystemModuleMobileDeviceRouteMapBusiness) {}
 
   loaded = false;
   loading = false;
   private args?: SystemModuleMobileDeviceRouteArgs;
   private subscription = new Subscription();
+  private controller = new SystemModuleMobileDeviceRouteMapController(
+    this.subscription,
+  );
   private regist() {
     if (this.load) {
       let sub = this.load.subscribe((x) => {
@@ -52,6 +50,30 @@ export class SystemModuleMobileDeviceRouteMapComponent
       });
       this.subscription.add(sub);
     }
+    // init: 接收 deviceId，获取设备信息并在高德地图上显示设备位置
+    if (this.init) {
+      let sub = this.init.subscribe((deviceId) => {
+        this.loading = true;
+        this.business
+          .device(deviceId)
+          .then((device) => {
+            this.controller.device.load(device).then((marker) => {
+              this.controller.map.focus(marker);
+            });
+          })
+          .finally(() => {
+            this.loading = false;
+            this.loaded = true;
+            this._loaded.emit([]);
+          });
+      });
+      this.subscription.add(sub);
+    }
+    // 订阅 device marker 的 dblclick 事件，通过 Output 对外抛出
+    let deviceDblclick = this.controller.device.event.dblclick.subscribe(() => {
+      this.devicedblclick.emit();
+    });
+    this.subscription.add(deviceDblclick);
   }
 
   private data = {

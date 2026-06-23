@@ -1,0 +1,286 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+
+    <link type="text/css" href="./css/howell.font.css" rel="stylesheet" />
+    <link type="text/css" href="./css/player.css" rel="stylesheet" />
+    <style type="text/css">
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      input[type='text'] {
+        width: 100%;
+      }
+
+      .main {
+        padding: 0 10px;
+      }
+
+      table td {
+        padding: 5px 5px;
+      }
+
+      .player {
+        width: 1080px;
+        height: 720px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="player" id="player">
+        <div class="video"></div>
+        <!-- <div class="tools">
+                <ul class="preview">
+                    <li style="width: 40px;">
+                        <a class="play glyphicon glyphicon-play" title="播放"></a>
+                    </li>
+                    <li>
+                        <a class="stop glyphicon glyphicon-stop" title="停止"></a>
+                    </li>
+
+                    <li>
+                        <a class="pause glyphicon glyphicon-pause" title="暂停"></a>
+                    </li>
+                    <li>
+                        <a class="forward glyphicon glyphicon-step-forward" title="单帧进"></a>
+                    </li>
+                    <li>
+                        <a class="fast glyphicon glyphicon-forward" title="快进"></a>
+                    </li>
+                    <li>
+                        <a class="slow glyphicon glyphicon-eject" title="慢放"></a>
+                    </li>
+                    <li style="width: 60px;">
+                        <label class="begin_time" title="当前时间">00:00:00</label>
+                    </li>
+                    <li style="width: calc(100% - 380px)">
+                        <input class="position" type="range" oninput="changeSpeed(this)" title="00:00:00">
+                    </li>
+                    <li style="width: 60px;">
+                        <label class="end_time" title="结束时间">00:00:00</label>
+                    </li>
+
+                    <li style="float: right;">
+                        <a class="fullscreen glyphicon glyphicon-fullscreen" title="全屏"></a>
+                    </li>
+
+                    <li style="float: right;">
+                        <a class="capturepicture glyphicon glyphicon-picture" title="截图"></a>
+                    </li>
+
+                </ul>
+
+            </div> -->
+      </div>
+
+      <table>
+        <tr>
+          <td>预览</td>
+          <td width="1200">
+            <input
+              id="txt_preview"
+              type="text"
+              value="ws://192.168.21.241:8800/ws/video/howellps/live/00310101001111111000003000000000/3/2/live.H265?user=howell&password=123456"
+            />
+          </td>
+          <td><button onclick="preview()">播放</button></td>
+        </tr>
+        <tr>
+          <td>回放</td>
+          <td>
+            <input
+              id="txt_playback"
+              width="500"
+              type="text"
+              value="ws://192.168.21.241:8800/ws/video/howellps/live/00310101001111111000003000000000/3/2/live.H265?user=howell&password=123456"
+            />
+          </td>
+          <td><button onclick="playback()">播放</button></td>
+        </tr>
+      </table>
+    </div>
+
+    <script src="http://192.168.21.241:8800/js/howell.js/ext.js"></script>
+    <script src="./jquery-3.6.0.min.js"></script>
+
+    <script src="./WSPlayer.js"></script>
+    <script type="text/javascript">
+      var player
+
+      function preview() {
+        var url = document.getElementById('txt_preview').value.trim()
+        if (player) {
+          if (player.status == 255) {
+            player.url = url
+            player.name = '预览测试'
+            player.play()
+          } else {
+            player.stop().then(function () {
+              player.url = url
+              player.name = '预览测试'
+              player.play()
+            })
+          }
+        } else {
+          player = new WSPlayer({
+            elementId: 'player',
+          })
+          player.url = url
+          player.name = '预览测试'
+          player.play()
+        }
+      }
+
+      function stop() {
+        player.stop()
+      }
+
+      function fullScreen() {
+        player.fullScreen()
+      }
+
+      function pause() {
+        console.log('pause')
+        player.pause()
+      }
+
+      function resume() {
+        player.resume()
+      }
+
+      function fast() {
+        player.fast()
+      }
+      function slow() {
+        //player.slow();
+        player.slow()
+      }
+
+      function getPicture() {
+        player.capturePicture()
+      }
+
+      function frame() {
+        player.frame()
+      }
+
+      function createPlaybackUrl(p) {
+        var url =
+          'ws://' +
+          p.host +
+          ':' +
+          p.port +
+          '/ws/video/howellps/vod/' +
+          p.dev_id +
+          '/' +
+          p.slot +
+          '/' +
+          p.stream +
+          '/' +
+          p.begin_time +
+          '_' +
+          p.end_time +
+          '/vod.H265?user=' +
+          p.user +
+          '&password=' +
+          p.password
+        return url
+      }
+
+      function seek(input) {
+        player.seek(parseInt(input.value))
+        player.resume()
+      }
+
+      var position = document.getElementById('playback_position')
+      var lbl_begin = document.getElementById('lbl_begin')
+      var lbl_end = document.getElementById('lbl_end')
+
+      var time_formet = 'hh:mm:ss'
+
+      function playback() {
+        var url = document.getElementById('txt_playback').value.trim()
+        if (player) {
+          if (player.status == 255) {
+            player.url = url
+            player.name = '回放测试'
+            player.play()
+          } else {
+            player.stop().then(function () {
+              player.url = url
+              player.name = '回放测试'
+              player.play()
+            })
+          }
+        } else {
+          player = new WSPlayer({
+            elementId: 'player',
+          })
+          player.url = url
+          player.name = '回放测试'
+          player.play()
+        }
+      }
+
+      var end = new Date()
+      end.setMinutes(end.getMinutes() - 10)
+      var begin = new Date()
+      begin.setMinutes(begin.getMinutes() - 15)
+
+      var p = {
+        host: '192.168.21.241',
+        port: 8800,
+        dev_id: '00310101001111111000003000000000',
+        slot: 3,
+        stream: 1,
+        begin_time: begin.toISOString(),
+        end_time: end.toISOString(),
+        user: 'howell',
+        password: '123456',
+      }
+      var url = createPlaybackUrl(p)
+
+      onload = function () {
+        //preview();
+        //playback();
+        document.getElementById('txt_playback').value = url
+      }
+
+      function full_zero(value) {
+        var str = value.toString()
+        if (str.length > 1) return value
+        return '0' + value
+      }
+      function date_format(date) {
+        var year = date.getFullYear()
+        var month = date.getMonth() + 1
+        var day = date.getDate()
+        var hour = date.getHours() - 8
+        var minute = date.getMinutes()
+        var second = date.getSeconds()
+        return (
+          year +
+          '-' +
+          full_zero(month) +
+          '-' +
+          full_zero(day) +
+          'T' +
+          full_zero(hour) +
+          ':' +
+          full_zero(minute) +
+          ':' +
+          full_zero(second) +
+          'Z'
+        )
+      }
+    </script>
+  </body>
+</html>

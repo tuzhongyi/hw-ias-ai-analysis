@@ -1,0 +1,137 @@
+@import url(./font/materialdesignicons/css/materialdesignicons.min.css);
+@import url(./font/howell/howell.font.css);
+@import url(./wsplayer-control-video.css);
+@import url(./wsplayer-control-widget.css);
+@import url(./wsplayer-control-position.css);
+@import url(./wsplayer-subtitle.css);
+
+.player {
+  position: relative;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: blue;
+}
+
+.loading {
+  position: relative;
+  /* width: 2.5em;
+    height: 2.5em; */
+  background-color: black;
+  /* transform: rotate(165deg); */
+}
+
+.loading:before,
+.loading:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 0.25em;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.loading:before {
+  animation: before 2s infinite;
+}
+
+.loading:after {
+  animation: after 2s infinite;
+}
+
+@keyframes before {
+  0% {
+    width: 0.5em;
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+
+  35% {
+    width: 2.5em;
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
+  }
+
+  70% {
+    width: 0.5em;
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+
+  100% {
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+  }
+}
+
+@keyframes after {
+  0% {
+    height: 0.5em;
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+
+  35% {
+    height: 2.5em;
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
+  }
+
+  70% {
+    height: 0.5em;
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+  }
+
+  100% {
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+  }
+}
+
+
+
+
+
+.player .parent-wnd {
+  z-index: 99;
+}
+
+.player .player-controls {
+  z-index: 100;
+  height: 52px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+}
+
+
+.player .player-controls .player-controls-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 20px;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  gap: 2px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  transition: 0.4s;
+  opacity:1;
+}
+
+.player .player-controls .player-controls-content>div {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  height: 100%;
+}
+
+.player .player-controls .player-controls-content>div>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}

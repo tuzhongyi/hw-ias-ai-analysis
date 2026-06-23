@@ -1,4 +1,5 @@
 import { DateTimeFullTool } from './date-time-full.tool';
+import { DateTimeThanTool } from './date-time-than.tool';
 import { DateTimeAllTool } from './datetime-all.tool';
 import { DateTimeLastTool } from './datetime-last.tool';
 import { DateTimeMathTool } from './datetime-math.tool';
@@ -9,6 +10,7 @@ export class DateTimeTool {
   static all = new DateTimeAllTool();
   static math = new DateTimeMathTool();
   static full = new DateTimeFullTool();
+  static is = new DateTimeThanTool();
 
   static beforeOrAfter(date: Date, seconds: number = 30): Duration {
     let duration = {
@@ -47,12 +49,24 @@ export class DateTimeTool {
 
     return duration;
   }
+  static after(date: Date, seconds: number = 30): Duration {
+    let duration = {
+      begin: new Date(date.getTime()),
+      end: new Date(),
+    };
+
+    let end = new Date(date.getTime());
+    end.setSeconds(end.getSeconds() + seconds);
+    duration.end = new Date(end.getTime());
+
+    return duration;
+  }
   static beforeDay(date: Date, day: number = 7): Duration {
     let duration = {
       begin: new Date(
         date.getFullYear(),
         date.getMonth(),
-        date.getDate() - day
+        date.getDate() - day,
       ),
       end: new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1),
     };

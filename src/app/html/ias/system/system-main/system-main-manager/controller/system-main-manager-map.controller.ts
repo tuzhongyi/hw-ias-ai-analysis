@@ -79,7 +79,7 @@ export class SystemMainManagerMapController {
       },
       filter: (states: ShopObjectState[]) => {
         this.data.shop = this.that.shop.data.registration.filter((x) =>
-          states.includes(x.ObjectState)
+          states.includes(x.ObjectState),
         );
       },
     },
@@ -87,7 +87,7 @@ export class SystemMainManagerMapController {
       object: {
         filter: (states: RoadObjectState[]) => {
           this.data.road.object = this.that.road.object.datas.filter((x) =>
-            states.includes(x.ObjectState)
+            states.includes(x.ObjectState),
           );
         },
       },
@@ -104,9 +104,22 @@ export class SystemMainManagerMapController {
         data.SceneName || '定制场景事件详情';
       this.that.window.details.sample.show = true;
     },
-    device: (data: MobileDevice) => {
-      this.that.window.device.route.deviceId = data.Id;
-      this.that.window.device.route.show = true;
+    device: async (data: MobileDevice) => {
+      // this.that.window.device.route.deviceId = data.Id;
+      // this.that.window.device.route.show = true;
+
+      this.that.business.device
+        .channels(data.Id)
+        .then((channels) => {
+          if (channels.length > 0) {
+            this.that.window.video.wsplayer.open(data, channels);
+          } else {
+            this.that.toastr.error('没找到视频通道');
+          }
+        })
+        .catch((e) => {
+          this.that.toastr.error('视频通道获取失败');
+        });
     },
   };
 }

@@ -63,6 +63,7 @@ export class SystemEventTaskTimelineComponent implements OnInit, AfterViewInit {
   }
 
   private load(data: MobileEventRecord) {
+    this.chart.axis.x(data);
     let models = this.business.load(data);
     let serie = (this.option.series as any)[0];
     let visual = this.option.visualMap as any;
@@ -79,4 +80,17 @@ export class SystemEventTaskTimelineComponent implements OnInit, AfterViewInit {
       this.echarts.setOption(this.option);
     }
   }
+
+  private chart = {
+    axis: {
+      x: (data: MobileEventRecord) => {
+        let xAxis = this.option.xAxis as any;
+        if (data.Assignment?.IsMisInfo) {
+          xAxis.data = ['自动发现', '核实确认', '发现误报', '已忽略'];
+        } else {
+          xAxis.data = ['自动发现', '人员派单', '接单处置', '处置闭环'];
+        }
+      },
+    },
+  };
 }

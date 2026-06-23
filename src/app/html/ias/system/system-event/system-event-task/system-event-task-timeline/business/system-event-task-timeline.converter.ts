@@ -6,6 +6,15 @@ import { IEChartModel } from './system-event-task-timeline.model';
 
 export class SystemEventTaskTimelineConverter {
   convert(data: MobileEventRecord) {
+    if (data.Assignment && data.Assignment.IsMisInfo) {
+      return [
+        this.discover(data),
+
+        this.misinfo(data),
+        this.misinfo(data),
+        this.misinfo(data),
+      ];
+    }
     return [
       this.discover(data),
       this.task(data),
@@ -26,6 +35,23 @@ export class SystemEventTaskTimelineConverter {
     }
     return model;
   }
+  private misinfo(data: MobileEventRecord) {
+    let model: IEChartModel = {
+      name: '',
+      value: 0,
+    };
+    if (data.Confirmed && data.ConfirmedTime) {
+      model.name = formatDate(
+        data.ConfirmedTime,
+        Language.MonthDayHHmmss,
+        'en',
+      );
+    } else {
+      model.name = formatDate(data.EventTime, Language.MonthDayHHmmss, 'en');
+    }
+    return model;
+  }
+
   private task(data: MobileEventRecord) {
     let model: IEChartModel = {
       name: '',
@@ -36,7 +62,7 @@ export class SystemEventTaskTimelineConverter {
         model.name = formatDate(
           data.Assignment.AssignmentTime,
           Language.MonthDayHHmmss,
-          'en'
+          'en',
         );
       }
     }
@@ -48,7 +74,7 @@ export class SystemEventTaskTimelineConverter {
           model.name = formatDate(
             data.EventTime,
             Language.MonthDayHHmmss,
-            'en'
+            'en',
           );
         }
         break;
@@ -72,7 +98,7 @@ export class SystemEventTaskTimelineConverter {
       model.name = formatDate(
         data.Assignment.HandledTime,
         Language.MonthDayHHmmss,
-        'en'
+        'en',
       );
     }
     return model;
@@ -91,7 +117,7 @@ export class SystemEventTaskTimelineConverter {
       model.name = formatDate(
         data.Assignment.HandledTime,
         Language.MonthDayHHmmss,
-        'en'
+        'en',
       );
     }
     return model;

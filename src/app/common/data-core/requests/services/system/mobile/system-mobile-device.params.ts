@@ -54,3 +54,40 @@ export class GetDeviceStatementParams implements IParams {
   /**	String	设备ID	M	*/
   DeviceId!: string;
 }
+
+export class GetPreviewUrlParams implements IParams {
+  /**	String	设备ID	M	*/
+  DeviceId!: string;
+  /**	Int32	通道ID	M	*/
+  ChannelId!: number;
+  /**	Int32	流类型：1-主码流，2-子码流	M	*/
+  StreamType!: number;
+  /**
+   * String
+   * 协议类型：rtsp, ws-ps网页插件播放请使用ws-ps
+   * M
+   **/
+  Protocol: string = 'ws-ps';
+}
+export class PreviewParams implements IParams {
+  /**	String	唯一标识符	M	*/
+  Guid!: string;
+}
+export class GetVodUrlParams extends DurationParams {
+  /**	String	设备ID	M	*/
+  DeviceId!: string;
+  /**	Int32	通道ID	M	*/
+  ChannelId!: number;
+  /**	Int32	流类型：1-主码流，2-子码流	M	*/
+  StreamType!: number;
+  /**
+   * String
+   * 协议类型：rtsp, ws-ps网页插件播放请使用ws-ps
+   * M
+   **/
+  Protocol: string = 'ws-ps';
+}
+export class VodParams implements IParams {
+  /**	String	唯一标识符	M	*/
+  Guid!: string;
+}

@@ -15,12 +15,15 @@ export class SystemModuleMobileDeviceRouteAMapController {
 
   private init() {
     let key = 'route_map_container';
-    MapHelper.amap.get(key, [], false, { viewMode: '2D' }).then((x) => {
-      this.map.set(x);
-
-      let device = new SystemModuleMobileDeviceRouteAMapMarkerController(x);
-      this.device.set(device);
-    });
+    MapHelper.amap.get(key, [], false, { viewMode: '2D' })
+      .then((x) => {
+        this.map.set(x);
+        let device = new SystemModuleMobileDeviceRouteAMapMarkerController(x);
+        this.device.set(device);
+      })
+      .catch((e) => {
+        console.error('Amap 初始化失败', e);
+      });
   }
 
   async destroy() {

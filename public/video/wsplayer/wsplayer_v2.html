@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <link
+      type="text/css"
+      href="./wsplayer_v2/css/wsplayer.css"
+      rel="stylesheet"
+    />
+    <script src="./base64.js"></script>
+    <script src="./wsplayer_v2/js/wsplayer_v2.js"></script>
+    <script src="./wsplayer_v2/js/wsplayerclient_v2.js"></script>
+    <style type="text/css">
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+      .player {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="player" id="player"></div>
+    </div>
+    <script type="text/javascript">
+      function getQuerys() {
+        var querys = {}
+        var str = location.search.substr(1)
+        var query = str.split('&')
+        for (let i = 0; i < query.length; i++) {
+          let keyvalue = query[i].split('=')
+          querys[keyvalue[0].toLocaleLowerCase()] = decodeURIComponent(
+            keyvalue[1]
+          )
+        }
+        return querys
+      }
+
+      function play(url, index, name) {
+		console.log(url)	  
+        let player = new WSPlayer({
+          elementId: 'player',
+          url: url,
+          name: name,
+        })
+        player.play()
+        let client = new WSPlayerClient(player, index)
+      }
+      function init() {
+        let querys = getQuerys()
+        let url = querys.url? base64decode(querys.url):undefined
+        let name = querys.name?base64decode(querys.name):undefined
+        play(url, querys.index, name)
+      }
+      init()
+    </script>
+  </body>
+</html>

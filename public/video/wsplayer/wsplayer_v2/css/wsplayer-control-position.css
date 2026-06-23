@@ -1,0 +1,7 @@
+@import url(./wsplayer-control-position-range.css);
+
+.player .player-controls .player-controls-position {
+  justify-content: stretch;
+  flex-grow: 1;
+  font-size: 14px;
+}

@@ -16,7 +16,10 @@
         [color]="color"
       ></ias-system-main-card-device-route-statistic-chart>
     </div>
-    <div class="system-main-card-device-route-statistic-info">
+    <div
+      class="system-main-card-device-route-statistic-info"
+      [class.padding]="datas.length < 5"
+    >
       <div
         class="system-main-card-device-route-statistic-info-item"
         *ngFor="let item of datas; let index = index"

@@ -1,12 +1,16 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
+import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { MobileDevice } from '../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { SystemModuleMobileDeviceRouteAMapPathController } from './amap/system-module-mobile-device-route-amap-path.controller';
 import { SystemModuleMobileDeviceRouteAMapController } from './amap/system-module-mobile-device-route-amap.controller';
 
-@Injectable()
 export class SystemModuleMobileDeviceRouteMapController {
+  constructor(subscription: Subscription) {
+    this.device.event.regist(subscription);
+  }
+
   private amap = new SystemModuleMobileDeviceRouteAMapController();
 
   private controller = {
@@ -17,9 +21,9 @@ export class SystemModuleMobileDeviceRouteMapController {
     load: async (datas: FileGpsItem[][]) => {
       let positions = datas.map<[number, number][]>((x) =>
         x.map(
-          (y) => [y.Longitude, y.Latitude]
+          (y) => [y.Longitude, y.Latitude],
           // GeoTool.point.convert.wgs84.to.gcj02()
-        )
+        ),
       );
 
       let map = await this.amap.map.get();
@@ -27,12 +31,12 @@ export class SystemModuleMobileDeviceRouteMapController {
       let polylines = datas
         .map((items, i) => {
           let positions = items.map(
-            (x) => [x.Longitude, x.Latitude] as [number, number]
+            (x) => [x.Longitude, x.Latitude] as [number, number],
           );
           let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
           let path = new SystemModuleMobileDeviceRouteAMapPathController(
             map,
-            type
+            type,
           );
           this.controller.path.push(path);
           return path.load(positions)!;
@@ -53,6 +57,10 @@ export class SystemModuleMobileDeviceRouteMapController {
   };
 
   map = {
+    focus: async (data: any) => {
+      let map = await this.amap.map.get();
+      map.setFitView(data);
+    },
     destroy: async () => {
       this.path.clear();
       await this.device.clear();
@@ -61,8 +69,22 @@ export class SystemModuleMobileDeviceRouteMapController {
   };
 
   device = {
+    event: {
+      dblclick: new EventEmitter<MobileDevice>(),
+      regist: (subscription: Subscription) => {
+        this.amap.device.get().then((x) => {
+          let sub = x.dblclick.subscribe((d: MobileDevice) => {
+            this.device.event.dblclick.emit(d);
+          });
+          subscription.add(sub);
+        });
+      },
+    },
+
     load: (data: MobileDevice) => {
-      this.amap.device.get().then((x) => x.load(data));
+      return this.amap.device.get().then((x) => {
+        return x.load(data);
+      });
     },
     clear: async () => {
       let device = await this.amap.device.get();

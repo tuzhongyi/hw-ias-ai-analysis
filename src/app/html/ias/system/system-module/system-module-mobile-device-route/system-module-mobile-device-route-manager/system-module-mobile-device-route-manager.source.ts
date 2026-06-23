@@ -6,18 +6,16 @@ import { SystemModuleMobileDeviceRouteType } from '../system-module-mobile-devic
 
 @Injectable()
 export class SystemModuleMobileDeviceRouteManagerSource {
-  devices: MobileDevice[] = [];
+  devices: Promise<MobileDevice[]>;
   types: IIdNameModel<number>[] = [];
   constructor(private service: ArmSystemRequestService) {
-    this.init.device();
+    this.devices = this.init.device();
     this.init.type();
   }
 
   private init = {
-    device: () => {
-      this.service.mobile.device.all().then((x) => {
-        this.devices = x;
-      });
+    device: async () => {
+      return this.service.mobile.device.all();
     },
     type: () => {
       this.types = [
@@ -34,6 +32,12 @@ export class SystemModuleMobileDeviceRouteManagerSource {
           Name: '时长',
         },
       ];
+    },
+  };
+
+  get = {
+    channels: (deviceId: string) => {
+      return this.service.mobile.device.channels(deviceId);
     },
   };
 }

@@ -1,0 +1,22 @@
+.player .player-controls .player-controls-video {}
+
+.player .player-controls .player-controls-video>div {
+  width: 25px;
+  cursor: pointer;
+}
+
+.player .player-controls .player-controls-video>div:hover {
+  text-shadow: 0px 0px 10px white;
+}
+
+.player .player-controls .player-controls-video .play {
+  width: 32px;
+  height: 32px;
+  border-radius: 25px;
+  font-size: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.player .player-controls .player-controls-video .play:hover {
+  box-shadow: 0px 0px 10px white;
+}

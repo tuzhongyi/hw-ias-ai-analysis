@@ -1,0 +1,11 @@
+.player .player-controls .player-controls-widget {}
+
+
+.player .player-controls .player-controls-widget>div {
+  width: 25px;
+  cursor: pointer;
+}
+
+.player .player-controls .player-controls-widget>div:hover {
+  text-shadow: 0px 0px 10px white;
+}

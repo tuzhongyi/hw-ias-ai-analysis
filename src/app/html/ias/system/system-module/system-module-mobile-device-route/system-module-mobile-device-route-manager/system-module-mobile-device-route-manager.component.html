@@ -8,13 +8,13 @@
         <div class="form-item-text">选择日期:</div>
         <div class="form-item-value">
           <date-time-control
-            [week]="date.week"
-            [format]="date.format"
-            [minView]="date.view.min"
-            [startView]="date.view.min"
+            [week]="manager.date.week"
+            [format]="manager.date.format"
+            [minView]="manager.date.view.min"
+            [startView]="manager.date.view.min"
             [zindex]="iswindow ? 9000 : 10"
-            [(date)]="date.value"
-            (dateChange)="date.change()"
+            [(date)]="manager.date.value"
+            (dateChange)="manager.date.change()"
           ></date-time-control>
         </div>
       </div>
@@ -22,9 +22,9 @@
         <div class="form-item-text">开始时间:</div>
         <div class="form-item-value fill time">
           <app-time-control
-            [(time)]="time.begin"
-            [endTime]="time.end"
-            (timeChange)="time.change()"
+            [(time)]="manager.time.begin"
+            [endTime]="manager.time.end"
+            (timeChange)="manager.time.change()"
           ></app-time-control>
         </div>
       </div>
@@ -32,18 +32,56 @@
         <div class="form-item-text">结束时间:</div>
         <div class="form-item-value fill time">
           <app-time-control
-            [(time)]="time.end"
-            [beginTime]="time.begin"
-            (timeChange)="time.change()"
+            [(time)]="manager.time.end"
+            [beginTime]="manager.time.begin"
+            (timeChange)="manager.time.change()"
           ></app-time-control>
         </div>
       </div>
       <div class="form-item">
         <div class="form-item-text">巡逻车辆:</div>
         <div class="form-item-value fill">
-          <hw-select [(selected)]="args.deviceId" [nullable]="false">
-            <select [(ngModel)]="args.deviceId">
-              <option [ngValue]="item.Id" *ngFor="let item of source.devices">
+          <hw-select
+            [(selected)]="map.args.deviceId"
+            [nullable]="false"
+            (selectedChange)="manager.on.device()"
+          >
+            <select [(ngModel)]="map.args.deviceId">
+              <option
+                [ngValue]="item.Id"
+                *ngFor="let item of source.devices | async"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
+        </div>
+      </div>
+
+      <div class="form-item submit">
+        <button
+          class="button-clip-gradient"
+          [disabled]="!map.args.deviceId"
+          (click)="manager.on.search()"
+        >
+          查找
+        </button>
+      </div>
+    </div>
+    <div class="forms" *ngIf="video.channel.datas.length > 0">
+      <div class="form-item">
+        <div class="form-item-text">视频通道:</div>
+        <div class="form-item-value fill">
+          <hw-select
+            [(selected)]="video.channel.id"
+            [nullable]="false"
+            (selectedChange)="video.channel.change()"
+          >
+            <select [(ngModel)]="video.channel.id">
+              <option
+                [ngValue]="item.Id"
+                *ngFor="let item of video.channel.datas"
+              >
                 {{ item.Name }}
               </option>
             </select>
@@ -51,60 +89,100 @@
         </div>
       </div>
       <div class="form-item submit">
-        <button class="button-clip-gradient" (click)="on.search()">查找</button>
+        <button
+          class="button-clip-gradient"
+          [disabled]="!device || device.OnlineStatus == 1"
+          (click)="video.preview()"
+        >
+          预览
+        </button>
+        <button
+          class="button-clip-gradient"
+          [disabled]="!map.args.deviceId"
+          (click)="video.playback()"
+        >
+          回放
+        </button>
       </div>
     </div>
-    <!-- <div class="forms">
-      <div class="form-item">
-        <select [(ngModel)]="args.unit" (change)="on.unit()">
-          <option [ngValue]="Unit.day">日报表</option>
-          <option [ngValue]="Unit.week">周报表</option>
-          <option [ngValue]="Unit.month">月报表</option>
-        </select>
-      </div>
-    </div> -->
   </div>
   <div class="system-module-mobile-device-route-manager-body">
-    <div class="system-module-mobile-device-route-manager-body-map panel">
-      <div class="system-module-mobile-device-route-manager-body-map-body">
-        <howell-system-module-mobile-device-route-map
-          [load]="load"
-          [rectified]="rectified"
-          (loaded)="on.loaded($event)"
-          [gps]="map.current"
-        ></howell-system-module-mobile-device-route-map>
-      </div>
-      <div class="system-module-mobile-device-route-manager-body-map-foot">
-        <howell-timeline
-          *ngIf="loaded"
-          [datas]="timeline.datas"
-          (change)="timeline.change($event)"
-        ></howell-timeline>
-      </div>
-      <div class="system-module-mobile-device-route-manager-body-map-settings">
-        <howell-system-module-mobile-device-route-map-settings
-          *ngIf="loaded"
-          [(rectified)]="rectified"
+    <div
+      class="system-module-mobile-device-route-manager-body-nodata"
+      *ngIf="!map.args.deviceId"
+    >
+      <span>请选择巡逻车辆</span>
+    </div>
+    <ng-container *ngIf="map.args.deviceId">
+      <div class="system-module-mobile-device-route-manager-body-map panel">
+        <div
+          class="system-module-mobile-device-route-manager-body-map-body"
+          *ngIf="manager.been"
         >
-        </howell-system-module-mobile-device-route-map-settings>
+          <howell-system-module-mobile-device-route-map
+            [init]="map.init"
+            [load]="map.load"
+            [rectified]="map.rectified"
+            (loaded)="map.on.loaded($event)"
+            [gps]="map.current"
+          ></howell-system-module-mobile-device-route-map>
+        </div>
+        <div class="system-module-mobile-device-route-manager-body-map-foot">
+          <howell-timeline
+            *ngIf="map.loaded"
+            [datas]="timeline.datas"
+            (change)="timeline.change($event)"
+          ></howell-timeline>
+        </div>
+        <div
+          class="system-module-mobile-device-route-manager-body-map-settings"
+        >
+          <howell-system-module-mobile-device-route-map-settings
+            *ngIf="map.loaded"
+            [(rectified)]="map.rectified"
+          >
+          </howell-system-module-mobile-device-route-map-settings>
+        </div>
+        <div class="system-module-mobile-device-route-manager-body-map-state">
+          <ias-system-module-mobile-device-route-map-path-state
+            *ngIf="map.loaded"
+            [(precision)]="map.args.precision"
+            (precisionChange)="manager.on.search()"
+          ></ias-system-module-mobile-device-route-map-path-state>
+        </div>
       </div>
-      <div class="system-module-mobile-device-route-manager-body-map-state">
-        <ias-system-module-mobile-device-route-map-path-state
-          *ngIf="loaded"
-          [(precision)]="args.precision"
-          (precisionChange)="on.search()"
-        ></ias-system-module-mobile-device-route-map-path-state>
+
+      <div class="system-module-mobile-device-route-manager-body-content">
+        <div class="system-module-mobile-device-route-manager-body-info">
+          <howell-system-module-mobile-device-route-info
+            [load]="info.load"
+          ></howell-system-module-mobile-device-route-info>
+        </div>
+        <div
+          class="system-module-mobile-device-route-manager-body-chart"
+          *ngIf="chart.show"
+        >
+          <howell-system-module-mobile-device-route-chart-container
+            [load]="chart.load"
+          ></howell-system-module-mobile-device-route-chart-container>
+        </div>
+        <div
+          class="system-module-mobile-device-route-manager-body-video panel"
+          *ngIf="window.video.show && manager.been"
+        >
+          <div
+            class="system-module-mobile-device-route-manager-body-video-player"
+          >
+            <howell-video-player-container
+              [title]="window.video.title"
+              [args]="window.video.args"
+              [headable]="true"
+              (playing)="video.on.playing()"
+              (close)="video.on.close()"
+            ></howell-video-player-container>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="system-module-mobile-device-route-manager-body-info">
-      <howell-system-module-mobile-device-route-info
-        [load]="load"
-      ></howell-system-module-mobile-device-route-info>
-    </div>
-    <div class="system-module-mobile-device-route-manager-body-chart">
-      <howell-system-module-mobile-device-route-chart-container
-        [load]="load"
-      ></howell-system-module-mobile-device-route-chart-container>
-    </div>
+    </ng-container>
   </div>
 </div>

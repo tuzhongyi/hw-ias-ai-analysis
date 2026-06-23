@@ -9,4 +9,8 @@ export class SystemMainManagerDeviceBusiness {
     params.DeviceType = 1;
     return this.service.mobile.device.all(params);
   }
+
+  channels(deviceId: string) {
+    return this.service.mobile.device.channels(deviceId);
+  }
 }

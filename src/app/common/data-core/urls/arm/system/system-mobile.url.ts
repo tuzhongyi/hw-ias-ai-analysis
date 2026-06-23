@@ -42,6 +42,35 @@ class SystemMobileDeviceUrl extends AbstractUrl {
   get route() {
     return new SystemMobileDeviceRouteUrl(this.basic());
   }
+
+  proxy = {
+    channel: (deviceId: string) => {
+      return `${this.item(deviceId)}/ProxyChannels`;
+    },
+  };
+
+  preview = {
+    url: () => {
+      return `${this.basic()}/PreviewUrls`;
+    },
+    start: () => {
+      return `${this.basic()}/StartPreview`;
+    },
+    stop: () => {
+      return `${this.basic()}/StopPreview`;
+    },
+  };
+  vod = {
+    url: () => {
+      return `${this.basic()}/VodUrls`;
+    },
+    start: () => {
+      return `${this.basic()}/StartVod`;
+    },
+    stop: () => {
+      return `${this.basic()}/StopVod`;
+    },
+  };
 }
 
 class SystemMobileDeviceRouteUrl extends AbstractUrl {

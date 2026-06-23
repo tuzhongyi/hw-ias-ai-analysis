@@ -3,5 +3,14 @@
     "suffix": [
       ".mkv"
     ]
-  }
+  },
+  "playback": {
+    "begin": -15,
+    "end": 15,
+    "stream": 1
+  },
+  "preview": {
+    "stream": 1
+  },
+  "videoUrl": "/video/wsplayer/wsplayer.html"
 }

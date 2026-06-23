@@ -1,0 +1,453 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link href="./css/player.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+      html,
+      body {
+      }
+
+      .main {
+        padding: 0 10px;
+      }
+      .player-list {
+        display: flex;
+        justify-content: stretch;
+        width: calc(1080px);
+        height: calc(720px);
+        flex-wrap: wrap;
+      }
+
+      table td {
+        padding: 5px 5px;
+      }
+
+      .player {
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      .player.playing {
+        pointer-events: all;
+      }
+      .screen {
+        width: 540px;
+        height: 360px;
+        border: 1px solid gray;
+        cursor: pointer;
+        box-sizing: border-box;
+      }
+
+      .screen.selected {
+        border-color: blue;
+      }
+      .screen.one {
+        display: none;
+      }
+      .screen.selected.one {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .controls {
+        display: flex;
+        justify-content: space-between;
+        width: 1080px;
+        height: 30px;
+        margin-bottom: 10px;
+      }
+      .controls input {
+        font-size: 16px;
+        width: calc(100% - 50px);
+      }
+      .control-left {
+        display: flex;
+        justify-content: start;
+        width: 50%;
+      }
+      .control-right {
+        display: flex;
+        justify-content: end;
+        width: 1080px;
+        height: 25px;
+      }
+      iframe {
+        border: none;
+        outline: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="control-right">
+        <div>
+          <button onclick="switch_screen(1); return false;">1</button>
+        </div>
+        <div>
+          <button onclick="switch_screen(4); return false;">4</button>
+        </div>
+      </div>
+      <div class="player-list">
+        <div class="screen selected" onclick="select(1)">
+          <iframe index="1" class="player" id="myplayer1"></iframe>
+        </div>
+        <div class="screen" onclick="select(2)">
+          <iframe index="2" class="player" id="myplayer2"></iframe>
+        </div>
+        <div class="screen" onclick="select(3)">
+          <iframe index="3" class="player" id="myplayer3"></iframe>
+        </div>
+        <div class="screen" onclick="select(4)">
+          <iframe index="4" class="player" id="myplayer4"></iframe>
+        </div>
+      </div>
+
+      <br />
+
+      <div>
+        <div class="controls">
+          <input type="text" id="txt_preview" value="116.228.67.70" />
+          <button onclick="topreview()">预览</button>
+        </div>
+        <div class="controls">
+          <input type="text" id="txt_playback" value="116.228.67.70" />
+          <button onclick="toplayback()">回放</button>
+        </div>
+      </div>
+
+      <br />
+
+      <table border="1" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>URI：预览</td>
+
+          <td colspan="2">
+            ws://host:port/ws/video/howellps/[mode]/[dev_id]/[slot]/[stream]/[mode].H265?user=[user]&password=[password]
+          </td>
+        </tr>
+        <tr>
+          <td>URI：回放</td>
+          <td colspan="2">
+            ws://host:port/ws/video/howellps/[mode]/[dev_id]/[slot]/[stream]/[begin]_{end}/[mode].H265?user=[user]&password=[password]
+          </td>
+        </tr>
+        <tr>
+          <td>参数名</td>
+          <td>参数描述</td>
+          <td>参数说明</td>
+        </tr>
+        <tr>
+          <td>host</td>
+          <td>视频服务地址</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>port</td>
+          <td>视频服务端口号</td>
+          <td>默认：8800</td>
+        </tr>
+        <tr>
+          <td>dev_id</td>
+          <td>设备ID</td>
+          <td>可以通过以下方法获知：设备列表-[单击]设备名称-设备ID</td>
+        </tr>
+
+        <tr>
+          <td>slot</td>
+          <td>通道号</td>
+          <td>1-x</td>
+        </tr>
+
+        <tr>
+          <td>stream</td>
+          <td>主（子）码流</td>
+          <td>主码流：1 | 子码流：2</td>
+        </tr>
+
+        <tr>
+          <td>mode</td>
+          <td>预览/回放</td>
+          <td>预览：live | 回放：vod</td>
+        </tr>
+        <tr>
+          <td>beg</td>
+          <td>回放开始时间</td>
+          <td>UTC格式</td>
+        </tr>
+        <tr>
+          <td>end</td>
+          <td>回放结束时间</td>
+          <td>UTC格式</td>
+        </tr>
+        <tr>
+          <td>user</td>
+          <td>用户名</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>password</td>
+          <td>密码</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>例1：预览</td>
+          <td colspan="2" id="td_preview">
+            ws://116.228.67.70:8800/ws/video/howellps/live/00310101031111111000002000000000/1/1/live.H265?user=howell&password=111111
+          </td>
+        </tr>
+        <tr>
+          <td>例2：回放</td>
+          <td colspan="2" id="td_playback">
+            ws://116.228.67.70:8800/ws/video/howellps/vod/00310101031111111000004000000000/1/1/2021-01-15T08:13:46.016Z_2021-01-15T08:18:46.016Z/vod.H265?user=howell&password=123456
+          </td>
+        </tr>
+      </table>
+    </div>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script src="./base64.js"></script>
+    <script src="./WSPlayerProxy.js"></script>
+    <script type="text/javascript">
+      function createPlayer(id) {
+        let player = new WSPlayerProxy(id)
+        player.onViewerClicked = (index) => {
+          select(index)
+        }
+        return player
+      }
+
+      var selected = document.querySelector('.selected').children[0]
+
+      function topreview() {
+        if (selected) {
+          let player = createPlayer(selected.id)
+          selected.player = player
+          let index = selected.id[selected.id.length - 1]
+          preview(selected, player, index)
+        }
+      }
+      function toplayback() {
+        if (selected) {
+          let player = createPlayer(selected.id)
+          selected.player = player
+          let index = selected.id[selected.id.length - 1]
+          playback(selected, player, index)
+        }
+      }
+
+      function select(index) {
+        let old = document.querySelector('.selected')
+        if (old) {
+          old.classList.remove('selected')
+        }
+
+        let player = document.querySelector('#myPlayer' + index)
+        player.parentElement.classList.add('selected')
+        selected = player
+      }
+
+      function switch_screen(count) {
+        let screens = document.getElementsByClassName('screen')
+        let list = document.querySelector('.player-list')
+        let className = ''
+
+        for (let i = 0; i < screens.length; i++) {
+          const screen = screens[i]
+          let player = screen.children[0].player
+
+          if (count == 1) {
+            screen.classList.add('one')
+            if (player) {
+              player.clientWidth = list.clientWidth - 2
+              player.clientHeight = list.clientHeight - 2
+              player.resize()
+            }
+          } else {
+            screen.classList.remove('one')
+            if (player) {
+              player.clientWidth = (list.clientWidth - 2 * 2) / 2
+              player.clientHeight = (list.clientHeight - 2 * 2) / 2
+              player.resize()
+            }
+          }
+        }
+      }
+
+      function preview(iframe, player, index) {
+        iframe.classList.add('playing')
+        let text = document.querySelector('#txt_preview')
+        var url = text.value
+
+        let code = base64encode(url)
+        let src = `./WSPlayer.html?url=${code}&index=${index}`
+        console.log(src)
+        iframe.src = src
+      }
+
+      function stop(player) {
+        player.stop()
+      }
+
+      function fullScreen(player) {
+        player.fullScreen()
+      }
+
+      function pause(player) {
+        console.log('pause')
+        player.pause()
+      }
+
+      function resume(player) {
+        player.resume()
+      }
+
+      function fast(player) {
+        player.fast()
+      }
+      function slow(player) {
+        //player.slow();
+        player.slow()
+      }
+
+      function getPicture(player) {
+        player.capturePicture()
+      }
+
+      function frame(player) {
+        player.frame()
+      }
+
+      function createPlaybackUrl(p) {
+        var url =
+          'ws://' +
+          p.host +
+          ':' +
+          p.port +
+          '/ws/video/howellps/vod/' +
+          p.dev_id +
+          '/' +
+          p.slot +
+          '/' +
+          p.stream +
+          '/' +
+          p.begin_time +
+          '_' +
+          p.end_time +
+          '/vod.H265?user=' +
+          p.user +
+          '&password=' +
+          p.password
+        return url
+      }
+
+      function seek(player, input) {
+        player.seek(parseInt(input.value))
+        player.resume()
+      }
+
+      var time_formet = 'hh:mm:ss'
+
+      function playback(iframe, player, index) {
+        iframe.classList.add('playing')
+        let text = document.querySelector('#txt_playback')
+        var url = text.value
+
+        let code = base64encode(url)
+        let src = `./WSPlayer.html?url=${code}&index=${index}`
+        console.log(src)
+        iframe.src = src
+      }
+      function init_preview() {
+        let url = document.getElementById('td_preview').innerText.trim()
+        if (location.hostname != '127.0.0.1') {
+          url = url.replace('116.228.67.70', location.hostname)
+        }
+        let text = document.getElementById('txt_preview')
+        text.value = url
+      }
+      function init_playback() {
+        var end = new Date()
+        end.setMinutes(end.getMinutes() - 10)
+        var begin = new Date()
+        begin.setMinutes(begin.getMinutes() - 15)
+
+        var p = {
+          host: location.hostname,
+          port: 8800,
+          dev_id: '00310101031111111000002000000000',
+          slot: 1,
+          stream: 1,
+          begin_time: begin.toISOString(),
+          end_time: end.toISOString(),
+          user: 'howell',
+          password: '111111',
+        }
+        var url = createPlaybackUrl(p)
+
+        document.getElementById('td_playback').innerText = url
+        document.getElementById('txt_playback').value = url
+      }
+      onload = function () {
+        let p = document.getElementById('td_preview')
+        // p.innerHTML = p.innerHTML.replace('116.228.67.70', location.hostname)
+        // preview()
+        // playback()
+
+        init_preview()
+        init_playback()
+      }
+
+      Date.prototype.format = function (fmt) {
+        var o = {
+          'M+': this.getMonth() + 1, //月份
+          'd+': this.getDate(), //日
+          'h+': this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时
+          'H+': this.getHours(), //小时
+          'm+': this.getMinutes(), //分
+          's+': this.getSeconds(), //秒
+          'q+': Math.floor((this.getMonth() + 3) / 3), //季度
+          S: this.getMilliseconds(), //毫秒
+        }
+        var week = {
+          0: '\u65e5',
+          1: '\u4e00',
+          2: '\u4e8c',
+          3: '\u4e09',
+          4: '\u56db',
+          5: '\u4e94',
+          6: '\u516d',
+        }
+        if (/(y+)/.test(fmt)) {
+          fmt = fmt.replace(
+            RegExp.$1,
+            (this.getFullYear() + '').substr(4 - RegExp.$1.length)
+          )
+        }
+        if (/(E+)/.test(fmt)) {
+          fmt = fmt.replace(
+            RegExp.$1,
+            (RegExp.$1.length > 1
+              ? RegExp.$1.length > 2
+                ? '\u661f\u671f'
+                : '\u5468'
+              : '') + week[this.getDay() + '']
+          )
+        }
+        for (var k in o) {
+          if (new RegExp('(' + k + ')').test(fmt)) {
+            fmt = fmt.replace(
+              RegExp.$1,
+              RegExp.$1.length == 1
+                ? o[k]
+                : ('00' + o[k]).substr(('' + o[k]).length)
+            )
+          }
+        }
+        return fmt
+      }
+      String.prototype.trim = function () {
+        return this.replace(/(^\s*)|(\s*$)/g, '')
+      }
+    </script>
+  </body>
+</html>

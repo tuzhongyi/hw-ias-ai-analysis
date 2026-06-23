@@ -54,7 +54,7 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
   }
 
   all(...args: any): Promise<T[]> {
-    return new Promise<T[]>((resolve) => {
+    return new Promise<T[]>((resolve, reject) => {
       wait(() => {
         return this.loading === false;
       })
@@ -69,6 +69,9 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
               .then((datas) => {
                 this.save([...datas]);
                 resolve(datas);
+              })
+              .catch((e) => {
+                reject(e);
               })
               .finally(() => {
                 this.loading = false;
@@ -100,7 +103,7 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
   }
 
   async get(id: string): Promise<T> {
-    return new Promise<T>((resolve) => {
+    return new Promise<T>((resolve, reject) => {
       this.all().then((datas) => {
         let index = datas.findIndex((x) => x.Id == id);
         if (index < 0) {
@@ -111,6 +114,9 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
               datas.push(data);
               this.save(datas);
               resolve(data);
+            })
+            .catch((e) => {
+              reject(e);
             })
             .finally(() => {
               this.loading = false;

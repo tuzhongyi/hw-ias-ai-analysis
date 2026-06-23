@@ -1,0 +1,132 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <link type="text/css" href="./css/howell.font.css" rel="stylesheet" />
+    <link
+      type="text/css"
+      href="./css/glyphicons-halflings-regular.css"
+      rel="stylesheet"
+    />
+    <link type="text/css" href="./iframe.html.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="player">
+        <iframe id="iframe"></iframe>
+        <div class="info">
+          <div class="info-item">
+            <div class="info-item-head">预览</div>
+            <div class="info-item-body">
+              <div>
+                <button id="play">播放</button> <button id="stop">停止</button>
+              </div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-head">回放</div>
+            <div class="info-item-body">
+              <div>
+                <label for="">进度</label>
+
+                <span id="position_ratio"></span>
+                <label for="">当前时间</label>
+                <span id="position_time_current">00:00:00</span>
+                <label for="">开始时间</label>
+                <span id="position_time_begin">00:00:00</span>
+                <label for="">结束时间</label>
+                <span id="position_time_end">00:00:00</span>
+              </div>
+              <div>
+                <label for="">定位</label>
+                <input type="number" id="seek_value" value="0" />
+                <button id="seek_ok">确定</button>
+              </div>
+              <div>
+                <button id="pause">暂停</button>
+                <button id="resume">恢复</button>
+                <button id="fast">快放</button>
+                <button id="slow">慢放</button>
+                <button id="speed">速度恢复</button>
+                <button id="frame">单帧进</button>
+              </div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-head">工具</div>
+            <div class="info-item-body">
+              <div>
+                <label for="rule">目标</label>
+                <input type="checkbox" id="rule" />
+              </div>
+              <div>
+                <label for="sound_enabled">声音</label
+                ><input type="checkbox" id="sound_enabled" disabled /><input
+                  type="number"
+                  min="0"
+                  max="100"
+                  id="sound_value"
+                /><button id="sound_ok">确定</button>
+              </div>
+              <div>
+                <label for="subtitle_enabled">字幕</label
+                ><input type="checkbox" id="subtitle_enabled" />
+                <input type="text" id="subtitle_text" />
+                <button id="subtitle_ok">确定</button>
+              </div>
+              <div>
+                <label for="subtitle_enabled" style="visibility: hidden"
+                  >字幕</label
+                >
+                <input type="file" id="subtitle_file" />
+              </div>
+              <div>
+                <button id="fullscreen">全屏</button>
+                <button id="capturepicture">截图</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="url">
+        <div class="preview">
+          <div class="input">
+            <input
+              type="text"
+              id="preview_input"
+              value="ws://192.168.21.241:8800/ws/video/howellps/live/00310101031111111000001000000000/1/1/live.mp4?user=howell&password=123456"
+            />
+          </div>
+          <div class="button">
+            <button id="preview_button">预览</button>
+          </div>
+        </div>
+        <div class="playback">
+          <div class="input">
+            <input
+              type="text"
+              id="playback_input"
+              value="ws://192.168.21.241:8800/ws/video/howellps/vod/00310101031111111000001000000000/1/1/2024-07-17T01:38:00.000Z_2024-07-17T01:43:00.000Z/vod.mp4?user=howell&password=123456"
+            />
+          </div>
+          <div class="button" id="playback_button"><button>回放</button></div>
+        </div>
+      </div>
+      <div class="event" id="log"></div>
+    </div>
+
+    <script src="./ext.js"></script>
+    <script src="./base64.js"></script>
+
+    <script src="./WSPlayerProxy.js"></script>
+    <script src="./event-emitter.js"></script>
+    <script src="./wait.js"></script>
+    <script src="./iframe.html.proxy.js"></script>
+    <script src="./iframe.html.subtitle.js"></script>
+    <script src="./iframe.html.language.js"></script>
+    <script src="./iframe.html.js"></script>
+  </body>
+</html>

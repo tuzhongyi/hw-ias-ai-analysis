@@ -13,6 +13,7 @@ import { SystemMainManagerTaskShopWindow } from './task/system-main-manager-task
 import { SystemMainManagerVideoRecordWindow } from './video/system-main-manager-video-record.window';
 import { SystemMainManagerVideoSampleWindow } from './video/system-main-manager-video-sample.window';
 import { SystemMainManagerVideoShopWindow } from './video/system-main-manager-video-shop.window';
+import { SystemMainManagerVideoWSPlayerWindow } from './video/system-main-manager-video-wsplayer.window';
 
 export class SystemMainManagerWindow {
   picture = new SystemMainManagerPictureWindow();
@@ -20,6 +21,7 @@ export class SystemMainManagerWindow {
     shop: new SystemMainManagerVideoShopWindow(),
     record: new SystemMainManagerVideoRecordWindow(),
     sample: new SystemMainManagerVideoSampleWindow(),
+    wsplayer: new SystemMainManagerVideoWSPlayerWindow(),
   };
   details = {
     mobile: new SystemMainManagerDetailsMobileWindow(),

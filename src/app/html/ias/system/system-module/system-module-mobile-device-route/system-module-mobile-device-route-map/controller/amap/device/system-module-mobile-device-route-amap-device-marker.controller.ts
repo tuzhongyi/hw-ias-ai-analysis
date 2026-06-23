@@ -1,9 +1,11 @@
+import { EventEmitter } from '@angular/core';
 import { FileGpsItem } from '../../../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { MobileDevice } from '../../../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { IASMapAMapMarkerLabelAbstract } from '../../../../../../../share/map/controller/amap/marker/ias-map-amap-marker-label.abstract';
 import { SystemModuleMobileDeviceRouteAMapIconController } from './system-module-mobile-device-route-amap-device-icon.controller';
 
 export class SystemModuleMobileDeviceRouteAMapMarkerController {
+  dblclick = new EventEmitter<MobileDevice>();
   constructor(private map: AMap.Map) {}
 
   private marker?: Marker;
@@ -11,6 +13,13 @@ export class SystemModuleMobileDeviceRouteAMapMarkerController {
   load(data: MobileDevice) {
     this.marker = new Marker(data);
     this.map.add(this.marker.marker);
+
+    // 订阅 marker 的 dblclick 事件
+    this.marker.event.dblclick.subscribe((x) => {
+      this.dblclick.emit(x);
+    });
+
+    return this.marker.marker;
   }
 
   clear() {

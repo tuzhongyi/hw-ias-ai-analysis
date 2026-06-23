@@ -6,6 +6,7 @@
   padding: 25px;
   padding-top: 0;
   box-sizing: border-box;
+  position: relative;
 
   @head-height: 60px;
 
@@ -33,20 +34,31 @@
     height: calc(100% - @head-height);
     width: 100%;
     flex-grow: 1;
-    display: grid;
-    grid-template-areas: "map info "
-      "map chart ";
+    display: flex;
+    align-items: center;
 
-    grid-template-rows: calc((100% - 10px) * 0.12) calc((100% - 10px) * 0.88);
-    grid-template-columns: calc((100% - 10px) * 0.5) calc((100% - 10px) * 0.5);
-    grid-gap: 10px;
+
+    gap: 10px;
+
+    &-nodata {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+    }
 
     &-map {
-      grid-area: map;
-      width: 100%;
+      width: calc((100% - 10px) * 0.5);
       height: 100%;
       position: relative;
       padding: 0;
+      transition: all 0.5s;
+
+      &.grow {
+        flex-grow: 1;
+      }
 
       &-body {
         width: 100%;
@@ -74,20 +86,41 @@
       }
     }
 
-    &-info {
-      grid-area: info;
-      width: 100%;
+    &-content {
+      width: calc((100% - 10px) * 0.5);
       height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &-info {
+      width: 100%;
+      height: calc((100% - 10px) * 0.12);
     }
 
     &-chart {
-      grid-area: chart;
       width: 100%;
-      height: 100%;
+      height: calc((100% - 10px) * 0.88);
 
       &>* {
         height: calc((100% - 10px * 2) / 3);
         width: 100%;
+      }
+    }
+
+    &-video {
+      padding: 0;
+
+      height: calc((100% - 10px) * 0.88);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background-color: black;
+
+      &-player {
+        width: 100%;
+        height: 100%;
       }
     }
   }

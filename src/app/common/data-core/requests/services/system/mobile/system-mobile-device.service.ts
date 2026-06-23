@@ -4,6 +4,7 @@ import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
 import { EventUploadContent } from '../../../../models/arm/event/event-upload-content.model';
+import { InputProxyChannel } from '../../../../models/arm/input-proxy-channel.model';
 import { DeviceStatement } from '../../../../models/arm/mobile-device/device-statement.model';
 import { MobileDevice } from '../../../../models/arm/mobile-device/mobile-device.model';
 import { PagedList } from '../../../../models/interface/page-list.model';
@@ -16,6 +17,7 @@ import {
   GetDeviceStatementParams,
   GetMobileDevicesParams,
 } from './system-mobile-device.params';
+import { SystemMobileDeviceVideoRequestService } from './video/system-mobile-device-video.service';
 
 @Cache(ArmSystemUrl.mobile.device.basic(), MobileDevice)
 export class SystemMobileDeviceRequestService extends AbstractService<MobileDevice> {
@@ -98,7 +100,7 @@ export class SystemMobileDeviceRequestService extends AbstractService<MobileDevi
     upload: async (
       data: ArrayBuffer,
       progress?: (x: number) => void,
-      completed?: () => void
+      completed?: () => void,
     ) => {
       let url = ArmSystemUrl.mobile.device.excel();
       this.http
@@ -131,5 +133,19 @@ export class SystemMobileDeviceRequestService extends AbstractService<MobileDevi
       this._route = new SystemMobileDeviceRouteRequestService(this.http);
     }
     return this._route;
+  }
+  private _video?: SystemMobileDeviceVideoRequestService;
+  public get video(): SystemMobileDeviceVideoRequestService {
+    if (!this._video) {
+      this._video = new SystemMobileDeviceVideoRequestService(this.http);
+    }
+    return this._video;
+  }
+
+  channels(deviceId: string) {
+    let url = ArmSystemUrl.mobile.device.proxy.channel(deviceId);
+    return this.http.get<HowellResponse<InputProxyChannel[]>>(url).then((x) => {
+      return HowellResponseProcess.array(x, InputProxyChannel);
+    });
   }
 }

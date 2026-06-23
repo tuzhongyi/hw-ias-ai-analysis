@@ -1,0 +1,19 @@
+<div class="video-player-container">
+  <div class="video-player-head" *ngIf="headable">
+    <ias-video-player-header
+      [title]="title || ''"
+      (close)="on.close()"
+    ></ias-video-player-header>
+  </div>
+  <div class="video-player-content">
+    <app-video-player
+      *ngIf="video.data"
+      [model]="video.data"
+      [name]="title"
+      [stop]="stop"
+      [index]="index"
+      (onPlaying)="video.on.playing()"
+      (onStoping)="video.on.stop()"
+    ></app-video-player>
+  </div>
+</div>

@@ -11,16 +11,15 @@ export class AMapHelper {
       return `amap://styles/${key}`;
     },
     key: {
-      normal: '4819287f21893b7d328eefad497a657c', //'e8fb567a2f05a53b39e088f6fe186991',
+      normal: '5438026e1706c96ab7df330747314e6a', //'e8fb567a2f05a53b39e088f6fe186991',
       road: 'be4678d793744ca76bf7c5b90049fee3',
     },
   };
 
-  code = '7f8af6733625597350dbd0d83ca39a40';
+  code = '467bb37338ea74fe4ccee5c222c382d4';
   key = {
-    web: '6c2282c244333c7994d8465fd251ab63',
-    js: 'f0d455989b00a228c72c08d6a7837889',
-    geocoder: '934aadcc25bdb5e08929e5087a020448', //
+    web: '934aadcc25bdb5e08929e5087a020448',
+    js: '46ff88097795e101c9a4df1ecdad2cee',
   };
   plugins = ['AMap.GeoLocation', 'AMap.GeometryUtil'];
 
@@ -202,29 +201,6 @@ export class AMapHelper {
             if (x.status == 1) {
               let datas = x.tips.map((x) => this.convert.data(x));
               resolve(datas);
-            } else {
-              reject(new Error(x.info));
-            }
-          })
-          .catch((e) => {
-            reject(e);
-          });
-      });
-    });
-  }
-
-  async geocoder(position: [number, number]) {
-    return new Promise<string>((resolve, reject) => {
-      let location = position.join(',');
-      fetch(
-        `https://restapi.amap.com/v3/geocode/regeo?output=json&location=${location}&key=${this.key.geocoder}&radius=5&extensions=base`,
-      ).then((response) => {
-        response
-          .json()
-          .then((x: any) => {
-            console.log(x);
-            if (x.status == 1) {
-              resolve(x.regeocode.formatted_address);
             } else {
               reject(new Error(x.info));
             }

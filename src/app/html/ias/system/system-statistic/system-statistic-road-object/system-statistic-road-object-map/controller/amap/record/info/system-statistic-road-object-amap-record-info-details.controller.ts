@@ -6,6 +6,7 @@ import { SystemStatisticRoadObjectMapInfoDetailsComponent } from '../../../../..
 
 export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
   details?: (data: RoadObjectEventRecord) => void;
+  select?: (data: RoadObjectEventRecord) => void;
   opened(data: RoadObjectEventRecord) {
     if (this.datas.length > 0) {
       let index = this.datas.findIndex((x) => x.Id == data.Id);
@@ -27,6 +28,7 @@ export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
   private event = {
     close: new EventEmitter<void>(),
     details: new EventEmitter<RoadObjectEventRecord>(),
+    select: new EventEmitter<RoadObjectEventRecord>(),
   };
   private datas: RoadObjectEventRecord[] = [];
 
@@ -49,13 +51,22 @@ export class SystemStatisticRoadObjectAMapRecordInfoDetailsController {
       this.details && this.details(data);
     });
     this.subscription.add(sub_details);
+    let sub_select = this.event.select.subscribe((data) => {
+      this.select && this.select(data);
+    });
+    this.subscription.add(sub_details);
   }
 
   private get = {
     html: (datas: RoadObjectEventRecord[]) => {
       let component = this.tool.create(
         SystemStatisticRoadObjectMapInfoDetailsComponent,
-        { datas: datas, close: this.event.close, details: this.event.details },
+        {
+          datas: datas,
+          close: this.event.close,
+          details: this.event.details,
+          select: this.event.select,
+        },
       );
       let html = this.tool.get.html(component);
       return html.firstElementChild as HTMLElement;

@@ -20,6 +20,7 @@ export class SystemStatisticRoadObjectMapInfoDetailsComponent implements OnInit 
   @Input() datas: RoadObjectEventRecord[] = [];
   @Output() close = new EventEmitter<void>();
   @Output() details = new EventEmitter<RoadObjectEventRecord>();
+  @Output() select = new EventEmitter<RoadObjectEventRecord>();
 
   constructor(
     private language: LanguageTool,
@@ -42,13 +43,12 @@ export class SystemStatisticRoadObjectMapInfoDetailsComponent implements OnInit 
     if (this.datas.length > 0) {
       // 优先度：Breakage > 最近 EventTime
       this.current =
-        this.datas.find(
-          (x) => x.EventType === RoadObjectEventType.Breakage,
-        ) ??
+        this.datas.find((x) => x.EventType === RoadObjectEventType.Breakage) ??
         this.datas.reduce((latest, item) =>
           item.EventTime > latest.EventTime ? item : latest,
         );
       this.load.all(this.current);
+      this.select.emit(this.current);
     } else {
       this.current = undefined;
       this.color = '';
@@ -79,9 +79,8 @@ export class SystemStatisticRoadObjectMapInfoDetailsComponent implements OnInit 
   on = {
     page: (data: RoadObjectEventRecord) => {
       this.current = data;
-      this.color = ObjectTool.model.RoadObjectEventRecord.get.color.name.event(
-        data.EventType,
-      );
+      this.load.all(data);
+      this.select.emit(data);
     },
     close: () => {
       this.close.emit();

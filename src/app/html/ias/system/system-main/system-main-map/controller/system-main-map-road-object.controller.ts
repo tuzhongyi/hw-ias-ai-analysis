@@ -12,7 +12,7 @@ export class SystemMainMapRoadObjectController {
 
   constructor(
     private amap: SystemMainMapAMapController,
-    subscription: Subscription
+    subscription: Subscription,
   ) {
     this.regist(subscription);
   }
@@ -33,8 +33,10 @@ export class SystemMainMapRoadObjectController {
   async load(datas: RoadObject[]) {
     this.datas = datas;
     let point = await this.amap.roadobject.point.get();
+    point.clear();
     point.load(datas);
     let marker = await this.amap.roadobject.marker.get();
+    marker.clear();
     marker.load(datas);
     this.loaded = true;
     this.inited = true;

@@ -329,3 +329,39 @@
     (error)="window.video.sample.on.error($event)"
   ></video>
 </ias-window>
+<ias-window
+  [Model]="window.video.wsplayer"
+  *ngIf="window.video.wsplayer.show"
+  [style]="window.video.wsplayer.style"
+  [title]="window.video.wsplayer.title"
+  [CloseButton]="false"
+>
+  <div ngProjectAs="window-head-operation" class="window-video-operation">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-value">
+          <select
+            [(ngModel)]="window.video.wsplayer.channel.selected"
+            (change)="window.video.wsplayer.change()"
+          >
+            <option
+              [ngValue]="item.Id"
+              *ngFor="let item of window.video.wsplayer.channel.datas"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="button" (click)="window.video.wsplayer.show = false">
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <howell-video-player-container
+    [title]="window.video.wsplayer.title"
+    [args]="window.video.wsplayer.args"
+  ></howell-video-player-container>
+</ias-window>

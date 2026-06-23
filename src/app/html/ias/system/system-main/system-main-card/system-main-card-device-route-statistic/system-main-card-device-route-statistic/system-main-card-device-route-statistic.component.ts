@@ -29,11 +29,11 @@ import { SystemMainCardDeviceRouteStatisticChartBusiness } from './system-main-c
 })
 export class SystemMainCardDeviceRouteStatisticComponent {
   @Input('load') _load?: EventEmitter<void>;
-  @Input() duration = DateTimeTool.last.month(new Date());
+  @Input() duration = DateTimeTool.all.day(new Date());
   @Output() durationChange = new EventEmitter<Duration>();
   @Output() itemclick = new EventEmitter<string>();
   constructor(
-    private business: SystemMainCardDeviceRouteStatisticChartBusiness
+    private business: SystemMainCardDeviceRouteStatisticChartBusiness,
   ) {}
   Math = Math;
   title = '行驶统计';
@@ -56,7 +56,7 @@ export class SystemMainCardDeviceRouteStatisticComponent {
       this.subscription.add(
         this._load.subscribe(() => {
           this.load();
-        })
+        }),
       );
     }
   }
@@ -67,6 +67,8 @@ export class SystemMainCardDeviceRouteStatisticComponent {
   private load() {
     this.business.load(this.duration).then((datas) => {
       this.datas = datas;
+
+      console.log(this.datas);
 
       for (let i = 0; i < datas.length; i++) {
         this.max = this.Math.max(this.max, this.datas[i].name.length);
@@ -83,7 +85,7 @@ export class SystemMainCardDeviceRouteStatisticComponent {
   }
 
   unit = {
-    value: DurationUnit.month,
+    value: DurationUnit.day,
     Type: DurationUnit,
     change: () => {
       let today = new Date();

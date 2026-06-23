@@ -48,6 +48,9 @@ export class SystemStatisticRoadObjectMapController {
       info.details = (data) => {
         this.event.record.dblclick && this.event.record.dblclick(data);
       };
+      info.select = (data) => {
+        this.event.record.click && this.event.record.click(data);
+      };
     },
     marker: async (amap: SystemStatisticRoadObjectAMapController) => {
       let marker = await amap.record.marker;
@@ -171,6 +174,7 @@ export class SystemStatisticRoadObjectMapController {
       marker.select(data);
       let info = await this.amap.record.info.details;
       let isline = await this.isline(data);
+      if (info.opened(data)) return;
       await info.open([data], isline);
       if (data.Location) {
         let position: [number, number] = [

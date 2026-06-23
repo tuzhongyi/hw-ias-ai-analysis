@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HowellSelectComponent } from '../../../../../common/components/hw-select/select-control.component';
+import { VideoPlayerContainerComponent } from '../../../../../common/components/video-player-container/video-player-container.component';
 import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
 import { MediumRequestService } from '../../../../../common/data-core/requests/services/medium/medium.service';
@@ -48,6 +49,7 @@ import { SystemMainManagerWindowSource } from './system-main-manager-window.sour
     SystemEventRoadObjectManagerComponent,
     SystemModuleMobileDeviceManagerComponent,
     SystemModuleMobileDeviceRouteManagerComponent,
+    VideoPlayerContainerComponent,
   ],
   templateUrl: './system-main-manager-window.component.html',
   styleUrl: './system-main-manager-window.component.less',
@@ -58,7 +60,7 @@ export class SystemMainManagerWindowComponent {
 
   constructor(
     public source: SystemMainManagerWindowSource,
-    private medium: MediumRequestService
+    private medium: MediumRequestService,
   ) {}
 
   picture = {
@@ -74,7 +76,7 @@ export class SystemMainManagerWindowComponent {
           let resource = data.Resources[0];
           if (resource.RecordUrl) {
             this.window.video.sample.src = this.medium.record(
-              resource.RecordUrl
+              resource.RecordUrl,
             );
             this.window.video.sample.title = `${data.SceneName}-${resource.ResourceName}`;
             this.window.video.sample.show = true;
