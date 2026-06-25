@@ -48,7 +48,7 @@ import { SystemStatisticRoadObjectDurationArgs } from '../system-statistic-road-
 export class SystemStatisticRoadObjectDurationManagerComponent implements OnInit {
   constructor(
     private business: SystemStatisticRoadObjectDurationBusiness,
-    private language: LanguageTool,
+    public language: LanguageTool,
   ) {}
 
   window = new SystemStatisticRoadObjectManagerWindow();
@@ -72,6 +72,8 @@ export class SystemStatisticRoadObjectDurationManagerComponent implements OnInit
   map = {
     focus: new EventEmitter<void>(),
   };
+
+  private filterArgs?: { EventType?: number; RoadObjectType?: number };
 
   ngOnInit(): void {
     this.load.ing();
@@ -157,6 +159,10 @@ export class SystemStatisticRoadObjectDurationManagerComponent implements OnInit
       } else {
         await this.load.view(deviceIds);
       }
+      // 重新叠加 state-group 的 EventType/RoadObjectType 筛选
+      if (this.filterArgs) {
+        this.on.filter(this.filterArgs);
+      }
       this.map.focus.emit();
     },
     details: (data: RoadObjectEventRecord) => {
@@ -195,6 +201,7 @@ export class SystemStatisticRoadObjectDurationManagerComponent implements OnInit
       },
     },
     filter: (args: { EventType?: number; RoadObjectType?: number }) => {
+      this.filterArgs = args;
       this.data.record.view = this.data.record.source.filter((item) => {
         let is = {
           event: !args.EventType || item.EventType === args.EventType,

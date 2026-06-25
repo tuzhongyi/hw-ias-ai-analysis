@@ -7,6 +7,7 @@ import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-
 import { UserGroup } from '../../../../../common/data-core/models/user/user-group.model';
 import { TextSpaceBetweenDirective } from '../../../../../common/directives/text-space-between/text-space-between.directive';
 import { Language } from '../../../../../common/tools/language-tool/language';
+import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import { IASMapComponent } from '../../../share/map/ias-map.component';
 import { ManagementDeviceMobileInformationBusiness } from './business/management-device-mobile-information.business';
 
@@ -30,7 +31,8 @@ export class ManagementDeviceMobileInformationComponent implements OnInit {
 
   constructor(
     private business: ManagementDeviceMobileInformationBusiness,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public language: LanguageTool,
   ) {}
 
   data = new MobileDevice();

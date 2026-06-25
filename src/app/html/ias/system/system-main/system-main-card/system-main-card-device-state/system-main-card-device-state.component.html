@@ -1,5 +1,8 @@
 <ias-system-main-card-container [title]="title">
-  <div class="system-main-card-device-state root-router">
+  <div
+    class="system-main-card-device-state root-router"
+    [style.background-image]="background"
+  >
     <div class="system-main-card-device-state-item online">
       <div class="system-main-card-device-state-item-info">
         <div class="system-main-card-device-state-item-info-name">在线</div>
@@ -12,7 +15,7 @@
           class="system-main-card-device-state-item-progress-value"
           [ngStyle]="{
             width: (value.online / value.count) * 100 + '%',
-            right: 0
+            right: 0,
           }"
         ></div>
       </div>
@@ -29,7 +32,7 @@
           class="system-main-card-device-state-item-progress-value"
           [ngStyle]="{
             width: (value.offline / value.count) * 100 + '%',
-            left: 0
+            left: 0,
           }"
         ></div>
       </div>

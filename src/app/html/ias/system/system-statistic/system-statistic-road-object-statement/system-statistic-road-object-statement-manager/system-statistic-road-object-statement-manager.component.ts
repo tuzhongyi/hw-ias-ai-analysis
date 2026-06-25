@@ -5,6 +5,7 @@ import { RoadObjectStatement } from '../../../../../../common/data-core/models/a
 import { DeviceStatement } from '../../../../../../common/data-core/models/arm/mobile-device/device-statement.model';
 import { ScrollFullDirective } from '../../../../../../common/directives/scroll/scroll-full.directive';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { SystemStatisticRoadObjectStatement1Component } from '../system-statistic-road-object-statement-1/system-statistic-road-object-statement-1.component';
 import { SystemStatisticRoadObjectStatement2Component } from '../system-statistic-road-object-statement-2/system-statistic-road-object-statement-2.component';
@@ -42,7 +43,10 @@ import { SystemStatisticRoadObjectStatementBusiness } from '../system-statistic-
 export class SystemStatisticRoadObjectStatementManagerComponent
   implements OnInit
 {
-  constructor(private business: SystemStatisticRoadObjectStatementBusiness) {}
+  constructor(
+    private business: SystemStatisticRoadObjectStatementBusiness,
+    public language: LanguageTool,
+  ) {}
 
   title = '道路部件月报表';
 
@@ -53,17 +57,7 @@ export class SystemStatisticRoadObjectStatementManagerComponent
   loading = false;
 
   directory = {
-    datas: [
-      '首页',
-      '报表总结',
-      '部件类型',
-      '部件状态',
-      '部件统计',
-      '事件图表',
-      '巡逻车总览',
-      '巡逻车统计',
-      '建议',
-    ],
+    datas: [] as string[],
     index: 0,
     to: (index: number) => {
       this.directory.index = index;
@@ -95,6 +89,17 @@ export class SystemStatisticRoadObjectStatementManagerComponent
   @ViewChild('container') container?: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
+    this.directory.datas = [
+      '首页',
+      '报表总结',
+      '部件类型',
+      '部件状态',
+      '部件统计',
+      '事件图表',
+      `${this.language.device.Name}总览`,
+      `${this.language.device.Name}统计`,
+      '建议',
+    ];
     this.date.init();
     this.load();
   }

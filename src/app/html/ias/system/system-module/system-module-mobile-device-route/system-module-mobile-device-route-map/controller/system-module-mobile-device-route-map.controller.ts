@@ -3,15 +3,17 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { MobileDevice } from '../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
+import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { SystemModuleMobileDeviceRouteAMapPathController } from './amap/system-module-mobile-device-route-amap-path.controller';
 import { SystemModuleMobileDeviceRouteAMapController } from './amap/system-module-mobile-device-route-amap.controller';
 
 export class SystemModuleMobileDeviceRouteMapController {
-  constructor(subscription: Subscription) {
+  constructor(subscription: Subscription, path: PathTool) {
+    this.amap = new SystemModuleMobileDeviceRouteAMapController(path);
     this.device.event.regist(subscription);
   }
 
-  private amap = new SystemModuleMobileDeviceRouteAMapController();
+  private amap: SystemModuleMobileDeviceRouteAMapController;
 
   private controller = {
     path: [] as SystemModuleMobileDeviceRouteAMapPathController[],

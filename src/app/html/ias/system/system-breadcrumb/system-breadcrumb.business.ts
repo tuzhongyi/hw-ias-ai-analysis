@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { LanguageTool } from '../../../../common/tools/language-tool/language.tool';
 import { SystemPath } from '../system.model';
 import { SystemBreadcrumbItem } from './system-breadcrumb.model';
 
 @Injectable()
 export class SystemBreadcrumbBusiness {
+  constructor(private language: LanguageTool) {}
   load(): SystemBreadcrumbItem[] {
     let models: SystemBreadcrumbItem[] = [];
     try {
@@ -455,7 +457,7 @@ export class SystemBreadcrumbBusiness {
     },
     device_route: () => {
       let item = new SystemBreadcrumbItem();
-      item.text = '巡检车辆行驶统计';
+      item.text = `${this.language.device.Name}行驶统计`;
       item.path = SystemPath.statistic_device_route;
       return item;
     },

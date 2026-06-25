@@ -1,11 +1,12 @@
 import { MobileDevice } from '../../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
+import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { SystemModuleMobileDeviceMapAMapDeviceMarkerLayerController } from './device/system-module-mobile-device-map-amap-device-marker-layer.controller';
 
 export class SystemModuleMobileDeviceMapAMapController {
-  constructor(id: string) {
+  constructor(id: string, private path: PathTool) {
     MapHelper.amap.get(id).then((map) => {
       this.map.set(map);
 
@@ -27,7 +28,8 @@ export class SystemModuleMobileDeviceMapAMapController {
     device: (map: AMap.Map, info: IASMapAMapInfoController) => {
       let ctr = new SystemModuleMobileDeviceMapAMapDeviceMarkerLayerController(
         map,
-        info
+        info,
+        this.path,
       );
 
       this.device.set(ctr);

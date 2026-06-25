@@ -1,4 +1,5 @@
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
+import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { SystemModuleMobileDeviceRouteAMapMarkerController } from './device/system-module-mobile-device-route-amap-device-marker.controller';
 import { SystemModuleMobileDeviceRouteAMapPathController } from './system-module-mobile-device-route-amap-path.controller';
@@ -7,7 +8,7 @@ export class SystemModuleMobileDeviceRouteAMapController {
   path: SystemModuleMobileDeviceRouteAMapPathController[] = [];
   device =
     new PromiseValue<SystemModuleMobileDeviceRouteAMapMarkerController>();
-  constructor() {
+  constructor(private tool: PathTool) {
     this.init();
   }
 
@@ -15,10 +16,14 @@ export class SystemModuleMobileDeviceRouteAMapController {
 
   private init() {
     let key = 'route_map_container';
-    MapHelper.amap.get(key, [], false, { viewMode: '2D' })
+    MapHelper.amap
+      .get(key, [], false, { viewMode: '2D' })
       .then((x) => {
         this.map.set(x);
-        let device = new SystemModuleMobileDeviceRouteAMapMarkerController(x);
+        let device = new SystemModuleMobileDeviceRouteAMapMarkerController(
+          x,
+          this.tool,
+        );
         this.device.set(device);
       })
       .catch((e) => {

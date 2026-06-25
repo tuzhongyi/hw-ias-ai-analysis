@@ -6,6 +6,7 @@ import { VideoPlayerContainerComponent } from '../../../../../common/components/
 import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
 import { MediumRequestService } from '../../../../../common/data-core/requests/services/medium/medium.service';
+import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../share/window/component/window.component';
 import { SystemEventGpsTaskDetailsContainerComponent } from '../../system-event/system-event-gps-task/system-event-gps-task-details/system-event-gps-task-details-container/system-event-gps-task-details-container.component';
@@ -56,12 +57,15 @@ import { SystemMainManagerWindowSource } from './system-main-manager-window.sour
   providers: [SystemMainManagerWindowSource],
 })
 export class SystemMainManagerWindowComponent {
-  @Input() window = new SystemMainManagerWindow();
+  @Input() window: SystemMainManagerWindow;
 
   constructor(
     public source: SystemMainManagerWindowSource,
     private medium: MediumRequestService,
-  ) {}
+    language: LanguageTool,
+  ) {
+    this.window = new SystemMainManagerWindow(language);
+  }
 
   picture = {
     open: <T>(paged: Paged<T>) => {

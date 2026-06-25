@@ -4,11 +4,11 @@ export class MapMarkerDevicePath {
   }
 
   private basic: string;
+  get online() {
+    return `${this.basic}-mobile-online.png`;
+  }
 
-  get mobile() {
-    return {
-      online: `${this.basic}-mobile-online.png`,
-      offline: `${this.basic}-mobile-offline.png`,
-    };
+  get offline() {
+    return `${this.basic}-mobile-offline.png`;
   }
 }

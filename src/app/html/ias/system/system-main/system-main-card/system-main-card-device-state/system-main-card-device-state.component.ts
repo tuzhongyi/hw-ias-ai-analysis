@@ -7,6 +7,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SystemMainCardContainerComponent } from '../system-main-card-container/system-main-card-container.component';
 import { SystemMainCardDeviceStateBusiness } from './system-main-card-device-state.business';
 
@@ -19,9 +21,20 @@ import { SystemMainCardDeviceStateBusiness } from './system-main-card-device-sta
 })
 export class SystemMainCardDeviceStateComponent implements OnInit, OnDestroy {
   @Input('load') _load?: EventEmitter<void>;
-  constructor(private business: SystemMainCardDeviceStateBusiness) {}
+  title: string;
 
-  title = '车辆状态';
+  constructor(
+    private business: SystemMainCardDeviceStateBusiness,
+    public language: LanguageTool,
+    private path: PathTool,
+  ) {
+    this.title = `${this.language.device.Name}状态`;
+  }
+
+  get background() {
+    return `url(${this.path.image.card.get().state})`;
+  }
+
   value = {
     count: 3,
     online: 2,
@@ -38,7 +51,7 @@ export class SystemMainCardDeviceStateComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this._load.subscribe(() => {
           this.load();
-        })
+        }),
       );
     }
   }

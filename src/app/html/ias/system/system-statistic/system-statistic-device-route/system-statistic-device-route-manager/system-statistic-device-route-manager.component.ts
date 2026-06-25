@@ -15,6 +15,7 @@ import { DateTimePickerView } from '../../../../../../common/directives/date-tim
 import { ChartType } from '../../../../../../common/tools/chart-tool/chart.model';
 import { DurationUnit } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { SystemStatisticDeviceRouteChartContainerComponent } from '../system-statistic-device-route-chart/system-statistic-device-route-chart-container/system-statistic-device-route-chart-container.component';
 import { SystemStatisticDeviceRouteInfoComponent } from '../system-statistic-device-route-info/system-statistic-device-route-info.component';
 import { SystemStatisticDeviceRouteBusiness } from '../system-statistic-device-route.business';
@@ -50,7 +51,8 @@ export class SystemStatisticDeviceRouteManagerComponent
   constructor(
     private toastr: ToastrService,
     private business: SystemStatisticDeviceRouteBusiness,
-    public source: SystemStatisticDeviceRouteSource
+    public source: SystemStatisticDeviceRouteSource,
+    public language: LanguageTool,
   ) {}
 
   Unit = DurationUnit;
@@ -134,7 +136,7 @@ export class SystemStatisticDeviceRouteManagerComponent
     },
     search: () => {
       if (!this.args.deviceId) {
-        this.toastr.warning('请选择巡逻车辆');
+        this.toastr.warning(`请选择${this.language.device.Name}`);
         return;
       }
       this.load.to(this.args);

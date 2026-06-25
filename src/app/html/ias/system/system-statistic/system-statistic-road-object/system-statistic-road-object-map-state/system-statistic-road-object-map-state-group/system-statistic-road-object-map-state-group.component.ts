@@ -72,6 +72,18 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
     },
   };
 
+  /** 取另一筛选组的选中类型所过滤后的 source，未选中时返回 source 本身 */
+  private otherFilter(group: 'eventtype' | 'objecttype'): RoadObjectEventRecord[] {
+    let other = group === 'eventtype' ? this.eventtype : this.objecttype;
+    if (other.selected) {
+      let key = group === 'eventtype' ? 'EventType' : 'RoadObjectType';
+      return this.source.filter(
+        (x) => (x as any)[key] === other.selected?.type,
+      );
+    }
+    return this.source;
+  }
+
   filter() {
     let args = {
       EventType: this.eventtype.selected?.type,
@@ -110,13 +122,23 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
       this.eventtype.loaded = true;
     },
     refresh: () => {
+      let base = this.otherFilter('objecttype');
       if (this.eventtype.selected) {
-        this.eventtype.selected.value = this.view.filter((x) => {
-          return (
-            x.EventType == this.eventtype.selected?.type &&
-            (!this.deviceId || x.DeviceId == this.deviceId)
-          );
-        }).length;
+        this.eventtype.datas.forEach((item) => {
+          if (item.type === this.eventtype.selected?.type) {
+            item.value = this.view.filter(
+              (x) =>
+                x.EventType == item.type &&
+                (!this.deviceId || x.DeviceId == this.deviceId),
+            ).length;
+          } else {
+            item.value = base.filter(
+              (x) =>
+                x.EventType == item.type &&
+                (!this.deviceId || x.DeviceId == this.deviceId),
+            ).length;
+          }
+        });
       } else {
         this.eventtype.datas.forEach((item) => {
           item.value = this.view.filter(
@@ -185,12 +207,23 @@ export class SystemStatisticRoadObjectMapStateGroupComponent
       this.objecttype.loaded = true;
     },
     refresh: () => {
+      let base = this.otherFilter('eventtype');
       if (this.objecttype.selected) {
-        this.objecttype.selected.value = this.view.filter(
-          (x) =>
-            x.RoadObjectType == this.objecttype.selected?.type &&
-            (!this.deviceId || x.DeviceId == this.deviceId),
-        ).length;
+        this.objecttype.datas.forEach((item) => {
+          if (item.type === this.objecttype.selected?.type) {
+            item.value = this.view.filter(
+              (x) =>
+                x.RoadObjectType == item.type &&
+                (!this.deviceId || x.DeviceId == this.deviceId),
+            ).length;
+          } else {
+            item.value = base.filter(
+              (x) =>
+                x.RoadObjectType == item.type &&
+                (!this.deviceId || x.DeviceId == this.deviceId),
+            ).length;
+          }
+        });
       } else {
         this.objecttype.datas.forEach((item) => {
           item.value = this.view.filter(

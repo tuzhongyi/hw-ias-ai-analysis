@@ -1,16 +1,20 @@
+import { LocalStorage } from '../../../storage/local.storage';
 import { MapBreathPath } from './breath/map-breath.path';
 import { MapMarkerPath } from './marker/map-marker.path';
 import { MapPointPath } from './point/map-point.path';
 
 export class MapPath {
-  constructor(private node: string = '') {
+  constructor(
+    private node: string = '',
+    private local?: LocalStorage,
+  ) {
     this.base = `${this.node}/assets/image/map`;
   }
 
   private base: string;
 
   private get marker() {
-    return new MapMarkerPath(this.base);
+    return new MapMarkerPath(this.base, this.local);
   }
 
   get point() {

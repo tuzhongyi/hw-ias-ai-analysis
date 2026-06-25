@@ -1,4 +1,5 @@
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
+import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 
 export class SystemMainManagerMobileDeviceWindow extends WindowViewModel {
   style = {
@@ -12,5 +13,10 @@ export class SystemMainManagerMobileDeviceWindow extends WindowViewModel {
     boxShadow: 'none',
     transform: 'none',
   };
-  title = '巡逻车辆信息';
+  title = '';
+
+  constructor(language: LanguageTool) {
+    super();
+    this.title = `${language.device.Name}信息`;
+  }
 }

@@ -3,6 +3,7 @@ import { IShop } from '../../../../../../../common/data-core/models/arm/analysis
 import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { MapHelper } from '../../../../../../../common/helper/map/map.helper';
 import { ComponentTool } from '../../../../../../../common/tools/component-tool/component.tool';
+import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
 import { IASMapAMapInfoController } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
@@ -71,7 +72,7 @@ export class SystemMainMapAMapController {
     },
   };
 
-  constructor(private tool: ComponentTool, private subscription: Subscription) {
+  constructor(private tool: ComponentTool, private subscription: Subscription, private path: PathTool) {
     MapHelper.amap
       .get('system-main-map-container', ['AMap.MarkerCluster'], true, {
         showLabel: false,
@@ -179,7 +180,8 @@ export class SystemMainMapAMapController {
         let ctr = new SystemMainMapAMapDeviceMarkerLayerController(
           map,
           info,
-          this.subscription
+          this.subscription,
+          this.path,
         );
         let sub = ctr.event.dblclick.subscribe((x) => {
           this.event.device.dblclick.emit(x);

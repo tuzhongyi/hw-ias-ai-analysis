@@ -6,6 +6,8 @@ import { GetRoadObjectsParams } from '../../../../../../../common/data-core/requ
 import { GetShopRegistrationsParams } from '../../../../../../../common/data-core/requests/services/geographic/shop/geographic-shop.params';
 import { GetMobileDevicesParams } from '../../../../../../../common/data-core/requests/services/system/mobile/system-mobile-device.params';
 import { ArmSystemRequestService } from '../../../../../../../common/data-core/requests/services/system/system.service';
+import { LocalStorage } from '../../../../../../../common/storage/local.storage';
+import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 import { SystemMainCardStatisticNumberItem } from '../system-main-card-statistic-number-item/system-main-card-statistic-number-item.model';
 
 @Injectable()
@@ -13,7 +15,9 @@ export class SystemMainCardStatisticNumberBusiness {
   constructor(
     system: ArmSystemRequestService,
     analysis: ArmAnalysisRequestService,
-    geo: ArmGeographicRequestService
+    geo: ArmGeographicRequestService,
+    private language: LanguageTool,
+    private local: LocalStorage,
   ) {
     this.service = { system, analysis, geo };
   }
@@ -44,9 +48,16 @@ export class SystemMainCardStatisticNumberBusiness {
   }
   async device() {
     let page = await this.data.device();
+
+    let icon = 'device';
+
+    if (this.local.auth.is.putuoqu) {
+      icon = 'dog';
+    }
+
     let item: SystemMainCardStatisticNumberItem = {
-      icon: 'device',
-      name: '巡逻车',
+      icon: icon,
+      name: this.language.device.Name,
       value: page.TotalRecordCount,
     };
     return item;

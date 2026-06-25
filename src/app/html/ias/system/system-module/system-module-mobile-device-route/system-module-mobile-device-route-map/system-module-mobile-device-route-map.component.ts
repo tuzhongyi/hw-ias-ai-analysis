@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { SystemModuleMobileDeviceRouteArgs } from '../system-module-mobile-device-route.model';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SystemModuleMobileDeviceRouteMapController } from './controller/system-module-mobile-device-route-map.controller';
 import { SystemModuleMobileDeviceRouteMapBusiness } from './system-module-mobile-device-route-map.business';
 
@@ -33,15 +34,21 @@ export class SystemModuleMobileDeviceRouteMapComponent
   @Input() gps?: FileGpsItem;
   @Output() devicedblclick = new EventEmitter<void>();
 
-  constructor(private business: SystemModuleMobileDeviceRouteMapBusiness) {}
+  constructor(
+    private business: SystemModuleMobileDeviceRouteMapBusiness,
+    path: PathTool,
+  ) {
+    this.controller = new SystemModuleMobileDeviceRouteMapController(
+      this.subscription,
+      path,
+    );
+  }
 
   loaded = false;
   loading = false;
   private args?: SystemModuleMobileDeviceRouteArgs;
   private subscription = new Subscription();
-  private controller = new SystemModuleMobileDeviceRouteMapController(
-    this.subscription,
-  );
+  private controller: SystemModuleMobileDeviceRouteMapController;
   private regist() {
     if (this.load) {
       let sub = this.load.subscribe((x) => {

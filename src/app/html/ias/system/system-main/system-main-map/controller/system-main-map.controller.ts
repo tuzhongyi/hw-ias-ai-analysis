@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
 
 import { Subscription } from 'rxjs';
@@ -26,8 +27,8 @@ export class SystemMainMapController {
   heatmap: SystemMainMapHeatmapController;
   roadobject: SystemMainMapRoadObjectController;
 
-  constructor(tool: ComponentTool) {
-    this.amap = new SystemMainMapAMapController(tool, this.subscription);
+  constructor(tool: ComponentTool, path: PathTool) {
+    this.amap = new SystemMainMapAMapController(tool, this.subscription, path);
     this.road = new SystemMainMapRoadController(this.amap);
     this.shop = new SystemMainMapShopController(this.amap, this.subscription);
     this.device = new SystemMainMapDeviceController(

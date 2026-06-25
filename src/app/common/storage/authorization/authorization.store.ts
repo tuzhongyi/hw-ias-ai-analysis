@@ -27,4 +27,14 @@ export class AuthorizationStore {
     }
     return true;
   }
+
+  is = new Equals(this);
+}
+
+class Equals {
+  constructor(private auto: AuthorizationStore) {}
+  get putuoqu() {
+    let model = this.auto.get();
+    return model.username == 'putuoqu';
+  }
 }

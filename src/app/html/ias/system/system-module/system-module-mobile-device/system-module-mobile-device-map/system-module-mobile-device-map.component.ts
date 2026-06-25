@@ -6,6 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
+import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SystemModuleMobileDeviceMapController } from './controller/system-module-mobile-device-map.controller';
 
 @Component({
@@ -17,11 +18,14 @@ import { SystemModuleMobileDeviceMapController } from './controller/system-modul
 export class SystemModuleMobileDeviceMapComponent implements OnChanges {
   @Input() datas: MobileDevice[] = [];
 
-  controller = new SystemModuleMobileDeviceMapController(
-    'system-module-mobile-device-map'
-  );
+  controller: SystemModuleMobileDeviceMapController;
 
-  constructor() {}
+  constructor(path: PathTool) {
+    this.controller = new SystemModuleMobileDeviceMapController(
+      'system-module-mobile-device-map',
+      path,
+    );
+  }
 
   private change = {
     datas: (simple: SimpleChange) => {

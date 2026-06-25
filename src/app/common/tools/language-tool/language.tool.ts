@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Manager } from '../../data-core/requests/managers/manager';
+import { LocalStorage } from '../../storage/local.storage';
 import { LanguageAnalysisLLMTool } from './language-analysis-llm.tool';
 import { LanguageAnalysisServerTool } from './language-analysis-server.tool';
 import { LanguageAnalysisShopTool } from './language-analysis-shop.tool';
@@ -24,12 +25,15 @@ export class LanguageTool {
   local = new LanguageLocalTool();
   road: LanguageRoadTool;
 
-  constructor(private manager: Manager) {
-    this.device = new LanguageDeviceTool(this.manager.source.device);
+  constructor(
+    private manager: Manager,
+    local: LocalStorage,
+  ) {
+    this.device = new LanguageDeviceTool(this.manager.source.device, local);
     this.security = new LanguageSecurityTool(this.manager.source.security);
     this.analysis = {
       server: new LanguageAnalysisServerTool(
-        this.manager.source.analysis.server
+        this.manager.source.analysis.server,
       ),
       shop: new LanguageAnalysisShopTool(this.manager.source.analysis.shop),
       llm: new LanguageAnalysisLLMTool(this.manager.source.analysis.llm),
@@ -38,7 +42,7 @@ export class LanguageTool {
     this.road = new LanguageRoadTool(
       this.manager.source.road.section,
       this.manager.source.road.point,
-      this.manager.source.road.object
+      this.manager.source.road.object,
     );
   }
 }

@@ -3,6 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DeviceStatement } from '../../../../../../common/data-core/models/arm/mobile-device/device-statement.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { SystemStatisticRoadObjectStatementContainerComponent } from '../system-statistic-road-object-statement-container/system-statistic-road-object-statement-container.component';
 import { SystemStatisticRoadObjectStatementConverter } from '../system-statistic-road-object-statement.converter';
 import { MobileDeviceStatementModel } from '../system-statistic-road-object-statement.model';
@@ -19,6 +20,8 @@ import { MobileDeviceStatementModel } from '../system-statistic-road-object-stat
 })
 export class SystemStatisticRoadObjectStatement7Component implements OnChanges {
   @Input() statement?: Promise<DeviceStatement[]>;
+
+  constructor(public language: LanguageTool) {}
 
   Language = Language;
   Math = Math;

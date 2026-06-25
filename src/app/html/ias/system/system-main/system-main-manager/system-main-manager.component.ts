@@ -8,6 +8,7 @@ import { RoadObject } from '../../../../../common/data-core/models/arm/geographi
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import { GlobalStorage } from '../../../../../common/storage/global.storage';
+import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import { DateTimeTool } from '../../../../../common/tools/date-time-tool/datetime.tool';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
 import { wait } from '../../../../../common/tools/wait';
@@ -61,13 +62,16 @@ export class SystemMainManagerComponent implements OnInit {
   constructor(
     public business: SystemMainManagerBusiness,
     public toastr: ToastrService,
-    public global: GlobalStorage
-  ) {}
+    public global: GlobalStorage,
+    language: LanguageTool,
+  ) {
+    this.window = new SystemMainManagerWindow(language);
+  }
 
   EventMode = EventMode;
   Navigation = SyatemMainMapNavigation;
 
-  window = new SystemMainManagerWindow();
+  window: SystemMainManagerWindow;
   load = new EventEmitter<void>();
   card = new SystemMainManagerCard(this);
   panel = new SystemMainManagerPanel(this);
@@ -145,7 +149,7 @@ export class SystemMainManagerComponent implements OnInit {
         this.realtime.datas = x;
         this.map.data.realtime = x.filter((y) => !y.Assignment?.Assigned);
         this.map.data.timeout = x.filter(
-          (y) => !y.Assignment?.Assigned && y.IsTimeout
+          (y) => !y.Assignment?.Assigned && y.IsTimeout,
         );
       });
     },

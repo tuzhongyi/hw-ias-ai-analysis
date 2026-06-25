@@ -1,5 +1,6 @@
 import { Subscription } from 'rxjs';
 import { MobileDevice } from '../../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
+import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../../common/tools/size-tool/size.tool';
 import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
@@ -12,7 +13,8 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
   constructor(
     map: AMap.Map,
     private info: IASMapAMapInfoController,
-    private subscription: Subscription
+    private subscription: Subscription,
+    private path: PathTool,
   ) {
     this.layer = this.init(map);
   }
@@ -31,7 +33,7 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
 
   private regist(
     point: SystemMainMapAMapDeviceMarkerController,
-    subscription: Subscription
+    subscription: Subscription,
   ) {
     let sub1 = point.event.mouseover.subscribe((data) => {
       let info: IIASMapAMapInfo = {
@@ -69,7 +71,10 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
     for (let i = 0; i < datas.length; i++) {
       const data = datas[i];
       if (data.Location) {
-        let point = new SystemMainMapAMapDeviceMarkerController(data);
+        let point = new SystemMainMapAMapDeviceMarkerController(
+          data,
+          this.path,
+        );
         this.regist(point, this.subscription);
         markers.push(point.marker);
         this.points.push(point);

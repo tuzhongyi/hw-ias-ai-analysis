@@ -1,4 +1,5 @@
 import { MobileDevice } from '../../../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
+import { PathTool } from '../../../../../../../../../common/tools/path-tool/path.tool';
 import { SizeTool } from '../../../../../../../../../common/tools/size-tool/size.tool';
 import { IASMapAMapInfoController } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
@@ -8,7 +9,11 @@ import { SystemModuleMobileDeviceMapAMapDeviceMarkerController } from './system-
 export class SystemModuleMobileDeviceMapAMapDeviceMarkerLayerController {
   event = new IASMapAMapMarkerEvent<MobileDevice>();
 
-  constructor(map: AMap.Map, private info: IASMapAMapInfoController) {
+  constructor(
+    map: AMap.Map,
+    private info: IASMapAMapInfoController,
+    private path: PathTool,
+  ) {
     this.layer = this.init(map);
   }
   private layer: AMap.LabelsLayer;
@@ -58,7 +63,8 @@ export class SystemModuleMobileDeviceMapAMapDeviceMarkerLayerController {
       const data = datas[i];
       if (data.Location) {
         let point = new SystemModuleMobileDeviceMapAMapDeviceMarkerController(
-          data
+          data,
+          this.path,
         );
         this.regist(point);
         markers.push(point.marker);

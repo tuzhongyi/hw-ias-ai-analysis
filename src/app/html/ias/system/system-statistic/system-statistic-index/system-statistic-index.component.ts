@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalStorage } from '../../../../../common/storage/global.storage';
+import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import { SystemPath } from '../../system.model';
 
 @Component({
@@ -14,6 +15,7 @@ export class SystemStatisticIndexComponent {
   constructor(
     private router: Router,
     private global: GlobalStorage,
+    public language: LanguageTool,
   ) {}
 
   get display() {

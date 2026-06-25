@@ -13,6 +13,7 @@ import { SystemMainManagerTaskShopWindow } from './task/system-main-manager-task
 import { SystemMainManagerVideoRecordWindow } from './video/system-main-manager-video-record.window';
 import { SystemMainManagerVideoSampleWindow } from './video/system-main-manager-video-sample.window';
 import { SystemMainManagerVideoShopWindow } from './video/system-main-manager-video-shop.window';
+import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { SystemMainManagerVideoWSPlayerWindow } from './video/system-main-manager-video-wsplayer.window';
 
 export class SystemMainManagerWindow {
@@ -34,9 +35,16 @@ export class SystemMainManagerWindow {
   };
   road = new SystemMainManagerRoadWindow();
   shop = new SystemMainManagerShopWindow();
-  device = {
-    mobile: new SystemMainManagerMobileDeviceWindow(),
-    route: new SystemMainManagerMobileRouteWindow(),
+  device: {
+    mobile: SystemMainManagerMobileDeviceWindow;
+    route: SystemMainManagerMobileRouteWindow;
   };
   roadobject = new SystemMainManagerRoadObjectWindow();
+
+  constructor(language: LanguageTool) {
+    this.device = {
+      mobile: new SystemMainManagerMobileDeviceWindow(language),
+      route: new SystemMainManagerMobileRouteWindow(),
+    };
+  }
 }

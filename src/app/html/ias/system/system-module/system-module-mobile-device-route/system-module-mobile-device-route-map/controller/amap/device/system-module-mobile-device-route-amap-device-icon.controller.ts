@@ -2,6 +2,7 @@ import { PathTool } from '../../../../../../../../../common/tools/path-tool/path
 import { SizeTool } from '../../../../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemModuleMobileDeviceRouteAMapIconController {
+  constructor(private path: PathTool) {}
   private size(): [number, number] {
     return [
       SizeTool.map.device.mobile.width,
@@ -12,7 +13,7 @@ export class SystemModuleMobileDeviceRouteAMapIconController {
   private get opts(): AMap.LabelMarkerIconOptions {
     let icon = {
       type: 'image',
-      image: PathTool.image.map.device.mobile.online,
+      image: this.path.image.map.device.online,
       size: this.size(),
       anchor: 'center',
     };
@@ -22,13 +23,13 @@ export class SystemModuleMobileDeviceRouteAMapIconController {
   get online() {
     return {
       ...this.opts,
-      image: PathTool.image.map.device.mobile.online,
+      image: this.path.image.map.device.online,
     };
   }
   get offline() {
     return {
       ...this.opts,
-      image: PathTool.image.map.device.mobile.offline,
+      image: this.path.image.map.device.offline,
     };
   }
 }
