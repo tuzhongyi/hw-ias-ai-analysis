@@ -1,0 +1,32 @@
+// 4K / 2K 屏幕适配
+// 基准：1920×1080
+
+// 2K 屏
+@media screen and (min-width: 2560px) and (max-width: 3839px),
+screen and (-webkit-min-device-pixel-ratio: 1.25) and (max-width: 3839px) and (min-width: 1920px),
+screen and (min-resolution: 120dpi) and (max-width: 3839px) and (min-width: 1920px) {
+  html { font-size: 21.33px; overflow: hidden; }
+  body { zoom: 1.33; }
+
+  body .table-split-head { height: calc(100% / 21) !important; }
+  body .table-split-body { height: calc(100% * 20 / 21) !important; }
+}
+
+// 4K 屏
+@media screen and (min-width: 3840px),
+screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1920px),
+screen and (min-resolution: 192dpi) and (min-width: 1920px) {
+  html { font-size: 32px; overflow: hidden; }
+  body { zoom: 2; font-size: 18px !important; }
+
+  table { font-size: 18px !important; }
+  body .forms { font-size: 18px !important; }
+  body select { font-size: 18px !important; }
+  body .clear { width: 16px !important; height: 16px !important; }
+
+  body .table-split-head { height: calc(100% / 21) !important; }
+  body .table-split-body { height: calc(100% * 20 / 21) !important; }
+
+  // 地图容器反向 zoom，恢复 AMap 坐标
+  .system-main-map-container { zoom: 0.5; }
+}

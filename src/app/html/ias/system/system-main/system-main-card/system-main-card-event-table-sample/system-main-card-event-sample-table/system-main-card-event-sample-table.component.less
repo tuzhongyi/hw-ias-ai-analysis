@@ -62,3 +62,22 @@
     }
   }
 }
+
+// 4K 适配
+@media screen and (min-width: 3840px),
+screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1920px),
+screen and (min-resolution: 192dpi) and (min-width: 1920px) {
+  .system-main-card-event-sample-table-body.table-split {
+    .table-split-head {
+      height: 28px !important;
+    }
+
+    .table-split-body {
+      height: calc(100% - 28px);
+
+      table tr {
+        height: 28px !important;
+      }
+    }
+  }
+}

@@ -39,7 +39,7 @@ export class SystemModuleRoadTableComponent
 
   datas: Road[] = [];
 
-  widths = ['65px', 'auto', 'auto', '100px'];
+  widths = ['15%', 'auto', 'auto', '100px'];
   private subscription = new Subscription();
 
   private change = {
