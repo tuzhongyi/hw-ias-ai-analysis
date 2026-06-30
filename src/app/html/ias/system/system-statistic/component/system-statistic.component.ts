@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Observable, Subscription, filter } from 'rxjs';
+import { Language } from '../../../../../common/tools/language-tool/language';
 import { ContentHeaderComponent } from '../../../share/header/content-header/content-header.component';
 import { SystemStatisticBusiness } from './system-statistic.business';
 
@@ -17,8 +18,10 @@ export class SystemStatisticComponent implements OnInit, OnDestroy {
 
   constructor(
     private business: SystemStatisticBusiness,
-    private router: Router
+    private router: Router,
   ) {}
+
+  Language = Language;
 
   get head() {
     return this.business.headable;
@@ -36,7 +39,7 @@ export class SystemStatisticComponent implements OnInit, OnDestroy {
   private regist() {
     let sub2 = (
       this.router.events.pipe(
-        filter((event) => event instanceof NavigationEnd)
+        filter((event) => event instanceof NavigationEnd),
       ) as Observable<NavigationEnd>
     ).subscribe((router) => {
       this.title = this.business.load();

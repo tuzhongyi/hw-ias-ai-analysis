@@ -1,5 +1,5 @@
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
-import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
+import { Language } from '../../../../../../../common/tools/language-tool/language';
 
 export class SystemMainManagerMobileDeviceWindow extends WindowViewModel {
   style = {
@@ -15,8 +15,8 @@ export class SystemMainManagerMobileDeviceWindow extends WindowViewModel {
   };
   title = '';
 
-  constructor(language: LanguageTool) {
+  constructor() {
     super();
-    this.title = `${language.device.Name}信息`;
+    this.title = `${Language.DeviceName}信息`;
   }
 }

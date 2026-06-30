@@ -29,7 +29,7 @@
           </div>
           <div class="form-item-value">
             <select [(ngModel)]="data.DeviceType">
-              <option [ngValue]="1">{{ language.device.Name }}</option>
+              <option [ngValue]="1">{{ Language.DeviceName }}</option>
             </select>
           </div>
         </div>
@@ -76,7 +76,7 @@
             <input
               disabled
               type="text"
-              [value]="data.LastOnlineTime | date : Language.yyyyMMddHHmmss"
+              [value]="data.LastOnlineTime | date: Language.yyyyMMddHHmmss"
             />
           </div>
         </div>
@@ -88,7 +88,7 @@
             <input
               disabled
               type="text"
-              [value]="data.CreationTime | date : Language.yyyyMMddHHmmss"
+              [value]="data.CreationTime | date: Language.yyyyMMddHHmmss"
             />
           </div>
         </div>
@@ -100,7 +100,7 @@
             <input
               disabled
               type="text"
-              [value]="data.UpdateTime | date : Language.yyyyMMddHHmmss"
+              [value]="data.UpdateTime | date: Language.yyyyMMddHHmmss"
             />
           </div>
         </div>
@@ -131,7 +131,7 @@
             <input
               disabled
               type="text"
-              [value]="data.AccessTokenTime | date : Language.yyyyMMddHHmmss"
+              [value]="data.AccessTokenTime | date: Language.yyyyMMddHHmmss"
             />
           </div>
         </div>

@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SystemMainCardContainerComponent } from '../system-main-card-container/system-main-card-container.component';
 import { SystemMainCardDeviceStateBusiness } from './system-main-card-device-state.business';
@@ -25,10 +25,10 @@ export class SystemMainCardDeviceStateComponent implements OnInit, OnDestroy {
 
   constructor(
     private business: SystemMainCardDeviceStateBusiness,
-    public language: LanguageTool,
+
     private path: PathTool,
   ) {
-    this.title = `${this.language.device.Name}状态`;
+    this.title = `${Language.DeviceName}状态`;
   }
 
   get background() {

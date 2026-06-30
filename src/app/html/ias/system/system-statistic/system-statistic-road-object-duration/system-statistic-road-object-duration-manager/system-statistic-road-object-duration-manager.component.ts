@@ -13,6 +13,7 @@ import {
   PagedList,
 } from '../../../../../../common/data-core/models/interface/page-list.model';
 import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
@@ -50,6 +51,8 @@ export class SystemStatisticRoadObjectDurationManagerComponent implements OnInit
     private business: SystemStatisticRoadObjectDurationBusiness,
     public language: LanguageTool,
   ) {}
+
+  Language = Language;
 
   window = new SystemStatisticRoadObjectManagerWindow();
   args = new SystemStatisticRoadObjectDurationArgs();

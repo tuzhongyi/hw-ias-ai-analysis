@@ -25,7 +25,6 @@ import { DateTimePickerView } from '../../../../../../common/directives/date-tim
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 import { DurationUnit } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
-import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { wait } from '../../../../../../common/tools/wait';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleMobileDeviceRouteChartContainerComponent } from '../system-module-mobile-device-route-chart-container/system-module-mobile-device-route-chart-container.component';
@@ -70,11 +69,10 @@ export class SystemModuleMobileDeviceRouteManagerComponent
     private toastr: ToastrService,
     public source: SystemModuleMobileDeviceRouteManagerSource,
     private service: ArmSystemRequestService,
-    public language: LanguageTool,
   ) {}
 
+  Language = Language;
   window = new SystemModuleMobileDeviceRouteWindow();
-
   device?: MobileDevice;
 
   private change = {
@@ -210,7 +208,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
       search: () => {
         this.manager.been = true;
         if (!this.map.args.deviceId) {
-          this.toastr.warning(`请选择${this.language.device.Name}`);
+          this.toastr.warning(`请选择${Language.DeviceName}`);
           return;
         }
         this.window.video.show = false;
@@ -262,7 +260,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
       this.chart.show = false;
       if (this.device) {
         if (this.device.OnlineStatus == 1) {
-          this.toastr.warning(`${this.language.device.Name}不在线`);
+          this.toastr.warning(`${Language.DeviceName}不在线`);
           return;
         }
         if (!this.video.channel.id) {

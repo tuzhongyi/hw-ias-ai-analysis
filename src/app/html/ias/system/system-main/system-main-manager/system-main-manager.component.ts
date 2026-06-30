@@ -8,7 +8,6 @@ import { RoadObject } from '../../../../../common/data-core/models/arm/geographi
 import { ShopRegistration } from '../../../../../common/data-core/models/arm/geographic/shop-registration.model';
 import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import { GlobalStorage } from '../../../../../common/storage/global.storage';
-import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
 import { DateTimeTool } from '../../../../../common/tools/date-time-tool/datetime.tool';
 import { ObjectTool } from '../../../../../common/tools/object-tool/object.tool';
 import { wait } from '../../../../../common/tools/wait';
@@ -63,9 +62,8 @@ export class SystemMainManagerComponent implements OnInit {
     public business: SystemMainManagerBusiness,
     public toastr: ToastrService,
     public global: GlobalStorage,
-    language: LanguageTool,
   ) {
-    this.window = new SystemMainManagerWindow(language);
+    this.window = new SystemMainManagerWindow();
   }
 
   EventMode = EventMode;

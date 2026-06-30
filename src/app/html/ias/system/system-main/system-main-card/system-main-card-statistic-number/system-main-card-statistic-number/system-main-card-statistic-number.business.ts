@@ -7,6 +7,7 @@ import { GetShopRegistrationsParams } from '../../../../../../../common/data-cor
 import { GetMobileDevicesParams } from '../../../../../../../common/data-core/requests/services/system/mobile/system-mobile-device.params';
 import { ArmSystemRequestService } from '../../../../../../../common/data-core/requests/services/system/system.service';
 import { LocalStorage } from '../../../../../../../common/storage/local.storage';
+import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../../common/tools/language-tool/language.tool';
 import { SystemMainCardStatisticNumberItem } from '../system-main-card-statistic-number-item/system-main-card-statistic-number-item.model';
 
@@ -57,7 +58,7 @@ export class SystemMainCardStatisticNumberBusiness {
 
     let item: SystemMainCardStatisticNumberItem = {
       icon: icon,
-      name: this.language.device.Name,
+      name: Language.DeviceName,
       value: page.TotalRecordCount,
     };
     return item;

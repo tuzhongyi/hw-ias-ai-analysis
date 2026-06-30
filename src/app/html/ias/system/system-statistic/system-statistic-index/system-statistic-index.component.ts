@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalStorage } from '../../../../../common/storage/global.storage';
-import { LanguageTool } from '../../../../../common/tools/language-tool/language.tool';
+import { Language } from '../../../../../common/tools/language-tool/language';
 import { SystemPath } from '../../system.model';
 
 @Component({
@@ -15,8 +15,9 @@ export class SystemStatisticIndexComponent {
   constructor(
     private router: Router,
     private global: GlobalStorage,
-    public language: LanguageTool,
   ) {}
+
+  Language = Language;
 
   get display() {
     return this.global.display.module;

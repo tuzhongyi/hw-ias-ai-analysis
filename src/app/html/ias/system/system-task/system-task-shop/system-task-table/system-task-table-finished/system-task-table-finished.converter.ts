@@ -8,22 +8,23 @@ import { LanguageTool } from '../../../../../../../common/tools/language-tool/la
 import { AnalysisTaskFinishModel } from './system-task-table-finished.model';
 
 @Injectable()
-export class SystemTaskTableFinishedConverter
-  implements IConverter<AnalysisTask, AnalysisTaskFinishModel>
-{
+export class SystemTaskTableFinishedConverter implements IConverter<
+  AnalysisTask,
+  AnalysisTaskFinishModel
+> {
   constructor(
-    private tool: LanguageTool,
-    private service: ArmAnalysisRequestService
+    private language: LanguageTool,
+    private service: ArmAnalysisRequestService,
   ) {}
 
   convert(source: AnalysisTask) {
     let plain = instanceToPlain(source);
     let model = plainToInstance(AnalysisTaskFinishModel, plain);
     model.hasdata = true;
-    model.StateName = this.tool.analysis.server.TaskState(model.State, '-');
-    model.TaskTypeName = this.tool.analysis.server.TaskType(
+    model.StateName = this.language.analysis.server.TaskState(model.State, '-');
+    model.TaskTypeName = this.language.analysis.server.TaskType(
       model.TaskType,
-      '-'
+      '-',
     );
 
     if (source.StartTime) {

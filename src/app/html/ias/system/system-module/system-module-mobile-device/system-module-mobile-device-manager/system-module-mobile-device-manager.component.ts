@@ -5,7 +5,6 @@ import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobi
 import { SystemModuleMobileDeviceMapComponent } from '../system-module-mobile-device-map/system-module-mobile-device-map.component';
 import { SystemModuleMobileDeviceTableComponent } from '../system-module-mobile-device-table/system-module-mobile-device-table.component';
 import { SystemModuleMobileDeviceTableArgs } from '../system-module-mobile-device-table/system-module-mobile-device-table.model';
-import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { SystemModuleMobileDeviceManagerWindow } from './system-module-mobile-device-manager.window';
 
 @Component({
@@ -22,8 +21,8 @@ import { SystemModuleMobileDeviceManagerWindow } from './system-module-mobile-de
 export class SystemModuleMobileDeviceManagerComponent implements OnInit {
   @Input() iswindow = false;
   @Input() operable = true;
-  constructor(language: LanguageTool) {
-    this.window = new SystemModuleMobileDeviceManagerWindow(language);
+  constructor() {
+    this.window = new SystemModuleMobileDeviceManagerWindow();
     this.window.details.show = true;
   }
 

@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="form-item">
-        <div class="form-item-text">{{ language.device.Name }}:</div>
+        <div class="form-item-text">{{ Language.DeviceName }}:</div>
         <div class="form-item-value fill">
           <hw-select
             [(selected)]="map.args.deviceId"
@@ -111,7 +111,7 @@
       class="system-module-mobile-device-route-manager-body-nodata"
       *ngIf="!map.args.deviceId"
     >
-      <span>请选择{{ language.device.Name }}</span>
+      <span>请选择{{ Language.DeviceName }}</span>
     </div>
     <ng-container *ngIf="map.args.deviceId">
       <div class="system-module-mobile-device-route-manager-body-map panel">

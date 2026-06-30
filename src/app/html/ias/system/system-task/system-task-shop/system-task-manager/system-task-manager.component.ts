@@ -13,7 +13,6 @@ import {
   TaskCompletedArgs,
 } from '../system-task-creation/component/system-task-creation.model';
 
-import { Router } from '@angular/router';
 import { ShopObjectState } from '../../../../../../common/data-core/enums/analysis/shop-object-state.enum';
 import { IShop } from '../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
@@ -62,8 +61,7 @@ export class SystemTaskManagerComponent implements OnInit, OnChanges {
     public controller: SystemTaskManagerController,
     private toastr: ToastrService,
     private local: LocalStorage,
-    private router: Router,
-    private language: LanguageTool
+    private language: LanguageTool,
   ) {
     this.filter.duration.value =
       this.local.system.task.duration.get() ?? TaskDuration.year;
@@ -115,7 +113,7 @@ export class SystemTaskManagerComponent implements OnInit, OnChanges {
         let today = this.table.args.duration.end;
         this.table.args.duration = this.controller.duration.get(
           this.filter.duration.value,
-          today
+          today,
         );
         this.local.system.task.duration.set(this.filter.duration.value);
       },
@@ -189,7 +187,7 @@ export class SystemTaskManagerComponent implements OnInit, OnChanges {
       this.window.picture.page = Page.create(
         paged.Page.PageIndex,
         1,
-        paged.Page.PageSize
+        paged.Page.PageSize,
       );
       this.picture.change(this.window.picture.page);
     },

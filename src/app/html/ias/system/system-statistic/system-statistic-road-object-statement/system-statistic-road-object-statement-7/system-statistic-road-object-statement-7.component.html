@@ -1,6 +1,6 @@
 <ias-system-statistic-road-object-statement-container *ngIf="statement">
   <div class="system-statistic-road-object-statement-7">
-    <div class="system-statistic-road-object-statement-7-head">{{ language.device.Name }}总览</div>
+    <div class="system-statistic-road-object-statement-7-head">{{ Language.DeviceName }}总览</div>
     <div class="system-statistic-road-object-statement-7-body">
       <div class="system-statistic-road-object-statement-7-item">
         <div class="system-statistic-road-object-statement-7-item-icon">01</div>
@@ -8,7 +8,7 @@
           覆盖率
         </div>
         <div class="system-statistic-road-object-statement-7-item-body">
-          本月{{ language.device.Name }}巡逻覆盖{{ data.coverage }}%区域
+          本月{{ Language.DeviceName }}巡逻覆盖{{ data.coverage }}%区域
         </div>
       </div>
       <div class="system-statistic-road-object-statement-7-item">
@@ -17,7 +17,7 @@
           出勤天数
         </div>
         <div class="system-statistic-road-object-statement-7-item-body">
-          本月{{ language.device.Name }}出勤{{ data.attendance.count }}天
+          本月{{ Language.DeviceName }}出勤{{ data.attendance.count }}天
         </div>
       </div>
       <div class="system-statistic-road-object-statement-7-item">
@@ -26,7 +26,7 @@
           巡逻里程
         </div>
         <div class="system-statistic-road-object-statement-7-item-body">
-          本月{{ language.device.Name }}巡逻里程{{ (data.distance.total / 1000).toFixed(2) }}公里
+          本月{{ Language.DeviceName }}巡逻里程{{ (data.distance.total / 1000).toFixed(2) }}公里
         </div>
       </div>
       <div class="system-statistic-road-object-statement-7-item">
@@ -35,7 +35,7 @@
           每日巡逻里程
         </div>
         <div class="system-statistic-road-object-statement-7-item-body">
-          本月{{ language.device.Name }}平均每日行驶里程{{
+          本月{{ Language.DeviceName }}平均每日行驶里程{{
             (data.distance.average / 1000).toFixed(2)
           }}公里
         </div>
@@ -46,7 +46,7 @@
           每日行驶时长
         </div>
         <div class="system-statistic-road-object-statement-7-item-body">
-          本月{{ language.device.Name }}平均每日行驶时长<br />{{
+          本月{{ Language.DeviceName }}平均每日行驶时长<br />{{
             Language.Time(data.duration.average, "second")
           }}
         </div>

@@ -5,7 +5,7 @@ import { RoadObjectStatement } from '../../../../../../common/data-core/models/a
 import { DeviceStatement } from '../../../../../../common/data-core/models/arm/mobile-device/device-statement.model';
 import { ScrollFullDirective } from '../../../../../../common/directives/scroll/scroll-full.directive';
 import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
-import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { ContentHeaderComponent } from '../../../../share/header/content-header/content-header.component';
 import { SystemStatisticRoadObjectStatement1Component } from '../system-statistic-road-object-statement-1/system-statistic-road-object-statement-1.component';
 import { SystemStatisticRoadObjectStatement2Component } from '../system-statistic-road-object-statement-2/system-statistic-road-object-statement-2.component';
@@ -40,13 +40,8 @@ import { SystemStatisticRoadObjectStatementBusiness } from '../system-statistic-
   styleUrl: './system-statistic-road-object-statement-manager.component.less',
   providers: [SystemStatisticRoadObjectStatementBusiness],
 })
-export class SystemStatisticRoadObjectStatementManagerComponent
-  implements OnInit
-{
-  constructor(
-    private business: SystemStatisticRoadObjectStatementBusiness,
-    public language: LanguageTool,
-  ) {}
+export class SystemStatisticRoadObjectStatementManagerComponent implements OnInit {
+  constructor(private business: SystemStatisticRoadObjectStatementBusiness) {}
 
   title = '道路部件月报表';
 
@@ -96,8 +91,8 @@ export class SystemStatisticRoadObjectStatementManagerComponent
       '部件状态',
       '部件统计',
       '事件图表',
-      `${this.language.device.Name}总览`,
-      `${this.language.device.Name}统计`,
+      `${Language.DeviceName}总览`,
+      `${Language.DeviceName}统计`,
       '建议',
     ];
     this.date.init();

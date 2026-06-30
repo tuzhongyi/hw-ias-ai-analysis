@@ -681,4 +681,6 @@ export class Language {
         return def;
     }
   }
+
+  static DeviceName = '巡逻设备';
 }

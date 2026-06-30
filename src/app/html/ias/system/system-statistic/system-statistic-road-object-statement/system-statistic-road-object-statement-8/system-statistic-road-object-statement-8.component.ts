@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DeviceStatement } from '../../../../../../common/data-core/models/arm/mobile-device/device-statement.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
-import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { SystemStatisticRoadObjectStatement8ChartComponent } from '../system-statistic-road-object-statement-8-chart/system-statistic-road-object-statement-8-chart.component';
 import { SystemStatisticRoadObjectStatementContainerComponent } from '../system-statistic-road-object-statement-container/system-statistic-road-object-statement-container.component';
 import { SystemStatisticRoadObjectStatementConverter } from '../system-statistic-road-object-statement.converter';
@@ -23,7 +22,7 @@ import { MobileDeviceStatementModel } from '../system-statistic-road-object-stat
 export class SystemStatisticRoadObjectStatement8Component {
   @Input() statement?: Promise<DeviceStatement[]>;
 
-  constructor(public language: LanguageTool) {}
+  constructor() {}
 
   total = new MobileDeviceStatementModel();
   items: MobileDeviceStatementModel[] = [];

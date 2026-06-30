@@ -14,6 +14,7 @@ export class SystemMainManagerCardStatisticNumber {
           this.that.window.road.show = true;
           break;
         case 'device':
+        case 'dog':
           this.that.window.device.route.show = true;
           break;
         case 'task':

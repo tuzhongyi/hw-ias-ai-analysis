@@ -1,13 +1,13 @@
 import { WindowViewModel } from '../../../../../../common/components/window-control/window.model';
 import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
-import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
+import { Language } from '../../../../../../common/tools/language-tool/language';
 import { SizeTool } from '../../../../../../common/tools/size-tool/size.tool';
 
 export class SystemModuleMobileDeviceManagerWindow {
   details: DetailsWindow;
 
-  constructor(language: LanguageTool) {
-    this.details = new DetailsWindow(language);
+  constructor() {
+    this.details = new DetailsWindow();
   }
 }
 
@@ -18,8 +18,8 @@ class DetailsWindow extends WindowViewModel {
   data?: MobileDevice;
   title = '';
 
-  constructor(language: LanguageTool) {
+  constructor() {
     super();
-    this.title = language.device.Name;
+    this.title = Language.DeviceName;
   }
 }
