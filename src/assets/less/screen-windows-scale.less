@@ -1,0 +1,81 @@
+// Windows 缩放与布局 适配
+// 检测系统"缩放与布局"设置（更改文本、应用等项目的大小），反向补偿
+// 基准：1920×1080, Windows 缩放 100%, body zoom = 1
+//
+// devicePixelRatio = OS 缩放 × 浏览器缩放（无法拆开，但可近似检测）
+// 以下规则在 screen-4k.less 之后加载，补充处理非 4K/2K 物理屏但系统缩放 > 100% 的场景
+
+// ──────────────────────────────────────────
+// 150% 缩放 → 反向补偿 67%
+// 1080p 屏 @150%: DPR≈1.5, CSS 视口≈1280×720
+// ──────────────────────────────────────────
+@media screen and (-webkit-min-device-pixel-ratio: 1.4) and (-webkit-max-device-pixel-ratio: 1.6) and (max-width: 1919px),
+screen and (min-resolution: 135dpi) and (max-resolution: 155dpi) and (max-width: 1919px) {
+  html {
+    font-size: 10.67px;
+    overflow: hidden;
+  }
+  body {
+    zoom: 0.67;
+    font-size: 18px !important;
+  }
+
+  .system-main-map-container {
+    zoom: 1.5; // 反向补偿，恢复 AMap 坐标
+  }
+}
+
+// ──────────────────────────────────────────
+// 175% 缩放 → 反向补偿 57%
+// 1080p 屏 @175%: DPR≈1.75, CSS 视口≈1097×617
+// ──────────────────────────────────────────
+@media screen and (-webkit-min-device-pixel-ratio: 1.65) and (-webkit-max-device-pixel-ratio: 1.85) and (max-width: 1919px),
+screen and (min-resolution: 160dpi) and (max-resolution: 178dpi) and (max-width: 1919px) {
+  html {
+    font-size: 9.14px;
+    overflow: hidden;
+  }
+  body {
+    zoom: 0.57;
+    font-size: 18px !important;
+  }
+
+  .system-main-map-container {
+    zoom: 1.75; // 反向补偿，恢复 AMap 坐标
+  }
+}
+
+// ──────────────────────────────────────────
+// 200% 缩放 → 反向补偿 50%
+// 1080p 屏 @200%: DPR≈2, CSS 视口≈960×540
+// 关键区分：非 4K 物理屏 (max-width: 1919px)，避免与 screen-4k.less 冲突
+// ──────────────────────────────────────────
+@media screen and (-webkit-min-device-pixel-ratio: 1.9) and (max-width: 1919px),
+screen and (min-resolution: 185dpi) and (max-width: 1919px) {
+  html {
+    font-size: 8px;
+    overflow: hidden;
+  }
+  body {
+    zoom: 0.5;
+    font-size: 18px !important;
+  }
+
+  table {
+    font-size: 18px !important;
+  }
+  body .forms {
+    font-size: 18px !important;
+  }
+  body select {
+    font-size: 18px !important;
+  }
+  body .clear {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .system-main-map-container {
+    zoom: 2; // 反向补偿 (0.5 × 2 = 1)，恢复 AMap 坐标
+  }
+}
