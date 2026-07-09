@@ -35,10 +35,12 @@
         </div>
       </div>
     </div>
-    <div class="system-event-process-details-realtime-info panel">
-      <ias-system-event-record-details
-        [data]="data"
-      ></ias-system-event-record-details>
+    <div class="system-event-process-details-realtime-map panel">
+      <ias-map
+        [location]="data?.Location?.GCJ02"
+        [marker]="map.marker"
+        [shops]="map.point ? [map.point] : []"
+      ></ias-map>
     </div>
   </div>
   <div class="system-event-process-details-realtime-column">
@@ -93,12 +95,11 @@
         </div>
       </div>
     </div>
-    <div class="system-event-process-details-realtime-map panel">
-      <ias-map
-        [location]="data?.Location?.GCJ02"
-        [marker]="map.marker"
-        [shops]="map.point ? [map.point] : []"
-      ></ias-map>
+
+    <div class="system-event-process-details-realtime-info panel">
+      <ias-system-event-record-details
+        [data]="data"
+      ></ias-system-event-record-details>
     </div>
   </div>
 </div>

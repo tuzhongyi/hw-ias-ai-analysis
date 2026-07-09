@@ -279,14 +279,26 @@
     [title]="window.picture.title"
     [mask]="!window.opened"
   >
-    <ias-picture-list
-      [id]="window.picture.args.id"
-      [polygon]="window.picture.args.polygon"
-      [zoom]="window.picture.args.polygon.length > 0"
-      [page]="window.picture.page"
-      (pageChange)="picture.change($event)"
-      [loop]="true"
-    ></ias-picture-list>
+    <div class="window-picture">
+      <div class="window-picture-body">
+        <ias-picture-list
+          [id]="window.picture.args.id"
+          [polygon]="window.picture.args.polygon"
+          [zoom]="window.picture.args.polygon.length > 0"
+          [page]="window.picture.page"
+          (pageChange)="picture.change($event)"
+          [loop]="true"
+        ></ias-picture-list>
+      </div>
+      <div
+        class="window-picture-foot"
+        *ngIf="window.picture.footnotes.length > 0"
+      >
+        <div *ngFor="let item of window.picture.footnotes">
+          {{ item }}
+        </div>
+      </div>
+    </div>
   </ias-window>
   <ias-window
     [Model]="window.video"

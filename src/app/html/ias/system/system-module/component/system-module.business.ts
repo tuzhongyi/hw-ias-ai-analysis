@@ -28,10 +28,12 @@ export class SystemModuleBusiness {
       title = '道路屏蔽点管理';
     } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
       title = '道路管理';
-    } else if (
-      location.pathname.indexOf(SystemPath.module_mobile_device_route) >= 0
-    ) {
+    } else if (location.pathname.indexOf(SystemPath.module_route) >= 0) {
       title = '巡检线路';
+    } else if (
+      location.pathname.indexOf(SystemPath.module_patrol_section) >= 0
+    ) {
+      title = '巡逻计划';
     } else if (location.pathname.indexOf(SystemPath.module_gps_task) >= 0) {
       title = '定制场景';
     } else if (location.pathname.indexOf(SystemPath.module_file) >= 0) {

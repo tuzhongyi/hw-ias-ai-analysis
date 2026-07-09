@@ -80,7 +80,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
     private toastr: ToastrService,
     public controller: SystemEventManagerRealtimeController,
     public window: SystemEventManagerRealtimeWindow,
-    private business: SystemEventManagerRealtimeBusiness
+    private business: SystemEventManagerRealtimeBusiness,
   ) {}
 
   Language = Language;
@@ -167,6 +167,14 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
         paged.Page = page;
         paged.Data = datas;
         this.picture.open(paged, this.window.picture.show);
+        if (data.Data.Address) {
+          this.window.picture.footnotes.push(data.Data.Address);
+        }
+        if (data.Data.Confidence != undefined) {
+          this.window.picture.footnotes.push(
+            `${Math.round(data.Data.Confidence * 100) / 100}%`,
+          );
+        }
       },
       process: (data: MobileEventRecord) => {
         this.window.process.data = data;
@@ -194,7 +202,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
         | ShopSign
         | Assignment
       >,
-      opened: boolean = false
+      opened: boolean = false,
     ) => {
       if (paged.Data.length == 0) return;
 

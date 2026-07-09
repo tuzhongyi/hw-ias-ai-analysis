@@ -1,4 +1,5 @@
 @gap: 15px;
 @padding: 20px;
-@card-width: 20%;
+// card-width = (父容器高度 - 上下padding - 2个gap) / 3行 × 16/9
+@card-width: calc((100cqh - 2 * @padding - 2 * @gap) / 3 * 16 / 10);
 @control-height: 0.5rem;

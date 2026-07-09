@@ -91,10 +91,16 @@ export class SystemBreadcrumbBusiness {
           this.module.index(),
           this.module.roadobject(),
         ];
-      } else if (
-        location.pathname.indexOf(SystemPath.module_mobile_device_route) >= 0
-      ) {
+      } else if (location.pathname.indexOf(SystemPath.module_route) >= 0) {
         return [this.home.index(), this.module.index(), this.module.route()];
+      } else if (
+        location.pathname.indexOf(SystemPath.module_patrol_section) >= 0
+      ) {
+        return [
+          this.home.index(),
+          this.module.index(),
+          this.module.patrolplan(),
+        ];
       } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
         return [this.home.index(), this.module.index(), this.module.road()];
       } else if (location.pathname.indexOf(SystemPath.module_file) >= 0) {
@@ -202,8 +208,14 @@ export class SystemBreadcrumbBusiness {
     },
     route: () => {
       let item = new SystemBreadcrumbItem();
-      item.path = SystemPath.module_mobile_device_route;
+      item.path = SystemPath.module_route;
       item.text = '巡检线路';
+      return item;
+    },
+    patrolplan: () => {
+      let item = new SystemBreadcrumbItem();
+      item.path = SystemPath.module_patrol_section;
+      item.text = '巡逻计划';
       return item;
     },
     gps: {

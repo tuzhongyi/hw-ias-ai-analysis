@@ -1,12 +1,12 @@
 <div
   class="content-header"
   [ngStyle]="{
-    padding: padding
+    padding: padding,
   }"
 >
   <div class="content-header-title" [class.window]="window">
     <div class="content-header-title-text">{{ title }}</div>
-    <div class="content-header-light"></div>
+    <div class="content-header-light" [class.short]="title.length < 4"></div>
   </div>
   <div class="content-header-plugin">
     <ng-content></ng-content>

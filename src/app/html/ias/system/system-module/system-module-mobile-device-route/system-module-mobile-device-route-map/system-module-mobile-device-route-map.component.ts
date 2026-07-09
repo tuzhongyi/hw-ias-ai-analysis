@@ -12,10 +12,11 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
-import { SystemModuleMobileDeviceRouteArgs } from '../system-module-mobile-device-route.model';
+import { GisPointMatchResult } from '../../../../../../common/data-core/models/arm/geographic/patrol/gis-point-match-result.model';
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { SystemModuleMobileDeviceRouteArgs } from '../system-module-mobile-device-route.model';
+import { SystemModuleMobileDeviceRouteMapBusiness } from './business/system-module-mobile-device-route-map.business';
 import { SystemModuleMobileDeviceRouteMapController } from './controller/system-module-mobile-device-route-map.controller';
-import { SystemModuleMobileDeviceRouteMapBusiness } from './system-module-mobile-device-route-map.business';
 
 @Component({
   selector: 'howell-system-module-mobile-device-route-map',
@@ -27,12 +28,20 @@ import { SystemModuleMobileDeviceRouteMapBusiness } from './system-module-mobile
 export class SystemModuleMobileDeviceRouteMapComponent
   implements OnInit, OnChanges, OnDestroy
 {
-  @Input() load?: EventEmitter<SystemModuleMobileDeviceRouteArgs>;
+  @Input() routeload?: EventEmitter<SystemModuleMobileDeviceRouteArgs>;
+  @Input() routeclear?: EventEmitter<void>;
+  @Output() routeloaded = new EventEmitter<FileGpsItem[]>();
+
+  @Input() patrolload?: EventEmitter<SystemModuleMobileDeviceRouteArgs>;
+  @Input() patrolclear?: EventEmitter<void>;
+  @Output() patrolloaded = new EventEmitter<GisPointMatchResult[][][]>();
+
   @Input() init?: EventEmitter<string>;
   @Input() rectified = false;
-  @Output('loaded') _loaded = new EventEmitter<FileGpsItem[]>();
+
   @Input() gps?: FileGpsItem;
   @Output() devicedblclick = new EventEmitter<void>();
+  @Output() pathclick = new EventEmitter<void>();
 
   constructor(
     private business: SystemModuleMobileDeviceRouteMapBusiness,
@@ -44,67 +53,122 @@ export class SystemModuleMobileDeviceRouteMapComponent
     );
   }
 
-  loaded = false;
-  loading = false;
   private args?: SystemModuleMobileDeviceRouteArgs;
   private subscription = new Subscription();
   private controller: SystemModuleMobileDeviceRouteMapController;
-  private regist() {
-    if (this.load) {
-      let sub = this.load.subscribe((x) => {
-        this.data.device(x);
-        this.data.load(x, this.rectified);
-      });
-      this.subscription.add(sub);
-    }
-    // init: 接收 deviceId，获取设备信息并在高德地图上显示设备位置
-    if (this.init) {
-      let sub = this.init.subscribe((deviceId) => {
-        this.loading = true;
-        this.business
-          .device(deviceId)
-          .then((device) => {
-            this.controller.device.load(device).then((marker) => {
-              this.controller.map.focus(marker);
-            });
-          })
-          .finally(() => {
-            this.loading = false;
-            this.loaded = true;
-            this._loaded.emit([]);
-          });
-      });
-      this.subscription.add(sub);
-    }
-    // 订阅 device marker 的 dblclick 事件，通过 Output 对外抛出
-    let deviceDblclick = this.controller.device.event.dblclick.subscribe(() => {
-      this.devicedblclick.emit();
-    });
-    this.subscription.add(deviceDblclick);
-  }
 
-  private data = {
-    load: (args: SystemModuleMobileDeviceRouteArgs, rectified: boolean) => {
-      this.args = args;
-      this.loading = true;
-      let datas: FileGpsItem[] = [];
-      this.business
-        .load(args, rectified)
-        .then((x) => {
+  private regist = {
+    all: () => {
+      this.regist.input();
+      this.regist.output();
+    },
+    input: () => {
+      if (this.routeclear) {
+        let sub = this.routeclear.subscribe((x) => {
           this.controller.path.clear();
-          this.controller.path.load(x);
-          for (let i = 0; i < x.length; i++) {
-            datas = [...datas, ...x[i]];
+        });
+        this.subscription.add(sub);
+      }
+      if (this.patrolclear) {
+        let sub = this.patrolclear.subscribe((x) => {
+          this.controller.section.clear();
+          this.controller.match.clear();
+        });
+        this.subscription.add(sub);
+      }
+      if (this.patrolload) {
+        let sub = this.patrolload.subscribe((datas) => {
+          this.load.patrol
+            .match(datas)
+            .then((x) => {
+              if (x.length == 0) {
+                this.load.patrol.section(datas);
+              }
+            })
+            .catch((x) => {
+              this.load.patrol.section(datas);
+            });
+        });
+        this.subscription.add(sub);
+      }
+      if (this.routeload) {
+        let sub = this.routeload.subscribe((x) => {
+          this.load.device(x);
+          this.load.route(x, this.rectified);
+        });
+        this.subscription.add(sub);
+      }
+      // init: 接收 deviceId，获取设备信息并在高德地图上显示设备位置
+      if (this.init) {
+        let sub = this.init.subscribe((deviceId) => {
+          this.business.route
+            .device(deviceId)
+            .then((device) => {
+              this.controller.device.load(device).then((marker) => {
+                this.controller.map.focus(marker);
+              });
+            })
+            .finally(() => {
+              this.routeloaded.emit([]);
+            });
+        });
+        this.subscription.add(sub);
+      }
+    },
+    output: () => {
+      // 订阅 device marker 的 dblclick 事件，通过 Output 对外抛出
+      let deviceDblclick = this.controller.device.event.dblclick.subscribe(
+        () => {
+          this.devicedblclick.emit();
+        },
+      );
+      this.subscription.add(deviceDblclick);
+    },
+  };
+
+  private load = {
+    patrol: {
+      section: async (args: SystemModuleMobileDeviceRouteArgs) => {
+        await this.controller.section.clear();
+        let device = await this.business.route.device(args.deviceId);
+        let sections = await this.business.patrol.section(device);
+        let lines = await this.controller.section.load(sections);
+        this.controller.map.focus(lines);
+      },
+      match: async (args: SystemModuleMobileDeviceRouteArgs) => {
+        try {
+          await this.controller.match.clear();
+          let datas = await this.business.patrol.match(args);
+          this.patrolloaded.emit(datas);
+          let lines = await this.controller.match.load(datas);
+          this.controller.map.focus(lines);
+          return datas;
+        } catch (error) {
+          this.patrolloaded.emit([]);
+          return [];
+        }
+      },
+    },
+    route: (args: SystemModuleMobileDeviceRouteArgs, rectified: boolean) => {
+      this.args = args;
+      let datas: FileGpsItem[] = [];
+      this.business.route
+        .load(args, rectified)
+        .then((gps) => {
+          this.controller.path.clear();
+          this.controller.path.load(gps).then((x) => {
+            this.controller.map.focus(x);
+          });
+          for (let i = 0; i < gps.length; i++) {
+            datas = [...datas, ...gps[i]];
           }
         })
         .finally(() => {
-          this.loading = false;
-          this.loaded = true;
-          this._loaded.emit(datas);
+          this.routeloaded.emit(datas);
         });
     },
     device: (args: SystemModuleMobileDeviceRouteArgs) => {
-      this.business.device(args.deviceId).then((x) => {
+      this.business.route.device(args.deviceId).then((x) => {
         this.controller.device.clear().then(() => {
           this.controller.device.load(x);
         });
@@ -116,7 +180,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
     rectified: (simple: SimpleChange) => {
       if (simple) {
         if (this.args) {
-          this.data.load(this.args, this.rectified);
+          this.load.route(this.args, this.rectified);
         }
       }
     },
@@ -130,7 +194,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
   };
 
   ngOnInit(): void {
-    this.regist();
+    this.regist.all();
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.change.rectified(changes['rectified']);

@@ -1,0 +1,18 @@
+// 32:9 超宽屏适配
+// 如 3840×1080、5120×1440 等
+// 宽度极大但高度与标准 1080p 一致或接近 → 不做整体 zoom，保持 1:1
+
+@media screen and (min-aspect-ratio: 31/9) {
+  html {
+    font-size: 16px;
+    overflow: hidden;
+  }
+  body {
+    zoom: 1;
+  }
+
+  // 地图容器保持原始缩放
+  .system-main-map-container {
+    zoom: 1;
+  }
+}

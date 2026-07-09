@@ -40,9 +40,12 @@ class PictureWindow extends WindowViewModel {
   page?: Page;
   args?: PicturePolygonArgs;
 
+  footnotes: string[] = [];
+
   clear() {
     this.title = '';
     this.args = undefined;
+    this.footnotes = [];
   }
 
   set(
@@ -52,7 +55,7 @@ class PictureWindow extends WindowViewModel {
       | ShopSign
       | EventResourceContent
       | Assignment,
-    index: number
+    index: number,
   ): void {
     this.clear();
     if (data instanceof MobileEventRecord) {
@@ -68,12 +71,19 @@ class PictureWindow extends WindowViewModel {
     record: (data: MobileEventRecord, index: number) => {
       if (data.Resources && data.Resources.length > 0) {
         let resource = data.Resources[index];
+        if (data.Address) {
+          this.footnotes.push(data.Address);
+        }
+        if (data.Confidence != undefined) {
+          this.footnotes.push(`${Math.round(data.Confidence * 100) / 100}%`);
+        }
         return this.from.resource(resource);
       }
     },
     resource: (data: EventResourceContent) => {
       this.args = new PicturePolygonArgs();
       this.title = data.ResourceName;
+
       this.args.id = data.ImageUrl;
       this.args.polygon = [];
       if (data.Objects && data.Objects.length > 0) {

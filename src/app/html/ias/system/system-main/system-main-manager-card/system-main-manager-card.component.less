@@ -17,6 +17,7 @@
     width: 0;
 
     &.show {
+
       width: @card-width;
     }
 
@@ -26,11 +27,12 @@
 
     &.right {
       right: @card-margin;
-      width: @card-width;
+      // width: @card-width;
     }
   }
 
   &-item {
     height: calc((100% - @card-gap * 2) / 3);
+    aspect-ratio: 16/9;
   }
 }

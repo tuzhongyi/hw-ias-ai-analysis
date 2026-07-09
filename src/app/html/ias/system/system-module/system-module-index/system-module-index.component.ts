@@ -11,7 +11,10 @@ import { SystemPath } from '../../system.model';
   styleUrl: './system-module-index.component.less',
 })
 export class SystemModuleIndexComponent {
-  constructor(private router: Router, private global: GlobalStorage) {}
+  constructor(
+    private router: Router,
+    private global: GlobalStorage,
+  ) {}
 
   get display() {
     return this.global.display.module;
@@ -43,7 +46,10 @@ export class SystemModuleIndexComponent {
       this.router.navigateByUrl(SystemPath.module_gps_task);
     },
     mobiledevice: () => {
-      this.router.navigateByUrl(SystemPath.module_mobile_device_route);
+      this.router.navigateByUrl(SystemPath.module_route);
+    },
+    patrolsection: () => {
+      this.router.navigateByUrl(SystemPath.module_patrol_section);
     },
     file: () => {
       this.router.navigateByUrl(SystemPath.module_file);

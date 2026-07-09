@@ -4,7 +4,7 @@
 >
   <div class="system-module-mobile-device-route-manager-head">
     <div class="forms">
-      <div class="form-item">
+      <div class="form-item datetime">
         <div class="form-item-text">选择日期:</div>
         <div class="form-item-value">
           <date-time-control
@@ -61,10 +61,33 @@
       <div class="form-item submit">
         <button
           class="button-clip-gradient"
+          *ngIf="map.route.datas.length == 0"
           [disabled]="!map.args.deviceId"
           (click)="manager.on.search()"
         >
-          查找
+          加载
+        </button>
+        <button
+          class="button-clip-gradient"
+          *ngIf="map.route.datas.length > 0"
+          (click)="manager.on.clear.route()"
+        >
+          清除
+        </button>
+        <button
+          class="button-clip-gradient"
+          *ngIf="map.patrol.datas.length == 0"
+          [disabled]="!map.args.deviceId"
+          (click)="manager.on.match()"
+        >
+          比对
+        </button>
+        <button
+          class="button-clip-gradient"
+          *ngIf="map.patrol.datas.length > 0"
+          (click)="manager.on.clear.patrol()"
+        >
+          清除
         </button>
       </div>
     </div>
@@ -121,15 +144,19 @@
         >
           <howell-system-module-mobile-device-route-map
             [init]="map.init"
-            [load]="map.load"
+            [routeload]="map.route.load"
+            [routeclear]="map.route.clear"
+            (routeloaded)="map.on.routeloaded($event)"
+            [patrolload]="map.patrol.load"
+            [patrolclear]="map.patrol.clear"
+            (patrolloaded)="map.on.patrolloaded($event)"
             [rectified]="map.rectified"
-            (loaded)="map.on.loaded($event)"
             [gps]="map.current"
           ></howell-system-module-mobile-device-route-map>
         </div>
         <div class="system-module-mobile-device-route-manager-body-map-foot">
           <howell-timeline
-            *ngIf="map.loaded"
+            *ngIf="map.route.datas.length > 0"
             [datas]="timeline.datas"
             (change)="timeline.change($event)"
           ></howell-timeline>
@@ -138,14 +165,14 @@
           class="system-module-mobile-device-route-manager-body-map-settings"
         >
           <howell-system-module-mobile-device-route-map-settings
-            *ngIf="map.loaded"
+            *ngIf="map.route.datas.length > 0"
             [(rectified)]="map.rectified"
           >
           </howell-system-module-mobile-device-route-map-settings>
         </div>
         <div class="system-module-mobile-device-route-manager-body-map-state">
           <ias-system-module-mobile-device-route-map-path-state
-            *ngIf="map.loaded"
+            *ngIf="map.route.datas.length > 0"
             [(precision)]="map.args.precision"
             (precisionChange)="manager.on.search()"
           ></ias-system-module-mobile-device-route-map-path-state>

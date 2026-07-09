@@ -5,9 +5,9 @@ import {
 import { SystemMainManagerComponent } from '../../system-main-manager.component';
 
 export class SystemMainManagerPanelNavigation {
-  index = SyatemMainMapNavigation.main;
+  index = SyatemMainMapNavigation.realtime;
   constructor(private that: SystemMainManagerComponent) {
-    this.change(SyatemMainMapNavigation.main);
+    this.change(SyatemMainMapNavigation.realtime);
   }
 
   private get card() {

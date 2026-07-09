@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HowellHttpClient } from '../../howell-http.client';
+import { ArmGeographicPatrolRequestService } from './patrol/geographic-patrol.service';
 import { ArmGeographicRoadRequestService } from './road/geographic-road.service';
 import { ArmGeographicShopRequestService } from './shop/geographic-shop.service';
 
@@ -23,5 +24,13 @@ export class ArmGeographicRequestService {
       this._shop = new ArmGeographicShopRequestService(this.http);
     }
     return this._shop;
+  }
+
+  private _patrol?: ArmGeographicPatrolRequestService;
+  public get patrol(): ArmGeographicPatrolRequestService {
+    if (!this._patrol) {
+      this._patrol = new ArmGeographicPatrolRequestService(this.http);
+    }
+    return this._patrol;
   }
 }

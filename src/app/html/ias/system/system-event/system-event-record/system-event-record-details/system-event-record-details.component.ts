@@ -29,9 +29,10 @@ export class SystemEventRecordDetailsComponent implements OnChanges {
 
   constructor(
     private _language: LanguageTool,
-    private source: SystemEventRecordDetailsSource
+    private source: SystemEventRecordDetailsSource,
   ) {}
 
+  Math = Math;
   resource?: EventResourceContent;
   language = {
     event: '',

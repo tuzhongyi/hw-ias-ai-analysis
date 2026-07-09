@@ -18,6 +18,7 @@ import { TimelineComponent } from '../../../../../../common/components/timeline/
 import { VideoPlayerContainerComponent } from '../../../../../../common/components/video-player-container/video-player-container.component';
 import { PlaybackArgs } from '../../../../../../common/components/video-player-container/video-player-container.model';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
+import { GisPointMatchResult } from '../../../../../../common/data-core/models/arm/geographic/patrol/gis-point-match-result.model';
 import { InputProxyChannel } from '../../../../../../common/data-core/models/arm/input-proxy-channel.model';
 import { MobileDevice } from '../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
@@ -26,7 +27,6 @@ import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/date
 import { DurationUnit } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { wait } from '../../../../../../common/tools/wait';
-import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleMobileDeviceRouteChartContainerComponent } from '../system-module-mobile-device-route-chart-container/system-module-mobile-device-route-chart-container.component';
 import { SystemModuleMobileDeviceRouteInfoComponent } from '../system-module-mobile-device-route-info/system-module-mobile-device-route-info.component';
 import { SystemModuleMobileDeviceRouteMapPathStateComponent } from '../system-module-mobile-device-route-map-path-state/system-module-mobile-device-route-map-path-state.component';
@@ -53,7 +53,6 @@ import { SystemModuleMobileDeviceRouteWindow } from './system-module-mobile-devi
     SystemModuleMobileDeviceRouteInfoComponent,
     SystemModuleMobileDeviceRouteChartContainerComponent,
     SystemModuleMobileDeviceRouteMapPathStateComponent,
-    WindowComponent,
     VideoPlayerContainerComponent,
   ],
   templateUrl: './system-module-mobile-device-route-manager.component.html',
@@ -95,25 +94,35 @@ export class SystemModuleMobileDeviceRouteManagerComponent
       this.manager.been = true;
       setTimeout(() => {
         this.info.load.emit(this.map.args);
-        this.map.load.emit(this.map.args);
+        this.map.route.load.emit(this.map.args);
         this.chart.load.emit(this.map.args);
       }, 100);
     }
   }
   map = {
     args: new SystemModuleMobileDeviceRouteArgs(),
-    load: new EventEmitter<SystemModuleMobileDeviceRouteArgs>(),
+
+    route: {
+      datas: [] as FileGpsItem[],
+      clear: new EventEmitter<void>(),
+      load: new EventEmitter<SystemModuleMobileDeviceRouteArgs>(),
+    },
+    patrol: {
+      datas: [] as GisPointMatchResult[][][],
+      clear: new EventEmitter<void>(),
+      load: new EventEmitter<SystemModuleMobileDeviceRouteArgs>(),
+    },
     init: new EventEmitter<string>(),
     rectified: false,
-    datas: [] as FileGpsItem[],
-    current: undefined as FileGpsItem | undefined,
-    loaded: false,
-    on: {
-      loaded: (datas: FileGpsItem[]) => {
-        this.map.loaded = true;
 
-        this.map.datas = [...datas];
+    current: undefined as FileGpsItem | undefined,
+    on: {
+      routeloaded: (datas: FileGpsItem[]) => {
+        this.map.route.datas = [...datas];
         this.timeline.datas = datas.map((x) => x.OSDTime!);
+      },
+      patrolloaded: (datas: GisPointMatchResult[][][]) => {
+        this.map.patrol.datas = datas;
       },
     },
   };
@@ -184,6 +193,9 @@ export class SystemModuleMobileDeviceRouteManagerComponent
             }
           });
         }
+        this.map.route.datas = [];
+        this.map.patrol.clear.emit();
+        this.map.route.clear.emit();
       },
 
       unit: () => {
@@ -207,17 +219,33 @@ export class SystemModuleMobileDeviceRouteManagerComponent
       },
       search: () => {
         this.manager.been = true;
-        if (!this.map.args.deviceId) {
-          this.toastr.warning(`请选择${Language.DeviceName}`);
-          return;
-        }
         this.window.video.show = false;
         this.chart.show = true;
         setTimeout(() => {
           this.info.load.emit(this.map.args);
-          this.map.load.emit(this.map.args);
+          this.map.route.load.emit(this.map.args);
           this.chart.load.emit(this.map.args);
         }, 0);
+      },
+      match: () => {
+        this.manager.been = true;
+        this.window.video.show = false;
+        this.chart.show = true;
+        setTimeout(() => {
+          this.info.load.emit(this.map.args);
+          this.map.patrol.load.emit(this.map.args);
+          this.chart.load.emit(this.map.args);
+        }, 0);
+      },
+      clear: {
+        route: () => {
+          this.map.route.datas = [];
+          this.map.route.clear.emit();
+        },
+        patrol: () => {
+          this.map.patrol.datas = [];
+          this.map.patrol.clear.emit();
+        },
       },
     },
   };
@@ -270,7 +298,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
 
         this.window.video.preview(this.device, this.video.channel.id);
         this.info.load.emit(this.map.args);
-        if (!this.map.loaded) {
+        if (!(this.map.route.datas.length > 0)) {
           setTimeout(() => {
             this.map.init.emit(this.device?.Id);
           }, 0);
@@ -280,14 +308,14 @@ export class SystemModuleMobileDeviceRouteManagerComponent
     playback: async () => {
       this.manager.been = true;
       this.chart.show = false;
-      this.map.loaded = false;
+
       setTimeout(() => {
         this.info.load.emit(this.map.args);
-        this.map.load.emit(this.map.args);
+        this.map.route.load.emit(this.map.args);
       }, 0);
 
       wait(() => {
-        return this.map.loaded;
+        return this.map.route.datas.length > 0;
       }).then(() => {
         let duration = this.map.args.duration;
         if (this.timeline.datas.length >= 2) {
@@ -339,7 +367,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
   timeline = {
     datas: [] as Date[],
     change: (data: Date) => {
-      this.map.current = this.map.datas.find(
+      this.map.current = this.map.route.datas.find(
         (x) => x.OSDTime?.getTime() == data.getTime(),
       );
       if (this.window.video.show) {

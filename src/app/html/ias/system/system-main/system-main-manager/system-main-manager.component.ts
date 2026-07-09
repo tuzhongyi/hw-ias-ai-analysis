@@ -88,7 +88,7 @@ export class SystemMainManagerComponent implements OnInit {
       this.init.realtime();
       this.init.sample();
       this.init.road.object();
-      this.panel.navigation.change(SyatemMainMapNavigation.main, true);
+      this.panel.navigation.change(SyatemMainMapNavigation.realtime, true);
     });
   }
 

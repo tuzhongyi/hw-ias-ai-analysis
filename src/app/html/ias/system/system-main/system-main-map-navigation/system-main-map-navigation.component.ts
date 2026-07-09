@@ -11,7 +11,7 @@ import { SyatemMainMapNavigation } from './system-main-map-navigation.model';
   styleUrl: './system-main-map-navigation.component.less',
 })
 export class SystemMainMapNavigationComponent implements OnInit {
-  @Input() index = SyatemMainMapNavigation.main;
+  @Input() index = SyatemMainMapNavigation.realtime;
   @Output() indexChange = new EventEmitter<SyatemMainMapNavigation>();
 
   constructor(private global: GlobalStorage) {}

@@ -1,10 +1,11 @@
 // 4K / 2K 屏幕适配
 // 基准：1920×1080
+// 注意：32:9 超宽屏（3840×1080 等）由 screen-32-9.less 处理，此处通过 max-aspect-ratio 排除
 
 // 2K 屏
-@media screen and (min-width: 2560px) and (max-width: 3839px),
-screen and (-webkit-min-device-pixel-ratio: 1.25) and (max-width: 3839px) and (min-width: 1920px),
-screen and (min-resolution: 120dpi) and (max-width: 3839px) and (min-width: 1920px) {
+@media screen and (min-width: 2560px) and (max-width: 3839px) and (max-aspect-ratio: 31/9),
+screen and (-webkit-min-device-pixel-ratio: 1.25) and (max-width: 3839px) and (min-width: 1920px) and (max-aspect-ratio: 31/9),
+screen and (min-resolution: 120dpi) and (max-width: 3839px) and (min-width: 1920px) and (max-aspect-ratio: 31/9) {
   html { font-size: 21.33px; overflow: hidden; }
   body { zoom: 1.33; }
 
@@ -13,9 +14,9 @@ screen and (min-resolution: 120dpi) and (max-width: 3839px) and (min-width: 1920
 }
 
 // 4K 屏
-@media screen and (min-width: 3840px),
-screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1920px),
-screen and (min-resolution: 192dpi) and (min-width: 1920px) {
+@media screen and (min-width: 3840px) and (max-aspect-ratio: 31/9),
+screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1920px) and (max-aspect-ratio: 31/9),
+screen and (min-resolution: 192dpi) and (min-width: 1920px) and (max-aspect-ratio: 31/9) {
   html { font-size: 32px; overflow: hidden; }
   body { zoom: 2; font-size: 18px !important; }
 

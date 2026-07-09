@@ -1,8 +1,11 @@
 import { HtmlTool } from '../html-tool/html.tool';
 
 export class SizeWindowTool {
-  /** 当前屏幕缩放倍率，与 screen-4k.less 的媒体查询保持同步 */
+  /** 当前屏幕缩放倍率，与 screen-4k.less / screen-32-9.less 的媒体查询保持同步 */
   static get zoom(): number {
+    let ratio = window.innerWidth / window.innerHeight;
+    // 32:9 超宽屏不缩放
+    if (ratio >= 31 / 9) return 1;
     if (window.innerWidth >= 3840) return 2;
     if (window.innerWidth >= 2560 && window.innerWidth <= 3839) return 1.33;
     if (window.devicePixelRatio >= 2 && window.innerWidth >= 1920) return 2;

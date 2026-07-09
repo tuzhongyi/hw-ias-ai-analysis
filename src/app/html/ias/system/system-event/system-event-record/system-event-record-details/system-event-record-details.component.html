@@ -25,10 +25,13 @@
     <div class="form-item">
       <div class="form-item-text" text-space-between [suffix]="':'">置信度</div>
       <div class="form-item-value">
-        @if(data.Confidence == undefined){ - }@else{
-        <span [style.color]="data.Confidence < 60 ? Color.orange : Color.green"
-          >{{ data.Confidence }}%</span
-        >
+        @if (data.Confidence == undefined) {
+          -
+        } @else {
+          <span
+            [style.color]="data.Confidence < 60 ? Color.orange : Color.green"
+            >{{ Math.round(data.Confidence * 100) / 100 }}%</span
+          >
         }
       </div>
     </div>
@@ -63,7 +66,7 @@
         事件时间
       </div>
       <div class="form-item-value">
-        {{ data.EventTime | date : Language.YearMonthDayHHmmss }}
+        {{ data.EventTime | date: Language.YearMonthDayHHmmss }}
       </div>
     </div>
     <div class="form-item">
@@ -92,7 +95,9 @@
       <div class="form-item-text baseline" text-space-between [suffix]="':'">
         描述内容
       </div>
-      <div class="form-item-value important">{{ data.Description }}</div>
+      <div class="form-item-value important description">
+        {{ data.Description }}
+      </div>
     </div>
 
     <div class="form-item" *ngIf="!data.Assignment || !data.Assignment.Handled">
@@ -136,7 +141,7 @@
           处置时间
         </div>
         <div class="form-item-value">
-          {{ data.Assignment.HandledTime | date : Language.YearMonthDayHHmmss }}
+          {{ data.Assignment.HandledTime | date: Language.YearMonthDayHHmmss }}
         </div>
       </div>
       <div

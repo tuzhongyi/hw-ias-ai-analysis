@@ -17,12 +17,26 @@
     background-image: url(../../../../../../assets/image/main/nav/main-nav-bg-1.png);
   }
 
+  @container nav (max-width: 560px) {
+    & {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .system-main-map-navigation.six {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
   &-item {
     height: 100%;
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    min-width: 112px;
+    white-space: nowrap;
 
     &-icon {
       height: 100%;

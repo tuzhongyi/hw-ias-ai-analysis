@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HowellSelectComponent } from '../../../../../../../common/components/hw-select/select-control.component';
-import { SelectMultipleComponent } from '../../../../../../../common/components/select-multiple/select-multiple.component';
 import { OptionMode } from '../../../../../../../common/data-core/enums/option.enum';
 import { AutomaticAssignmentRule } from '../../../../../../../common/data-core/models/arm/security/automatic-assignment-rule.model';
 import { Department } from '../../../../../../../common/data-core/models/arm/security/department.model';
@@ -19,7 +18,6 @@ import { SystemModuleSecurityDepartmentSource } from '../system-module-security-
     FormsModule,
     TextSpaceBetweenDirective,
     HowellSelectComponent,
-    SelectMultipleComponent,
   ],
   templateUrl:
     './system-module-security-department-details-info.component.html',
@@ -99,13 +97,13 @@ export class SystemModuleSecurityDepartmentDetailsInfoComponent {
         let has = this.selection.event.selected.includes(id);
         if (has) {
           this.selection.event.selected = this.selection.event.selected.filter(
-            (x) => x != id
+            (x) => x != id,
           );
         } else {
           this.selection.event.selected.push(id);
         }
         this.selection.event.selected = this.selection.event.selected.sort(
-          (a, b) => a - b
+          (a, b) => a - b,
         );
         if (this.data.AssignmentRule) {
           this.data.AssignmentRule.EventTypes = [

@@ -5,6 +5,7 @@
   height: 100%;
   position: relative;
   display: block;
+  container-type: size;
 
 
   &-card {
@@ -31,6 +32,7 @@
 
     &-item {
       height: calc((100% - @card-gap * 2) / 3);
+      aspect-ratio: 16 / 9;
     }
   }
 
@@ -83,7 +85,8 @@
     transform: translateX(-50%);
     height: 60px;
     width: calc(100% - 2 * (@padding + @card-width + @gap));
-
+    container-type: inline-size;
+    container-name: nav;
   }
 
   &-heatmap-filter {

@@ -18,6 +18,8 @@ import { SystemEventRoadObjectManagerComponent } from './system-event/system-eve
 import { SystemMainManagerComponent } from './system-main/system-main-manager/system-main-manager.component';
 import { SystemModuleFileManagerComponent } from './system-module/system-module-file/system-module-file-manager/system-module-file-manager.component';
 import { SystemModuleMobileDeviceRouteManagerComponent } from './system-module/system-module-mobile-device-route/system-module-mobile-device-route-manager/system-module-mobile-device-route-manager.component';
+
+import { SystemModulePatrolSectionManagerComponent } from './system-module/system-module-patrol-section/system-module-patrol-section-manager/system-module-patrol-section-manager.component';
 import { SystemModuleRoadObjectManagerComponent } from './system-module/system-module-road-object/system-module-road-object-manager/system-module-road-object-manager.component';
 import { SystemModuleRoadPointManagerComponent } from './system-module/system-module-road-point/system-module-road-point-manager/system-module-road-point-manager.component';
 import { SystemModuleRoadSectionManagerComponent } from './system-module/system-module-road-section/system-module-road-section-manager/system-module-road-section-manager.component';
@@ -134,6 +136,10 @@ const routes: Routes = [
           {
             path: 'mobile-device-route',
             component: SystemModuleMobileDeviceRouteManagerComponent,
+          },
+          {
+            path: 'patrol-section',
+            component: SystemModulePatrolSectionManagerComponent,
           },
           {
             path: 'file',

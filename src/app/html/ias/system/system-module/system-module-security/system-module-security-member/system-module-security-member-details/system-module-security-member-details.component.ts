@@ -5,12 +5,11 @@ import { ToastrService } from 'ngx-toastr';
 import { DepartmentMember } from '../../../../../../../common/data-core/models/arm/security/department-member.model';
 import { Department } from '../../../../../../../common/data-core/models/arm/security/department.model';
 import { ObjectTool } from '../../../../../../../common/tools/object-tool/object.tool';
-import { InputSelectDepartmentComponent } from '../../../../../share/input-select-department/input-select-department.component';
 import { SystemModuleSecurityMemberDetailsBusiness } from './system-module-security-member-details.business';
 
 @Component({
   selector: 'ias-system-module-security-member-details',
-  imports: [CommonModule, FormsModule, InputSelectDepartmentComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './system-module-security-member-details.component.html',
   styleUrl: './system-module-security-member-details.component.less',
   providers: [SystemModuleSecurityMemberDetailsBusiness],
@@ -22,7 +21,7 @@ export class SystemModuleSecurityMemberDetailsComponent implements OnInit {
 
   constructor(
     private business: SystemModuleSecurityMemberDetailsBusiness,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
   ngOnInit(): void {
     this.department.init().then((x) => {
@@ -51,7 +50,7 @@ export class SystemModuleSecurityMemberDetailsComponent implements OnInit {
     change: (data: Department) => {
       if (this.department.selected.includes(data.Id)) {
         this.department.selected = this.department.selected.filter(
-          (x) => x != data.Id
+          (x) => x != data.Id,
         );
       } else {
         this.department.selected.push(data.Id);
