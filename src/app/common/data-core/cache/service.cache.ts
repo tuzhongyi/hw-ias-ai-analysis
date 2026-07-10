@@ -1,6 +1,4 @@
-import { ClassConstructor } from 'class-transformer';
-
-import { wait } from '../../tools/wait';
+import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { IIdModel } from '../models/interface/model.interface';
 import { PagedList } from '../models/interface/page-list.model';
 import { IParams, PagedParams } from '../models/interface/params.interface';
@@ -16,30 +14,91 @@ export interface IServiceCache {
 
 export class ServiceCache<T extends IIdModel> implements IServiceCache {
   cache: AppCache;
+  loaded = false;
   loading = false;
+
+  private failed = {
+    /** 记录 get(id) 请求失败的 ID → 失败时间戳，冷却期内不再重复请求 */
+    ids: new Map<string, number>(),
+    /** 失败 ID 的冷却时间（ms），默认 30 秒 */
+    cooldown: 30_000,
+  };
+
+  pending = {
+    /** 正在进行的 all() 请求，避免并发发起多次全量加载 HTTP 请求 */
+    all: undefined as Promise<T[]> | undefined,
+    /** 正在进行的 get(id) 请求，避免同一 ID 并发发起多次 HTTP 请求 */
+    get: new Map<string, Promise<T>>(),
+  };
 
   constructor(
     protected key: string,
     protected service: IService<T>,
     protected type?: ClassConstructor<T>,
     protected timeout = 1000 * 60 * 30,
-    private init = true
+    private init = true,
   ) {
-    try {
-      // console.log(key);
-      let cache = ServicePool[key];
-      if (!cache) {
-        cache = new AppCache(timeout);
-        ServicePool[key] = cache;
-      }
-      this.cache = cache;
-    } catch (error) {
-      console.error(error);
+    let cache = ServicePool[key];
+    if (!cache) {
+      cache = new AppCache(timeout);
+      ServicePool[key] = cache;
     }
-    this.cache = new AppCache(timeout);
+    this.cache = cache;
   }
   filter(datas: T[], args: IParams): T[] {
     return datas;
+  }
+
+  private doTimeout(time: number) {
+    if (time < 0) time = 0;
+    setTimeout(() => {
+      this.loaded = false;
+    }, time);
+  }
+
+  protected wait(resolve: (t: T[]) => void, timeout = 1, attempts = 0) {
+    const maxAttempts = 300; // 最多等待 5 分钟 (300 × 1s)
+    if (attempts >= maxAttempts) {
+      console.error(
+        `ServiceCache[${this.key}] wait timeout after ${maxAttempts} attempts`,
+      );
+      this.loading = false;
+      return;
+    }
+    setTimeout(() => {
+      if (this.loaded) {
+        let data = this.load();
+        if (!data) {
+          if (!this.loading) {
+            if (this.init) {
+              this.all()
+                .then(() => {
+                  this.doTimeout(this.timeout - 1000);
+                })
+                .catch(() => {
+                  this.loading = false;
+                });
+            }
+          }
+          this.wait(resolve, timeout, attempts + 1);
+          return;
+        }
+        resolve(data);
+      } else {
+        if (!this.loading) {
+          if (this.init) {
+            this.all()
+              .then(() => {
+                this.doTimeout(this.timeout - 1000);
+              })
+              .catch(() => {
+                this.loading = false;
+              });
+          }
+        }
+        this.wait(resolve, timeout, attempts + 1);
+      }
+    }, timeout);
   }
 
   load() {
@@ -50,81 +109,120 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
   }
   clear() {
     this.loading = false;
+    this.loaded = false;
+    this.failed.ids.clear();
+    this.pending.get.clear();
+    this.pending.all = undefined;
     this.cache.del(this.key);
   }
 
-  all(...args: any): Promise<T[]> {
-    return new Promise<T[]>((resolve, reject) => {
-      wait(() => {
-        return this.loading === false;
+  list(args?: IParams): Promise<PagedList<T>> {
+    return this.service.list!(args).then((result: PagedList<T>) => {
+      if (!result?.Data) return result;
+      let datas = this.load();
+      if (this.type) {
+        result.Data = plainToInstance(this.type, result.Data);
+      }
+      result.Data.forEach((item) => {
+        if (!datas) datas = [];
+        let index = datas.findIndex((x) => x.Id === item.Id);
+        if (index >= 0) {
+          datas[index] = item;
+        } else {
+          datas.push(item);
+        }
+      });
+      return result;
+    });
+  }
+
+  async all(params?: IParams): Promise<T[]> {
+    this.loading = true;
+    let datas = this.load();
+    if (datas && datas.length > 0) {
+      try {
+        if (params) {
+          return this.filter(datas, params);
+        }
+        return datas;
+      } finally {
+        this.loading = false;
+      }
+    }
+
+    /* 如果已有正在进行的全量加载请求，复用该 Promise，避免并发重复请求 */
+    if (this.pending.all) {
+      return this.pending.all;
+    }
+
+    this.pending.all = this.service
+      .all()
+      .then((x) => {
+        this.save(x);
+        this.loaded = true;
+        this.loading = false;
+        this.pending.all = undefined;
+        return this.all(params);
       })
-        .then(() => {
-          let datas = this.load();
-          if (datas && datas.length > 0) {
-            resolve(datas);
-          } else {
-            this.loading = true;
-            this.service
-              .all()
-              .then((datas) => {
-                this.save([...datas]);
-                resolve(datas);
-              })
-              .catch((e) => {
-                reject(e);
-              })
-              .finally(() => {
-                this.loading = false;
-              });
-          }
-        })
-        .catch(() => {
-          console.error('ServiceCache all wait error');
-        });
-    });
-  }
-
-  paged(params: PagedParams): Promise<PagedList<T>> {
-    return new Promise<PagedList<T>>((resolve) => {
-      this.array(params).then((datas) => {
-        let paged = this.getPaged(datas, params);
-        resolve(paged);
+      .catch((err) => {
+        this.loading = false;
+        this.pending.all = undefined;
+        throw err;
       });
-    });
-  }
 
-  async array(params: IParams): Promise<T[]> {
-    return new Promise<T[]>((resolve) => {
-      this.all().then((datas) => {
-        datas = this.filter(datas, params);
-        resolve(datas);
-      });
-    });
+    return this.pending.all;
   }
 
   async get(id: string): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this.all().then((datas) => {
-        let index = datas.findIndex((x) => x.Id == id);
-        if (index < 0) {
-          this.loading = true;
-          this.service
-            .get(id)
-            .then((data) => {
-              datas.push(data);
-              this.save(datas);
-              resolve(data);
-            })
-            .catch((e) => {
-              reject(e);
-            })
-            .finally(() => {
-              this.loading = false;
-            });
-        } else {
-          resolve(datas[index]);
+    /* 先从缓存中查找，避免不必要的 HTTP 请求 */
+    return this.all().then((datas) => {
+      let index = datas.findIndex((x) => x.Id === id);
+      if (index >= 0) {
+        return datas[index];
+      }
+
+      /* 检查是否在失败冷却期内，避免短时间内重复请求已知会失败的 ID */
+      const failedAt = this.failed.ids.get(id);
+      if (failedAt !== undefined) {
+        if (Date.now() - failedAt < this.failed.cooldown) {
+          return Promise.reject(
+            new Error(
+              `ServiceCache[${this.key}] get("${id}") skipped: in failure cooldown`,
+            ),
+          );
         }
-      });
+        /* 冷却期已过，移除记录允许重试 */
+        this.failed.ids.delete(id);
+      }
+
+      /* 如果已有相同 ID 的请求正在飞行中，复用该 Promise，避免并发重复请求 */
+      const pending = this.pending.get.get(id);
+      if (pending) {
+        return pending;
+      }
+
+      /* 缓存中没有，请求服务端并更新缓存 */
+      this.loading = true;
+      const promise = this.service
+        .get(id)
+        .then((x) => {
+          datas.push(x);
+          this.save(datas);
+          return x;
+        })
+        .catch((err) => {
+          /* 记录失败的 ID，冷却期内不再请求 */
+          this.failed.ids.set(id, Date.now());
+          throw err;
+        })
+        .finally(() => {
+          this.loading = false;
+          this.pending.get.delete(id);
+        });
+
+      /* 注册到 pendingGets，后续并发调用将复用同一个 Promise */
+      this.pending.get.set(id, promise);
+      return promise;
     });
   }
 
@@ -142,7 +240,8 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
     let count = datas.length;
 
     let start = (index - 1) * size;
-    let paged = datas.splice(start, size);
+    /* 使用 slice 而非 splice，避免破坏缓存中的原数组 */
+    let paged = datas.slice(start, start + size);
 
     let page = {
       PageIndex: index,
@@ -155,5 +254,13 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
       Page: page,
       Data: paged,
     };
+  }
+  async array(params: IParams): Promise<T[]> {
+    return new Promise<T[]>((resolve) => {
+      this.all().then((datas) => {
+        datas = this.filter(datas, params);
+        resolve(datas);
+      });
+    });
   }
 }

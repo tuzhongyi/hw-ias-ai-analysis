@@ -18,7 +18,7 @@ export class LoginBusiness {
     private analysis: ArmAnalysisRequestService,
     private geo: ArmGeographicRequestService,
     private system: ArmSystemRequestService,
-    private division: ArmDivisionRequestService
+    private division: ArmDivisionRequestService,
   ) {}
 
   init() {

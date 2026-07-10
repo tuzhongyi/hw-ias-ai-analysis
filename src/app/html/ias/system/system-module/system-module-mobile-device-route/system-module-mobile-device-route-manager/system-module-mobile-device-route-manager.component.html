@@ -65,14 +65,14 @@
           [disabled]="!map.args.deviceId"
           (click)="manager.on.search()"
         >
-          加载
+          加载路径
         </button>
         <button
           class="button-clip-gradient"
           *ngIf="map.route.datas.length > 0"
           (click)="manager.on.clear.route()"
         >
-          清除
+          清除路径
         </button>
         <button
           class="button-clip-gradient"
@@ -80,14 +80,14 @@
           [disabled]="!map.args.deviceId"
           (click)="manager.on.match()"
         >
-          比对
+          比对线路
         </button>
         <button
           class="button-clip-gradient"
           *ngIf="map.patrol.datas.length > 0"
           (click)="manager.on.clear.patrol()"
         >
-          清除
+          清除线路
         </button>
       </div>
     </div>

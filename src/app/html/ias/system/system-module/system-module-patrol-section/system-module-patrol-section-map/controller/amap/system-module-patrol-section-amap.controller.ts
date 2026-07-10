@@ -169,7 +169,7 @@ export class SystemModulePatrolSectionAMapController {
     create: async (type: number) => {
       let map = await this.map.get();
       let path = new SystemModulePatrolSectionAMapPathController(map, type);
-      this.path.event.click.subscribe();
+
       this.regist.path(path);
 
       this.controller.path.push(path);

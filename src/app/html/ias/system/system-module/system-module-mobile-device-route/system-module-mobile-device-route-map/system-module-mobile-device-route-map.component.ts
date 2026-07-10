@@ -13,7 +13,9 @@ import {
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPointMatchResult } from '../../../../../../common/data-core/models/arm/geographic/patrol/gis-point-match-result.model';
+import { GeoTool } from '../../../../../../common/tools/geo-tool/geo.tool';
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
+import { IVideoPathMapTriggerArgs } from '../../../../share/video-path/video-path-map/video-path-map.model';
 import { SystemModuleMobileDeviceRouteArgs } from '../system-module-mobile-device-route.model';
 import { SystemModuleMobileDeviceRouteMapBusiness } from './business/system-module-mobile-device-route-map.business';
 import { SystemModuleMobileDeviceRouteMapController } from './controller/system-module-mobile-device-route-map.controller';
@@ -41,7 +43,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
 
   @Input() gps?: FileGpsItem;
   @Output() devicedblclick = new EventEmitter<void>();
-  @Output() pathclick = new EventEmitter<void>();
+  @Output() pathclick = new EventEmitter<IVideoPathMapTriggerArgs>();
 
   constructor(
     private business: SystemModuleMobileDeviceRouteMapBusiness,
@@ -56,6 +58,10 @@ export class SystemModuleMobileDeviceRouteMapComponent
   private args?: SystemModuleMobileDeviceRouteArgs;
   private subscription = new Subscription();
   private controller: SystemModuleMobileDeviceRouteMapController;
+  private loaded = {
+    route: false,
+    patrol: false,
+  };
 
   private regist = {
     all: () => {
@@ -66,6 +72,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
       if (this.routeclear) {
         let sub = this.routeclear.subscribe((x) => {
           this.controller.path.clear();
+          this.loaded.route = false;
         });
         this.subscription.add(sub);
       }
@@ -73,6 +80,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
         let sub = this.patrolclear.subscribe((x) => {
           this.controller.section.clear();
           this.controller.match.clear();
+          this.loaded.patrol = false;
         });
         this.subscription.add(sub);
       }
@@ -87,6 +95,9 @@ export class SystemModuleMobileDeviceRouteMapComponent
             })
             .catch((x) => {
               this.load.patrol.section(datas);
+            })
+            .finally(() => {
+              this.loaded.patrol = true;
             });
         });
         this.subscription.add(sub);
@@ -117,12 +128,29 @@ export class SystemModuleMobileDeviceRouteMapComponent
     },
     output: () => {
       // 订阅 device marker 的 dblclick 事件，通过 Output 对外抛出
-      let deviceDblclick = this.controller.device.event.dblclick.subscribe(
-        () => {
+      this.subscription.add(
+        this.controller.device.event.dblclick.subscribe(() => {
           this.devicedblclick.emit();
-        },
+        }),
       );
-      this.subscription.add(deviceDblclick);
+      this.subscription.add(
+        this.controller.path.event.click.subscribe((x) => {
+          let positions = this.business.route.datas.map<[number, number]>(
+            (x) => [x.Longitude, x.Latitude],
+          );
+          let closest = GeoTool.polyline.closest.get(positions, x);
+
+          if (closest) {
+            let args = {
+              start: this.business.route.datas[closest.segmentIndex],
+              end: this.business.route.datas[closest.segmentIndex + 1],
+              percent: closest.percent.segment,
+            };
+            console.log(args);
+            this.pathclick.emit(args);
+          }
+        }),
+      );
     },
   };
 
@@ -156,7 +184,9 @@ export class SystemModuleMobileDeviceRouteMapComponent
         .load(args, rectified)
         .then((gps) => {
           this.controller.path.clear();
+          this.loaded.route = false;
           this.controller.path.load(gps).then((x) => {
+            this.loaded.route = true;
             this.controller.map.focus(x);
           });
           for (let i = 0; i < gps.length; i++) {

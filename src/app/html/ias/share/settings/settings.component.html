@@ -2,7 +2,7 @@
   <div class="settings-background">
     <div class="settings-background-left"></div>
     <div class="settings-background-content">
-      <div class="operation">
+      <div class="operation" *ngIf="buttonable">
         <div class="operation-item" title="">
           <div class="button" (click)="on.account.click($event)">
             <i class="fa fa-user-circle-o"></i>
@@ -33,8 +33,8 @@
         </div>
       </div>
       <div class="datetime">
-        <div class="time">{{ date() | date : "HH:mm" }}</div>
-        <div class="date">{{ date() | date : "YYYY-MM-dd" }}</div>
+        <div class="time">{{ date() | date: "HH:mm" }}</div>
+        <div class="date">{{ date() | date: "YYYY-MM-dd" }}</div>
       </div>
     </div>
     <div class="settings-background-right"></div>

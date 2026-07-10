@@ -7,7 +7,10 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
   mouseout = new EventEmitter<void>();
   click = new EventEmitter<[number, number]>();
 
-  constructor(private map: AMap.Map, private index: number) {}
+  constructor(
+    private map: AMap.Map,
+    private index: number,
+  ) {}
 
   private positions?: AMap.Polyline;
   private points: [number, number][] = [];
@@ -15,7 +18,7 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
   private onmouseover(e: any) {
     var point = AMap.GeometryUtil.closestOnLine(
       [e.lnglat.lng, e.lnglat.lat],
-      [...this.points]
+      [...this.points],
     ) as unknown as [number, number];
     if (point) {
       let closest = GeoTool.point.closest(this.points, point);
@@ -30,7 +33,7 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
   private onclick(e: any) {
     var point = AMap.GeometryUtil.closestOnLine(
       [e.lnglat.lng, e.lnglat.lat],
-      [...this.points]
+      [...this.points],
     ) as unknown as [number, number];
     let closest = GeoTool.point.closest(this.points, point);
     if (closest) {

@@ -1,16 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LogoComponent } from '../../share/logo/logo.component';
 import { SettingsComponent } from '../../share/settings/settings.component';
 
+import { CommonModule } from '@angular/common';
 import { SystemBreadcrumbComponent } from '../system-breadcrumb/system-breadcrumb.component';
 
 @Component({
   selector: 'ias-system-head',
-  imports: [LogoComponent, SettingsComponent, SystemBreadcrumbComponent],
+  imports: [
+    CommonModule,
+    LogoComponent,
+    SettingsComponent,
+    SystemBreadcrumbComponent,
+  ],
   templateUrl: './system-head.component.html',
   styleUrl: './system-head.component.less',
 })
 export class SystemHeadComponent implements OnInit {
+  @Input() buttonable = true;
   constructor() {}
   ngOnInit(): void {}
 }

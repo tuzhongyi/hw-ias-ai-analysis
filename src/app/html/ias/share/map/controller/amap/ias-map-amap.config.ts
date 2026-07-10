@@ -19,4 +19,7 @@ export class IASMapAMapConfig {
   static path = {
     color: [ColorTool.redlight, ColorTool.green],
   };
+  static section = {
+    color: [ColorTool.yellow, ColorTool.cyan],
+  };
 }

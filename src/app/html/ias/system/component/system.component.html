@@ -1,8 +1,8 @@
 <div class="system">
-  <div class="system-head">
-    <ias-system-head></ias-system-head>
+  <div class="system-head" *ngIf="display.header">
+    <ias-system-head [buttonable]="display.button"></ias-system-head>
   </div>
-  <div class="system-body">
+  <div class="system-body" [class.full]="!display.header">
     <router-outlet></router-outlet>
   </div>
 </div>

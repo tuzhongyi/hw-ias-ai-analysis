@@ -6,64 +6,57 @@ import { GisPointMatchResult } from '../../../../../../../common/data-core/model
 import { PatrolSection } from '../../../../../../../common/data-core/models/arm/geographic/patrol/patrol-section.model';
 import { MobileDevice } from '../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
-import { SystemModuleMobileDeviceRouteAMapPathController } from './amap/system-module-mobile-device-route-amap-path.controller';
 import { SystemModuleMobileDeviceRouteAMapController } from './amap/system-module-mobile-device-route-amap.controller';
 
 export class SystemModuleMobileDeviceRouteMapController {
   constructor(subscription: Subscription, path: PathTool) {
-    this.amap = new SystemModuleMobileDeviceRouteAMapController(path);
+    this.amap = new SystemModuleMobileDeviceRouteAMapController(
+      path,
+      subscription,
+    );
     this.device.event.regist(subscription);
+    this.path.event.regist(subscription);
   }
 
   private amap: SystemModuleMobileDeviceRouteAMapController;
 
-  private controller = {
-    path: [] as SystemModuleMobileDeviceRouteAMapPathController[],
-  };
-
   path = {
     event: {
-      click: new EventEmitter<MobileDevice>(),
+      click: new EventEmitter<[number, number]>(),
       regist: (subscription: Subscription) => {
-        this.amap.device.get().then((x) => {
-          let sub = x.dblclick.subscribe((d: MobileDevice) => {
-            this.device.event.dblclick.emit(d);
-          });
-          subscription.add(sub);
-        });
+        subscription.add(
+          this.amap.path.event.click.subscribe((x) => {
+            this.path.event.click.emit(x);
+          }),
+        );
       },
     },
     load: async (datas: FileGpsItem[][]) => {
-      let positions = datas.map<[number, number][]>((x) =>
-        x.map(
-          (y) => [y.Longitude, y.Latitude],
-          // GeoTool.point.convert.wgs84.to.gcj02()
-        ),
-      );
+      let polylines: AMap.Polyline[] = [];
 
-      let map = await this.amap.map.get();
-
-      let polylines = datas
-        .map((items, i) => {
-          let positions = items.map(
-            (x) => [x.Longitude, x.Latitude] as [number, number],
-          );
-          let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
-          let path = new SystemModuleMobileDeviceRouteAMapPathController(
-            map,
-            type,
-          );
-          this.controller.path.push(path);
-          return path.load(positions)!;
-        })
-        .filter((x) => !!x);
+      for (let i = 0; i < datas.length; i++) {
+        const items = datas[i];
+        let positions = items.map(
+          (x) => [x.Longitude, x.Latitude] as [number, number],
+        );
+        let type = items.every((x) => !!x.HighPrecision) ? 1 : 0;
+        let path = await this.amap.path.create(type);
+        let line = path.load(positions);
+        if (line) {
+          polylines.push(line);
+        }
+      }
       return polylines;
     },
+    reload: async (items: FileGpsItem[]) => {
+      let positions = items.map(
+        (x) => [x.Longitude, x.Latitude] as [number, number],
+      );
+      let path = await this.amap.path.create(1);
+      return path.load(positions);
+    },
     clear: () => {
-      this.controller.path.forEach((x) => {
-        x.clear();
-      });
-      this.controller.path = [];
+      this.amap.path.clear();
     },
   };
 

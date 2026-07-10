@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthModel } from '../../../../common/storage/authorization/authorization.model';
 import { LocalStorage } from '../../../../common/storage/local.storage';
@@ -12,7 +12,11 @@ import { RoutePath } from '../../../app.route.path';
   styleUrl: './settings.component.less',
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-  constructor(private local: LocalStorage, private router: Router) {
+  @Input() buttonable = true;
+  constructor(
+    private local: LocalStorage,
+    private router: Router,
+  ) {
     this.account = local.auth.get();
   }
 

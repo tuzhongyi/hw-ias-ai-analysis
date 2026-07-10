@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfigRequestService } from '../../../../common/data-core/requests/services/config/config.service';
 import { GlobalStorage } from '../../../../common/storage/global.storage';
@@ -10,7 +11,7 @@ import { SystemBusiness } from './system.business';
 
 @Component({
   selector: 'ias-system',
-  imports: [RouterOutlet, SystemHeadComponent],
+  imports: [RouterOutlet, CommonModule, SystemHeadComponent],
   templateUrl: './system.component.html',
   styleUrl: './system.component.less',
   providers: [SystemBusiness],
@@ -21,10 +22,16 @@ export class SystemComponent implements OnInit, OnDestroy {
     private router: Router,
     private global: GlobalStorage,
     private config: ConfigRequestService,
-    private business: SystemBusiness
+    private business: SystemBusiness,
+    private route: ActivatedRoute,
   ) {}
 
   private subscription = new Subscription();
+
+  display = {
+    header: true,
+    button: true,
+  };
 
   ngOnInit(): void {
     this.config.version.then((version) => {
@@ -33,9 +40,33 @@ export class SystemComponent implements OnInit, OnDestroy {
         return;
       }
     });
+    this.queryparse(this.route);
     this.regist();
     this.load();
     this.init();
+  }
+
+  private queryparse(route: ActivatedRoute) {
+    route.queryParams.subscribe((param) => {
+      // console.log("HideButton:", param);
+      for (const key in param) {
+        let lower = key.toLocaleLowerCase();
+        let value: any;
+        try {
+          value = JSON.parse(param[key]);
+          switch (lower) {
+            case 'hidebutton':
+              this.display.button = !value;
+              break;
+            case 'hidetitlebar':
+              this.display.header = !value;
+              break;
+            default:
+              break;
+          }
+        } catch {}
+      }
+    });
   }
 
   private init() {

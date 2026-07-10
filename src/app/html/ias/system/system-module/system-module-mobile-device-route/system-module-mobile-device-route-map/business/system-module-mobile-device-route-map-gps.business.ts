@@ -13,9 +13,11 @@ export class SystemModuleMobileDeviceRouteMapGPSBusiness {
     return this.data.device(deviceId);
   }
 
+  datas: FileGpsItem[] = [];
+
   async load(args: SystemModuleMobileDeviceRouteArgs, rectified?: boolean) {
-    let datas = await this.data.gps(args, rectified);
-    let paths = this.convert(datas);
+    this.datas = await this.data.gps(args, rectified);
+    let paths = this.convert(this.datas);
 
     if (args.precision == true) {
       paths = paths.filter((group) => {

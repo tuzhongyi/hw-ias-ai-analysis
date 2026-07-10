@@ -23,7 +23,7 @@ export class SystemModuleMobileDeviceRouteAMapMatchController {
               path: positions,
               showDir: false,
               strokeWeight: 6,
-              strokeColor: IASMapAMapConfig.path.color[type],
+              strokeColor: IASMapAMapConfig.section.color[type],
               strokeOpacity: 0.6,
               lineJoin: 'round',
               lineCap: 'round',
