@@ -15,23 +15,32 @@ export class SystemModuleMobileDeviceRouteMapGPSBusiness {
 
   datas: FileGpsItem[] = [];
 
-  async load(args: SystemModuleMobileDeviceRouteArgs, rectified?: boolean) {
+  async load(
+    args: SystemModuleMobileDeviceRouteArgs,
+    rectified?: boolean,
+    precision: boolean = true,
+  ): Promise<FileGpsItem[][]> {
     this.datas = await this.data.gps(args, rectified);
-    let paths = this.convert(this.datas);
+    if (precision) {
+      let paths = this.convert(this.datas);
 
-    if (args.precision == true) {
-      paths = paths.filter((group) => {
-        return !!group.every((item) => item.HighPrecision);
-      });
-    } else if (args.precision == false) {
-      paths = paths.filter((group) => {
-        return !group.every((item) => item.HighPrecision);
-      });
-    } else {
+      if (args.precision == true) {
+        paths = paths.filter((group) => {
+          return !!group.every((item) => item.HighPrecision);
+        });
+      } else if (args.precision == false) {
+        paths = paths.filter((group) => {
+          return !group.every((item) => item.HighPrecision);
+        });
+      } else {
+      }
+
+      return paths;
     }
-
-    return paths;
-    // return datas;
+    this.datas.forEach((x) => {
+      x.HighPrecision = 2;
+    });
+    return [this.datas];
   }
 
   private convert(datas: FileGpsItem[]) {

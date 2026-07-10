@@ -73,6 +73,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
         let sub = this.routeclear.subscribe((x) => {
           this.controller.path.clear();
           this.loaded.route = false;
+          this.business.route.datas = [];
         });
         this.subscription.add(sub);
       }
@@ -81,6 +82,13 @@ export class SystemModuleMobileDeviceRouteMapComponent
           this.controller.section.clear();
           this.controller.match.clear();
           this.loaded.patrol = false;
+          if (this.loaded.route) {
+            if (this.args) {
+              this.controller.path.clear();
+              this.loaded.route = false;
+              this.load.route(this.args, this.rectified);
+            }
+          }
         });
         this.subscription.add(sub);
       }
@@ -98,6 +106,9 @@ export class SystemModuleMobileDeviceRouteMapComponent
             })
             .finally(() => {
               this.loaded.patrol = true;
+              if (this.loaded.route) {
+                this.controller.path.reload(this.business.route.datas);
+              }
             });
         });
         this.subscription.add(sub);
@@ -181,7 +192,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
       this.args = args;
       let datas: FileGpsItem[] = [];
       this.business.route
-        .load(args, rectified)
+        .load(args, rectified, !this.loaded.patrol)
         .then((gps) => {
           this.controller.path.clear();
           this.loaded.route = false;

@@ -1,3 +1,5 @@
+import { IASMapAMapConfig } from '../../../../../../../share/map/controller/amap/ias-map-amap.config';
+
 export class SystemModuleMobileDeviceRouteAMapSectionPolylineController {
   constructor(private map: AMap.Map) {}
 
@@ -6,7 +8,7 @@ export class SystemModuleMobileDeviceRouteAMapSectionPolylineController {
   private create(datas: [number, number][]): AMap.Polyline {
     const polyline = new AMap.Polyline({
       path: datas,
-      strokeColor: '#1e90ff',
+      strokeColor: IASMapAMapConfig.section.color[0],
       strokeWeight: 5,
       strokeOpacity: 0.5,
       strokeStyle: 'solid',

@@ -44,9 +44,6 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
   load(positions: [number, number][]): AMap.Polyline | undefined {
     if (positions.length === 0) return;
     this.points = positions;
-    if (positions.length > 0) {
-      this.map.setCenter(positions[0]);
-    }
     this.positions = new AMap.Polyline({
       path: [...positions],
       showDir: true,

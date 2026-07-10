@@ -30,6 +30,7 @@ import { wait } from '../../../../../../common/tools/wait';
 import { SystemModuleMobileDeviceRouteChartContainerComponent } from '../system-module-mobile-device-route-chart-container/system-module-mobile-device-route-chart-container.component';
 import { SystemModuleMobileDeviceRouteInfoComponent } from '../system-module-mobile-device-route-info/system-module-mobile-device-route-info.component';
 import { SystemModuleMobileDeviceRouteMapPathStateComponent } from '../system-module-mobile-device-route-map-path-state/system-module-mobile-device-route-map-path-state.component';
+import { SystemModuleMobileDeviceRouteMapPatrolStateComponent } from '../system-module-mobile-device-route-map-patrol-state/system-module-mobile-device-route-map-patrol-state.component';
 import { SystemModuleMobileDeviceRouteMapSettingsComponent } from '../system-module-mobile-device-route-map-settings/system-module-mobile-device-route-map-settings.component';
 import { SystemModuleMobileDeviceRouteMapComponent } from '../system-module-mobile-device-route-map/system-module-mobile-device-route-map.component';
 import {
@@ -53,6 +54,7 @@ import { SystemModuleMobileDeviceRouteWindow } from './system-module-mobile-devi
     SystemModuleMobileDeviceRouteInfoComponent,
     SystemModuleMobileDeviceRouteChartContainerComponent,
     SystemModuleMobileDeviceRouteMapPathStateComponent,
+    SystemModuleMobileDeviceRouteMapPatrolStateComponent,
     VideoPlayerContainerComponent,
   ],
   templateUrl: './system-module-mobile-device-route-manager.component.html',
@@ -156,6 +158,9 @@ export class SystemModuleMobileDeviceRouteManagerComponent
           this.manager.date.value.getMonth(),
           this.manager.date.value.getDate(),
         );
+
+        this.map.route.clear.emit();
+        this.map.patrol.clear.emit();
       },
     },
     time: {
@@ -172,6 +177,9 @@ export class SystemModuleMobileDeviceRouteManagerComponent
           this.manager.time.end.minute.value,
           this.manager.time.end.second.value,
         );
+
+        this.map.route.clear.emit();
+        this.map.patrol.clear.emit();
       },
     },
     on: {
@@ -194,8 +202,8 @@ export class SystemModuleMobileDeviceRouteManagerComponent
           });
         }
         this.map.route.datas = [];
-        this.map.patrol.clear.emit();
         this.map.route.clear.emit();
+        this.map.patrol.clear.emit();
       },
 
       unit: () => {

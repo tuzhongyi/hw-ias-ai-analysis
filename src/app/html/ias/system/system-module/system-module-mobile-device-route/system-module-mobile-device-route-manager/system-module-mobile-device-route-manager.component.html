@@ -154,9 +154,11 @@
             [gps]="map.current"
           ></howell-system-module-mobile-device-route-map>
         </div>
-        <div class="system-module-mobile-device-route-manager-body-map-foot">
+        <div
+          class="system-module-mobile-device-route-manager-body-map-foot"
+          *ngIf="map.route.datas.length > 0"
+        >
           <howell-timeline
-            *ngIf="map.route.datas.length > 0"
             [datas]="timeline.datas"
             (change)="timeline.change($event)"
           ></howell-timeline>
@@ -170,12 +172,22 @@
           >
           </howell-system-module-mobile-device-route-map-settings>
         </div>
-        <div class="system-module-mobile-device-route-manager-body-map-state">
+        <div
+          class="system-module-mobile-device-route-manager-body-map-state has-timeline"
+          *ngIf="map.route.datas.length > 0 && map.patrol.datas.length == 0"
+        >
           <ias-system-module-mobile-device-route-map-path-state
-            *ngIf="map.route.datas.length > 0"
             [(precision)]="map.args.precision"
             (precisionChange)="manager.on.search()"
           ></ias-system-module-mobile-device-route-map-path-state>
+        </div>
+        <div
+          class="system-module-mobile-device-route-manager-body-map-state patrol"
+          [class.has-timeline]="map.route.datas.length > 0"
+          *ngIf="map.patrol.datas.length > 0"
+        >
+          <ias-system-module-mobile-device-route-map-patrol-state>
+          </ias-system-module-mobile-device-route-map-patrol-state>
         </div>
       </div>
 
