@@ -74,6 +74,10 @@ export class SystemModuleMobileDeviceRouteMapComponent
           this.controller.path.clear();
           this.loaded.route = false;
           this.business.route.datas = [];
+          if (this.loaded.patrol) {
+            this.controller.match.showDir(true);
+            this.controller.section.showDir(true);
+          }
         });
         this.subscription.add(sub);
       }
@@ -171,7 +175,10 @@ export class SystemModuleMobileDeviceRouteMapComponent
         await this.controller.section.clear();
         let device = await this.business.route.device(args.deviceId);
         let sections = await this.business.patrol.section(device);
-        let lines = await this.controller.section.load(sections);
+        let lines = await this.controller.section.load(
+          sections,
+          !this.loaded.route,
+        );
         this.controller.map.focus(lines);
       },
       match: async (args: SystemModuleMobileDeviceRouteArgs) => {
@@ -179,7 +186,10 @@ export class SystemModuleMobileDeviceRouteMapComponent
           await this.controller.match.clear();
           let datas = await this.business.patrol.match(args);
           this.patrolloaded.emit(datas);
-          let lines = await this.controller.match.load(datas);
+          let lines = await this.controller.match.load(
+            datas,
+            !this.loaded.route,
+          );
           this.controller.map.focus(lines);
           return datas;
         } catch (error) {
@@ -199,6 +209,10 @@ export class SystemModuleMobileDeviceRouteMapComponent
           this.controller.path.load(gps).then((x) => {
             this.loaded.route = true;
             this.controller.map.focus(x);
+            if (this.loaded.patrol) {
+              this.controller.match.showDir(false);
+              this.controller.section.showDir(false);
+            }
           });
           for (let i = 0; i < gps.length; i++) {
             datas = [...datas, ...gps[i]];

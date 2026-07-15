@@ -7,7 +7,7 @@ export class SystemModuleMobileDeviceRouteAMapMatchController {
 
   private polylines: AMap.Polyline[] = [];
 
-  load(datas: GisPointMatchResult[][][]) {
+  load(datas: GisPointMatchResult[][][], showDir = true) {
     this.clear();
 
     for (const section of datas) {
@@ -21,7 +21,7 @@ export class SystemModuleMobileDeviceRouteAMapMatchController {
             let type = group.every((x) => x.Matched) ? 1 : 0;
             let polyline = new AMap.Polyline({
               path: positions,
-              showDir: false,
+              showDir: showDir,
               strokeWeight: 6,
               strokeColor: IASMapAMapConfig.section.color[type],
               strokeOpacity: 0.6,
@@ -36,6 +36,10 @@ export class SystemModuleMobileDeviceRouteAMapMatchController {
       }
     }
     return this.polylines;
+  }
+
+  showDir(value: boolean) {
+    this.polylines.forEach((p) => p.setOptions({ showDir: value }));
   }
 
   clear() {

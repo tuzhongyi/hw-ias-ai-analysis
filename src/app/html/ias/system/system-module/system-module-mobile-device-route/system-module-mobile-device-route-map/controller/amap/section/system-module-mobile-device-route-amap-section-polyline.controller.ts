@@ -5,9 +5,10 @@ export class SystemModuleMobileDeviceRouteAMapSectionPolylineController {
 
   private polylines = new Map<string, AMap.Polyline>();
 
-  private create(datas: [number, number][]): AMap.Polyline {
+  private create(datas: [number, number][], showDir = true): AMap.Polyline {
     const polyline = new AMap.Polyline({
       path: datas,
+      showDir: showDir,
       strokeColor: IASMapAMapConfig.section.color[0],
       strokeWeight: 5,
       strokeOpacity: 0.5,
@@ -19,8 +20,8 @@ export class SystemModuleMobileDeviceRouteAMapSectionPolylineController {
     return polyline;
   }
 
-  add(id: string, datas: [number, number][]) {
-    let line = this.create(datas);
+  add(id: string, datas: [number, number][], showDir = true) {
+    let line = this.create(datas, showDir);
     this.polylines.set(id, line);
     let lines = Array.from(this.polylines.values());
     this.map.add(lines);
@@ -69,6 +70,10 @@ export class SystemModuleMobileDeviceRouteAMapSectionPolylineController {
       }
       this.highlighted = undefined;
     }
+  }
+
+  showDir(value: boolean) {
+    this.polylines.forEach((p) => p.setOptions({ showDir: value }));
   }
 
   clear() {

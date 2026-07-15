@@ -103,7 +103,12 @@ export class SystemModuleMobileDeviceRouteManagerComponent
   }
   map = {
     args: new SystemModuleMobileDeviceRouteArgs(),
-
+    clear: () => {
+      this.map.route.datas = [];
+      this.map.route.clear.emit();
+      this.map.patrol.datas = [];
+      this.map.patrol.clear.emit();
+    },
     route: {
       datas: [] as FileGpsItem[],
       clear: new EventEmitter<void>(),
@@ -159,8 +164,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
           this.manager.date.value.getDate(),
         );
 
-        this.map.route.clear.emit();
-        this.map.patrol.clear.emit();
+        this.map.clear();
       },
     },
     time: {
@@ -178,8 +182,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
           this.manager.time.end.second.value,
         );
 
-        this.map.route.clear.emit();
-        this.map.patrol.clear.emit();
+        this.map.clear();
       },
     },
     on: {
@@ -201,9 +204,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
             }
           });
         }
-        this.map.route.datas = [];
-        this.map.route.clear.emit();
-        this.map.patrol.clear.emit();
+        this.map.clear();
       },
 
       unit: () => {

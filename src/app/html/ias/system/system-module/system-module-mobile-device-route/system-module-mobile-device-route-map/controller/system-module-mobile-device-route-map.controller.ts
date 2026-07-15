@@ -73,9 +73,13 @@ export class SystemModuleMobileDeviceRouteMapController {
   };
 
   section = {
-    load: async (datas: PatrolSection[]) => {
+    load: async (datas: PatrolSection[], showDir = true) => {
       let ctr = await this.amap.section.get();
-      return ctr.load(datas);
+      return ctr.load(datas, showDir);
+    },
+    showDir: async (value: boolean) => {
+      let ctr = await this.amap.section.get();
+      ctr.showDir(value);
     },
     select: async (id: string) => {
       let ctr = await this.amap.section.get();
@@ -100,9 +104,13 @@ export class SystemModuleMobileDeviceRouteMapController {
   };
 
   match = {
-    load: async (datas: GisPointMatchResult[][][]) => {
+    load: async (datas: GisPointMatchResult[][][], showDir = true) => {
       let ctr = await this.amap.match.get();
-      return ctr.load(datas);
+      return ctr.load(datas, showDir);
+    },
+    showDir: async (value: boolean) => {
+      let ctr = await this.amap.match.get();
+      ctr.showDir(value);
     },
     clear: async () => {
       let ctr = await this.amap.match.get();

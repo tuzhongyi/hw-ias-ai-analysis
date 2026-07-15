@@ -10,7 +10,7 @@ export class SystemModuleMobileDeviceRouteAMapSectionController {
   private polyline: SystemModuleMobileDeviceRouteAMapSectionPolylineController;
   private generation = 0;
 
-  async load(datas: PatrolSection[]) {
+  async load(datas: PatrolSection[], showDir = true) {
     let generation = ++this.generation;
 
     if (generation !== this.generation) return;
@@ -24,7 +24,7 @@ export class SystemModuleMobileDeviceRouteAMapSectionController {
         let positions = item.GeoLine.map<[number, number]>((x) => {
           return [x.Longitude, x.Latitude];
         });
-        let line = this.polyline.add(item.Id, positions);
+        let line = this.polyline.add(item.Id, positions, showDir);
         lines.push(...line);
       }
     }
@@ -41,6 +41,9 @@ export class SystemModuleMobileDeviceRouteAMapSectionController {
   }
   blurHover() {
     this.polyline.unhighlight();
+  }
+  showDir(value: boolean) {
+    this.polyline.showDir(value);
   }
   clear() {
     this.polyline.clear();
