@@ -1,0 +1,77 @@
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+  width: max-content;
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.dropdown-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 仿 select 小箭头
+.dropdown-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid currentColor;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+
+  .open & {
+    transform: rotate(180deg);
+  }
+}
+
+// 下拉面板
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  z-index: 8000;
+  min-width: 100%;
+  border: 1px solid #2d76ce;
+  background-color: #060f2b;
+  box-sizing: border-box;
+  padding: 2px 0;
+
+  // ::ng-deep 穿透到 ng-content 投影进来的子元素
+  ::ng-deep>* {
+    display: block;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #ddf4ff;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #2F61D2;
+      color: #fff;
+    }
+  }
+}
+
+// click 模式的全局遮罩
+.dropdown-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 7999;
+}

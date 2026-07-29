@@ -1,5 +1,6 @@
 import { AbstractUrl } from '../../../abstract.url';
 import { GeographicRoadObjectEventUrl } from './geographic-road-object-event.url';
+import { GeographicRoadObjectStockUrl } from './geographic-road-object-stock.url';
 
 export class GeographicRoadObjectUrl extends AbstractUrl {
   constructor(base: string) {
@@ -16,5 +17,9 @@ export class GeographicRoadObjectUrl extends AbstractUrl {
 
   event() {
     return new GeographicRoadObjectEventUrl(this.basic());
+  }
+
+  stock() {
+    return new GeographicRoadObjectStockUrl(this.basic());
   }
 }

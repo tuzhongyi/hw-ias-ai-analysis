@@ -205,6 +205,9 @@ export class SystemModuleMobileDeviceRouteManagerComponent
           });
         }
         this.map.clear();
+        if (this.chart.show) {
+          this.chart.load.emit(this.map.args);
+        }
       },
 
       unit: () => {

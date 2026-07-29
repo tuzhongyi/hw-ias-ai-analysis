@@ -181,7 +181,6 @@ export class SystemStatisticRoadObjectAMapRecordMarkerClusterController {
     if (isline) {
       // 线状物件使用 blank.circle
       let a = blank.circle.end[colorName as keyof typeof blank.circle.end];
-      console.log(a);
       return a;
     } else {
       // 点状物件使用 blank.point

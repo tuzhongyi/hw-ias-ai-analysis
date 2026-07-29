@@ -1,0 +1,37 @@
+// iframe 嵌入时，禁用所有环境适配（4K / Windows缩放 / 32-9）
+// 由父级布局统一管理尺寸和缩放
+
+html.in-iframe {
+  // 覆盖 screen-4k.less / screen-windows-scale.less / screen-32-9.less 的 font-size
+  font-size: 16px !important;
+  overflow: hidden;
+
+  body {
+    zoom: 1 !important;
+    font-size: unset !important;
+  }
+
+  .system-main-map-container {
+    zoom: 1 !important;
+  }
+
+  table {
+    font-size: unset !important;
+  }
+  .forms {
+    font-size: unset !important;
+  }
+  select {
+    font-size: unset !important;
+  }
+  .clear {
+    width: unset !important;
+    height: unset !important;
+  }
+  .table-split-head {
+    height: unset !important;
+  }
+  .table-split-body {
+    height: unset !important;
+  }
+}

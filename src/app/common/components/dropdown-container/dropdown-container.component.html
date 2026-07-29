@@ -1,0 +1,22 @@
+<div
+  class="dropdown-container"
+  [class.disabled]="disabled"
+  [class.open]="show"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <div class="dropdown-trigger button-clip-gradient" (click)="onClick()">
+    <span class="dropdown-text">{{ placeholder }}</span>
+    <span class="dropdown-arrow"></span>
+  </div>
+  <div class="dropdown-panel" *ngIf="show" (click)="$event.stopPropagation()">
+    <ng-content></ng-content>
+  </div>
+</div>
+
+<!-- click 模式下的遮罩层，点击外部关闭 -->
+<div
+  class="dropdown-overlay"
+  *ngIf="show && trigger === 'click'"
+  (click)="onOverlayClick()"
+></div>

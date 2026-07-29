@@ -14,6 +14,7 @@ import { ArmGeographicUrl } from '../../../../../urls/arm/geographic/geographic.
 import { HowellHttpClient } from '../../../../howell-http.client';
 import { HowellResponseProcess } from '../../../../service-process';
 import { ArmGeographicRoadObjectEventRequestService } from './event/geographic-road-object-event.service';
+import { ArmGeographicRoadObjectStockRequestService } from './stock/geographic-road-object-stock.service';
 import {
   GetRoadObjectReportParams,
   GetRoadObjectsParams,
@@ -100,5 +101,13 @@ export class ArmGeographicRoadObjectRequestService extends AbstractService<RoadO
       this._event = new ArmGeographicRoadObjectEventRequestService(this.http);
     }
     return this._event;
+  }
+
+  private _stock?: ArmGeographicRoadObjectStockRequestService;
+  public get stock(): ArmGeographicRoadObjectStockRequestService {
+    if (!this._stock) {
+      this._stock = new ArmGeographicRoadObjectStockRequestService(this.http);
+    }
+    return this._stock;
   }
 }

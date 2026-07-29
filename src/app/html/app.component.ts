@@ -1,6 +1,7 @@
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { IframeScaleDetectorService } from '../common/services/iframe-scale-detector.service';
 
 @Component({
   selector: 'app-root',
@@ -16,4 +17,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'hw-ias-ai-analysis';
+  constructor(_scale: IframeScaleDetectorService) {
+    // iframe 检测：嵌入 iframe 时禁用所有环境适配
+  }
 }

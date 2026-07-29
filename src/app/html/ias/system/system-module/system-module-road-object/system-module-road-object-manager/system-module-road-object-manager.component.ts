@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { DropdownContainerComponent } from '../../../../../../common/components/dropdown-container/dropdown-container.component';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { OptionMode } from '../../../../../../common/data-core/enums/option.enum';
@@ -32,6 +33,7 @@ import { SystemModuleRoadObjectManagerWindow } from './window/system-module-road
     WindowConfirmComponent,
     SystemModuleFileManagerComponent,
     SystemModuleRoadObjectVideoManagerComponent,
+    DropdownContainerComponent,
     PictureListComponent,
   ],
   templateUrl: './system-module-road-object-manager.component.html',
@@ -47,7 +49,7 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
   constructor(
     private business: SystemModuleRoadObjectManagerBusiness,
     public source: SystemModuleRoadObjectManagerSource,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   OptionMode = OptionMode;
@@ -85,7 +87,7 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
       select: (data: RoadObject[]) => {
         this.table.selected.all = [...data];
         this.table.selected.count.disabled = data.filter(
-          (x) => x.Disable
+          (x) => x.Disable,
         ).length;
         this.table.selected.count.enabled =
           data.length - this.table.selected.count.disabled;

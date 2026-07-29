@@ -21,6 +21,7 @@ yarn-error.log
 *.sublime-workspace
 *.spec.ts
 *.docx
+/private
 
 # Visual Studio Code
 .vscode/*

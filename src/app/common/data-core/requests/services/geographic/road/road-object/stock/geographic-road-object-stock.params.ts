@@ -1,0 +1,27 @@
+import { GisPoint } from '../../../../../../models/arm/gis-point.model';
+import { PagedParams } from '../../../../../../models/interface/params.interface';
+
+export class GetRoadObjectStocksParams extends PagedParams {
+  /**	String[]	数据ID列表	O	*/
+  Ids?: string[];
+  /**	String	名称，支持LIKE	O	*/
+  Name?: string;
+  /**	Int32[]	部件类型	O	*/
+  ObjectTypes?: number[];
+  /**	String	分组ID	O	*/
+  GroupGuid?: string;
+  /**	String	地址，支持LIKE	O	*/
+  Address?: string;
+  /**	String[]	区划ID	O	*/
+  DivisionIds?: string[];
+  /**	GisPoint	照片Gis坐标	D	*/
+  Location?: GisPoint;
+  /**	Double	单位：米，必须与Location一起出现	D	*/
+  LocationDistance?: number;
+  /**	Int32	部件分类，用于分辨不同层级和重要度的部件	O	*/
+  Category?: number;
+  /**	String	升序属性，不区分大小写	O	*/
+  Asc?: string;
+  /**	String	降序属性，不区分大小写	O	*/
+  Desc?: string;
+}
