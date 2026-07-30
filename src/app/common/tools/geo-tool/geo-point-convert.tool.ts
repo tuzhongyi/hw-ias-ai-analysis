@@ -52,14 +52,19 @@ export class GeoPointConvertTool {
 
   json = {
     points: <T>(datas: [number, number][], source?: T[]) => {
-      let geo: any = {
-        type: 'FeatureCollection',
-        features: datas.map((x, i) =>
-          this.json.point(x, source ? source[i] : undefined)
-        ),
+      const features: any[] = [];
+      for (let i = 0; i < datas.length; i++) {
+        const x = datas[i];
+        if (x && typeof x[0] === 'number' && typeof x[1] === 'number') {
+          features.push(
+            this.json.point(x, source ? source[i] : undefined),
+          );
+        }
+      }
+      return {
+        type: 'FeatureCollection' as const,
+        features,
       };
-
-      return geo;
     },
     point: <T>(data: [number, number], source?: T) => {
       let geo = {

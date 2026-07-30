@@ -12,22 +12,15 @@ import { SystemModuleShopRegistrationTableConverter } from './system-module-shop
 export class SystemModuleShopRegistrationTableBusiness {
   constructor(
     private service: ArmGeographicRequestService,
-    private converter: SystemModuleShopRegistrationTableConverter
+    private converter: SystemModuleShopRegistrationTableConverter,
   ) {}
 
   async load(
     index: number,
     size: number,
-    filter: SystemModuleShopRegistrationTableFilter
+    filter: SystemModuleShopRegistrationTableFilter,
   ): Promise<PagedList<SystemModuleShopRegistrationTableItem>> {
     let datas = await this.data.load(index, size, filter);
-
-    if (
-      datas.Page.PageCount > 0 &&
-      datas.Page.PageIndex > datas.Page.PageCount
-    ) {
-      return this.load(datas.Page.PageCount, datas.Page.PageSize, filter);
-    }
 
     let paged = new PagedList<SystemModuleShopRegistrationTableItem>();
     paged.Page = datas.Page;
@@ -48,7 +41,7 @@ export class SystemModuleShopRegistrationTableBusiness {
     load: (
       index: number,
       size: number,
-      filter: SystemModuleShopRegistrationTableFilter
+      filter: SystemModuleShopRegistrationTableFilter,
     ) => {
       let params = new GetShopRegistrationsParams();
       params.PageIndex = index;

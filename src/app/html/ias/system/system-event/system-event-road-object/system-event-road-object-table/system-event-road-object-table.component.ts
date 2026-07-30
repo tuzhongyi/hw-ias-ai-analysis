@@ -94,7 +94,7 @@ export class SystemEventRoadObjectTableComponent implements OnInit, OnDestroy {
         this.load(
           this.args.first ? 1 : this.page.PageIndex,
           this.page.PageSize,
-          this.filter
+          this.filter,
         );
       });
       this.subscription.add(sub);
@@ -115,7 +115,7 @@ export class SystemEventRoadObjectTableComponent implements OnInit, OnDestroy {
   private load(
     index: number,
     size: number,
-    filter: SystemEventRoadObjectTableFilter
+    filter: SystemEventRoadObjectTableFilter,
   ) {
     this.business.load(index, size, filter).then((x) => {
       this.page = x.Page;

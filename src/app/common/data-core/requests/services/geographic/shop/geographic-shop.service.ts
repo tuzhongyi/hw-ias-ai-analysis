@@ -68,13 +68,18 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
     });
   }
 
-  async list(params: GetShopRegistrationsParams) {
+  async list(params: GetShopRegistrationsParams): Promise<PagedList<ShopRegistration>> {
     let url = ArmGeographicUrl.shop.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<ShopRegistration>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, ShopRegistration);
+        let paged = HowellResponseProcess.paged(x, ShopRegistration);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
   async all(
@@ -142,7 +147,7 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
           } while (index <= paged.Page.PageCount);
           return data;
         },
-        list: (params: GetShopRegistrationTaskDetectedResultParams) => {
+        list: (params: GetShopRegistrationTaskDetectedResultParams): Promise<PagedList<ShopRegistrationTaskDetectedResult>> => {
           let url = ArmGeographicUrl.shop.task.detected.result();
           let plain = instanceToPlain(params);
           return this.http
@@ -151,10 +156,15 @@ export class ArmGeographicShopRequestService extends AbstractService<ShopRegistr
               any
             >(url, plain)
             .then((x) => {
-              return HowellResponseProcess.paged(
+              let paged = HowellResponseProcess.paged(
                 x,
                 ShopRegistrationTaskDetectedResult
               );
+              if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+                params.PageIndex = paged.Page.PageCount;
+                return this.task.detected.result.list(params);
+              }
+              return paged;
             });
         },
       },

@@ -8,6 +8,50 @@ interface BetweenResult {
   percent: number;
 }
 export class ArrayTool {
+  static min<T>(array: T[], selector: (item: T) => number): T | undefined {
+    if (array.length === 0) return undefined;
+    let result = array[0];
+    let min = selector(result);
+    for (let i = 1; i < array.length; i++) {
+      const value = selector(array[i]);
+      if (value < min) {
+        min = value;
+        result = array[i];
+      }
+    }
+    return result;
+  }
+
+  static mins<T>(array: T[], selector: (item: T) => number): T[] {
+    if (array.length === 0) return [];
+    let result = [array[0]];
+    let min = selector(array[0]);
+    for (let i = 1; i < array.length; i++) {
+      const value = selector(array[i]);
+      if (value < min) {
+        min = value;
+        result = [array[i]];
+      } else if (value === min) {
+        result.push(array[i]);
+      }
+    }
+    return result;
+  }
+
+  static max<T>(array: T[], selector: (item: T) => number): T | undefined {
+    if (array.length === 0) return undefined;
+    let result = array[0];
+    let max = selector(result);
+    for (let i = 1; i < array.length; i++) {
+      const value = selector(array[i]);
+      if (value > max) {
+        max = value;
+        result = array[i];
+      }
+    }
+    return result;
+  }
+
   /** 寻找最近值 */
   static closest = {
     item: (arr: number[], target: number): ArrayItem | undefined => {
@@ -27,7 +71,7 @@ export class ArrayTool {
     },
     between: (
       array: number[],
-      target: number
+      target: number,
     ): { left: ArrayItem; right: ArrayItem; percent: number } | undefined => {
       if (array.length < 2) return undefined;
 
@@ -90,7 +134,7 @@ export class ArrayTool {
   /** 分组 */
   static groupBy<TData, TKey extends keyof any = string>(
     array: TData[],
-    fn: (item: TData) => TKey
+    fn: (item: TData) => TKey,
   ): Record<TKey, TData[]> {
     let result = array.reduce((data: any, item) => {
       const key = fn(item);

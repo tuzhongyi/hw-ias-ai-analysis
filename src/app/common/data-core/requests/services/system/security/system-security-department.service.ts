@@ -58,13 +58,18 @@ export class SystemSecurityDepartmentRequestService extends AbstractService<Depa
     return this.http.delete(url);
   }
 
-  async list(params: GetDepartmentsParams) {
+  async list(params: GetDepartmentsParams): Promise<PagedList<Department>> {
     let url = ArmSystemUrl.security.department.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<Department>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, Department);
+        let paged = HowellResponseProcess.paged(x, Department);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
 

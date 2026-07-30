@@ -71,15 +71,22 @@ export class IASMapAMapRoadObjectPolylineController {
   //#region public
 
   load(datas: RoadObject[]) {
-    const polylines = datas.map<GeoPolyline>((item) => {
-      const line = item.GeoLine ?? [];
+    const valid = datas.filter((x) => x.GeoLine && x.GeoLine.length > 0);
 
-      return line.map<GeoPoint>((x) => [x.Longitude, x.Latitude] as GeoPoint);
+    if (valid.length === 0) {
+      this.clear();
+      return;
+    }
+
+    const polylines = valid.map<GeoPolyline>((item) => {
+      return item.GeoLine!.map<GeoPoint>(
+        (x) => [x.Longitude, x.Latitude] as GeoPoint
+      );
     });
 
-    this.loader.polyline(polylines, datas);
+    this.loader.polyline(polylines, valid);
 
-    this.loader.point(polylines, datas);
+    this.loader.point(polylines, valid);
 
     this.loaded = true;
   }

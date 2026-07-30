@@ -30,13 +30,18 @@ export class ArmGeographicRoadObjectEventRequestService {
       });
   }
 
-  async list(params: GetRoadObjectEventsParams) {
+  async list(params: GetRoadObjectEventsParams): Promise<PagedList<RoadObjectEventRecord>> {
     let url = ArmGeographicUrl.road.object.event().list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<RoadObjectEventRecord>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, RoadObjectEventRecord);
+        let paged = HowellResponseProcess.paged(x, RoadObjectEventRecord);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
 

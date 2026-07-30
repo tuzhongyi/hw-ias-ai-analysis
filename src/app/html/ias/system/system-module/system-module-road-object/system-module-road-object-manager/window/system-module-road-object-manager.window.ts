@@ -3,6 +3,7 @@ import { SystemModuleRoadObjectManagerComponent } from '../system-module-road-ob
 import { SystemModuleRoadObjectManagerDetailsWindow } from './system-module-road-object-manager-details.window';
 import { SystemModuleRoadObjectManagerFileWindow } from './system-module-road-object-manager-file.window';
 import { SystemModuleRoadObjectManagerPictureWindow } from './system-module-road-object-manager-picture.window';
+import { SystemModuleRoadObjectManagerStockWindow } from './system-module-road-object-manager-stock.window';
 import { SystemModuleRoadObjectManagerVideoWindow } from './system-module-road-object-manager-video.window';
 
 export class SystemModuleRoadObjectManagerWindow {
@@ -10,11 +11,13 @@ export class SystemModuleRoadObjectManagerWindow {
   file: SystemModuleRoadObjectManagerFileWindow;
   video: SystemModuleRoadObjectManagerVideoWindow;
   picture: SystemModuleRoadObjectManagerPictureWindow;
+  stock: SystemModuleRoadObjectManagerStockWindow;
   constructor(that: SystemModuleRoadObjectManagerComponent) {
     this.details = new SystemModuleRoadObjectManagerDetailsWindow(that);
     this.file = new SystemModuleRoadObjectManagerFileWindow(that);
     this.video = new SystemModuleRoadObjectManagerVideoWindow(that);
     this.picture = new SystemModuleRoadObjectManagerPictureWindow(that);
+    this.stock = new SystemModuleRoadObjectManagerStockWindow(that);
   }
   confirm = new ConfirmWindow();
 

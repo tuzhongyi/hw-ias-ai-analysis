@@ -54,13 +54,18 @@ export class ArmGeographicPatrolSectionRequestService extends AbstractService<Pa
     });
   }
 
-  async list(params: GetPatrolSectionsParams) {
+  async list(params: GetPatrolSectionsParams): Promise<PagedList<PatrolSection>> {
     let url = ArmGeographicUrl.patrol.section.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<PatrolSection>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, PatrolSection);
+        let paged = HowellResponseProcess.paged(x, PatrolSection);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
 

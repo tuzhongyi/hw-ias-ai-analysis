@@ -46,7 +46,12 @@ export class ArmAnalysisLLMGpsTaskRequestService extends AbstractService<Analysi
     return this.http
       .post<HowellResponse<PagedList<AnalysisGpsTask>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, AnalysisGpsTask);
+        let paged = HowellResponseProcess.paged(x, AnalysisGpsTask);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
   override all(

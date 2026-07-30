@@ -1,0 +1,151 @@
+<div class="system-module-road-object-stock-table">
+  <div class="system-module-road-object-stock-table-body table-page">
+    <table border="0" cellpadding="0" cellspacing="0" TableSorter>
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="center">
+            <input
+              type="checkbox"
+              [checked]="
+                selecteds.length > 0 && selecteds.length === page.RecordCount
+              "
+              (click)="on.select.page()"
+            />
+          </th>
+          <th class="center">序号</th>
+          <th>图片</th>
+          <th>部件名称</th>
+          <th>部件类型</th>
+          <th>部件分类</th>
+          <th>行政区划</th>
+          <th>责任网格</th>
+          <th>地址</th>
+          <th class="center" *ngIf="operable">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let index = index"
+          (click)="on.select.item(item)"
+          [ngClass]="{
+            selected: item && selecteds.includes(item),
+            nodata: !item
+          }"
+          [ngStyle]="{
+            height: item ? 100 / page.PageSize + '%' : 0
+          }"
+          (dblclick)="on.position($event, item)"
+          (mouseover)="on.mouse.over(item)"
+          (mouseout)="on.mouse.out(item)"
+        >
+          <td class="center">
+            <input
+              type="checkbox"
+              *ngIf="item"
+              [checked]="selecteds.includes(item)"
+            />
+          </td>
+          <td class="center text">
+            <span *ngIf="item">{{
+              page.PageSize * (page.PageIndex - 1) + index + 1
+            }}</span>
+          </td>
+
+          <td>
+            <div *ngIf="item">
+              <div
+                [ngClass]="{ noimage: !item?.Image }"
+                class="image"
+                [ngStyle]="{
+                  backgroundImage: item.Image
+                    ? 'url(' + item.Image + ')'
+                    : 'none'
+                }"
+                (click)="on.picture($event, item)"
+              ></div>
+            </div>
+          </td>
+          <td class="text" [title]="item?.Name ?? ''">
+            @if(item){
+            <div>{{ item?.Name ?? "-" }}</div>
+            }
+          </td>
+          <td class="text">
+            @if(item){
+            {{ (item?.ObjectTypeName | async) ?? "-" }}
+            }
+          </td>
+          <td class="text">
+            @if(item){
+            {{ item?.Category ?? "-" }}
+            }
+          </td>
+          <td class="text" [title]="(item?.Division | async)?.Name ?? ''">
+            @if(item){
+            {{ (item?.Division | async)?.Name ?? "-" }}
+            }
+          </td>
+          <td class="text" [title]="(item?.GridCell | async)?.Name ?? ''">
+            @if(item){
+            {{ (item?.GridCell | async)?.Name ?? "-" }}
+            }
+          </td>
+          <td class="text" [title]="item?.Address ?? ''">
+            @if(item){
+            {{ (item?.AddressSubed | async) ?? "-" }}
+            }
+          </td>
+          <td class="center" *ngIf="operable">
+            @if(item){
+            <div class="operation">
+              <div
+                class="button"
+                title="部件详情"
+                (click)="on.modify($event, item)"
+              >
+                <i class="mdi mdi-clipboard-text"></i>
+              </div>
+              <div
+                class="button"
+                title="删除部件"
+                (click)="on.delete($event, item)"
+              >
+                <i class="howell-icon-delete2"></i>
+              </div>
+              <div
+                class="button"
+                title="定位"
+                (click)="on.position($event, item)"
+              >
+                <i class="mdi mdi-map-marker"></i>
+              </div>
+            </div>
+            }
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="system-module-road-object-stock-table-foot">
+    <div class="system-module-road-object-stock-table-foot-select-button">
+      <button (click)="on.select.all()">全选</button>
+      <button (click)="on.select.invert()">反选</button>
+      <button (click)="on.select.cancel()">取消</button>
+    </div>
+    <div
+      class="system-module-road-object-stock-table-foot-select-info"
+      *ngIf="page.TotalRecordCount"
+    >
+      选中 {{ selecteds.length }} 条
+    </div>
+    <div
+      class="system-module-road-object-stock-table-foot-page"
+      *ngIf="page.TotalRecordCount"
+    >
+      <paginator [page]="page" (change)="on.page($event)"> </paginator>
+    </div>
+  </div>
+</div>

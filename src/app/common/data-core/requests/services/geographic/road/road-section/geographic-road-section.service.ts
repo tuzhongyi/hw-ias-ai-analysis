@@ -55,13 +55,18 @@ export class ArmGeographicRoadSectionRequestService extends AbstractService<Road
     });
   }
 
-  async list(params: GetRoadSectionsParams) {
+  async list(params: GetRoadSectionsParams): Promise<PagedList<RoadSection>> {
     let url = ArmGeographicUrl.road.section.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<RoadSection>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, RoadSection);
+        let paged = HowellResponseProcess.paged(x, RoadSection);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
   async all(params: GetRoadSectionsParams = new GetRoadSectionsParams()) {

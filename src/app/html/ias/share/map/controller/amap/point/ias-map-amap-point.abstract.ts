@@ -38,7 +38,17 @@ export abstract class IASMapAMapPointAbstract {
         this.layer.setZooms(opts.zooms);
       }
     }
-    let points = datas.filter((x) => !!x.Location);
+    let points = datas.filter(
+      (x) =>
+        !!x.Location &&
+        !!x.Location.GCJ02 &&
+        x.Location.GCJ02.Longitude != null &&
+        x.Location.GCJ02.Latitude != null,
+    );
+    if (points.length === 0) {
+      this.clear();
+      return undefined;
+    }
     let positions = points.map(
       (x) =>
         [x.Location!.GCJ02.Longitude, x.Location!.GCJ02.Latitude] as [

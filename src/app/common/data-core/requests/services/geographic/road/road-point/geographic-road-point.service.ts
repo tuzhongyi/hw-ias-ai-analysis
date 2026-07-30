@@ -54,13 +54,18 @@ export class ArmGeographicRoadPointRequestService extends AbstractService<RoadPo
     });
   }
 
-  async list(params: GetRoadPointsParams) {
+  async list(params: GetRoadPointsParams): Promise<PagedList<RoadPoint>> {
     let url = ArmGeographicUrl.road.point.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<RoadPoint>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, RoadPoint);
+        let paged = HowellResponseProcess.paged(x, RoadPoint);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
   async all(params: GetRoadPointsParams = new GetRoadPointsParams()) {

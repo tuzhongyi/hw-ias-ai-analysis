@@ -43,13 +43,18 @@ export class ArmAnalysisShopRequestService {
     });
   }
 
-  async list(params: GetShopsParams) {
+  async list(params: GetShopsParams): Promise<PagedList<Shop>> {
     let url = ArmAnalysisUrl.shop.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<Shop>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, Shop);
+        let paged = HowellResponseProcess.paged(x, Shop);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
   async all(params: GetShopsParams = new GetShopsParams()) {
@@ -115,13 +120,18 @@ class ArmAnalysisShopSignRequestService {
     } while (index <= paged.Page.PageCount);
     return data;
   }
-  async list(params: GetShopSignsParams) {
+  async list(params: GetShopSignsParams): Promise<PagedList<ShopSign>> {
     let url = ArmAnalysisUrl.shop.sign().list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<ShopSign>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, ShopSign);
+        let paged = HowellResponseProcess.paged(x, ShopSign);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
 

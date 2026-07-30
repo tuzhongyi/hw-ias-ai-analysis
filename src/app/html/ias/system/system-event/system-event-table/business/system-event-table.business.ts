@@ -19,7 +19,7 @@ export class SystemEventTableBusiness {
 
     private language: LanguageTool,
     table: SystemEventTableService,
-    division: ArmDivisionRequestService
+    division: ArmDivisionRequestService,
   ) {
     this.service = { table, division };
   }
@@ -31,10 +31,6 @@ export class SystemEventTableBusiness {
 
   async load(index: number, size: number, filter: SystemEventTableFilter) {
     let datas = await this.service.table.load(index, size, filter);
-
-    if (datas.Page.PageCount > 0 && datas.Page.PageCount < index) {
-      datas = await this.service.table.load(datas.Page.PageCount, size, filter);
-    }
 
     let paged = new PagedList<SystemEventTableItem>();
     paged.Page = datas.Page;
@@ -58,7 +54,7 @@ export class SystemEventTableBusiness {
     data.EventTypeName = this.language.event.EventType(data.EventType, '');
     data.EmergencyTypeName = this.language.event.EmergencyType(
       data.EmergencyType,
-      ''
+      '',
     );
     if (data.Resources) {
       data.Resources = data.Resources.sort((a, b) => {

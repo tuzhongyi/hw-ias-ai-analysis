@@ -126,13 +126,18 @@ class ArmAnalysisServerTaskRequestService extends AbstractService<AnalysisTask> 
       return HowellResponseProcess.item(x, AnalysisTask);
     });
   }
-  async list(params = new GetAnalysisTaskListParams()) {
+  async list(params = new GetAnalysisTaskListParams()): Promise<PagedList<AnalysisTask>> {
     let url = ArmAnalysisUrl.server.task.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<AnalysisTask>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, AnalysisTask);
+        let paged = HowellResponseProcess.paged(x, AnalysisTask);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
 
@@ -218,13 +223,18 @@ class ArmAnalysisServerTaskRequestService extends AbstractService<AnalysisTask> 
 class ArmAnalysisServerTaskResultRequestService {
   constructor(private http: HowellHttpClient) {}
 
-  async list(params: GetAnalysisTaskResultListParams) {
+  async list(params: GetAnalysisTaskResultListParams): Promise<PagedList<AnalysisTaskResult>> {
     let url = ArmAnalysisUrl.server.task.result.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<AnalysisTaskResult>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, AnalysisTaskResult);
+        let paged = HowellResponseProcess.paged(x, AnalysisTaskResult);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
 }

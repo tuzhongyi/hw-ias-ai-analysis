@@ -13,7 +13,7 @@ export class SystemMainCardEventRealtimeStatisticBusiness {
   constructor(
     private manager: Manager,
     system: ArmSystemRequestService,
-    division: ArmDivisionRequestService
+    division: ArmDivisionRequestService,
   ) {
     this.service = { system, division };
   }
@@ -64,8 +64,7 @@ export class SystemMainCardEventRealtimeStatisticBusiness {
       return this.service.system.event.number.statistic(params);
     },
     division: async () => {
-      let all = await this.service.division.cache.all();
-      return all.find((x) => !x.ParentId);
+      return this.service.division.root();
     },
   };
 }

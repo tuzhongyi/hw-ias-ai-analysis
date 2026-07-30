@@ -10,6 +10,7 @@ import { RoadObject } from '../../../../../../common/data-core/models/arm/geogra
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleFileManagerComponent } from '../../system-module-file/system-module-file-manager/system-module-file-manager.component';
+import { SystemModuleRoadObjectStockManagerComponent } from '../../system-module-road-object-stock/system-module-road-object-stock-manager/system-module-road-object-stock-manager.component';
 import { SystemModuleRoadObjectDetailsManagerComponent } from '../system-module-road-object-details/system-module-road-object-details-manager/system-module-road-object-details-manager.component';
 import { SystemModuleRoadObjectMapComponent } from '../system-module-road-object-map/system-module-road-object-map.component';
 import { SystemModuleRoadObjectTableComponent } from '../system-module-road-object-table/system-module-road-object-table.component';
@@ -35,6 +36,7 @@ import { SystemModuleRoadObjectManagerWindow } from './window/system-module-road
     SystemModuleRoadObjectVideoManagerComponent,
     DropdownContainerComponent,
     PictureListComponent,
+    SystemModuleRoadObjectStockManagerComponent,
   ],
   templateUrl: './system-module-road-object-manager.component.html',
   styleUrl: './system-module-road-object-manager.component.less',

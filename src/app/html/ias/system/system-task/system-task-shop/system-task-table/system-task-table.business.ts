@@ -12,15 +12,11 @@ import {
 export class SystemTaskTableBusiness<T extends AnalysisTaskModel> {
   constructor(
     private service: ArmAnalysisRequestService,
-    private converter: IConverter<AnalysisTask, T>
+    private converter: IConverter<AnalysisTask, T>,
   ) {}
 
   async load(index: number, size: number, args: SystemTaskTableFilter) {
     let data = await this.data(index, size, args);
-
-    if (data.Page.PageCount > 0 && data.Page.PageCount < index) {
-      data = await this.data(data.Page.PageCount, size, args);
-    }
 
     let paged = new PagedList<T>();
     paged.Page = data.Page;

@@ -26,13 +26,18 @@ export class SystemEventRequestService {
       return HowellResponseProcess.item(x, MobileEventRecord);
     });
   }
-  async list(params: GetMobileEventsParams) {
+  async list(params: GetMobileEventsParams): Promise<PagedList<MobileEventRecord>> {
     let url = ArmSystemUrl.event.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<MobileEventRecord>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, MobileEventRecord);
+        let paged = HowellResponseProcess.paged(x, MobileEventRecord);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
   async all(params: GetMobileEventsParams = new GetMobileEventsParams()) {

@@ -15,13 +15,18 @@ import {
 export class SystemMobileDeviceRouteRequestService {
   constructor(private http: HowellHttpClient) {}
 
-  list(params: GetMobileDeviceRoutesParams) {
+  list(params: GetMobileDeviceRoutesParams): Promise<PagedList<FileGpsItem>> {
     let url = ArmSystemUrl.mobile.device.route.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<FileGpsItem>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, FileGpsItem);
+        let paged = HowellResponseProcess.paged(x, FileGpsItem);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
 

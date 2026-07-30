@@ -30,7 +30,12 @@ export class ArmAnalysisLLMGpsTaskSampleRequestService extends AbstractService<G
       HowellResponse<PagedList<GpsTaskSampleRecord>>,
       any
     >(url, plain);
-    return HowellResponseProcess.paged(x, GpsTaskSampleRecord);
+    let paged = HowellResponseProcess.paged(x, GpsTaskSampleRecord);
+    if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+      params.PageIndex = paged.Page.PageCount;
+      return this.list(params);
+    }
+    return paged;
   }
 
   async get(id: string) {

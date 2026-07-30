@@ -58,7 +58,7 @@ export class HowellHttpClient {
 
   post<R, T = any>(path: string, data?: T, config?: HttpClientParams) {
     let options = this.getAuth(config);
-    return this.result(this.http.post<R>(path, data, options));
+    return this.result(this.http.post<R>(path, data, options), config);
   }
   put<R>(path: string): Promise<R>;
   put<T>(path: string, data?: T): Promise<T>;
@@ -132,7 +132,7 @@ export class HowellHttpClient {
     };
   }
 
-  private async result<R>(result: Observable<R>) {
+  private async result<R>(result: Observable<R>, config?: HttpClientParams) {
     return new Promise<R>((resolve, reject) => {
       firstValueFrom(result)
         .then((x) => {
@@ -148,6 +148,9 @@ export class HowellHttpClient {
               resolve(e.error.text as R);
             }
           } else {
+            if (!config?.silentStatusCodes?.includes(e.status)) {
+              console.error(e);
+            }
             reject(e);
           }
         });

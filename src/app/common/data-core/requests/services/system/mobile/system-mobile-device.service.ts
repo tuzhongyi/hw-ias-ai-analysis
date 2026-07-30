@@ -74,13 +74,18 @@ export class SystemMobileDeviceRequestService extends AbstractService<MobileDevi
       });
   }
 
-  async list(params: GetMobileDevicesParams) {
+  async list(params: GetMobileDevicesParams): Promise<PagedList<MobileDevice>> {
     let url = ArmSystemUrl.mobile.device.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<MobileDevice>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, MobileDevice);
+        let paged = HowellResponseProcess.paged(x, MobileDevice);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
   async all(params: GetMobileDevicesParams = new GetMobileDevicesParams()) {

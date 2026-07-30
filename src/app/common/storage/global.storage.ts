@@ -4,7 +4,7 @@ import { EventEmitter, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GlobalStorage {
-  version = '1.0.24.15';
+  version = '1.0.24.16';
   unload = new EventEmitter<void>();
 
   display = {

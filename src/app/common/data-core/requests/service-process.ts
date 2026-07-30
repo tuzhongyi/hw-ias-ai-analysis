@@ -25,7 +25,7 @@ export class HowellResponseProcess {
 
   static paged<T>(
     response: HowellResponse<PagedList<T>>,
-    cls: ClassConstructor<T>
+    cls: ClassConstructor<T>,
   ) {
     if (response.FaultCode === 0) {
       let paged = new PagedList<T>();

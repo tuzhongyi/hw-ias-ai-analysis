@@ -35,12 +35,15 @@ export class IASMapAMapRoadLabelController {
   }
 
   private load(data: Road) {
-    if (data.GeoLine) {
+    if (data.GeoLine && data.GeoLine.length > 0) {
       let points = data.GeoLine.map<[number, number]>((x) => [
-        x.Longitude,
-        x.Latitude,
+        x.Longitude ?? 0,
+        x.Latitude ?? 0,
       ]);
-      let center = GeoTool.polyline.center(points) as [number, number];
+      let center = GeoTool.polyline.center(points);
+      if (!center) {
+        center = points[0];
+      }
 
       let json = GeoTool.point.convert.json.points([center]);
       let geo = new Loca.GeoJSONSource({ data: json });

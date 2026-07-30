@@ -139,7 +139,7 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
   async all(params?: IParams): Promise<T[]> {
     this.loading = true;
     let datas = this.load();
-    if (datas && datas.length > 0) {
+    if (this.loaded && datas) {
       try {
         if (params) {
           return this.filter(datas, params);
@@ -162,6 +162,7 @@ export class ServiceCache<T extends IIdModel> implements IServiceCache {
         this.loaded = true;
         this.loading = false;
         this.pending.all = undefined;
+        this.doTimeout(60_000);
         return this.all(params);
       })
       .catch((err) => {

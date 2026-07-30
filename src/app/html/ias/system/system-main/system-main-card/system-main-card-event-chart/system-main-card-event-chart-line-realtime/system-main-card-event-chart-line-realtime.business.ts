@@ -7,6 +7,7 @@ import { SourceManager } from '../../../../../../../common/data-core/requests/ma
 import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
 import { GetEventNumbersParams } from '../../../../../../../common/data-core/requests/services/system/event/number/system-event-number.params';
 import { ArmSystemRequestService } from '../../../../../../../common/data-core/requests/services/system/system.service';
+import { LocalStorage } from '../../../../../../../common/storage/local.storage';
 import {
   IChartData,
   ITimeData,
@@ -21,7 +22,8 @@ export class SystemMainCardEventChartLineRealtimeBusiness {
   constructor(
     system: ArmSystemRequestService,
     division: ArmDivisionRequestService,
-    private source: SourceManager
+    private local: LocalStorage,
+    private source: SourceManager,
   ) {
     this.service = {
       system: system,
@@ -37,7 +39,7 @@ export class SystemMainCardEventChartLineRealtimeBusiness {
     let model = this.convert(
       division,
       datas,
-      types.map((x) => x.Value)
+      types.map((x) => x.Value),
     );
     model.color = ChartTool.color.get('#ff762c');
     return model;
@@ -45,7 +47,7 @@ export class SystemMainCardEventChartLineRealtimeBusiness {
   private convert(
     source: IIdNameModel,
     datas: EventNumberStatistic[],
-    types: number[]
+    types: number[],
   ): IChartData {
     // 如果没有类型，返回空图表
     if (!types || types.length === 0) {
@@ -149,9 +151,8 @@ export class SystemMainCardEventChartLineRealtimeBusiness {
           return datas;
         });
     },
-    division: async () => {
-      let datas = await this.service.division.cache.all();
-      return datas.find((x) => !x.ParentId) as Division;
+    division: () => {
+      return this.service.division.root();
     },
   };
 }

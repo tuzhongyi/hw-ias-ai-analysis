@@ -25,4 +25,5 @@ export interface HttpClientParams {
         includeHeaders?: string[];
       }
     | boolean;
+  silentStatusCodes?: number[];
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
+import { ArrayTool } from '../../../../tools/array-tool/array.tool';
 import { ObjectTool } from '../../../../tools/object-tool/object.tool';
 import { ServiceTool } from '../../../../tools/service-tool/service.tool';
 import { Cache } from '../../../cache/cache';
@@ -53,18 +54,31 @@ export class ArmDivisionRequestService extends AbstractService<Division> {
         return HowellResponseProcess.item(x, Division);
       });
   }
-  async list(params = new GetDivisionsParams()) {
+  async list(params = new GetDivisionsParams()): Promise<PagedList<Division>> {
     let url = ArmDivisionUrl.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<Division>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, Division);
+        let paged = HowellResponseProcess.paged(x, Division);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
   override all(params = new GetDivisionsParams()): Promise<Division[]> {
     return ServiceTool.all((p) => {
       return this.list(p);
     }, params);
+  }
+
+  async root(): Promise<Division> {
+    let all = await this.cache.all();
+    let root = ArrayTool.min(all, (d) => {
+      return d.DivisionType;
+    });
+    return root as Division;
   }
 }

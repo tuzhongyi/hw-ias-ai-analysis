@@ -59,13 +59,18 @@ export class SystemSecurityDepartmentMemberRequestService {
       });
   }
 
-  async list(params: GetDepartmentMembersParams) {
+  async list(params: GetDepartmentMembersParams): Promise<PagedList<DepartmentMember>> {
     let url = ArmSystemUrl.security.department.member.list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<DepartmentMember>>, any>(url, plain)
       .then((x) => {
-        return HowellResponseProcess.paged(x, DepartmentMember);
+        let paged = HowellResponseProcess.paged(x, DepartmentMember);
+        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+          params.PageIndex = paged.Page.PageCount;
+          return this.list(params);
+        }
+        return paged;
       });
   }
 

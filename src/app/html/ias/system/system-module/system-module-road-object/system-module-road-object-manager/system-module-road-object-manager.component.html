@@ -57,9 +57,10 @@
       *ngIf="operable"
     >
       <dropdown-container placeholder="添加/修改" trigger="hover">
-        <div (click)="window.file.open(OptionMode.update)">视频修改</div>
-        <div (click)="window.file.open(OptionMode.create)">视频添加</div>
-        <div (click)="window.details.open()">手动添加</div>
+        <div (click)="window.file.open(OptionMode.update)">视频修改部件</div>
+        <div (click)="window.file.open(OptionMode.create)">视频添加部件</div>
+        <div (click)="window.details.open()">手动添加部件</div>
+        <div (click)="window.stock.open()">待入部件导入</div>
       </dropdown-container>
       <button
         class="button-clip-gradient"
@@ -197,5 +198,15 @@
       [page]="window.picture.page"
       (pageChange)="window.picture.change($event)"
     ></ias-picture-list>
+  </ias-window>
+  <ias-window
+    *ngIf="window.stock.show"
+    [Model]="window.stock"
+    [style]="window.stock.style"
+    [title]="window.stock.title"
+  >
+    <ias-system-module-road-object-stock-manager
+      [iswindow]="true"
+    ></ias-system-module-road-object-stock-manager>
   </ias-window>
 </div>
