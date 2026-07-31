@@ -30,7 +30,7 @@ export class SystemModuleRoadObjectDetailsMapComponent
 {
   @Input() position: [number, number] = [0, 0];
   @Output() positionChange = new EventEmitter<[number, number]>();
-  @Input() type = RoadObjectType.FireHydrant;
+  @Input() type?: RoadObjectType;
   @Input() state = RoadObjectState.None;
   @Input() get?: { address?: EventEmitter<[number, number]> };
   @Output() address = new EventEmitter<string>();
@@ -40,28 +40,41 @@ export class SystemModuleRoadObjectDetailsMapComponent
 
   private subscription = new Subscription();
   public controller = new SystemModuleRoadObjectDetailsMapController(
-    this.subscription
+    this.subscription,
   );
   private loaded = false;
+  private center?: [number, number];
   private load = {
     road: async () => {
-      let datas = await this.business.road();
-      let polylines = await this.controller.road.load(datas);
-      let center = await this.controller.map.focus(polylines);
-      this.controller.object.load(this.type, center);
-      if (!GeoTool.point.check(this.position)) {
-        this.position = [...center];
+      try {
+        let datas = await this.business.road();
+        let polylines = await this.controller.road.load(datas);
+        if (polylines.length > 0) {
+          this.center = await this.controller.map.focus(polylines);
+        }
+      } catch (e) {
+        console.warn('road data load failed, map will use default view', e);
+      }
+      if (!GeoTool.point.check(this.position) && this.center) {
+        this.position = [...this.center];
         this.positionChange.emit(this.position);
       }
       this.loaded = true;
     },
   };
   private regist() {
-    let sub = this.controller.event.position.subscribe((x) => {
+    let sub_pos = this.controller.event.position.subscribe((x) => {
       this.position = [...x];
       this.positionChange.emit(this.position);
     });
-    this.subscription.add(sub);
+    this.subscription.add(sub_pos);
+
+    let sub_dbl = this.controller.event.dblclick.subscribe((x) => {
+      this.position = [...x];
+      this.positionChange.emit(this.position);
+      this.controller.object.load(x, this.type);
+    });
+    this.subscription.add(sub_dbl);
 
     if (this.get) {
       if (this.get.address) {
@@ -95,7 +108,6 @@ export class SystemModuleRoadObjectDetailsMapComponent
             return this.loaded;
           }).then(() => {
             this.controller.object.set.position(this.position);
-            this.controller.map.move(this.position);
           });
         }
       }

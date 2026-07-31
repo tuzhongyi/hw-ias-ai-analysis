@@ -42,7 +42,9 @@ export class SystemModuleRoadObjectStockMapComponent
     road: async () => {
       let datas = await this.business.road();
       let polylines = await this.controller.road.load(datas);
-      let center = await this.controller.map.focus(polylines);
+      if (polylines.length > 0) {
+        await this.controller.map.focus(polylines);
+      }
     },
   };
 

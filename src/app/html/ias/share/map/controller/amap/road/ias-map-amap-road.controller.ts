@@ -34,7 +34,7 @@ export class IASMapAMapRoadController {
 
     let polylines: AMap.Polyline[] = [];
     datas.forEach((data) => {
-      if (data.GeoLine) {
+      if (data.GeoLine && data.GeoLine.length > 0) {
         let points = this.get.points(data.GeoLine);
         let item = polyline.add(data.Id, points);
         polylines.push(...item);

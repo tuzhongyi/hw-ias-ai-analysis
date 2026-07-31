@@ -12,13 +12,17 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
+import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
 import { RoadObjectStock } from '../../../../../../common/data-core/models/arm/geographic/road-object-stock.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
+import { WindowComponent } from '../../../../share/window/component/window.component';
+import { SystemModuleRoadObjectStockDetailsManagerComponent } from '../system-module-road-object-stock-details/system-module-road-object-stock-details-manager/system-module-road-object-stock-details-manager.component';
 import { SystemModuleRoadObjectStockMapComponent } from '../system-module-road-object-stock-map/system-module-road-object-stock-map.component';
 import { SystemModuleRoadObjectStockTableComponent } from '../system-module-road-object-stock-table/system-module-road-object-stock-table.component';
 import { SystemModuleRoadObjectStockTableArgs } from '../system-module-road-object-stock-table/system-module-road-object-stock-table.model';
 import { SystemModuleRoadObjectStockManagerBusiness } from './system-module-road-object-stock-manager.business';
 import { SystemModuleRoadObjectStockManagerSource } from './system-module-road-object-stock-manager.source';
+import { SystemModuleRoadObjectStockManagerWindow } from './window/system-module-road-object-stock-manager.window';
 
 @Component({
   selector: 'ias-system-module-road-object-stock-manager',
@@ -28,6 +32,9 @@ import { SystemModuleRoadObjectStockManagerSource } from './system-module-road-o
     HowellSelectComponent,
     SystemModuleRoadObjectStockTableComponent,
     SystemModuleRoadObjectStockMapComponent,
+    SystemModuleRoadObjectStockDetailsManagerComponent,
+    WindowComponent,
+    WindowConfirmComponent,
   ],
   templateUrl: './system-module-road-object-stock-manager.component.html',
   styleUrl: './system-module-road-object-stock-manager.component.less',
@@ -46,10 +53,12 @@ export class SystemModuleRoadObjectStockManagerComponent
 
   constructor(
     public source: SystemModuleRoadObjectStockManagerSource,
-    private business: SystemModuleRoadObjectStockManagerBusiness,
-    private toastr: ToastrService,
+    public business: SystemModuleRoadObjectStockManagerBusiness,
+    public toastr: ToastrService,
   ) {}
   Language = Language;
+  window = new SystemModuleRoadObjectStockManagerWindow(this);
+  JSON = JSON;
 
   private change = {
     args: (simple: SimpleChange) => {
@@ -92,7 +101,10 @@ export class SystemModuleRoadObjectStockManagerComponent
         }
       },
       details: (data: RoadObjectStock) => {
-        this.modify.emit(data);
+        this.window.details.open(data);
+      },
+      delete: (data: RoadObjectStock) => {
+        this.window.confirm.open(data);
       },
     },
   };
@@ -108,17 +120,4 @@ export class SystemModuleRoadObjectStockManagerComponent
       }
     },
   };
-
-  delete(data: RoadObjectStock) {
-    this.business
-      .delete(data.Id!)
-      .then(() => {
-        this.toastr.success('操作成功');
-        this.table.args.first = false;
-        this.table.load.emit(this.table.args);
-      })
-      .catch(() => {
-        this.toastr.error('操作失败');
-      });
-  }
 }

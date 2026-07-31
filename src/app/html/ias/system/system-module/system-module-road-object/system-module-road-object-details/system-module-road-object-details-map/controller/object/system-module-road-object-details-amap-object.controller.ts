@@ -20,7 +20,7 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
     });
     marker.on('mouseover', () => {
       if (this.marker) {
-        let icon = this.get.icon();
+        let icon = this.get.icon(this.type);
         let img = PathTool.image.map.object.get(this.type, {
           state: this.get.state,
         });
@@ -30,7 +30,7 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
     });
     marker.on('mouseout', () => {
       if (this.marker) {
-        let icon = this.get.icon();
+        let icon = this.get.icon(this.type);
         let img = PathTool.image.map.object.get(this.type, {
           state: this.get.state,
         });
@@ -41,6 +41,7 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
   }
 
   add(position: [number, number], type?: number) {
+    this.type = type;
     this.marker = new AMap.Marker({
       position: position,
       anchor: 'bottom-center',
@@ -79,7 +80,7 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
   };
 
   set = {
-    type: (type: RoadObjectType) => {
+    type: (type: RoadObjectType | undefined) => {
       this.type = type;
 
       if (this.marker) {

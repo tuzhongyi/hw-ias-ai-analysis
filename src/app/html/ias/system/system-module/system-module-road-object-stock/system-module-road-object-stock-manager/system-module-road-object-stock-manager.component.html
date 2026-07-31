@@ -34,6 +34,9 @@
           <button class="button-clip-gradient" (click)="table.search()">
             查找
           </button>
+          <button class="button-clip-gradient" (click)="window.details.open()">
+            添加
+          </button>
         </div>
       </div>
     </div>
@@ -53,7 +56,7 @@
         (loaded)="table.on.load($event)"
         (selected)="table.on.select($event)"
         (modify)="table.on.details($event)"
-        (delete)="delete($event)"
+        (delete)="table.on.delete($event)"
         (itemover)="map.over.emit($event)"
         (itemout)="map.out.emit($event)"
       ></ias-system-module-road-object-stock-table>
@@ -76,4 +79,25 @@
       </div>
     </div>
   </div>
+  <ias-window
+    [Model]="window.details"
+    *ngIf="window.details.show"
+    [style]="window.details.style"
+    [title]="window.details.title"
+  >
+    <ias-system-module-road-object-stock-details-manager
+      [data]="window.details.data"
+      (ok)="window.details.on.ok()"
+      (close)="window.details.on.close()"
+    ></ias-system-module-road-object-stock-details-manager>
+  </ias-window>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.message"
+    (ok)="window.confirm.on.ok()"
+    (cancel)="window.confirm.on.close()"
+  >
+  </confirm-window>
 </div>

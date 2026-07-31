@@ -13,7 +13,7 @@
         ></ias-system-module-road-object-details-image>
       </div>
       <div class="system-module-road-object-details-map panel">
-        <ng-container *ngIf="In.point">
+        <ng-container *ngIf="In.point()">
           <ias-system-module-road-object-details-map
             [(position)]="map.point.gcj02"
             (positionChange)="map.point.on.gcj02($event)"
@@ -23,11 +23,12 @@
             (error)="on.error($event)"
           ></ias-system-module-road-object-details-map>
         </ng-container>
-        <ng-container *ngIf="In.line">
+        <ng-container *ngIf="In.line()">
           <ias-system-module-road-object-details-map-line
             [datas]="map.line.datas"
-            [creating]="map.line.creating"
-            [editing]="map.line.editing"
+            [creating]="map.line.creating()"
+            [editing]="map.line.editing()"
+            (inited)="map.line.on.inited()"
           >
           </ias-system-module-road-object-details-map-line>
         </ng-container>

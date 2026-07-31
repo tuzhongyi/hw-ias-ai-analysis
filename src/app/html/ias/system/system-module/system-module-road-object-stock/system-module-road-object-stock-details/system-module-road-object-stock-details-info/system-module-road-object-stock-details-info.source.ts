@@ -1,0 +1,56 @@
+import { Injectable } from '@angular/core';
+import { EnumNameValue } from '../../../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import { IIdNameModel } from '../../../../../../../common/data-core/models/interface/model.interface';
+import { Manager } from '../../../../../../../common/data-core/requests/managers/manager';
+import { ArmDivisionRequestService } from '../../../../../../../common/data-core/requests/services/division/division.service';
+
+@Injectable()
+export class SystemModuleRoadObjectStockDetailsInfoSource {
+  types: EnumNameValue<number>[] = [];
+  divisions: Promise<IIdNameModel[]>;
+  gridcells: Promise<IIdNameModel[]>;
+  lines: EnumNameValue<number>[] = [];
+  points: EnumNameValue<number>[] = [];
+
+  constructor(
+    private manager: Manager,
+    private service: ArmDivisionRequestService,
+  ) {
+    this.init.types();
+    let source = this.init.divisions();
+    this.divisions = new Promise<IIdNameModel[]>((resolve) => {
+      source.then((x) => {
+        resolve(x.divisions);
+      });
+    });
+    this.gridcells = new Promise<IIdNameModel[]>((resolve) => {
+      source.then((x) => {
+        resolve(x.gridcells);
+      });
+    });
+  }
+
+  private init = {
+    types: async () => {
+      this.types = await this.manager.source.road.object.ObjectTypes.get();
+      this.lines = await this.manager.source.road.object.LineObjectTypes.get();
+      this.points =
+        await this.manager.source.road.object.PointObjectTypes.get();
+    },
+    divisions: async () => {
+      let source = await this.service.cache.all();
+      let divisions: IIdNameModel[] = [];
+      let gridcells: IIdNameModel[] = [];
+
+      source.forEach((x) => {
+        if (x.DivisionType == 4) {
+          gridcells.push(x);
+        } else {
+          divisions.push(x);
+        }
+      });
+
+      return { divisions, gridcells };
+    },
+  };
+}

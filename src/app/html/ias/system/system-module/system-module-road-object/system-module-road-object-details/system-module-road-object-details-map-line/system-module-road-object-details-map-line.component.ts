@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -21,7 +22,7 @@ import { SystemModuleRoadObjectDetailsMapLineController } from './controller/sys
   styleUrl: './system-module-road-object-details-map-line.component.less',
 })
 export class SystemModuleRoadObjectDetailsMapLineComponent
-  implements OnChanges, OnInit, OnDestroy
+  implements OnChanges, OnInit, OnDestroy, AfterViewInit
 {
   @Input() creating = false;
   @Input() editing = false;
@@ -29,7 +30,7 @@ export class SystemModuleRoadObjectDetailsMapLineComponent
   @Input() datas: GisPoint[] = [];
   @Output() create = new EventEmitter<[number, number][]>();
   @Output('change') _change = new EventEmitter<[number, number][]>();
-
+  @Output() inited = new EventEmitter<void>();
   constructor() {}
 
   private subscription = new Subscription();
@@ -51,6 +52,12 @@ export class SystemModuleRoadObjectDetailsMapLineComponent
       });
       this.subscription.add(sub);
     });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.inited.emit();
+    }, 0);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

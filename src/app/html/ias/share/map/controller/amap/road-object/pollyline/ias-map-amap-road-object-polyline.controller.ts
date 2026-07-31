@@ -36,35 +36,26 @@ export class IASMapAMapRoadObjectPolylineController {
   };
 
   constructor(private map: AMap.Map, private container: Loca.Container) {
+    const empty = () =>
+      new Loca.GeoJSONSource({
+        data: {
+          type: 'FeatureCollection' as const,
+          features: [],
+        },
+      });
+
     this.layer = {
-      /**
-       * line
-       */
-      line: new Loca.LineLayer({
-        loca: container,
-        zooms: [0, 50],
-      }),
-
-      /**
-       * normal icon
-       */
-      icon: new Loca.IconLayer({
-        zooms: IASMapAMapConfig.icon.zooms,
-      }),
-
-      /**
-       * hover icon
-       */
-      hoverIcon: new Loca.IconLayer({
-        zooms: IASMapAMapConfig.icon.zooms,
-      }),
+      line: new Loca.LineLayer({ loca: container, zooms: [0, 50] }),
+      icon: new Loca.IconLayer({ zooms: IASMapAMapConfig.icon.zooms }),
+      hoverIcon: new Loca.IconLayer({ zooms: IASMapAMapConfig.icon.zooms }),
     };
 
-    /**
-     * 必须绑定 loca
-     */
+    // 初始化空 source 防止 Loca 渲染无数据层时崩溃
+    this.layer.line.setSource(empty());
+    this.layer.icon.setSource(empty());
     this.layer.icon.setLoca(this.container);
 
+    this.layer.hoverIcon.setSource(empty());
     this.layer.hoverIcon.setLoca(this.container);
   }
 
@@ -87,6 +78,8 @@ export class IASMapAMapRoadObjectPolylineController {
     this.loader.polyline(polylines, valid);
 
     this.loader.point(polylines, valid);
+
+    this.container.animate.start();
 
     this.loaded = true;
   }
@@ -414,8 +407,6 @@ export class IASMapAMapRoadObjectPolylineController {
       });
 
       this.layer.line.setSource(geo, this.createLineStyle() as any);
-
-      this.container.animate.start();
     },
 
     /**

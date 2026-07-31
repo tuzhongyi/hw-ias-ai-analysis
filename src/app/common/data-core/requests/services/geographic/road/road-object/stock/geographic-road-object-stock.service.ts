@@ -25,9 +25,9 @@ export class ArmGeographicRoadObjectStockRequestService {
   }
 
   /** 创建道路部件待入数据（Form-Data） */
-  async create(stock: RoadObjectStock, image?: Blob) {
+  async create(stock: RoadObjectStock, image: ArrayBuffer) {
     let url = ArmGeographicUrl.road.object.stock().basic();
-    let data = this.convert(stock, image);
+    let data = this.convert({ stock, image });
     return this.http
       .post<HowellResponse<RoadObjectStock>, any>(url, data)
       .then((x) => {
@@ -35,15 +35,18 @@ export class ArmGeographicRoadObjectStockRequestService {
       });
   }
 
-  private convert(stock: RoadObjectStock, image?: Blob): FormData {
+  private convert(args: {
+    stock: RoadObjectStock;
+    image: ArrayBuffer;
+  }): FormData {
     let data = new FormData();
-    let json = new Blob([JSON.stringify(instanceToPlain(stock))], {
-      type: 'application/json',
-    });
+
+    let json = JSON.stringify(instanceToPlain(args.stock));
     data.append('json', json);
-    if (image) {
-      data.append('image', image);
-    }
+
+    let image = new Blob([args.image]);
+    data.append('image', image);
+
     return data;
   }
 
@@ -64,14 +67,19 @@ export class ArmGeographicRoadObjectStockRequestService {
     });
   }
 
-  async list(params: GetRoadObjectStocksParams): Promise<PagedList<RoadObjectStock>> {
+  async list(
+    params: GetRoadObjectStocksParams,
+  ): Promise<PagedList<RoadObjectStock>> {
     let url = ArmGeographicUrl.road.object.stock().list();
     let plain = instanceToPlain(params);
     return this.http
       .post<HowellResponse<PagedList<RoadObjectStock>>, any>(url, plain)
       .then((x) => {
         let paged = HowellResponseProcess.paged(x, RoadObjectStock);
-        if (paged.Page.PageCount > 0 && paged.Page.PageIndex > paged.Page.PageCount) {
+        if (
+          paged.Page.PageCount > 0 &&
+          paged.Page.PageIndex > paged.Page.PageCount
+        ) {
           params.PageIndex = paged.Page.PageCount;
           return this.list(params);
         }

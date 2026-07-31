@@ -8,6 +8,7 @@ import { SystemModuleRoadObjectDetailsAMapController } from './system-module-roa
 export class SystemModuleRoadObjectDetailsMapController {
   event = {
     position: new EventEmitter<[number, number]>(),
+    dblclick: new EventEmitter<[number, number]>(),
   };
   constructor(private subscription: Subscription) {
     this.amap = new SystemModuleRoadObjectDetailsAMapController();
@@ -23,11 +24,18 @@ export class SystemModuleRoadObjectDetailsMapController {
       });
       this.subscription.add(sub);
     });
+    this.amap.map.then((map) => {
+      map.setStatus({ doubleClickZoom: false });
+      map.on('dblclick', (e: any) => {
+        this.event.dblclick.emit([e.lnglat.lng, e.lnglat.lat]);
+      });
+    });
   }
 
   object = {
-    load: async (type: number, position: [number, number]) => {
+    load: async (position: [number, number], type?: number) => {
       let point = await this.amap.point;
+      point.clear();
       point.add(position, type);
     },
     set: {
@@ -35,7 +43,7 @@ export class SystemModuleRoadObjectDetailsMapController {
         let point = await this.amap.point;
         point.set.position(position);
       },
-      type: async (type: RoadObjectType) => {
+      type: async (type: RoadObjectType | undefined) => {
         let point = await this.amap.point;
         point.set.type(type);
       },
@@ -59,7 +67,7 @@ export class SystemModuleRoadObjectDetailsMapController {
   road = {
     load: async (datas: Road[]) => {
       let road = await this.amap.road;
-      road.load(datas);
+      return road.load(datas);
     },
     clear: async () => {
       let road = await this.amap.road;

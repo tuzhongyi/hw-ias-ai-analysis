@@ -1,4 +1,5 @@
 import { Transform, Type } from 'class-transformer';
+import { RoadObjectType } from '../../../enums/road/road-object/road-object-type.enum';
 import { IIdNameModel, ILocation } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoint, GisPoints } from '../gis-point.model';
@@ -12,7 +13,7 @@ export class RoadObjectStock
   /**	String	部件名称	M	*/
   Name!: string;
   /**	Int32	部件类型	O	*/
-  ObjectType?: number;
+  ObjectType?: RoadObjectType;
   /**	String	描述信息	O	*/
   Description?: string;
   /**	GisPoint	Gis坐标	M	*/

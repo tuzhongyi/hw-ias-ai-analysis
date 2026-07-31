@@ -1,4 +1,5 @@
 import { WindowViewModel } from '../../../../../../../common/components/window-control/window.model';
+import { RoadObjectState } from '../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { SystemModuleRoadObjectManagerComponent } from '../system-module-road-object-manager.component';
 import { SystemModuleRoadObjectManagerDetailsWindow } from './system-module-road-object-manager-details.window';
 import { SystemModuleRoadObjectManagerFileWindow } from './system-module-road-object-manager-file.window';
@@ -28,7 +29,7 @@ export class SystemModuleRoadObjectManagerWindow {
 
 class ConfirmWindow extends WindowViewModel {
   count = 0;
-
+  data?: RoadObjectState;
   get content() {
     return `是否删除${this.count}个部件 ？`;
   }

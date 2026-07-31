@@ -36,13 +36,15 @@ export class SystemModuleRoadObjectMapComponent
   constructor(private business: SystemModuleRoadObjectMapBusiness) {}
   private subscription = new Subscription();
   public controller = new SystemModuleRoadObjectMapController(
-    this.subscription
+    this.subscription,
   );
   private load = {
     road: async () => {
       let datas = await this.business.road();
       let polylines = await this.controller.road.load(datas);
-      let center = await this.controller.map.focus(polylines);
+      if (polylines.length > 0) {
+        await this.controller.map.focus(polylines);
+      }
     },
   };
 
@@ -114,7 +116,7 @@ export class SystemModuleRoadObjectMapComponent
         let sub_dblclick = this.controller.object.event.dblclick.subscribe(
           (x) => {
             this.itemdblclick.emit(x);
-          }
+          },
         );
         this.subscription.add(sub_dblclick);
 

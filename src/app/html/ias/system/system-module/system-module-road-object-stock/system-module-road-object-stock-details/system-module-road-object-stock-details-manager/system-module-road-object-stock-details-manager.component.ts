@@ -12,95 +12,74 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { AngleControlComponent } from '../../../../../../../common/components/angle-control/angle-control.component';
-import { SegmentWeekComponent } from '../../../../../../../common/components/segment/segment-week/segment-week.component';
 import { GisType } from '../../../../../../../common/data-core/enums/gis-type.enum';
-import { RoadObjectState } from '../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
 import { RoadObjectType } from '../../../../../../../common/data-core/enums/road/road-object/road-object-type.enum';
-import { WeekTimeSegment } from '../../../../../../../common/data-core/models/arm/analysis/segment/week-time-segment.model';
-import { ObjectImageSamplingConfig } from '../../../../../../../common/data-core/models/arm/geographic/object-image-sampling-config.model';
-import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import { RoadObjectStock } from '../../../../../../../common/data-core/models/arm/geographic/road-object-stock.model';
 import {
   GisPoint,
   GisPoints,
 } from '../../../../../../../common/data-core/models/arm/gis-point.model';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 import { wait } from '../../../../../../../common/tools/wait';
-import { WindowComponent } from '../../../../../share/window/component/window.component';
+import { SystemModuleRoadObjectDetailsImageComponent } from '../../../system-module-road-object/system-module-road-object-details/system-module-road-object-details-image/system-module-road-object-details-image.component';
+import { SystemModuleRoadObjectDetailsMapLineComponent } from '../../../system-module-road-object/system-module-road-object-details/system-module-road-object-details-map-line/system-module-road-object-details-map-line.component';
+import { SystemModuleRoadObjectDetailsMapComponent } from '../../../system-module-road-object/system-module-road-object-details/system-module-road-object-details-map/system-module-road-object-details-map.component';
 import {
   PickupLineModel,
   PickupModel,
   PickupPointModel,
-} from '../../system-module-road-object-video/system-module-road-object-video-manager/system-module-road-object-video-manager.model';
-import { SystemModuleRoadObjectDetailsConfigComponent } from '../system-module-road-object-details-config/system-module-road-object-details-config.component';
-import { SystemModuleRoadObjectDetailsImageComponent } from '../system-module-road-object-details-image/system-module-road-object-details-image.component';
-import { SystemModuleRoadObjectDetailsInfoComponent } from '../system-module-road-object-details-info/system-module-road-object-details-info.component';
-import { SystemModuleRoadObjectDetailsInfoSource } from '../system-module-road-object-details-info/system-module-road-object-details-info.source';
-import { SystemModuleRoadObjectDetailsMapLineComponent } from '../system-module-road-object-details-map-line/system-module-road-object-details-map-line.component';
-import { SystemModuleRoadObjectDetailsMapComponent } from '../system-module-road-object-details-map/system-module-road-object-details-map.component';
-import { SystemModuleRoadObjectDetailsManagerBusiness } from './system-module-road-object-details-manager.business';
-import { SystemModuleRoadObjectDetailsManagerWindow } from './system-module-road-object-details-manager.window';
+} from '../../../system-module-road-object/system-module-road-object-video/system-module-road-object-video-manager/system-module-road-object-video-manager.model';
+import { SystemModuleRoadObjectStockDetailsInfoComponent } from '../system-module-road-object-stock-details-info/system-module-road-object-stock-details-info.component';
+import { SystemModuleRoadObjectStockDetailsInfoSource } from '../system-module-road-object-stock-details-info/system-module-road-object-stock-details-info.source';
+import { SystemModuleRoadObjectStockDetailsManagerBusiness } from './system-module-road-object-stock-details-manager.business';
+import { SystemModuleRoadObjectStockDetailsManagerWindow } from './system-module-road-object-stock-details-manager.window';
 
 @Component({
-  selector: 'ias-system-module-road-object-details-manager',
+  selector: 'ias-system-module-road-object-stock-details-manager',
   imports: [
     CommonModule,
     FormsModule,
     SystemModuleRoadObjectDetailsMapComponent,
     SystemModuleRoadObjectDetailsMapLineComponent,
-    SystemModuleRoadObjectDetailsInfoComponent,
-    SystemModuleRoadObjectDetailsConfigComponent,
+    SystemModuleRoadObjectStockDetailsInfoComponent,
     SystemModuleRoadObjectDetailsImageComponent,
-    WindowComponent,
-    AngleControlComponent,
-    SegmentWeekComponent,
   ],
-  templateUrl: './system-module-road-object-details-manager.component.html',
-  styleUrl: './system-module-road-object-details-manager.component.less',
+  templateUrl:
+    './system-module-road-object-stock-details-manager.component.html',
+  styleUrl: './system-module-road-object-stock-details-manager.component.less',
   providers: [
-    SystemModuleRoadObjectDetailsManagerBusiness,
-    SystemModuleRoadObjectDetailsInfoSource,
+    SystemModuleRoadObjectStockDetailsManagerBusiness,
+    SystemModuleRoadObjectStockDetailsInfoSource,
   ],
 })
-export class SystemModuleRoadObjectDetailsManagerComponent
+export class SystemModuleRoadObjectStockDetailsManagerComponent
   implements OnInit, AfterViewChecked, OnDestroy
 {
   @Input() operable = true;
-  @Input() data?: RoadObject;
-  @Output() picture = new EventEmitter<RoadObject>();
-  @Output() ok = new EventEmitter<RoadObject>();
+  @Input() data?: RoadObjectStock;
+  @Output() picture = new EventEmitter<RoadObjectStock>();
+  @Output() ok = new EventEmitter<RoadObjectStock>();
   @Output() close = new EventEmitter<void>();
   @Input() pickup?: EventEmitter<PickupModel>;
 
   constructor(
-    private business: SystemModuleRoadObjectDetailsManagerBusiness,
-    private source: SystemModuleRoadObjectDetailsInfoSource,
+    private business: SystemModuleRoadObjectStockDetailsManagerBusiness,
+    private source: SystemModuleRoadObjectStockDetailsInfoSource,
     private toastr: ToastrService,
   ) {}
 
   RoadObjectType = RoadObjectType;
-  model = new RoadObject();
-  window = new SystemModuleRoadObjectDetailsManagerWindow();
+  model = new RoadObjectStock();
+  window = new SystemModuleRoadObjectStockDetailsManagerWindow();
   In = {
-    point: signal(false),
+    point: signal(true),
     line: signal(false),
   };
   linestepeditable = true;
   private subscription = new Subscription();
 
   private init() {
-    let obj = new RoadObject();
-    obj.ObjectType = 1;
-    obj.ObjectState = 0;
-    obj.DisappearTimes = 2;
-    obj.ImageSampling = new ObjectImageSamplingConfig();
-    obj.ImageSampling.Enabled = true;
-    obj.ImageSampling.Distance = 5;
-    obj.ImageSampling.SamplePlan = 3;
-    obj.ImageSampling.InspectionInterval = 1;
-    obj.ImageSampling.Course = 0;
-    obj.ImageSampling.InspectionTime = new Date();
-    obj.ImageSampling.LatestInspectionTime = new Date();
+    let obj = new RoadObjectStock();
 
     this.source.divisions.then((x) => {
       if (x.length == 1) {
@@ -118,7 +97,6 @@ export class SystemModuleRoadObjectDetailsManagerComponent
         this.model = this.init();
         this.model.ObjectType = picked.objecttype;
         this.model.Address = picked.address;
-        this.model.ImageSampling.Course = picked.course;
         this.image.data = picked.capture.buffer;
 
         this.image.load.emit(picked.capture.src);
@@ -141,7 +119,6 @@ export class SystemModuleRoadObjectDetailsManagerComponent
         this.model = this.init();
         this.model.ObjectType = data.objecttype;
         this.model.Address = data.address;
-        this.model.ImageSampling.Course = data.course;
         this.image.data = data.capture.buffer;
         this.image.load.emit(data.capture.src);
         this.model.Location = GisPoints.create(data.point, GisType.GCJ02);
@@ -156,10 +133,8 @@ export class SystemModuleRoadObjectDetailsManagerComponent
           this.model = this.init();
           this.model.ObjectType = data.objecttype;
           this.model.Address = data.address;
-          this.model.ImageSampling.Course = data.course;
           this.image.data = data.capture.buffer;
           this.image.load.emit(data.capture.src);
-          this.model.ImageSampling.SamplePlan = 2;
           this.model.IsGeoLine = true;
         }
 
@@ -185,13 +160,14 @@ export class SystemModuleRoadObjectDetailsManagerComponent
     this.regist();
   }
   ngAfterViewChecked(): void {
-    this.In.point.set(
-      this.source.points.findIndex((x) => x.Value == this.model.ObjectType) >=
-        0,
-    );
+    // this.In.point.set(
+    //   this.source.points.findIndex((x) => x.Value == this.model.ObjectType) >=
+    //     0,
+    // );
     this.In.line.set(
       this.source.lines.findIndex((x) => x.Value == this.model.ObjectType) >= 0,
     );
+    this.In.point.set(!this.In.line());
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -200,14 +176,6 @@ export class SystemModuleRoadObjectDetailsManagerComponent
   private get check() {
     if (!this.model.Name) {
       this.toastr.warning('请填写部件名称');
-      return false;
-    }
-    if (!this.model.ObjectType) {
-      this.toastr.warning('请选择部件类型');
-      return false;
-    }
-    if (!this.model.Address) {
-      this.toastr.warning('请填写部件地址');
       return false;
     }
     if (!this.model.ImageUrl && !this.image.data) {
@@ -233,9 +201,8 @@ export class SystemModuleRoadObjectDetailsManagerComponent
       }
       this.toastr.error(message);
     },
-    change: (data: RoadObject) => {
+    change: (data: RoadObjectStock) => {
       this.map.type = data.ObjectType;
-
       wait(() => {
         return this.map.line.inited;
       }).then(() => {
@@ -252,10 +219,8 @@ export class SystemModuleRoadObjectDetailsManagerComponent
     },
     create: async () => {
       if (this.check) {
-        if (this.image.data) {
-          this.model.ImageUrl = await this.business.picture.upload(
-            this.image.data,
-          );
+        if (!this.image.data) {
+          return;
         }
         if (this.model.IsGeoLine) {
           this.model.GeoLine = [...this.map.line.datas];
@@ -278,7 +243,7 @@ export class SystemModuleRoadObjectDetailsManagerComponent
         }
 
         this.business
-          .create(this.model)
+          .create(this.model, this.image.data)
           .then((x) => {
             this.data = x;
             this.toastr.success('部件创建成功');
@@ -293,11 +258,6 @@ export class SystemModuleRoadObjectDetailsManagerComponent
     },
     update: async () => {
       if (this.check) {
-        if (this.image.data) {
-          this.model.ImageUrl = await this.business.picture.upload(
-            this.image.data,
-          );
-        }
         if (this.map.point.wgs84) {
           let point = GisPoint.create(
             this.map.point.wgs84.Longitude,
@@ -330,9 +290,8 @@ export class SystemModuleRoadObjectDetailsManagerComponent
   save() {}
 
   map = {
-    type: RoadObjectType.FireHydrant,
-    state: RoadObjectState.None,
-    load: (data: RoadObject) => {
+    type: undefined as RoadObjectType | undefined,
+    load: (data: RoadObjectStock) => {
       if (data.IsGeoLine && data.GeoLine) {
         this.map.line.source = data.GeoLine.map(
           (x) => [x.Longitude, x.Latitude] as [number, number],
@@ -349,7 +308,7 @@ export class SystemModuleRoadObjectDetailsManagerComponent
       step: 20,
       source: [] as [number, number][],
       datas: [] as GisPoint[],
-      load: (data: RoadObject) => {
+      load: (data: RoadObjectStock) => {
         if (data.IsGeoLine && data.GeoLine) {
           this.map.line.datas = [...data.GeoLine];
         }
@@ -378,7 +337,7 @@ export class SystemModuleRoadObjectDetailsManagerComponent
       get: {
         address: new EventEmitter<[number, number]>(),
       },
-      load: (data: RoadObject) => {
+      load: (data: RoadObjectStock) => {
         if (data.Location) {
           this.map.point.wgs84 = data.Location.WGS84;
           this.map.point.gcj02 = [
@@ -427,21 +386,6 @@ export class SystemModuleRoadObjectDetailsManagerComponent
     },
     open: () => {
       this.picture.emit(this.model);
-    },
-  };
-
-  schedule = {
-    data: new WeekTimeSegment(),
-    enable: (enabled: boolean) => {
-      this.model.BlockScheduleEnabled = enabled;
-      if (this.model.BlockScheduleEnabled) {
-        if (!this.model.BlockSchedule) {
-          this.model.BlockSchedule = new WeekTimeSegment();
-        }
-      }
-    },
-    change: () => {
-      this.model.BlockSchedule = this.schedule.data;
     },
   };
 }
