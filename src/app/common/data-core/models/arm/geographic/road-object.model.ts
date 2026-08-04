@@ -1,12 +1,12 @@
 import { Transform, Type } from 'class-transformer';
-import { IIdNameModel, ILocation } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { WeekTimeSegment } from '../analysis/segment/week-time-segment.model';
 import { GisPoint, GisPoints } from '../gis-point.model';
 import { ObjectImageSamplingConfig } from './object-image-sampling-config.model';
+import { IRoadObject } from './road-object.interface';
 
 /**	RoadObject (道路固件)	*/
-export class RoadObject implements IIdNameModel, ILocation {
+export class RoadObject implements IRoadObject {
   /**	String	部件ID	M	*/
   Id!: string;
   /**	String	部件名称	M	*/

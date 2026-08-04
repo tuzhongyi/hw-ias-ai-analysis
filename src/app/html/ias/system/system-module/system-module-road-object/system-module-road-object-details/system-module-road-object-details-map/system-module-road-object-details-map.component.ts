@@ -32,7 +32,10 @@ export class SystemModuleRoadObjectDetailsMapComponent
   @Output() positionChange = new EventEmitter<[number, number]>();
   @Input() type?: RoadObjectType;
   @Input() state = RoadObjectState.None;
-  @Input() get?: { address?: EventEmitter<[number, number]> };
+  @Input() get?: {
+    address?: EventEmitter<[number, number]>;
+    locate?: EventEmitter<[number, number]>;
+  };
   @Output() address = new EventEmitter<string>();
   @Output() error = new EventEmitter<Error>();
 
@@ -90,6 +93,12 @@ export class SystemModuleRoadObjectDetailsMapComponent
         });
         this.subscription.add(sub);
       }
+      if (this.get.locate) {
+        let sub = this.get.locate.subscribe((x) => {
+          this.controller.map.move(x);
+        });
+        this.subscription.add(sub);
+      }
     }
   }
   ngOnInit(): void {
@@ -108,6 +117,9 @@ export class SystemModuleRoadObjectDetailsMapComponent
             return this.loaded;
           }).then(() => {
             this.controller.object.set.position(this.position);
+            if (change.firstChange) {
+              this.controller.map.move(this.position);
+            }
           });
         }
       }

@@ -336,6 +336,10 @@ export class SystemModuleRoadObjectStockDetailsManagerComponent
 
       get: {
         address: new EventEmitter<[number, number]>(),
+        locate: new EventEmitter<[number, number]>(),
+      },
+      locate: () => {
+        this.map.point.get.locate.emit(this.map.point.gcj02);
       },
       load: (data: RoadObjectStock) => {
         if (data.Location) {

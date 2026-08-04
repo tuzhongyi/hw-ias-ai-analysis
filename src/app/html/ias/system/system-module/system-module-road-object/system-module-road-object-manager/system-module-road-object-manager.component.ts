@@ -83,7 +83,7 @@ export class SystemModuleRoadObjectManagerComponent implements OnInit {
     },
     page: new EventEmitter<{ index: number; picture: boolean }>(),
     on: {
-      load: (x: RoadObject[]) => {
+      loaded: (x: RoadObject[]) => {
         this.table.datas = x;
       },
       select: (data: RoadObject[]) => {

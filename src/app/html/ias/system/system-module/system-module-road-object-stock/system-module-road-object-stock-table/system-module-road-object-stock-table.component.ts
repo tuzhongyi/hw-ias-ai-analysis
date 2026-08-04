@@ -44,7 +44,7 @@ export class SystemModuleRoadObjectStockTableComponent
 
   @Output() selected = new EventEmitter<RoadObjectStock[]>();
 
-  @Output() position = new EventEmitter<RoadObjectStock>();
+  @Output() locate = new EventEmitter<RoadObjectStock>();
   @Output() itemover = new EventEmitter<RoadObjectStock>();
   @Output() itemout = new EventEmitter<RoadObjectStock>();
 
@@ -65,7 +65,6 @@ export class SystemModuleRoadObjectStockTableComponent
     '65px',
     '100px',
     'auto',
-    '100px',
     '100px',
     '150px',
     '150px',
@@ -209,7 +208,7 @@ export class SystemModuleRoadObjectStockTableComponent
       },
       invert: () => {
         this.selecteds = this.source.filter(
-          (item) => !this.selecteds.includes(item)
+          (item) => !this.selecteds.includes(item),
         );
         this.selected.emit(this.selecteds);
       },
@@ -218,9 +217,9 @@ export class SystemModuleRoadObjectStockTableComponent
         this.selected.emit(this.selecteds);
       },
     },
-    position: (e: Event, item?: RoadObjectStockModel) => {
+    locate: (e: Event, item?: RoadObjectStockModel) => {
       if (!item) return;
-      this.position.emit(item);
+      this.locate.emit(item);
       e.stopImmediatePropagation();
     },
     mouse: {

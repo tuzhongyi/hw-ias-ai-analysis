@@ -18,69 +18,7 @@
     align-items: center;
     justify-content: space-between;
 
-    &-filter {
-      display: flex;
-      flex-direction: column;
 
-      gap: 10px;
-
-      .form {
-        &s {
-          flex-wrap: wrap;
-          justify-content: space-between;
-        }
-
-        &-item {
-          &.division {
-            min-width: 250px;
-          }
-
-          &-value {
-            &.select {
-              display: block;
-              height: 100%;
-
-              select {
-                padding-right: calc(16px + 10px + 42px);
-              }
-            }
-
-            &.text {
-              max-width: 180px;
-            }
-
-            &.number {
-              max-width: 100px;
-            }
-
-            &.time {
-              width: 140px;
-              flex-grow: 0;
-            }
-          }
-
-          &.duration {
-            width: auto;
-          }
-
-          &.state {
-            min-width: auto;
-          }
-        }
-      }
-
-      .state {
-        width: 28%;
-
-        .form-item-value {
-          position: relative;
-        }
-      }
-
-      .date {
-        width: 200px;
-      }
-    }
   }
 
   &-body {

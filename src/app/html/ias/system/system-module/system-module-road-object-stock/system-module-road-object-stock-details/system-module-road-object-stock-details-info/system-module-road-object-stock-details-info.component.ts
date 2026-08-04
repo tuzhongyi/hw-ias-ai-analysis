@@ -44,6 +44,7 @@ export class SystemModuleRoadObjectStockDetailsInfoComponent
   @Output() dataChange = new EventEmitter<RoadObjectStock>();
   @Input() wgs84?: GisPoint;
   @Output() wgs84Change = new EventEmitter<GisPoint>();
+  @Output() locate = new EventEmitter<void>();
 
   constructor(
     private business: SystemModuleRoadObjectStockDetailsInfoBusiness,
@@ -156,6 +157,9 @@ export class SystemModuleRoadObjectStockDetailsInfoComponent
           this.on.change();
         });
       }
+    },
+    locate: () => {
+      this.locate.emit();
     },
   };
 }

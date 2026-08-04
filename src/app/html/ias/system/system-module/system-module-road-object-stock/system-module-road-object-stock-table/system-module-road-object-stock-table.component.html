@@ -19,7 +19,6 @@
           <th>图片</th>
           <th>部件名称</th>
           <th>部件类型</th>
-          <th>部件分类</th>
           <th>行政区划</th>
           <th>责任网格</th>
           <th>地址</th>
@@ -32,12 +31,12 @@
           (click)="on.select.item(item)"
           [ngClass]="{
             selected: item && selecteds.includes(item),
-            nodata: !item
+            nodata: !item,
           }"
           [ngStyle]="{
-            height: item ? 100 / page.PageSize + '%' : 0
+            height: item ? 100 / page.PageSize + '%' : 0,
           }"
-          (dblclick)="on.position($event, item)"
+          (dblclick)="on.locate($event, item)"
           (mouseover)="on.mouse.over(item)"
           (mouseout)="on.mouse.out(item)"
         >
@@ -62,67 +61,62 @@
                 [ngStyle]="{
                   backgroundImage: item.Image
                     ? 'url(' + item.Image + ')'
-                    : 'none'
+                    : 'none',
                 }"
                 (click)="on.picture($event, item)"
               ></div>
             </div>
           </td>
           <td class="text" [title]="item?.Name ?? ''">
-            @if(item){
-            <div>{{ item?.Name ?? "-" }}</div>
+            @if (item) {
+              <div>{{ item.Name || "-" }}</div>
             }
           </td>
           <td class="text">
-            @if(item){
-            {{ (item?.ObjectTypeName | async) ?? "-" }}
-            }
-          </td>
-          <td class="text">
-            @if(item){
-            {{ item?.Category ?? "-" }}
+            @if (item) {
+              {{ (item?.ObjectTypeName | async) ?? "-" }}
             }
           </td>
           <td class="text" [title]="(item?.Division | async)?.Name ?? ''">
-            @if(item){
-            {{ (item?.Division | async)?.Name ?? "-" }}
+            @if (item) {
+              {{ (item?.Division | async)?.Name ?? "-" }}
             }
           </td>
           <td class="text" [title]="(item?.GridCell | async)?.Name ?? ''">
-            @if(item){
-            {{ (item?.GridCell | async)?.Name ?? "-" }}
+            @if (item) {
+              {{ (item?.GridCell | async)?.Name ?? "-" }}
             }
           </td>
           <td class="text" [title]="item?.Address ?? ''">
-            @if(item){
-            {{ (item?.AddressSubed | async) ?? "-" }}
+            @if (item) {
+              {{ (item?.AddressSubed | async) ?? "-" }}
             }
           </td>
           <td class="center" *ngIf="operable">
-            @if(item){
-            <div class="operation">
-              <div
-                class="button"
-                title="部件详情"
-                (click)="on.modify($event, item)"
-              >
-                <i class="mdi mdi-clipboard-text"></i>
+            @if (item) {
+              <div class="operation">
+                <div
+                  class="button"
+                  title="部件详情"
+                  (click)="on.modify($event, item)"
+                >
+                  <i class="mdi mdi-clipboard-text"></i>
+                </div>
+                <div
+                  class="button"
+                  title="删除部件"
+                  (click)="on.delete($event, item)"
+                >
+                  <i class="howell-icon-delete2"></i>
+                </div>
+                <div
+                  class="button"
+                  title="定位"
+                  (click)="on.locate($event, item)"
+                >
+                  <i class="mdi mdi-map-marker"></i>
+                </div>
               </div>
-              <div
-                class="button"
-                title="删除部件"
-                (click)="on.delete($event, item)"
-              >
-                <i class="howell-icon-delete2"></i>
-              </div>
-              <div
-                class="button"
-                title="定位"
-                (click)="on.position($event, item)"
-              >
-                <i class="mdi mdi-map-marker"></i>
-              </div>
-            </div>
             }
           </td>
         </tr>

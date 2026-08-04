@@ -1,13 +1,12 @@
 import { Transform, Type } from 'class-transformer';
 import { RoadObjectType } from '../../../enums/road/road-object/road-object-type.enum';
-import { IIdNameModel, ILocation } from '../../interface/model.interface';
 import { Transformer } from '../../transformer';
 import { GisPoint, GisPoints } from '../gis-point.model';
 
+import { IRoadObject } from './road-object.interface';
+
 /**	RoadObjectStock (道路部件待入数据)	*/
-export class RoadObjectStock
-  implements IIdNameModel<string | undefined>, ILocation
-{
+export class RoadObjectStock implements IRoadObject<string | undefined> {
   /**	String	数据ID	O	*/
   Id: string | undefined;
   /**	String	部件名称	M	*/

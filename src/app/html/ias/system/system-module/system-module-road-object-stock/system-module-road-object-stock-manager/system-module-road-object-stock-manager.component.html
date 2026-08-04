@@ -3,42 +3,47 @@
   [style.padding]="iswindow ? 0 : undefined"
 >
   <div class="system-module-road-object-stock-manager-head">
-    <div class="system-module-road-object-stock-manager-head-filter">
-      <div class="forms">
-        <div class="form-item">
-          <div class="form-item-text">部件类型</div>
-          <div class="form-item-value fill">
-            <hw-select
-              [(selected)]="table.args.type"
-              [nullable]="true"
-              [nulltext]="'全部'"
-            >
-              <select [(ngModel)]="table.args.type">
-                <option
-                  [ngValue]="item.Value"
-                  *ngFor="let item of source.types"
-                >
-                  {{ item.Name }}
-                </option>
-              </select>
-            </hw-select>
-          </div>
-        </div>
-        <div class="form-item">
-          <div class="form-item-text">部件名称</div>
-          <div class="form-item-value fill">
-            <input type="text" [(ngModel)]="table.args.name" />
-          </div>
-        </div>
-        <div class="form-item submit">
-          <button class="button-clip-gradient" (click)="table.search()">
-            查找
-          </button>
-          <button class="button-clip-gradient" (click)="window.details.open()">
-            添加
-          </button>
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">部件类型</div>
+        <div class="form-item-value fill">
+          <hw-select
+            [(selected)]="table.args.type"
+            [nullable]="true"
+            [nulltext]="'全部'"
+          >
+            <select [(ngModel)]="table.args.type">
+              <option [ngValue]="item.Value" *ngFor="let item of source.types">
+                {{ item.Name }}
+              </option>
+            </select>
+          </hw-select>
         </div>
       </div>
+      <div class="form-item">
+        <div class="form-item-text">部件名称</div>
+        <div class="form-item-value fill">
+          <input type="text" [(ngModel)]="table.args.name" />
+        </div>
+      </div>
+      <div class="form-item submit">
+        <button class="button-clip-gradient" (click)="table.search()">
+          查找
+        </button>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="window.details.open()">
+        添加
+      </button>
+      <button
+        class="button-clip-gradient"
+        (click)="window.transform.open(selecteds)"
+        [disabled]="selecteds.length == 0"
+      >
+        导入到部件
+      </button>
     </div>
   </div>
   <div
@@ -57,6 +62,7 @@
         (selected)="table.on.select($event)"
         (modify)="table.on.details($event)"
         (delete)="table.on.delete($event)"
+        (locate)="table.on.locate($event)"
         (itemover)="map.over.emit($event)"
         (itemout)="map.out.emit($event)"
       ></ias-system-module-road-object-stock-table>
@@ -67,6 +73,7 @@
     >
       <ias-system-module-road-object-stock-map
         [datas]="table.datas"
+        [selected]="located"
         [itemover]="map.over"
         [itemout]="map.out"
         (selectedChange)="map.select($event)"
@@ -90,6 +97,19 @@
       (ok)="window.details.on.ok()"
       (close)="window.details.on.close()"
     ></ias-system-module-road-object-stock-details-manager>
+  </ias-window>
+
+  <ias-window
+    [Model]="window.transform"
+    *ngIf="window.transform.show"
+    [style]="window.transform.style"
+    [title]="window.transform.title"
+  >
+    <ias-system-module-road-object-stock-transform-manager
+      [datas]="window.transform.datas"
+      (ok)="window.transform.on.ok($event)"
+      (close)="window.transform.on.close()"
+    ></ias-system-module-road-object-stock-transform-manager>
   </ias-window>
 
   <confirm-window

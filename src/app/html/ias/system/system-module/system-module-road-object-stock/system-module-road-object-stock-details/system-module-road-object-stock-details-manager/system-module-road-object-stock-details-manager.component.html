@@ -59,6 +59,7 @@
           (dataChange)="on.change($event)"
           [(wgs84)]="map.point.wgs84"
           (wgs84Change)="map.point.on.wgs84($event)"
+          (locate)="map.point.locate()"
           [operable]="operable"
         ></ias-system-module-road-object-stock-details-info>
       </div>

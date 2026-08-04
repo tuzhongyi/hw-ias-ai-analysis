@@ -102,7 +102,7 @@
         [args]="table.args"
         [load]="table.load"
         (selected)="table.on.select($event)"
-        (loaded)="table.on.load($event)"
+        (loaded)="table.on.loaded($event)"
         (modify)="window.details.open($event)"
         (itemover)="table.on.item.over($event)"
         (itemout)="table.on.item.out($event)"
@@ -207,6 +207,7 @@
   >
     <ias-system-module-road-object-stock-manager
       [iswindow]="true"
+      (ok)="reload()"
     ></ias-system-module-road-object-stock-manager>
   </ias-window>
 </div>

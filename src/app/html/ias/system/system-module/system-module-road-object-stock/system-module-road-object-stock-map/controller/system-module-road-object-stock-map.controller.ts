@@ -85,9 +85,10 @@ export class SystemModuleRoadObjectStockMapController {
     },
     move: (position: [number, number], zoom?: number) => {
       this.amap.map.then((map) => {
-        map.setCenter(new AMap.LngLat(position[0], position[1]));
         if (zoom) {
-          map.setZoom(zoom);
+          map.setZoomAndCenter(zoom, new AMap.LngLat(position[0], position[1]), true, 500);
+        } else {
+          map.panTo(new AMap.LngLat(position[0], position[1]), 500);
         }
       });
     },

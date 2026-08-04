@@ -1,0 +1,65 @@
+import { Injectable } from '@angular/core';
+import { EnumNameValue } from '../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import { IIdNameModel } from '../../../../../common/data-core/models/interface/model.interface';
+import { Manager } from '../../../../../common/data-core/requests/managers/manager';
+import { ArmDivisionRequestService } from '../../../../../common/data-core/requests/services/division/division.service';
+
+@Injectable()
+export class SystemModuleRoadObjectSource {
+  types: EnumNameValue<number>[] = [];
+  states: EnumNameValue<number>[] = [];
+  plans: EnumNameValue<number>[] = [];
+  lines: EnumNameValue<number>[] = [];
+  points: EnumNameValue<number>[] = [];
+  divisions: Promise<IIdNameModel[]>;
+  gridcells: Promise<IIdNameModel[]>;
+
+  constructor(
+    private manager: Manager,
+    private service: ArmDivisionRequestService,
+  ) {
+    this.init.types();
+    this.init.states();
+    this.init.plans();
+    let source = this.init.divisions();
+    this.divisions = new Promise<IIdNameModel[]>((resolve) => {
+      source.then((x) => {
+        resolve(x.divisions);
+      });
+    });
+    this.gridcells = new Promise<IIdNameModel[]>((resolve) => {
+      source.then((x) => {
+        resolve(x.gridcells);
+      });
+    });
+  }
+
+  private init = {
+    types: async () => {
+      this.types = await this.manager.source.road.object.ObjectTypes.get();
+      this.lines = await this.manager.source.road.object.LineObjectTypes.get();
+      this.points = await this.manager.source.road.object.PointObjectTypes.get();
+    },
+    states: async () => {
+      this.states = await this.manager.source.road.object.ObjectStates.get();
+    },
+    plans: async () => {
+      this.plans = await this.manager.source.road.object.ImageSamplingPlans.get();
+    },
+    divisions: async () => {
+      let source = await this.service.cache.all();
+      let divisions: IIdNameModel[] = [];
+      let gridcells: IIdNameModel[] = [];
+
+      source.forEach((x) => {
+        if (x.DivisionType == 4) {
+          gridcells.push(x);
+        } else {
+          divisions.push(x);
+        }
+      });
+
+      return { divisions, gridcells };
+    },
+  };
+}

@@ -94,6 +94,8 @@ export class SystemModuleRoadObjectDetailsAMapObjectController {
     position: (position: [number, number]) => {
       if (this.marker) {
         this.marker.setPosition(position);
+      } else {
+        this.add(position, this.type);
       }
     },
   };

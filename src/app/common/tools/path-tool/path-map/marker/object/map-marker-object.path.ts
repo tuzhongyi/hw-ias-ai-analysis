@@ -96,6 +96,7 @@ export class MapMarkerObjectPath {
           }
         }
       }
+      return path.gray;
     }
 
     return this.unknow.gray;

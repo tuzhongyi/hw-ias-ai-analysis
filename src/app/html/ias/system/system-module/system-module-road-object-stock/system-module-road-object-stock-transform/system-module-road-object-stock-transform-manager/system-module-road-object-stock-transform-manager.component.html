@@ -1,0 +1,94 @@
+<div class="system-module-road-object-stock-transform-manager">
+  <div class="system-module-road-object-stock-transform-body">
+    <div class="system-module-road-object-stock-transform-container">
+      <div
+        class="system-module-road-object-stock-transform-info panel panel-flex"
+      >
+        <div class="panel-head">
+          <div class="panel-title">基本信息</div>
+        </div>
+        <div class="panel-body">
+          <ias-system-module-road-object-stock-transform-info
+            [(data)]="model"
+            [operable]="operable"
+          ></ias-system-module-road-object-stock-transform-info>
+        </div>
+      </div>
+      <div
+        class="system-module-road-object-stock-transform-config panel panel-flex"
+      >
+        <div class="panel-head">
+          <div class="panel-title">目标图片采样配置</div>
+          <div>
+            <label for="transform_image_sampling_enabled">
+              启用
+              <input
+                type="checkbox"
+                id="transform_image_sampling_enabled"
+                [(ngModel)]="model.ImageSampling.Enabled"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="panel-body">
+          <ias-system-module-road-object-details-config
+            [(data)]="model.ImageSampling"
+            [operable]="operable"
+          ></ias-system-module-road-object-details-config>
+        </div>
+      </div>
+    </div>
+    <div class="system-module-road-object-stock-transform-container">
+      <div
+        class="system-module-road-object-stock-transform-segment panel panel-flex"
+      >
+        <div class="panel-head">
+          <div class="panel-title">工作表</div>
+          <div
+            class="system-module-road-object-stock-transform-segment-enabled button-group"
+          >
+            <label for="transform_all_day">
+              全天<input
+                type="radio"
+                id="transform_all_day"
+                [checked]="!model.BlockScheduleEnabled"
+                (change)="schedule.enable(false)"
+              />
+            </label>
+            <label for="transform_segment">
+              分时段<input
+                type="radio"
+                id="transform_segment"
+                [checked]="model.BlockScheduleEnabled"
+                (change)="schedule.enable(true)"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="panel-body">
+          <ias-segment-week
+            [(data)]="schedule.data"
+            (dataChange)="schedule.change()"
+            [disabled]="!model.BlockScheduleEnabled"
+          ></ias-segment-week>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-road-object-stock-transform-foot">
+    <div>
+      <label for="auto_delete_stock">
+        <input
+          type="checkbox"
+          id="auto_delete_stock"
+          [(ngModel)]="autoremove"
+        />
+        自动删除待入部件
+      </label>
+    </div>
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.create()">确定</button>
+      <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+    </div>
+  </div>
+</div>
