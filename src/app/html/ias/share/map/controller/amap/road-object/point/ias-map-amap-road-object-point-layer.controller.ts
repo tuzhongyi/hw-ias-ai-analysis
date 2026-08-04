@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { RoadObjectState } from '../../../../../../../../common/data-core/enums/road/road-object/road-object-state.enum';
+import { IRoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.interface';
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { ArrayTool } from '../../../../../../../../common/tools/array-tool/array.tool';
 import { ColorTool } from '../../../../../../../../common/tools/color/color.tool';
@@ -7,14 +8,16 @@ import { EnumTool } from '../../../../../../../../common/tools/enum-tool/enum.to
 import { IASMapAMapPathHelper } from '../../path/ias-map-amap-path.helper';
 import { IASMapAMapRoadObjectPointController } from './ias-map-amap-road-object-point.controller';
 
-export class IASMapAMapRoadObjectPointLayerController {
+export class IASMapAMapRoadObjectPointLayerController<
+  TRoadObject extends IRoadObject = RoadObject,
+> {
   event = {
-    move: new EventEmitter<RoadObject>(),
+    move: new EventEmitter<TRoadObject>(),
   };
   constructor(container: Loca.Container, init = true) {
     this.unknow = new IASMapAMapRoadObjectPointController(
       container,
-      ColorTool.map.gray
+      ColorTool.map.gray,
     );
     if (init) {
       this.init(container);
@@ -27,12 +30,12 @@ export class IASMapAMapRoadObjectPointLayerController {
   private regist() {
     this.controllers.forEach((controller) => {
       controller.event.move.subscribe((x) => {
-        this.event.move.emit(x as RoadObject);
+        this.event.move.emit(x as TRoadObject);
       });
     });
 
     this.unknow.event.move.subscribe((x) => {
-      this.event.move.emit(x as RoadObject);
+      this.event.move.emit(x as TRoadObject);
     });
   }
 
@@ -43,7 +46,7 @@ export class IASMapAMapRoadObjectPointLayerController {
       let color = this.get.color(type);
       let controller = new IASMapAMapRoadObjectPointController(
         container,
-        color
+        color,
       );
       this.controllers.set(type, controller);
     });
@@ -51,23 +54,23 @@ export class IASMapAMapRoadObjectPointLayerController {
     this.regist();
   }
 
-  async load(datas: RoadObject[]) {
+  async load(datas: TRoadObject[]) {
     if (datas.length == 0) {
       this.clear();
       return;
     }
     let group = ArrayTool.groupBy(datas, (data) => {
-      return data.ObjectState;
+      return (data as any).ObjectState;
     });
 
     Object.keys(group).forEach((key) => {
       let state = parseInt(key);
-      let datas = group[state];
-      if (datas && datas.length > 0) {
-        if (this.controllers.has(state)) {
-          this.controllers.get(state)?.load(group[state]);
+      let items = group[key];
+      if (items && items.length > 0) {
+        if (!isNaN(state) && this.controllers.has(state)) {
+          this.controllers.get(state)?.load(items);
         } else {
-          this.unknow.load(group[state]);
+          this.unknow.load(items);
         }
       }
     });
@@ -77,12 +80,14 @@ export class IASMapAMapRoadObjectPointLayerController {
     this.controllers.forEach((controller) => {
       controller.clear();
     });
+    this.unknow.clear();
   }
 
   moving(position: [number, number], pixel = true) {
     this.controllers.forEach((controller) => {
       controller.moving(position, pixel);
     });
+    this.unknow.moving(position, pixel);
   }
 
   protected get = {

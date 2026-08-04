@@ -12,12 +12,16 @@ export class IASMapAMapRoadObjectMarkerLabelController<
     icon: TIcon = new IASMapAMapRoadObjectIconController() as TIcon,
   ) {
     super(data);
+
+    this.init(data, icon);
+    this.out();
+  }
+
+  private init(data: TRoadObject, icon: TIcon) {
     let state: number | undefined = undefined;
     if ((data as any) instanceof RoadObject) {
       state = (data as any).ObjectState;
     }
     this.icon = icon.get(data.ObjectType, state);
-
-    this.out();
   }
 }

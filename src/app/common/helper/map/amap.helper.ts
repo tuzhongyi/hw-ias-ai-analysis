@@ -41,7 +41,7 @@ export class AMapHelper {
   }
 
   async get(
-    id: string,
+    container: string | HTMLElement,
     plugins: string[] = [],
     loca = false,
     opts: any = {},
@@ -49,10 +49,13 @@ export class AMapHelper {
   ): Promise<AMap.Map> {
     return new Promise<AMap.Map>((resolve) => {
       wait(() => {
-        return !!document.getElementById(id);
+        if (typeof container == 'string') {
+          return !!document.getElementById(container);
+        }
+        return !!container;
       }).then(() => {
         this.init(plugins, loca).then((AMap) => {
-          let map = new AMap.Map(id, {
+          let map = new AMap.Map(container, {
             mapStyle: this.style.url(this.style.key.normal),
             resizeEnable: true,
             showIndoorMap: false,

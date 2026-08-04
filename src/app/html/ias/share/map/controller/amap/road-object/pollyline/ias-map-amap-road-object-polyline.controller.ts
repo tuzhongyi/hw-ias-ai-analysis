@@ -1,4 +1,5 @@
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import { IRoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.interface';
 import { ColorTool } from '../../../../../../../../common/tools/color/color.tool';
 import {
   GeoPoint,
@@ -9,10 +10,13 @@ import { PathTool } from '../../../../../../../../common/tools/path-tool/path.to
 import { IASMapAMapConfig } from '../../ias-map-amap.config';
 import { IASMapAMapPolylineEvent } from '../../marker/ias-map-amap-marker.model';
 import { IASMapAMapPathHelper } from '../../path/ias-map-amap-path.helper';
-export class IASMapAMapRoadObjectPolylineController {
-  event = new IASMapAMapPolylineEvent<RoadObject>();
 
-  private over?: RoadObject;
+export class IASMapAMapRoadObjectPolylineController<
+  TRoadObject extends IRoadObject = RoadObject,
+> {
+  event = new IASMapAMapPolylineEvent<TRoadObject>();
+
+  private over?: TRoadObject;
 
   private loaded = false;
 
@@ -61,23 +65,25 @@ export class IASMapAMapRoadObjectPolylineController {
 
   //#region public
 
-  load(datas: RoadObject[]) {
-    const valid = datas.filter((x) => x.GeoLine && x.GeoLine.length > 0);
+  load(datas: TRoadObject[]) {
+    const valid = datas.filter(
+      (x) => (x as any).GeoLine && (x as any).GeoLine.length > 0,
+    );
 
     if (valid.length === 0) {
       this.clear();
       return;
     }
 
-    const polylines = valid.map<GeoPolyline>((item) => {
-      return item.GeoLine!.map<GeoPoint>(
-        (x) => [x.Longitude, x.Latitude] as GeoPoint
+    const polylines = valid.map((item): GeoPolyline => {
+      return ((item as any).GeoLine as any[]).map(
+        (x: any) => [x.Longitude, x.Latitude] as GeoPoint,
       );
     });
 
-    this.loader.polyline(polylines, valid);
+    this.loader.polyline(polylines, valid as any);
 
-    this.loader.point(polylines, valid);
+    this.loader.point(polylines, valid as any);
 
     this.container.animate.start();
 
@@ -178,10 +184,10 @@ export class IASMapAMapRoadObjectPolylineController {
   private createLineStyle(overId?: string) {
     return {
       color: (index: number, feature: any) => {
-        const data = feature.properties as RoadObject;
+        const data = feature.properties as TRoadObject;
 
         const hex = IASMapAMapPathHelper.color.from.road.object.state(
-          data.ObjectState
+          (data as any).ObjectState,
         );
 
         const rgb = ColorTool.hex.to.rgb(hex);
@@ -206,14 +212,14 @@ export class IASMapAMapRoadObjectPolylineController {
 
       icon: (index: number, feature: any) => {
         const args = feature.properties as {
-          data: RoadObject;
+          data: TRoadObject;
           type: 'start' | 'end';
         };
 
         const data = args.data;
 
         const path = PathTool.image.map.object.get(data.ObjectType, {
-          state: data.ObjectState,
+          state: (data as any).ObjectState,
 
           start: args.type === 'start',
         });
@@ -241,14 +247,14 @@ export class IASMapAMapRoadObjectPolylineController {
 
       icon: (index: number, feature: any) => {
         const args = feature.properties as {
-          data: RoadObject;
+          data: TRoadObject;
           type: 'start' | 'end';
         };
 
         const data = args.data;
 
         const path = PathTool.image.map.object.get(data.ObjectType, {
-          state: data.ObjectState,
+          state: (data as any).ObjectState,
 
           start: args.type === 'start',
         });
@@ -271,7 +277,7 @@ export class IASMapAMapRoadObjectPolylineController {
 
   //#region state
 
-  private change(data?: RoadObject) {
+  private change(data?: TRoadObject) {
     /**
      * 同对象
      */
@@ -305,7 +311,7 @@ export class IASMapAMapRoadObjectPolylineController {
 
   //#region query
 
-  private query(position: [number, number]): RoadObject | undefined {
+  private query(position: [number, number]): TRoadObject | undefined {
     let point: any;
 
     /**
@@ -336,7 +342,7 @@ export class IASMapAMapRoadObjectPolylineController {
 
   //#region hover layer
 
-  private updateHoverIconLayer(data?: RoadObject) {
+  private updateHoverIconLayer(data?: TRoadObject) {
     /**
      * clear hover
      */
@@ -354,7 +360,7 @@ export class IASMapAMapRoadObjectPolylineController {
       return;
     }
 
-    const line = data.GeoLine ?? [];
+    const line = (data as any).GeoLine ?? [];
 
     if (!line.length) {
       return;
@@ -399,7 +405,7 @@ export class IASMapAMapRoadObjectPolylineController {
     /**
      * line
      */
-    polyline: (polylines: GeoPolyline[], datas: RoadObject[]) => {
+    polyline: (polylines: GeoPolyline[], datas: TRoadObject[]) => {
       const json: any = GeoTool.polyline.convert.json(polylines, datas);
 
       const geo = new Loca.GeoJSONSource({
@@ -412,11 +418,11 @@ export class IASMapAMapRoadObjectPolylineController {
     /**
      * normal icon
      */
-    point: (polylines: GeoPolyline[], datas: RoadObject[]) => {
+    point: (polylines: GeoPolyline[], datas: TRoadObject[]) => {
       const points: GeoPoint[] = [];
 
       const _datas: {
-        data: RoadObject;
+        data: TRoadObject;
         type: 'start' | 'end';
       }[] = [];
 

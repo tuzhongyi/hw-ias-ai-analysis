@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -9,9 +10,12 @@ import {
   Output,
   SimpleChange,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { IRoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.interface';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import { PromiseValue } from '../../../../../../common/view-models/value.promise';
 import { SystemModuleRoadObjectMapController } from './controller/system-module-road-object-map.controller';
 import { SystemModuleRoadObjectMapBusiness } from './system-module-road-object-map.business';
 
@@ -22,28 +26,48 @@ import { SystemModuleRoadObjectMapBusiness } from './system-module-road-object-m
   styleUrl: './system-module-road-object-map.component.less',
   providers: [SystemModuleRoadObjectMapBusiness],
 })
-export class SystemModuleRoadObjectMapComponent
+export class SystemModuleRoadObjectMapComponent<
+  TRoadObject extends IRoadObject<any> = RoadObject,
+>
   implements OnChanges, OnInit, OnDestroy
 {
-  @Input() datas: RoadObject[] = [];
-  @Input() selected?: RoadObject;
-  @Output() selectedChange = new EventEmitter<RoadObject>();
-  @Output() itemdblclick = new EventEmitter<RoadObject>();
+  @Input() datas: TRoadObject[] = [];
+  @Input() selected?: TRoadObject;
+  @Output() selectedChange = new EventEmitter<TRoadObject>();
+  @Output() itemdblclick = new EventEmitter<TRoadObject>();
 
-  @Input() itemover?: EventEmitter<RoadObject>;
-  @Input() itemout?: EventEmitter<RoadObject>;
+  @Input() itemover?: EventEmitter<TRoadObject>;
+  @Input() itemout?: EventEmitter<TRoadObject>;
 
   constructor(private business: SystemModuleRoadObjectMapBusiness) {}
+
+  @ViewChild('container')
+  set container(value: ElementRef<HTMLDivElement>) {
+    if (value) {
+      let controller = new SystemModuleRoadObjectMapController<TRoadObject>(
+        value.nativeElement,
+        this.subscription,
+      );
+      this.controller.set(controller);
+    }
+  }
+
   private subscription = new Subscription();
-  public controller = new SystemModuleRoadObjectMapController(
-    this.subscription,
-  );
+
+  private controller = new PromiseValue<
+    SystemModuleRoadObjectMapController<TRoadObject>
+  >();
+  // public controller = new SystemModuleRoadObjectMapController<TRoadObject>(
+
+  //   this.subscription,
+  // );
   private load = {
     road: async () => {
+      let controller = await this.controller.get();
       let datas = await this.business.road();
-      let polylines = await this.controller.road.load(datas);
+      let polylines = await controller.road.load(datas);
       if (polylines.length > 0) {
-        await this.controller.map.focus(polylines);
+        await controller.map.focus(polylines);
       }
     },
   };
@@ -55,26 +79,32 @@ export class SystemModuleRoadObjectMapComponent
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.controller.map.destroy();
+    if (this.controller.existed) {
+      this.controller.get().then((x) => {
+        x.map.destroy();
+        this.controller.clear();
+      });
+    }
   }
   private change = {
-    selected: (change: SimpleChange) => {
+    selected: async (change: SimpleChange) => {
       if (change) {
         if (this.selected) {
           let position: [number, number] = [
             this.selected.Location.GCJ02.Longitude,
             this.selected.Location.GCJ02.Latitude,
           ];
-          this.controller.map.move(position, 19);
-          this.controller.object.select(this.selected);
+          let controller = await this.controller.get();
+          controller.map.move(position, 19);
+          controller.object.select(this.selected);
         }
       }
     },
-    datas: (change: SimpleChange) => {
+    datas: async (change: SimpleChange) => {
       if (change) {
-        this.controller.object.clear().then((x) => {
-          this.controller.object.load(this.datas);
-        });
+        let controller = await this.controller.get();
+        await controller.object.clear();
+        controller.object.load(this.datas);
       }
     },
   };
@@ -93,7 +123,9 @@ export class SystemModuleRoadObjectMapComponent
         over: () => {
           if (this.itemover) {
             let sub = this.itemover.subscribe((x) => {
-              this.controller.object.over(x);
+              this.controller.get().then((ctr) => {
+                ctr.object.over(x);
+              });
             });
             this.subscription.add(sub);
           }
@@ -101,7 +133,9 @@ export class SystemModuleRoadObjectMapComponent
         out: () => {
           if (this.itemout) {
             let sub = this.itemout.subscribe((x) => {
-              this.controller.object.out(x);
+              this.controller.get().then((ctr) => {
+                ctr.object.out(x);
+              });
             });
             this.subscription.add(sub);
           }
@@ -112,15 +146,14 @@ export class SystemModuleRoadObjectMapComponent
       load: () => {
         this.regist.output.roadobject();
       },
-      roadobject: () => {
-        let sub_dblclick = this.controller.object.event.dblclick.subscribe(
-          (x) => {
-            this.itemdblclick.emit(x);
-          },
-        );
+      roadobject: async () => {
+        let ctr = await this.controller.get();
+        let sub_dblclick = ctr.object.event.dblclick.subscribe((x) => {
+          this.itemdblclick.emit(x);
+        });
         this.subscription.add(sub_dblclick);
 
-        let sub_click = this.controller.object.event.click.subscribe((x) => {
+        let sub_click = ctr.object.event.click.subscribe((x) => {
           this.selected = x;
           this.selectedChange.emit(x);
         });

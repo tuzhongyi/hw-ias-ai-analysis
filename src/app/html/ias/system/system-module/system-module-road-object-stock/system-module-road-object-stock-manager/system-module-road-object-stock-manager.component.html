@@ -63,6 +63,7 @@
         (modify)="table.on.details($event)"
         (delete)="table.on.delete($event)"
         (locate)="table.on.locate($event)"
+        (picture)="window.picture.open($event)"
         (itemover)="map.over.emit($event)"
         (itemout)="map.out.emit($event)"
       ></ias-system-module-road-object-stock-table>
@@ -71,14 +72,14 @@
       class="system-module-road-object-stock-manager-body-map"
       [style.width]="map.full ? '100%' : undefined"
     >
-      <ias-system-module-road-object-stock-map
+      <ias-system-module-road-object-map
         [datas]="table.datas"
         [selected]="located"
         [itemover]="map.over"
         [itemout]="map.out"
         (selectedChange)="map.select($event)"
         (itemdblclick)="table.on.details($event)"
-      ></ias-system-module-road-object-stock-map>
+      ></ias-system-module-road-object-map>
       <div class="system-module-road-object-stock-manager-body-map-buttons">
         <div class="button panel-map" (click)="map.full = !map.full">
           <i class="mdi mdi-arrow-expand"></i>
@@ -110,6 +111,19 @@
       (ok)="window.transform.on.ok($event)"
       (close)="window.transform.on.close()"
     ></ias-system-module-road-object-stock-transform-manager>
+  </ias-window>
+
+  <ias-window
+    *ngIf="window.picture.show"
+    [Model]="window.picture"
+    [style]="window.picture.style"
+    [title]="window.picture.title"
+  >
+    <ias-picture-list
+      [id]="window.picture.id"
+      [page]="window.picture.page"
+      (pageChange)="window.picture.change($event)"
+    ></ias-picture-list>
   </ias-window>
 
   <confirm-window

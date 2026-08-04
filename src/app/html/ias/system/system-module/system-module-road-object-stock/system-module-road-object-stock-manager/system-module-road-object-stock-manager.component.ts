@@ -16,10 +16,11 @@ import { WindowConfirmComponent } from '../../../../../../common/components/wind
 import { RoadObjectStock } from '../../../../../../common/data-core/models/arm/geographic/road-object-stock.model';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
+import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
 import { WindowComponent } from '../../../../share/window/component/window.component';
 import { SystemModuleRoadObjectSource } from '../../system-module-road-object/system-module-road-object.source';
 import { SystemModuleRoadObjectStockDetailsManagerComponent } from '../system-module-road-object-stock-details/system-module-road-object-stock-details-manager/system-module-road-object-stock-details-manager.component';
-import { SystemModuleRoadObjectStockMapComponent } from '../system-module-road-object-stock-map/system-module-road-object-stock-map.component';
+import { SystemModuleRoadObjectMapComponent } from '../../system-module-road-object/system-module-road-object-map/system-module-road-object-map.component';
 import { SystemModuleRoadObjectStockTableComponent } from '../system-module-road-object-stock-table/system-module-road-object-stock-table.component';
 import { SystemModuleRoadObjectStockTableArgs } from '../system-module-road-object-stock-table/system-module-road-object-stock-table.model';
 import { SystemModuleRoadObjectStockTransformManagerComponent } from '../system-module-road-object-stock-transform/system-module-road-object-stock-transform-manager/system-module-road-object-stock-transform-manager.component';
@@ -33,10 +34,11 @@ import { SystemModuleRoadObjectStockManagerWindow } from './window/system-module
     FormsModule,
     HowellSelectComponent,
     SystemModuleRoadObjectStockTableComponent,
-    SystemModuleRoadObjectStockMapComponent,
+    SystemModuleRoadObjectMapComponent,
     SystemModuleRoadObjectStockDetailsManagerComponent,
     SystemModuleRoadObjectStockTransformManagerComponent,
     WindowComponent,
+    PictureListComponent,
     WindowConfirmComponent,
   ],
   templateUrl: './system-module-road-object-stock-manager.component.html',

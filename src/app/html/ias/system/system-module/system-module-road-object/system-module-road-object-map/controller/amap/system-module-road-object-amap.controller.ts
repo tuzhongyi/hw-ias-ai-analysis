@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { IRoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.interface';
 import { RoadObject } from '../../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
@@ -11,12 +12,14 @@ import { IASMapAMapRoadObjectPointLayerController } from '../../../../../../shar
 import { IASMapAMapRoadObjectPolylineController } from '../../../../../../share/map/controller/amap/road-object/pollyline/ias-map-amap-road-object-polyline.controller';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 
-export class SystemModuleRoadObjectAMapController {
+export class SystemModuleRoadObjectAMapController<
+  TRoadObject extends IRoadObject<any> = RoadObject,
+> {
   event = {
     road: {
       object: {
-        click: new EventEmitter<RoadObject>(),
-        dblclick: new EventEmitter<RoadObject>(),
+        click: new EventEmitter<TRoadObject>(),
+        dblclick: new EventEmitter<TRoadObject>(),
       },
     },
   };
@@ -34,9 +37,9 @@ export class SystemModuleRoadObjectAMapController {
       polyline: this.controller.roadobject.polyline.get(),
     };
   }
-  constructor(subscription: Subscription) {
+  constructor(container: HTMLDivElement, subscription: Subscription) {
     MapHelper.amap
-      .get('system-module-road-object-map', [], true, {
+      .get(container, [], true, {
         showLabel: false,
         viewMode: '3D',
       })
@@ -78,7 +81,9 @@ export class SystemModuleRoadObjectAMapController {
     },
     roadobject: {
       point: (loca: Loca.Container, subscription: Subscription) => {
-        let ctr = new IASMapAMapRoadObjectPointLayerController(loca);
+        let ctr = new IASMapAMapRoadObjectPointLayerController<TRoadObject>(
+          loca,
+        );
         let sub = ctr.event.move.subscribe((data) => {
           this.regist.point.over(data);
         });
@@ -88,19 +93,19 @@ export class SystemModuleRoadObjectAMapController {
       marker: (
         map: AMap.Map,
         info: IASMapAMapInfoController,
-        subscription: Subscription
+        subscription: Subscription,
       ) => {
         let ctr = new IASMapAMapRoadObjectMarkerLayerController(
           map,
           subscription,
-          info
+          info,
         );
         let sub1 = ctr.event.click.subscribe((x) => {
-          this.event.road.object.click.emit(x);
+          this.event.road.object.click.emit(x as any);
         });
         subscription.add(sub1);
         let sub2 = ctr.event.dblclick.subscribe((x) => {
-          this.event.road.object.dblclick.emit(x);
+          this.event.road.object.dblclick.emit(x as any);
         });
         subscription.add(sub2);
         this.controller.roadobject.marker.set(ctr);
@@ -108,21 +113,24 @@ export class SystemModuleRoadObjectAMapController {
       polyline: (
         map: AMap.Map,
         container: Loca.Container,
-        subscription: Subscription
+        subscription: Subscription,
       ) => {
-        let ctr = new IASMapAMapRoadObjectPolylineController(map, container);
+        let ctr = new IASMapAMapRoadObjectPolylineController<TRoadObject>(
+          map,
+          container,
+        );
         let sub_move = ctr.event.move.subscribe((data) => {
           this.regist.line.over(data);
         });
         subscription.add(sub_move);
 
         let sub_click = ctr.event.click.subscribe((x) => {
-          this.event.road.object.click.emit(x);
+          this.event.road.object.click.emit(x as any);
         });
         subscription.add(sub_click);
 
         let sub_dblclick = ctr.event.dblclick.subscribe((x) => {
-          this.event.road.object.dblclick.emit(x);
+          this.event.road.object.dblclick.emit(x as any);
         });
         subscription.add(sub_dblclick);
 
@@ -137,9 +145,13 @@ export class SystemModuleRoadObjectAMapController {
     road: new PromiseValue<IASMapAMapRoadController>(),
     info: new PromiseValue<IASMapAMapInfoController>(),
     roadobject: {
-      point: new PromiseValue<IASMapAMapRoadObjectPointLayerController>(),
+      point: new PromiseValue<
+        IASMapAMapRoadObjectPointLayerController<TRoadObject>
+      >(),
       marker: new PromiseValue<IASMapAMapRoadObjectMarkerLayerController>(),
-      polyline: new PromiseValue<IASMapAMapRoadObjectPolylineController>(),
+      polyline: new PromiseValue<
+        IASMapAMapRoadObjectPolylineController<TRoadObject>
+      >(),
     },
   };
 
@@ -168,7 +180,7 @@ export class SystemModuleRoadObjectAMapController {
       });
     },
     point: {
-      over: async (data?: RoadObject) => {
+      over: async (data?: TRoadObject) => {
         this.controller.info.get().then((ctr) => {
           if (data && data.Location) {
             let info: IIASMapAMapInfo = {
@@ -188,14 +200,13 @@ export class SystemModuleRoadObjectAMapController {
       },
     },
     line: {
-      over: async (data?: RoadObject) => {
+      over: async (data?: TRoadObject) => {
         let map = await this.map;
         this.controller.info.get().then((ctr) => {
-          if (data && data.GeoLine) {
-            let line = data.GeoLine.map<[number, number]>((x) => [
-              x.Longitude,
-              x.Latitude,
-            ]);
+          if (data && (data as any).GeoLine) {
+            let line = ((data as any).GeoLine as any[]).map(
+              (x: any): [number, number] => [x.Longitude, x.Latitude],
+            );
             let center = GeoTool.polyline.center(line);
             let info: IIASMapAMapInfo = {
               Name: data.Name,
