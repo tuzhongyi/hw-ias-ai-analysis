@@ -14,6 +14,7 @@ export class SystemMainManagerPictureWindow extends WindowViewModel {
     this.id = undefined;
     this.polygon = [];
     this.title = '';
+    this.footnotes = [];
   }
   style = {
     ...SizeTool.window.large,
@@ -22,6 +23,7 @@ export class SystemMainManagerPictureWindow extends WindowViewModel {
   id?: string;
   polygon: HowellPoint[] = [];
   page?: Page;
+  footnotes: string[] = [];
 
   private datas: NameValue[] = [];
 
@@ -33,6 +35,7 @@ export class SystemMainManagerPictureWindow extends WindowViewModel {
   }
 
   open<T>(paged: Paged<T>) {
+    this.clear();
     if (paged.Data instanceof MobileEventRecord) {
       this.from.record.mobile(paged.Data);
     } else if (paged.Data instanceof GpsTaskSampleRecord) {
@@ -41,7 +44,7 @@ export class SystemMainManagerPictureWindow extends WindowViewModel {
     this.page = Page.create(
       paged.Page.PageIndex,
       1,
-      paged.Page.TotalRecordCount
+      paged.Page.TotalRecordCount,
     );
     this.change(this.page);
     this.show = true;
@@ -52,14 +55,25 @@ export class SystemMainManagerPictureWindow extends WindowViewModel {
       mobile: (data: MobileEventRecord) => {
         if (data.Resources && data.Resources.length > 0) {
           this.datas = data.Resources.map((r) => {
+            this.polygon.push(...(r.Objects?.map((p) => p.Polygon) ?? []).flat());
+
             let item = new NameValue();
             item.Name = r.ResourceName;
             item.Value = r.ImageUrl ?? '';
             return item;
           }).filter((x) => !!x.Value);
         }
+        if (data.Address) {
+          this.footnotes.push(data.Address);
+        }
+        if (data.Confidence != undefined) {
+          this.footnotes.push(`${Math.round(data.Confidence * 100) / 100}%`);
+        }
       },
       sample: (data: GpsTaskSampleRecord) => {
+        if (data.Address) {
+          this.footnotes.push(data.Address);
+        }
         let images = [...(data.Images ?? []), ...(data.SceneMatchImages ?? [])];
 
         if (images && images.length > 0) {

@@ -14,12 +14,13 @@ export class SystemMainMapAMapSampleInfoController {
     video: new EventEmitter<GpsTaskSampleRecord>(),
     picture: new EventEmitter<Paged<GpsTaskSampleRecord>>(),
     close: new EventEmitter<void>(),
+    details: new EventEmitter<GpsTaskSampleRecord>(),
   };
 
   constructor(
     private map: AMap.Map,
     private tool: ComponentTool,
-    private subscription: Subscription
+    private subscription: Subscription,
   ) {}
 
   private create(content: HTMLElement) {
@@ -45,7 +46,7 @@ export class SystemMainMapAMapSampleInfoController {
     });
     this.regist(
       component.instance as unknown as SystemMainMapAlarmInfoOutput<GpsTaskSampleRecord>,
-      this.subscription
+      this.subscription,
     );
     let html = this.tool.get.html(component);
 
@@ -60,7 +61,7 @@ export class SystemMainMapAMapSampleInfoController {
 
   regist(
     info: SystemMainMapAlarmInfoOutput<GpsTaskSampleRecord>,
-    subscription: Subscription
+    subscription: Subscription,
   ) {
     let sub1 = info.close.subscribe((x) => {
       this.event.close.emit();
@@ -75,6 +76,10 @@ export class SystemMainMapAMapSampleInfoController {
       this.event.picture.emit(x);
     });
     subscription.add(sub3);
+    let sub4 = info.details.subscribe((x) => {
+      this.event.details.emit(x);
+    });
+    subscription.add(sub4);
   }
 
   remove() {

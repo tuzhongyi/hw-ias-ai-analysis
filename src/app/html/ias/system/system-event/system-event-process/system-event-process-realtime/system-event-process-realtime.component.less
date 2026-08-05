@@ -1,46 +1,70 @@
 .system-event-process-realtime {
+  @gap: 15px;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: @gap;
 
   &-body {
     width: 100%;
-    height: calc(100% - 15px - 36px);
-    display: grid;
-    grid-template-areas:
-      "picture picture map map"
-      "info info audio blocked";
-    grid-template-rows: calc((100% - 15px) * 0.55) calc((100% - 15px) * 0.45);
-    grid-template-columns: calc((100% - 15px * 3) /4) calc((100% - 15px * 3) /4) calc((100% - 15px * 3) /4) calc((100% - 15px * 3) /4);
-    grid-gap: 15px;
-
+    height: calc(100% - @gap - 36px);
+    display: flex;
+    gap: 15px;
+    flex-grow: 1;
   }
+
+  // ========== 两列 ==========
+  &-column {
+    width: calc((100% - @gap) / 2);
+    display: flex;
+    flex-direction: column;
+    gap: @gap;
+  }
+
+
+  // ========== 左列：图片 + 信息 ==========
 
   &-picture {
-    grid-area: picture;
     width: 100%;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  &-map {
-    grid-area: map;
-    width: 100%;
+    aspect-ratio: 16 / 9;
     padding: 0;
     box-sizing: border-box;
   }
 
   &-info {
-    grid-area: info;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    &.flex-grow {
+      flex-grow: 1;
+    }
+
+  }
+
+  // ========== 右列：地图 + 语音/屏蔽 ==========
+
+  &-map {
+
+    flex: 1;
     width: 100%;
     padding: 0;
     box-sizing: border-box;
   }
 
+  &-audio-blocked {
+    flex: 1;
+    display: flex;
+
+    gap: @gap;
+  }
+
   &-audio {
-    grid-area: audio;
+    flex: 1;
     width: 100%;
 
     .panel-head {
@@ -52,11 +76,10 @@
         width: auto;
       }
     }
-
   }
 
   &-blocked {
-    grid-area: blocked;
+    flex: 1;
 
     .panel-head {
       display: flex;
@@ -65,6 +88,7 @@
     }
   }
 
+  // ========== foot ==========
 
   &-foot {
     width: 100%;
@@ -87,8 +111,11 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-
       }
     }
   }
+
+
+
+
 }

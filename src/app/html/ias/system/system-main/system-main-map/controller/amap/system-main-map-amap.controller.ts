@@ -57,6 +57,7 @@ export class SystemMainMapAMapController {
     alarm: {
       video: new EventEmitter<MobileEventRecord>(),
       picture: new EventEmitter<Paged<MobileEventRecord>>(),
+      details: new EventEmitter<MobileEventRecord>(),
     },
     sample: {
       dblclick: new EventEmitter<GpsTaskSampleRecord>(),
@@ -215,6 +216,10 @@ export class SystemMainMapAMapController {
             this.regist.alarm.timeout.blur();
           });
           this.subscription.add(sub3);
+          let sub4 = ctr.event.details.subscribe((data) => {
+            this.event.alarm.details.emit(data);
+          });
+          this.subscription.add(sub4);
           this.controller.alarm.realtime.info.set(ctr);
         },
         marker: (map: AMap.Map, info: IASMapAMapInfoController) => {
@@ -255,6 +260,10 @@ export class SystemMainMapAMapController {
             this.regist.alarm.timeout.blur();
           });
           this.subscription.add(sub3);
+          let sub4 = ctr.event.details.subscribe((data) => {
+            this.event.alarm.details.emit(data);
+          });
+          this.subscription.add(sub4);
           this.controller.alarm.timeout.info.set(ctr);
         },
         marker: (map: AMap.Map, info: IASMapAMapInfoController) => {

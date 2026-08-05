@@ -14,12 +14,13 @@ export class SystemMainMapAMapAlarmInfoController {
     video: new EventEmitter<MobileEventRecord>(),
     picture: new EventEmitter<Paged<MobileEventRecord>>(),
     close: new EventEmitter<void>(),
+    details: new EventEmitter<MobileEventRecord>(),
   };
 
   constructor(
     private map: AMap.Map,
     private tool: ComponentTool,
-    private subscription: Subscription
+    private subscription: Subscription,
   ) {}
 
   private create(content: HTMLElement) {
@@ -46,7 +47,7 @@ export class SystemMainMapAMapAlarmInfoController {
     });
     this.regist(
       component.instance as unknown as SystemMainMapAlarmInfoOutput<MobileEventRecord>,
-      this.subscription
+      this.subscription,
     );
     let html = this.tool.get.html(component);
 
@@ -65,7 +66,7 @@ export class SystemMainMapAMapAlarmInfoController {
 
   private regist(
     info: SystemMainMapAlarmInfoOutput<MobileEventRecord>,
-    subscription: Subscription
+    subscription: Subscription,
   ) {
     let sub1 = info.close.subscribe((x) => {
       this.event.close.emit();
@@ -80,6 +81,10 @@ export class SystemMainMapAMapAlarmInfoController {
       this.event.picture.emit(x);
     });
     subscription.add(sub3);
+    let sub4 = info.details.subscribe((x) => {
+      this.event.details.emit(x);
+    });
+    subscription.add(sub4);
   }
 
   remove() {

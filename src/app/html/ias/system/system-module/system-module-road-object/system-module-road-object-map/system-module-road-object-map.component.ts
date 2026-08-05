@@ -104,7 +104,10 @@ export class SystemModuleRoadObjectMapComponent<
       if (change) {
         let controller = await this.controller.get();
         await controller.object.clear();
-        controller.object.load(this.datas);
+        let markers = await controller.object.load(this.datas);
+        if (change.firstChange && this.datas.length > 0) {
+          controller.map.focus(markers);
+        }
       }
     },
   };

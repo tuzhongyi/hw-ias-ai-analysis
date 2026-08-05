@@ -29,12 +29,15 @@
         {{ data?.AudioContent }}
       </div>
       <div class="system-main-map-alarm-info-foot-time">
-        {{ data?.EventTime | date : "yyyy-MM-dd HH:mm:ss" }}
+        {{ data?.EventTime | date: "yyyy-MM-dd HH:mm:ss" }}
       </div>
       <div class="system-main-map-alarm-info-foot-operation button-group">
         <ias-audio-button [id]="data?.AudioUrl"></ias-audio-button>
         <div class="button" (click)="on.video()">
           <i class="howell-icon-video"></i>
+        </div>
+        <div class="button" (click)="on.details()">
+          <i class="mdi mdi-clipboard-text"></i>
         </div>
       </div>
     </div>

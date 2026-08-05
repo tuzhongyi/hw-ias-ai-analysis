@@ -238,6 +238,10 @@ export class SystemMainManagerComponent implements OnInit {
         this.window.video.record.data = data;
         this.window.video.record.show = true;
       },
+      details: (data: MobileEventRecord) => {
+        this.window.details.mobile.data = data;
+        this.window.details.mobile.show = true;
+      },
     },
   };
 

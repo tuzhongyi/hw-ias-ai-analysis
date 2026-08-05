@@ -57,7 +57,7 @@ export class SystemEventProcessMapController {
   map = {
     focus: async (data?: any) => {
       let ctr = await this.controller.map.get();
-      ctr.setFitView(data);
+      ctr.setFitView(data, true);
     },
     destroy: async () => {
       await this.marker.remove();

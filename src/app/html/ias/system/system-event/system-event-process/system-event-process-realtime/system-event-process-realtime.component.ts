@@ -35,6 +35,7 @@ import { SystemEventProcessMapComponent } from '../system-event-process-map/syst
   styleUrl: './system-event-process-realtime.component.less',
 })
 export class SystemEventProcessRealtimeComponent implements OnInit {
+  @Input() blockable = true;
   @Input() data?: MobileEventRecord;
   @Output() close = new EventEmitter<void>();
   @Output('picture') _picture = new EventEmitter<Paged<MobileEventRecord>>();

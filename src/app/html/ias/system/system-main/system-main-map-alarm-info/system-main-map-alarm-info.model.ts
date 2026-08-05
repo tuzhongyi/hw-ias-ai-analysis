@@ -9,4 +9,5 @@ export interface SystemMainMapAlarmInfoOutput<T> {
   close: EventEmitter<void>;
   video: EventEmitter<T>;
   image: EventEmitter<Paged<T>>;
+  details: EventEmitter<T>;
 }

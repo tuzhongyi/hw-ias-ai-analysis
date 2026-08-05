@@ -50,6 +50,7 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() alarmvideo = new EventEmitter<MobileEventRecord>();
   @Output() alarmpicture = new EventEmitter<Paged<MobileEventRecord>>();
+  @Output() alarmdetails = new EventEmitter<MobileEventRecord>();
   @Input() heatmapload?: EventEmitter<ILocation[]>;
   @Input() heatmapdisplay = false;
   @Input() shopdisplay = true;
@@ -283,11 +284,17 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
       this.controller.alarm.realtime.event.picture.subscribe((data) => {
         this.alarmpicture.emit(data);
       });
+      this.controller.alarm.realtime.event.details.subscribe((data) => {
+        this.alarmdetails.emit(data);
+      });
       this.controller.alarm.timeout.event.video.subscribe((data) => {
         this.alarmvideo.emit(data);
       });
       this.controller.alarm.timeout.event.picture.subscribe((data) => {
         this.alarmpicture.emit(data);
+      });
+      this.controller.alarm.timeout.event.details.subscribe((data) => {
+        this.alarmdetails.emit(data);
       });
     },
     map: () => {

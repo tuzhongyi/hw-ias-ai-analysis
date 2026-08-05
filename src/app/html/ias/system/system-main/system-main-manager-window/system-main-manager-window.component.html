@@ -7,6 +7,7 @@
 >
   <ias-system-event-process-realtime
     [data]="window.details.mobile.data"
+    [blockable]="false"
     (close)="window.details.mobile.show = false"
     (picture)="picture.open($event)"
   ></ias-system-event-process-realtime>
@@ -199,13 +200,25 @@
   [style]="window.picture.style"
   [title]="window.picture.title"
 >
-  <ias-picture-list
-    [id]="window.picture.id"
-    [polygon]="window.picture.polygon"
-    [zoom]="window.picture.polygon.length > 0"
-    [page]="window.picture.page"
-    (pageChange)="window.picture.change($event)"
-  ></ias-picture-list>
+  <div class="window-picture">
+    <div class="window-picture-body">
+      <ias-picture-list
+        [id]="window.picture.id"
+        [polygon]="window.picture.polygon"
+        [zoom]="window.picture.polygon.length > 0"
+        [page]="window.picture.page"
+        (pageChange)="window.picture.change($event)"
+      ></ias-picture-list>
+    </div>
+    <div
+      class="window-picture-foot"
+      *ngIf="window.picture.footnotes.length > 0"
+    >
+      <div *ngFor="let item of window.picture.footnotes">
+        {{ item }}
+      </div>
+    </div>
+  </div>
 </ias-window>
 <ias-window
   [Model]="window.video.record"

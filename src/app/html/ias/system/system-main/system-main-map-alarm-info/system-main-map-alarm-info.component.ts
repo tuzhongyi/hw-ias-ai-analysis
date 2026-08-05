@@ -38,6 +38,7 @@ export class SystemMainMapAlarmInfoComponent
   @Output() close = new EventEmitter<void>();
   @Output() video = new EventEmitter<MobileEventRecord>();
   @Output() image = new EventEmitter<Paged<MobileEventRecord>>();
+  @Output() details = new EventEmitter<MobileEventRecord>();
 
   constructor() {}
 
@@ -89,6 +90,11 @@ export class SystemMainMapAlarmInfoComponent
         this.video.emit(this.data);
       }
     },
+    details: () => {
+      if (this.data) {
+        this.details.emit(this.data);
+      }
+    },
     image: () => {
       if (this.data) {
         let count = this.picture.page.data.TotalRecordCount;
@@ -96,7 +102,7 @@ export class SystemMainMapAlarmInfoComponent
           this.data,
           this.picture.page.data.PageIndex,
           count,
-          count
+          count,
         );
         this.image.emit(paged);
       }

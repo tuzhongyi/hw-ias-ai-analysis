@@ -9,6 +9,7 @@ export class SystemMainMapAlarmRealtimeController {
   event = {
     video: new EventEmitter<MobileEventRecord>(),
     picture: new EventEmitter<Paged<MobileEventRecord>>(),
+    details: new EventEmitter<MobileEventRecord>(),
   };
 
   constructor(
@@ -30,6 +31,10 @@ export class SystemMainMapAlarmRealtimeController {
       this.event.picture.emit(x);
     });
     subscription.add(sub2);
+    let sub3 = this.amap.event.alarm.details.subscribe((x) => {
+      this.event.details.emit(x);
+    });
+    subscription.add(sub3);
   }
 
   async load(datas: MobileEventRecord[]) {

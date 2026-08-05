@@ -1,69 +1,87 @@
 <div class="system-event-process-realtime">
   <div class="system-event-process-realtime-body">
-    <div class="system-event-process-realtime-picture panel">
-      <howell-container-page
-        [loop]="true"
-        [page]="picture.page.data"
-        (pageChange)="picture.page.change($event)"
+    <div class="system-event-process-realtime-column">
+      <div class="system-event-process-realtime-picture panel">
+        <howell-container-page
+          [loop]="true"
+          [page]="picture.page.data"
+          (pageChange)="picture.page.change($event)"
+        >
+          <ias-picture-polygon-multiple
+            [id]="picture.src"
+            [polygon]="picture.polygon"
+            [fullable]="true"
+            (full)="picture.full()"
+          ></ias-picture-polygon-multiple>
+        </howell-container-page>
+      </div>
+      <div class="system-event-process-realtime-map panel">
+        <!-- <ias-map [location]="map.location" [shops]="map.points"></ias-map> -->
+        <ias-system-event-process-map
+          [data]="data"
+          [(raduis)]="blocked.params.Raduis"
+          [changing]="blocked.enabled"
+        ></ias-system-event-process-map>
+      </div>
+    </div>
+    <div class="system-event-process-realtime-column">
+      <div
+        class="system-event-process-realtime-info panel"
+        [class.flex-grow]="!((data && data.AudioUrl) || blockable)"
       >
-        <ias-picture-polygon-multiple
-          [id]="picture.src"
-          [polygon]="picture.polygon"
-          [fullable]="true"
-          (full)="picture.full()"
-        ></ias-picture-polygon-multiple>
-      </howell-container-page>
-    </div>
-    <div class="system-event-process-realtime-map panel">
-      <!-- <ias-map [location]="map.location" [shops]="map.points"></ias-map> -->
-      <ias-system-event-process-map
-        [data]="data"
-        [(raduis)]="blocked.params.Raduis"
-        [changing]="blocked.enabled"
-      ></ias-system-event-process-map>
-    </div>
-    <div class="system-event-process-realtime-info panel">
-      <ias-system-event-record-details
-        [data]="data"
-        [resourceindex]="picture.page.data.PageIndex"
-      ></ias-system-event-record-details>
-    </div>
-    <div class="system-event-process-realtime-audio panel">
-      <div class="panel-head">
-        <div class="panel-title">现场录音</div>
-        <div *ngIf="data && data.AudioUrl">
-          <ias-audio-button
-            [id]="data.AudioUrl"
-            [play]="audio.play"
-            (inited)="audio.inited()"
-            (playing)="audio.playing($event)"
-            (stoped)="audio.stoped()"
-          ></ias-audio-button>
+        <ias-system-event-record-details
+          [data]="data"
+          [resourceindex]="picture.page.data.PageIndex"
+        ></ias-system-event-record-details>
+      </div>
+      <div
+        class="system-event-process-realtime-audio-blocked"
+        *ngIf="(data && data.AudioUrl) || blockable"
+      >
+        <div
+          class="system-event-process-realtime-audio panel"
+          *ngIf="data && data.AudioUrl"
+        >
+          <div class="panel-head">
+            <div class="panel-title">现场录音</div>
+            <div>
+              <ias-audio-button
+                [id]="data.AudioUrl"
+                [play]="audio.play"
+                (inited)="audio.inited()"
+                (playing)="audio.playing($event)"
+                (stoped)="audio.stoped()"
+              ></ias-audio-button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <ias-audio-subtitle
+              [text]="data.AudioContent"
+              [progress]="audio.progress"
+            ></ias-audio-subtitle>
+          </div>
         </div>
-      </div>
-      <div class="panel-body">
-        <ias-audio-subtitle
-          [text]="data?.AudioContent"
-          [progress]="audio.progress"
-        ></ias-audio-subtitle>
-      </div>
-    </div>
-    <div class="system-event-process-realtime-blocked panel">
-      <div class="panel-head">
-        <div class="panel-title">快速屏蔽</div>
-        <div>
-          <input type="checkbox" [(ngModel)]="blocked.enabled" />
+        <div
+          class="system-event-process-realtime-blocked panel"
+          *ngIf="blockable"
+        >
+          <div class="panel-head">
+            <div class="panel-title">快速屏蔽</div>
+            <div>
+              <input type="checkbox" [(ngModel)]="blocked.enabled" />
+            </div>
+          </div>
+          <div class="panel-body">
+            <ias-system-event-process-blocked
+              [params]="blocked.params"
+              [enabled]="blocked.enabled"
+            ></ias-system-event-process-blocked>
+          </div>
         </div>
-      </div>
-      <div class="panel-body">
-        <ias-system-event-process-blocked
-          [params]="blocked.params"
-          [enabled]="blocked.enabled"
-        ></ias-system-event-process-blocked>
       </div>
     </div>
   </div>
-  <div class="system-event-process-realtime-foot">
+  <div class="system-event-process-realtime-foot" *ngIf="blockable">
     <div class="audio"></div>
     <div class="button-group">
       <button

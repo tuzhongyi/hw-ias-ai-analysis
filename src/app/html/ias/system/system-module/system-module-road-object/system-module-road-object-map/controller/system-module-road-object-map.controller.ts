@@ -41,11 +41,12 @@ export class SystemModuleRoadObjectMapController<
       this.amap.roadobject.polyline.then((x) => {
         x.load(lines as any);
       });
-      this.amap.roadobject.marker.then((x) => {
-        x.load(points as any);
-      });
+
       this.amap.roadobject.point.then((x) => {
         x.load(points as any);
+      });
+      return this.amap.roadobject.marker.then((x) => {
+        return x.load(points as any);
       });
     },
     clear: async () => {
