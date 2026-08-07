@@ -1,8 +1,12 @@
-// iframe 嵌入时，禁用所有环境适配（4K / Windows缩放 / 32-9）
+// iframe 嵌入时，禁用所有环境适配（4K / Windows缩放 / 32-9 / URL 参数驱动）
 // 由父级布局统一管理尺寸和缩放
+//
+// html.in-iframe 时强制覆盖：
+//   - 原有的 @media 查询适配
+//   - URL 参数驱动的 html.screen-* class 适配
 
 html.in-iframe {
-  // 覆盖 screen-4k.less / screen-windows-scale.less / screen-32-9.less 的 font-size
+  // 覆盖 screen-4k.less / screen-windows-scale.less / screen-32-9.less
   font-size: 16px !important;
   overflow: hidden;
 
@@ -33,5 +37,24 @@ html.in-iframe {
   }
   .table-split-body {
     height: unset !important;
+  }
+}
+
+// 覆盖 URL 参数驱动的 screen class 样式
+// （html.in-iframe 和 html.screen-* 同时存在时，需要更高的优先级）
+html.in-iframe.screen-2k,
+html.in-iframe.screen-4k,
+html.in-iframe.screen-32-9,
+html.in-iframe.screen-scale-150,
+html.in-iframe.screen-scale-175,
+html.in-iframe.screen-scale-200 {
+  font-size: 16px !important;
+
+  body {
+    zoom: 1 !important;
+  }
+
+  .system-main-map-container {
+    zoom: 1 !important;
   }
 }

@@ -7,6 +7,8 @@ import { ArmDivisionRequestService } from '../../common/data-core/requests/servi
 import { ArmGeographicRequestService } from '../../common/data-core/requests/services/geographic/geographic.service';
 import { ArmSystemRequestService } from '../../common/data-core/requests/services/system/system.service';
 import { LocalStorage } from '../../common/storage/local.storage';
+import { ScreenDetectorService } from '../../common/services/screen-detector.service';
+import { ScreenType } from '../../common/services/screen-type';
 import { RoutePath } from '../app.route.path';
 
 @Injectable()
@@ -39,26 +41,29 @@ export class LoginBusiness {
     let code = HowellSM4.encrypt(password);
     return this.service.login(username, code).then((x) => {
       this.clear();
+      const screen = ScreenDetectorService.detect();
+      // default 不显示参数，无 ?screen= 即默认
+      const extras = screen !== ScreenType.normal ? { queryParams: { screen } } : undefined;
       if (username === 'root') {
-        this.router.navigateByUrl(`${RoutePath.management}`);
+        this.router.navigate([RoutePath.management], extras);
       } else {
         this.system.security.user
           .get(username)
           .then((user) => {
-            let path = `${RoutePath.system}`;
+            let segments: string[] = [RoutePath.system];
             if (
               user.Priorities &&
               user.Priorities.length > 0 &&
               user.Priorities.includes('1')
             ) {
-              path = `${RoutePath.system}`;
+              // 有完整权限 → /system
             } else {
-              path = `${RoutePath.system}/map`;
+              segments.push('map');
             }
-            this.router.navigateByUrl(`${path}`);
+            this.router.navigate(segments, extras);
           })
           .catch((e) => {
-            this.router.navigateByUrl(`${RoutePath.system}`);
+            this.router.navigate([RoutePath.system], extras);
           });
       }
     });

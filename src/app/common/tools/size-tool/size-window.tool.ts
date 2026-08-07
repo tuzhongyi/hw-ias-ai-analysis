@@ -1,8 +1,18 @@
 import { HtmlTool } from '../html-tool/html.tool';
 
 export class SizeWindowTool {
-  /** 当前屏幕缩放倍率，与 screen-4k.less / screen-32-9.less 的媒体查询保持同步 */
+  /** 当前屏幕缩放倍率，与 screen-4k.less / screen-32-9.less 保持同步 */
   static get zoom(): number {
+    // 优先从 html class 读取（URL 参数 ?screen= 驱动模式）
+    const cls = document.documentElement.classList;
+    if (cls.contains('screen-4k')) return 2;
+    if (cls.contains('screen-2k')) return 1.33;
+    if (cls.contains('screen-32-9')) return 1;
+    if (cls.contains('screen-scale-150')) return 0.67;
+    if (cls.contains('screen-scale-175')) return 0.57;
+    if (cls.contains('screen-scale-200')) return 0.5;
+
+    // fallback：原有媒体查询逻辑（向后兼容无 ?screen= 参数的场景）
     let ratio = window.innerWidth / window.innerHeight;
     // 32:9 超宽屏不缩放
     if (ratio >= 31 / 9) return 1;
