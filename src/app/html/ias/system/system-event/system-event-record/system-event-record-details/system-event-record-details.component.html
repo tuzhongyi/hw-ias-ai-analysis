@@ -107,6 +107,23 @@
       <div class="form-item-value unhandle">待处置</div>
     </div>
 
+    <div class="form-item" *ngIf="data.AudioUrl && audioable">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        现场录音
+      </div>
+      <div class="form-item-value">
+        <ias-audio-button [id]="data.AudioUrl"></ias-audio-button>
+      </div>
+    </div>
+    <div class="form-item full" *ngIf="data.AudioContent && audioable">
+      <div class="form-item-text" text-space-between [suffix]="':'">
+        录音内容
+      </div>
+      <div class="form-item-value important description">
+        {{ data.AudioContent }}
+      </div>
+    </div>
+
     <ng-container *ngIf="data.Assignment && data.Assignment.Handled">
       <div class="form-item full">
         <div class="form-item-text" text-space-between [suffix]="':'">
@@ -148,19 +165,30 @@
         class="form-item full"
         *ngIf="data.Assignment.AssociationDescription"
       >
-        <div class="form-item-text" text-space-between [suffix]="':'">
+        <div class="form-item-text baseline" text-space-between [suffix]="':'">
           处置描述
         </div>
-        <div class="form-item-value">
+        <div class="form-item-value important description">
           {{ data.Assignment.AssociationDescription }}
         </div>
       </div>
       <div class="form-item full" *ngIf="data.Assignment.HandleDescription">
-        <div class="form-item-text" text-space-between [suffix]="':'">
+        <div class="form-item-text baseline" text-space-between [suffix]="':'">
           处置描述
         </div>
-        <div class="form-item-value">
+        <div class="form-item-value important description">
           {{ data.Assignment.HandleDescription }}
+        </div>
+      </div>
+      <div class="form-item full" *ngIf="data.Assignment.HandleDescription">
+        <div class="form-item-text baseline" text-space-between [suffix]="':'">
+          处置图片
+        </div>
+        <div class="form-item-value">
+          <ias-image-control
+            [images]="picture.datas"
+            (preview)="picture.on.preview($event)"
+          ></ias-image-control>
         </div>
       </div>
     </ng-container>

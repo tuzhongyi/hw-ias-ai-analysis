@@ -35,7 +35,7 @@ import { SystemEventTableService } from '../business/system-event-table.service'
 export class SystemEventTableAnalysisComponent implements OnInit, OnDestroy {
   @Input() args = new SystemEventTableArgs();
   @Input('load') input_load?: EventEmitter<SystemEventTableArgs>;
-  @Input() download?: EventEmitter<SystemEventTableArgs>;
+  @Input() download?: EventEmitter<boolean>;
   @Output() position = new EventEmitter<MobileEventRecord>();
 
   @Output('picture') output_picture = new EventEmitter<MobileEventRecord>();
@@ -48,7 +48,7 @@ export class SystemEventTableAnalysisComponent implements OnInit, OnDestroy {
 
   constructor(
     private business: SystemEventTableBusiness,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   widths = ['5%', '10%', '15%', '8%', '12%', '8%', '10%', '12%', '10%', '10%'];
@@ -69,7 +69,7 @@ export class SystemEventTableAnalysisComponent implements OnInit, OnDestroy {
         this.load(
           this.args.first ? 1 : this.page.PageIndex,
           this.page.PageSize,
-          this.args
+          this.args,
         );
       });
       this.subscription.add(sub);
@@ -89,10 +89,10 @@ export class SystemEventTableAnalysisComponent implements OnInit, OnDestroy {
       this.subscription.add(sub);
     }
     if (this.download) {
-      let sub = this.download.subscribe((x) => {
+      let sub = this.download.subscribe((includingImage) => {
         let filter = SystemEventTableFilter.from(this.args);
         this.business.download
-          .to(filter, this.page.TotalRecordCount)
+          .to(filter, this.page.TotalRecordCount, includingImage)
           .then((ids) => {
             this.toastr.success('正在打包下载文件，请稍候...');
             this.business.download.do(ids).catch((e) => {

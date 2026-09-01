@@ -1,0 +1,42 @@
+<div class="image-control">
+  <!-- External images -->
+  @for (image of images; track image; let i = $index) {
+    <div class="image-control-item" [class.disabled]="disabled">
+      <img [src]="image" alt="" />
+      <div class="image-control-item-overlay">
+        <div
+          class="overlay-button zoom-button"
+          title="放大显示"
+          (click)="onpreview(i, $event)"
+        >
+          <i class="mdi mdi-fullscreen"></i>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Cached images -->
+  @for (file of files; track file; let i = $index) {
+    <div class="image-control-item" [class.disabled]="disabled">
+      <img [src]="url(file)" alt="" />
+      <div class="image-control-item-overlay">
+        <div
+          class="overlay-button delete-button"
+          title="删除图片"
+          (click)="ondeletefile(i, $event)"
+        >
+          <i class="mdi mdi-delete"></i>
+        </div>
+        <div
+          class="overlay-button zoom-button"
+          title="放大显示"
+          (click)="onpreview(images.length + i, $event)"
+        >
+          <i class="mdi mdi-fullscreen"></i>
+        </div>
+      </div>
+    </div>
+  }
+
+  <ng-content></ng-content>
+</div>

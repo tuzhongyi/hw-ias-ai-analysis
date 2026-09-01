@@ -56,7 +56,7 @@
                 [ngStyle]="{
                   backgroundImage: resource.ImageUrl
                     ? 'url(' + picture.get(resource.ImageUrl) + ')'
-                    : 'none'
+                    : 'none',
                 }"
                 (click)="picture.on($event, item, i)"
               ></div>
@@ -64,32 +64,37 @@
           </td>
 
           <td>
-            @if(!!item){ @if(item.EventType=== EventType.EmergencyEvent) {
-            手动触发 } @else{ 分析触发 } }
+            @if (!!item) {
+              @if (item.EventType === EventType.EmergencyEvent) {
+                手动触发
+              } @else {
+                分析触发
+              }
+            }
           </td>
           <td [title]="(item?.DivisionName | async) ?? ''">
-            @if(item){
-            {{ item.DivisionName | async }}
+            @if (item) {
+              {{ item.DivisionName | async }}
             }
           </td>
           <td [title]="(item?.GridCellName | async) ?? ''">
-            @if(item){
-            {{ item.GridCellName | async }}
+            @if (item) {
+              {{ item.GridCellName | async }}
             }
           </td>
           <td>
-            @if(item){
-            {{ item?.EventTypeName | async }}
+            @if (item) {
+              {{ item?.EventTypeName | async }}
             }
           </td>
           <td>
-            <div>{{ item?.EventTime | date : Language.yyyyMMddHHmmss }}</div>
+            <div>{{ item?.EventTime | date: Language.yyyyMMddHHmmss }}</div>
           </td>
           <td>
             <div
               [ngClass]="{
                 unhandle: item && !item.Confirmed,
-                handled: item && item.Confirmed
+                handled: item && item.Confirmed,
               }"
               *ngIf="item"
             >
@@ -98,7 +103,7 @@
           </td>
           <td>
             <div>
-              {{ item?.ConfirmedTime | date : Language.yyyyMMddHHmmss }}
+              {{ item?.ConfirmedTime | date: Language.yyyyMMddHHmmss }}
             </div>
           </td>
           <td>
@@ -113,17 +118,17 @@
             </ng-container>
           </td>
           <td>
-            {{ item?.Assignment?.HandledTime | date : Language.yyyyMMddHHmmss }}
+            {{ item?.Assignment?.HandledTime | date: Language.yyyyMMddHHmmss }}
           </td>
 
           <td>
-            @if(item){
-            {{ item.Assignment?.Handler ?? "-" }}
+            @if (item) {
+              {{ item.Assignment?.Handler ?? "-" }}
             }
           </td>
           <td>
-            @if(item){
-            {{ item.PeriodRepeatTimes ?? "-" }}
+            @if (item) {
+              {{ item.PeriodRepeatTimes ?? "-" }}
             }
           </td>
           <td>
@@ -148,8 +153,14 @@
               ></ias-audio-button>
               <div
                 class="button"
-                title="事件处置"
-                (click)="onprocess($event, item)"
+                title="人工审核"
+                (click)="
+                  onprocess(
+                    $event,
+                    item,
+                    page.PageSize * (page.PageIndex - 1) + index + 1
+                  )
+                "
               >
                 <i class="mdi mdi-wrench"></i>
               </div>

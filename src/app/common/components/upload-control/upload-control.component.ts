@@ -24,6 +24,7 @@ export class UploadControlComponent implements OnInit {
   @Input() type: FileReadType = FileReadType.DataURL;
   @Input() encoding?: string;
   @Input() multiple = false;
+  @Input() disabled = false;
 
   @Output() upload = new EventEmitter<UploadControlFile>();
   @Output() loadstart = new EventEmitter<UploadControlFileInfo>();
@@ -37,7 +38,7 @@ export class UploadControlComponent implements OnInit {
 
   ngOnInit(): void {}
   onupload() {
-    if (this.file) {
+    if (!this.disabled && this.file) {
       this.file.click();
     }
   }

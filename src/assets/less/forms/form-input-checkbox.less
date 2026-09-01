@@ -41,11 +41,16 @@ input[type="radio"] {
 
   }
 
-  &:disabled::before {
-    background: transparent;
-    cursor: default;
-    color: #999;
+  &:disabled {
+    border-color: #2A5497;
+
+    &::before {
+      background: transparent;
+      cursor: default;
+      color: #999;
+    }
   }
+
 
   &+label {
     -moz-user-select: none;

@@ -9,13 +9,15 @@ import {
   CreateShopRegistrationParams,
   MarkingShopParams,
   MergeShopParams,
+  SystemEventHandleParams,
 } from './system-event-handle.params';
 
 export class SystemEventHandleRequestService {
   constructor(private http: HowellHttpClient) {}
 
-  async data(id: string, data: FormData) {
+  async data(id: string, params: SystemEventHandleParams) {
     let url = ArmSystemUrl.event.handle(id).basic();
+    let data = this.convert(params);
     const response = await this.http.post<
       HowellResponse<MobileEventRecord>,
       any
@@ -23,12 +25,34 @@ export class SystemEventHandleRequestService {
     return HowellResponseProcess.item(response, MobileEventRecord);
   }
 
+  private convert(params: SystemEventHandleParams): FormData {
+    let data = new FormData();
+
+    let pictures: string[] = [];
+    if (params.Pictures) {
+      for (let name of Object.keys(params.Pictures)) {
+        pictures.push(name);
+        let blob = new Blob([params.Pictures[name]]);
+        data.append(name, blob);
+      }
+    }
+
+    let json = JSON.stringify({
+      IsMisInfo: params.IsMisInfo,
+      Handler: params.Handler,
+      Description: params.Description,
+      Pictures: pictures,
+    });
+    data.append('json', json);
+
+    return data;
+  }
+
   shop = {
     delete: async (id: string) => {
       let url = ArmSystemUrl.event.handle(id).shop.delete();
-      const response = await this.http.post<HowellResponse<MobileEventRecord>>(
-        url
-      );
+      const response =
+        await this.http.post<HowellResponse<MobileEventRecord>>(url);
       return HowellResponseProcess.item(response, MobileEventRecord);
     },
     create: async (id: string, params: CreateShopRegistrationParams) => {

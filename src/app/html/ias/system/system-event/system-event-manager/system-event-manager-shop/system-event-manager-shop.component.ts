@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
+import { WindowQuestionComponent } from '../../../../../../common/components/window-question/window-question.component';
 import { ArmEventType } from '../../../../../../common/data-core/enums/event/arm-event-type.enum';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { AnalysisTask } from '../../../../../../common/data-core/models/arm/analysis/task/analysis-task.model';
@@ -62,6 +63,7 @@ import { SystemEventManagerShopWindow } from './system-event-manager-shop.window
     SystemTaskVideoComponent,
     WindowComponent,
     WindowConfirmComponent,
+    WindowQuestionComponent,
     PictureListComponent,
     SystemEventProcessSignDisconverComponent,
     SystemModuleShopRegistrationInformationComponent,
@@ -100,7 +102,7 @@ export class SystemEventManagerShopComponent implements OnInit, OnChanges {
     private business: SystemEventManagerShopBusiness,
     private toastr: ToastrService,
     public controller: SystemEventManagerShopController,
-    public window: SystemEventManagerShopWindow
+    public window: SystemEventManagerShopWindow,
   ) {}
 
   Language = Language;
@@ -236,7 +238,7 @@ export class SystemEventManagerShopComponent implements OnInit, OnChanges {
   table = {
     args: new SystemEventTableArgs(),
     load: new EventEmitter<SystemEventTableArgs>(),
-    download: new EventEmitter<SystemEventTableArgs>(),
+    download: new EventEmitter<boolean>(),
     task: {
       change: (data: AnalysisTask) => {
         this.table.args.taskId = data?.Id;
@@ -313,7 +315,7 @@ export class SystemEventManagerShopComponent implements OnInit, OnChanges {
       paged: PagedList<
         MobileEventRecord | EventResourceContent | ShopRegistration | ShopSign
       >,
-      opened: boolean = false
+      opened: boolean = false,
     ) => {
       if (paged.Data.length == 0) return;
 
@@ -346,9 +348,13 @@ export class SystemEventManagerShopComponent implements OnInit, OnChanges {
     },
   };
 
-  on = {
-    download: () => {
-      this.table.download.emit(this.table.args);
+  download = {
+    question: () => {
+      this.window.download.show = true;
+    },
+    todo: (include: boolean) => {
+      this.table.download.emit(include);
+      this.window.download.show = false;
     },
   };
 }

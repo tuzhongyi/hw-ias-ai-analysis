@@ -30,7 +30,7 @@ export class SystemEventTableBusiness {
   };
 
   async load(index: number, size: number, filter: SystemEventTableFilter) {
-    let datas = await this.service.table.load(index, size, filter);
+    let datas = await this.service.table.load(index, size, filter, true);
 
     let paged = new PagedList<SystemEventTableItem>();
     paged.Page = datas.Page;
@@ -40,8 +40,12 @@ export class SystemEventTableBusiness {
   }
 
   download = {
-    to: async (filter: SystemEventTableFilter, total: number) => {
-      return this.service.table.download.to(filter, total);
+    to: async (
+      filter: SystemEventTableFilter,
+      total: number,
+      includingImage: boolean,
+    ) => {
+      return this.service.table.download.to(filter, total, includingImage);
     },
     do: async (ids: string[]) => {
       return this.service.table.download.do(ids);

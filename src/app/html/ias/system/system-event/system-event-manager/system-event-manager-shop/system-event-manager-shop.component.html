@@ -73,7 +73,7 @@
             查找
           </button>
 
-          <button class="button-clip-gradient" (click)="on.download()">
+          <button class="button-clip-gradient" (click)="download.question()">
             导出
           </button>
           <button
@@ -285,4 +285,13 @@
     </div>
     <ias-system-task-video [args]="window.video.args"></ias-system-task-video>
   </ias-window>
+  <question-window
+    *ngIf="window.download.show"
+    [model]="window.download"
+    (yes)="download.todo(true)"
+    (no)="download.todo(false)"
+    (cancel)="window.download.show = false"
+  >
+    <div class="confirm-window">{{ window.download.message }}</div>
+  </question-window>
 </div>

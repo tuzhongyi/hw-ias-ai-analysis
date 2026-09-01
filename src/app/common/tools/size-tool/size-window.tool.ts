@@ -19,7 +19,8 @@ export class SizeWindowTool {
     if (window.innerWidth >= 3840) return 2;
     if (window.innerWidth >= 2560 && window.innerWidth <= 3839) return 1.33;
     if (window.devicePixelRatio >= 2 && window.innerWidth >= 1920) return 2;
-    if (window.devicePixelRatio >= 1.25 && window.innerWidth >= 1920) return 1.33;
+    if (window.devicePixelRatio >= 1.25 && window.innerWidth >= 1920)
+      return 1.33;
     return 1;
   }
 
@@ -51,6 +52,29 @@ export class SizeWindowTool {
       ),
     ),
     height: this.px(`${screen.availHeight * 0.75}`),
+  };
+
+  plus = {
+    large: (
+      args: { width?: number; height?: number } = { width: 0, height: 0 },
+    ) => {
+      let _width = this.large.width.replace('px', '');
+      let _height = this.large.height.replace('px', '');
+
+      let width = parseFloat(_width);
+      let height = parseFloat(_height);
+
+      if (args.width) {
+        width += args.width;
+      }
+      if (args.height) {
+        height += args.height;
+      }
+      return {
+        width: `${width}px`,
+        height: `${height}px`,
+      };
+    },
   };
 
   middle = {

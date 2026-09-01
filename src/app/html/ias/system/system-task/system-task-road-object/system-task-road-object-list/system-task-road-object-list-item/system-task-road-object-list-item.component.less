@@ -13,6 +13,7 @@
   background-color: rgba(0, 0, 0, 0.08);
   transition: all 0.5s;
 
+
   &:hover {
     border-color: var(--color);
     background-color: rgba(@rgb, 0.08);
@@ -78,6 +79,10 @@
   }
 
   &-info {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+
     .form {
       &s {
         flex-direction: column;
@@ -93,6 +98,7 @@
       align-items: center;
       justify-content: flex-start;
       gap: 5px;
+      flex-wrap: wrap;
 
       &>* {
         font-size: 14px;

@@ -22,25 +22,30 @@ import { SystemEventTableFilter } from './system-event-table.model';
 export class SystemEventTableService {
   constructor(
     private service: ArmSystemRequestService,
-    private analysis: ArmAnalysisRequestService
+    private analysis: ArmAnalysisRequestService,
   ) {}
 
   async load(
     index: number,
     size: number,
-    filter: SystemEventTableFilter
+    filter: SystemEventTableFilter,
+    includingImage: boolean,
   ): Promise<PagedList<MobileEventRecord>> {
-    let params = this.get.params(index, size, filter);
+    let params = this.get.params(index, size, filter, includingImage);
     return this.service.event.list(params);
   }
 
   download = {
-    to: async (filter: SystemEventTableFilter, total: number) => {
+    to: async (
+      filter: SystemEventTableFilter,
+      total: number,
+      includingImage: boolean,
+    ) => {
       let size = 200;
       let count = Math.ceil(total / size);
       let ids = [];
       for (let index = 0; index < count; index++) {
-        let params = this.get.params(index + 1, size, filter);
+        let params = this.get.params(index + 1, size, filter, includingImage);
         let id = await this.service.event.excel.export(params);
         ids.push(id);
       }
@@ -56,7 +61,7 @@ export class SystemEventTableService {
         link.download = `AI事件_${formatDate(
           new Date(),
           'YYYYMMdd_HHmmss',
-          'en'
+          'en',
         )}.xlsx`;
         document.body.appendChild(link);
         link.click();
@@ -66,12 +71,18 @@ export class SystemEventTableService {
   };
 
   private get = {
-    params: (index: number, size: number, filter: SystemEventTableFilter) => {
+    params: (
+      index: number,
+      size: number,
+      filter: SystemEventTableFilter,
+      includingImage: boolean,
+    ) => {
       let params = new GetMobileEventsParams();
       params.PageIndex = index;
       params.PageSize = size;
       params.BeginTime = filter.duration.begin;
       params.EndTime = filter.duration.end;
+      params.IncludingImage = includingImage;
 
       if (filter.resource) {
         params.ResourceName = filter.resource;
@@ -138,7 +149,7 @@ export class SystemEventTableService {
     shop: async (
       index: number,
       size: number,
-      filter: SystemEventTableFilter
+      filter: SystemEventTableFilter,
     ) => {
       let params = new GetShopsParams();
       params.PageIndex = index;

@@ -9,3 +9,9 @@ export class AnalysisTaskRuningModel extends AnalysisTaskModel {
   AnalysisDuration = signal(0);
   EstimatedTime?: Date;
 }
+
+export enum AnalysisTaskTableState {
+  all,
+  running,
+  finished,
+}

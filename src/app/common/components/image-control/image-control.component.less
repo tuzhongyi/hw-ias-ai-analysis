@@ -1,0 +1,91 @@
+:host {
+  display: block;
+}
+
+.image-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+
+  &-item {
+    width: 74px;
+    height: 74px;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:hover {
+      border-color: rgba(45, 118, 206, 0.6);
+
+      .image-control-item-overlay {
+        opacity: 1;
+      }
+    }
+
+    &.disabled {
+      cursor: default;
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+
+      .image-control-item-overlay {
+        opacity: 1;
+      }
+
+      .overlay-button {
+        display: none;
+      }
+    }
+
+    &-overlay {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.2s ease;
+      gap: 5px;
+    }
+
+    .overlay-button {
+      width: 26px;
+      height: 26px;
+      background-color: rgba(45, 118, 206, 0.5);
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(45, 118, 206, 1);
+      }
+    }
+
+    .delete-button {
+      top: 4px;
+      right: 4px;
+    }
+
+    .zoom-button {
+      // centered via overlay flex, no additional positioning needed
+    }
+  }
+}

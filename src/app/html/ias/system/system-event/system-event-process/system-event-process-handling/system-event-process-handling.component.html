@@ -1,0 +1,29 @@
+<div class="system-event-process-handling">
+  <div
+    class="forms"
+    [ngClass]="{
+      disabled: disabled,
+    }"
+  >
+    <div class="form-item textarea">
+      <div class="form-item-text" text-space-between>处置描述</div>
+      <div class="form-item-value">
+        <textarea
+          [(ngModel)]="params.Description"
+          [disabled]="disabled"
+          (input)="on.change()"
+        ></textarea>
+      </div>
+    </div>
+    <div class="form-item images">
+      <div class="form-item-text baseline" text-space-between>处置照片</div>
+      <div class="form-item-value">
+        <ias-upload-image-control
+          [disabled]="disabled || misinfo"
+          (preview)="on.picture.preview($event)"
+          [get]="pictureget"
+        ></ias-upload-image-control>
+      </div>
+    </div>
+  </div>
+</div>

@@ -48,11 +48,11 @@ export class ArmSystemRequestService {
     },
   };
   firmware = {
-    update: async (data: BinaryData) => {
+    update: async (data: ArrayBuffer) => {
       let url = ArmSystemUrl.updateFirmware();
-      let response = await this.http.post<HowellResponse, BinaryData>(
+      let response = await this.http.post<HowellResponse, ArrayBuffer>(
         url,
-        data
+        data,
       );
       return response.FaultCode === 0;
     },

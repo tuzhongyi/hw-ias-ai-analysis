@@ -1,6 +1,9 @@
 <div class="system-event-process-realtime">
   <div class="system-event-process-realtime-body">
-    <div class="system-event-process-realtime-column">
+    <div
+      class="system-event-process-realtime-column"
+      [class.full]="data?.Assignment?.Handled"
+    >
       <div class="system-event-process-realtime-picture panel">
         <howell-container-page
           [loop]="true"
@@ -15,61 +18,100 @@
           ></ias-picture-polygon-multiple>
         </howell-container-page>
       </div>
-      <div class="system-event-process-realtime-map panel">
-        <!-- <ias-map [location]="map.location" [shops]="map.points"></ias-map> -->
-        <ias-system-event-process-map
-          [data]="data"
-          [(raduis)]="blocked.params.Raduis"
-          [changing]="blocked.enabled"
-        ></ias-system-event-process-map>
+      <div class="system-event-process-realtime-map-audio">
+        <div
+          class="system-event-process-realtime-map panel"
+          [class.full]="!(data && data.AudioUrl)"
+        >
+          <ias-system-event-process-map
+            [data]="data"
+            [(raduis)]="blocked.params.Raduis"
+            [changing]="blocked.enabled"
+          ></ias-system-event-process-map>
+        </div>
       </div>
     </div>
-    <div class="system-event-process-realtime-column">
+    <div
+      class="system-event-process-realtime-column"
+      [class.full]="data?.Assignment?.Handled"
+    >
       <div
         class="system-event-process-realtime-info panel"
-        [class.flex-grow]="!((data && data.AudioUrl) || blockable)"
+        [class.flex-grow]="!handle.show"
       >
         <ias-system-event-record-details
           [data]="data"
           [resourceindex]="picture.page.data.PageIndex"
+          [audioable]="data?.Assignment?.Handled ?? false"
+          (picture)="handle.picture.preview.handle($event)"
         ></ias-system-event-record-details>
       </div>
-      <div
-        class="system-event-process-realtime-audio-blocked"
-        *ngIf="(data && data.AudioUrl) || blockable"
-      >
+      <div class="system-event-process-realtime-bottom" *ngIf="handle.show">
         <div
-          class="system-event-process-realtime-audio panel"
-          *ngIf="data && data.AudioUrl"
+          class="system-event-process-realtime-handle panel panel-flex"
+          *ngIf="handle.show"
         >
           <div class="panel-head">
-            <div class="panel-title">现场录音</div>
-            <div>
-              <ias-audio-button
-                [id]="data.AudioUrl"
-                [play]="audio.play"
-                (inited)="audio.inited()"
-                (playing)="audio.playing($event)"
-                (stoped)="audio.stoped()"
-              ></ias-audio-button>
-            </div>
+            <div class="panel-title">处置信息</div>
+            <!-- <div>
+              <label
+                for="system_event_process_realtime_misinfo"
+                [class.disabled]="blocked.enabled"
+              >
+                误报
+                <input
+                  type="checkbox"
+                  id="system_event_process_realtime_misinfo"
+                  [disabled]="blocked.enabled"
+                  [(ngModel)]="handle.params.IsMisInfo"
+                />
+              </label>
+            </div> -->
           </div>
           <div class="panel-body">
-            <ias-audio-subtitle
-              [text]="data.AudioContent"
-              [progress]="audio.progress"
-            ></ias-audio-subtitle>
+            <ias-system-event-process-handling
+              [disabled]="blocked.enabled"
+              [misinfo]="handle.params.IsMisInfo"
+              [(params)]="handle.params"
+              (picture)="handle.picture.preview.upload($event)"
+              [pictureget]="handle.picture.get"
+            ></ias-system-event-process-handling>
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="system-event-process-realtime-column half"
+      *ngIf="audio.show || blocked.show"
+    >
+      <div class="system-event-process-realtime-audio panel" *ngIf="audio.show">
+        <div class="panel-head">
+          <div class="panel-title">现场录音</div>
+          <div>
+            <ias-audio-button
+              [id]="data?.AudioUrl"
+              [play]="audio.play"
+              (inited)="audio.inited()"
+              (playing)="audio.playing($event)"
+              (stoped)="audio.stoped()"
+            ></ias-audio-button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <ias-audio-subtitle
+            [text]="data?.AudioContent"
+            [progress]="audio.progress"
+          ></ias-audio-subtitle>
+        </div>
+      </div>
+      <div class="system-event-process-realtime-bottom">
         <div
-          class="system-event-process-realtime-blocked panel"
-          *ngIf="blockable"
+          class="system-event-process-realtime-blocked panel panel-flex"
+          *ngIf="blocked.show"
         >
           <div class="panel-head">
             <div class="panel-title">快速屏蔽</div>
-            <div>
-              <input type="checkbox" [(ngModel)]="blocked.enabled" />
-            </div>
+            <input type="checkbox" [(ngModel)]="blocked.enabled" />
           </div>
           <div class="panel-body">
             <ias-system-event-process-blocked
@@ -81,19 +123,59 @@
       </div>
     </div>
   </div>
-  <div class="system-event-process-realtime-foot" *ngIf="blockable">
-    <div class="audio"></div>
+  <div class="system-event-process-realtime-foot">
+    <div class="system-event-process-realtime-foot-options button-group">
+      <label
+        for="system_event_process_realtime_auto_next"
+        [class.disabled]="!!data?.Assignment?.Handled"
+      >
+        <input
+          type="checkbox"
+          id="system_event_process_realtime_auto_next"
+          [disabled]="!!data?.Assignment?.Handled"
+          [(ngModel)]="autonext"
+        />
+        是否自动审核下一条
+      </label>
+    </div>
+    <div class="system-event-process-realtime-foot-page button-group">
+      <button
+        class="button-border blue"
+        [disabled]="page.PageIndex <= 1"
+        (click)="on.page.prev()"
+      >
+        <i class="mdi mdi-chevron-left"></i>
+      </button>
+      <div>第 {{ page.PageIndex }} 条</div>
+      <button
+        class="button-border blue"
+        [disabled]="page.PageIndex >= page.PageCount"
+        (click)="on.page.next()"
+      >
+        <i class="mdi mdi-chevron-right"></i>
+      </button>
+    </div>
     <div class="button-group">
       <button
         class="button-clip-gradient"
         *ngIf="!blocked.enabled"
-        (click)="on.ok()"
+        [disabled]="!!data?.Assignment?.Handled"
+        (click)="on.misinfo()"
       >
-        处置
+        误报
+      </button>
+      <button
+        class="button-clip-gradient"
+        *ngIf="!blocked.enabled"
+        [disabled]="!!data?.Assignment?.Handled"
+        (click)="on.handle()"
+      >
+        审核
       </button>
       <button
         class="button-clip-gradient"
         *ngIf="blocked.enabled"
+        [disabled]="!!data?.Assignment?.Handled"
         (click)="on.blocked()"
       >
         屏蔽

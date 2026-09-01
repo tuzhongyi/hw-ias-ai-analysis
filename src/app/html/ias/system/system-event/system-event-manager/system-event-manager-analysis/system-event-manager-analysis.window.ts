@@ -23,6 +23,7 @@ export class SystemEventManagerAnalysisWindow {
   };
   details = new DetailsWindow();
   map = new MapWindow();
+  download = new DownloadWindow();
 }
 
 class PictureWindow extends WindowViewModel {
@@ -40,7 +41,11 @@ class PictureWindow extends WindowViewModel {
   }
 
   set(
-    data: MobileEventRecord | ShopRegistration | ShopSign | EventResourceContent
+    data:
+      | MobileEventRecord
+      | ShopRegistration
+      | ShopSign
+      | EventResourceContent,
   ): void {
     this.clear();
     if (data instanceof MobileEventRecord) {
@@ -114,6 +119,14 @@ class ConfirmWindow extends WindowViewModel {
   message: string = '';
   result?: boolean;
 }
+class DownloadWindow extends WindowViewModel {
+  clear() {
+    this.message = '';
+    this.result = undefined;
+  }
+  message: string = '导出文件是否包含图片？';
+  result?: boolean;
+}
 class EditNameWindow extends WindowViewModel {
   style = {
     width: '500px',
@@ -135,7 +148,7 @@ class MapWindow extends WindowViewModel {
   };
   title = '商铺变更';
   args = new SystemEventMapArgs(
-    ObjectTool.model.MobileEventRecord.get.type.analysis
+    ObjectTool.model.MobileEventRecord.get.type.analysis,
   );
   mode = MobileEventRecordMode.analysis;
 }

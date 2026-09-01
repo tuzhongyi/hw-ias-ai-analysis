@@ -22,3 +22,9 @@ export class ChangeBusinessStateParams implements IParams {
   /**	Int32	营业状态	M	*/
   BusinessState!: number;
 }
+export class SystemEventHandleParams implements IParams {
+  IsMisInfo: boolean = false;
+  Handler!: string;
+  Description?: string;
+  Pictures?: Record<string, ArrayBuffer>;
+}

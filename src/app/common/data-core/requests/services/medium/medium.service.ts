@@ -20,16 +20,16 @@ export class MediumRequestService {
     return ArmMediumUrl.arm(url);
   }
 
-  async upload(data: BinaryData) {
+  async upload(data: ArrayBuffer) {
     let url = ArmMediumUrl.picture.upload();
     return this.http
-      .post<HowellResponse<string>, BinaryData | string>(url, data)
+      .post<HowellResponse<string>, ArrayBuffer | string>(url, data)
       .then((x) => {
         return x.Data;
       });
   }
   async download(id: string) {
-    return new Promise<BinaryData>((resolve, reject) => {
+    return new Promise<ArrayBuffer>((resolve, reject) => {
       let url = this.picture(id);
       let http = new XMLHttpRequest();
       http.onload = () => {

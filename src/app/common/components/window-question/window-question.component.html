@@ -1,0 +1,21 @@
+<app-window [Model]="model" [style]="style">
+  <div class="question">
+    <div class="question-head">
+      <div class="hw-simple-title">
+        <i class="mdi mdi-alert"></i> {{ title }}
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="hw-simple-title">
+        {{ content }}
+
+        <ng-content></ng-content>
+      </div>
+    </div>
+    <div class="question-foot">
+      <button class="button-clip-gradient" (click)="on.yes()">是</button>
+      <button class="button-clip-gradient no" (click)="on.no()">否</button>
+      <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+    </div>
+  </div>
+</app-window>

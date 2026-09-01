@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
+import { WindowQuestionComponent } from '../../../../../../common/components/window-question/window-question.component';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
@@ -38,6 +39,7 @@ import { SystemEventManagerAnalysisWindow } from './system-event-manager-analysi
     SystemEventVideoComponent,
     WindowComponent,
     WindowConfirmComponent,
+    WindowQuestionComponent,
     PictureListComponent,
     SystemEventProcessDetailsComponent,
     SystemEventMapManagerComponent,
@@ -61,7 +63,7 @@ export class SystemEventManagerAnalysisComponent implements OnInit {
     private language: LanguageTool,
     private toastr: ToastrService,
     public controller: SystemEventManagerAnalysisController,
-    public window: SystemEventManagerAnalysisWindow
+    public window: SystemEventManagerAnalysisWindow,
   ) {}
 
   Language = Language;
@@ -86,7 +88,7 @@ export class SystemEventManagerAnalysisComponent implements OnInit {
   table = {
     args: new SystemEventTableArgs(),
     load: new EventEmitter<SystemEventTableArgs>(),
-    download: new EventEmitter<SystemEventTableArgs>(),
+    download: new EventEmitter<boolean>(),
     search: () => {
       this.table.args.first = true;
       this.table.load.emit(this.table.args);
@@ -137,7 +139,7 @@ export class SystemEventManagerAnalysisComponent implements OnInit {
       paged: PagedList<
         MobileEventRecord | EventResourceContent | ShopRegistration | ShopSign
       >,
-      opened: boolean = false
+      opened: boolean = false,
     ) => {
       if (paged.Data.length == 0) return;
 
@@ -170,9 +172,13 @@ export class SystemEventManagerAnalysisComponent implements OnInit {
     },
   };
 
-  on = {
-    download: () => {
-      this.table.download.emit(this.table.args);
+  download = {
+    question: () => {
+      this.window.download.show = true;
+    },
+    todo: (include: boolean) => {
+      this.table.download.emit(include);
+      this.window.download.show = false;
     },
   };
 }

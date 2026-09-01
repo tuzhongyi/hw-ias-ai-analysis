@@ -44,15 +44,17 @@ import { SystemEventTableService } from '../business/system-event-table.service'
 export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
   @Input() args = new SystemEventTableArgs();
   @Input('load') input_load?: EventEmitter<SystemEventTableArgs>;
-  @Input() download?: EventEmitter<SystemEventTableArgs>;
+  @Input() download?: EventEmitter<boolean>;
   @Output() position = new EventEmitter<MobileEventRecord>();
 
   @Output('picture') output_picture = new EventEmitter<
     Paged<MobileEventRecord>
   >();
+  @Input() pictureget?: EventEmitter<number>;
+  @Output() picturegot = new EventEmitter<Paged<Paged<MobileEventRecord>>>();
+  @Output() process = new EventEmitter<Paged<MobileEventRecord>>();
   @Input() get?: EventEmitter<number>;
-  @Output() got = new EventEmitter<Paged<Paged<MobileEventRecord>>>();
-  @Output() process = new EventEmitter<MobileEventRecord>();
+
   @Output() video = new EventEmitter<MobileEventRecord>();
   @Output() details = new EventEmitter<MobileEventRecord>();
   @Output() task = new EventEmitter<MobileEventRecord>();
@@ -60,7 +62,7 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
 
   constructor(
     private business: SystemEventTableBusiness,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   widths = [
@@ -92,6 +94,15 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   ngOnInit(): void {
+    this.regist();
+    this.filter = SystemEventTableFilter.from(this.args);
+    this.load(1, this.page.PageSize, this.filter);
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  private regist() {
     if (this.input_load) {
       let sub = this.input_load.subscribe((x) => {
         this.args = x;
@@ -99,13 +110,13 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
         this.load(
           this.args.first ? 1 : this.page.PageIndex,
           this.page.PageSize,
-          this.filter
+          this.filter,
         );
       });
       this.subscription.add(sub);
     }
-    if (this.get) {
-      let sub = this.get.subscribe((index) => {
+    if (this.pictureget) {
+      let sub = this.pictureget.subscribe((index) => {
         this.business.load(index, 1, this.filter).then((x) => {
           let paged = new Paged<Paged<MobileEventRecord>>();
           paged.Page = x.Page;
@@ -113,16 +124,16 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
           data.Page = Page.create(1, 1, x.Data[0].Resources?.length ?? 0);
           data.Data = x.Data[0];
           paged.Data = data;
-          this.got.emit(paged);
+          this.picturegot.emit(paged);
         });
       });
       this.subscription.add(sub);
     }
     if (this.download) {
-      let sub = this.download.subscribe((x) => {
+      let sub = this.download.subscribe((includingImage) => {
         let filter = SystemEventTableFilter.from(this.args);
         this.business.download
-          .to(filter, this.page.TotalRecordCount)
+          .to(filter, this.page.TotalRecordCount, includingImage)
           .then((ids) => {
             this.toastr.success('正在打包下载文件，请稍候...');
             this.business.download.do(ids).catch((e) => {
@@ -132,11 +143,24 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
       });
       this.subscription.add(sub);
     }
-    this.filter = SystemEventTableFilter.from(this.args);
-    this.load(1, this.page.PageSize, this.filter);
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.get) {
+      this.subscription.add(
+        this.get.subscribe((index) => {
+          this.business.load(index, 1, this.filter).then((x) => {
+            if (x.Data.length > 0) {
+              let item = x.Data[0];
+              let paged = Paged.create(
+                item,
+                index,
+                1,
+                this.page.TotalRecordCount,
+              );
+              this.process.emit(paged);
+            }
+          });
+        }),
+      );
+    }
   }
 
   private load(index: number, size: number, filter: SystemEventTableFilter) {
@@ -226,8 +250,9 @@ export class SystemEventTableRealtimeComponent implements OnInit, OnDestroy {
     }
   }
 
-  onprocess(e: Event, item: MobileEventRecord) {
-    this.process.emit(item);
+  onprocess(e: Event, item: MobileEventRecord, index: number) {
+    let paged = Paged.create(item, index, 1, this.page.TotalRecordCount);
+    this.process.emit(paged);
     if (this.selected === item) {
       e.stopImmediatePropagation();
     }

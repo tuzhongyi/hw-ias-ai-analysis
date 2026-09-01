@@ -42,6 +42,8 @@ export class GetMobileEventsParams extends PagedDurationParams {
   IsTimeout?: boolean;
   /**	Boolean	是否为短时间的重复案件，默认：false	O */
   IsRepeated?: boolean;
+  /**	Boolean	是否导出需要包含图片。	O */
+  IncludingImage?: boolean;
   /**	String	升序属性，不区分大小写	O */
   Asc?: string;
   /**	String	降序属性，不区分大小写	O */

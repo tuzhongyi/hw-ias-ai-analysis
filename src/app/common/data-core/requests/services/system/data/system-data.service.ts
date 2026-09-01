@@ -14,10 +14,10 @@ export class SystemDataRequestService {
         },
       });
     },
-    upload: (data: BinaryData) => {
+    upload: (data: ArrayBuffer) => {
       let url = ArmSystemUrl.data.configuration();
       return this.http
-        .post<HowellResponse, BinaryData>(url, data, {
+        .post<HowellResponse, ArrayBuffer>(url, data, {
           headers: {
             'Content-Type': 'text/plain',
           },

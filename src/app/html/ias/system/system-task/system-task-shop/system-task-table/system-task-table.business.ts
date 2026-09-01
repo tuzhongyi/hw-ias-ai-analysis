@@ -45,6 +45,7 @@ export class SystemTaskTableBusiness<T extends AnalysisTaskModel> {
         ShopState.OnGoing,
         ShopState.Finished,
         ShopState.Failed,
+        ShopState.Paused,
       ];
     } else if (args.finished) {
       params.TaskStates = [ShopState.Finished];
@@ -54,6 +55,7 @@ export class SystemTaskTableBusiness<T extends AnalysisTaskModel> {
         ShopState.NotStarted,
         ShopState.OnGoing,
         ShopState.Failed,
+        ShopState.Paused,
       ];
     }
     if (args.name) {

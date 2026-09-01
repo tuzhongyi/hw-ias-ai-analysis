@@ -13,18 +13,21 @@ import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { WindowConfirmComponent } from '../../../../../../common/components/window-confirm/window-confirm.component';
+import { WindowQuestionComponent } from '../../../../../../common/components/window-question/window-question.component';
 import { ShopSign } from '../../../../../../common/data-core/models/arm/analysis/shop-sign.model';
 import { Assignment } from '../../../../../../common/data-core/models/arm/event/assignment.model';
 import { EventResourceContent } from '../../../../../../common/data-core/models/arm/event/event-resource-content.model';
 import { MobileEventRecord } from '../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { ShopRegistration } from '../../../../../../common/data-core/models/arm/geographic/shop-registration.model';
-import { EnumNameValue } from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
+import {
+  EnumNameValue,
+  NameValue,
+} from '../../../../../../common/data-core/models/capabilities/enum-name-value.model';
 import {
   Page,
   Paged,
   PagedList,
 } from '../../../../../../common/data-core/models/interface/page-list.model';
-import { EventBlockedParams } from '../../../../../../common/data-core/requests/services/system/event/system-event.params';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { LanguageTool } from '../../../../../../common/tools/language-tool/language.tool';
 import { PictureListComponent } from '../../../../share/picture/picture-list/picture-list.component';
@@ -40,7 +43,7 @@ import { SystemEventVideoComponent } from '../../system-event-video/system-event
 import { SystemEventManagerRealtimeBusiness } from './business/system-event-manager-realtime.business';
 import { SystemEventManagerRealtimeController } from './controller/system-event-manager-realtime.controller';
 import { SystemEventManagerRealtimeSource } from './system-event-manager-realtime.soiurce';
-import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtime.window';
+import { SystemEventManagerRealtimeWindow } from './window/system-event-manager-realtime.window';
 
 @Component({
   selector: 'ias-system-event-manager-realtime',
@@ -53,6 +56,7 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
     SystemEventVideoComponent,
     WindowComponent,
     WindowConfirmComponent,
+    WindowQuestionComponent,
     HowellSelectComponent,
     PictureListComponent,
     SystemEventProcessDetailsRealtimeComponent,
@@ -66,7 +70,6 @@ import { SystemEventManagerRealtimeWindow } from './system-event-manager-realtim
     SystemEventManagerRealtimeSource,
     SystemEventManagerRealtimeBusiness,
     SystemEventManagerRealtimeController,
-    SystemEventManagerRealtimeWindow,
   ],
 })
 export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
@@ -77,13 +80,13 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
   constructor(
     public source: SystemEventManagerRealtimeSource,
     private language: LanguageTool,
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     public controller: SystemEventManagerRealtimeController,
-    public window: SystemEventManagerRealtimeWindow,
-    private business: SystemEventManagerRealtimeBusiness,
+    public business: SystemEventManagerRealtimeBusiness,
   ) {}
 
   Language = Language;
+  window = new SystemEventManagerRealtimeWindow(this);
 
   private change = {
     args: (simple: SimpleChange) => {
@@ -122,8 +125,9 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
 
   table = {
     args: new SystemEventTableArgs(),
+    get: new EventEmitter<number>(),
     load: new EventEmitter<SystemEventTableArgs>(),
-    download: new EventEmitter<SystemEventTableArgs>(),
+    download: new EventEmitter<boolean>(),
     selected: {
       channels: [] as EnumNameValue<number>[],
     },
@@ -176,9 +180,8 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
           );
         }
       },
-      process: (data: MobileEventRecord) => {
-        this.window.process.data = data;
-        this.window.process.show = true;
+      process: (paged: Paged<MobileEventRecord>) => {
+        this.window.process.open(paged);
       },
       task: (data: MobileEventRecord) => {
         this.task.open(data);
@@ -193,6 +196,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
       | ShopRegistration
       | ShopSign
       | Assignment
+      | NameValue
     >,
     open: (
       paged: PagedList<
@@ -201,6 +205,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
         | ShopRegistration
         | ShopSign
         | Assignment
+        | NameValue
       >,
       opened: boolean = false,
     ) => {
@@ -216,6 +221,7 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
         this.window.picture.show = true;
       }
     },
+
     change: (page: Page) => {
       this.window.picture.page = page;
       let index = page.PageIndex - 1;
@@ -232,25 +238,6 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
     close: () => {
       this.window.confirm.result = false;
       this.window.confirm.show = false;
-    },
-  };
-
-  on = {
-    download: () => {
-      this.table.download.emit(this.table.args);
-    },
-    blocked: (args: { eventId: string; params: EventBlockedParams }) => {
-      this.business
-        .blocked(args.eventId, args.params)
-        .then((x) => {
-          this.toastr.success('操作成功');
-          this.table.args.first = false;
-          this.table.load.emit(this.table.args);
-          this.window.process.show = false;
-        })
-        .catch((e) => {
-          this.toastr.error('操作失败');
-        });
     },
   };
 
@@ -279,6 +266,16 @@ export class SystemEventManagerRealtimeComponent implements OnInit, OnChanges {
         this.window.task.data = data;
         this.window.assgin.show = false;
       },
+    },
+  };
+
+  download = {
+    question: () => {
+      this.window.download.show = true;
+    },
+    todo: (include: boolean) => {
+      this.table.download.emit(include);
+      this.window.download.show = false;
     },
   };
 }

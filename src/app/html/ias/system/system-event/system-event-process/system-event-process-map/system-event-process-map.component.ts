@@ -36,10 +36,10 @@ export class SystemEventProcessMapComponent
     changing: async (simple: SimpleChange) => {
       if (simple && !simple.firstChange) {
         if (!this.data || !this.data.Location) return;
+        await this.controller.marker.remove();
         let gcj02 = this.data.Location.GCJ02;
         let center = [gcj02.Longitude, gcj02.Latitude] as [number, number];
         if (this.changing) {
-          await this.controller.marker.remove();
           await this.controller.circle.set({
             radius: this.raduis,
             center: center,
@@ -66,6 +66,7 @@ export class SystemEventProcessMapComponent
     data: async (simple: SimpleChange) => {
       if (simple) {
         if (this.data) {
+          await this.controller.marker.remove();
           let marker = await this.controller.marker.add(this.data);
           this.controller.map.focus(marker);
         } else {

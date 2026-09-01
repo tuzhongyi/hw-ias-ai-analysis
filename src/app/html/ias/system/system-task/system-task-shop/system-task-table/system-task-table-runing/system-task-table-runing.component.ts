@@ -44,7 +44,7 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
 
   constructor(
     private business: SystemTaskTableRuningBusiness,
-    private converter: SystemTaskTableRuningConverter
+    private converter: SystemTaskTableRuningConverter,
   ) {}
 
   widths = [
@@ -57,7 +57,7 @@ export class SystemTaskTableRuningComponent implements OnInit, OnDestroy {
     '200px',
     '200px',
     '200px',
-    '100px',
+    '150px',
   ];
   page = Page.create(1, 10);
   datas: AnalysisTaskRuningModel[] = [];

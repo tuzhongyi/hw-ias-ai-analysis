@@ -16,14 +16,21 @@
 
   // ========== 两列 ==========
   &-column {
-    width: calc((100% - @gap) / 2);
+    width: calc((100% - @gap * 2) * 0.4);
     display: flex;
     flex-direction: column;
     gap: @gap;
+
+    &.half {
+      width: calc((100% - @gap * 2) * 0.2);
+    }
+
+    &.full {
+      width: calc((100% - @gap) * 0.5);
+    }
   }
 
-
-  // ========== 左列：图片 + 信息 ==========
+  // ========== 左列：图片 + (地图 | 音频) ==========
 
   &-picture {
     width: 100%;
@@ -32,40 +39,26 @@
     box-sizing: border-box;
   }
 
-  &-info {
-
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    padding: 0;
-    box-sizing: border-box;
-    overflow-y: auto;
-
-    &.flex-grow {
-      flex-grow: 1;
-    }
-
-  }
-
-  // ========== 右列：地图 + 语音/屏蔽 ==========
-
-  &-map {
-
-    flex: 1;
-    width: 100%;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  &-audio-blocked {
+  &-map-audio {
     flex: 1;
     display: flex;
-
     gap: @gap;
   }
 
+  &-map {
+    height: 100%;
+    width: calc((100% - @gap) * 0.5);
+    padding: 0;
+    box-sizing: border-box;
+
+    &.full {
+      width: 100%;
+    }
+  }
+
   &-audio {
-    flex: 1;
     width: 100%;
+    aspect-ratio: 8/9;
 
     .panel-head {
       display: flex;
@@ -78,13 +71,50 @@
     }
   }
 
-  &-blocked {
+  // ========== 右列：信息 + 屏蔽 ==========
+
+  &-info {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    &.flex-grow {
+      flex-grow: 1;
+    }
+  }
+
+  &-bottom {
     flex: 1;
+    min-height: 0;
+    display: flex;
+    gap: @gap;
+  }
+
+  &-handle {
+    width: 100%;
+    flex-grow: 1;
+    flex-shrink: 0;
 
     .panel-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+  }
+
+  &-blocked {
+    width: 100%;
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      input {
+        cursor: pointer;
+      }
     }
   }
 
@@ -96,9 +126,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 
-    .button-group {
-      justify-content: flex-end;
+    &-page {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      &>div {
+        display: flex;
+        align-items: center;
+      }
     }
 
     .audio {
@@ -114,8 +153,4 @@
       }
     }
   }
-
-
-
-
 }

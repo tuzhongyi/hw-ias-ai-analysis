@@ -169,7 +169,7 @@
             查找
           </button>
 
-          <button class="button-clip-gradient" (click)="on.download()">
+          <button class="button-clip-gradient" (click)="download.question()">
             导出
           </button>
           <button
@@ -188,6 +188,7 @@
       *ngIf="table.args.types.length > 0"
       [args]="table.args"
       [load]="table.load"
+      [get]="table.get"
       [download]="table.download"
       (picture)="table.on.picture($event)"
       (process)="table.on.process($event)"
@@ -257,9 +258,15 @@
   >
     <ias-system-event-process-realtime
       [data]="window.process.data"
+      [page]="window.process.page"
       (close)="window.process.show = false"
       (picture)="table.on.picture($event)"
-      (blocked)="on.blocked($event)"
+      (blocked)="window.process.blocked.do($event)"
+      (handle)="window.process.handle.do($event)"
+      (next)="window.process.on.page.next()"
+      (prev)="window.process.on.page.prev()"
+      (pictureupload)="picture.open($event, false)"
+      (picturehandle)="picture.open($event, false)"
     ></ias-system-event-process-realtime>
   </ias-window>
 
@@ -282,6 +289,7 @@
     <div class="window-picture">
       <div class="window-picture-body">
         <ias-picture-list
+          [src]="window.picture.args.src"
           [id]="window.picture.args.id"
           [polygon]="window.picture.args.polygon"
           [zoom]="window.picture.args.polygon.length > 0"
@@ -356,4 +364,14 @@
       [args]="window.video.args"
     ></ias-system-event-video>
   </ias-window>
+
+  <question-window
+    *ngIf="window.download.show"
+    [model]="window.download"
+    (yes)="download.todo(true)"
+    (no)="download.todo(false)"
+    (cancel)="window.download.show = false"
+  >
+    <div class="confirm-window">{{ window.download.message }}</div>
+  </question-window>
 </div>

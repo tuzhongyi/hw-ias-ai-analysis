@@ -1,0 +1,20 @@
+<ias-image-control
+  [files]="cache"
+  [disabled]="disabled"
+  (preview)="preview.emit($event)"
+>
+  <!-- Upload button -->
+  <div class="upload-item" [class.disabled]="disabled">
+    <upload-control
+      [accept]="'image/*'"
+      [type]="0"
+      [multiple]="true"
+      [disabled]="disabled"
+      (upload)="onupload($event)"
+    >
+      <div class="upload-button">
+        <i class="mdi mdi-plus"></i>
+      </div>
+    </upload-control>
+  </div>
+</ias-image-control>
