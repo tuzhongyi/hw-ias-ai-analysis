@@ -8,7 +8,7 @@
     </button>
   </div>
   <div class="timeline-time">
-    {{ begin | date : "HH:mm:ss" }}
+    {{ begin | date : (crossday ? "yyyy-MM-dd" : "HH:mm:ss") }}
   </div>
   <div class="timeline-progress">
     <input
@@ -23,17 +23,22 @@
       (mouseup)="mouse.up($event)"
     />
     <div
+      class="timeline-divider"
+      *ngFor="let day of days"
+      [ngStyle]="{ left: day.percent + '%' }"
+    ></div>
+    <div
       class="timeline-current"
       *ngIf="mouse.enter || control.playing"
       [ngStyle]="{
         left: mouse.left + 'px'
       }"
     >
-      {{ current | date : "HH:mm:ss" }}
-      <!-- | {{ index }} | {{ mouse.left }} -->
+      <div *ngIf="crossday">{{ current | date : "yyyy-MM-dd" }}</div>
+      <div>{{ current | date : "HH:mm:ss" }}</div>
     </div>
   </div>
   <div class="timeline-time">
-    {{ end | date : "HH:mm:ss" }}
+    {{ end | date : (crossday ? "yyyy-MM-dd" : "HH:mm:ss") }}
   </div>
 </div>

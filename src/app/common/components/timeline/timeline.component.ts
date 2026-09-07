@@ -22,11 +22,14 @@ export class TimelineComponent implements OnChanges {
   @Input() datas: Date[] = [];
   @Output('change') _change = new EventEmitter<Date>();
   @Input() playable = true;
+  @Input() select?: Date;
 
   begin?: Date;
   end?: Date;
   current = new Date();
   index = 0;
+  crossday = false;
+  days: { percent: number }[] = [];
   @ViewChild('timelineslider') slider?: ElementRef<HTMLInputElement>;
 
   private change = {
@@ -39,12 +42,54 @@ export class TimelineComponent implements OnChanges {
           if (this.datas.length > 1) {
             this.end = this.datas[this.datas.length - 1];
           }
+          this.loadDays();
+        }
+      }
+    },
+    select: (simple: SimpleChange) => {
+      if (simple && this.select) {
+        let time = this.select.getTime();
+        let index = this.datas.findIndex((x) => x.getTime() === time);
+        if (index >= 0) {
+          this.index = index;
+          this.current = this.datas[index];
         }
       }
     },
   };
   ngOnChanges(changes: SimpleChanges): void {
     this.change.datas(changes['datas']);
+    this.change.select(changes['select']);
+  }
+
+  private sameDay(a: Date, b: Date) {
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  }
+
+  private loadDays() {
+    this.days = [];
+    this.crossday = false;
+    if (this.datas.length < 2 || !this.begin || !this.end) return;
+    this.crossday = !this.sameDay(this.begin, this.end);
+    if (!this.crossday) return;
+
+    let day = this.key(this.begin);
+    let total = this.datas.length - 1;
+    for (let i = 1; i < this.datas.length; i++) {
+      let key = this.key(this.datas[i]);
+      if (key !== day) {
+        this.days.push({ percent: (i / total) * 100 });
+        day = key;
+      }
+    }
+  }
+
+  private key(date: Date) {
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
   }
 
   on = {

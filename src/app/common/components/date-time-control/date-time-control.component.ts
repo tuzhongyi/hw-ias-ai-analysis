@@ -31,6 +31,7 @@ export class DateTimeControlComponent {
   @Input() zindex: number = 10;
   @Input() position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left' =
     'bottom-right';
+  @Input() readonly = true;
 
   private _date: Date = new Date();
   public get date(): Date {

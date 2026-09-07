@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
@@ -57,7 +57,7 @@ import { SystemMainManagerPanel } from './panel/system-main-manager.panel';
   styleUrl: './system-main-manager.component.less',
   providers: [SystemMainManagerBusiness],
 })
-export class SystemMainManagerComponent implements OnInit {
+export class SystemMainManagerComponent implements OnInit, OnDestroy {
   constructor(
     public business: SystemMainManagerBusiness,
     public toastr: ToastrService,
@@ -76,20 +76,31 @@ export class SystemMainManagerComponent implements OnInit {
   duration = DateTimeTool.all.day(new Date());
 
   map = new SystemMainManagerMapController(this);
+  private timer?: any;
 
   ngOnInit(): void {
     wait(() => {
       return !this.global.display.loading;
     }).then(() => {
-      if (this.global.display.map.shop) {
-        this.init.shop();
-      }
-      this.init.device();
-      this.init.realtime();
-      this.init.sample();
-      this.init.road.object();
+      this.loading();
       this.panel.navigation.change(SyatemMainMapNavigation.realtime, true);
+      this.timer = setInterval(() => this.loading(), 60 * 1000);
     });
+  }
+  ngOnDestroy(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
+
+  private loading(): void {
+    if (this.global.display.map.shop) {
+      this.init.shop();
+    }
+    this.init.device();
+    this.init.realtime();
+    this.init.sample();
+    this.init.road.object();
   }
 
   private init = {
@@ -188,6 +199,7 @@ export class SystemMainManagerComponent implements OnInit {
       this.business.shop.load(this.shop.args).then((x) => {
         this.shop.data.registration = x;
         this.map.data.shop = x;
+        this.map.on.shop.filter(this.shop.args.states!);
       });
       this.business.mobile.load(this.duration, EventMode.shop).then((x) => {
         this.shop.data.record = x;
@@ -253,6 +265,7 @@ export class SystemMainManagerComponent implements OnInit {
         this.business.road.object.load(this.road.object.args).then((x) => {
           this.road.object.datas = x;
           this.map.data.road.object = x;
+          this.map.on.road.object.filter(this.road.object.args.states!);
         });
       },
     },

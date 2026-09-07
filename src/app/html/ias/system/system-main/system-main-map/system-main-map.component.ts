@@ -17,7 +17,6 @@ import { ShopRegistration } from '../../../../../common/data-core/models/arm/geo
 import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { ILocation } from '../../../../../common/data-core/models/interface/model.interface';
 import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
-import { wait } from '../../../../../common/tools/wait';
 import { SystemMainMapBusiness } from './business/system-main-map.business';
 import { SystemMainMapController } from './controller/system-main-map.controller';
 
@@ -128,67 +127,27 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
     display: {
       shop: (simple: SimpleChange) => {
         if (simple) {
-          wait(() => {
-            return this.controller.shop.inited;
-          }).then(() => {
-            if (this.shopdisplay) {
-              this.controller.shop.reload();
-            } else {
-              this.controller.shop.clear();
-            }
-          });
+          this.load.shop(this.shops);
         }
       },
       device: (simple: SimpleChange) => {
         if (simple) {
-          wait(() => {
-            return this.controller.device.inited;
-          }).then(() => {
-            if (this.devicedisplay) {
-              this.controller.device.reload();
-            } else {
-              this.controller.device.clear();
-            }
-          });
+          this.load.device(this.devices);
         }
       },
       realtime: (simple: SimpleChange) => {
         if (simple) {
-          wait(() => {
-            return this.controller.alarm.realtime.inited;
-          }).then(() => {
-            if (this.realtimedisplay) {
-              this.controller.alarm.realtime.reload();
-            } else {
-              this.controller.alarm.realtime.clear();
-            }
-          });
+          this.load.realtimes(this.realtimes);
         }
       },
       timeout: (simple: SimpleChange) => {
         if (simple) {
-          wait(() => {
-            return this.controller.alarm.timeout.inited;
-          }).then(() => {
-            if (this.realtimedisplay) {
-              this.controller.alarm.timeout.reload();
-            } else {
-              this.controller.alarm.timeout.clear();
-            }
-          });
+          this.load.timeouts(this.timeouts);
         }
       },
       sample: (simple: SimpleChange) => {
         if (simple) {
-          wait(() => {
-            return this.controller.sample.inited;
-          }).then(() => {
-            if (this.sampledisplay) {
-              this.controller.sample.reload();
-            } else {
-              this.controller.sample.clear();
-            }
-          });
+          this.load.samples(this.samples);
         }
       },
       heatmap: (simple: SimpleChange) => {
@@ -202,15 +161,7 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
       },
       roadobject: (simple: SimpleChange) => {
         if (simple) {
-          wait(() => {
-            return this.controller.roadobject.inited;
-          }).then(() => {
-            if (this.roadobjectdisplay) {
-              this.controller.roadobject.reload();
-            } else {
-              this.controller.roadobject.clear();
-            }
-          });
+          this.load.roadobject(this.roadobjects);
         }
       },
     },
@@ -231,31 +182,55 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
       });
     },
     shop: (datas: ShopRegistration[]) => {
+      if (!this.shopdisplay) {
+        this.controller.shop.clear();
+        return;
+      }
       this.controller.shop.clear().then((x) => {
         this.controller.shop.load(datas);
       });
     },
     device: (datas: MobileDevice[]) => {
+      if (!this.devicedisplay) {
+        this.controller.device.clear();
+        return;
+      }
       this.controller.device.clear().then((x) => {
         this.controller.device.load(datas);
       });
     },
     realtimes: (datas: MobileEventRecord[]) => {
+      if (!this.realtimedisplay) {
+        this.controller.alarm.realtime.clear();
+        return;
+      }
       this.controller.alarm.realtime.clear().then((x) => {
         this.controller.alarm.realtime.load(datas);
       });
     },
     timeouts: (datas: MobileEventRecord[]) => {
+      if (!this.timeoutdisplay) {
+        this.controller.alarm.timeout.clear();
+        return;
+      }
       this.controller.alarm.timeout.clear().then((x) => {
         this.controller.alarm.timeout.load(datas);
       });
     },
     samples: (datas: GpsTaskSampleRecord[]) => {
+      if (!this.sampledisplay) {
+        this.controller.sample.clear();
+        return;
+      }
       this.controller.sample.clear().then((x) => {
         this.controller.sample.load(datas);
       });
     },
     roadobject: (datas: RoadObject[]) => {
+      if (!this.roadobjectdisplay) {
+        this.controller.roadobject.clear();
+        return;
+      }
       this.controller.roadobject.load(datas);
     },
   };

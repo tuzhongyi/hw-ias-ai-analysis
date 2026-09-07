@@ -12,8 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimeControlComponent } from '../../../../../../common/components/date-time-control/date-time-control.component';
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
-import { TimeControlComponent } from '../../../../../../common/components/time-control/time-control.component';
-import { TimeModel } from '../../../../../../common/components/time-control/time-control.model';
 import { TimelineComponent } from '../../../../../../common/components/timeline/timeline.component';
 import { VideoPlayerContainerComponent } from '../../../../../../common/components/video-player-container/video-player-container.component';
 import { PlaybackArgs } from '../../../../../../common/components/video-player-container/video-player-container.model';
@@ -27,6 +25,7 @@ import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/date
 import { DurationUnit } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { wait } from '../../../../../../common/tools/wait';
+import { IVideoPathMapTriggerArgs } from '../../../../share/video-path/video-path-map/video-path-map.model';
 import { SystemModuleMobileDeviceRouteChartContainerComponent } from '../system-module-mobile-device-route-chart-container/system-module-mobile-device-route-chart-container.component';
 import { SystemModuleMobileDeviceRouteInfoComponent } from '../system-module-mobile-device-route-info/system-module-mobile-device-route-info.component';
 import { SystemModuleMobileDeviceRouteMapPathStateComponent } from '../system-module-mobile-device-route-map-path-state/system-module-mobile-device-route-map-path-state.component';
@@ -46,7 +45,6 @@ import { SystemModuleMobileDeviceRouteWindow } from './system-module-mobile-devi
     CommonModule,
     FormsModule,
     DateTimeControlComponent,
-    TimeControlComponent,
     TimelineComponent,
     HowellSelectComponent,
     SystemModuleMobileDeviceRouteMapComponent,
@@ -131,6 +129,22 @@ export class SystemModuleMobileDeviceRouteManagerComponent
       patrolloaded: (datas: GisPointMatchResult[][][]) => {
         this.map.patrol.datas = datas;
       },
+      pathclick: (args: IVideoPathMapTriggerArgs) => {
+        let item = args.percent < 0.5 ? args.start : args.end;
+        if (!item.OSDTime) {
+          return;
+        }
+        this.map.current = item;
+        this.timeline.select = item.OSDTime;
+        if (
+          this.window.video.show &&
+          this.window.video.args instanceof PlaybackArgs
+        ) {
+          this.window.video.change.duration(
+            DateTimeTool.after(item.OSDTime, 5 * 60),
+          );
+        }
+      },
     },
   };
   chart = {
@@ -144,45 +158,30 @@ export class SystemModuleMobileDeviceRouteManagerComponent
     Unit: DurationUnit,
     RouteStatisticType: SystemModuleMobileDeviceRouteType,
     been: false,
-
-    date: {
-      value: new Date(),
-      format: Language.YearMonthDay,
-      week: false,
-      view: {
-        min: DateTimePickerView.month,
-      },
-      change: () => {
-        this.map.args.duration.begin.setFullYear(
-          this.manager.date.value.getFullYear(),
-          this.manager.date.value.getMonth(),
-          this.manager.date.value.getDate(),
-        );
-        this.map.args.duration.end.setFullYear(
-          this.manager.date.value.getFullYear(),
-          this.manager.date.value.getMonth(),
-          this.manager.date.value.getDate(),
-        );
-
-        this.map.clear();
-      },
-    },
     time: {
-      begin: new TimeModel(0, 0, 0),
-      end: new TimeModel(23, 59, 59),
-      change: () => {
-        this.map.args.duration.begin.setHours(
-          this.manager.time.begin.hour.value,
-          this.manager.time.begin.minute.value,
-          this.manager.time.begin.second.value,
-        );
-        this.map.args.duration.end.setHours(
-          this.manager.time.end.hour.value,
-          this.manager.time.end.minute.value,
-          this.manager.time.end.second.value,
-        );
-
-        this.map.clear();
+      data: DateTimeTool.all.day(new Date()),
+      min: DateTimePickerView.hour,
+      change: {
+        begin: () => {
+          let data = this.manager.time.data;
+          if (!DateTimeTool.is.less.month(data)) {
+            data.end = new Date(data.begin);
+            data.end.setMonth(data.end.getMonth() + 1);
+            this.toastr.warning('查询期限最多一个月');
+          }
+          this.map.args.duration = data;
+          this.map.clear();
+        },
+        end: () => {
+          let data = this.manager.time.data;
+          if (!DateTimeTool.is.less.month(data)) {
+            data.begin = new Date(data.end);
+            data.begin.setMonth(data.begin.getMonth() - 1);
+            this.toastr.warning('查询期限最多一个月');
+          }
+          this.map.args.duration = data;
+          this.map.clear();
+        },
       },
     },
     on: {
@@ -210,25 +209,6 @@ export class SystemModuleMobileDeviceRouteManagerComponent
         }
       },
 
-      unit: () => {
-        this.manager.date.week = this.map.args.unit == DurationUnit.week;
-        switch (this.map.args.unit) {
-          case DurationUnit.month:
-            this.manager.date.view.min = DateTimePickerView.year;
-            this.manager.date.format = Language.YearMonth;
-            break;
-          case DurationUnit.year:
-            this.manager.date.view.min = DateTimePickerView.decade;
-            this.manager.date.format = Language.Year;
-            break;
-
-          default:
-            this.manager.date.view.min = DateTimePickerView.month;
-            this.manager.date.format = Language.YearMonthDay;
-            break;
-        }
-        this.manager.on.search();
-      },
       search: () => {
         this.manager.been = true;
         this.window.video.show = false;
@@ -336,7 +316,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
             this.timeline.datas[this.timeline.datas.length - 1].getTime(),
           );
         }
-        if (!DateTimeTool.is.less(duration, 5 * 60)) {
+        if (!DateTimeTool.is.less.second(duration, 5 * 60)) {
           duration = DateTimeTool.after(duration.begin, 5 * 60);
         }
         this.window.video.show = true;
@@ -378,6 +358,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
 
   timeline = {
     datas: [] as Date[],
+    select: undefined as Date | undefined,
     change: (data: Date) => {
       this.map.current = this.map.route.datas.find(
         (x) => x.OSDTime?.getTime() == data.getTime(),
