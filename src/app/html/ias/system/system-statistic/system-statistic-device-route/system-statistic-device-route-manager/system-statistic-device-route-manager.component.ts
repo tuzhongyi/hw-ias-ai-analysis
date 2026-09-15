@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import {
   Component,
   Input,
@@ -13,7 +13,10 @@ import { DateTimeControlComponent } from '../../../../../../common/components/da
 import { HowellSelectComponent } from '../../../../../../common/components/hw-select/select-control.component';
 import { DateTimePickerView } from '../../../../../../common/directives/date-time-picker/date-time-picker.directive';
 import { ChartType } from '../../../../../../common/tools/chart-tool/chart.model';
+import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/datetime.tool';
 import { DurationUnit } from '../../../../../../common/tools/date-time-tool/duration.model';
+import { IExcelExportModel } from '../../../../../../common/tools/excel-tool/excel.model';
+import { ExcelTool } from '../../../../../../common/tools/excel-tool/excel.tool';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { SystemStatisticDeviceRouteChartContainerComponent } from '../system-statistic-device-route-chart/system-statistic-device-route-chart-container/system-statistic-device-route-chart-container.component';
 import { SystemStatisticDeviceRouteInfoComponent } from '../system-statistic-device-route-info/system-statistic-device-route-info.component';
@@ -139,6 +142,119 @@ export class SystemStatisticDeviceRouteManagerComponent
         return;
       }
       this.load.to(this.args);
+    },
+    export: () => {
+      if (!this.datas.length) {
+        this.toastr.warning('没有可导出的数据');
+        return;
+      }
+      this.export.run();
+    },
+  };
+
+  export = {
+    run: () => {
+      let model = this.export.convert();
+      ExcelTool.export(model);
+    },
+    convert: (): IExcelExportModel => {
+      return {
+        name: this.export.name(),
+        table: {
+          name: '数据',
+          title: this.export.title(),
+          columns: [
+            '日期',
+            '总里程(公里)',
+            '平均时速(公里/小时)',
+            '最高时速(公里/小时)',
+            '行驶时长(秒)',
+            '停留时长(秒)',
+            '覆盖率(%)',
+            '是否出勤',
+          ],
+          rows: this.datas.map((x) => [
+            this.export.date(x.Date),
+            +(x.TotalMeters / 1000).toFixed(2),
+            +x.AvgSpeed.toFixed(2),
+            +x.FastestSpeed.toFixed(2),
+            x.MovingSeconds,
+            x.StaySeconds,
+            +(x.CoveragePercent ?? 0).toFixed(2),
+            Language.YesOrNo(x.Attendance),
+          ]),
+        },
+        charts: [
+          {
+            name: '里程',
+            title: '里程',
+            type: this.chart.type,
+            category: 0,
+            series: [{ name: '总里程', color: '00F6FF', column: 1 }],
+          },
+          {
+            name: '速度',
+            title: '速度',
+            type: this.chart.type,
+            category: 0,
+            series: [{ name: '平均时速', color: '00F6FF', column: 2 }],
+          },
+          {
+            name: '时长',
+            title: '时长',
+            type: this.chart.type,
+            category: 0,
+            series: [
+              { name: '行驶时长', color: '00F6FF', column: 4 },
+              { name: '停留时长', color: 'FFFF00', column: 5 },
+            ],
+          },
+        ],
+      };
+    },
+    name: () => {
+      let device = this.export.device();
+      let type = this.export.type();
+      switch (this.args.unit) {
+        case DurationUnit.week:
+        case DurationUnit.month:
+        case DurationUnit.year: {
+          let duration = DateTimeTool.all.unit(this.args.date, this.args.unit);
+          return `${device}_行驶统计_${type}_${formatDate(duration.begin, 'yyyy-MM-dd', 'en')}_${formatDate(duration.end, 'yyyy-MM-dd', 'en')}`;
+        }
+        default:
+          return `${device}_${type}`;
+      }
+    },
+    title: () => {
+      let device = this.export.device();
+      let type = this.export.type();
+      let duration = DateTimeTool.all.unit(this.args.date, this.args.unit);
+      return `${device} 行驶统计 ${type} ${formatDate(duration.begin, 'yyyy-MM-dd HH:mm:ss', 'en')} ~ ${formatDate(duration.end, 'yyyy-MM-dd HH:mm:ss', 'en')}`;
+    },
+    device: () => {
+      let device = this.source.devices.find((x) => x.Id === this.args.deviceId);
+      return device?.Name ?? this.args.deviceId;
+    },
+    type: () => {
+      switch (this.args.unit) {
+        case DurationUnit.week:
+          return '周报表';
+        case DurationUnit.month:
+          return '月报表';
+        case DurationUnit.year:
+          return '年报表';
+        default:
+          return '日报表';
+      }
+    },
+    date: (date: Date) => {
+      switch (this.args.unit) {
+        case DurationUnit.day:
+          return formatDate(date, 'yyyy-MM-dd HH:00', 'en');
+        default:
+          return formatDate(date, 'yyyy-MM-dd', 'en');
+      }
     },
   };
 }

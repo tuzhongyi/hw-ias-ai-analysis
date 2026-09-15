@@ -1,11 +1,19 @@
 import { EventEmitter } from '@angular/core';
 
+import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPointMatchResult } from '../../../../../../../common/data-core/models/arm/geographic/patrol/gis-point-match-result.model';
 import { PatrolSection } from '../../../../../../../common/data-core/models/arm/geographic/patrol/patrol-section.model';
 import { MobileDevice } from '../../../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
+import { Language } from '../../../../../../../common/tools/language-tool/language';
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
+import { ClassTool } from '../../../../../../../common/tools/class-tool/class.tool';
+import {
+  GeoLine,
+  GeoPoint,
+} from '../../../../../../../common/tools/geo-tool/geo.model';
+import { IIASMapAMapInfo } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { SystemModuleMobileDeviceRouteAMapController } from './amap/system-module-mobile-device-route-amap.controller';
 
 export class SystemModuleMobileDeviceRouteMapController {
@@ -21,17 +29,62 @@ export class SystemModuleMobileDeviceRouteMapController {
   private amap: SystemModuleMobileDeviceRouteAMapController;
 
   path = {
+    datas: [] as FileGpsItem[],
     event: {
-      click: new EventEmitter<[number, number]>(),
+      click: new EventEmitter<{
+        line: GeoLine;
+        point: GeoPoint;
+        percent: number;
+      }>(),
       regist: (subscription: Subscription) => {
         subscription.add(
           this.amap.path.event.click.subscribe((x) => {
             this.path.event.click.emit(x);
           }),
         );
+        subscription.add(
+          this.amap.path.event.mouseover.subscribe((x) => {
+            this.path.event.on.over(x);
+          }),
+        );
+        subscription.add(
+          this.amap.path.event.mousemove.subscribe((x) => {
+            this.path.event.on.over(x);
+          }),
+        );
+        subscription.add(
+          this.amap.path.event.mouseout.subscribe(() => {
+            this.amap.info.get().then((info) => {
+              info.remove();
+            });
+          }),
+        );
+      },
+      on: {
+        over: (x: { line: GeoLine; point: GeoPoint; percent: number }) => {
+          this.amap.info.get().then((info) => {
+            let start = this.path.datas.find((item) =>
+              ClassTool.equals.array([item.Longitude, item.Latitude], x.line[0]),
+            );
+            let end = this.path.datas.find((item) =>
+              ClassTool.equals.array([item.Longitude, item.Latitude], x.line[1]),
+            );
+            if (start && end && start.OSDTime && end.OSDTime) {
+              let timestamp =
+                start.OSDTime.getTime() +
+                (end.OSDTime.getTime() - start.OSDTime.getTime()) * x.percent;
+              let value: IIASMapAMapInfo = {
+                Name: formatDate(new Date(timestamp), Language.HHmmss, 'en'),
+                Location: x.point,
+              };
+              info.add(value, undefined, [0, -10]);
+            }
+          });
+        },
       },
     },
     load: async (datas: FileGpsItem[][]) => {
+      this.path.datas = datas.flat(1);
       let polylines: AMap.Polyline[] = [];
 
       for (let i = 0; i < datas.length; i++) {

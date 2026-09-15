@@ -186,45 +186,35 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         this.controller.shop.clear();
         return;
       }
-      this.controller.shop.clear().then((x) => {
-        this.controller.shop.load(datas);
-      });
+      this.controller.shop.load(datas);
     },
     device: (datas: MobileDevice[]) => {
       if (!this.devicedisplay) {
         this.controller.device.clear();
         return;
       }
-      this.controller.device.clear().then((x) => {
-        this.controller.device.load(datas);
-      });
+      this.controller.device.load(datas);
     },
     realtimes: (datas: MobileEventRecord[]) => {
       if (!this.realtimedisplay) {
         this.controller.alarm.realtime.clear();
         return;
       }
-      this.controller.alarm.realtime.clear().then((x) => {
-        this.controller.alarm.realtime.load(datas);
-      });
+      this.controller.alarm.realtime.load(datas);
     },
     timeouts: (datas: MobileEventRecord[]) => {
       if (!this.timeoutdisplay) {
         this.controller.alarm.timeout.clear();
         return;
       }
-      this.controller.alarm.timeout.clear().then((x) => {
-        this.controller.alarm.timeout.load(datas);
-      });
+      this.controller.alarm.timeout.load(datas);
     },
     samples: (datas: GpsTaskSampleRecord[]) => {
       if (!this.sampledisplay) {
         this.controller.sample.clear();
         return;
       }
-      this.controller.sample.clear().then((x) => {
-        this.controller.sample.load(datas);
-      });
+      this.controller.sample.load(datas);
     },
     roadobject: (datas: RoadObject[]) => {
       if (!this.roadobjectdisplay) {

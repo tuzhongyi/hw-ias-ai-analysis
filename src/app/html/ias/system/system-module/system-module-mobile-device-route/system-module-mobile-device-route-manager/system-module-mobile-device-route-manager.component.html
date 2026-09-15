@@ -138,6 +138,7 @@
             [init]="map.init"
             [routeload]="map.route.load"
             [routeclear]="map.route.clear"
+            [routerealtime]="map.realtime.emitter"
             (routeloaded)="map.on.routeloaded($event)"
             [patrolload]="map.patrol.load"
             [patrolclear]="map.patrol.clear"
@@ -149,7 +150,7 @@
         </div>
         <div
           class="system-module-mobile-device-route-manager-body-map-foot"
-          *ngIf="map.route.datas.length > 0"
+          *ngIf="map.route.datas.length > 0 && !map.realtime.value"
         >
           <howell-timeline
             [datas]="timeline.datas"
@@ -163,11 +164,14 @@
           <howell-system-module-mobile-device-route-map-settings
             *ngIf="map.route.datas.length > 0"
             [(rectified)]="map.rectified"
+            [realtimepath]="map.realtime.value"
+            (realtimepathChange)="map.realtime.onchange($event)"
           >
           </howell-system-module-mobile-device-route-map-settings>
         </div>
         <div
-          class="system-module-mobile-device-route-manager-body-map-state has-timeline"
+          class="system-module-mobile-device-route-manager-body-map-state"
+          [class.has-timeline]="!map.realtime.value"
           *ngIf="map.route.datas.length > 0 && map.patrol.datas.length == 0"
         >
           <ias-system-module-mobile-device-route-map-path-state

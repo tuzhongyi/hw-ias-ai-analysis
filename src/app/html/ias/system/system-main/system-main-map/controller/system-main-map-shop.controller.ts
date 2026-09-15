@@ -19,6 +19,7 @@ export class SystemMainMapShopController {
 
   private datas?: IShop[];
   private loaded = false;
+  private token = 0;
 
   private regist(subscription: Subscription) {
     let sub1 = this.amap.event.shop.click.subscribe((x) => {
@@ -33,17 +34,28 @@ export class SystemMainMapShopController {
 
   async load(datas: IShop[]) {
     this.datas = datas;
-    let point = await this.amap.shop.point.get();
+    let token = ++this.token;
+    let [point, marker] = await Promise.all([
+      this.amap.shop.point.get(),
+      this.amap.shop.marker.get(),
+    ]);
+    // 地图就绪前可能已排队多次 load/clear，只让最后发起的那次生效
+    if (token !== this.token) return;
+    point.clear();
     point.load(datas);
-    let marker = await this.amap.shop.marker.get();
+    marker.clear();
     marker.load(datas);
     this.loaded = true;
     this.inited = true;
   }
   async clear() {
-    let point = await this.amap.shop.point.get();
+    let token = ++this.token;
+    let [point, marker] = await Promise.all([
+      this.amap.shop.point.get(),
+      this.amap.shop.marker.get(),
+    ]);
+    if (token !== this.token) return;
     point.clear();
-    let marker = await this.amap.shop.marker.get();
     marker.clear();
     this.loaded = false;
   }

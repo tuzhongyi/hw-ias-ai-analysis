@@ -153,9 +153,19 @@ export class VideoModel {
     if (!this.stream) {
       this.stream = StreamType.sub;
     }
-    let url = `ws://${this.host}:${this.port}/ws/video/howellps/${this.mode}/${this.deviceId}/${this.slot}/${this.stream}/${this.mode}.mp4`;
+    let protocol = 'ws';
+    if (location.protocol.includes('https')) {
+      protocol = 'wss';
+      this.port = parseInt(location.port || '443');
+      this.host = location.hostname;
+      if (this.host == '127.0.0.1' && this.port == 9000) {
+        this.host = 'garbage01.51hws.cn';
+        this.port = 5443;
+      }
+    }
+    let url = `${protocol}://${this.host}:${this.port}/ws/video/howellps/${this.mode}/${this.deviceId}/${this.slot}/${this.stream}/${this.mode}.mp4`;
     if (this.mode === PlayMode.vod && this.beginTime && this.endTime) {
-      url = `ws://${this.host}:${this.port}/ws/video/howellps/${this.mode}/${
+      url = `${protocol}://${this.host}:${this.port}/ws/video/howellps/${this.mode}/${
         this.deviceId
       }/${this.slot}/${this.stream}/${this.beginTime.toISOString()}_${this.endTime.toISOString()}/${
         this.mode
@@ -187,14 +197,6 @@ export class VideoModel {
       }/${this.beginTime.toISOString()}_${this.endTime.toISOString()}/${this.mode}.srt`;
 
       return url;
-      // let url = UrlTool.get(
-      //   `/ws/video/Subtitling/${this.deviceId}/${
-      //     this.slot
-      //   }/${this.beginTime.toISOString()}_${this.endTime.toISOString()}/${
-      //     this.mode
-      //   }.srt`
-      // );
-      // return url;
     }
     throw new Error('当前模式不支持生成字幕');
   }

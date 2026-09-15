@@ -17,6 +17,7 @@ export class SystemMainMapSampleController {
   }
   private datas?: GpsTaskSampleRecord[];
   private loaded = false;
+  private token = 0;
 
   private regist(subscription: Subscription) {
     let sub = this.amap.event.sample.dblclick.subscribe((x) => {
@@ -27,17 +28,28 @@ export class SystemMainMapSampleController {
 
   async load(datas: GpsTaskSampleRecord[]) {
     this.datas = datas;
-    let marker = await this.amap.sample.marker.get();
+    let token = ++this.token;
+    let [marker, scatter] = await Promise.all([
+      this.amap.sample.marker.get(),
+      this.amap.sample.scatter.get(),
+    ]);
+    // 地图就绪前可能已排队多次 load/clear，只让最后发起的那次生效
+    if (token !== this.token) return;
+    marker.clear();
     marker.load(datas);
-    let scatter = await this.amap.sample.scatter.get();
+    scatter.clear();
     scatter.load(datas);
     this.loaded = true;
     this.inited = true;
   }
   async clear() {
-    let scatter = await this.amap.sample.scatter.get();
+    let token = ++this.token;
+    let [marker, scatter] = await Promise.all([
+      this.amap.sample.marker.get(),
+      this.amap.sample.scatter.get(),
+    ]);
+    if (token !== this.token) return;
     scatter.clear();
-    let marker = await this.amap.sample.marker.get();
     marker.clear();
     this.loaded = false;
   }

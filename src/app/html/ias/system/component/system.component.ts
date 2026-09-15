@@ -35,6 +35,7 @@ export class SystemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.config.version.then((version) => {
+      console.log(version);
       if (this.global.version !== version) {
         location.replace(window.location.href);
         return;

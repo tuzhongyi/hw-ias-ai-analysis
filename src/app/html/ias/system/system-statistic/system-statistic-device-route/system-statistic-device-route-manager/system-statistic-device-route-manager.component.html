@@ -31,7 +31,9 @@
         </div>
       </div>
       <div class="form-item submit">
+        <div class="button-group"></div>
         <button class="button-clip-gradient" (click)="on.search()">查找</button>
+        <button class="button-clip-gradient" (click)="on.export()">导出</button>
       </div>
     </div>
     <div class="forms">
@@ -69,6 +71,8 @@
     </ng-container>
 
     <div class="loading" *ngIf="load.ing"></div>
-    <div class="please" *ngIf="!load.ed && !load.ing">请选择{{ Language.DeviceName }}</div>
+    <div class="please" *ngIf="!load.ed && !load.ing">
+      请选择{{ Language.DeviceName }}
+    </div>
   </div>
 </div>

@@ -29,22 +29,32 @@ export class SystemMainMapRoadObjectController {
 
   private datas?: RoadObject[];
   private loaded = false;
+  private token = 0;
 
   async load(datas: RoadObject[]) {
     this.datas = datas;
-    let point = await this.amap.roadobject.point.get();
+    let token = ++this.token;
+    let [point, marker] = await Promise.all([
+      this.amap.roadobject.point.get(),
+      this.amap.roadobject.marker.get(),
+    ]);
+    // 地图就绪前可能已排队多次 load/clear，只让最后发起的那次生效
+    if (token !== this.token) return;
     point.clear();
     point.load(datas);
-    let marker = await this.amap.roadobject.marker.get();
     marker.clear();
     marker.load(datas);
     this.loaded = true;
     this.inited = true;
   }
   async clear() {
-    let point = await this.amap.roadobject.point.get();
+    let token = ++this.token;
+    let [point, marker] = await Promise.all([
+      this.amap.roadobject.point.get(),
+      this.amap.roadobject.marker.get(),
+    ]);
+    if (token !== this.token) return;
     point.clear();
-    let marker = await this.amap.roadobject.marker.get();
     marker.clear();
     this.loaded = false;
   }

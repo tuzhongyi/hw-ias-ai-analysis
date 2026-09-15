@@ -64,7 +64,7 @@ export class SystemModuleMobileDeviceRouteMapGPSBusiness {
       });
     },
     device: (deviceId: string) => {
-      return this.service.mobile.device.cache.get(deviceId);
+      return this.service.mobile.device.get(deviceId);
     },
   };
 }

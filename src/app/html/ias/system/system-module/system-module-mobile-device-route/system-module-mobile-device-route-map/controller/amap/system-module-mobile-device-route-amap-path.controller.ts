@@ -1,11 +1,28 @@
 import { EventEmitter } from '@angular/core';
+import {
+  GeoLine,
+  GeoPoint,
+} from '../../../../../../../../common/tools/geo-tool/geo.model';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
 import { IASMapAMapConfig } from '../../../../../../share/map/controller/amap/ias-map-amap.config';
 
 export class SystemModuleMobileDeviceRouteAMapPathController {
-  mouseover = new EventEmitter<[number, number]>();
+  mouseover = new EventEmitter<{
+    line: GeoLine;
+    point: GeoPoint;
+    percent: number;
+  }>();
+  mousemove = new EventEmitter<{
+    line: GeoLine;
+    point: GeoPoint;
+    percent: number;
+  }>();
   mouseout = new EventEmitter<void>();
-  click = new EventEmitter<[number, number]>();
+  click = new EventEmitter<{
+    line: GeoLine;
+    point: GeoPoint;
+    percent: number;
+  }>();
 
   constructor(
     private map: AMap.Map,
@@ -14,30 +31,50 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
 
   private positions?: AMap.Polyline;
   private points: [number, number][] = [];
+  private hover = false;
 
   private onmouseover(e: any) {
-    var point = AMap.GeometryUtil.closestOnLine(
-      [e.lnglat.lng, e.lnglat.lat],
-      [...this.points],
-    ) as unknown as [number, number];
-    if (point) {
-      let closest = GeoTool.point.closest(this.points, point);
-      if (closest) {
-        this.mouseover.emit(closest.point);
+    this.hover = true;
+    let data = this.closest(e);
+    if (data) {
+      this.mouseover.emit(data);
+    }
+  }
+  private onmousemove(e: any) {
+    if (this.hover) {
+      let data = this.closest(e);
+      if (data) {
+        this.mousemove.emit(data);
       }
     }
   }
   private onmouseout(e: any) {
+    this.hover = false;
     this.mouseout.emit();
   }
-  private onclick(e: any) {
+  private closest(
+    e: any,
+  ): { line: GeoLine; point: GeoPoint; percent: number } | undefined {
     var point = AMap.GeometryUtil.closestOnLine(
       [e.lnglat.lng, e.lnglat.lat],
       [...this.points],
-    ) as unknown as [number, number];
-    let closest = GeoTool.point.closest(this.points, point);
-    if (closest) {
-      this.click.emit(closest.point);
+    ) as [number, number];
+    if (point) {
+      let closest = GeoTool.polyline.closest.get(this.points, point);
+      if (closest) {
+        return {
+          point: point,
+          line: closest.line,
+          percent: closest.percent.segment,
+        };
+      }
+    }
+    return undefined;
+  }
+  private onclick(e: any) {
+    let data = this.closest(e);
+    if (data) {
+      this.click.emit(data);
     }
   }
 
@@ -56,6 +93,9 @@ export class SystemModuleMobileDeviceRouteAMapPathController {
     });
     this.positions.on('mouseover', (e: any) => {
       this.onmouseover(e);
+    });
+    this.positions.on('mousemove', (e: any) => {
+      this.onmousemove(e);
     });
     this.positions.on('mouseout', (e: any) => {
       this.onmouseout(e);

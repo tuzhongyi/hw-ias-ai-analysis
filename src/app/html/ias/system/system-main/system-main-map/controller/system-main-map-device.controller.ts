@@ -17,6 +17,7 @@ export class SystemMainMapDeviceController {
   }
   private datas?: MobileDevice[];
   loaded = false;
+  private token = 0;
 
   private regist(subscription: Subscription) {
     let sub = this.amap.event.device.dblclick.subscribe((x) => {
@@ -26,13 +27,19 @@ export class SystemMainMapDeviceController {
   }
   async load(datas: MobileDevice[]) {
     this.datas = datas;
+    let token = ++this.token;
     let marker = await this.amap.device.marker.get();
+    // 地图就绪前可能已排队多次 load/clear，只让最后发起的那次生效
+    if (token !== this.token) return;
+    marker.clear();
     marker.load(datas);
     this.loaded = true;
     this.inited = true;
   }
   async clear() {
+    let token = ++this.token;
     let marker = await this.amap.device.marker.get();
+    if (token !== this.token) return;
     marker.clear();
     this.loaded = false;
   }

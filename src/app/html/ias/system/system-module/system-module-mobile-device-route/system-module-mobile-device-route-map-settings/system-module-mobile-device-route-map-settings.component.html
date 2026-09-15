@@ -4,7 +4,7 @@
     'top-left': top && left,
     'top-right': top && !left,
     'bottom-left': !top && left,
-    'bottom-right': !top && !left
+    'bottom-right': !top && !left,
   }"
 >
   <div class="system-module-mobile-device-route-map-settings-button">
@@ -16,6 +16,22 @@
     <div
       class="system-module-mobile-device-route-map-settings-content-body forms"
     >
+      <div class="form-item">
+        <div class="form-item-text">
+          <label
+            for="system-module-mobile-device-route-map-settings-realtime-path"
+            >实时路径</label
+          >
+        </div>
+        <div class="form-item-value">
+          <input
+            type="checkbox"
+            id="system-module-mobile-device-route-map-settings-realtime-path"
+            [(ngModel)]="realtimepath"
+            (change)="on.realtimepath()"
+          />
+        </div>
+      </div>
       <div class="form-item">
         <div class="form-item-text">
           <label for="system-module-mobile-device-route-map-settings-rectified"

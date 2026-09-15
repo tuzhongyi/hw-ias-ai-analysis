@@ -1,7 +1,7 @@
 const PROXY_CONFIG = [
   {
     context: ['/api/ver10/'],
-    target: 'http://192.168.18.147:9000',
+    target: 'https://garbage01.51hws.cn:5443',
     changeOrigin: true,
 
     secure: false,
@@ -9,19 +9,9 @@ const PROXY_CONFIG = [
       Connection: 'keep-alive',
     },
   },
-  // {
-  //   context: ['/video/wsplayer/'],
-  //   target: 'http://192.168.21.241:8800',
-  //   changeOrigin: true,
-
-  //   secure: false,
-  //   headers: {
-  //     Connection: 'keep-alive',
-  //   },
-  // },
   {
     context: ['/video/wsplayer/'],
-    target: 'http://192.168.18.147:80',
+    target: 'https://garbage01.51hws.cn:5443',
     changeOrigin: true,
 
     secure: false,

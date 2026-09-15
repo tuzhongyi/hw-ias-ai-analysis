@@ -19,7 +19,20 @@ export class VideoPlayerContainerBusiness {
 
   get webUrl() {
     return this.config.video.then((x) => {
-      return x.videoUrl;
+      // 当前页面不是 https，直接用配置的地址
+      if (!location.protocol.includes('https')) {
+        return x.videoUrl;
+      }
+      // 当前页面是 https 时，播放器地址的协议和端口都改用当前页面的，
+      // 避免 https 页面嵌入 http 地址被浏览器拦截
+      try {
+        let url = new URL(x.videoUrl, location.href);
+        url.protocol = location.protocol;
+        url.port = location.port;
+        return url.toString();
+      } catch {
+        return x.videoUrl.replace(/^http:/i, 'https:');
+      }
     });
   }
 

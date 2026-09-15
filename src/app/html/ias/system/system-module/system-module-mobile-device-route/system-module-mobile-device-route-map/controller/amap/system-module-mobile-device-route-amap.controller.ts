@@ -2,7 +2,12 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { PathTool } from '../../../../../../../../common/tools/path-tool/path.tool';
+import {
+  GeoLine,
+  GeoPoint,
+} from '../../../../../../../../common/tools/geo-tool/geo.model';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
+import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { SystemModuleMobileDeviceRouteAMapMarkerController } from './device/system-module-mobile-device-route-amap-device-marker.controller';
 import { SystemModuleMobileDeviceRouteAMapMatchController } from './match/system-module-mobile-device-route-amap-match.controller';
 import { SystemModuleMobileDeviceRouteAMapSectionController } from './section/system-module-mobile-device-route-amap-section.controller';
@@ -17,6 +22,9 @@ export class SystemModuleMobileDeviceRouteAMapController {
   }
   get match() {
     return this.controller.match;
+  }
+  get info() {
+    return this.controller.info;
   }
 
   constructor(
@@ -35,6 +43,7 @@ export class SystemModuleMobileDeviceRouteAMapController {
     section:
       new PromiseValue<SystemModuleMobileDeviceRouteAMapSectionController>(),
     match: new PromiseValue<SystemModuleMobileDeviceRouteAMapMatchController>(),
+    info: new PromiseValue<IASMapAMapInfoController>(),
   };
 
   private init() {
@@ -55,6 +64,7 @@ export class SystemModuleMobileDeviceRouteAMapController {
         this.controller.match.set(
           new SystemModuleMobileDeviceRouteAMapMatchController(x),
         );
+        this.controller.info.set(new IASMapAMapInfoController(x));
       })
       .catch((e) => {
         console.error('Amap 初始化失败', e);
@@ -67,12 +77,42 @@ export class SystemModuleMobileDeviceRouteAMapController {
           this.path.event.click.emit(x);
         }),
       );
+      this.subscription.add(
+        controller.mouseover.subscribe((x) => {
+          this.path.event.mouseover.emit(x);
+        }),
+      );
+      this.subscription.add(
+        controller.mousemove.subscribe((x) => {
+          this.path.event.mousemove.emit(x);
+        }),
+      );
+      this.subscription.add(
+        controller.mouseout.subscribe((x) => {
+          this.path.event.mouseout.emit(x);
+        }),
+      );
     },
   };
 
   path = {
     event: {
-      click: new EventEmitter<[number, number]>(),
+      click: new EventEmitter<{
+        line: GeoLine;
+        point: GeoPoint;
+        percent: number;
+      }>(),
+      mouseover: new EventEmitter<{
+        line: GeoLine;
+        point: GeoPoint;
+        percent: number;
+      }>(),
+      mousemove: new EventEmitter<{
+        line: GeoLine;
+        point: GeoPoint;
+        percent: number;
+      }>(),
+      mouseout: new EventEmitter<void>(),
     },
     create: async (type: number) => {
       let map = await this.map.get();

@@ -13,7 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { GisPointMatchResult } from '../../../../../../common/data-core/models/arm/geographic/patrol/gis-point-match-result.model';
-import { GeoTool } from '../../../../../../common/tools/geo-tool/geo.tool';
+import { ClassTool } from '../../../../../../common/tools/class-tool/class.tool';
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { IVideoPathMapTriggerArgs } from '../../../../share/video-path/video-path-map/video-path-map.model';
 import { SystemModuleMobileDeviceRouteArgs } from '../system-module-mobile-device-route.model';
@@ -33,6 +33,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
   @Input() routeload?: EventEmitter<SystemModuleMobileDeviceRouteArgs>;
   @Input() routeclear?: EventEmitter<void>;
   @Output() routeloaded = new EventEmitter<FileGpsItem[]>();
+  @Input() routerealtime?: EventEmitter<boolean>;
 
   @Input() patrolload?: EventEmitter<SystemModuleMobileDeviceRouteArgs>;
   @Input() patrolclear?: EventEmitter<void>;
@@ -62,6 +63,7 @@ export class SystemModuleMobileDeviceRouteMapComponent
     route: false,
     patrol: false,
   };
+  private realtime = false;
 
   private regist = {
     all: () => {
@@ -124,6 +126,12 @@ export class SystemModuleMobileDeviceRouteMapComponent
         });
         this.subscription.add(sub);
       }
+      if (this.routerealtime) {
+        let sub = this.routerealtime.subscribe((x) => {
+          this.realtime = x;
+        });
+        this.subscription.add(sub);
+      }
       // init: 接收 deviceId，获取设备信息并在高德地图上显示设备位置
       if (this.init) {
         let sub = this.init.subscribe((deviceId) => {
@@ -150,16 +158,23 @@ export class SystemModuleMobileDeviceRouteMapComponent
       );
       this.subscription.add(
         this.controller.path.event.click.subscribe((x) => {
-          let positions = this.business.route.datas.map<[number, number]>(
-            (x) => [x.Longitude, x.Latitude],
+          let start = this.business.route.datas.find((item) =>
+            ClassTool.equals.array(
+              [item.Longitude, item.Latitude],
+              x.line[0],
+            ),
           );
-          let closest = GeoTool.polyline.closest.get(positions, x);
-
-          if (closest) {
+          let end = this.business.route.datas.find((item) =>
+            ClassTool.equals.array(
+              [item.Longitude, item.Latitude],
+              x.line[1],
+            ),
+          );
+          if (start && end) {
             let args = {
-              start: this.business.route.datas[closest.segmentIndex],
-              end: this.business.route.datas[closest.segmentIndex + 1],
-              percent: closest.percent.segment,
+              start,
+              end,
+              percent: x.percent,
             };
             console.log(args);
             this.pathclick.emit(args);
@@ -208,7 +223,9 @@ export class SystemModuleMobileDeviceRouteMapComponent
           this.loaded.route = false;
           this.controller.path.load(gps).then((x) => {
             this.loaded.route = true;
-            this.controller.map.focus(x);
+            if (!this.realtime) {
+              this.controller.map.focus(x);
+            }
             if (this.loaded.patrol) {
               this.controller.match.showDir(false);
               this.controller.section.showDir(false);

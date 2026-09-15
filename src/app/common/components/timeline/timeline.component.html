@@ -14,9 +14,9 @@
     <input
       type="range"
       #timelineslider
-      [(ngModel)]="index"
-      [min]="0"
-      [max]="datas.length - 1"
+      [(ngModel)]="value"
+      [min]="min"
+      [max]="max"
       [step]="1"
       (input)="on.change()"
       (mousedown)="mouse.down($event)"

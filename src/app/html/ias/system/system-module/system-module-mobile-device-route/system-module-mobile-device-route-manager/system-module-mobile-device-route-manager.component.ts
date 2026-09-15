@@ -25,6 +25,7 @@ import { DateTimeTool } from '../../../../../../common/tools/date-time-tool/date
 import { DurationUnit } from '../../../../../../common/tools/date-time-tool/duration.model';
 import { Language } from '../../../../../../common/tools/language-tool/language';
 import { wait } from '../../../../../../common/tools/wait';
+import { ArrayTool } from '../../../../../../common/tools/array-tool/array.tool';
 import { IVideoPathMapTriggerArgs } from '../../../../share/video-path/video-path-map/video-path-map.model';
 import { SystemModuleMobileDeviceRouteChartContainerComponent } from '../system-module-mobile-device-route-chart-container/system-module-mobile-device-route-chart-container.component';
 import { SystemModuleMobileDeviceRouteInfoComponent } from '../system-module-mobile-device-route-info/system-module-mobile-device-route-info.component';
@@ -106,6 +107,9 @@ export class SystemModuleMobileDeviceRouteManagerComponent
       this.map.route.clear.emit();
       this.map.patrol.datas = [];
       this.map.patrol.clear.emit();
+
+      this.map.realtime.value = false;
+      this.map.realtime.stop();
     },
     route: {
       datas: [] as FileGpsItem[],
@@ -119,8 +123,49 @@ export class SystemModuleMobileDeviceRouteManagerComponent
     },
     init: new EventEmitter<string>(),
     rectified: false,
-
     current: undefined as FileGpsItem | undefined,
+    realtime: {
+      value: false,
+      handle: undefined as any,
+      emitter: new EventEmitter<boolean>(),
+      start: () => {
+        let istoday =
+          DateTimeTool.is.today(this.manager.time.data.begin) ||
+          DateTimeTool.is.today(this.manager.time.data.end);
+        if (!istoday) {
+          this.toastr.success('实时路径只能加载当天路径');
+        }
+
+        this.manager.time.data = DateTimeTool.all.day(new Date());
+        this.map.args.duration = this.manager.time.data;
+
+        this.map.route.datas = [];
+        this.map.route.clear.emit();
+        this.map.route.load.emit(this.map.args);
+
+        this.map.realtime.handle = setInterval(() => {
+          this.map.route.load.emit(this.map.args);
+        }, 10 * 1000);
+      },
+      stop: () => {
+        if (this.map.realtime.handle) {
+          clearInterval(this.map.realtime.handle);
+          this.map.realtime.handle = undefined;
+        }
+      },
+      change: () => {
+        if (this.map.realtime.value) {
+          this.map.realtime.start();
+        } else {
+          this.map.realtime.stop();
+        }
+        this.map.realtime.emitter.emit(this.map.realtime.value);
+      },
+      onchange: (value: boolean) => {
+        this.map.realtime.value = value;
+        this.map.realtime.change();
+      },
+    },
     on: {
       routeloaded: (datas: FileGpsItem[]) => {
         this.map.route.datas = [...datas];
@@ -130,10 +175,19 @@ export class SystemModuleMobileDeviceRouteManagerComponent
         this.map.patrol.datas = datas;
       },
       pathclick: (args: IVideoPathMapTriggerArgs) => {
-        let item = args.percent < 0.5 ? args.start : args.end;
-        if (!item.OSDTime) {
+        let { start, end, percent } = args;
+        if (!start.OSDTime || !end.OSDTime) {
           return;
         }
+        let item = new FileGpsItem();
+        item.Longitude =
+          start.Longitude + (end.Longitude - start.Longitude) * percent;
+        item.Latitude =
+          start.Latitude + (end.Latitude - start.Latitude) * percent;
+        item.OSDTime = new Date(
+          start.OSDTime.getTime() +
+            (end.OSDTime.getTime() - start.OSDTime.getTime()) * percent,
+        );
         this.map.current = item;
         this.timeline.select = item.OSDTime;
         if (
@@ -233,6 +287,8 @@ export class SystemModuleMobileDeviceRouteManagerComponent
         route: () => {
           this.map.route.datas = [];
           this.map.route.clear.emit();
+          this.map.realtime.value = false;
+          this.map.realtime.stop();
         },
         patrol: () => {
           this.map.patrol.datas = [];
@@ -360,9 +416,19 @@ export class SystemModuleMobileDeviceRouteManagerComponent
     datas: [] as Date[],
     select: undefined as Date | undefined,
     change: (data: Date) => {
-      this.map.current = this.map.route.datas.find(
-        (x) => x.OSDTime?.getTime() == data.getTime(),
-      );
+      let times = this.map.route.datas.map((x) => x.OSDTime!.getTime());
+      let closest = ArrayTool.closest.between(times, data.getTime());
+      if (closest) {
+        let start = this.map.route.datas[closest.left.index];
+        let end = this.map.route.datas[closest.right.index];
+        let item = new FileGpsItem();
+        item.Longitude =
+          start.Longitude + (end.Longitude - start.Longitude) * closest.percent;
+        item.Latitude =
+          start.Latitude + (end.Latitude - start.Latitude) * closest.percent;
+        item.OSDTime = data;
+        this.map.current = item;
+      }
       if (this.window.video.show) {
         if (this.window.video.args instanceof PlaybackArgs) {
           let duration = DateTimeTool.after(data, 5 * 60);

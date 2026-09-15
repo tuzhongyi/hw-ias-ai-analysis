@@ -13,12 +13,18 @@ export class SystemModuleMobileDeviceRouteMapSettingsComponent {
   @Input() rectified: boolean = false;
   @Output() rectifiedChange = new EventEmitter<boolean>();
 
+  @Input() realtimepath = false;
+  @Output() realtimepathChange = new EventEmitter<boolean>();
+
   @Input() top = true;
   @Input() left = false;
 
   on = {
     rectified: () => {
       this.rectifiedChange.emit(this.rectified);
+    },
+    realtimepath: () => {
+      this.realtimepathChange.emit(this.realtimepath);
     },
   };
 }

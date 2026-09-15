@@ -21,6 +21,7 @@ export class SystemMainMapAlarmTimeoutController {
 
   private datas?: MobileEventRecord[];
   private loaded = false;
+  private token = 0;
   private regist(subscription: Subscription) {
     let sub1 = this.amap.event.alarm.video.subscribe((x) => {
       this.event.video.emit(x);
@@ -38,19 +39,30 @@ export class SystemMainMapAlarmTimeoutController {
 
   async load(datas: MobileEventRecord[]) {
     this.datas = datas;
-    let marker = await this.amap.alarm.timeout.marker.get();
+    let token = ++this.token;
+    let [marker, scatter] = await Promise.all([
+      this.amap.alarm.timeout.marker.get(),
+      this.amap.alarm.timeout.scatter.get(),
+    ]);
+    // 地图就绪前可能已排队多次 load/clear，只让最后发起的那次生效
+    if (token !== this.token) return;
+    marker.clear();
     marker.load(datas);
-    let scatter = await this.amap.alarm.timeout.scatter.get();
+    scatter.clear();
     scatter.load(datas);
     this.loaded = true;
     this.inited = true;
   }
   async clear() {
-    let scatter = await this.amap.alarm.timeout.scatter.get();
+    let token = ++this.token;
+    let [marker, scatter, info] = await Promise.all([
+      this.amap.alarm.timeout.marker.get(),
+      this.amap.alarm.timeout.scatter.get(),
+      this.amap.alarm.timeout.info.get(),
+    ]);
+    if (token !== this.token) return;
     scatter.clear();
-    let marker = await this.amap.alarm.timeout.marker.get();
     marker.clear();
-    let info = await this.amap.alarm.timeout.info.get();
     info.remove();
     this.loaded = false;
   }
