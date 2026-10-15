@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RoadSection } from '../../../../../../common/data-core/models/arm/geographic/road-section.model';
+import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { SystemModuleRoadSectionMapAMapController } from './controller/amap/system-module-road-section-map-amap.controller';
 import { SystemModuleRoadSectionMapPositionController } from './controller/system-module-road-section-map-position.controller';
 import { SystemModuleRoadSectionMapController } from './controller/system-module-road-section-map.controller';
@@ -35,15 +36,23 @@ export class SystemModuleRoadSectionMapComponent
 
   constructor(
     public controller: SystemModuleRoadSectionMapController,
-    private business: SystemModuleRoadSectionMapBusiness
+    private business: SystemModuleRoadSectionMapBusiness,
+    private global: GlobalStorage
   ) {}
 
   private subscription = new Subscription();
   private load = {
     road: () => {
-      this.business.road().then((datas) => {
-        this.controller.road.load(datas);
-      });
+      this.business
+        .road()
+        .then((datas) => {
+          this.controller.road.load(datas);
+        })
+        .catch((e) => {
+          this.global.user.get().then((user) => {
+            this.controller.map.city(user.GroupName);
+          });
+        });
     },
   };
   ngOnInit(): void {

@@ -8,6 +8,7 @@ import { PromiseValue } from '../../../view-models/value.promise';
 import { AnalysisShopCapability } from '../../models/arm/analysis/analysis-shop-capability.model';
 import { AnalysisLLMCapability } from '../../models/arm/analysis/llm/analysis-llm-capability.model';
 import { EventCapability } from '../../models/capabilities/arm/event/event-capability.model';
+import { RoadAreaCapability } from '../../models/capabilities/arm/geographic/road-area-capability.model';
 import { RoadObjectCapability } from '../../models/capabilities/arm/geographic/road-object-capability.model';
 import { RoadPointCapability } from '../../models/capabilities/arm/geographic/road-point-capability.model';
 import { RoadSectionCapability } from '../../models/capabilities/arm/geographic/road-section-capability.model';
@@ -32,6 +33,7 @@ export class CapabilityManager {
     section: new PromiseValue<RoadSectionCapability>(),
     point: new PromiseValue<RoadPointCapability>(),
     object: new PromiseValue<RoadObjectCapability>(),
+    area: new PromiseValue<RoadAreaCapability>(),
   };
 
   // inputproxy = new PromiseValue<InputProxyCapability>();
@@ -39,7 +41,7 @@ export class CapabilityManager {
   constructor(
     system: ArmSystemRequestService,
     analysis: ArmAnalysisRequestService,
-    geo: ArmGeographicRequestService
+    geo: ArmGeographicRequestService,
   ) {
     this.service = {
       system,
@@ -88,6 +90,9 @@ export class CapabilityManager {
     });
     this.service.geo.road.object.capability().then((x) => {
       this.road.object.set(x);
+    });
+    this.service.geo.road.area.capability().then((x) => {
+      this.road.area.set(x);
     });
   }
 }

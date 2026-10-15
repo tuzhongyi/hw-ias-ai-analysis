@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalStorage } from '../../../../../common/storage/global.storage';
 import { SystemPath } from '../../system.model';
+import { SystemModuleIndexItemComponent } from '../system-module-index-item/system-module-index-item.component';
 
 @Component({
   selector: 'ias-system-module-index',
-  imports: [CommonModule],
+  imports: [CommonModule, SystemModuleIndexItemComponent],
   templateUrl: './system-module-index.component.html',
   styleUrl: './system-module-index.component.less',
 })
@@ -35,6 +36,9 @@ export class SystemModuleIndexComponent {
     },
     roadobject: () => {
       this.router.navigateByUrl(SystemPath.module_road_object);
+    },
+    roadarea: () => {
+      this.router.navigateByUrl(SystemPath.module_road_area);
     },
     registration: () => {
       this.router.navigateByUrl(SystemPath.module_shop_registration);

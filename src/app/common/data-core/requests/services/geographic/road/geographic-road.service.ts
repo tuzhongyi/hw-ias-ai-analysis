@@ -12,6 +12,7 @@ import { ArmGeographicUrl } from '../../../../urls/arm/geographic/geographic.url
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
 import { GetRoadsParams } from './geographic-road.params';
+import { ArmGeographicRoadAreaRequestService } from './road-area/geographic-road-area.service';
 import { ArmGeographicRoadObjectRequestService } from './road-object/geographic-road-object.service';
 import { ArmGeographicRoadPointRequestService } from './road-point/geographic-road-point.service';
 import { ArmGeographicRoadSectionRequestService } from './road-section/geographic-road-section.service';
@@ -96,6 +97,14 @@ export class ArmGeographicRoadRequestService extends AbstractService<Road> {
       this._section = new ArmGeographicRoadSectionRequestService(this.http);
     }
     return this._section;
+  }
+
+  private _area?: ArmGeographicRoadAreaRequestService;
+  public get area(): ArmGeographicRoadAreaRequestService {
+    if (!this._area) {
+      this._area = new ArmGeographicRoadAreaRequestService(this.http);
+    }
+    return this._area;
   }
 
   private _point?: ArmGeographicRoadPointRequestService;

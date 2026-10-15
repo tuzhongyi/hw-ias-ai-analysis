@@ -5,6 +5,7 @@ import { RoadObject } from '../../../../../../../../common/data-core/models/arm/
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
+import { LastResortTool } from '../../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 import { IASMapAMapInfoController } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapRoadObjectMarkerLayerController } from '../../../../../../share/map/controller/amap/road-object/marker/ias-map-amap-road-object-marker-layer.controller';
@@ -45,6 +46,7 @@ export class SystemModuleRoadObjectAMapController<
       })
       .then((map) => {
         map.setFeatures(['bg', 'road', 'building']);
+        map.setZoom(17);
 
         this.init.map(map);
 
@@ -138,6 +140,25 @@ export class SystemModuleRoadObjectAMapController<
       },
     },
   };
+
+  private last = new LastResortTool();
+
+  /** 视野已被数据接管 → 取消城市兜底 */
+  claim() {
+    this.last.claim();
+  }
+
+  city(value: string) {
+    this.last.fallback(() => {
+      this.controller.map.get().then((x) => {
+        // 等地图的这些时间里，可能已经有别的数据接管了视野
+        if (this.last.claimed) return;
+        x.setCity(value, () => {
+          x.setZoom(17);
+        });
+      });
+    });
+  }
 
   private controller = {
     map: new PromiseValue<AMap.Map>(),

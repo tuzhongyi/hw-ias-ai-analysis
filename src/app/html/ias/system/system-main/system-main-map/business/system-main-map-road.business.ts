@@ -3,7 +3,11 @@ import { ArmGeographicRequestService } from '../../../../../../common/data-core/
 export class SystemMainMapRoadBusiness {
   constructor(private service: ArmGeographicRequestService) {}
 
-  load() {
-    return this.service.road.all();
+  async load() {
+    let datas = await this.service.road.cache.all();
+    if (datas.length == 0) {
+      throw new Error();
+    }
+    return datas;
   }
 }

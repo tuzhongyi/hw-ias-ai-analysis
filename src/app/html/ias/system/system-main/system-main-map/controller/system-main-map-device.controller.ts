@@ -56,6 +56,7 @@ export class SystemMainMapDeviceController {
     return this.clear();
   }
   async focus(data: MobileDevice) {
+    this.amap.claim();
     if (data.Location) {
       let position: [number, number] = [
         data.Location.GCJ02.Longitude,

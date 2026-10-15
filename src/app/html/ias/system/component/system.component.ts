@@ -74,6 +74,7 @@ export class SystemComponent implements OnInit, OnDestroy {
     this.global.display.loading = true;
     this.business.get().then((user) => {
       if (user) {
+        this.global.user.set(user);
         let shop = false;
         if (user.Priorities) {
           shop = user.Priorities.includes('1');

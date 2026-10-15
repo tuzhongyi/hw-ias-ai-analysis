@@ -7,5 +7,6 @@ export class SystemBreadcrumbModel {
 export class SystemBreadcrumbItem {
   selected: boolean = false;
   text = '';
-  path = SystemPath.index;
+  // 由路由推导出来的路径是普通字符串，不再限定为 SystemPath 枚举
+  path: string = SystemPath.index;
 }

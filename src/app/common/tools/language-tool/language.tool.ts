@@ -39,6 +39,7 @@ export class LanguageTool {
       this.manager.source.road.section,
       this.manager.source.road.point,
       this.manager.source.road.object,
+      this.manager.source.road.area,
     );
   }
 }

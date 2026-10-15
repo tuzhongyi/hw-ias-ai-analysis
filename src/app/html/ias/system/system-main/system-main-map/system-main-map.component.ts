@@ -17,6 +17,7 @@ import { ShopRegistration } from '../../../../../common/data-core/models/arm/geo
 import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { ILocation } from '../../../../../common/data-core/models/interface/model.interface';
 import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
+import { GlobalStorage } from '../../../../../common/storage/global.storage';
 import { SystemMainMapBusiness } from './business/system-main-map.business';
 import { SystemMainMapController } from './controller/system-main-map.controller';
 
@@ -63,7 +64,8 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private business: SystemMainMapBusiness,
-    private controller: SystemMainMapController
+    private controller: SystemMainMapController,
+    private global: GlobalStorage
   ) {}
 
   private subscription = new Subscription();
@@ -175,11 +177,18 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   };
   private load = {
     road: () => {
-      this.business.road.load().then((datas) => {
-        this.controller.road.load(datas).then((lines) => {
-          this.controller.map.focus(lines);
+      this.business
+        .road.load()
+        .then((datas) => {
+          this.controller.road.load(datas).then((lines) => {
+            this.controller.map.focus(lines);
+          });
+        })
+        .catch((e) => {
+          this.global.user.get().then((user) => {
+            this.controller.map.city(user.GroupName);
+          });
         });
-      });
     },
     shop: (datas: ShopRegistration[]) => {
       if (!this.shopdisplay) {

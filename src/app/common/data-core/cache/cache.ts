@@ -1,9 +1,11 @@
 import { ClassConstructor } from 'class-transformer';
 import { AnalysisTask } from '../models/arm/analysis/task/analysis-task.model';
+import { RoadArea } from '../models/arm/geographic/road-area.model';
 import { Road } from '../models/arm/geographic/road.model';
 import { ShopRegistration } from '../models/arm/geographic/shop-registration.model';
 import { MobileDevice } from '../models/arm/mobile-device/mobile-device.model';
 import { AnalysisTaskCache } from '../requests/services/analysis/server/analysis-server.cache';
+import { RoadAreaCache } from '../requests/services/geographic/road/road-area/geographic-road-area.cache';
 import { RoadCache } from '../requests/services/geographic/road/geographic-road.cache';
 import { ShopRegistrationCache } from '../requests/services/geographic/shop/geographic-shop.cache';
 import { SystemMobileDeviceCache } from '../requests/services/system/mobile/system-mobile-device.cache';
@@ -22,6 +24,9 @@ export function Cache<T>(key: string, type?: ClassConstructor<T>) {
                   break;
                 case Road.name:
                   this._cache = new RoadCache(key, this);
+                  break;
+                case RoadArea.name:
+                  this._cache = new RoadAreaCache(key, this);
                   break;
                 case ShopRegistration.name:
                   this._cache = new ShopRegistrationCache(key, this);

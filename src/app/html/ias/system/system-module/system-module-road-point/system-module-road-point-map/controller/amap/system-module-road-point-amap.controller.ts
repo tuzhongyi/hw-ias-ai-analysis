@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
+import { LastResortTool } from '../../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 import { SystemModuleRoadPointAMapCircleLayerController } from './circle/system-module-road-point-amap-circle-layer.controller';
 import { SystemModuleRoadPointAMapScatterLayerController } from './scatter/system-module-road-point-amap-scatter-layer.controller';
 
@@ -10,6 +11,13 @@ export class SystemModuleRoadPointAMapController {
   circle = new PromiseValue<SystemModuleRoadPointAMapCircleLayerController>();
   scatter = new PromiseValue<SystemModuleRoadPointAMapScatterLayerController>();
   road = new PromiseValue<IASMapAMapRoadController>();
+
+  private last = new LastResortTool();
+
+  /** 视野已被数据接管 → 取消城市兜底 */
+  claim() {
+    this.last.claim();
+  }
 
   constructor(private subscription: Subscription) {
     MapHelper.amap
@@ -21,6 +29,7 @@ export class SystemModuleRoadPointAMapController {
       )
       .then((x) => {
         x.setFeatures(['bg', 'road', 'building']);
+        x.setZoom(17);
 
         let container = this.init.map(x);
         this.init.road(x, container);
@@ -48,4 +57,16 @@ export class SystemModuleRoadPointAMapController {
       this.scatter.set(ctr);
     },
   };
+
+  city(value: string) {
+    this.last.fallback(() => {
+      this.map.get().then((x) => {
+        // 等地图的这些时间里，可能已经有别的数据接管了视野
+        if (this.last.claimed) return;
+        x.setCity(value, () => {
+          x.setZoom(17);
+        });
+      });
+    });
+  }
 }

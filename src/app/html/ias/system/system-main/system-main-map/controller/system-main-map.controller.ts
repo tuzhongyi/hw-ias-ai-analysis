@@ -61,6 +61,7 @@ export class SystemMainMapController {
 
   map = {
     moveto: (center: [number, number]) => {
+      this.amap.claim();
       this.amap.map.get().then((x) => {
         x.setCenter(center);
         x.setZoom(20);
@@ -68,6 +69,9 @@ export class SystemMainMapController {
     },
     focus: (datas?: any) => {
       this.amap.focus(datas);
+    },
+    city: (city: string) => {
+      this.amap.city(city);
     },
     destory: () => {
       let all = [

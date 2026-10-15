@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RoadPoint } from '../../../../../../common/data-core/models/arm/geographic/road-point.model';
+import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { SystemModuleRoadPointMapController } from './controller/system-module-road-point-map.controller';
 import { SystemModuleRoadPointMapBusiness } from './system-module-road-point-map.business';
 
@@ -26,7 +27,10 @@ export class SystemModuleRoadPointMapComponent
   @Input() datas: RoadPoint[] = [];
   @Input() selected?: RoadPoint;
 
-  constructor(private business: SystemModuleRoadPointMapBusiness) {}
+  constructor(
+    private business: SystemModuleRoadPointMapBusiness,
+    private global: GlobalStorage
+  ) {}
 
   private subscription = new Subscription();
   private controller = new SystemModuleRoadPointMapController(
@@ -35,9 +39,14 @@ export class SystemModuleRoadPointMapComponent
 
   private load = {
     road: async () => {
-      let datas = await this.business.road();
-      let polylines = await this.controller.road.load(datas);
-      let center = await this.controller.map.focus(polylines);
+      try {
+        let datas = await this.business.road();
+        let polylines = await this.controller.road.load(datas);
+        let center = await this.controller.map.focus(polylines);
+      } catch (e) {
+        let user = await this.global.user.get();
+        this.controller.map.city(user.GroupName);
+      }
     },
   };
 

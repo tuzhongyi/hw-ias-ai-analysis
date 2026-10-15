@@ -72,6 +72,7 @@ export class SystemMainMapShopController {
   }
 
   async focus(data: IShop) {
+    this.amap.claim();
     if (data.Location) {
       let position: [number, number] = [
         data.Location.GCJ02.Longitude,

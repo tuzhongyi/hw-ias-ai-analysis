@@ -1,0 +1,79 @@
+import { Injectable } from '@angular/core';
+import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
+import { RoadArea } from '../../../../../../../../common/data-core/models/arm/geographic/road-area.model';
+import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
+import { SystemModuleRoadAreaDetailsMapAMapController } from './amap/system-module-road-area-details-map-amap.controller';
+import { SystemModuleRoadAreaDetailsMapPositionController } from './system-module-road-area-details-map-position.controller';
+
+@Injectable()
+export class SystemModuleRoadAreaDetailsMapController {
+  constructor(
+    public amap: SystemModuleRoadAreaDetailsMapAMapController,
+    public position: SystemModuleRoadAreaDetailsMapPositionController,
+  ) {
+    this.regist();
+  }
+
+  private regist() {
+    this.amap.event.mousemove.subscribe((x) => {
+      this.position.show = true;
+      this.position.point.current.X = x[0];
+      this.position.point.current.Y = x[1];
+
+      let saved: [number, number] = [
+        this.position.point.saved.X,
+        this.position.point.saved.Y,
+      ];
+      let current: [number, number] = [
+        this.position.point.current.X,
+        this.position.point.current.Y,
+      ];
+      if (saved[0] && saved[1]) {
+        this.position.distance = GeoTool.math.distance.calculate(
+          saved,
+          current,
+        );
+      }
+    });
+    this.amap.event.mouseout.subscribe(() => {
+      this.position.show = false;
+    });
+    this.amap.event.click.subscribe((x) => {
+      this.position.point.saved.X = x[0];
+      this.position.point.saved.Y = x[1];
+    });
+  }
+
+  /** 已有区域参考层（新建时才铺） */
+  areas = {
+    load: (datas: RoadArea[]) => {
+      return this.amap.loadareas(datas);
+    },
+  };
+
+  road = {
+    load: (datas: Road[]) => {
+      return this.amap.road.get().then((x) => {
+        return x.load(datas);
+      });
+    },
+    destroy: async () => {
+      let road = await this.amap.road.get();
+      road.clear();
+      this.amap.road.clear();
+    },
+  };
+
+  map = {
+    focus: (datas?: any) => {
+      return this.amap.focus(datas);
+    },
+    destroy: async () => {
+      await this.road.destroy();
+      this.amap.destroy();
+    },
+    city: (city: string) => {
+      return this.amap.city(city);
+    },
+  };
+}

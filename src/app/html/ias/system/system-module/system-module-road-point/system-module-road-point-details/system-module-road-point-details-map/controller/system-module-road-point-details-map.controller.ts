@@ -57,10 +57,12 @@ export class SystemModuleRoadPointDetailsMapController {
 
   map = {
     move: async (center: [number, number]) => {
+      this.controller.claim();
       let ctr = await this.controller.map.get();
       ctr.setCenter(center);
     },
     focus: async (data?: any, immediately?: boolean) => {
+      this.controller.claim();
       let ctr = await this.controller.map.get();
       ctr.setFitView(data, immediately);
       let center = ctr.getCenter();
@@ -70,6 +72,9 @@ export class SystemModuleRoadPointDetailsMapController {
       await this.circle.clear();
       let ctr = await this.controller.map.get();
       ctr.destroy();
+    },
+    city: (city: string) => {
+      this.controller.city(city);
     },
   };
 }

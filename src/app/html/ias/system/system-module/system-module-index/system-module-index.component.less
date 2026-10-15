@@ -6,12 +6,39 @@
   box-sizing: border-box;
   display: block;
 
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &-container {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  &-head {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    user-select: none;
+
+
+
+    @supports (background-clip: text) or (-webkit-background-clip: text) {
+      background: linear-gradient(to bottom, #fff 40%, #69adff 70%);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
   &-body {
     width: 100%;
-    height: 100%;
-
-    overflow: auto;
-
     box-sizing: border-box;
 
     &-list {
@@ -20,63 +47,11 @@
       flex-wrap: wrap;
       gap: 20px;
 
-      &-item {
-        cursor: pointer;
-        width: calc((100% - 20px * 3) / 4);
+      // 磁贴尺寸由父组件决定，item 内部只保留默认比例
+      &>* {
+        flex: 0 0 auto;
+        width: calc((100% - 20px * 4) / 5);
         aspect-ratio: 605/277;
-        background-image: url("../../../../../../assets/image/system/module/system-module-background.png");
-        background-size: 100% 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 15px;
-        padding-left: 20px;
-        box-sizing: border-box;
-        transition: all 0.75s;
-
-        &:hover {
-          background-image: url("../../../../../../assets/image/system/module/system-module-background-hover.png");
-          color: white;
-        }
-
-        &-icon {
-          height: 100%;
-          aspect-ratio: 224/266;
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-
-
-          &.shop {
-            background-image: url("../../../../../../assets/image/system/module/system-module-icon-shop.png");
-
-          }
-
-          &.road {
-            background-image: url("../../../../../../assets/image/system/module/system-module-icon-road.png");
-
-          }
-
-          &.gps {
-            background-image: url("../../../../../../assets/image/system/module/system-module-icon-gps.png");
-
-          }
-
-          &.analysis {
-            background-image: url("../../../../../../assets/image/system/module/system-module-icon-analysis.png");
-          }
-
-        }
-
-        &-name {
-          font-size: 40px;
-          max-width: 50%;
-
-          min-width: 200px;
-          min-width: 33.3333333%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
       }
     }
   }

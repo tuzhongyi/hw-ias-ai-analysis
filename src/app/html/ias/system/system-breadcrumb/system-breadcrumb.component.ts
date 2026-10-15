@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable, filter } from 'rxjs';
+import { filter } from 'rxjs';
 import { GlobalStorage } from '../../../../common/storage/global.storage';
-import { SystemPath } from '../system.model';
 import { SystemBreadcrumbBusiness } from './system-breadcrumb.business';
 import { SystemBreadcrumbModel } from './system-breadcrumb.model';
 
@@ -22,24 +22,33 @@ export class SystemBreadcrumbComponent implements OnInit {
     private global: GlobalStorage
   ) {}
 
+  // system.component.html 把 <ias-system-head> 包在 *ngIf 里，hidetitlebar 会真的
+  // 销毁重建本组件，所以订阅必须跟着组件销毁
+  private destroyRef = inject(DestroyRef);
+
   model = new SystemBreadcrumbModel();
 
   ngOnInit(): void {
     this.regist();
-    this.model.items = this.business.load();
+    this.model.items = this.business.load(
+      this.router.routerState.snapshot.root
+    );
   }
 
   private regist() {
-    (
-      this.router.events.pipe(
-        filter((event) => event instanceof NavigationEnd)
-      ) as Observable<NavigationEnd>
-    ).subscribe((router) => {
-      this.model.items = this.business.load();
-    });
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        this.model.items = this.business.load(
+          this.router.routerState.snapshot.root
+        );
+      });
   }
 
-  onpath(path: SystemPath) {
+  onpath(path: string) {
     if (this.global.uploading) {
       if (confirm('当前有文件正在上传，是否继续？')) {
         this.router.navigateByUrl(path);

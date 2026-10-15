@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
+import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
 import { SystemModuleRoadSectionDetailsMapAMapController } from './controller/amap/system-module-road-section-details-map-amap.controller';
 import { SystemModuleRoadSectionDetailsMapPositionController } from './controller/system-module-road-section-details-map-position.controller';
 import { SystemModuleRoadSectionDetailsMapController } from './controller/system-module-road-section-details-map.controller';
@@ -41,19 +42,27 @@ export class SystemModuleRoadSectionDetailsMapComponent
 
   constructor(
     public controller: SystemModuleRoadSectionDetailsMapController,
-    private business: SystemModuleRoadSectionDetailsMapBusiness
+    private business: SystemModuleRoadSectionDetailsMapBusiness,
+    private global: GlobalStorage
   ) {}
 
   private subscription = new Subscription();
   private load = {
     road: () => {
-      this.business.road().then((datas) => {
-        this.controller.road.load(datas).then((x) => {
-          if (this.creating) {
-            this.controller.map.focus(x);
-          }
+      this.business
+        .road()
+        .then((datas) => {
+          this.controller.road.load(datas).then((x) => {
+            if (this.creating) {
+              this.controller.map.focus(x);
+            }
+          });
+        })
+        .catch((e) => {
+          this.global.user.get().then((user) => {
+            this.controller.map.city(user.GroupName);
+          });
         });
-      });
     },
   };
   ngOnInit(): void {

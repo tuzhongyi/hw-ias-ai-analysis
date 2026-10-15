@@ -5,6 +5,7 @@ import { MapHelper } from '../../../../../../../common/helper/map/map.helper';
 import { ComponentTool } from '../../../../../../../common/tools/component-tool/component.tool';
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
+import { LastResortTool } from '../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 import { IASMapAMapInfoController } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapRoadController } from '../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
@@ -73,13 +74,18 @@ export class SystemMainMapAMapController {
     },
   };
 
-  constructor(private tool: ComponentTool, private subscription: Subscription, private path: PathTool) {
+  constructor(
+    private tool: ComponentTool,
+    private subscription: Subscription,
+    private path: PathTool,
+  ) {
     MapHelper.amap
       .get('system-main-map-container', ['AMap.MarkerCluster'], true, {
         showLabel: false,
         viewMode: '3D',
       })
       .then((map) => {
+        map.setZoom(17);
         this.init.map(map);
         let container = new Loca.Container({ map: map });
         this.loca.set(container);
@@ -163,7 +169,7 @@ export class SystemMainMapAMapController {
         let ctr = new SystemMainMapAMapShopMarkerLayerController(
           map,
           info,
-          this.subscription
+          this.subscription,
         );
         let sub1 = ctr.event.click.subscribe((x) => {
           this.event.shop.click.emit(x);
@@ -201,7 +207,7 @@ export class SystemMainMapAMapController {
           let ctr = new SystemMainMapAMapAlarmInfoController(
             map,
             this.tool,
-            this.subscription
+            this.subscription,
           );
           let sub1 = ctr.event.video.subscribe((data) => {
             this.event.alarm.video.emit(data);
@@ -227,7 +233,7 @@ export class SystemMainMapAMapController {
             map,
             info,
             false,
-            this.subscription
+            this.subscription,
           );
           let sub = ctr.event.click.subscribe((x) => {
             this.regist.alarm.realtime.over(x as MobileEventRecord);
@@ -245,7 +251,7 @@ export class SystemMainMapAMapController {
           let ctr = new SystemMainMapAMapAlarmInfoController(
             map,
             this.tool,
-            this.subscription
+            this.subscription,
           );
           let sub1 = ctr.event.video.subscribe((data) => {
             this.event.alarm.video.emit(data);
@@ -271,7 +277,7 @@ export class SystemMainMapAMapController {
             map,
             info,
             true,
-            this.subscription
+            this.subscription,
           );
           let sub = ctr.event.click.subscribe((x) => {
             this.regist.alarm.timeout.over(x as MobileEventRecord);
@@ -290,7 +296,7 @@ export class SystemMainMapAMapController {
         let ctr = new SystemMainMapAMapSampleMarkerLayerController(
           map,
           info,
-          this.subscription
+          this.subscription,
         );
         let sub = ctr.event.dblclick.subscribe((x) => {
           this.event.sample.dblclick.emit(x);
@@ -312,7 +318,7 @@ export class SystemMainMapAMapController {
         let ctr = new IASMapAMapRoadObjectMarkerLayerController(
           map,
           this.subscription,
-          info
+          info,
         );
         let sub1 = ctr.event.click.subscribe((x) => {
           this.event.road.object.click.emit(x);
@@ -435,7 +441,15 @@ export class SystemMainMapAMapController {
     },
   };
 
+  private last = new LastResortTool();
+
+  /** 视野已被数据接管 → 取消城市兜底 */
+  claim() {
+    this.last.claim();
+  }
+
   focus(datas?: any) {
+    this.last.claim();
     this.map.get().then((x) => {
       x.setFitView(datas, true);
       let center = x.getCenter();
@@ -443,6 +457,18 @@ export class SystemMainMapAMapController {
       x.setZoom(17);
       x.setPitch(40);
       x.setCenter(center);
+    });
+  }
+  city(value: string) {
+    this.last.fallback(() => {
+      this.map.get().then((x) => {
+        // 等地图的这些时间里，可能已经有别的数据接管了视野
+        if (this.last.claimed) return;
+        x.setCity(value, () => {
+          x.setZoom(17);
+          x.setPitch(40);
+        });
+      });
     });
   }
   async destory() {

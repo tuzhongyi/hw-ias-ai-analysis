@@ -3,6 +3,7 @@ import { Road } from '../../../../../../../../common/data-core/models/arm/geogra
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../common/view-models/value.promise';
 import { IASMapAMapRoadController } from '../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
+import { LastResortTool } from '../../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 
 import { SystemModuleRoadSectionMapAMapPolylineController } from './system-module-road-section-map-amap-polyline.controller';
 
@@ -20,6 +21,7 @@ export class SystemModuleRoadSectionMapAMapController {
     MapHelper.amap
       .get('system-module-road-section-map', undefined, true)
       .then((x) => {
+        x.setZoom(17);
         let container = new Loca.Container({ map: x });
         this.map.set(x);
         this.regist(x);
@@ -34,6 +36,7 @@ export class SystemModuleRoadSectionMapAMapController {
   private map = new PromiseValue<AMap.Map>();
   private polyline =
     new PromiseValue<SystemModuleRoadSectionMapAMapPolylineController>();
+  private last = new LastResortTool();
 
   private regist(map: AMap.Map) {
     map.on('mousemove', (e) => {
@@ -48,6 +51,7 @@ export class SystemModuleRoadSectionMapAMapController {
   }
 
   async load(datas: Road[]) {
+    this.last.claim();
     let map = await this.map.get();
     let polyline = await this.polyline.get();
 
@@ -86,6 +90,7 @@ export class SystemModuleRoadSectionMapAMapController {
     });
   }
   focus(datas?: any) {
+    this.last.claim();
     this.map.get().then((x) => {
       x.setFitView(datas, true);
       let center = x.getCenter();
@@ -93,6 +98,17 @@ export class SystemModuleRoadSectionMapAMapController {
       x.setZoom(17);
       x.setPitch(40);
       x.setCenter(center);
+    });
+  }
+  city(value: string) {
+    this.last.fallback(() => {
+      this.map.get().then((x) => {
+        // 等地图的这些时间里，可能已经有别的数据接管了视野
+        if (this.last.claimed) return;
+        x.setCity(value, () => {
+          x.setZoom(17);
+        });
+      });
     });
   }
   destroy() {

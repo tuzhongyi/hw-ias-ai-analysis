@@ -1,0 +1,62 @@
+<div class="system-module-road-area-details-manager">
+  <div class="system-module-road-area-details-manager-body">
+    <div class="system-module-road-area-details-manager-map panel">
+      <ias-system-module-road-area-details-map
+        [creating]="!data"
+        [editing]="!!data"
+        [datas]="data?.Area ?? []"
+        (create)="map.change($event)"
+        (change)="map.change($event)"
+      ></ias-system-module-road-area-details-map>
+    </div>
+    <div class="system-module-road-area-details-manager-info panel panel-flex">
+      <div class="panel-head">
+        <div class="panel-title">区域道路信息</div>
+      </div>
+      <div class="panel-body">
+        <ias-system-module-road-area-details-info
+          [(data)]="model"
+        ></ias-system-module-road-area-details-info>
+      </div>
+    </div>
+    <div
+      class="system-module-road-area-details-manager-segment panel panel-flex"
+    >
+      <div class="panel-head">
+        <div class="panel-title">工作表</div>
+        <div class="button-group">
+          <label for="road_area_details_all_day"
+            >全天<input
+              type="radio"
+              id="road_area_details_all_day"
+              [checked]="!model.ScheduleEnabled"
+              (change)="schedule.enable(false)"
+            />
+          </label>
+          <label for="road_area_details_segment"
+            >分时段<input
+              type="radio"
+              id="road_area_details_segment"
+              [checked]="model.ScheduleEnabled"
+              (change)="schedule.enable(true)"
+            />
+          </label>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="mask" *ngIf="!model.ScheduleEnabled"></div>
+
+        <ias-segment-week
+          [(data)]="schedule.data"
+          (dataChange)="schedule.change()"
+        ></ias-segment-week>
+      </div>
+    </div>
+  </div>
+  <div class="system-module-road-area-details-manager-foot">
+    <div class="button-group">
+      <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+      <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+    </div>
+  </div>
+</div>

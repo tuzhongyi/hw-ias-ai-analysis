@@ -64,5 +64,8 @@ export class SystemModuleRoadSectionMapController {
       await this.road.destory();
       this.amap.destroy();
     },
+    city: (city: string) => {
+      this.amap.city(city);
+    },
   };
 }

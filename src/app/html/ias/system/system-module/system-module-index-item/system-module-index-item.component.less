@@ -1,0 +1,56 @@
+:host {
+  // 尺寸默认值：父组件未指定宽高时按磁贴比例撑开
+  aspect-ratio: 605/277;
+  // 作为容器，供内部按磁贴尺寸缩放字号；同时锁死尺寸，避免内容反过来撑大磁贴
+  container-type: size;
+  cursor: pointer;
+  background-image: url("../../../../../../assets/image/system/module/system-module-background.png");
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  padding-left: 20px;
+  box-sizing: border-box;
+  transition: all 0.75s;
+
+  &:hover {
+    background-image: url("../../../../../../assets/image/system/module/system-module-background-hover.png");
+    color: white;
+  }
+}
+
+.system-module-index-item {
+  &-icon {
+    height: 100%;
+    aspect-ratio: 224/266;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    &.shop {
+      background-image: url("../../../../../../assets/image/system/module/system-module-icon-shop.png");
+    }
+
+    &.road {
+      background-image: url("../../../../../../assets/image/system/module/system-module-icon-road.png");
+    }
+
+    &.gps {
+      background-image: url("../../../../../../assets/image/system/module/system-module-icon-gps.png");
+    }
+
+    &.analysis {
+      background-image: url("../../../../../../assets/image/system/module/system-module-icon-analysis.png");
+    }
+  }
+
+  &-name {
+    // 字号跟随磁贴宽度缩放（原 4 个一行、约 452px 宽时对应 40px）
+    font-size: 8.8cqw;
+    max-width: 50%;
+    min-width: 33.3333333%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

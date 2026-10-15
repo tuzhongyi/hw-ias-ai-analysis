@@ -10,6 +10,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 import { wait } from '../../../../../../../common/tools/wait';
 import { IASMapRoadBusiness } from '../../../../../share/map/business/ias-map-road.business';
@@ -30,7 +31,10 @@ export class SystemModuleRoadPointDetailsMapComponent
   @Input() raduis? = 15;
   @Output() raduisChange = new EventEmitter<number>();
 
-  constructor(private business: IASMapRoadBusiness) {}
+  constructor(
+    private business: IASMapRoadBusiness,
+    private global: GlobalStorage
+  ) {}
 
   private subscription = new Subscription();
   private controller = new SystemModuleRoadPointDetailsMapController(
@@ -55,12 +59,17 @@ export class SystemModuleRoadPointDetailsMapComponent
 
   private load = {
     road: async () => {
-      let datas = await this.business.road();
-      let polylines = await this.controller.road.load(datas);
-      let center = await this.controller.map.focus(polylines, true);
-      if (!GeoTool.point.check(this.location)) {
-        this.location = center;
-        this.locationChange.emit(center);
+      try {
+        let datas = await this.business.road();
+        let polylines = await this.controller.road.load(datas);
+        let center = await this.controller.map.focus(polylines, true);
+        if (!GeoTool.point.check(this.location)) {
+          this.location = center;
+          this.locationChange.emit(center);
+        }
+      } catch (e) {
+        let user = await this.global.user.get();
+        this.controller.map.city(user.GroupName);
       }
       this.inited = true;
     },

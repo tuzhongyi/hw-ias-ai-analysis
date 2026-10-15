@@ -3,6 +3,7 @@ import { GisPoint } from '../../../../../../../../../common/data-core/models/arm
 import { MapHelper } from '../../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../../common/view-models/value.promise';
 import { IASMapAMapRoadController } from '../../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
+import { LastResortTool } from '../../../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 import { SystemModuleRoadSectionDetailsMapAMapCreatorController } from './creator/system-module-road-section-details-map-amap-creator.controller';
 import { SystemModuleRoadSectionDetailsMapAMapEditorController } from './editor/system-module-road-section-details-map-amap-editor.controller';
 import { SystemModuleRoadSectionDetailsMapAMapPolylineController } from './system-module-road-section-details-map-amap-polyline.controller';
@@ -29,6 +30,7 @@ export class SystemModuleRoadSectionDetailsMapAMapController {
         true
       )
       .then((x) => {
+        x.setZoom(17);
         let container = new Loca.Container({ map: x });
         this.map.set(x);
         this.regist(x);
@@ -50,6 +52,7 @@ export class SystemModuleRoadSectionDetailsMapAMapController {
   private map = new PromiseValue<AMap.Map>();
   private polyline =
     new PromiseValue<SystemModuleRoadSectionDetailsMapAMapPolylineController>();
+  private last = new LastResortTool();
 
   private regist(map: AMap.Map) {
     map.on('mousemove', (e) => {
@@ -81,6 +84,7 @@ export class SystemModuleRoadSectionDetailsMapAMapController {
   }
 
   focus(datas?: any) {
+    this.last.claim();
     this.map.get().then((x) => {
       x.setFitView(datas, true);
       let center = x.getCenter();
@@ -88,6 +92,17 @@ export class SystemModuleRoadSectionDetailsMapAMapController {
       x.setZoom(17);
       x.setPitch(40);
       x.setCenter(center);
+    });
+  }
+  city(value: string) {
+    this.last.fallback(() => {
+      this.map.get().then((x) => {
+        // 等地图的这些时间里，可能已经有别的数据接管了视野
+        if (this.last.claimed) return;
+        x.setCity(value, () => {
+          x.setZoom(17);
+        });
+      });
     });
   }
   destroy() {

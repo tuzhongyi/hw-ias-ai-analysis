@@ -71,6 +71,7 @@ export class SystemMainMapRoadObjectController {
   }
 
   async focus(data: RoadObject) {
+    this.amap.claim();
     if (data.Location) {
       let position: [number, number] = [
         data.Location.GCJ02.Longitude,

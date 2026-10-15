@@ -5,7 +5,11 @@ import { ArmGeographicRequestService } from '../../../../../../../common/data-co
 export class SystemModuleRoadSectionDetailsMapBusiness {
   constructor(private service: ArmGeographicRequestService) {}
 
-  road() {
-    return this.service.road.cache.all();
+  async road() {
+    let datas = await this.service.road.cache.all();
+    if (datas.length == 0) {
+      throw new Error();
+    }
+    return datas;
   }
 }

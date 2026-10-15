@@ -96,12 +96,14 @@ export class SystemModuleRoadObjectMapController<
 
   map = {
     focus: async (datas: any) => {
+      this.amap.claim();
       let map = await this.amap.map;
       map.setFitView(datas, true);
       let center = map.getCenter();
       return [center.lng, center.lat] as [number, number];
     },
     move: (position: [number, number], zoom?: number) => {
+      this.amap.claim();
       this.amap.map.then((map) => {
         if (zoom) {
           map.setZoomAndCenter(
@@ -117,6 +119,9 @@ export class SystemModuleRoadObjectMapController<
     },
     destroy: async () => {
       await this.road.clear();
+    },
+    city: (city: string) => {
+      this.amap.city(city);
     },
   };
 }

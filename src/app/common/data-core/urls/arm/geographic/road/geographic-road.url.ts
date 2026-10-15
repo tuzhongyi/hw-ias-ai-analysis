@@ -1,4 +1,5 @@
 import { AbstractUrl } from '../../../abstract.url';
+import { GeographicRoadAreaUrl } from './geographic-road-area.url';
 import { GeographicRoadObjectUrl } from './geographic-road-object.url';
 import { GeographicRoadPointUrl } from './geographic-road-point.url';
 import { GeographicRoadSectionUrl } from './geographic-road-section.url';
@@ -10,6 +11,9 @@ export class GeographicRoadUrl extends AbstractUrl {
 
   get section() {
     return new GeographicRoadSectionUrl(this.base);
+  }
+  get area() {
+    return new GeographicRoadAreaUrl(this.base);
   }
   get object() {
     return new GeographicRoadObjectUrl(this.base);

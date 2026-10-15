@@ -1,11 +1,14 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { User } from '../data-core/models/user/user.model';
+import { PromiseValue } from '../view-models/value.promise';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalStorage {
-  version = '1.0.25.14';
+  version = '1.0.26.0';
   unload = new EventEmitter<void>();
+  user = new PromiseValue<User>();
 
   display = {
     loading: false,

@@ -21,12 +21,14 @@ export class SystemModuleRoadPointMapController {
   };
   map = {
     focus: async (datas: any, immediately = true) => {
+      this.amap.claim();
       let map = await this.amap.map.get();
       map.setFitView(datas, immediately);
       let center = map.getCenter();
       return [center.lng, center.lat] as [number, number];
     },
     move: async (position: [number, number], zoom?: number) => {
+      this.amap.claim();
       let map = await this.amap.map.get();
       map.setCenter(new AMap.LngLat(position[0], position[1]));
       if (zoom) {
@@ -38,6 +40,9 @@ export class SystemModuleRoadPointMapController {
       await this.circle.clear();
       let map = await this.amap.map.get();
       map.destroy();
+    },
+    city: (city: string) => {
+      this.amap.city(city);
     },
   };
   circle = {

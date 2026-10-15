@@ -1,483 +1,55 @@
 import { Injectable } from '@angular/core';
-import { Language } from '../../../../common/tools/language-tool/language';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { SystemPath } from '../system.model';
 import { SystemBreadcrumbItem } from './system-breadcrumb.model';
 
+/**
+ * 面包屑完全由路由状态推导。
+ *
+ * 一个路由只要自己声明了 `data: { title: '…' }` 就产生一项，
+ * 跳转目标 = 沿 firstChild 链累加出来的 URL。这里不含任何逐页知识 ——
+ * 加页面时只需在 system-routing.module.ts 的那一行顺手写上 data.title。
+ *
+ * 两个坑：
+ * 1. 读 node.routeConfig.data（路由自己声明的），不要读 node.data ——
+ *    后者会被父路由的 data 继承覆盖，会让子路由重复父级的面包屑。
+ * 2. 不要给 path: '' 的布局路由加 title，那会让 /system 下每一页都多一项。
+ */
 @Injectable()
 export class SystemBreadcrumbBusiness {
-  constructor() {}
-  load(): SystemBreadcrumbItem[] {
-    let models: SystemBreadcrumbItem[] = [];
-    try {
-      models = this.module.load();
-      if (models.length > 0) {
-        return models;
+  load(root: ActivatedRouteSnapshot): SystemBreadcrumbItem[] {
+    const items: SystemBreadcrumbItem[] = [];
+    const segments: string[] = [];
+
+    for (
+      let node: ActivatedRouteSnapshot | null = root;
+      node;
+      node = node.firstChild
+    ) {
+      for (const segment of node.url) {
+        segments.push(segment.path);
       }
-      models = this.task.load();
-      if (models.length > 0) {
-        return models;
-      }
-      models = this.map.load();
-      if (models.length > 0) {
-        return models;
-      }
-      models = this.event.load();
-      if (models.length > 0) {
-        return models;
-      }
-      models = this.statistic.load();
-      if (models.length > 0) {
-        return models;
-      }
-      models = this.map.load();
-      return models;
-    } finally {
-      if (models.length > 0) {
-        models[models.length - 1].selected = true;
+
+      const title = node.routeConfig?.data?.['title'];
+      if (typeof title === 'string' && title.length > 0) {
+        const item = new SystemBreadcrumbItem();
+        item.text = title;
+        item.path = '/' + segments.join('/');
+        items.push(item);
       }
     }
+
+    // 没有任何带 title 的路由（如 /system/index）时保持空条
+    if (items.length === 0) {
+      return items;
+    }
+
+    const home = new SystemBreadcrumbItem();
+    home.text = '主页';
+    home.path = SystemPath.index;
+    items.unshift(home);
+
+    items[items.length - 1].selected = true;
+    return items;
   }
-
-  private home = {
-    index: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = '主页';
-      item.path = SystemPath.index;
-      return item;
-    },
-  };
-
-  private module = {
-    load: () => {
-      if (location.pathname.indexOf(SystemPath.module_shop_registration) >= 0) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.shop.registration(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.module_shop_compare) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.shop.compare(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.module_shop) >= 0) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.shop.analysis(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.module_road_section) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.roadsection(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.module_road_point) >= 0) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.roadpoint(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.module_road_object) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.roadobject(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.module_route) >= 0) {
-        return [this.home.index(), this.module.index(), this.module.route()];
-      } else if (
-        location.pathname.indexOf(SystemPath.module_patrol_section) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.patrolplan(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.module_road) >= 0) {
-        return [this.home.index(), this.module.index(), this.module.road()];
-      } else if (location.pathname.indexOf(SystemPath.module_file) >= 0) {
-        return [this.home.index(), this.module.index(), this.module.file()];
-      } else if (location.pathname.indexOf(SystemPath.module_gps_task) >= 0) {
-        return [this.home.index(), this.module.index(), this.module.gps.task()];
-      } else if (
-        location.pathname.indexOf(SystemPath.module_security_department) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.security.department(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.module_security_member) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.security.member(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.module_security) >= 0) {
-        return [
-          this.home.index(),
-          this.module.index(),
-          this.module.security.all(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.module) >= 0) {
-        return [this.home.index(), this.module.index()];
-      } else {
-        return [];
-      }
-    },
-    index: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = 'AI功能模块';
-      item.path = SystemPath.module;
-      return item;
-    },
-    shop: {
-      analysis: () => {
-        let item = new SystemBreadcrumbItem();
-        item.path = SystemPath.module_shop;
-        item.text = '分析商铺';
-        return item;
-      },
-      registration: () => {
-        let item = new SystemBreadcrumbItem();
-        item.path = SystemPath.module_shop_registration;
-        item.text = '注册商铺';
-        return item;
-      },
-      compare: () => {
-        let item = new SystemBreadcrumbItem();
-        item.path = SystemPath.module_shop_compare;
-        item.text = '商铺管理';
-        return item;
-      },
-    },
-    security: {
-      department: () => {
-        let item = new SystemBreadcrumbItem();
-        item.path = SystemPath.module_security_department;
-        item.text = '部门管理';
-        return item;
-      },
-      member: () => {
-        let item = new SystemBreadcrumbItem();
-        item.path = SystemPath.module_security_member;
-        item.text = '人员管理';
-        return item;
-      },
-      all: () => {
-        let item = new SystemBreadcrumbItem();
-        item.path = SystemPath.module_security;
-        item.text = '部门管理';
-        return item;
-      },
-    },
-    road: () => {
-      let item = new SystemBreadcrumbItem();
-      item.path = SystemPath.module_road;
-      item.text = '道路';
-      return item;
-    },
-    roadsection: () => {
-      let item = new SystemBreadcrumbItem();
-      item.path = SystemPath.module_road_section;
-      item.text = '屏蔽路段';
-      return item;
-    },
-    roadpoint: () => {
-      let item = new SystemBreadcrumbItem();
-      item.path = SystemPath.module_road_point;
-      item.text = '道路屏蔽点';
-      return item;
-    },
-
-    roadobject: () => {
-      let item = new SystemBreadcrumbItem();
-      item.path = SystemPath.module_road_object;
-      item.text = '道路部件';
-      return item;
-    },
-    route: () => {
-      let item = new SystemBreadcrumbItem();
-      item.path = SystemPath.module_route;
-      item.text = '巡检线路';
-      return item;
-    },
-    patrolplan: () => {
-      let item = new SystemBreadcrumbItem();
-      item.path = SystemPath.module_patrol_section;
-      item.text = '巡逻计划';
-      return item;
-    },
-    gps: {
-      task: () => {
-        let item = new SystemBreadcrumbItem();
-        item.path = SystemPath.module_gps_task;
-        item.text = '定制场景';
-        return item;
-      },
-    },
-    file: () => {
-      let item = new SystemBreadcrumbItem();
-      item.path = SystemPath.module_file;
-      item.text = '视频文件';
-      return item;
-    },
-  };
-
-  private task = {
-    load: () => {
-      if (location.pathname.indexOf(SystemPath.task_file) >= 0) {
-        return [
-          this.home.index(),
-          this.task.index(),
-          this.task.shop.manager(),
-          this.task.shop.file(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.task_shop) >= 0) {
-        return [this.home.index(), this.task.index(), this.task.shop.manager()];
-      } else if (location.pathname.indexOf(SystemPath.task_gps) >= 0) {
-        return [this.home.index(), this.task.index(), this.task.gps.manager()];
-      } else if (location.pathname.indexOf(SystemPath.task_road_object) >= 0) {
-        return [
-          this.home.index(),
-          this.task.index(),
-          this.task.road_object.manager(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.task_index) >= 0) {
-        return [this.home.index(), this.task.index()];
-      } else {
-        return [];
-      }
-    },
-    index: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = 'AI分析任务';
-      item.path = SystemPath.task_index;
-      return item;
-    },
-    shop: {
-      manager: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '商铺分析任务';
-        item.path = SystemPath.task_shop;
-        return item;
-      },
-      file: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '录像文件';
-        item.path = SystemPath.task_file;
-        return item;
-      },
-    },
-    gps: {
-      manager: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '定制场景任务';
-        item.path = SystemPath.task_shop;
-        return item;
-      },
-    },
-    road_object: {
-      manager: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '道路部件任务';
-        item.path = SystemPath.task_road_object;
-        return item;
-      },
-    },
-  };
-
-  private map = {
-    load: () => {
-      if (location.pathname.indexOf(SystemPath.map) >= 0) {
-        return [this.home.index(), this.map.manager()];
-      } else {
-        return [];
-      }
-    },
-    manager: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = '地图';
-      item.path = SystemPath.map;
-      return item;
-    },
-  };
-
-  private event = {
-    load: () => {
-      if (location.pathname.indexOf(SystemPath.event_shop_manager) >= 0) {
-        return [
-          this.home.index(),
-          this.event.index(),
-          this.event.manager.shop(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.event_realtime_manager) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.event.index(),
-          this.event.manager.realtime(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.event_analysis_manager) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.event.index(),
-          this.event.manager.analysis(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.event_gps_task_manager) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.event.index(),
-          this.event.manager.gpstask(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.event_road_object_manager) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.event.index(),
-          this.event.manager.roadobject(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.event_road_line_manager) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.event.index(),
-          this.event.manager.roadline(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.event) >= 0) {
-        return [this.home.index(), this.event.index()];
-      } else {
-        return [];
-      }
-    },
-    index: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = 'AI分析事件';
-      item.path = SystemPath.event;
-      return item;
-    },
-    manager: {
-      shop: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '商铺变更';
-        item.path = SystemPath.event_shop_manager;
-        return item;
-      },
-      realtime: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '实时事件';
-        item.path = SystemPath.event_realtime_manager;
-        return item;
-      },
-      analysis: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '分析事件';
-        item.path = SystemPath.event_analysis_manager;
-        return item;
-      },
-      gpstask: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '定制场景事件';
-        item.path = SystemPath.event_gps_task_manager;
-        return item;
-      },
-      roadobject: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '部件扫描';
-        item.path = SystemPath.event_road_object_manager;
-        return item;
-      },
-      roadline: () => {
-        let item = new SystemBreadcrumbItem();
-        item.text = '路段扫描';
-        item.path = SystemPath.event_road_line_manager;
-        return item;
-      },
-    },
-  };
-
-  private statistic = {
-    load: () => {
-      if (
-        location.pathname.indexOf(SystemPath.statistic_road_object_statement) >=
-        0
-      ) {
-        return [
-          this.home.index(),
-          this.statistic.index(),
-          this.statistic.road_object_statement(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.statistic_road_object_duration) >=
-        0
-      ) {
-        return [
-          this.home.index(),
-          this.statistic.index(),
-          this.statistic.road_object(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.statistic_road_object) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.statistic.index(),
-          this.statistic.road_object(),
-        ];
-      } else if (
-        location.pathname.indexOf(SystemPath.statistic_device_route) >= 0
-      ) {
-        return [
-          this.home.index(),
-          this.statistic.index(),
-          this.statistic.device_route(),
-        ];
-      } else if (location.pathname.indexOf(SystemPath.statistic_index) >= 0) {
-        return [this.home.index(), this.statistic.index()];
-      } else {
-        return [];
-      }
-    },
-    road_object_statement: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = '道路部件月报表';
-      item.path = SystemPath.statistic_road_object_statement;
-      return item;
-    },
-    road_object: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = '道路部件统计';
-      item.path = SystemPath.statistic_road_object;
-      return item;
-    },
-    device_route: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = `${Language.DeviceName}行驶统计`;
-      item.path = SystemPath.statistic_device_route;
-      return item;
-    },
-    index: () => {
-      let item = new SystemBreadcrumbItem();
-      item.text = '分析统计';
-      item.path = SystemPath.statistic;
-      return item;
-    },
-  };
 }

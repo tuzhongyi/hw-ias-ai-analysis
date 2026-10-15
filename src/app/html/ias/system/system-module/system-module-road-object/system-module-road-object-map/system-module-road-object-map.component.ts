@@ -15,6 +15,7 @@ import {
 import { Subscription } from 'rxjs';
 import { IRoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.interface';
 import { RoadObject } from '../../../../../../common/data-core/models/arm/geographic/road-object.model';
+import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { PromiseValue } from '../../../../../../common/view-models/value.promise';
 import { SystemModuleRoadObjectMapController } from './controller/system-module-road-object-map.controller';
 import { SystemModuleRoadObjectMapBusiness } from './system-module-road-object-map.business';
@@ -39,7 +40,10 @@ export class SystemModuleRoadObjectMapComponent<
   @Input() itemover?: EventEmitter<TRoadObject>;
   @Input() itemout?: EventEmitter<TRoadObject>;
 
-  constructor(private business: SystemModuleRoadObjectMapBusiness) {}
+  constructor(
+    private business: SystemModuleRoadObjectMapBusiness,
+    private global: GlobalStorage
+  ) {}
 
   @ViewChild('container')
   set container(value: ElementRef<HTMLDivElement>) {
@@ -64,10 +68,15 @@ export class SystemModuleRoadObjectMapComponent<
   private load = {
     road: async () => {
       let controller = await this.controller.get();
-      let datas = await this.business.road();
-      let polylines = await controller.road.load(datas);
-      if (polylines.length > 0) {
-        await controller.map.focus(polylines);
+      try {
+        let datas = await this.business.road();
+        let polylines = await controller.road.load(datas);
+        if (polylines.length > 0) {
+          await controller.map.focus(polylines);
+        }
+      } catch (e) {
+        let user = await this.global.user.get();
+        controller.map.city(user.GroupName);
       }
     },
   };

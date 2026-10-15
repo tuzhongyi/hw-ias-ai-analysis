@@ -13,6 +13,7 @@ export enum SystemPath {
   module_road_section = 'system/module/road-section',
   module_road_point = 'system/module/road-point',
   module_road_object = 'system/module/road-object',
+  module_road_area = 'system/module/road-area',
   module_gps_task = 'system/module/gps-task',
   module_file = 'system/module/file',
   module_route = 'system/module/mobile-device-route',

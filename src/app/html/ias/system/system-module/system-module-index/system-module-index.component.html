@@ -1,103 +1,94 @@
 <div class="system-module-index root-router">
-  <div class="system-module-index-body">
-    <div class="system-module-index-body-list">
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.compare()"
-        *ngIf="display.shop"
-      >
-        <div class="system-module-index-body-list-item-icon shop"></div>
-        <div class="system-module-index-body-list-item-name">商铺</div>
+  <div class="system-module-index-container" *ngIf="display.shop">
+    <div class="system-module-index-head">商铺</div>
+    <div class="system-module-index-body">
+      <div class="system-module-index-body-list">
+        <ias-system-module-index-item
+          name="商铺管理"
+          icon="shop"
+          (click)="on.compare()"
+          *ngIf="display.shop"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="分析商铺"
+          icon="shop"
+          (click)="on.shop()"
+          *ngIf="display.shop"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="注册商铺"
+          icon="shop"
+          (click)="on.registration()"
+          *ngIf="display.shop"
+        ></ias-system-module-index-item>
       </div>
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.shop()"
-        *ngIf="display.shop"
-      >
-        <div class="system-module-index-body-list-item-icon shop"></div>
-        <div class="system-module-index-body-list-item-name">分析商铺</div>
+    </div>
+  </div>
+  <div class="system-module-index-container">
+    <div class="system-module-index-head">道路</div>
+    <div class="system-module-index-body">
+      <div class="system-module-index-body-list">
+        <ias-system-module-index-item
+          name="道路管理"
+          icon="road"
+          (click)="on.road()"
+          *ngIf="display.road"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="路段屏蔽"
+          icon="road"
+          (click)="on.roadsection()"
+          *ngIf="display.road"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="道路屏蔽点"
+          icon="road"
+          (click)="on.roadpoint()"
+          *ngIf="display.road"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="道路部件"
+          icon="road"
+          (click)="on.roadobject()"
+          *ngIf="display.roadobject"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="区域道路"
+          icon="road"
+          (click)="on.roadarea()"
+          *ngIf="display.roadobject"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="巡检线路"
+          icon="gps"
+          (click)="on.mobiledevice()"
+          *ngIf="display.route"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="巡逻线路"
+          icon="gps"
+          (click)="on.patrolsection()"
+          *ngIf="display.route"
+        ></ias-system-module-index-item>
       </div>
-
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.registration()"
-        *ngIf="display.shop"
-      >
-        <div class="system-module-index-body-list-item-icon shop"></div>
-        <div class="system-module-index-body-list-item-name">注册商铺</div>
-      </div>
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.road()"
-        *ngIf="display.road"
-      >
-        <div class="system-module-index-body-list-item-icon road"></div>
-        <div class="system-module-index-body-list-item-name">道路</div>
-      </div>
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.roadsection()"
-        *ngIf="display.road"
-      >
-        <div class="system-module-index-body-list-item-icon road"></div>
-        <div class="system-module-index-body-list-item-name">路段屏蔽</div>
-      </div>
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.roadpoint()"
-        *ngIf="display.road"
-      >
-        <div class="system-module-index-body-list-item-icon road"></div>
-        <div class="system-module-index-body-list-item-name">道路屏蔽点</div>
-      </div>
-
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.roadobject()"
-        *ngIf="display.roadobject"
-      >
-        <div class="system-module-index-body-list-item-icon road"></div>
-        <div class="system-module-index-body-list-item-name">道路部件</div>
-      </div>
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.mobiledevice()"
-        *ngIf="display.route"
-      >
-        <div class="system-module-index-body-list-item-icon road"></div>
-        <div class="system-module-index-body-list-item-name">巡检线路</div>
-      </div>
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.patrolsection()"
-        *ngIf="display.route"
-      >
-        <div class="system-module-index-body-list-item-icon road"></div>
-        <div class="system-module-index-body-list-item-name">巡逻线路</div>
-      </div>
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.security()"
-        *ngIf="display.security"
-      >
-        <div class="system-module-index-body-list-item-icon analysis"></div>
-        <div class="system-module-index-body-list-item-name">部门管理</div>
-      </div>
-      <!-- <div
-        class="system-module-index-body-list-item"
-        (click)="on.member()"
-        *ngIf="display.security"
-      >
-        <div class="system-module-index-body-list-item-icon analysis"></div>
-        <div class="system-module-index-body-list-item-name">人员管理</div>
-      </div> -->
-      <div
-        class="system-module-index-body-list-item"
-        (click)="on.file()"
-        *ngIf="display.roadobject"
-      >
-        <div class="system-module-index-body-list-item-icon analysis"></div>
-        <div class="system-module-index-body-list-item-name">视频文件</div>
+    </div>
+  </div>
+  <div class="system-module-index-container">
+    <div class="system-module-index-head">其他</div>
+    <div class="system-module-index-body">
+      <div class="system-module-index-body-list">
+        <ias-system-module-index-item
+          name="部门管理"
+          icon="analysis"
+          (click)="on.security()"
+          *ngIf="display.security"
+        ></ias-system-module-index-item>
+        <ias-system-module-index-item
+          name="视频文件"
+          icon="analysis"
+          (click)="on.file()"
+          *ngIf="display.roadobject"
+        ></ias-system-module-index-item>
       </div>
     </div>
   </div>
