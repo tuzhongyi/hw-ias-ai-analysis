@@ -174,8 +174,7 @@ export class SystemMainManagerComponent implements OnInit, OnDestroy {
         this.map.moveto.emit(data);
       },
       details: (data: MobileEventRecord) => {
-        this.window.details.mobile.data = data;
-        this.window.details.mobile.show = true;
+        this.window.details.mobile.open(data, this.realtime.datas);
       },
     },
   };
@@ -251,9 +250,18 @@ export class SystemMainManagerComponent implements OnInit, OnDestroy {
         this.window.video.record.show = true;
       },
       details: (data: MobileEventRecord) => {
-        this.window.details.mobile.data = data;
-        this.window.details.mobile.show = true;
+        this.window.details.mobile.open(data, this.alarm.list(data));
       },
+    },
+    /** 地图告警分实时、超时两层，翻页只在点中的那一层里走 */
+    list: (data: MobileEventRecord): MobileEventRecord[] => {
+      if (this.map.data.timeout.includes(data)) {
+        return this.map.data.timeout;
+      }
+      if (this.map.data.realtime.includes(data)) {
+        return this.map.data.realtime;
+      }
+      return [];
     },
   };
 

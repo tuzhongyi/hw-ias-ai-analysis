@@ -6,7 +6,7 @@ import { PromiseValue } from '../view-models/value.promise';
   providedIn: 'root',
 })
 export class GlobalStorage {
-  version = '1.0.26.0';
+  version = '1.0.26.1';
   unload = new EventEmitter<void>();
   user = new PromiseValue<User>();
 

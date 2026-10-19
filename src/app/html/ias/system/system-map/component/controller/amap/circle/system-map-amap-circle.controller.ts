@@ -24,7 +24,12 @@ export class SystemAMapCircleController {
     zIndex: 50,
   };
 
-  create(args?: { radius?: number; center?: [number, number] }) {
+  /**
+   * @param args 圆心 / 半径，不给就落在地图当前中心、半径 100
+   * @param fit 画完要不要把视野框到这个圆上。地图刚建、视野还没定下来的时候要传 false ——
+   * 那句 setFitView 是不经 claim 的视野改动，会把接下来的城市兜底挤掉
+   */
+  create(args?: { radius?: number; center?: [number, number] }, fit = true) {
     let center = this.map.getCenter();
     this.circle = new AMap.Circle({
       ...this.option,
@@ -32,7 +37,9 @@ export class SystemAMapCircleController {
       radius: args?.radius ?? 100, //半径
     });
     this.map.add(this.circle);
-    this.map.setFitView([this.circle]);
+    if (fit) {
+      this.map.setFitView([this.circle]);
+    }
     if (!args?.center) {
       this.event.move.emit([center.lng, center.lat]);
     }

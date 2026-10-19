@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { PatrolSection } from '../../../../../../common/data-core/models/arm/geographic/patrol/patrol-section.model';
+import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { SystemModulePatrolSectionMapArgs } from '../system-module-patrol-section.model';
 import { SystemModulePatrolSectionMapController } from './controller/system-module-patrol-section-map.controller';
 import { SystemModulePatrolSectionMapBusiness } from './system-module-patrol-section-map.business';
@@ -37,7 +38,10 @@ export class SystemModulePatrolSectionMapComponent
   @Output() sectionpickup = new EventEmitter<[number, number][]>();
   @Output() sectioncancel = new EventEmitter<void>();
 
-  constructor(private business: SystemModulePatrolSectionMapBusiness) {
+  constructor(
+    private business: SystemModulePatrolSectionMapBusiness,
+    private global: GlobalStorage,
+  ) {
     this.controller = new SystemModulePatrolSectionMapController(
       this.subscription,
     );
@@ -86,7 +90,6 @@ export class SystemModulePatrolSectionMapComponent
     },
     sections: (simple: SimpleChange) => {
       if (simple) {
-        console.log(this.sections);
         this.load.section(this.sections);
       }
     },
@@ -124,7 +127,24 @@ export class SystemModulePatrolSectionMapComponent
   }
 
   ngOnInit(): void {
+    // 先安排、后取数：这个页面没有路网，视野全靠路段 / GPS 轨迹来定，
+    // 两者都没有的时候没人给地图定过视野，就得先挂上城市兜底。
+    // 兜底自带 500ms 观察期（LastResortTool），数据一画出来并 claim() 就自动作废
+    this.city();
+
     this.regist.all();
+  }
+
+  /**
+   * 用当前用户所属城市兜底。地图建出来时 AMap 的缺省视野在 [0,0]（海面，
+   * 一张瓦片都没有），没人给它定过视野的话看着就跟「地图没加载出来」一样
+   */
+  private city() {
+    this.global.user.get().then((user) => {
+      if (user.Description) {
+        this.controller.map.city(user.Description);
+      }
+    });
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.change.rectified(changes['rectified']);

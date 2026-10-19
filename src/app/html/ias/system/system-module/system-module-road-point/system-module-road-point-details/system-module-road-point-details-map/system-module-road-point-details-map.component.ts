@@ -33,12 +33,12 @@ export class SystemModuleRoadPointDetailsMapComponent
 
   constructor(
     private business: IASMapRoadBusiness,
-    private global: GlobalStorage
+    private global: GlobalStorage,
   ) {}
 
   private subscription = new Subscription();
   private controller = new SystemModuleRoadPointDetailsMapController(
-    this.subscription
+    this.subscription,
   );
   private inited = false;
 
@@ -59,17 +59,26 @@ export class SystemModuleRoadPointDetailsMapComponent
 
   private load = {
     road: async () => {
+      // 路网是底图，两个分支都要画；但它只在「没有坐标」时才用来定视野
+      let polylines: AMap.Polyline[] = [];
       try {
         let datas = await this.business.road();
-        let polylines = await this.controller.road.load(datas);
+        polylines = await this.controller.road.load(datas);
+      } catch (e) {}
+
+      if (GeoTool.point.check(this.location)) {
+        // 有坐标：视野就归这个坐标，路网和城市都不许再动它
+        await this.controller.map.move(this.location);
+      } else if (polylines.length > 0) {
+        // 没坐标、路网画出来了：按路网定位，圆跟着摆到路网中心
         let center = await this.controller.map.focus(polylines, true);
-        if (!GeoTool.point.check(this.location)) {
-          this.location = center;
-          this.locationChange.emit(center);
-        }
-      } catch (e) {
+        this.locate(center);
+      } else {
+        // 没坐标、路网也没画出来：落到城市，圆等城市真落地了再摆
         let user = await this.global.user.get();
-        this.controller.map.city(user.GroupName);
+        if (user.Description) {
+          this.controller.map.city(user.Description);
+        }
       }
       this.inited = true;
     },
@@ -106,5 +115,33 @@ export class SystemModuleRoadPointDetailsMapComponent
       this.locationChange.emit(x);
     });
     this.subscription.add(sub_2);
+
+    let sub_3 = this.controller.event.city.subscribe((x) => {
+      this.locate(x);
+    });
+    this.subscription.add(sub_3);
+
+    // 双击地图 = 把可编辑圆的圆心挪到双击的位置。
+    // 走的是和拖动圆一样的路径：圆自己摆过去，坐标同时往上报
+    let sub_4 = this.controller.event.dblclick.subscribe((x) => {
+      this.controller.circle.set({ radius: this.raduis, center: x });
+      this.location = x;
+      this.locationChange.emit(x);
+    });
+    this.subscription.add(sub_4);
+  }
+
+  /**
+   * 坐标和圆一起摆到 center。只在「本来没有坐标」时才做 ——
+   * 有坐标的话视野归坐标，路网中心和城市中心都不该覆盖它。
+   * 城市兜底是异步落地的，要等落地后再调，否则摆到的是城市之前的那个中心
+   */
+  private locate(center: [number, number]) {
+    if (GeoTool.point.check(this.location)) {
+      return;
+    }
+    this.location = center;
+    this.locationChange.emit(center);
+    this.controller.circle.set({ radius: this.raduis, center });
   }
 }

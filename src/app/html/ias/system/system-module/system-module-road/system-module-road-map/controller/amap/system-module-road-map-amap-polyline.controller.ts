@@ -5,6 +5,11 @@ export class SystemModuleRoadMapAMapPolylineController {
   private polylines = new Map<string, AMap.Polyline>();
   private selected: string | undefined;
 
+  /** 当前画在图上几条线 —— 调用方拿它判断「到底画出来没有」，决定能不能动视野 */
+  get size() {
+    return this.polylines.size;
+  }
+
   private create(datas: [number, number][]): AMap.Polyline {
     const polyline = new AMap.Polyline({
       path: datas,

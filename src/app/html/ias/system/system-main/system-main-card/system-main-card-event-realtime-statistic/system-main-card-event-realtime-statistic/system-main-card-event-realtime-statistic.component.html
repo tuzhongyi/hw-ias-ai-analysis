@@ -30,6 +30,8 @@
     <div
       class="system-main-card-event-realtime-statistic-info"
       [ngStyle]="{
+        gap: style.info.gap,
+        padding: style.info.padding,
         transform: style.info.transform,
         justifyContent: style.info.justifyContent,
         flexWrap: style.info.flexWrap,
@@ -40,7 +42,7 @@
       <div
         class="system-main-card-event-realtime-statistic-info-item"
         [ngStyle]="{
-          height: style.info.item.height,
+          height: style.info.item.height
         }"
         *ngFor="let item of datas; let index = index"
         (click)="on.click(item)"

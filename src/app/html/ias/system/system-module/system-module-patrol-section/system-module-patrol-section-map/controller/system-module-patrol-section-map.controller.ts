@@ -31,12 +31,26 @@ export class SystemModulePatrolSectionMapController {
 
   map = {
     focus: async (data: any, immediately?: boolean) => {
+      // 一个覆盖物都没有的话别动视野：setFitView([]) 自适应不到任何东西，
+      // 却会把城市兜底 claim 掉，地图就停在空白上再也回不来
+      if (!data || data.length == 0) {
+        return;
+      }
       let map = await this.amap.map.get();
-      map.setFitView(data, immediately);
+      // 数据接管视野：顺手把「怎么摆回这批数据」交给城市兜底，
+      // setCity 晚一步落地时靠它把视野抢回来
+      let from = () => {
+        map.setFitView(data, immediately);
+      };
+      this.amap.claim(from);
+      from();
     },
     destroy: async () => {
       this.path.clear();
       await this.amap.destroy();
+    },
+    city: (city: string) => {
+      this.amap.city(city);
     },
   };
   section = {

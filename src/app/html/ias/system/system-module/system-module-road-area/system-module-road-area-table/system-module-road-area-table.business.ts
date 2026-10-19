@@ -12,7 +12,7 @@ import { SystemModuleRoadAreaTableSource } from './system-module-road-area-table
 export class SystemModuleRoadAreaTableBusiness {
   constructor(
     private service: ArmGeographicRequestService,
-    private source: SystemModuleRoadAreaTableSource
+    private source: SystemModuleRoadAreaTableSource,
   ) {}
 
   async load(args: SystemModuleRoadAreaTableArgs) {

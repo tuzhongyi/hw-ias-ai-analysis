@@ -50,6 +50,9 @@ export class SystemModuleRoadPointDetailsManagerComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.model = Object.assign(new RoadPoint(), this.data);
+      // 把点位坐标交给地图：不调用的话 map.gcj02 一直是 [0,0]，
+      // 地图既不会移到这个点上，圆也不会摆过来（改成"跑到城市去"）
+      this.map.load(this.model);
     }
     if (this.model.Schedule) {
       this.schedule.data = this.model.Schedule;

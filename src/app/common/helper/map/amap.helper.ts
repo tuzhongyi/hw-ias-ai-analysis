@@ -47,14 +47,24 @@ export class AMapHelper {
     opts: any = {},
     road = true,
   ): Promise<AMap.Map> {
-    return new Promise<AMap.Map>((resolve) => {
+    return new Promise<AMap.Map>((resolve, reject) => {
       wait(() => {
         if (typeof container == 'string') {
           return !!document.getElementById(container);
         }
         return !!container;
-      }).then(() => {
-        this.init(plugins, loca).then((AMap) => {
+      })
+        .then(() => {
+          // 这一层的失误原来是无声的：AMapLoader 一旦 reject，外层 promise
+          // 既不 resolve 也不 reject，就这么一直挂着，而调用方都没有接 catch ——
+          // 页面上只剩一块空容器，控制台一个字都没有，分不清是「地图加载失败」
+          // 还是「本来就没有数据」。这里补上日志，并且让它真的 reject 出去
+          return this.init(plugins, loca).catch((e) => {
+            console.error('[map] AMap 加载失败', container, e);
+            throw e;
+          });
+        })
+        .then((AMap) => {
           let map = new AMap.Map(container, {
             mapStyle: this.style.url(this.style.key.normal),
             resizeEnable: true,
@@ -76,8 +86,10 @@ export class AMapHelper {
           }
 
           resolve(map);
+        })
+        .catch((e) => {
+          reject(e);
         });
-      });
     });
   }
 

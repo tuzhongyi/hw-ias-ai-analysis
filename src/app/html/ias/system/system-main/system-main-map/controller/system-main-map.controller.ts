@@ -61,11 +61,16 @@ export class SystemMainMapController {
 
   map = {
     moveto: (center: [number, number]) => {
-      this.amap.claim();
-      this.amap.map.get().then((x) => {
-        x.setCenter(center);
-        x.setZoom(20);
-      });
+      // 顺手把「怎么摆到这个点」交给 amap controller：
+      // 城市兜底晚一步落地时，要靠它把视野抢回来
+      let from = () => {
+        this.amap.map.get().then((x) => {
+          x.setCenter(center);
+          x.setZoom(20);
+        });
+      };
+      this.amap.claim(from);
+      from();
     },
     focus: (datas?: any) => {
       this.amap.focus(datas);

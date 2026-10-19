@@ -71,17 +71,22 @@ export class SystemMainMapRoadObjectController {
   }
 
   async focus(data: RoadObject) {
-    this.amap.claim();
-    if (data.Location) {
-      let position: [number, number] = [
-        data.Location.GCJ02.Longitude,
-        data.Location.GCJ02.Latitude,
-      ];
-      this.amap.map.get().then((x) => {
-        x.setCenter(position);
-        x.setZoom(19.5);
-      });
-    }
+    // 顺手把「怎么摆回这个部件」交给 amap controller：
+    // 城市兜底晚一步落地时，要靠它把视野抢回来
+    let from = () => {
+      if (data.Location) {
+        let position: [number, number] = [
+          data.Location.GCJ02.Longitude,
+          data.Location.GCJ02.Latitude,
+        ];
+        this.amap.map.get().then((x) => {
+          x.setCenter(position);
+          x.setZoom(19.5);
+        });
+      }
+    };
+    this.amap.claim(from);
+    from();
     let marker = await this.amap.roadobject.marker.get();
     marker.select(data);
   }

@@ -96,25 +96,33 @@ export class SystemModuleRoadObjectMapController<
 
   map = {
     focus: async (datas: any) => {
-      this.amap.claim();
       let map = await this.amap.map;
-      map.setFitView(datas, true);
+      // 顺手把「怎么摆回这批数据」交给 amap controller：
+      // 城市兜底晚一步落地时，要靠它把视野抢回来
+      let from = () => {
+        map.setFitView(datas, true);
+      };
+      this.amap.claim(from);
+      from();
       let center = map.getCenter();
       return [center.lng, center.lat] as [number, number];
     },
     move: (position: [number, number], zoom?: number) => {
-      this.amap.claim();
       this.amap.map.then((map) => {
-        if (zoom) {
-          map.setZoomAndCenter(
-            zoom,
-            new AMap.LngLat(position[0], position[1]),
-            true,
-            500,
-          );
-        } else {
-          map.panTo(new AMap.LngLat(position[0], position[1]), 500);
-        }
+        let from = () => {
+          if (zoom) {
+            map.setZoomAndCenter(
+              zoom,
+              new AMap.LngLat(position[0], position[1]),
+              true,
+              500,
+            );
+          } else {
+            map.panTo(new AMap.LngLat(position[0], position[1]), 500);
+          }
+        };
+        this.amap.claim(from);
+        from();
       });
     },
     destroy: async () => {

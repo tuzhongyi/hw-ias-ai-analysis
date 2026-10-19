@@ -12,7 +12,9 @@ export class SystemModuleRoadPointMapController {
   road = {
     load: async (datas: Road[]) => {
       let road = await this.amap.road.get();
-      road.load(datas);
+      // 必须把画出来的折线交出去：调用方要拿它判断「路网到底画出来没有」，
+      // 也要拿它当 setFitView 的目标（不给就变成自适应全部覆盖物）
+      return road.load(datas);
     },
     clear: async () => {
       let road = await this.amap.road.get();
@@ -21,19 +23,29 @@ export class SystemModuleRoadPointMapController {
   };
   map = {
     focus: async (datas: any, immediately = true) => {
-      this.amap.claim();
       let map = await this.amap.map.get();
-      map.setFitView(datas, immediately);
+      // 顺手把「怎么摆回这批数据」交给 amap controller：
+      // 城市兜底晚一步落地时，要靠它把视野抢回来
+      let from = () => {
+        map.setFitView(datas, immediately);
+      };
+      this.amap.claim(from);
+      from();
       let center = map.getCenter();
       return [center.lng, center.lat] as [number, number];
     },
     move: async (position: [number, number], zoom?: number) => {
-      this.amap.claim();
       let map = await this.amap.map.get();
-      map.setCenter(new AMap.LngLat(position[0], position[1]));
-      if (zoom) {
-        map.setZoom(zoom);
-      }
+      // 顺手把「怎么摆回这里」交给 amap controller：
+      // 城市兜底晚一步落地时，要靠它把视野抢回来
+      let from = () => {
+        map.setCenter(new AMap.LngLat(position[0], position[1]));
+        if (zoom) {
+          map.setZoom(zoom);
+        }
+      };
+      this.amap.claim(from);
+      from();
     },
     destroy: async () => {
       await this.road.clear();

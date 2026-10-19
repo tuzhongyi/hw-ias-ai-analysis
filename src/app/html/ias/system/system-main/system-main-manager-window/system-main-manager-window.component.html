@@ -7,9 +7,12 @@
 >
   <ias-system-event-process-realtime
     [data]="window.details.mobile.data"
+    [page]="window.details.mobile.page"
     [blockable]="false"
     (close)="window.details.mobile.show = false"
     (picture)="picture.open($event)"
+    (prev)="window.details.mobile.on.page.prev()"
+    (next)="window.details.mobile.on.page.next()"
   ></ias-system-event-process-realtime>
 </ias-window>
 <!--  ias-system-event-process-realtime  -->

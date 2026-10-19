@@ -37,25 +37,37 @@ export class SystemModuleRoadSectionMapComponent
   constructor(
     public controller: SystemModuleRoadSectionMapController,
     private business: SystemModuleRoadSectionMapBusiness,
-    private global: GlobalStorage
+    private global: GlobalStorage,
   ) {}
 
   private subscription = new Subscription();
+
+  /**
+   * 用当前用户所属城市兜底。地图建出来时 AMap 的缺省视野在 [0,0]（海面，
+   * 一张瓦片都没有），没人给它定过视野的话看着就跟「地图没加载出来」一样。
+   * 兜底自带 500ms 观察期（LastResortTool），路网/路段一旦画出来并 claim() 就自动作废
+   */
+  private city() {
+    this.global.user.get().then((user) => {
+      if (user.Description) {
+        this.controller.map.city(user.Description);
+      }
+    });
+  }
+
   private load = {
-    road: () => {
-      this.business
-        .road()
-        .then((datas) => {
-          this.controller.road.load(datas);
-        })
-        .catch((e) => {
-          this.global.user.get().then((user) => {
-            this.controller.map.city(user.GroupName);
-          });
-        });
+    road: async () => {
+      try {
+        let datas = await this.business.road();
+        await this.controller.road.load(datas);
+      } catch (e) {}
     },
   };
   ngOnInit(): void {
+    // 先安排、后取数：不能等路网/表格回来再决定要不要兜底，
+    // 那中间的空档正是「地图空白」出现的地方
+    this.city();
+
     this.load.road();
   }
   ngOnDestroy(): void {

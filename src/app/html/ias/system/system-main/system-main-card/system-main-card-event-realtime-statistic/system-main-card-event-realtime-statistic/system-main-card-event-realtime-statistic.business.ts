@@ -37,7 +37,11 @@ export class SystemMainCardEventRealtimeStatisticBusiness {
         value: this.convert(datas, type.Value),
       });
     }
-    return items;
+    let filter = items.filter((x) => x.value > 0);
+    if (filter.length == 0) {
+      return items;
+    }
+    return filter;
   }
 
   private convert(source: EventNumberStatistic[], type: number) {

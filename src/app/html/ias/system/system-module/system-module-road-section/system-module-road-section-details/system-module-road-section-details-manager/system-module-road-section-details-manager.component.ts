@@ -31,7 +31,7 @@ export class SystemModuleRoadSectionDetailsManagerComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    private business: SystemModuleRoadSectionDetailsManagerBusiness
+    private business: SystemModuleRoadSectionDetailsManagerBusiness,
   ) {}
 
   private _model = this.init();
@@ -121,7 +121,6 @@ export class SystemModuleRoadSectionDetailsManagerComponent implements OnInit {
         point.GisType = GisType.WGS84;
         return point;
       });
-      console.log(this.model);
     },
   };
 }

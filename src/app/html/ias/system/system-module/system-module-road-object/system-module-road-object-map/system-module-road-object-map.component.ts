@@ -42,7 +42,7 @@ export class SystemModuleRoadObjectMapComponent<
 
   constructor(
     private business: SystemModuleRoadObjectMapBusiness,
-    private global: GlobalStorage
+    private global: GlobalStorage,
   ) {}
 
   @ViewChild('container')
@@ -57,6 +57,8 @@ export class SystemModuleRoadObjectMapComponent<
   }
 
   private subscription = new Subscription();
+  /** 数据第一次装进来的时候定过视野没有 */
+  private focused = false;
 
   private controller = new PromiseValue<
     SystemModuleRoadObjectMapController<TRoadObject>
@@ -76,7 +78,9 @@ export class SystemModuleRoadObjectMapComponent<
         }
       } catch (e) {
         let user = await this.global.user.get();
-        controller.map.city(user.GroupName);
+        if (user.Description) {
+          controller.map.city(user.Description);
+        }
       }
     },
   };
@@ -114,7 +118,11 @@ export class SystemModuleRoadObjectMapComponent<
         let controller = await this.controller.get();
         await controller.object.clear();
         let markers = await controller.object.load(this.datas);
-        if (change.firstChange && this.datas.length > 0) {
+        // 只看 firstChange 是赌：首次变更时表格通常还是空的（firstChange 为真但没数据），
+        // 等上面两步 await 走完数据才回来，那就永远轮不到定位。
+        // 改成「数据第一次不为空时定一次」，翻页/筛选换数据不再动视野。
+        if (this.datas.length > 0 && !this.focused) {
+          this.focused = true;
           controller.map.focus(markers);
         }
       }

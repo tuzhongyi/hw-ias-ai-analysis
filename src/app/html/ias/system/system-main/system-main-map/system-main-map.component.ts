@@ -65,7 +65,7 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private business: SystemMainMapBusiness,
     private controller: SystemMainMapController,
-    private global: GlobalStorage
+    private global: GlobalStorage,
   ) {}
 
   private subscription = new Subscription();
@@ -177,8 +177,8 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   };
   private load = {
     road: () => {
-      this.business
-        .road.load()
+      this.business.road
+        .load()
         .then((datas) => {
           this.controller.road.load(datas).then((lines) => {
             this.controller.map.focus(lines);
@@ -186,7 +186,9 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
         })
         .catch((e) => {
           this.global.user.get().then((user) => {
-            this.controller.map.city(user.GroupName);
+            if (user.Description) {
+              this.controller.map.city(user.Description);
+            }
           });
         });
     },

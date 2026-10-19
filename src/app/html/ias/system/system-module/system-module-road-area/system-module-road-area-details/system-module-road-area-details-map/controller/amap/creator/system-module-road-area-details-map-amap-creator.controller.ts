@@ -24,6 +24,11 @@ export class SystemModuleRoadAreaDetailsMapAMapCreatorController {
     this.circle.remove.subscribe((x) => {
       this.remove(x);
     });
+    // 右键落在顶点上时地图收不到 rightclick（覆盖物事件不冒泡），
+    // 由顶点转出来，走和「右键空白处」完全相同的收尾逻辑
+    this.circle.rightclick.subscribe(() => {
+      this.finish();
+    });
   }
 
   private polygon: SystemModuleRoadAreaDetailsMapAMapCreatorPolygonController;
@@ -87,13 +92,18 @@ export class SystemModuleRoadAreaDetailsMapAMapCreatorController {
       this.polygon.set(this.path);
     },
     right: (e: any) => {
-      if (!this.drawing) return;
-      if (this.path.length < SystemModuleRoadAreaDetailsMapAMapCreatorController.MinNodes)
-        return;
-      this.polygon.set(this.path);
-      this.close();
-      // 闭合交给服务端（区域最后一个点会与第一个点闭合），这里不要补重复的首点
-      this.create.emit(this.path);
+      this.finish();
     },
   };
+
+  /** 右键收尾：空白处和顶点上共用这一份 */
+  private finish() {
+    if (!this.drawing) return;
+    if (this.path.length < SystemModuleRoadAreaDetailsMapAMapCreatorController.MinNodes)
+      return;
+    this.polygon.set(this.path);
+    this.close();
+    // 闭合交给服务端（区域最后一个点会与第一个点闭合），这里不要补重复的首点
+    this.create.emit(this.path);
+  }
 }

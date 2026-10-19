@@ -443,21 +443,36 @@ export class SystemMainMapAMapController {
 
   private last = new LastResortTool();
 
-  /** 视野已被数据接管 → 取消城市兜底 */
-  claim() {
+  /**
+   * 最后一次由数据接管视野的动作。城市兜底是异步落地的
+   * （setCity 要先把城市边界拉回来再摆视野），可能晚于数据的 fitView，
+   * 那时就把视野再摆回去。
+   */
+  private takeover?: () => void;
+
+  /** 视野已被数据接管 → 取消城市兜底。传 restore 就顺手记住怎么把视野摆回来 */
+  claim(restore?: () => void) {
     this.last.claim();
+    if (restore) {
+      this.takeover = restore;
+    }
   }
 
   focus(datas?: any) {
-    this.last.claim();
-    this.map.get().then((x) => {
-      x.setFitView(datas, true);
-      let center = x.getCenter();
+    // 顺手把「怎么摆回这批数据」交给 claim：
+    // 城市兜底晚一步落地时，要靠它把视野抢回来
+    let from = () => {
+      this.map.get().then((x) => {
+        x.setFitView(datas, true);
+        let center = x.getCenter();
 
-      x.setZoom(17);
-      x.setPitch(40);
-      x.setCenter(center);
-    });
+        x.setZoom(17);
+        x.setPitch(40);
+        x.setCenter(center);
+      });
+    };
+    this.claim(from);
+    from();
   }
   city(value: string) {
     this.last.fallback(() => {
@@ -465,6 +480,12 @@ export class SystemMainMapAMapController {
         // 等地图的这些时间里，可能已经有别的数据接管了视野
         if (this.last.claimed) return;
         x.setCity(value, () => {
+          // setCity 的回调同样可能落在数据的 fitView 之后 ——
+          // 那就说明视野已经被数据接管了，把地图还给数据，别再往城市上摆
+          if (this.last.claimed) {
+            this.takeover?.();
+            return;
+          }
           x.setZoom(17);
           x.setPitch(40);
         });

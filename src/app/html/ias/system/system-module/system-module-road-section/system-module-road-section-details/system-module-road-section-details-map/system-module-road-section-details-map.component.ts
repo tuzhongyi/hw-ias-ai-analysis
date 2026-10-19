@@ -43,7 +43,7 @@ export class SystemModuleRoadSectionDetailsMapComponent
   constructor(
     public controller: SystemModuleRoadSectionDetailsMapController,
     private business: SystemModuleRoadSectionDetailsMapBusiness,
-    private global: GlobalStorage
+    private global: GlobalStorage,
   ) {}
 
   private subscription = new Subscription();
@@ -60,7 +60,9 @@ export class SystemModuleRoadSectionDetailsMapComponent
         })
         .catch((e) => {
           this.global.user.get().then((user) => {
-            this.controller.map.city(user.GroupName);
+            if (user.Description) {
+              this.controller.map.city(user.Description);
+            }
           });
         });
     },

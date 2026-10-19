@@ -57,14 +57,24 @@ export class SystemModuleRoadPointDetailsMapController {
 
   map = {
     move: async (center: [number, number]) => {
-      this.controller.claim();
       let ctr = await this.controller.map.get();
-      ctr.setCenter(center);
+      // 顺手把「怎么摆回这里」交给 amap controller：
+      // 城市兜底晚一步落地时，要靠它把视野抢回来
+      let from = () => {
+        ctr.setCenter(center);
+      };
+      this.controller.claim(from);
+      from();
     },
     focus: async (data?: any, immediately?: boolean) => {
-      this.controller.claim();
       let ctr = await this.controller.map.get();
-      ctr.setFitView(data, immediately);
+      // 顺手把「怎么摆回这批数据」交给 amap controller：
+      // 城市兜底晚一步落地时，要靠它把视野抢回来
+      let from = () => {
+        ctr.setFitView(data, immediately);
+      };
+      this.controller.claim(from);
+      from();
       let center = ctr.getCenter();
       return [center.lng, center.lat] as [number, number];
     },

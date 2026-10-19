@@ -22,9 +22,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    // 两列时整体按 scale 缩（见 load）：锚点取左边中点，
+    // 缩放往左收、纵向居中，右边就不会被推出面板
+    transform-origin: left center;
 
     &-item {
-      padding-right: 20px;
+      // 列与列之间的空隙由容器 gap 给（见 load），item 自己不留 padding，
+      // 否则两列时每条都白让出 10px，右边的数值会被顶出面板
       display: flex;
       justify-content: space-between;
       align-items: center;

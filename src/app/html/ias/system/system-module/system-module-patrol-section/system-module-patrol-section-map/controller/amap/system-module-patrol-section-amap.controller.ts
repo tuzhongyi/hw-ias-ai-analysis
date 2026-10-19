@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PatrolSection } from '../../../../../../../../common/data-core/models/arm/geographic/patrol/patrol-section.model';
 import { MapHelper } from '../../../../../../../../common/helper/map/map.helper';
+import { LastResortTool } from '../../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 import {
   GeoPoint,
   GeoPolyline,
@@ -63,6 +64,46 @@ export class SystemModulePatrolSectionAMapController {
   }
 
   private sectionGeneration = 0;
+
+  private last = new LastResortTool();
+
+  /**
+   * 最后一次由数据接管视野的动作。城市兜底是异步落地的
+   * （setCity 要先把城市边界拉回来再摆视野），可能晚于数据的 fitView，
+   * 那时就把视野再摆回去。
+   */
+  private takeover?: () => void;
+
+  /** 视野已被数据接管 → 取消城市兜底。传 restore 就顺手记住怎么把视野摆回来 */
+  claim(restore?: () => void) {
+    this.last.claim();
+    if (restore) {
+      this.takeover = restore;
+    }
+  }
+
+  /**
+   * 路网、路段、GPS 轨迹一条都没画出来时用当前用户所属城市兜底。
+   * 地图建出来时 AMap 的缺省视野在 [0,0]（海面，一张瓦片都没有），
+   * 没人给它定过视野的话看着就跟「地图没加载出来」一样
+   */
+  city(value: string) {
+    this.last.fallback(() => {
+      this.map.get().then((x) => {
+        // 等地图的这些时间里，可能已经有别的数据接管了视野
+        if (this.last.claimed) return;
+        x.setCity(value, () => {
+          // setCity 的回调同样可能落在数据的 fitView 之后 ——
+          // 那就说明视野已经被数据接管了，把地图还给数据，别再往城市上摆
+          if (this.last.claimed) {
+            this.takeover?.();
+            return;
+          }
+          x.setZoom(17);
+        });
+      });
+    });
+  }
 
   section = {
     load: async (datas: PatrolSection[]) => {

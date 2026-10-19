@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
+import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { SystemModuleRoadMapAMapController } from './controller/amap/system-module-road-map-amap.controller';
 import { SystemModuleRoadMapPositionController } from './controller/system-module-road-map-position.controller';
 import { SystemModuleRoadMapController } from './controller/system-module-road-map.controller';
@@ -38,11 +39,32 @@ export class SystemModuleRoadMapComponent
   @Input() selected?: Road;
   @Output('change') _change = new EventEmitter<[number, number][]>();
 
-  constructor(public controller: SystemModuleRoadMapController) {}
+  constructor(
+    public controller: SystemModuleRoadMapController,
+    private global: GlobalStorage,
+  ) {}
 
   private subscription = new Subscription();
 
+  /**
+   * 用当前用户所属城市兜底。地图建出来时 AMap 的缺省视野在 [0,0]（海面，
+   * 一张瓦片都没有），而表格那趟请求回来之前（或者它报错、一直不回来的时候）
+   * 没有任何人给地图定过视野，看着就跟「地图没加载出来」一样。
+   * 兜底自带 500ms 观察期（LastResortTool），路网一旦画出来并 claim() 就自动作废
+   */
+  private city() {
+    this.global.user.get().then((user) => {
+      if (user.Description) {
+        this.controller.amap.city(user.Description);
+      }
+    });
+  }
+
   ngOnInit(): void {
+    // 先安排、后取数：不能等表格回来再决定要不要兜底，
+    // 那中间的空档正是「地图空白」出现的地方
+    this.city();
+
     this.controller.amap.creator.get().then((creator) => {
       let sub = creator.create.subscribe((x) => {
         this.create.emit(x);
@@ -70,7 +92,13 @@ export class SystemModuleRoadMapComponent
   change = {
     datas: (data: SimpleChange) => {
       if (data && !data.firstChange) {
-        this.controller.amap.load(this.datas);
+        if (this.datas.length > 0) {
+          this.controller.amap.load(this.datas);
+        } else {
+          // 空结果也要把上一趟画的线抹掉，否则表格空了地图上还挂着旧线
+          this.controller.amap.clear();
+          this.city();
+        }
       }
     },
     selected: (data: SimpleChange) => {

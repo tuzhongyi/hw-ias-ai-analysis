@@ -64,7 +64,7 @@ export class SystemEventProcessRealtimeComponent implements OnInit, OnChanges {
     params: SystemEventHandleParams;
     autonext: boolean;
   }>();
-  @Input() page = new Page();
+  @Input() page?: Page;
   @Output() prev = new EventEmitter<void>();
   @Output() next = new EventEmitter<void>();
   @Output() pictureupload = new EventEmitter<PagedList<NameValue>>();
@@ -115,7 +115,9 @@ export class SystemEventProcessRealtimeComponent implements OnInit, OnChanges {
     },
     page: (change: SimpleChange) => {
       if (change) {
-        if (this.page.PageIndex < this.page.PageCount) {
+        if (this.page) {
+          if (this.page.PageIndex < this.page.PageCount) {
+          }
         }
       }
     },

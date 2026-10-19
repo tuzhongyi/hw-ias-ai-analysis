@@ -60,7 +60,9 @@ export class SystemModuleRoadAreaDetailsMapComponent
         })
         .catch((e) => {
           this.global.user.get().then((user) => {
-            this.controller.map.city(user.GroupName);
+            if (user.Description) {
+              this.controller.map.city(user.Description);
+            }
           });
         });
     },

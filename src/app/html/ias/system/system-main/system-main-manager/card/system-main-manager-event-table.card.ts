@@ -23,12 +23,23 @@ export class SystemMainManagerCardEventTable {
     },
     details: (data: MobileEventRecord | GpsTaskSampleRecord) => {
       if (data instanceof MobileEventRecord) {
-        this.that.window.details.mobile.data = data;
-        this.that.window.details.mobile.show = true;
+        this.that.window.details.mobile.open(data, this.list());
       } else if (data instanceof GpsTaskSampleRecord) {
         this.that.window.details.sample.data = data;
         this.that.window.details.sample.show = true;
       }
     },
   };
+
+  /** 翻页要跟表格当前显示的是同一份列表，不然会翻到表里没有的记录上 */
+  private list(): MobileEventRecord[] {
+    switch (this.mode) {
+      case EventMode.shop:
+        return this.that.shop.data.record;
+      case EventMode.realtime:
+        return this.that.realtime.datas;
+      default:
+        return [];
+    }
+  }
 }
