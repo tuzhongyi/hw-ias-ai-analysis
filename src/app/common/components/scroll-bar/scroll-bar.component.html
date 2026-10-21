@@ -1,0 +1,22 @@
+<div
+  #track
+  class="scroll-bar"
+  (mousedown)="onTrackMouseDown($event)"
+  (wheel)="onWheel($event)"
+>
+  @for (mark of marks; track $index) {
+    <i
+      class="scroll-bar-mark"
+      [style.top.%]="mark.position * 100"
+      [style.height.%]="(mark.size ?? 0.005) * 100"
+      [style.background-color]="mark.color"
+    ></i>
+  }
+  <div
+    class="scroll-bar-thumb"
+    [class.hidden]="thumbHeight <= 0"
+    [style.height.px]="thumbHeight"
+    [style.top.px]="thumbTop"
+    (mousedown)="onThumbMouseDown($event)"
+  ></div>
+</div>

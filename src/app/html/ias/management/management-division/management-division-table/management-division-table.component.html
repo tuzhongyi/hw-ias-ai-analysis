@@ -1,0 +1,101 @@
+<div class="management-division-table">
+  <div class="management-division-table-body table-split">
+    <div class="table-split-head">
+      <table
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        TableSorter
+        (sort)="onsort($event)"
+      >
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="center">
+              <input
+                type="checkbox"
+                [checked]="
+                  selecteds.length > 0 && selecteds.length === datas.length
+                "
+                (change)="select.all()"
+              />
+            </th>
+            <th sort="Name">名称</th>
+            <th sort="Id">编号</th>
+            <th sort="DivisionType">区划类型</th>
+            <th>父节点</th>
+            <th>描述</th>
+            <th class="center">操作</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table-split-body">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas"
+            [class.selected]="selecteds.includes(item)"
+            (click)="select.item(item)"
+            (dblclick)="onopen(item)"
+          >
+            <td class="center">
+              <input type="checkbox" [checked]="selecteds.includes(item)" />
+            </td>
+            <td [title]="item.Name">
+              <div class="name">
+                <i
+                  class="mdi"
+                  [class.mdi-folder]="
+                    item.DivisionType != Type.GridCell && item.IsLeaf
+                  "
+                  [class.mdi-folder-star]="
+                    item.DivisionType != Type.GridCell && !item.IsLeaf
+                  "
+                  [class.mdi-file]="item.DivisionType == Type.GridCell"
+                ></i>
+                <span>{{ item.Name }}</span>
+              </div>
+            </td>
+            <td>
+              {{ item.Id }}
+            </td>
+
+            <td>{{ Language.DivisionType(item.DivisionType) }}</td>
+            <td [title]="(item.Parent | async)?.Name ?? ''">
+              {{ (item.Parent | async)?.Name || "-" }}
+            </td>
+
+            <td [title]="item.Description ?? ''">
+              {{ item.Description || "-" }}
+            </td>
+            <td class="center">
+              <div class="operation">
+                <div
+                  class="button"
+                  title="打开"
+                  [class.disabled]="item.DivisionType == Type.GridCell"
+                  (click)="onopen(item); $event.stopPropagation()"
+                >
+                  <i class="mdi mdi-folder-open"></i>
+                </div>
+                <div
+                  class="button"
+                  title="编辑"
+                  (click)="ondetails(item); $event.stopPropagation()"
+                >
+                  <i class="howell-icon-modification"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

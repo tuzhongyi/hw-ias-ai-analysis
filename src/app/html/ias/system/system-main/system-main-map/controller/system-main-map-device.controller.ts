@@ -55,7 +55,25 @@ export class SystemMainMapDeviceController {
     this.inited = false;
     return this.clear();
   }
-  async focus(data: MobileDevice) {
+  /**
+   * 把一批设备的标记框进视野（卡片上的在线 / 离线）。
+   * 一个能定位的都没有时不动视野，也不 claim —— 那会把城市兜底作废、
+   * 把地图留在空白上
+   */
+  async focus(datas: MobileDevice[]) {
+    if (datas.length == 0) return;
+    let marker = await this.amap.device.marker.get();
+    // 顺手把「怎么摆回这批设备」交给 amap controller：
+    // 城市兜底晚一步落地时，要靠它把视野抢回来
+    let from = () => {
+      marker.focus(datas);
+    };
+    this.amap.claim(from);
+    from();
+  }
+
+  /** 定位到单台设备，并选中它的标记 */
+  async locate(data: MobileDevice) {
     // 顺手把「怎么摆回这台设备」交给 amap controller：
     // 城市兜底晚一步落地时，要靠它把视野抢回来
     let from = () => {

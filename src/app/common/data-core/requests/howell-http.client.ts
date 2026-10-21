@@ -81,38 +81,42 @@ export class HowellHttpClient {
     event?: { process?: (x: number) => void; completed?: () => void }
   ) {
     let options = this.getAuth();
-    return new Promise<R>((resolve) => {
+    return new Promise<R>((resolve, reject) => {
       this.http
         .post(path, data, {
           ...options,
           reportProgress: true,
           observe: 'events',
         })
-        .subscribe((e) => {
-          if (event && event.process) {
-            if (e.type === HttpEventType.UploadProgress) {
-              let percent = (e.loaded / (e.total ?? e.loaded)) * 100;
+        .subscribe({
+          next: (e) => {
+            if (event && event.process) {
+              if (e.type === HttpEventType.UploadProgress) {
+                let percent = (e.loaded / (e.total ?? e.loaded)) * 100;
 
-              event.process(percent);
-              {
-              }
-            }
-          }
-
-          if (e.type === HttpEventType.Response) {
-            if (event) {
-              if (event.process) {
-                event.process(100);
-              }
-              if (event.completed) {
-                event.completed();
+                event.process(percent);
+                {
+                }
               }
             }
 
-            if (e.body) {
-              resolve(e.body as R);
+            if (e.type === HttpEventType.Response) {
+              if (event) {
+                if (event.process) {
+                  event.process(100);
+                }
+                if (event.completed) {
+                  event.completed();
+                }
+              }
+
+              if (e.body) {
+                resolve(e.body as R);
+              }
             }
-          }
+          },
+          /* 请求失败时让 Promise 结束，避免上传按钮永远停在进度中 */
+          error: (e) => reject(e),
         });
     });
   }

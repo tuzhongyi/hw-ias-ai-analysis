@@ -21,8 +21,8 @@
               (click)="select.all()"
             />
           </th>
-          <th class="center">序号</th>
-          <th sort="Name">名称</th>
+          <th class="center">设备编号</th>
+          <th sort="Name">设备名称</th>
           <th sort="SerialNumber">序列号</th>
           <th sort="GroupName">用户分组</th>
           <th sort="OnlineStatus">在线状态</th>
@@ -37,10 +37,10 @@
           (click)="select.on(item)"
           [ngClass]="{
             selected: item && selecteds.includes(item),
-            nodata: !item
+            nodata: !item,
           }"
           [ngStyle]="{
-            height: item ? 100 / page.PageSize + '%' : 0
+            height: item ? 100 / page.PageSize + '%' : 0,
           }"
         >
           <td class="center">
@@ -52,7 +52,7 @@
           </td>
           <td class="center">
             <div *ngIf="item">
-              {{ page.PageSize * (page.PageIndex - 1) + index + 1 }}
+              {{ item.Id }}
             </div>
           </td>
 
@@ -66,14 +66,16 @@
             {{ item?.GroupName }}
           </td>
           <td>
-            @if(item){ @if(item.OnlineStatus == 0){
-            <span [style.color]="Color.green">在线</span>
-            } @else{
-            <span [style.color]="Color.redlight">离线</span>
-            } }
+            @if (item) {
+              @if (item.OnlineStatus == 0) {
+                <span [style.color]="Color.green">在线</span>
+              } @else {
+                <span [style.color]="Color.redlight">离线</span>
+              }
+            }
           </td>
           <td>
-            {{ item?.LastOnlineTime | date : "yyyy-MM-dd HH:mm:ss" }}
+            {{ item?.LastOnlineTime | date: "yyyy-MM-dd HH:mm:ss" }}
           </td>
           <td [title]="item?.Description ?? ''">
             {{ item?.Description }}
@@ -94,9 +96,9 @@
       </tbody>
     </table>
   </div>
-  @if(page.TotalRecordCount){
-  <div class="management-device-mobile-table-foot">
-    <paginator [page]="page" (change)="on.page($event)"> </paginator>
-  </div>
+  @if (page.TotalRecordCount) {
+    <div class="management-device-mobile-table-foot">
+      <paginator [page]="page" (change)="on.page($event)"> </paginator>
+    </div>
   }
 </div>

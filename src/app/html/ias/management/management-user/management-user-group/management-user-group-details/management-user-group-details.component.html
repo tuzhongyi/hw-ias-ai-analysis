@@ -1,0 +1,26 @@
+<div class="management-user-group-details">
+  <div class="management-user-group-details-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">分组名称</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.GroupName" />
+        </div>
+      </div>
+      <div class="form-item tree">
+        <div class="form-item-text baseline">区划</div>
+        <div class="form-item-value">
+          <div class="panel">
+            <ias-tree-division-multiple
+              [(selectedIds)]="selectedIds"
+            ></ias-tree-division-multiple>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="management-user-group-details-foot">
+    <button class="button-clip-gradient" (click)="onok()">确定</button>
+    <button class="button-clip-blue" (click)="oncancel()">取消</button>
+  </div>
+</div>

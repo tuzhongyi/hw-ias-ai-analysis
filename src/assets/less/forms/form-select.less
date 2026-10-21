@@ -13,6 +13,9 @@ select {
   height: 36px;
   width: min-content;
   min-width: 50px;
+  // 选项过多时限制下拉弹层高度，超出部分在弹层内滚动
+  max-height: 250px;
+  overflow-y: auto;
 
   background-image: url(../../image/select-arrow.png);
   background-size: 12px 6px;

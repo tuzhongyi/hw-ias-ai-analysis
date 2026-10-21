@@ -1,0 +1,58 @@
+<div class="management-division-details">
+  <div class="management-division-details-body">
+    <div class="forms">
+      <div class="form-item">
+        <div class="form-item-text">区划编号</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.Id" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text">区划名称</div>
+        <div class="form-item-value">
+          <input
+            type="text"
+            [(ngModel)]="data.Name"
+            placeholder="请输入区划名称"
+          />
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-text">上级区划</div>
+        <div class="form-item-value fill">
+          <ias-select-division-tree
+            [selected]="parent"
+            [excludeRootId]="data.Id"
+            [nullable]="true"
+            [enabletypes]="[Type.Province, Type.City, Type.County]"
+            (selectedChange)="on.parent($event)"
+          ></ias-select-division-tree>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-text">区划类型</div>
+        <div class="form-item-value fill">
+          <select [(ngModel)]="data.DivisionType">
+            @for (item of source.types; track item.value) {
+              <option [ngValue]="item.value">{{ item.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-item textarea">
+        <div class="form-item-text baseline textarea">描述</div>
+        <div class="form-item-value">
+          <textarea [(ngModel)]="data.Description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="management-division-details-foot">
+    <button class="button-clip-gradient" (click)="on.ok()">确定</button>
+    <button class="button-clip-blue" (click)="on.cancel()">取消</button>
+  </div>
+</div>

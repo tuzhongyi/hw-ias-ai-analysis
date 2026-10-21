@@ -74,6 +74,25 @@ export class ArmDivisionRequestService extends AbstractService<Division> {
     }, params);
   }
 
+  /** 2.3.6.4 Divisions/Excels：上传区划列表，返回导入数量 */
+  excel = {
+    upload: (
+      data: ArrayBuffer,
+      progress?: (x: number) => void,
+      completed?: () => void
+    ) => {
+      let url = ArmDivisionUrl.excel();
+      return this.http
+        .upload<ArrayBuffer, HowellResponse<number>>(url, data, {
+          process: progress,
+          completed,
+        })
+        .then((x) => {
+          return HowellResponseProcess.basic(x);
+        });
+    },
+  };
+
   async root(): Promise<Division> {
     let all = await this.cache.all();
     let root = ArrayTool.min(all, (d) => {

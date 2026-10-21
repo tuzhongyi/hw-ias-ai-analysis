@@ -1,0 +1,27 @@
+<div class="tree-division root-route">
+  @if (searchable) {
+    <div class="tree-division-search">
+      <input-icon
+        [value]="name"
+        [canhover]="false"
+        (valueChange)="onsearch($event)"
+      >
+        <div>
+          <i class="howell-icon-search"></i>
+        </div>
+      </input-icon>
+    </div>
+  }
+  <div class="tree-division-tree">
+    <hw-tree
+      [nodes]="nodes"
+      [selectedId]="selectedId"
+      [autoExpand]="false"
+      [scrollToSelected]="scrollToSelected"
+      (selectedIdChange)="onselected($event)"
+      (nodeClick)="onnode($event)"
+      (nodeDblclick)="ondblclick($event)"
+      (toggle)="ontoggle($event)"
+    ></hw-tree>
+  </div>
+</div>

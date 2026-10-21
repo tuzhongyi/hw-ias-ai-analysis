@@ -1,0 +1,41 @@
+<div class="hw-tree-multiple-wrap">
+  <div
+    #container
+    class="hw-tree-multiple root-router"
+    (click)="onTreeClick($event)"
+    (dblclick)="onTreeDblclick($event)"
+  >
+    @for (node of visibleNodes; track node.id) {
+      <div
+        class="hw-tree-multiple-node"
+        [class.checked]="isChecked(node)"
+        [attr.data-node-id]="node.id"
+        [style.padding-left.px]="node.level * 20 + 8"
+      >
+        <i
+          class="hw-tree-multiple-toggle mdi"
+          [class.mdi-menu-down]="node.expandable && node.expanded"
+          [class.mdi-menu-right]="node.expandable && !node.expanded"
+          (click)="onToggle(node); $event.stopPropagation()"
+        ></i>
+        <input
+          class="hw-tree-multiple-check"
+          type="checkbox"
+          [checked]="isChecked(node)"
+          (click)="$event.stopPropagation()"
+          (change)="onCheck(node)"
+        />
+        @if (node.icon) {
+          <i class="hw-tree-multiple-icon {{ node.icon }}"></i>
+        }
+        <div class="hw-tree-multiple-content" [innerHTML]="node.html || node.label"></div>
+        @if (node.actionsHtml) {
+          <span class="hw-tree-multiple-actions" [innerHTML]="node.actionsHtml"></span>
+        }
+      </div>
+    }
+  </div>
+  @if (scrollbar) {
+    <ias-scroll-bar [target]="container" [marks]="marks"></ias-scroll-bar>
+  }
+</div>

@@ -1,3 +1,10 @@
+// 换行模式下选中区最多显示约 3 行，超出后纵向滚动
+@wrap-max-height: 108px;
+
+:host {
+  width: 100%;
+}
+
 .select-multiple {
   width: 100%;
   height: 36px;
@@ -17,6 +24,30 @@
   &.disabled {
     pointer-events: none;
     opacity: 0.6;
+  }
+
+  // 选中项换行显示：高度随内容增长，不再横向滚动
+  &.wrap {
+    height: auto;
+    min-height: 36px;
+    background-image: none;
+
+    .select-multiple-selected {
+      height: auto;
+      max-height: @wrap-max-height;
+      margin-bottom: 0;
+      margin-right: 0;
+      width: 100%;
+      flex-wrap: wrap;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding: 5px 35px 5px 10px;
+    }
+
+    // 搜索框固定一行高，贴在换行后的选中区下方
+    .select-multiple-search {
+      height: 36px;
+    }
   }
 
   &-selected {
@@ -134,7 +165,8 @@
     flex-direction: column;
 
     &.searchable {
-      top: calc(200% - 1px);
+      // 搜索框固定 36px，不能按容器百分比算（换行后容器会变高）
+      top: calc(100% + 36px - 1px);
     }
 
     &-item {

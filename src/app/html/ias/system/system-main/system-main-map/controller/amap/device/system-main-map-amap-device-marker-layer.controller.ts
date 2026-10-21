@@ -11,7 +11,7 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
   event = new IASMapAMapMarkerEvent<MobileDevice>();
 
   constructor(
-    map: AMap.Map,
+    private map: AMap.Map,
     private info: IASMapAMapInfoController,
     private subscription: Subscription,
     private path: PathTool,
@@ -82,6 +82,22 @@ export class SystemMainMapAMapDeviceMarkerLayerController {
     }
     this.layer.add(markers);
     return markers;
+  }
+
+  /**
+   * 把一批设备的标记框进视野。按 Id 找图上已有的标记 ——
+   * 没有坐标的设备本来就画不出标记，直接跳过
+   */
+  focus(datas: MobileDevice[]) {
+    let markers: AMap.LabelMarker[] = [];
+    datas.forEach((data) => {
+      let point = this.points.find((x) => x.data.Id === data.Id);
+      if (point) {
+        markers.push(point.marker);
+      }
+    });
+    if (markers.length == 0) return;
+    this.map.setFitView(markers, false);
   }
 
   clear() {

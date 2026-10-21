@@ -8,4 +8,8 @@ export class SystemSecurityUserUrl extends AbstractUrl {
   group() {
     return `${this.basic()}/Groups`
   }
+
+  groupItem(id: number) {
+    return `${this.group()}/${id}`
+  }
 }

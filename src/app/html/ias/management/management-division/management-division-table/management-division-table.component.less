@@ -1,0 +1,30 @@
+.management-division-table {
+  height: 100%;
+  width: 100%;
+  transition: all 0.5s;
+
+  &-body {
+    height: 100%;
+    width: 100%;
+  }
+
+  .name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    overflow: hidden;
+
+    i {
+      flex-shrink: 0;
+      font-size: 18px;
+      color: #69adff;
+    }
+
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}

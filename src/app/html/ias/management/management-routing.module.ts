@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { plainToInstance } from 'class-transformer';
-import json from '../management/management-path/management-path.json';
 import { ManagementComponent } from './component/management.component';
 import { ManagementDeviceMobileManagerComponent } from './management-device-mobile/management-device-mobile-manager/management-device-mobile-manager.component';
+import { ManagementDivisionManagerComponent } from './management-division/management-division-manager/management-division-manager.component';
 import { ManagementNetworkLocationSSHComponent } from './management-network-location-ssh/management-network-location-ssh.component';
 import { ManagementNetworkLocationTcpIpComponent } from './management-network-location-tcpip/management-network-location-tcpip.component';
-import { ManagementPathRoot } from './management-path/management.path';
 import { ManagementRecordFileManagerComponent } from './management-record-file-manager/management-record-file-manager.component';
 import { ManagementSystemDeviceDatetimeComponent } from './management-system-device-datetime/management-system-device-datetime.component';
 import { ManagementSystemDeviceInfoComponent } from './management-system-device-info/management-system-device-info.component';
@@ -15,9 +13,8 @@ import { ManagementSystemMaintainLogComponent } from './management-system-mainta
 import { ManagementSystemStatusProcessComponent } from './management-system-status-process/management-system-status-process.component';
 import { ManagementSystemStatusRunningComponent } from './management-system-status-running/management-system-status-running.component';
 import { ManagementTabIndexComponent } from './management-tab-index/management-tab-index.component';
-import { ManagementUserInfoManagerComponent } from './management-user-info-manager/management-user-info-manager.component';
-
-const root = plainToInstance(ManagementPathRoot, json);
+import { ManagementUserGroupManagerComponent } from './management-user/management-user-group/management-user-group-manager/management-user-group-manager.component';
+import { ManagementUserInfoManagerComponent } from './management-user/management-user-info/management-user-info-manager/management-user-info-manager.component';
 
 const routes: Routes = [
   {
@@ -49,10 +46,12 @@ const routes: Routes = [
               {
                 path: 'info',
                 component: ManagementSystemDeviceInfoComponent,
+                data: { title: '设备信息' },
               },
               {
                 path: 'datetime',
                 component: ManagementSystemDeviceDatetimeComponent,
+                data: { title: '时间配置' },
               },
             ],
           },
@@ -67,10 +66,12 @@ const routes: Routes = [
               {
                 path: 'running',
                 component: ManagementSystemStatusRunningComponent,
+                data: { title: '系统运行状态' },
               },
               {
                 path: 'process',
                 component: ManagementSystemStatusProcessComponent,
+                data: { title: '进程信息' },
               },
             ],
           },
@@ -85,10 +86,12 @@ const routes: Routes = [
               {
                 path: 'config',
                 component: ManagementSystemMaintainConfigComponent,
+                data: { title: '系统维护' },
               },
               {
                 path: 'log',
                 component: ManagementSystemMaintainLogComponent,
+                data: { title: '日志' },
               },
             ],
           },
@@ -114,10 +117,12 @@ const routes: Routes = [
               {
                 path: 'tcpip',
                 component: ManagementNetworkLocationTcpIpComponent,
+                data: { title: 'TCP/IP' },
               },
               {
                 path: 'ssh',
                 component: ManagementNetworkLocationSSHComponent,
+                data: { title: 'SSH' },
               },
             ],
           },
@@ -143,6 +148,7 @@ const routes: Routes = [
               {
                 path: 'manager',
                 component: ManagementRecordFileManagerComponent,
+                data: { title: '录像文件' },
               },
             ],
           },
@@ -168,6 +174,7 @@ const routes: Routes = [
               {
                 path: 'manager',
                 component: ManagementDeviceMobileManagerComponent,
+                data: { title: '前端设备列表' },
               },
             ],
           },
@@ -193,8 +200,40 @@ const routes: Routes = [
               {
                 path: 'manager',
                 component: ManagementUserInfoManagerComponent,
+                data: { title: '用户列表' },
               },
             ],
+          },
+          {
+            path: 'group',
+            children: [
+              {
+                path: '',
+                redirectTo: 'manager',
+                pathMatch: 'full',
+              },
+              {
+                path: 'manager',
+                component: ManagementUserGroupManagerComponent,
+                data: { title: '用户组列表' },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: 'division',
+        component: ManagementTabIndexComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'manager',
+            pathMatch: 'full',
+          },
+          {
+            path: 'manager',
+            component: ManagementDivisionManagerComponent,
+            data: { title: '区划管理' },
           },
         ],
       },

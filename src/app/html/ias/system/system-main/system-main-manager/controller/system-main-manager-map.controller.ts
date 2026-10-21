@@ -17,6 +17,10 @@ export class SystemMainManagerMapController {
     ShopRegistration | MobileEventRecord | GpsTaskSampleRecord
   >();
   moveto = new EventEmitter<ILocation>();
+  device = {
+    /** 把一批设备标记框进视野（卡片上的在线 / 离线） */
+    focus: new EventEmitter<MobileDevice[]>(),
+  };
   heatmap = {
     textable: true,
     load: new EventEmitter<ILocation[]>(),

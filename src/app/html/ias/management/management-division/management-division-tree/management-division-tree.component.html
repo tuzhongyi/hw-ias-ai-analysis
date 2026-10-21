@@ -1,0 +1,34 @@
+<div class="management-division-tree">
+  <div class="management-division-tree-operation button-group">
+    <button class="button-clip-gradient" (click)="onadd()">添加</button>
+    <button
+      class="button-clip-gradient"
+      [disabled]="!selected"
+      (click)="onremove()"
+    >
+      删除
+    </button>
+    <button
+      class="button-clip-gradient"
+      [disabled]="!selected"
+      (click)="onedit()"
+    >
+      编辑
+    </button>
+  </div>
+  <div class="management-division-tree-search">
+    <input-icon [value]="name" [canhover]="false" (valueChange)="onname($event)">
+      <div>
+        <i class="howell-icon-search"></i>
+      </div>
+    </input-icon>
+  </div>
+  <div class="management-division-tree-body">
+    <ias-tree-division
+      [selectedId]="selected?.Id"
+      [name]="name"
+      (nodeClick)="onnode($event)"
+      (nodeDblclick)="ondblclick($event)"
+    ></ias-tree-division>
+  </div>
+</div>

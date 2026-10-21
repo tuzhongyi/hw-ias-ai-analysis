@@ -185,6 +185,17 @@ export class SystemMainManagerComponent implements OnInit, OnDestroy {
         this.map.data.device = x;
       });
     },
+    /**
+     * 卡片点「在线 / 离线」：把这批设备交给地图去框视野。
+     * 用 map.data.device 里的同一批对象筛，别重新建 —— 地图上的标记是按
+     * 这批数据画的，换了对象就对不上了
+     */
+    focus: (status: number) => {
+      let datas = (this.map.data.device ?? []).filter(
+        (x) => x.OnlineStatus === status,
+      );
+      this.map.device.focus.emit(datas);
+    },
   };
 
   shop = {

@@ -61,4 +61,29 @@ export class SystemSecurityUserRequestService {
       return HowellResponseProcess.array(response, UserGroup);
     });
   }
+
+  async groupCreate(group: UserGroup) {
+    let url = ArmSystemUrl.security.user.group();
+    let plain = instanceToPlain(group);
+    return this.http
+      .post<HowellResponse<UserGroup>, any>(url, plain)
+      .then((response) => {
+        return HowellResponseProcess.item(response, UserGroup);
+      });
+  }
+
+  async groupUpdate(group: UserGroup) {
+    let url = ArmSystemUrl.security.user.groupItem(group.GroupId);
+    let plain = instanceToPlain(group);
+    return this.http
+      .put<any, HowellResponse<UserGroup>>(url, plain)
+      .then((response) => {
+        return HowellResponseProcess.item(response, UserGroup);
+      });
+  }
+
+  async groupDelete(id: number) {
+    let url = ArmSystemUrl.security.user.groupItem(id);
+    return this.http.delete(url);
+  }
 }

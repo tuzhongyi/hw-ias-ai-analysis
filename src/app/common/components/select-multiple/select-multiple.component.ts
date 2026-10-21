@@ -26,6 +26,7 @@ export class SelectMultipleComponent implements OnInit, OnChanges, OnDestroy {
   @Output() selectedsChange = new EventEmitter<IIdNameModel<any>[]>();
   @Input() searchable = true;
   @Input() disabled = false;
+  @Input() wrap = false;
 
   constructor() {}
 

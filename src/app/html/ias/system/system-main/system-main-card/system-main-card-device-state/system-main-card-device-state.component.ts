@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Language } from '../../../../../../common/tools/language-tool/language';
@@ -22,6 +23,7 @@ import { SystemMainCardDeviceStateBusiness } from './system-main-card-device-sta
 export class SystemMainCardDeviceStateComponent implements OnInit, OnDestroy {
   @Input('load') _load?: EventEmitter<void>;
   title: string;
+  @Output() state = new EventEmitter<number>();
 
   constructor(
     private business: SystemMainCardDeviceStateBusiness,
@@ -73,4 +75,10 @@ export class SystemMainCardDeviceStateComponent implements OnInit, OnDestroy {
       });
     });
   }
+
+  on = {
+    state: (value: number) => {
+      this.state.emit(value);
+    },
+  };
 }

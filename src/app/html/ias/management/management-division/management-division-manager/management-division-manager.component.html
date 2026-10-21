@@ -1,0 +1,119 @@
+<div class="management-division-manager root-router">
+  <div class="management-division-manager-toolbar">
+    <div class="management-division-manager-filter">
+      <div class="forms">
+        <!-- <div class="form-item">
+          <div class="form-item-text">区划类型</div>
+          <div class="form-item-value">
+            <select [(ngModel)]="table.args.type">
+              <option [ngValue]="undefined">全部</option>
+              @for (item of types; track item.value) {
+                <option [ngValue]="item.value">{{ item.name }}</option>
+              }
+            </select>
+          </div>
+        </div> -->
+        <div class="form-item">
+          <div class="form-item-text">区划名称</div>
+          <div class="form-item-value">
+            <input type="text" [(ngModel)]="table.args.name" />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient" (click)="table.on.search()">
+            查找
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="button-group">
+      <upload-control
+        [accept]="file.upload.accept"
+        [type]="file.upload.type"
+        (upload)="file.upload.do($event)"
+      >
+        <button class="button-clip-gradient" [disabled]="file.upload.loading">
+          {{ file.upload.name }}
+        </button>
+      </upload-control>
+      <button class="button-clip-gradient" (click)="manager.on.add()">
+        添加
+      </button>
+      <button
+        class="button-clip-gradient"
+        [disabled]="table.selecteds.length === 0"
+        (click)="manager.remove.confirm.open()"
+      >
+        删除
+      </button>
+    </div>
+  </div>
+  <div class="management-division-manager-head">
+    <div class="operation">
+      <div
+        class="operation-button button border"
+        [class.disabled]="!search.active && path.history.length === 0"
+        (click)="path.on.back()"
+      >
+        <i class="mdi mdi-arrow-left"></i>
+      </div>
+      <div
+        class="operation-button button border"
+        [class.disabled]="!search.active && !path.folder"
+        (click)="path.on.up()"
+      >
+        <i class="mdi mdi-arrow-up"></i>
+      </div>
+      <div class="operation-path">
+        @if (search.active) {
+          <div class="search">
+            “{{ path.folder?.Name ?? "根节点" }}”中的搜索结果
+          </div>
+        } @else {
+          <div class="button" (click)="path.on.root()">根节点</div>
+          @for (node of path.nodes; track node.Id) {
+            <span class="separator">\</span>
+            <div class="button" (click)="path.on.folder(node)">
+              {{ node.Name }}
+            </div>
+          }
+        }
+      </div>
+      <div class="operation-button button border" (click)="manager.reload()">
+        <i class="mdi mdi-refresh"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="management-division-manager-body">
+    <ias-management-division-table
+      [args]="table.args"
+      [load]="table.load"
+      [(selecteds)]="table.selecteds"
+      (open)="table.on.open($event)"
+      (details)="table.on.details($event)"
+    ></ias-management-division-table>
+  </div>
+
+  <confirm-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [content]="window.confirm.content"
+    (ok)="manager.remove.confirm.ok()"
+    (cancel)="window.confirm.show = false"
+  ></confirm-window>
+
+  <ias-window
+    *ngIf="window.details.show"
+    [Model]="window.details"
+    [style]="window.details.style"
+    [title]="window.details.title"
+  >
+    <ias-management-division-details
+      [data]="window.details.data"
+      [parent]="path.folder"
+      (ok)="manager.details.change()"
+      (cancel)="window.details.show = false"
+    ></ias-management-division-details>
+  </ias-window>
+</div>

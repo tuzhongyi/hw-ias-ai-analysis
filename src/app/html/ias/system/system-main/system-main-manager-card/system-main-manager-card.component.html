@@ -18,6 +18,7 @@
       <ias-system-main-card-device-state
         *ngIf="card.device.state.show"
         [load]="load"
+        (state)="card.device.state.on.trigger($event)"
       ></ias-system-main-card-device-state>
       <ias-system-main-card-event-chart-bar-roadobject
         [load]="load"

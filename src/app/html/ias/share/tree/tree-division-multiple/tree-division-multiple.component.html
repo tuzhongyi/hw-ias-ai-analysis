@@ -1,0 +1,27 @@
+<div class="tree-division-multiple root-route">
+  @if (searchable) {
+    <div class="tree-division-multiple-search">
+      <input-icon
+        [value]="name"
+        [canhover]="false"
+        (valueChange)="onsearch($event)"
+      >
+        <div>
+          <i class="howell-icon-search"></i>
+        </div>
+      </input-icon>
+    </div>
+  }
+  <div class="tree-division-multiple-tree">
+    <ias-tree-multiple
+      [nodes]="nodes"
+      [selectedIds]="selectedIds"
+      [autoExpand]="false"
+      [scrollToSelected]="true"
+      (selectedIdsChange)="onselected($event)"
+      (nodeClick)="onnode($event)"
+      (nodeDblclick)="ondblclick($event)"
+      (toggle)="ontoggle($event)"
+    ></ias-tree-multiple>
+  </div>
+</div>

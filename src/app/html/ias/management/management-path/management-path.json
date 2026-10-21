@@ -112,6 +112,26 @@
             "name": "用户列表"
           }
         ]
+      },
+      {
+        "path": "management/user/group",
+        "name": "用户组",
+        "children": [
+          {
+            "path": "management/user/group/manager",
+            "name": "用户组列表"
+          }
+        ]
+      }
+    ]
+  },
+  "division": {
+    "path": "management/division",
+    "name": "区划",
+    "children": [
+      {
+        "path": "management/division/manager",
+        "name": "区划管理"
       }
     ]
   }

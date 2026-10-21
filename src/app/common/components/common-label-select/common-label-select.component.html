@@ -5,7 +5,7 @@
       class="wrapper"
       WheelHorizontalScroll
       [ngClass]="{
-        single: single
+        single: single,
       }"
     >
       <div class="label-select-item" *ngFor="let item of selected">
@@ -20,7 +20,8 @@
     class="label-select-body"
     *ngIf="show"
     [ngStyle]="{
-      height: height,      
+      height: height,
+      padding: single ? '0' : undefined,
     }"
     (click)="$event.stopPropagation()"
   >

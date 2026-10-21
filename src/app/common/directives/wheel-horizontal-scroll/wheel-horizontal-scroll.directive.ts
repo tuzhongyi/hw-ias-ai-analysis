@@ -57,6 +57,8 @@ export class WheelHorizontalScrollDirective
   }
 
   event(e: WheelEvent) {
+    // 内容没有横向溢出时不要拦截滚轮，否则会挡住页面/弹层的纵向滚动
+    if (this.ele.scrollWidth <= this.ele.clientWidth) return;
     e.preventDefault();
     this.ele.scrollBy({
       left: e.deltaY < 0 ? -120 : 120,

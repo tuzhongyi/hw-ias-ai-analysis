@@ -35,7 +35,7 @@ import { ManagementDeviceMobileManagerWindow } from './management-device-mobile-
 export class ManagementDeviceMobileManagerComponent implements OnInit {
   constructor(
     private business: ManagementDeviceMobileManagerBusiness,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -108,7 +108,7 @@ export class ManagementDeviceMobileManagerComponent implements OnInit {
     upload: {
       accept: '*.*',
       type: FileReadType.ArrayBuffer,
-      name: '文件上传',
+      name: '导入',
       loading: false,
       do: (file: UploadControlFile) => {
         this.toastr.success('开始上传文件，请稍候...');

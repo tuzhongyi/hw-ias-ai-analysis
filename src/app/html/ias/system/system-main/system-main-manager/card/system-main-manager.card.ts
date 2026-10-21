@@ -67,7 +67,7 @@ export class SystemMainManagerCard {
     },
     device: (that: SystemMainManagerComponent) => {
       return {
-        state: new SystemMainManagerCardDeviceState(),
+        state: new SystemMainManagerCardDeviceState(that),
         route: new SystemMainManagerCardDeviceRoute(),
       };
     },

@@ -1,0 +1,69 @@
+.management-user-info-details {
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+
+  @foot-height: 36px;
+  @gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: @gap;
+
+
+  &-body {
+    width: 100%;
+    height: calc(100% - @foot-height - @gap);
+
+    .forms {
+      flex-direction: column;
+
+      .form-item {
+        height: 36px;
+
+        &-text {
+          width: 100px;
+        }
+
+        &-value {
+          common-label-select {
+            height: 36px;
+            width: 100%;
+          }
+        }
+
+      }
+    }
+  }
+
+  &-foot {
+    width: 100%;
+    height: @foot-height;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+}
+
+// 分组很多，用自定义下拉列表，弹层高度由 common-label-select 限制
+.group-select {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  &-item {
+    padding: 6px 10px;
+    line-height: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #2f61d2;
+    }
+
+    &.selected {
+      color: #2f9bff;
+    }
+  }
+}

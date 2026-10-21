@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.management-division-tree {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+
+  &-operation {
+    flex-shrink: 0;
+
+    button {
+      min-width: 88px;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &-search {
+    width: 100%;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  &-body {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+}

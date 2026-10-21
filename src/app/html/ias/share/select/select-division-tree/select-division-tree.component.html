@@ -1,0 +1,30 @@
+<div class="select-division-tree root-router">
+  <div class="select-division-tree-header" (click)="toggle($event)">
+    @if (selected) {
+      <div class="title" [title]="selected.Name">{{ selected.Name }}</div>
+    } @else {
+      <div class="placeholder">{{ nulltext }}</div>
+    }
+    @if (nullable && selected) {
+      <div class="clear" (click)="onclear($event)">
+        <i class="howell-icon-Close"></i>
+      </div>
+    }
+  </div>
+  @if (show) {
+    <div class="select-division-tree-body" (click)="$event.stopPropagation()">
+      <div class="select-division-tree-tree">
+        <ias-tree-division
+          [selectedId]="selected?.Id"
+          [displaydeep]="displaydeep"
+          [searchable]="searchable"
+          [excludeIds]="excludeIds"
+          [excludeRootId]="excludeRootId"
+          [scrollToSelected]="scrollToSelected"
+          [enabletypes]="enabletypes"
+          (nodeClick)="onnode($event)"
+        ></ias-tree-division>
+      </div>
+    </div>
+  }
+</div>

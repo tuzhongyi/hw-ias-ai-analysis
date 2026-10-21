@@ -36,6 +36,8 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   @Output() roadobjectclick = new EventEmitter<RoadObject>();
   @Output() roadobjectdblclick = new EventEmitter<RoadObject>();
   @Input() moveto?: EventEmitter<ILocation>;
+  /** 聚焦一批设备标记（卡片上的在线 / 离线） */
+  @Input() devicefocus?: EventEmitter<MobileDevice[]>;
   @Input() select?: EventEmitter<
     ShopRegistration | MobileEventRecord | GpsTaskSampleRecord
   >;
@@ -243,7 +245,16 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
       this.regist.heatmap();
       this.regist.sample();
       this.regist.device();
+      this.regist.devicefocus();
       this.regist.roadobject();
+    },
+    devicefocus: () => {
+      if (this.devicefocus) {
+        let sub = this.devicefocus.subscribe((datas) => {
+          this.controller.device.focus(datas);
+        });
+        this.subscription.add(sub);
+      }
     },
     heatmap: () => {
       if (this.heatmapload) {

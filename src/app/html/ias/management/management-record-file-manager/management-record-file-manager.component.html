@@ -1,15 +1,15 @@
-<div class="management-record-file-manager panel">
+<div class="management-record-file-manager">
   <div class="management-record-file-manager-head">
     <div class="operation">
       <div
-        class="operation-button button"
+        class="operation-button button border"
         (click)="onback()"
         [class.disabled]="history.length === 0"
       >
         <i class="mdi mdi-arrow-left"></i>
       </div>
       <div
-        class="operation-button button"
+        class="operation-button button border"
         [class.disabled]="!folder"
         (click)="onup()"
       >
@@ -24,7 +24,7 @@
           </div>
         </ng-container>
       </div>
-      <div class="operation-button button refresh" (click)="onrefresh()">
+      <div class="operation-button button border" (click)="onrefresh()">
         <i class="mdi mdi-refresh"></i>
       </div>
     </div>

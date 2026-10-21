@@ -1,9 +1,16 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { Observable, filter } from 'rxjs';
 import { ContentHeaderTabComponent } from '../../share/header/content-header-tab/content-header-tab.component';
-import { ManagementPathNode } from '../management-path/management.path';
-import { ManagementTabHeaderBusiness } from './management-tab-index.business';
+import {
+  ManagementTabHeaderBusiness,
+  ManagementTabItem,
+} from './management-tab-index.business';
 
 @Component({
   selector: 'ias-management-tab-index',
@@ -15,12 +22,13 @@ import { ManagementTabHeaderBusiness } from './management-tab-index.business';
 export class ManagementTabIndexComponent {
   constructor(
     private business: ManagementTabHeaderBusiness,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  names = ['设备信息', '时间'];
-  nodes: ManagementPathNode[] = [];
+  names: string[] = [];
   index = 0;
+  private items: ManagementTabItem[] = [];
 
   ngOnInit(): void {
     this.regist();
@@ -28,13 +36,10 @@ export class ManagementTabIndexComponent {
   }
 
   private load() {
-    let node = this.business.load();
-    if (node && node.children) {
-      this.names = node.children.map((x) => x.name);
-      this.nodes = node.children;
-
-      this.index = this.business.index(this.nodes);
-    }
+    const state = this.business.load(this.route.snapshot);
+    this.items = state.items;
+    this.names = state.items.map((x) => x.name);
+    this.index = state.index;
   }
 
   private regist() {
@@ -48,7 +53,9 @@ export class ManagementTabIndexComponent {
   }
 
   onselect(index: number) {
-    let node = this.nodes[index];
-    this.router.navigateByUrl(node.path);
+    const item = this.items[index];
+    if (item) {
+      this.router.navigateByUrl(item.url);
+    }
   }
 }

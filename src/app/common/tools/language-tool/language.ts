@@ -2,6 +2,7 @@ import { ShopStatisticStatus } from '../../../html/ias/system/system-task/system
 import { ResultLabelType } from '../../data-core/enums/analysis/result-label-type.enum';
 import { CalibrationAreaType } from '../../data-core/enums/calibration_area_type.enum';
 import { DeviceProtocolType } from '../../data-core/enums/device-protocol-type.enum';
+import { ArmDivisionType } from '../../data-core/enums/division/divison-type.enum';
 import { FrpInfoState } from '../../data-core/enums/frp-info/frp-info-state.enum';
 import { IOState } from '../../data-core/enums/io/io-state.enum';
 import { LensType } from '../../data-core/enums/lens-type.enum';
@@ -683,4 +684,20 @@ export class Language {
   }
 
   static DeviceName = '巡逻设备';
+
+  static DivisionType(type?: ArmDivisionType, def = '未知') {
+    switch (type) {
+      case ArmDivisionType.Province:
+        return '省、直辖市';
+      case ArmDivisionType.City:
+        return '区';
+      case ArmDivisionType.County:
+        return '县、街道';
+      case ArmDivisionType.GridCell:
+        return '责任网格';
+
+      default:
+        return def;
+    }
+  }
 }
