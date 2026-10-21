@@ -6,7 +6,7 @@ import { LocalStorage } from '../../../../common/storage/local.storage';
 export class SystemBusiness {
   constructor(
     private local: LocalStorage,
-    private service: ArmSystemRequestService
+    private service: ArmSystemRequestService,
   ) {}
 
   async get() {

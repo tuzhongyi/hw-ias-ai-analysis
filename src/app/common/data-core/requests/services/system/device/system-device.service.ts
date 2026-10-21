@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { DeviceInfo } from '../../../../models/arm/device-info.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
@@ -13,7 +14,8 @@ export class SystemDeviceRequestService {
     return HowellResponseProcess.item(response, DeviceInfo);
   }
   async update(item: DeviceInfo) {
-    let plain = instanceToPlain(item);
+    let _data = ObjectTool.serialize(item, DeviceInfo);
+    let plain = instanceToPlain(_data);
     let url = ArmSystemUrl.device();
     let response = await this.http.put<any, HowellResponse<DeviceInfo>>(
       url,

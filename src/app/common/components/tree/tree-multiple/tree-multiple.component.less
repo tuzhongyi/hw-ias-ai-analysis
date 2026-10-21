@@ -15,7 +15,6 @@
   width: 100%;
   height: 100%;
   display: flex;
-  gap: 2px;
   overflow: hidden;
 
   .hw-tree-multiple {
@@ -36,6 +35,24 @@
   color: @normal;
   overflow-y: auto;
   display: block;
+  position: relative;
+
+  /*
+    始终留 1px 的可滚动溢出：
+    容器在“不可滚动 / 可滚动”之间切换时，Chrome 会换一种子像素相位重新光栅化文字，
+    看起来像内容横移了半像素（出了滚动条就右移，收起又还原）。
+    让容器永远是可滚动状态，两种情况的文字绘制就一致了。
+    用绝对定位的伪元素撑出这 1px，不参与布局，也不会显示出来。
+  */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
 
   &-node {
     height: 34px;

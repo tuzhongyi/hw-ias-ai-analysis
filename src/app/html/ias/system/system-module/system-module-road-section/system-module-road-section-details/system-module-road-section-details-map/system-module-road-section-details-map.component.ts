@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GisPoint } from '../../../../../../../common/data-core/models/arm/gis-point.model';
-import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
 import { SystemModuleRoadSectionDetailsMapAMapController } from './controller/amap/system-module-road-section-details-map-amap.controller';
 import { SystemModuleRoadSectionDetailsMapPositionController } from './controller/system-module-road-section-details-map-position.controller';
 import { SystemModuleRoadSectionDetailsMapController } from './controller/system-module-road-section-details-map.controller';
@@ -43,7 +42,6 @@ export class SystemModuleRoadSectionDetailsMapComponent
   constructor(
     public controller: SystemModuleRoadSectionDetailsMapController,
     private business: SystemModuleRoadSectionDetailsMapBusiness,
-    private global: GlobalStorage,
   ) {}
 
   private subscription = new Subscription();
@@ -59,10 +57,8 @@ export class SystemModuleRoadSectionDetailsMapComponent
           });
         })
         .catch((e) => {
-          this.global.user.get().then((user) => {
-            if (user.Description) {
-              this.controller.map.city(user.Description);
-            }
+          this.business.division().then((division) => {
+            this.controller.map.city(division.Name);
           });
         });
     },

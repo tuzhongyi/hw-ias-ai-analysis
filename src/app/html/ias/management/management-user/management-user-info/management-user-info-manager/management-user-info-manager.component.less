@@ -4,17 +4,21 @@
   display: flex;
   flex-direction: column;
 
+  @gap: 10px;
+  @head-height: 36px;
+
+  gap: @gap;
 
   &-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
+    height: @head-height;
     width: 100%;
   }
 
   &-body {
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - @gap - @head-height);
   }
 }

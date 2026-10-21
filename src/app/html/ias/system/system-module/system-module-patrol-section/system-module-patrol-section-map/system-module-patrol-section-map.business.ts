@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
+import { ArmDivisionRequestService } from '../../../../../../common/data-core/requests/services/division/division.service';
 import { GetMobileDeviceRoutesParams } from '../../../../../../common/data-core/requests/services/system/mobile/system-mobile-device.params';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
 import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
@@ -7,8 +8,20 @@ import { ObjectTool } from '../../../../../../common/tools/object-tool/object.to
 
 @Injectable()
 export class SystemModulePatrolSectionMapBusiness {
-  constructor(private service: ArmSystemRequestService) {}
+  constructor(
+    system: ArmSystemRequestService,
+    division: ArmDivisionRequestService,
+  ) {
+    this.service = { system, division };
+  }
 
+  private service: {
+    system: ArmSystemRequestService;
+    division: ArmDivisionRequestService;
+  };
+  division() {
+    return this.service.division.root();
+  }
   device(deviceId: string) {
     return this.data.device(deviceId);
   }
@@ -55,12 +68,12 @@ export class SystemModulePatrolSectionMapBusiness {
       params.BeginTime = duration.begin;
       params.EndTime = duration.end;
       params.Rectified = rectified;
-      return this.service.mobile.device.route.all(params).catch((x) => {
+      return this.service.system.mobile.device.route.all(params).catch((x) => {
         return [];
       });
     },
     device: (deviceId: string) => {
-      return this.service.mobile.device.cache.get(deviceId);
+      return this.service.system.mobile.device.cache.get(deviceId);
     },
   };
 }

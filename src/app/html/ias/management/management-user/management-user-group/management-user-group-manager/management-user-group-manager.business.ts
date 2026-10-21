@@ -11,7 +11,7 @@ export class ManagementUserGroupManagerBusiness {
     for (let i = 0; i < datas.length; i++) {
       let data = datas[i];
       try {
-        await this.service.security.user.groupDelete(data.GroupId);
+        await this.service.security.user.group.delete(data.GroupId);
         count++;
       } catch (error) {
         console.error(error);

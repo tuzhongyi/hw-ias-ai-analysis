@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RoadPoint } from '../../../../../../common/data-core/models/arm/geographic/road-point.model';
-import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { SystemModuleRoadPointMapController } from './controller/system-module-road-point-map.controller';
 import { SystemModuleRoadPointMapBusiness } from './system-module-road-point-map.business';
 
@@ -27,10 +26,7 @@ export class SystemModuleRoadPointMapComponent
   @Input() datas: RoadPoint[] = [];
   @Input() selected?: RoadPoint;
 
-  constructor(
-    private business: SystemModuleRoadPointMapBusiness,
-    private global: GlobalStorage,
-  ) {}
+  constructor(private business: SystemModuleRoadPointMapBusiness) {}
 
   private subscription = new Subscription();
   private controller = new SystemModuleRoadPointMapController(
@@ -44,10 +40,8 @@ export class SystemModuleRoadPointMapComponent
       // 不能反过来写（等路网回来再决定要不要兜底）—— 那中间有个空档：
       // 路网请求慢、卡住或者报错的时候，地图建出来后一直没人给它定过视野，
       // 就停在 AMap 的默认位置上（那儿什么都没有），看着就跟「地图没加载出来」一样
-      let city = this.global.user.get().then((user) => {
-        if (user.Description) {
-          this.controller.map.city(user.Description);
-        }
+      let city = this.business.division().then((division) => {
+        this.controller.map.city(division.Name);
       });
 
       let polylines: AMap.Polyline[] = [];

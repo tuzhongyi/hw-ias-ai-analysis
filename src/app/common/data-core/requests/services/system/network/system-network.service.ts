@@ -47,7 +47,8 @@ class SystemNetworkInterfaceRequestService {
     return this.http.get<HowellResponse<NetworkInterface>>(url);
   }
   async update(item: NetworkInterface) {
-    let plain = instanceToPlain(item);
+    let _data = ObjectTool.serialize(item, NetworkInterface);
+    let plain = instanceToPlain(_data);
     let url = ArmSystemUrl.network.interface.item(item.Id);
     let response = await this.http.put<any, HowellResponse<NetworkInterface>>(
       url,

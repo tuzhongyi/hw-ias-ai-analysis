@@ -1,15 +1,16 @@
-import { AbstractUrl } from '../../abstract.url'
+import { AbstractUrl } from '../../abstract.url';
 
 export class SystemSecurityUserUrl extends AbstractUrl {
   constructor(base: string) {
-    super(`${base}/Users`)
+    super(`${base}/Users`);
   }
 
-  group() {
-    return `${this.basic()}/Groups`
+  get group() {
+    return new SystemSecurityUserGroupUrl(this.basic());
   }
-
-  groupItem(id: number) {
-    return `${this.group()}/${id}`
+}
+export class SystemSecurityUserGroupUrl extends AbstractUrl {
+  constructor(base: string) {
+    super(`${base}/Groups`);
   }
 }

@@ -10,7 +10,7 @@ export class SystemModuleGpsTaskManagerSource {
   types: EnumNameValue<number>[] = [];
   constructor(
     private service: ArmSystemRequestService,
-    private manager: Manager
+    private manager: Manager,
   ) {
     this.init.groups();
     this.init.types();
@@ -18,7 +18,7 @@ export class SystemModuleGpsTaskManagerSource {
 
   private init = {
     groups: () => {
-      this.service.security.user.group().then((x) => {
+      this.service.security.user.group.array().then((x) => {
         this.groups = x;
       });
     },

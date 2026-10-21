@@ -23,7 +23,7 @@ export class ManagementUserGroupTableBusiness {
   }
 
   private async data() {
-    let datas = await this.service.security.user.group();
+    let datas = await this.service.security.user.group.array();
     // GroupId 0 是用户信息里「新建分组」的占位项，不是真实用户组
     return datas.filter((x) => x.GroupId > 0);
   }

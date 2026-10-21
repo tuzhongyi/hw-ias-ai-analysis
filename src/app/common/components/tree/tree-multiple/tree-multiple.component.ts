@@ -17,7 +17,7 @@ import { FlatTreeNode } from '../component/tree.model';
 export type { FlatTreeNode };
 
 /** 滚动条标记颜色 */
-const MARK_COLOR = '#388bff';
+const MARK_COLOR = '#ffba00';
 
 @Component({
   selector: 'ias-tree-multiple',
@@ -46,6 +46,8 @@ export class TreeMultipleComponent implements OnChanges, AfterViewChecked {
 
   @ViewChild('container')
   container?: ElementRef<HTMLElement>;
+  @ViewChild(ScrollBarComponent)
+  scrollBar?: ScrollBarComponent;
   /** 首次加载节点后定位一次，后续勾选变化不再跟随滚动 */
   private initialScrollPending = false;
   private initialScrollDone = false;
@@ -142,6 +144,12 @@ export class TreeMultipleComponent implements OnChanges, AfterViewChecked {
     let box = container.getBoundingClientRect();
     let target = node.getBoundingClientRect();
     container.scrollTop += target.top - box.top;
+    /*
+      模拟滚动条原本会在下一帧才根据 scroll 事件刷新滑块，
+      而它的首帧更新排在这次滚动之前，会先画出“滑块在顶部”，下一帧再跳到正确位置。
+      这里同一帧立即刷新，内容和滑块一起画出来。
+    */
+    this.scrollBar?.refresh();
     return true;
   }
 

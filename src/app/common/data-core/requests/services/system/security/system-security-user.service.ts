@@ -1,10 +1,11 @@
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { HowellResponse } from '../../../../models/response';
-import { UserGroup } from '../../../../models/user/user-group.model';
 import { User } from '../../../../models/user/user.model';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
 import { HowellHttpClient } from '../../../howell-http.client';
 import { HowellResponseProcess } from '../../../service-process';
+import { SystemSecurityUserGroupRequestService } from './system-security-user-group.service';
 
 export class SystemSecurityUserRequestService {
   constructor(private http: HowellHttpClient) {}
@@ -17,7 +18,8 @@ export class SystemSecurityUserRequestService {
 
   async create(user: User) {
     let url = ArmSystemUrl.security.user.basic();
-    let plain = instanceToPlain(user);
+    let _data = ObjectTool.serialize(user, User);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<User>, any>(url, plain)
       .then((response) => {
@@ -44,7 +46,8 @@ export class SystemSecurityUserRequestService {
   }
   async update(user: User) {
     let url = ArmSystemUrl.security.user.item(user.Id);
-    let plain = instanceToPlain(user);
+    let _data = ObjectTool.serialize(user, User);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<User>>(url, plain)
       .then((response) => {
@@ -55,35 +58,12 @@ export class SystemSecurityUserRequestService {
     let url = ArmSystemUrl.security.user.item(id);
     return this.http.delete(url);
   }
-  async group() {
-    let url = ArmSystemUrl.security.user.group();
-    return this.http.get<HowellResponse<UserGroup[]>>(url).then((response) => {
-      return HowellResponseProcess.array(response, UserGroup);
-    });
-  }
 
-  async groupCreate(group: UserGroup) {
-    let url = ArmSystemUrl.security.user.group();
-    let plain = instanceToPlain(group);
-    return this.http
-      .post<HowellResponse<UserGroup>, any>(url, plain)
-      .then((response) => {
-        return HowellResponseProcess.item(response, UserGroup);
-      });
-  }
-
-  async groupUpdate(group: UserGroup) {
-    let url = ArmSystemUrl.security.user.groupItem(group.GroupId);
-    let plain = instanceToPlain(group);
-    return this.http
-      .put<any, HowellResponse<UserGroup>>(url, plain)
-      .then((response) => {
-        return HowellResponseProcess.item(response, UserGroup);
-      });
-  }
-
-  async groupDelete(id: number) {
-    let url = ArmSystemUrl.security.user.groupItem(id);
-    return this.http.delete(url);
+  private _group?: SystemSecurityUserGroupRequestService;
+  public get group(): SystemSecurityUserGroupRequestService {
+    if (!this._group) {
+      this._group = new SystemSecurityUserGroupRequestService(this.http);
+    }
+    return this._group;
   }
 }

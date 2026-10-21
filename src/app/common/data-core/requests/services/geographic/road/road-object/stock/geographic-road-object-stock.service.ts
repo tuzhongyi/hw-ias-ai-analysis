@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../../../../tools/object-tool/object.tool';
 import { ServiceTool } from '../../../../../../../tools/service-tool/service.tool';
 import { RoadObjectStock } from '../../../../../../models/arm/geographic/road-object-stock.model';
 import { PagedList } from '../../../../../../models/interface/page-list.model';
@@ -41,7 +42,8 @@ export class ArmGeographicRoadObjectStockRequestService {
   }): FormData {
     let data = new FormData();
 
-    let json = JSON.stringify(instanceToPlain(args.stock));
+    let _data = ObjectTool.serialize(args.stock, RoadObjectStock);
+    let json = JSON.stringify(instanceToPlain(_data));
     data.append('json', json);
 
     let image = new Blob([args.image]);
@@ -52,7 +54,8 @@ export class ArmGeographicRoadObjectStockRequestService {
 
   async update(data: RoadObjectStock) {
     let url = ArmGeographicUrl.road.object.stock().item(data.Id!);
-    let plain = instanceToPlain(data);
+    let _data = ObjectTool.serialize(data, RoadObjectStock);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<RoadObjectStock>>(url, plain)
       .then((x) => {

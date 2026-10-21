@@ -51,6 +51,9 @@ export class ScrollBarComponent implements AfterViewInit, OnChanges, OnDestroy {
   /** 滑块最小高度（px） */
   @Input() minThumb = 24;
 
+  /** 小于等于该值的溢出视为“没有真正可滚动的内容”，不显示滑块 */
+  private static readonly MIN_OVERFLOW = 2;
+
   @ViewChild('track') track?: ElementRef<HTMLElement>;
 
   thumbHeight = 0;
@@ -142,6 +145,19 @@ export class ScrollBarComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.scheduleUpdate();
   };
 
+  /**
+   * 立即刷新滑块位置。
+   * 用场景：程序化修改 scrollTop 发生在浏览器处理滚动事件之后，
+   * 等 scroll 事件再调度要晚一帧，滑块会先按旧的滚动位置画出来。
+   */
+  refresh(): void {
+    if (this.frame) {
+      cancelAnimationFrame(this.frame);
+      this.frame = 0;
+    }
+    this.zone.run(() => this.update());
+  }
+
   private scheduleUpdate() {
     if (this.frame) return;
     this.frame = requestAnimationFrame(() => {
@@ -160,7 +176,8 @@ export class ScrollBarComponent implements AfterViewInit, OnChanges, OnDestroy {
     let content = target.scrollHeight;
     let trackHeight = track.clientHeight;
 
-    if (view <= 0 || content <= view || trackHeight <= 0) {
+    /* 几像素的溢出不是真的能滚，多半是为了稳定文字绘制预留的（见 tree-multiple.less），不显示滑块 */
+    if (view <= 0 || content - view <= ScrollBarComponent.MIN_OVERFLOW || trackHeight <= 0) {
       this.thumbHeight = 0;
       this.thumbTop = 0;
       return;
@@ -186,7 +203,7 @@ export class ScrollBarComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     let maxTop = track.clientHeight - this.thumbHeight;
     let maxScroll = target.scrollHeight - target.clientHeight;
-    if (maxTop <= 0 || maxScroll <= 0) return;
+    if (maxTop <= 0 || maxScroll <= ScrollBarComponent.MIN_OVERFLOW) return;
 
     let box = track.getBoundingClientRect();
     let y = e.clientY - box.top - this.thumbHeight / 2;
@@ -222,7 +239,7 @@ export class ScrollBarComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     let maxTop = track.clientHeight - this.thumbHeight;
     let maxScroll = target.scrollHeight - target.clientHeight;
-    if (maxTop <= 0 || maxScroll <= 0) return;
+    if (maxTop <= 0 || maxScroll <= ScrollBarComponent.MIN_OVERFLOW) return;
 
     let delta = e.clientY - this.dragY;
     target.scrollTop = this.dragTop + (delta / maxTop) * maxScroll;

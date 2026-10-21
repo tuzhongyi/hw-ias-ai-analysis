@@ -10,7 +10,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GlobalStorage } from '../../../../../../../common/storage/global.storage';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
 import { wait } from '../../../../../../../common/tools/wait';
 import { IASMapRoadBusiness } from '../../../../../share/map/business/ias-map-road.business';
@@ -31,10 +30,7 @@ export class SystemModuleRoadPointDetailsMapComponent
   @Input() raduis? = 15;
   @Output() raduisChange = new EventEmitter<number>();
 
-  constructor(
-    private business: IASMapRoadBusiness,
-    private global: GlobalStorage,
-  ) {}
+  constructor(private business: IASMapRoadBusiness) {}
 
   private subscription = new Subscription();
   private controller = new SystemModuleRoadPointDetailsMapController(
@@ -75,10 +71,9 @@ export class SystemModuleRoadPointDetailsMapComponent
         this.locate(center);
       } else {
         // 没坐标、路网也没画出来：落到城市，圆等城市真落地了再摆
-        let user = await this.global.user.get();
-        if (user.Description) {
-          this.controller.map.city(user.Description);
-        }
+        this.business.division().then((division) => {
+          this.controller.map.city(division.Name);
+        });
       }
       this.inited = true;
     },

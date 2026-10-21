@@ -25,7 +25,7 @@ export class ManagementUserInfoDetailsBusiness {
     return this.service.security.user.update(data);
   }
   async group() {
-    let groups = await this.service.security.user.group();
+    let groups = await this.service.security.user.group.array();
     groups.forEach((x) => {
       if (x.GroupId === 0) {
         x.GroupName = '新建分组';

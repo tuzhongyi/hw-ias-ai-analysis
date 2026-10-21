@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RoadArea } from '../../../../../../common/data-core/models/arm/geographic/road-area.model';
-import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { SystemModuleRoadAreaMapAMapController } from './controller/amap/system-module-road-area-map-amap.controller';
 import { SystemModuleRoadAreaMapPositionController } from './controller/system-module-road-area-map-position.controller';
 import { SystemModuleRoadAreaMapController } from './controller/system-module-road-area-map.controller';
@@ -43,7 +42,6 @@ export class SystemModuleRoadAreaMapComponent
   constructor(
     public controller: SystemModuleRoadAreaMapController,
     private business: SystemModuleRoadAreaMapBusiness,
-    private global: GlobalStorage,
   ) {}
 
   private subscription = new Subscription();
@@ -54,10 +52,8 @@ export class SystemModuleRoadAreaMapComponent
    * 兜底自带 500ms 观察期（LastResortTool），路网/区域一旦画出来并 claim() 就自动作废
    */
   private city() {
-    this.global.user.get().then((user) => {
-      if (user.Description) {
-        this.controller.map.city(user.Description);
-      }
+    this.business.division().then((division) => {
+      this.controller.map.city(division.Name);
     });
   }
 

@@ -27,7 +27,7 @@ export class TreeDivisionBusiness {
     divisions: Division[],
     name = '',
     excludeIds: string[] = [],
-    enabletypes: ArmDivisionType[] = []
+    enabletypes: ArmDivisionType[] = [],
   ): FlatTreeNode<Division>[] {
     const keyword = name.trim().toLowerCase();
     if (keyword) {
@@ -35,9 +35,7 @@ export class TreeDivisionBusiness {
     }
     /* 为空表示不限制；否则只保留允许的类型，被移除节点的下级会作为根节点显示 */
     if (enabletypes?.length) {
-      divisions = divisions.filter((x) =>
-        enabletypes.includes(x.DivisionType)
-      );
+      divisions = divisions.filter((x) => enabletypes.includes(x.DivisionType));
     }
     if (excludeIds.length > 0) {
       divisions = this.exclude(divisions, excludeIds);
@@ -72,7 +70,7 @@ export class TreeDivisionBusiness {
         (a, b) =>
           LocaleCompare.compare(a.DivisionType, b.DivisionType) ||
           LocaleCompare.compare(a.IsLeaf, b.IsLeaf, true) ||
-          LocaleCompare.compare(a.Name, b.Name)
+          LocaleCompare.compare(a.Name, b.Name),
       );
       for (const item of items) {
         if (visited.has(item.Id)) continue;
@@ -84,9 +82,7 @@ export class TreeDivisionBusiness {
           label: item.Name,
           level,
           parentId:
-            item.ParentId && map.has(item.ParentId)
-              ? item.ParentId
-              : undefined,
+            item.ParentId && map.has(item.ParentId) ? item.ParentId : undefined,
           expandable: subs.length > 0,
           icon: this.icon(item.DivisionType),
           data: item,
@@ -164,9 +160,9 @@ export class TreeDivisionBusiness {
       case ArmDivisionType.Province:
         return 'howell-icon-map';
       case ArmDivisionType.City:
-        return 'howell-icon-Building';
+        return 'howell-icon-earth';
       case ArmDivisionType.County:
-        return 'howell-icon-MapVillage';
+        return 'howell-icon-map5';
       case ArmDivisionType.GridCell:
         return 'howell-icon-grid';
       default:

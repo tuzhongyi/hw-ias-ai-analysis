@@ -13,7 +13,6 @@ import {
 import { Subscription } from 'rxjs';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { PatrolSection } from '../../../../../../common/data-core/models/arm/geographic/patrol/patrol-section.model';
-import { GlobalStorage } from '../../../../../../common/storage/global.storage';
 import { SystemModulePatrolSectionMapArgs } from '../system-module-patrol-section.model';
 import { SystemModulePatrolSectionMapController } from './controller/system-module-patrol-section-map.controller';
 import { SystemModulePatrolSectionMapBusiness } from './system-module-patrol-section-map.business';
@@ -38,10 +37,7 @@ export class SystemModulePatrolSectionMapComponent
   @Output() sectionpickup = new EventEmitter<[number, number][]>();
   @Output() sectioncancel = new EventEmitter<void>();
 
-  constructor(
-    private business: SystemModulePatrolSectionMapBusiness,
-    private global: GlobalStorage,
-  ) {
+  constructor(private business: SystemModulePatrolSectionMapBusiness) {
     this.controller = new SystemModulePatrolSectionMapController(
       this.subscription,
     );
@@ -140,10 +136,8 @@ export class SystemModulePatrolSectionMapComponent
    * 一张瓦片都没有），没人给它定过视野的话看着就跟「地图没加载出来」一样
    */
   private city() {
-    this.global.user.get().then((user) => {
-      if (user.Description) {
-        this.controller.map.city(user.Description);
-      }
+    this.business.division().then((division) => {
+      this.controller.map.city(division.Name);
     });
   }
   ngOnChanges(changes: SimpleChanges): void {

@@ -23,25 +23,25 @@
       (modify)="table.modify($event)"
     ></ias-management-user-info-table>
   </div>
-
-  <confirm-window
-    *ngIf="window.confirm.show"
-    [model]="window.confirm"
-    [content]="window.confirm.content"
-    (ok)="delete.do()"
-    (cancel)="window.confirm.show = false"
-  >
-  </confirm-window>
-  <ias-window
-    *ngIf="window.details.show"
-    [Model]="window.details"
-    [style]="window.details.style"
-    [title]="window.details.title"
-  >
-    <ias-management-user-info-details
-      [data]="window.details.data"
-      (cancel)="window.details.show = false"
-      (ok)="details.ok()"
-    ></ias-management-user-info-details>
-  </ias-window>
 </div>
+
+<confirm-window
+  *ngIf="window.confirm.show"
+  [model]="window.confirm"
+  [content]="window.confirm.content"
+  (ok)="delete.do()"
+  (cancel)="window.confirm.show = false"
+>
+</confirm-window>
+<ias-window
+  *ngIf="window.details.show"
+  [Model]="window.details"
+  [style]="window.details.style"
+  [title]="window.details.title"
+>
+  <ias-management-user-info-details
+    [data]="window.details.data"
+    (cancel)="window.details.show = false"
+    (ok)="details.ok()"
+  ></ias-management-user-info-details>
+</ias-window>

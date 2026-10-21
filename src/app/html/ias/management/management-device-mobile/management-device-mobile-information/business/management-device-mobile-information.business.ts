@@ -16,7 +16,7 @@ export class ManagementDeviceMobileInformationBusiness {
 
   user = {
     group: () => {
-      return this.service.security.user.group();
+      return this.service.security.user.group.array();
     },
   };
 }

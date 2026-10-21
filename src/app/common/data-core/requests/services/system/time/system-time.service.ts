@@ -1,4 +1,5 @@
 import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { SystemTime } from '../../../../models/arm/system-time.model';
 import { HowellResponse } from '../../../../models/response';
 import { ArmSystemUrl } from '../../../../urls/arm/system/system.url';
@@ -13,7 +14,8 @@ export class SystemTimeRequestService {
     return plainToInstance(SystemTime, response.Data);
   }
   async update(item: SystemTime) {
-    let plain = instanceToPlain(item);
+    let _data = ObjectTool.serialize(item, SystemTime);
+    let plain = instanceToPlain(_data);
     let url = ArmSystemUrl.time();
     let response = await this.http.put<any, HowellResponse<SystemTime>>(
       url,

@@ -1,4 +1,5 @@
 import { instanceToPlain } from 'class-transformer';
+import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { ServiceTool } from '../../../../../tools/service-tool/service.tool';
 
 import { DepartmentMember } from '../../../../models/arm/security/department-member.model';
@@ -14,7 +15,8 @@ export class SystemSecurityDepartmentMemberRequestService {
 
   async create(user: DepartmentMember) {
     let url = ArmSystemUrl.security.department.member.basic();
-    let plain = instanceToPlain(user);
+    let _data = ObjectTool.serialize(user, DepartmentMember);
+    let plain = instanceToPlain(_data);
     return this.http
       .post<HowellResponse<DepartmentMember>, any>(url, plain)
       .then((response) => {
@@ -43,7 +45,8 @@ export class SystemSecurityDepartmentMemberRequestService {
   }
   async update(user: DepartmentMember) {
     let url = ArmSystemUrl.security.department.member.item(user.Id);
-    let plain = instanceToPlain(user);
+    let _data = ObjectTool.serialize(user, DepartmentMember);
+    let plain = instanceToPlain(_data);
     return this.http
       .put<any, HowellResponse<DepartmentMember>>(url, plain)
       .then((response) => {

@@ -17,7 +17,6 @@ import { ShopRegistration } from '../../../../../common/data-core/models/arm/geo
 import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { ILocation } from '../../../../../common/data-core/models/interface/model.interface';
 import { Paged } from '../../../../../common/data-core/models/interface/page-list.model';
-import { GlobalStorage } from '../../../../../common/storage/global.storage';
 import { SystemMainMapBusiness } from './business/system-main-map.business';
 import { SystemMainMapController } from './controller/system-main-map.controller';
 
@@ -67,7 +66,6 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private business: SystemMainMapBusiness,
     private controller: SystemMainMapController,
-    private global: GlobalStorage,
   ) {}
 
   private subscription = new Subscription();
@@ -187,10 +185,8 @@ export class SystemMainMapComponent implements OnInit, OnChanges, OnDestroy {
           });
         })
         .catch((e) => {
-          this.global.user.get().then((user) => {
-            if (user.Description) {
-              this.controller.map.city(user.Description);
-            }
+          this.business.division().then((division) => {
+            this.controller.map.city(division.Name);
           });
         });
     },
