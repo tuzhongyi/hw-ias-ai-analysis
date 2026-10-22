@@ -193,7 +193,7 @@ export class ManagementDivisionManagerComponent {
           let datas = this.window.confirm.data;
           if (!datas || datas.length === 0) return;
 
-          this.business.delete(datas).then((count) => {
+          this.business.delete(datas).then(async (count) => {
             if (count === datas.length) {
               this.toastr.success('操作成功');
             } else {
@@ -201,6 +201,8 @@ export class ManagementDivisionManagerComponent {
             }
             this.window.confirm.show = false;
             this.table.selecteds = [];
+            /* 父区划下的子区划可能已经删完，重新判断它是否还是叶子 */
+            await this.business.leaves(datas.map((x) => x.ParentId));
             this.manager.reload();
           });
         },

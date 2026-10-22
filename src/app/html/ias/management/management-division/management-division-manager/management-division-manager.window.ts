@@ -20,7 +20,7 @@ class DetailsWindow extends WindowViewModel {
   }
   style = {
     ...SizeTool.window.simple,
-    height: '410px',
+    height: '450px',
   };
   data?: Division;
 }

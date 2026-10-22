@@ -1,6 +1,24 @@
 <div class="management-user-group-manager root-router">
   <div class="management-user-group-manager-head">
-    <div class="management-user-group-manager-head-filter"></div>
+    <div class="management-user-group-manager-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">分组名称</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [(ngModel)]="table.args.name"
+              (keyup.enter)="table.search()"
+            />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient" (click)="table.search()">
+            查找
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="management-user-group-manager-head-operation">
       <div class="button-group">
         <button class="button-clip-gradient" (click)="details.open()">
@@ -16,6 +34,7 @@
     <ias-management-user-group-table
       [load]="table.load"
       [(selecteds)]="table.selecteds"
+      (loaded)="table.loaded($event)"
       (modify)="table.modify($event)"
     ></ias-management-user-group-table>
   </div>
@@ -37,6 +56,7 @@
 >
   <ias-management-user-group-details
     [data]="window.details.data"
+    [last]="table.last"
     (cancel)="window.details.show = false"
     (ok)="details.ok()"
   ></ias-management-user-group-details>

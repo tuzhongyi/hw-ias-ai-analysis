@@ -32,6 +32,14 @@ export class SystemModuleRoadAreaMapAMapController {
         let container = new Loca.Container({ map: map });
         this.map.set(map);
         this.regist(map);
+        // 地图资源（瓦片）加载完之前调 setFitView 会被静默丢掉 —— 首次进入时
+        // 区域数据往往比地图先回来，被丢掉的就是第一次定位。等 complete 再摆
+        map.on('complete', () => {
+          this.completed = true;
+          let pending = this.pending;
+          this.pending = undefined;
+          pending?.();
+        });
         let polygon = new SystemModuleRoadAreaMapAMapPolygonController(map);
         this.polygon.set(polygon);
 
@@ -52,6 +60,8 @@ export class SystemModuleRoadAreaMapAMapController {
     new PromiseValue<SystemModuleRoadAreaMapAMapPolygonController>();
   /** 已画出来的区域，点中多边形后用 id 找回它 */
   private datas = new Map<string, RoadArea>();
+  /** 路网折线。区域没几何时，它是第二顺位的定位目标 */
+  private roads: AMap.Polyline[] = [];
   private last = new LastResortTool();
 
   /**
@@ -69,6 +79,26 @@ export class SystemModuleRoadAreaMapAMapController {
     }
   }
 
+  /** 地图资源是否已加载完成 */
+  private completed = false;
+  /** 地图还没加载完时，先存下「该怎么摆视野」，等 complete 再执行 */
+  private pending?: () => void;
+
+  private deferred(from: () => void) {
+    if (this.completed) {
+      from();
+      return;
+    }
+    this.pending = from;
+    // complete 一直不来（瓦片被挡、离线）也不能永远不定位，兜一次底
+    setTimeout(() => {
+      if (this.pending === from) {
+        this.pending = undefined;
+        from();
+      }
+    }, 1.5 * 1000);
+  }
+
   private regist(map: AMap.Map) {
     map.on('mousemove', (e) => {
       this.event.mousemove.emit([e.lnglat.lng, e.lnglat.lat]);
@@ -82,7 +112,6 @@ export class SystemModuleRoadAreaMapAMapController {
   }
 
   async load(datas: RoadArea[], fit = true) {
-    let map = await this.map.get();
     let polygon = await this.polygon.get();
 
     polygon.clear();
@@ -90,7 +119,9 @@ export class SystemModuleRoadAreaMapAMapController {
 
     for (let i = 0; i < datas.length; i++) {
       const item = datas[i];
-      if (item.Area) {
+      // 少于 3 个点构不成多边形：画不出来，也不能拿它去定视野
+      // （空 path 的多边形会让 setFitView 算出一块无效范围）
+      if (item.Area && item.Area.length >= 3) {
         let positions = item.Area.map<[number, number]>((x) => {
           return [x.Longitude, x.Latitude];
         });
@@ -104,20 +135,52 @@ export class SystemModuleRoadAreaMapAMapController {
       return;
     }
 
-    // 一个多边形都没画出来的话别动视野：setFitView() 自适应不到任何东西，
-    // 却会把城市兜底 claim 掉，地图就停在空白上再也回不来
+    this.locate();
+  }
+
+  /**
+   * 路网画好了。区域没几何（没有数据，或数据里没有 Area）时，
+   * 路网顶上做第二顺位的定位目标；区域有几何的话 load() 已经定过位，不用再动
+   */
+  roadloaded(polylines: AMap.Polyline[]) {
+    this.roads = polylines ?? [];
     if (this.datas.size == 0) {
+      this.locate();
+    }
+  }
+
+  /**
+   * 定视野的优先级：区域 → 路网 → 城市兜底。
+   * 两者都没有就不动视野，把位置留给城市兜底。
+   */
+  private async locate() {
+    let map = await this.map.get();
+    let polygon = await this.polygon.get();
+
+    // 目标放到执行时再算：complete 回调、1.5s 兜底这些时点上，
+    // 区域和路网可能已经换过一批了
+    let target = () => {
+      return this.datas.size > 0 ? polygon.all() : this.roads;
+    };
+    if (target().length == 0) {
       return;
     }
 
-    // 数据接管视野：顺手把「怎么摆回这批区域」交给城市兜底，
-    // setCity 晚一步落地时靠它把视野抢回来
+    // 数据接管视野：顺手把「怎么摆回这批数据」交给城市兜底，
+    // setCity 晚一步落地时靠它把视野抢回来。
+    // 只传自己画的那批：无参数的 setFitView() 会把路网也算进去，路网有数据时会把视野拉到整张路网。
+    // immediately 必须给：默认是带动画的，动画途中只要别的东西碰一下地图
+    //（城市兜底、容器尺寸变化）就会被截断在半路，看着就像「视野没变」
     let from = () => {
-      map.setFitView();
+      let overlays = target();
+      if (overlays.length > 0) {
+        map.setFitView(overlays, true);
+      }
     };
     this.claim(from);
-    from();
+    this.deferred(from);
 
+    // 城市兜底可能晚一步才真正落地，落地后再摆回来
     setTimeout(() => {
       from();
     }, 1.5 * 1000);
@@ -134,23 +197,26 @@ export class SystemModuleRoadAreaMapAMapController {
     });
   }
   focus(datas?: any) {
-    this.map.get().then((x) => {
-      // 同上：没有多边形可自适应时别动视野，也别 claim
-      if (this.datas.size == 0) return;
+    Promise.all([this.map.get(), this.polygon.get()]).then(
+      ([map, polygon]) => {
+        // 同上：没有多边形可自适应时别动视野，也别 claim
+        if (this.datas.size == 0) return;
 
-      // 数据接管视野：顺手把「怎么摆回这批区域」交给城市兜底
-      let from = () => {
-        x.setFitView(datas, true);
+        // 数据接管视野：顺手把「怎么摆回这批区域」交给城市兜底
+        let from = () => {
+          // 有明确目标就按目标，否则只按区域，不算路网
+          map.setFitView(datas ?? polygon.all(), true);
 
-        let center = x.getCenter();
+          let center = map.getCenter();
 
-        x.setZoom(17);
-        x.setPitch(40);
-        x.setCenter(center);
-      };
-      this.claim(from);
-      from();
-    });
+          map.setZoom(17);
+          map.setPitch(40);
+          map.setCenter(center);
+        };
+        this.claim(from);
+        this.deferred(from);
+      },
+    );
   }
   city(value: string) {
     this.last.fallback(() => {

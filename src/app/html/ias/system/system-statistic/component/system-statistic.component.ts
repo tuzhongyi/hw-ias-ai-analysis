@@ -1,49 +1,51 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Observable, Subscription, filter } from 'rxjs';
-import { Language } from '../../../../../common/tools/language-tool/language';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
+import { RouteTool } from '../../../../../common/tools/route-tool/route.tool';
 import { ContentHeaderComponent } from '../../../share/header/content-header/content-header.component';
-import { SystemStatisticBusiness } from './system-statistic.business';
 
 @Component({
   selector: 'ias-system-statistic',
   imports: [RouterOutlet, CommonModule, ContentHeaderComponent],
   templateUrl: './system-statistic.component.html',
   styleUrl: './system-statistic.component.less',
-  providers: [SystemStatisticBusiness],
 })
-export class SystemStatisticComponent implements OnInit, OnDestroy {
+export class SystemStatisticComponent implements OnInit {
   @Input() title: string = '';
 
-  constructor(
-    private business: SystemStatisticBusiness,
-    private router: Router,
-  ) {}
+  private destroyRef = inject(DestroyRef);
 
-  Language = Language;
+  constructor(private router: Router) {}
 
+  private headable = true;
+
+  /** 子页面自带标题栏时（路由 data.headable = false）不画父级的这条 */
   get head() {
-    return this.business.headable;
+    return this.headable;
   }
-  private subscription = new Subscription();
 
   ngOnInit(): void {
     this.regist();
-    this.title = this.business.load();
+    this.load();
   }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+
+  /** 标题和是否显示标题栏都取自路由 data，和 system-module 同一套规则 */
+  private load() {
+    let root = this.router.routerState.snapshot.root;
+    this.title = RouteTool.title(root);
+    this.headable = RouteTool.headable(root);
   }
 
   private regist() {
-    let sub2 = (
-      this.router.events.pipe(
+    this.router.events
+      .pipe(
         filter((event) => event instanceof NavigationEnd),
-      ) as Observable<NavigationEnd>
-    ).subscribe((router) => {
-      this.title = this.business.load();
-    });
-    this.subscription.add(sub2);
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.load();
+      });
   }
 }

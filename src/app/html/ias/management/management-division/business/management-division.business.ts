@@ -34,6 +34,44 @@ export class ManagementDivisionBusiness {
     });
   }
 
+  /**
+   * 同步父区划的 IsLeaf：父区划下有子区划时为 false，没有子区划时为 true。
+   * 区划的新增、删除会改变父区划的叶子状态，但服务端不会自动回写。
+   * 以孩子数量重新判断，失败只记日志，不影响已经完成的新增/删除。
+   */
+  async leaf(parentId?: string) {
+    if (!parentId) return;
+    try {
+      /* 父区划走列表接口（按 DivisionIds 查），和表格是同一个数据源，
+         避免依赖工程里其它地方都没用过的 GET，拿到的也正好是列表要展示的那份数据 */
+      let query = new GetDivisionsParams();
+      query.DivisionIds = [parentId];
+      let parents = await this.service.all(query);
+      let parent = parents.find((x) => x.Id === parentId);
+      if (!parent) return;
+
+      let params = new GetDivisionsParams();
+      params.ParentIds = [parentId];
+      let children = await this.service.all(params);
+
+      let isleaf = children.length === 0;
+      if (parent.IsLeaf === isleaf) return;
+
+      parent.IsLeaf = isleaf;
+      await this.update(parent);
+    } catch (error) {
+      console.error('同步父区划 IsLeaf 失败', error);
+    }
+  }
+
+  /** 同步多个父区划，同一个父区划只查一次 */
+  async leaves(parentIds: (string | undefined)[]) {
+    let ids = new Set(parentIds.filter((x): x is string => !!x));
+    for (const id of ids) {
+      await this.leaf(id);
+    }
+  }
+
   /** 逐个删除，返回成功数量（协议只提供单条删除接口） */
   async delete(datas: Division[]) {
     let count = 0;

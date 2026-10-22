@@ -27,4 +27,27 @@ export class RouteTool {
 
     return title;
   }
+
+  /**
+   * 当前路由链上最深处的 `data.headable`（没写就是 true）。
+   *
+   * 子页面自己画了 ContentHeader 的，父级布局再画一条就重复了，
+   * 这类路由在路由表里写 `headable: false`。
+   */
+  static headable(root: ActivatedRouteSnapshot): boolean {
+    let headable = true;
+
+    for (
+      let node: ActivatedRouteSnapshot | null = root;
+      node;
+      node = node.firstChild
+    ) {
+      const value = node.routeConfig?.data?.['headable'];
+      if (typeof value === 'boolean') {
+        headable = value;
+      }
+    }
+
+    return headable;
+  }
 }

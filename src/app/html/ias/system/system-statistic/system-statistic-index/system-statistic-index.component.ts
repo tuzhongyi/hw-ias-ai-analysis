@@ -40,5 +40,8 @@ export class SystemStatisticIndexComponent {
     device_route: () => {
       this.router.navigateByUrl(SystemPath.statistic_device_route);
     },
+    device_travel: () => {
+      this.router.navigateByUrl(SystemPath.statistic_device_travel);
+    },
   };
 }

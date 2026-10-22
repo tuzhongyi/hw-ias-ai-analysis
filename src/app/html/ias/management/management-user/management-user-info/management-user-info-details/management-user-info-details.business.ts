@@ -26,11 +26,7 @@ export class ManagementUserInfoDetailsBusiness {
   }
   async group() {
     let groups = await this.service.security.user.group.array();
-    groups.forEach((x) => {
-      if (x.GroupId === 0) {
-        x.GroupName = '新建分组';
-      }
-    });
-    return groups;
+    // GroupId 从 1 开始，0 不是真实分组
+    return groups.filter((x) => x.GroupId !== 0);
   }
 }

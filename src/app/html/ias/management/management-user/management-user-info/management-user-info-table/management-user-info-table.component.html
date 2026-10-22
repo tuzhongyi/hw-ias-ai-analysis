@@ -1,7 +1,13 @@
 <div class="management-user-info-table">
   <div class="management-user-info-table-body table-split">
     <div class="table-split-head">
-      <table border="0" cellpadding="0" cellspacing="0">
+      <table
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        TableSorter
+        (sort)="on.sort($event)"
+      >
         <colgroup>
           <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
         </colgroup>
@@ -17,13 +23,13 @@
               />
             </th>
             <th class="center">序号</th>
-            <th>用户名</th>
-            <th>分组</th>
+            <th sort="Username">用户名</th>
+            <th sort="GroupName">分组</th>
             <th>权限</th>
-            <th>Root权限</th>
-            <th>更新时间</th>
+            <th sort="IsRoot">Root权限</th>
+            <th sort="UpdateTime">更新时间</th>
             <th>描述</th>
-            <th>操作</th>
+            <th class="center">操作</th>
           </tr>
         </thead>
       </table>
@@ -61,12 +67,12 @@
               {{ item.UpdateTime | date: Language.yyyyMMddHHmmss }}
             </td>
             <td [title]="item.Description">{{ item.Description }}</td>
-            <td>
+            <td class="center">
               <div class="operation">
                 <div
                   class="button"
                   title="编辑"
-                  (click)="onmodify(item, $event)"
+                  (click)="on.modify(item, $event)"
                 >
                   <i class="howell-icon-modification"></i>
                 </div>

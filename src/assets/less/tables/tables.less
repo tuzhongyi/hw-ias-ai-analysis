@@ -18,3 +18,30 @@ table {
 
 
 }
+
+/*
+  TableSorter 指令插入的排序箭头：
+  span 保留在文字末尾，但宽度为 0，不占横向空间；
+  箭头相对这个零宽 span 绝对定位，所以始终贴在文字右侧（只留一个小间距），
+  箭头的出现/切换/移除都不会挤动表头文字。
+*/
+th.sort>.sort-span {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 1em;
+  vertical-align: baseline;
+  pointer-events: none;
+
+  &>i {
+    position: absolute;
+    /*
+      0.14em 是这套字体里文字视觉中心与 1em 盒中心的差值（基线在 span 底部）：
+      不加的话箭头会比文字略高，看起来没对齐。
+    */
+    top: calc(50% + 0.14em);
+    left: 0px;
+    transform: translateY(-50%);
+    line-height: 1;
+  }
+}

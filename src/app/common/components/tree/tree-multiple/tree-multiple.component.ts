@@ -39,10 +39,15 @@ export class TreeMultipleComponent implements OnChanges, AfterViewChecked {
   @Input() scrollToSelected = false;
   /** 使用模拟滚动条，并在轨道上标出勾选节点 */
   @Input() scrollbar = true;
+  /** 勾选/取消父节点时，是否连带勾选/取消它的所有子节点（含被收起的），默认关闭 */
+  @Input() cascadeCheck = false;
+
   @Output() nodeClick = new EventEmitter<FlatTreeNode>();
   @Output() nodeDblclick = new EventEmitter<FlatTreeNode>();
   @Output() toggle = new EventEmitter<FlatTreeNode>();
   @Output() action = new EventEmitter<{ action: string; node: FlatTreeNode }>();
+
+  constructor() {}
 
   @ViewChild('container')
   container?: ElementRef<HTMLElement>;
@@ -177,12 +182,42 @@ export class TreeMultipleComponent implements OnChanges, AfterViewChecked {
 
   /** 勾选 / 取消勾选，行点击与 checkbox 都走这里 */
   onCheck(node: FlatTreeNode): void {
-    if (this.isChecked(node)) {
-      this.selectedIds = this.selectedIds.filter((x) => x !== node.id);
-    } else {
-      this.selectedIds = [...this.selectedIds, node.id];
+    let checked = !this.isChecked(node);
+    let ids = [node.id];
+    if (this.cascadeCheck) {
+      ids = ids.concat(this.descendantIds(node.id));
     }
+
+    let selected = new Set(this.selectedIds);
+    for (const id of ids) {
+      if (checked) {
+        selected.add(id);
+      } else {
+        selected.delete(id);
+      }
+    }
+    this.selectedIds = Array.from(selected);
     this.selectedIdsChange.emit(this.selectedIds);
+  }
+
+  /** 所有子孙节点 ID（不区分是否展开，收起节点的子节点也要跟着变） */
+  private descendantIds(id: string): string[] {
+    let ids: string[] = [];
+    for (const node of this.nodes) {
+      if (this.isDescendant(node, id)) {
+        ids.push(node.id);
+      }
+    }
+    return ids;
+  }
+
+  private isDescendant(node: FlatTreeNode, ancestorId: string): boolean {
+    let parentId = node.parentId;
+    while (parentId) {
+      if (parentId === ancestorId) return true;
+      parentId = this.nodes.find((x) => x.id === parentId)?.parentId;
+    }
+    return false;
   }
 
   private applyExpandDeep(): void {

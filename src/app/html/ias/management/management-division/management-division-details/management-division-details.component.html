@@ -10,11 +10,7 @@
       <div class="form-item">
         <div class="form-item-text">区划名称</div>
         <div class="form-item-value">
-          <input
-            type="text"
-            [(ngModel)]="data.Name"
-            placeholder="请输入区划名称"
-          />
+          <input type="text" [(ngModel)]="data.Name" />
         </div>
       </div>
 
@@ -28,6 +24,12 @@
             [enabletypes]="[Type.Province, Type.City, Type.County]"
             (selectedChange)="on.parent($event)"
           ></ias-select-division-tree>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-text"></div>
+        <div class="form-item-value fill">
+          <input type="text" [readOnly]="true" [value]="parent?.Id || ''" />
         </div>
       </div>
 

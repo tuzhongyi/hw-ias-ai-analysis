@@ -17,8 +17,29 @@ export class SystemModuleRoadAreaTableBusiness {
 
   async load(args: SystemModuleRoadAreaTableArgs) {
     let datas = await this.data(args);
+    // 列表接口的 Area 是可选字段（协议 3.1.129 标 O），经常不带几何。
+    // 地图要画区域、编辑窗口也要用这份坐标，缺的行补一次详情
+    await this.fill(datas);
     let items = datas.map((x) => this.convert(x));
     return items;
+  }
+
+  /** 补齐列表里缺失的区域坐标。详情接口返回的是完整 RoadArea，一定带 Area */
+  private async fill(datas: RoadArea[]) {
+    let missing = datas.filter((x) => !x.Area || x.Area.length == 0);
+    if (missing.length == 0) {
+      return;
+    }
+    await Promise.all(
+      missing.map(async (x) => {
+        try {
+          let detail = await this.service.road.area.get(x.Id);
+          x.Area = detail.Area;
+        } catch (error) {
+          // 补不到就当没有几何：地图会退回按路网定位
+        }
+      }),
+    );
   }
 
   convert(source: RoadArea) {

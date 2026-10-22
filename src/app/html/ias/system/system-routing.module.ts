@@ -285,22 +285,30 @@ const routes: Routes = [
           {
             path: 'road-object',
             component: SystemStatisticRoadObjectManagerComponent,
-            data: { title: '道路部件统计' },
+            // 页面自带标题栏，父级布局不要再画一条
+            data: { title: '道路部件统计', headable: false },
           },
           {
             path: 'road-object-duration',
             component: SystemStatisticRoadObjectDurationManagerComponent,
-            data: { title: '道路部件统计' },
+            // 页面自带标题栏，父级布局不要再画一条
+            data: { title: '道路部件统计', headable: false },
           },
           {
             path: 'road-object-statement',
             component: SystemStatisticRoadObjectStatementManagerComponent,
-            data: { title: '道路部件月报表' },
+            // 页面自带标题栏，父级布局不要再画一条
+            data: { title: '道路部件月报表', headable: false },
           },
           {
             path: 'device-route',
             component: SystemStatisticDeviceRouteManagerComponent,
             data: { title: `${Language.DeviceName}行驶统计` },
+          },
+          {
+            path: 'device-travel',
+            component: SystemModuleMobileDeviceRouteManagerComponent,
+            data: { title: `${Language.DeviceName}线路统计` },
           },
         ],
       },

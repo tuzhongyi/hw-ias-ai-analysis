@@ -41,6 +41,8 @@ export class TreeDivisionMultipleComponent implements OnInit, OnChanges {
   @Input() excludeRootId?: string;
   /** 允许显示的区划类型，为空表示不限制 */
   @Input() enabletypes: ArmDivisionType[] = [];
+  /** 勾选/取消父节点时，是否连带勾选/取消它的所有子节点（含被收起的），默认关闭 */
+  @Input() cascadeCheck = false;
   @Output() nodeClick = new EventEmitter<Division>();
   @Output() nodeDblclick = new EventEmitter<Division>();
 
@@ -56,7 +58,7 @@ export class TreeDivisionMultipleComponent implements OnInit, OnChanges {
 
   constructor(
     private business: TreeDivisionBusiness,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -116,7 +118,7 @@ export class TreeDivisionMultipleComponent implements OnInit, OnChanges {
       this.divisions,
       this.name,
       excludeIds,
-      this.enabletypes
+      this.enabletypes,
     );
     this.revealSelected();
     this.applyExpand();

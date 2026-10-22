@@ -14,6 +14,7 @@ import { ManagementUserGroupDetailsBusiness } from './management-user-group-deta
 })
 export class ManagementUserGroupDetailsComponent implements OnInit {
   @Input('data') group?: UserGroup;
+  @Input() last?: UserGroup;
   @Output() ok = new EventEmitter<UserGroup>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -37,6 +38,9 @@ export class ManagementUserGroupDetailsComponent implements OnInit {
     if (this.group) {
       this.data = Object.assign(this.data, this.group);
       this.selectedIds = [...(this.group.DivisionIds ?? [])];
+    } else {
+      /* 新建：编号接在现有最大编号之后；没有现有分组时从 1 开始 */
+      this.data.GroupId = (this.last?.GroupId ?? 0) + 1;
     }
   }
 
@@ -58,7 +62,8 @@ export class ManagementUserGroupDetailsComponent implements OnInit {
       }
       promise
         .then((x) => {
-          this.ok.emit(x);
+          // 接口没回填数据时，退回提交内容（至少带着分组名称）
+          this.ok.emit(Object.assign(this.data, x));
           this.toastr.success('操作成功');
         })
         .catch((e) => {

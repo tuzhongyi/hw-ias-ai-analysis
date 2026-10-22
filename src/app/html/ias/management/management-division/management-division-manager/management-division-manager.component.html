@@ -94,26 +94,26 @@
       (details)="table.on.details($event)"
     ></ias-management-division-table>
   </div>
-
-  <confirm-window
-    *ngIf="window.confirm.show"
-    [model]="window.confirm"
-    [content]="window.confirm.content"
-    (ok)="manager.remove.confirm.ok()"
-    (cancel)="window.confirm.show = false"
-  ></confirm-window>
-
-  <ias-window
-    *ngIf="window.details.show"
-    [Model]="window.details"
-    [style]="window.details.style"
-    [title]="window.details.title"
-  >
-    <ias-management-division-details
-      [data]="window.details.data"
-      [parent]="path.folder"
-      (ok)="manager.details.change()"
-      (cancel)="window.details.show = false"
-    ></ias-management-division-details>
-  </ias-window>
 </div>
+
+<confirm-window
+  *ngIf="window.confirm.show"
+  [model]="window.confirm"
+  [content]="window.confirm.content"
+  (ok)="manager.remove.confirm.ok()"
+  (cancel)="window.confirm.show = false"
+></confirm-window>
+
+<ias-window
+  *ngIf="window.details.show"
+  [Model]="window.details"
+  [style]="window.details.style"
+  [title]="window.details.title"
+>
+  <ias-management-division-details
+    [data]="window.details.data"
+    [parent]="path.folder"
+    (ok)="manager.details.change()"
+    (cancel)="window.details.show = false"
+  ></ias-management-division-details>
+</ias-window>

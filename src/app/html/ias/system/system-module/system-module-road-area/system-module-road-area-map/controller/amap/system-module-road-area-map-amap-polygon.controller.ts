@@ -35,6 +35,10 @@ export class SystemModuleRoadAreaMapAMapPolygonController {
     this.polygons.set(id, polygon);
     this.map.add(Array.from(this.polygons.values()));
   }
+  /** 当前所有多边形。路网是底图，视野自适应只能算区域 */
+  all() {
+    return Array.from(this.polygons.values());
+  }
   clear() {
     if (this.polygons.size > 0) {
       this.map.remove(Array.from(this.polygons.values()));

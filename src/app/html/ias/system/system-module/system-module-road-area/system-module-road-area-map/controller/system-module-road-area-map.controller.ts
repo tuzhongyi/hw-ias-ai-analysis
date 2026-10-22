@@ -46,13 +46,18 @@ export class SystemModuleRoadAreaMapController {
   road = {
     load: (datas: Road[]) => {
       return this.amap.road.get().then((x) => {
-        return x.load(datas);
+        return x.load(datas).then((polylines) => {
+          // 区域没有几何时，视野要退到路网上
+          this.amap.roadloaded(polylines);
+          return polylines;
+        });
       });
     },
     destroy: async () => {
       let road = await this.amap.road.get();
       road.clear();
       this.amap.road.clear();
+      this.amap.roadloaded([]);
     },
   };
 

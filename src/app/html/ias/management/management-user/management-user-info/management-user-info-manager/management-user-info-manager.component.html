@@ -1,6 +1,24 @@
 <div class="management-user-info-manager root-router">
   <div class="management-user-info-manager-head">
-    <div class="management-user-info-manager-head-filter"></div>
+    <div class="management-user-info-manager-head-filter">
+      <div class="forms">
+        <div class="form-item">
+          <div class="form-item-text">用户名</div>
+          <div class="form-item-value">
+            <input
+              type="text"
+              [(ngModel)]="table.args.name"
+              (keyup.enter)="table.search()"
+            />
+          </div>
+        </div>
+        <div class="form-item">
+          <button class="button-clip-gradient" (click)="table.search()">
+            查找
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="management-user-info-manager-head-operation">
       <div class="button-group">
         <button class="button-clip-gradient" (click)="details.open()">
@@ -41,7 +59,21 @@
 >
   <ias-management-user-info-details
     [data]="window.details.data"
+    [groupcreated]="window.details.group"
     (cancel)="window.details.show = false"
+    (groupcreate)="group.open($event)"
     (ok)="details.ok()"
   ></ias-management-user-info-details>
+</ias-window>
+<ias-window
+  *ngIf="window.group.show"
+  [Model]="window.group"
+  [style]="window.group.style"
+  [title]="window.group.title"
+>
+  <ias-management-user-group-details
+    [last]="window.group.last"
+    (cancel)="group.cancel()"
+    (ok)="group.ok($event)"
+  ></ias-management-user-group-details>
 </ias-window>

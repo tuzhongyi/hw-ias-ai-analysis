@@ -45,10 +45,11 @@ export class ManagementDivisionDetailsComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this._source) {
+      /* 编辑：以服务端数据为准，ParentId 也取原值 */
       this.data = Object.assign(this.data, this._source);
     } else if (this.parent) {
-      this.data.DivisionType = this.parent.DivisionType + 1;
-    } else {
+      /* 新增：上级取当前所在文件夹，同时写入 ParentId 和区划类型 */
+      this.on.parent(this.parent);
     }
 
     console.log(this.data);
@@ -59,10 +60,12 @@ export class ManagementDivisionDetailsComponent implements OnInit, OnChanges {
 
   private change = {
     parent: (change: SimpleChange) => {
-      if (change) {
-        if (this.parent) {
-          this.data.DivisionType = this.parent.DivisionType + 1;
-        }
+      /*
+        首次绑定时 ngOnChanges 先于 ngOnInit 执行，这里也走 on.parent 写 ParentId；
+        编辑时随后会被 ngOnInit 里的 _source 覆盖回服务端的值。
+      */
+      if (change && this.parent) {
+        this.on.parent(this.parent);
       }
     },
   };
@@ -106,13 +109,25 @@ export class ManagementDivisionDetailsComponent implements OnInit, OnChanges {
       if (!this.check) return;
 
       let promise: Promise<Division>;
-      if (this.data.Id) {
+      if (this._source) {
         promise = this.business.update(this.data);
       } else {
         promise = this.business.create(this.data);
       }
       promise
-        .then((x) => {
+        .then(async (x) => {
+          /*
+            子区划变化后父区划的 IsLeaf 不再可靠：
+            新增时父区划有了下级；编辑换了上级时，原上级可能变成叶子、新上级有了下级。
+          */
+          if (!this._source) {
+            await this.business.leaves([this.data.ParentId]);
+          } else if (this._source.ParentId !== this.data.ParentId) {
+            await this.business.leaves([
+              this._source.ParentId,
+              this.data.ParentId,
+            ]);
+          }
           this.toastr.success('操作成功');
           this.ok.emit(x);
         })
