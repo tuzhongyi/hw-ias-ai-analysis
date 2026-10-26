@@ -25,7 +25,6 @@ export class SystemMainCardEventRealtimeStatisticBusiness {
 
   async load(duration: Duration) {
     let division = await this.data.division();
-    console.log(division);
     let types = await this.manager.source.event.LiveEventTypes.get();
     let datas = await this.data.load(division!.Id, duration);
     let items: ChartItem[] = [];

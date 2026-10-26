@@ -5,7 +5,6 @@ export class SystemMainManagerCardStatisticNumber {
   constructor(private that: SystemMainManagerComponent) {}
   on = {
     item: (type: string) => {
-      console.log(type);
       switch (type) {
         case 'shop':
           this.that.window.shop.show = true;

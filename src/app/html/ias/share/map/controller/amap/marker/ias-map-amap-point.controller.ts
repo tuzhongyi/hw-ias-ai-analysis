@@ -6,6 +6,8 @@ import { IASMapAMapIconController } from '../shop/marker/ias-map-amap-shop-icon.
 export class IASMapAMapPointController {
   private icon = new IASMapAMapIconController();
 
+  constructor(private rotate: boolean = false) {}
+
   marker = new PromiseValue<AMap.Marker>();
   position: [number, number] = [0, 0];
 
@@ -19,7 +21,7 @@ export class IASMapAMapPointController {
       draggable: false,
       icon: icon,
       offset: args.offset ?? this.icon.offset,
-      rotate: data.Course,
+      rotate: this.rotate ? data.Course : 0,
     });
     this.regist(marker);
 

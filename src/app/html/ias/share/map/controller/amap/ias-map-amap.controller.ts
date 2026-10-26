@@ -49,7 +49,7 @@ export class IASMapAMapController {
     load: async (datas: MapMarker[], focus?: boolean) => {
       let map = await this.map.get();
       this.points = datas.map((x) => {
-        let point = new IASMapAMapPointController();
+        let point = new IASMapAMapPointController(true);
         let marker = point.set(x.location, x);
         map.add(marker);
         return point;
