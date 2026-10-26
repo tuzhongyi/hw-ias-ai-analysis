@@ -84,7 +84,15 @@ export class SystemMainManagerComponent implements OnInit, OnDestroy {
     }).then(() => {
       this.loading();
       this.panel.navigation.change(SyatemMainMapNavigation.realtime, true);
-      this.timer = setInterval(() => this.loading(), 60 * 1000);
+      this.timer = setInterval(() => {
+        this.loading();
+        /**
+         * 卡片都带 [load] 输入，这里是 60 秒一次的统一刷新信号。
+         * 只放在定时器里：卡片自己 ngOnInit 都会先取一次数，
+         * 初始化时再 emit 会让每张卡在首屏各发两遍请求
+         */
+        this.load.emit();
+      }, 60 * 1000);
     });
   }
   ngOnDestroy(): void {
@@ -181,19 +189,26 @@ export class SystemMainManagerComponent implements OnInit, OnDestroy {
 
   device = {
     load: () => {
-      this.business.device.load().then((x) => {
-        this.map.data.device = x;
-      });
+      this.business.device
+        .load()
+        .then((x) => {
+          this.map.data.device = x;
+        })
+        .catch((e) => {
+          console.error('[main] 设备加载失败', e);
+        });
     },
     /**
      * 卡片点「在线 / 离线」：把这批设备交给地图去框视野。
      * 用 map.data.device 里的同一批对象筛，别重新建 —— 地图上的标记是按
-     * 这批数据画的，换了对象就对不上了
+     * 这批数据画的，换了对象就对不上了。
+     * 口径和卡片一致：OnlineStatus 不是 0（含 undefined）都算离线，
+     * 否则卡片上的离线数会和点进去框出来的标记数对不上
      */
     focus: (status: number) => {
-      let datas = (this.map.data.device ?? []).filter(
-        (x) => x.OnlineStatus === status,
-      );
+      let datas = (this.map.data.device ?? []).filter((x) => {
+        return status === 0 ? x.OnlineStatus === 0 : x.OnlineStatus !== 0;
+      });
       this.map.device.focus.emit(datas);
     },
   };

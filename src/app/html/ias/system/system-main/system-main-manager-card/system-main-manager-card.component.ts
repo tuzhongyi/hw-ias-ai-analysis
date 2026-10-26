@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input } from '@angular/core';
 import { GpsTaskSampleRecord } from '../../../../../common/data-core/models/arm/analysis/llm/gps-task-sample-record.model';
 import { MobileEventRecord } from '../../../../../common/data-core/models/arm/event/mobile-event-record.model';
+import { MobileDevice } from '../../../../../common/data-core/models/arm/mobile-device/mobile-device.model';
 import { SystemMainCardDeviceRouteStatisticComponent } from '../system-main-card/system-main-card-device-route-statistic/system-main-card-device-route-statistic/system-main-card-device-route-statistic.component';
 import { SystemMainCardDeviceStateComponent } from '../system-main-card/system-main-card-device-state/system-main-card-device-state.component';
 import { SystemMainCardEventChartBarRoadObjectComponent } from '../system-main-card/system-main-card-event-chart/system-main-card-event-chart-bar-roadobject/system-main-card-event-chart-bar-roadobject.component';
@@ -50,6 +51,7 @@ export class SystemMainManagerCardComponent {
   @Input() panel!: SystemMainManagerPanel;
   @Input() card!: SystemMainManagerCard;
   @Input() load!: EventEmitter<void>;
+  @Input() devices: MobileDevice[] = [];
   @Input() shops: MobileEventRecord[] = [];
   @Input() realtimes: MobileEventRecord[] = [];
   @Input() samples: GpsTaskSampleRecord[] = [];

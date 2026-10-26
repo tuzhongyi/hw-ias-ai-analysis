@@ -44,3 +44,8 @@
     }
   }
 }
+
+/* 与全局 :where(.root-router) 配套：组件样式到位后再显示，避免切页时先出排版 */
+:where(.root-router) {
+  display: block;
+}

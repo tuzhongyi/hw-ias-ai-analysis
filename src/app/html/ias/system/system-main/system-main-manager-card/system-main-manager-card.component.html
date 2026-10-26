@@ -1,5 +1,5 @@
 <div
-  class="system-main-manager-card-list left"
+  class="system-main-manager-card-list left root-router"
   [class.show]="panel.navigation.index != Navigation.heatmap"
 >
   <ng-container *ngIf="panel.navigation.index != Navigation.heatmap">
@@ -17,7 +17,7 @@
       ></ias-system-main-card-shop-statistic>
       <ias-system-main-card-device-state
         *ngIf="card.device.state.show"
-        [load]="load"
+        [devices]="devices"
         (state)="card.device.state.on.trigger($event)"
       ></ias-system-main-card-device-state>
       <ias-system-main-card-event-chart-bar-roadobject

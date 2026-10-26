@@ -60,26 +60,34 @@ export class SystemMainCardStatisticNumberComponent
     }
   }
   private async load() {
+    /**
+     * 先攒到本地数组，取完再一次性赋值。
+     * 以前是 this.datas = [] 之后逐个 push，每分钟刷新时卡片会先空一下、
+     * 再一条条长回来，看着就是闪一下
+     */
+    let datas: SystemMainCardStatisticNumberItem[] = [];
+
     let device = await this.business.device();
 
-    this.datas = [];
     if (this.global.display.map.shop) {
       let shop = await this.business.shop();
-      this.datas.push(shop);
+      datas.push(shop);
     } else {
       let road = await this.business.road();
-      this.datas.push(road);
+      datas.push(road);
     }
 
-    this.datas.push(device);
+    datas.push(device);
     if (this.global.display.map.gpstask) {
       let task = await this.business.task();
-      this.datas.push(task);
+      datas.push(task);
     }
     if (this.global.display.map.roadobject) {
       let roadobject = await this.business.roadobject();
-      this.datas.push(roadobject);
+      datas.push(roadobject);
     }
+
+    this.datas = datas;
   }
 
   on = {
