@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Division } from '../../../../../../../../common/data-core/models/arm/division/division.model';
+import { AMapCityLocator } from '../../../../../../../../common/helper/map/amap.helper';
 import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { GeoTool } from '../../../../../../../../common/tools/geo-tool/geo.tool';
 import { SystemModuleRoadSectionDetailsMapAMapController } from './amap/system-module-road-section-details-map-amap.controller';
@@ -64,8 +66,8 @@ export class SystemModuleRoadSectionDetailsMapController {
       await this.road.destory();
       this.amap.destroy();
     },
-    city: (city: string) => {
-      this.amap.city(city);
+    city: (division: Division, locator?: AMapCityLocator) => {
+      this.amap.city(division, locator);
     },
   };
 }

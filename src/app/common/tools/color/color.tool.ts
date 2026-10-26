@@ -136,6 +136,29 @@ export class ColorTool {
 
       return this.hsl.to.hex(hue, saturation, lightness);
     },
+    /**
+     * 按序号取颜色。先给一组差别大的基础色（红、绿、蓝、黄、紫、青、橙、粉），
+     * 用完之后沿色环按黄金角（137.5°）继续取，相邻序号不会撞色。
+     */
+    index2: (index: number) => {
+      const palette = [
+        ColorTool.red, // 红
+        ColorTool.green, // 绿
+        ColorTool.blue, // 蓝
+        ColorTool.yellow, // 黄
+        ColorTool.purple, // 紫
+        ColorTool.cyan, // 青
+        ColorTool.orange, // 橙
+        ColorTool.pink, // 粉
+      ];
+      if (index < palette.length) {
+        return palette[index];
+      }
+
+      // 起始色相避开上面那几种基础色
+      const hue = ((index - palette.length) * 137.5 + 120) % 360;
+      return ColorTool.hsl.to.hex(hue, 80, 55);
+    },
   };
 
   static hsl = {

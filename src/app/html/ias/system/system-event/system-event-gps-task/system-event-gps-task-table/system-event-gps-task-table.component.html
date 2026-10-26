@@ -37,7 +37,7 @@
             selected: item === selected,
           }"
           [ngStyle]="{
-            height: item ? (1 / page.PageSize) * 100 + '%' : 0
+            height: item ? (1 / page.PageSize) * 100 + '%' : 0,
           }"
         >
           <td class="center">
@@ -57,7 +57,7 @@
                 [ngStyle]="{
                   backgroundImage: image.ImageUrl
                     ? 'url(' + picture.get(image.ImageUrl) + ')'
-                    : 'none'
+                    : 'none',
                 }"
                 (click)="picture.on($event, item, i)"
               ></div>
@@ -67,7 +67,7 @@
                 [ngStyle]="{
                   backgroundImage: image.ImageUrl
                     ? 'url(' + picture.get(image.ImageUrl) + ')'
-                    : 'none'
+                    : 'none',
                 }"
                 (click)="
                   picture.on($event, item, (item.Images?.length ?? 0) + i)
@@ -77,43 +77,48 @@
           </td>
 
           <td>
-            @if(item){
-            {{ item.SceneName ?? "-" }}
+            @if (item) {
+              {{ item.SceneName ?? "-" }}
             }
           </td>
           <td [title]="item?.SceneLLMResult ?? ''">
-            @if(item){
-            {{ item.SceneLLMResult ?? "-" }}
+            @if (item) {
+              {{ item.SceneLLMResult ?? "-" }}
             }
           </td>
           <td [title]="item?.Distance ?? ''">
-            @if(item){
-            {{ (Math.round(item.Distance * 100) / 100).toFixed(2) }}
+            @if (item) {
+              {{ (Math.round(item.Distance * 100) / 100).toFixed(2) }}
             }
           </td>
           <td>
-            @if(item){
-            {{ item.Time | date : Language.yyyyMMddHHmmss }}
+            @if (item) {
+              {{ item.Time | date: Language.yyyyMMddHHmmss }}
             }
           </td>
           <td
             [ngClass]="{
-            'text-green': !!(item?.Confirmed),
-            'text-orange-state': !(item?.Confirmed),
-          }"
+              'text-green': !!item?.Confirmed,
+              'text-orange-state': !item?.Confirmed,
+            }"
           >
-            @if(item){
-            {{ item.Confirmed ? "已确认" : "未确认" }}
+            @if (item) {
+              {{ item.Confirmed ? "已确认" : "未确认" }}
             }
           </td>
           <td>
-            @if(item){
-            {{ (item.ConfirmedTime | date : Language.yyyyMMddHHmmss) ?? "-" }}
+            @if (item) {
+              {{ (item.ConfirmedTime | date: Language.yyyyMMddHHmmss) ?? "-" }}
             }
           </td>
-          <td>
-            @if(item){
-            {{ item.IsAlarmRecord ? "是" : "否" }}
+          <td
+            [ngClass]="{
+              'text-orange': !item?.IsAlarmRecord,
+              'text-yellow': item?.IsAlarmRecord,
+            }"
+          >
+            @if (item) {
+              {{ item.IsAlarmRecord ? "是" : "否" }}
             }
           </td>
 
@@ -140,6 +145,7 @@
               <div
                 class="button"
                 title="事件视频"
+                [class.disabled]="!item.videoable"
                 (click)="on.video($event, item)"
               >
                 <i class="mdi mdi-youtube-play"></i>

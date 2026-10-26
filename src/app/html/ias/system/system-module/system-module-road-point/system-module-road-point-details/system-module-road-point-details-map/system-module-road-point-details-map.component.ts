@@ -71,8 +71,8 @@ export class SystemModuleRoadPointDetailsMapComponent
         this.locate(center);
       } else {
         // 没坐标、路网也没画出来：落到城市，圆等城市真落地了再摆
-        this.business.division().then((division) => {
-          this.controller.map.city(division.Name);
+        this.business.fallback().then(({ division, locator }) => {
+          this.controller.map.city(division, locator);
         });
       }
       this.inited = true;

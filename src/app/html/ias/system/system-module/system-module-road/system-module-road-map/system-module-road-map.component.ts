@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Road } from '../../../../../../common/data-core/models/arm/geographic/road.model';
-import { ArmDivisionRequestService } from '../../../../../../common/data-core/requests/services/division/division.service';
+import { IASMapCityBusiness } from '../../../../share/map/business/ias-map-city.business';
 import { SystemModuleRoadMapAMapController } from './controller/amap/system-module-road-map-amap.controller';
 import { SystemModuleRoadMapPositionController } from './controller/system-module-road-map-position.controller';
 import { SystemModuleRoadMapController } from './controller/system-module-road-map.controller';
@@ -41,20 +41,21 @@ export class SystemModuleRoadMapComponent
 
   constructor(
     public controller: SystemModuleRoadMapController,
-    private division: ArmDivisionRequestService,
+    private business: IASMapCityBusiness,
   ) {}
 
   private subscription = new Subscription();
 
   /**
-   * 用当前用户所属城市兜底。地图建出来时 AMap 的缺省视野在 [0,0]（海面，
-   * 一张瓦片都没有），而表格那趟请求回来之前（或者它报错、一直不回来的时候）
-   * 没有任何人给地图定过视野，看着就跟「地图没加载出来」一样。
+   * 用当前账号的位置兜底（省 / 市按区划名称，县 / 街道 / 网格用设备位置）。
+   * 地图建出来时 AMap 的缺省视野在 [0,0]（海面，一张瓦片都没有），而表格那趟
+   * 请求回来之前（或者它报错、一直不回来的时候）没有任何人给地图定过视野，
+   * 看着就跟「地图没加载出来」一样。
    * 兜底自带 500ms 观察期（LastResortTool），路网一旦画出来并 claim() 就自动作废
    */
   private city() {
-    this.division.root().then((division) => {
-      this.controller.amap.city(division.Name);
+    this.business.fallback().then(({ division, locator }) => {
+      this.controller.amap.city(division, locator);
     });
   }
 

@@ -5,22 +5,35 @@
   overflow-x: hidden;
   display: block;
 
+  @text-width: 110px;
+  @item-gap: 5px;
+  @form-gap: 10px;
+
   .form {
     &s {
 
       flex-wrap: wrap;
+      gap: @form-gap;
     }
 
     &-item {
+      gap: @item-gap;
+
+      &-value {
+        &.time {
+          min-width: 200px;
+        }
+      }
+
       &.odd {
-        width: calc((100% - 20px) * 0.45);
+        width: calc((100% - @form-gap) * 0.45);
 
         .form-item-text {
-          width: 126px;
+          width: @text-width;
         }
 
         .form-item-value {
-          width: calc(100% - 126px - 20px);
+          width: calc(100% - @text-width - @item-gap);
         }
 
       }

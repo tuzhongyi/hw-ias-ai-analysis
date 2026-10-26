@@ -73,8 +73,8 @@ export class SystemModuleRoadObjectMapComponent<
           await controller.map.focus(polylines);
         }
       } catch (e) {
-        this.business.division().then((division) => {
-          controller.map.city(division.Name);
+        this.business.fallback().then(({ division, locator }) => {
+          controller.map.city(division, locator);
         });
       }
     },

@@ -1,5 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Division } from '../../../../../../../common/data-core/models/arm/division/division.model';
+import { AMapCityLocator } from '../../../../../../../common/helper/map/amap.helper';
 import { IRoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.interface';
 import { RoadObject } from '../../../../../../../common/data-core/models/arm/geographic/road-object.model';
 import { Road } from '../../../../../../../common/data-core/models/arm/geographic/road.model';
@@ -128,8 +130,8 @@ export class SystemModuleRoadObjectMapController<
     destroy: async () => {
       await this.road.clear();
     },
-    city: (city: string) => {
-      this.amap.city(city);
+    city: (division: Division, locator?: AMapCityLocator) => {
+      this.amap.city(division, locator);
     },
   };
 }

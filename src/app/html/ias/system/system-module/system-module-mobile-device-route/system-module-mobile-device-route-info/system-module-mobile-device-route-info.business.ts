@@ -29,6 +29,13 @@ export class SystemModuleMobileDeviceRouteInfoBusiness {
 
   async load(args: SystemModuleMobileDeviceRouteArgs) {
     let data = await this.data.load(args);
+    // 覆盖率要用巡逻计划算，任何一步失败都不能让整块信息面板空着
+    let percent = await this.coverage(args).catch(() => 0);
+    let model = this.convert(data, percent);
+    return model;
+  }
+
+  private async coverage(args: SystemModuleMobileDeviceRouteArgs) {
     let device = await this.data.device(args.deviceId);
     let plans = await this.data.plan(
       device.Id,
@@ -45,8 +52,8 @@ export class SystemModuleMobileDeviceRouteInfoBusiness {
         number++;
       }
     });
-    let model = this.convert(data, count / number);
-    return model;
+    // 没有匹配结果时不能返回 NaN（界面会显示 "NaN"）
+    return number > 0 ? count / number : 0;
   }
 
   private convert(data: DeviceRoutesStatistic, CoveragePercent: number) {

@@ -40,8 +40,8 @@ export class SystemModuleRoadPointMapComponent
       // 不能反过来写（等路网回来再决定要不要兜底）—— 那中间有个空档：
       // 路网请求慢、卡住或者报错的时候，地图建出来后一直没人给它定过视野，
       // 就停在 AMap 的默认位置上（那儿什么都没有），看着就跟「地图没加载出来」一样
-      let city = this.business.division().then((division) => {
-        this.controller.map.city(division.Name);
+      let city = this.business.fallback().then(({ division, locator }) => {
+        this.controller.map.city(division, locator);
       });
 
       let polylines: AMap.Polyline[] = [];

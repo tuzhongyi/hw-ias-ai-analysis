@@ -2,6 +2,8 @@ import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MapHelper } from '../../../../../../../../../common/helper/map/map.helper';
 import { PromiseValue } from '../../../../../../../../../common/view-models/value.promise';
+import { Division } from '../../../../../../../../../common/data-core/models/arm/division/division.model';
+import { AMapCityLocator } from '../../../../../../../../../common/helper/map/amap.helper';
 import { LastResortTool } from '../../../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 import { IASMapAMapRoadController } from '../../../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
 import { SystemAMapCircleEditorController } from '../../../../../../system-map/component/controller/amap/circle/system-map-amap-circle-editor.controller';
@@ -70,7 +72,7 @@ export class SystemModuleRoadPointDetailsAMapController {
 
   /**
    * 最后一次由数据接管视野的动作。城市兜底是异步落地的
-   * （setCity 要先把城市边界拉回来再摆视野），可能晚于数据的 fitView，
+   * （城市或区划边界要异步查回来再摆视野），可能晚于数据的 fitView，
    * 那时就把视野再摆回去。
    */
   private takeover?: () => void;
@@ -83,13 +85,13 @@ export class SystemModuleRoadPointDetailsAMapController {
     }
   }
 
-  city(value: string) {
+  city(division: Division, locator?: AMapCityLocator) {
     this.last.fallback(() => {
       this.map.get().then((x) => {
         // 等地图的这些时间里，可能已经有别的数据接管了视野
         if (this.last.claimed) return;
-        x.setCity(value, () => {
-          // setCity 的回调同样可能落在数据的 fitView 之后 ——
+        MapHelper.amap.city(x, division, locator, () => {
+          // 定位的回调同样可能落在数据的 fitView 之后 ——
           // 那就说明视野已经被数据接管了，把地图还给数据，别再往城市上摆
           if (this.last.claimed) {
             this.takeover?.();
@@ -102,7 +104,7 @@ export class SystemModuleRoadPointDetailsAMapController {
     });
   }
   /**
-   * 等视野真的停下来：setCity 的回调可能早于它自己的 setBounds/setZoom 生效，
+   * 等视野真的停下来：定位的回调可能早于它自己的 setBounds/setZoom 生效，
    * 那时 getCenter() 还是旧中心。中心连续两次不动才算落地
    */
   private settle(map: AMap.Map, times: number) {

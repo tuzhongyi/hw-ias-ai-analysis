@@ -1,4 +1,6 @@
 import { Subscription } from 'rxjs';
+import { Division } from '../../../../../../../../common/data-core/models/arm/division/division.model';
+import { AMapCityLocator } from '../../../../../../../../common/helper/map/amap.helper';
 import { Road } from '../../../../../../../../common/data-core/models/arm/geographic/road.model';
 import { SystemModuleRoadPointDetailsAMapController } from './amap/system-module-road-point-details-amap.controller';
 
@@ -83,8 +85,8 @@ export class SystemModuleRoadPointDetailsMapController {
       let ctr = await this.controller.map.get();
       ctr.destroy();
     },
-    city: (city: string) => {
-      this.controller.city(city);
+    city: (division: Division, locator?: AMapCityLocator) => {
+      this.controller.city(division, locator);
     },
   };
 }

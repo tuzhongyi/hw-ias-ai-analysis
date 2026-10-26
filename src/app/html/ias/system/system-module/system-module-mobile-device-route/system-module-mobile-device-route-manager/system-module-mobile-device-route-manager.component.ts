@@ -94,7 +94,7 @@ export class SystemModuleMobileDeviceRouteManagerComponent
     if (this.map.args.deviceId) {
       this.manager.been = true;
       setTimeout(() => {
-        this.info.load.emit(this.map.args);
+        // info 由 manager.on.device() 负责加载，这里不重复请求
         this.map.route.load.emit(this.map.args);
         this.chart.load.emit(this.map.args);
       }, 100);
@@ -258,9 +258,20 @@ export class SystemModuleMobileDeviceRouteManagerComponent
           });
         }
         this.map.clear();
-        if (this.chart.show) {
-          this.chart.load.emit(this.map.args);
-        }
+
+        // 换设备后地图和信息面板也要跟着刷新：
+        // been 决定地图区域是否创建（*ngIf），不置 true 左侧一直是空的；
+        // load 事件必须等这一轮变更检测把子组件建出来再发，否则订阅者还不存在
+        this.manager.been = true;
+        setTimeout(() => {
+          this.info.load.emit(this.map.args);
+          if (this.device) {
+            this.map.init.emit(this.device.Id);
+          }
+          if (this.chart.show) {
+            this.chart.load.emit(this.map.args);
+          }
+        }, 0);
       },
 
       search: () => {

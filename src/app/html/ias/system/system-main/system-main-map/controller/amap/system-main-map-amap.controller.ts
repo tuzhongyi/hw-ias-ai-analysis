@@ -1,11 +1,13 @@
 import { EventEmitter } from '@angular/core';
+import { Division } from '../../../../../../../common/data-core/models/arm/division/division.model';
+import { AMapCityLocator } from '../../../../../../../common/helper/map/amap.helper';
 import { IShop } from '../../../../../../../common/data-core/models/arm/analysis/shop.interface';
 import { MobileEventRecord } from '../../../../../../../common/data-core/models/arm/event/mobile-event-record.model';
 import { MapHelper } from '../../../../../../../common/helper/map/map.helper';
 import { ComponentTool } from '../../../../../../../common/tools/component-tool/component.tool';
+import { LastResortTool } from '../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 import { PathTool } from '../../../../../../../common/tools/path-tool/path.tool';
 import { PromiseValue } from '../../../../../../../common/view-models/value.promise';
-import { LastResortTool } from '../../../../../../../common/tools/last-resort-tool/last-resort.tool';
 import { IASMapAMapInfoController } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.controller';
 import { IIASMapAMapInfo } from '../../../../../share/map/controller/amap/info/ias-map-amap-info.model';
 import { IASMapAMapRoadController } from '../../../../../share/map/controller/amap/road/ias-map-amap-road.controller';
@@ -445,7 +447,7 @@ export class SystemMainMapAMapController {
 
   /**
    * 最后一次由数据接管视野的动作。城市兜底是异步落地的
-   * （setCity 要先把城市边界拉回来再摆视野），可能晚于数据的 fitView，
+   * （城市或区划边界要异步查回来再摆视野），可能晚于数据的 fitView，
    * 那时就把视野再摆回去。
    */
   private takeover?: () => void;
@@ -474,13 +476,13 @@ export class SystemMainMapAMapController {
     this.claim(from);
     from();
   }
-  city(value: string) {
+  city(division: Division, locator?: AMapCityLocator) {
     this.last.fallback(() => {
       this.map.get().then((x) => {
         // 等地图的这些时间里，可能已经有别的数据接管了视野
         if (this.last.claimed) return;
-        x.setCity(value, () => {
-          // setCity 的回调同样可能落在数据的 fitView 之后 ——
+        MapHelper.amap.city(x, division, locator, () => {
+          // 定位的回调同样可能落在数据的 fitView 之后 ——
           // 那就说明视野已经被数据接管了，把地图还给数据，别再往城市上摆
           if (this.last.claimed) {
             this.takeover?.();

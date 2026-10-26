@@ -9,18 +9,14 @@ export interface ISystemEventGpsTaskTableArgs {
   alarm?: boolean;
 }
 
-export class SystemEventGpsTaskTableArgs
-  implements ISystemEventGpsTaskTableArgs
-{
+export class SystemEventGpsTaskTableArgs implements ISystemEventGpsTaskTableArgs {
   duration = DateTimeTool.last.month(new Date());
   type?: number;
   confirmed?: boolean;
   alarm?: boolean;
   first = false;
 }
-export class SystemEventGpsTaskTableFilter
-  implements ISystemEventGpsTaskTableArgs
-{
+export class SystemEventGpsTaskTableFilter implements ISystemEventGpsTaskTableArgs {
   duration = DateTimeTool.all.month(new Date());
   type?: number;
   confirmed?: boolean;
@@ -29,7 +25,7 @@ export class SystemEventGpsTaskTableFilter
   asc?: string;
 
   static from(
-    args: SystemEventGpsTaskTableArgs
+    args: SystemEventGpsTaskTableArgs,
   ): SystemEventGpsTaskTableFilter {
     let filter = new SystemEventGpsTaskTableFilter();
     filter.duration = args.duration;
@@ -39,4 +35,6 @@ export class SystemEventGpsTaskTableFilter
     return filter;
   }
 }
-export class SystemEventGpsTaskTableItem extends GpsTaskSampleRecord {}
+export class SystemEventGpsTaskTableItem extends GpsTaskSampleRecord {
+  videoable?: boolean;
+}

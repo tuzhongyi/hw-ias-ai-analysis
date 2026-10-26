@@ -57,8 +57,8 @@ export class SystemModuleRoadAreaDetailsMapComponent
           });
         })
         .catch((e) => {
-          this.business.division().then((division) => {
-            this.controller.map.city(division.Name);
+          this.business.fallback().then(({ division, locator }) => {
+            this.controller.map.city(division, locator);
           });
         });
     },

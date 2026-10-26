@@ -87,6 +87,8 @@ export class SystemEventTaskTimelineComponent implements OnInit, AfterViewInit {
         let xAxis = this.option.xAxis as any;
         if (data.Assignment?.IsMisInfo) {
           xAxis.data = ['自动发现', '核实确认', '发现误报', '已忽略'];
+        } else if (data.Assignment?.Handled) {
+          xAxis.data = ['自动发现', 'AI分析', '接单处置', '处置闭环'];
         } else {
           xAxis.data = ['自动发现', '人员派单', '接单处置', '处置闭环'];
         }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileGpsItem } from '../../../../../../common/data-core/models/arm/file/file-gps-item.model';
-import { ArmDivisionRequestService } from '../../../../../../common/data-core/requests/services/division/division.service';
+import { IASMapCityBusiness } from '../../../../share/map/business/ias-map-city.business';
 import { GetMobileDeviceRoutesParams } from '../../../../../../common/data-core/requests/services/system/mobile/system-mobile-device.params';
 import { ArmSystemRequestService } from '../../../../../../common/data-core/requests/services/system/system.service';
 import { Duration } from '../../../../../../common/tools/date-time-tool/duration.model';
@@ -10,17 +10,17 @@ import { ObjectTool } from '../../../../../../common/tools/object-tool/object.to
 export class SystemModulePatrolSectionMapBusiness {
   constructor(
     system: ArmSystemRequestService,
-    division: ArmDivisionRequestService,
+    city: IASMapCityBusiness,
   ) {
-    this.service = { system, division };
+    this.service = { system, city };
   }
 
   private service: {
     system: ArmSystemRequestService;
-    division: ArmDivisionRequestService;
+    city: IASMapCityBusiness;
   };
-  division() {
-    return this.service.division.root();
+  fallback() {
+    return this.service.city.fallback();
   }
   device(deviceId: string) {
     return this.data.device(deviceId);

@@ -1,5 +1,6 @@
 import { instanceToPlain } from 'class-transformer';
 import { UploadControlFile } from '../../../../../components/upload-control/upload-control.model';
+import { GeoTool } from '../../../../../tools/geo-tool/geo.tool';
 import { ObjectTool } from '../../../../../tools/object-tool/object.tool';
 import { Cache } from '../../../../cache/cache';
 import { AbstractService } from '../../../../cache/cache.interface';
@@ -130,6 +131,23 @@ export class SystemMobileDeviceRequestService extends AbstractService<MobileDevi
       .then((x) => {
         return HowellResponseProcess.item(x, DeviceStatement);
       });
+  }
+
+  /**
+   * 账号下第一个有定位的设备位置（GCJ02），优先在线设备。
+   *
+   * 给地图兜底用：县 / 街道 / 网格在 AMap 里按名称定位不可靠，只能借设备
+   * 当前所在的位置定视野。没有设备、或者设备都没有定位时返回 undefined
+   */
+  async position(): Promise<[number, number] | undefined> {
+    let devices = await this.all().catch(() => []);
+    let located = devices.filter((x) => {
+      return GeoTool.point.check(x.Location?.GCJ02);
+    });
+    let device = located.find((x) => x.OnlineStatus === 0) ?? located[0];
+    let point = device?.Location?.GCJ02;
+    if (!point) return undefined;
+    return [point.Longitude, point.Latitude];
   }
 
   private _route?: SystemMobileDeviceRouteRequestService;

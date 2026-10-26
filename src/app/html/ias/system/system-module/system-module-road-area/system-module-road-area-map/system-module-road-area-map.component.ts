@@ -52,8 +52,8 @@ export class SystemModuleRoadAreaMapComponent
    * 兜底自带 500ms 观察期（LastResortTool），路网/区域一旦画出来并 claim() 就自动作废
    */
   private city() {
-    this.business.division().then((division) => {
-      this.controller.map.city(division.Name);
+    this.business.fallback().then(({ division, locator }) => {
+      this.controller.map.city(division, locator);
     });
   }
 

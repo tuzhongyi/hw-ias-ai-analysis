@@ -161,7 +161,7 @@ export class SystemMainCardEventRealtimeStatisticComponent
 
   private load() {
     this.business.load(this.duration).then((datas) => {
-      this.color = datas.map((x) => `${ColorTool.get.index(x.id, 10)}`);
+      this.color = datas.map((x, i) => `${ColorTool.get.index2(i)}`);
       this.datas = datas;
       this.style.load(datas.length);
     });

@@ -64,6 +64,9 @@ export class SystemEventTaskTimelineConverter {
           Language.MonthDayHHmmss,
           'en',
         );
+      } else if (data.Assignment.Handled) {
+        return this.discover(data);
+      } else {
       }
     }
 

@@ -126,7 +126,11 @@
               {{ item.Assignment?.Handler ?? "-" }}
             }
           </td>
-          <td>
+          <td
+            [ngClass]="{
+              'text-orange': !!item?.PeriodRepeatTimes,
+            }"
+          >
             @if (item) {
               {{ item.PeriodRepeatTimes ?? "-" }}
             }

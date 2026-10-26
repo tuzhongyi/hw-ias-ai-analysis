@@ -43,7 +43,7 @@ export class SystemEventGpsTaskManagerComponent implements OnChanges {
   @Input() args?: SystemEventGpsTaskTableArgs;
   constructor(
     public source: SystemEventGpsTaskManagerSource,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   window = new SystemEventGpsTaskManagerWindow();
@@ -100,8 +100,8 @@ export class SystemEventGpsTaskManagerComponent implements OnChanges {
     video: {
       open: (data: GpsTaskSampleRecord) => {
         if (data.Resources && data.Resources.length > 0) {
-          let resource = data.Resources[0];
-          if (resource.RecordUrl) {
+          let resource = data.Resources.find((x) => !!x.RecordUrl);
+          if (resource && resource.RecordUrl) {
             this.window.video.src = this.source.src(resource.RecordUrl);
             this.window.video.title = `${data.SceneName}-${resource.ResourceName}`;
             this.window.video.show = true;

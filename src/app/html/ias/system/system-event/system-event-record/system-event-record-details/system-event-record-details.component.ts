@@ -44,6 +44,7 @@ export class SystemEventRecordDetailsComponent implements OnChanges {
   @Output('picture') _picture = new EventEmitter<
     PagedList<NameValue<string>>
   >();
+  @Input() picturedisplay = true;
 
   constructor(
     private _language: LanguageTool,

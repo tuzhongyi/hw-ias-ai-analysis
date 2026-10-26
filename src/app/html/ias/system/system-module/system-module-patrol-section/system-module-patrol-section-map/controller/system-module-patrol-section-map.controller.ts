@@ -1,4 +1,6 @@
 import { Subscription } from 'rxjs';
+import { Division } from '../../../../../../../common/data-core/models/arm/division/division.model';
+import { AMapCityLocator } from '../../../../../../../common/helper/map/amap.helper';
 import { FileGpsItem } from '../../../../../../../common/data-core/models/arm/file/file-gps-item.model';
 import { PatrolSection } from '../../../../../../../common/data-core/models/arm/geographic/patrol/patrol-section.model';
 import { GeoTool } from '../../../../../../../common/tools/geo-tool/geo.tool';
@@ -38,7 +40,7 @@ export class SystemModulePatrolSectionMapController {
       }
       let map = await this.amap.map.get();
       // 数据接管视野：顺手把「怎么摆回这批数据」交给城市兜底，
-      // setCity 晚一步落地时靠它把视野抢回来
+      // 区划兜底晚一步落地时靠它把视野抢回来
       let from = () => {
         map.setFitView(data, immediately);
       };
@@ -49,8 +51,8 @@ export class SystemModulePatrolSectionMapController {
       this.path.clear();
       await this.amap.destroy();
     },
-    city: (city: string) => {
-      this.amap.city(city);
+    city: (division: Division, locator?: AMapCityLocator) => {
+      this.amap.city(division, locator);
     },
   };
   section = {

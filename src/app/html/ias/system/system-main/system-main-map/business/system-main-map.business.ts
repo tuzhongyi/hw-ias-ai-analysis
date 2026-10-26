@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ArmDivisionRequestService } from '../../../../../../common/data-core/requests/services/division/division.service';
+import { IASMapCityBusiness } from '../../../../share/map/business/ias-map-city.business';
 import { ArmGeographicRequestService } from '../../../../../../common/data-core/requests/services/geographic/geographic.service';
 import { SystemMainMapRoadBusiness } from './system-main-map-road.business';
 import { SystemMainMapShopBusiness } from './system-main-map-shop.business';
@@ -11,13 +11,13 @@ export class SystemMainMapBusiness {
 
   constructor(
     geo: ArmGeographicRequestService,
-    private service: ArmDivisionRequestService,
+    private city: IASMapCityBusiness,
   ) {
     this.shop = new SystemMainMapShopBusiness(geo);
     this.road = new SystemMainMapRoadBusiness(geo);
   }
 
-  division() {
-    return this.service.root();
+  fallback() {
+    return this.city.fallback();
   }
 }

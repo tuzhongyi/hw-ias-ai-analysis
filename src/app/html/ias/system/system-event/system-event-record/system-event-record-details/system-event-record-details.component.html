@@ -40,7 +40,14 @@
         <div class="form-item-text" text-space-between [suffix]="':'">
           重复次数
         </div>
-        <div class="form-item-value">{{ data.PeriodRepeatTimes }}次</div>
+        <div class="form-item-value">
+          <span
+            [ngClass]="{
+              'text-orange': !!data.PeriodRepeatTimes,
+            }"
+            >{{ data.PeriodRepeatTimes }}次</span
+          >
+        </div>
       </div>
       <div class="form-item">
         <div class="form-item-text" text-space-between [suffix]="':'">
@@ -180,7 +187,10 @@
           {{ data.Assignment.HandleDescription }}
         </div>
       </div>
-      <div class="form-item full" *ngIf="data.Assignment.HandleDescription">
+      <div
+        class="form-item full"
+        *ngIf="data.Assignment.HandleDescription && picturedisplay"
+      >
         <div class="form-item-text baseline" text-space-between [suffix]="':'">
           处置图片
         </div>

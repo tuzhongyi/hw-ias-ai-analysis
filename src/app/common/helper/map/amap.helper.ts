@@ -1,9 +1,37 @@
 import AMapLoader from '@amap/amap-jsapi-loader';
 import '@amap/amap-jsapi-types';
 import '@amap/amap-loca-types';
+import { ArmDivisionType } from '../../data-core/enums/division/divison-type.enum';
+import { GisType } from '../../data-core/enums/gis-type.enum';
+import { Division } from '../../data-core/models/arm/division/division.model';
+import { GeoTool } from '../../tools/geo-tool/geo.tool';
 import { wait } from '../../tools/wait';
 import { AMapConverter } from './amap.converter';
-import { AMapInputTip, AMapInputTipItem, AMapInputTips } from './amap.model';
+import {
+  AMapDistrict,
+  AMapDistricts,
+  AMapInputTip,
+  AMapInputTipItem,
+  AMapInputTips,
+} from './amap.model';
+
+/**
+ * 上海市外包框（上海市政府 / 维基百科口径）：
+ * 东经 120°51′～122°12′，北纬 30°40′～31°53′。
+ * 只是外接矩形，边界附近包含少量江苏、浙江的地块，作为「大概在不在上海」够用
+ */
+const SHANGHAI_BOUNDS = {
+  longitude: [120 + 51 / 60, 122 + 12 / 60],
+  latitude: [30 + 40 / 60, 31 + 53 / 60],
+};
+
+/** 地图兜底时按需取的定位依据：都是惰性函数，真要用到才发请求 */
+export interface AMapCityLocator {
+  /** 取设备位置（GCJ02）：县对不上、网格也没法按上一级定位时的兜底 */
+  position?: () => Promise<[number, number] | undefined>;
+  /** 网格：上一级区划（县 / 街道），网格按它的名称和 Id 走县那套定位 */
+  parent?: () => Promise<Division | undefined>;
+}
 
 export class AMapHelper {
   style = {
@@ -226,4 +254,170 @@ export class AMapHelper {
       });
     });
   }
+
+  /**
+   * 高德行政区划查询（REST /v3/config/district），返回所有同名区划。
+   * 不传 subdistrict，只要名字命中的那一级
+   */
+  async district(name: string): Promise<AMapDistrict[]> {
+    let url =
+      `https://restapi.amap.com/v3/config/district?key=${this.key.web}` +
+      `&keywords=${encodeURIComponent(name)}&subdistrict=0&extensions=base`;
+    return fetch(url)
+      .then((response) => response.json())
+      .then((x: AMapDistricts) => {
+        if (x.status == '1' || x.status == 1) {
+          return x.districts ?? [];
+        }
+        throw new Error(x.info);
+      });
+  }
+
+  /**
+   * 按区划摆地图视野（替代直接调 map.setCity）。
+   *
+   * AMap 的 setCity 只认名称，而全国同名区划很多（好几个城市都有「城关区」，
+   * 街道重名更是常态），直接拿名称定位会跑到别的城市去。按区划类型分开处理：
+   * - 省 / 市：名称足够唯一，直接 setCity
+   * - 县 / 街道：按名称查行政区划，再用区划 Id 认领（见 county）
+   * - 网格：AMap 里没有这一级，借上一级区划走县那套定位（见 gridcell）
+   * @param locator 按需取的兜底依据（设备位置 / 上一级区划），惰性函数
+   * @param complete 视野落地后的回调，语义与 setCity 的第二个参数一致
+   */
+  city(
+    map: AMap.Map,
+    division: Division,
+    locator?: AMapCityLocator,
+    complete?: () => void,
+  ) {
+    switch (division.DivisionType) {
+      case ArmDivisionType.County:
+        return this.county(map, division, locator, complete);
+      case ArmDivisionType.GridCell:
+        return this.gridcell(map, locator, complete);
+      case ArmDivisionType.Province:
+      case ArmDivisionType.City:
+      default:
+        map.setCity(division.Name, () => complete?.());
+        return;
+    }
+  }
+
+  /**
+   * 县 / 街道：按名称查高德行政区划，再用本系统区划 Id 认领。
+   *
+   * 「友谊路街道」全国有 4 个（天津 / 河北 / 上海 / 乌鲁木齐），光有名称
+   * 定位不了。高德返回的 adcode 和本系统区划 Id 是同一套编码 —— 本系统的
+   * Id 以 adcode 开头（友谊路街道 310113003000 ↔ adcode 310113），按前缀
+   * 对上哪个就用哪个的 center 定位。一个都对不上才退回设备位置
+   */
+  private async county(
+    map: AMap.Map,
+    division: Division,
+    locator?: AMapCityLocator,
+    complete?: () => void,
+  ) {
+    let center = await this.locate(division);
+    if (center) {
+      map.setCenter(center);
+      complete?.();
+      return;
+    }
+    this.device(map, locator, complete);
+  }
+
+  /**
+   * 网格：AMap 里没有网格这一级，名称也查不到，借上一级区划（县 / 街道）
+   * 走 county 那套「名称搜索 + Id 前缀认领」。上一级取不到或对不上时，
+   * 再退回设备位置
+   */
+  private async gridcell(
+    map: AMap.Map,
+    locator?: AMapCityLocator,
+    complete?: () => void,
+  ) {
+    let parent = await locator?.parent?.();
+    if (parent) {
+      return this.county(map, parent, locator, complete);
+    }
+    this.device(map, locator, complete);
+  }
+
+  /**
+   * 名称搜索 + Id 前缀认领，返回命中的坐标（GCJ02）。
+   * 查不到、对不上、坐标不合法都返回 undefined
+   */
+  private async locate(division: Division): Promise<[number, number] | undefined> {
+    let districts = await this.district(division.Name).catch((e) => {
+      console.warn('[map] 区划名称查询失败', division.Name, e);
+      return [];
+    });
+    let district = districts.find((x) => {
+      return !!x.adcode && division.Id.startsWith(x.adcode);
+    });
+    if (!district || typeof district.center != 'string') return undefined;
+    let [longitude, latitude] = district.center.split(',').map(Number);
+    if (!isFinite(longitude) || !isFinite(latitude)) return undefined;
+    return [longitude, latitude];
+  }
+
+  /**
+   * 最后的兜底：用账号下设备的位置。
+   * 没有设备或设备没定位就保持原视野，不会把地图缩到一个错的地方
+   */
+  private async device(
+    map: AMap.Map,
+    locator?: AMapCityLocator,
+    complete?: () => void,
+  ) {
+    let value = await locator?.position?.();
+    if (!value || !isFinite(value[0]) || !isFinite(value[1])) {
+      console.warn('[map] 区划定位失败：账号下没有带定位的设备');
+      return;
+    }
+    map.setCenter(value);
+    complete?.();
+  }
+
+
+  is = {
+    in: {
+      /**
+       * 传入坐标是否在上海市境内（外包框，落在边界上算在内）
+       * @param value [经度, 纬度]
+       * @param type 传入坐标的坐标系，先换算到 WGS84 再比对
+       */
+      shanghai: (value: [number, number], type: GisType): boolean => {
+        if (!value) return false;
+        let [longitude, latitude] = this.to.wgs84(value, type);
+        if (!isFinite(longitude) || !isFinite(latitude)) return false;
+        return (
+          longitude >= SHANGHAI_BOUNDS.longitude[0] &&
+          longitude <= SHANGHAI_BOUNDS.longitude[1] &&
+          latitude >= SHANGHAI_BOUNDS.latitude[0] &&
+          latitude <= SHANGHAI_BOUNDS.latitude[1]
+        );
+      },
+    },
+  };
+
+  /**
+   * 外包框是按 WGS84 经纬度给的，GCJ02 / BD09 有几百米偏移，
+   * 边界附近不换算就会误判
+   */
+  private to = {
+    wgs84(value: [number, number], type: GisType): [number, number] {
+      let [longitude, latitude] = value;
+      switch (type) {
+        case GisType.GCJ02:
+          return GeoTool.point.convert.gcj02.to.wgs84(longitude, latitude);
+        case GisType.BD09:
+          return GeoTool.point.convert.bd09.to.wgs84(longitude, latitude);
+        // CGCS2000 与 WGS84 差异在厘米级；XA80 / BJ54 仓库里没有可靠的转换
+        // 关系（还要分带和七参数），只能按原值比较
+        default:
+          return [longitude, latitude];
+      }
+    },
+  };
 }

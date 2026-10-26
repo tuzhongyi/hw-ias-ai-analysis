@@ -21,17 +21,17 @@
     <div class="form-item odd">
       <div class="form-item-text">状态：</div>
       <div class="form-item-value">
-        @if(data.Confirmed){
-        <span class="text-green">已确认</span>
-        } @else{
-        <span class="text-orange-state">未确认</span>
+        @if (data.Confirmed) {
+          <span class="text-green">已确认</span>
+        } @else {
+          <span class="text-orange-state">未确认</span>
         }
       </div>
     </div>
     <div class="form-item even">
       <div class="form-item-text">确认时间：</div>
-      <div class="form-item-value">
-        {{ (data.ConfirmedTime | date : Language.YearMonthDayHHmmss) ?? "-" }}
+      <div class="form-item-value time">
+        {{ (data.ConfirmedTime | date: Language.YearMonthDayHHmmss) ?? "-" }}
       </div>
     </div>
     <div class="form-item odd">
@@ -40,36 +40,44 @@
     </div>
     <div class="form-item even">
       <div class="form-item-text">采样时间：</div>
-      <div class="form-item-value">
-        {{ (data.Time | date : Language.YearMonthDayHHmmss) ?? "-" }}
+      <div class="form-item-value time">
+        {{ (data.Time | date: Language.YearMonthDayHHmmss) ?? "-" }}
       </div>
     </div>
     <div class="form-item odd">
-      <div class="form-item-text">点位偏差（米）：</div>
+      <div class="form-item-text">点位偏差：</div>
       <div class="form-item-value">
-        {{ Math.round(data.Distance * 100) / 100 }}
+        {{ Math.round(data.Distance * 100) / 100 }}米
       </div>
     </div>
     <div class="form-item even">
       <div class="form-item-text">机位号：</div>
       <div class="form-item-value">
-        @if(data.Images && data.Images.length > 0) {
-        {{ data.Images[0].PositionNo }}
-        } @else{-}
+        @if (data.Images && data.Images.length > 0) {
+          {{ data.Images[0].PositionNo }}
+        } @else {
+          -
+        }
       </div>
     </div>
     <div class="form-item odd">
       <div class="form-item-text">场景匹配度：</div>
       <div class="form-item-value">
-        @if(data.SceneMatchPercent){
-        {{ data.SceneMatchPercent || 0 }}% }@else{ - }
+        @if (data.SceneMatchPercent) {
+          {{ data.SceneMatchPercent || 0 }}%
+        } @else {
+          -
+        }
       </div>
     </div>
     <div class="form-item even">
       <div class="form-item-text">结果置信度：</div>
       <div class="form-item-value">
-        @if(data.SceneResultConfidence){
-        {{ data.SceneResultConfidence || 0 }}% }@else{ - }
+        @if (data.SceneResultConfidence) {
+          {{ data.SceneResultConfidence || 0 }}%
+        } @else {
+          -
+        }
       </div>
     </div>
   </div>

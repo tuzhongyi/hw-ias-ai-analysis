@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Division } from '../../../../../../common/data-core/models/arm/division/division.model';
+import { AMapCityLocator } from '../../../../../../common/helper/map/amap.helper';
 import { ComponentTool } from '../../../../../../common/tools/component-tool/component.tool';
 import { PathTool } from '../../../../../../common/tools/path-tool/path.tool';
 import { SystemMainMapAMapController } from './amap/system-main-map-amap.controller';
@@ -75,8 +77,8 @@ export class SystemMainMapController {
     focus: (datas?: any) => {
       this.amap.focus(datas);
     },
-    city: (city: string) => {
-      this.amap.city(city);
+    city: (division: Division, locator?: AMapCityLocator) => {
+      this.amap.city(division, locator);
     },
     destory: () => {
       let all = [

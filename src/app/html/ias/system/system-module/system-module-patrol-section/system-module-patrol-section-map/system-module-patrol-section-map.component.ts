@@ -136,8 +136,8 @@ export class SystemModulePatrolSectionMapComponent
    * 一张瓦片都没有），没人给它定过视野的话看着就跟「地图没加载出来」一样
    */
   private city() {
-    this.business.division().then((division) => {
-      this.controller.map.city(division.Name);
+    this.business.fallback().then(({ division, locator }) => {
+      this.controller.map.city(division, locator);
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
